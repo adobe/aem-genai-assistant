@@ -9,20 +9,19 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React from 'react';
-import {
-  Divider, Flex, Heading, Text, TextArea,
-} from '@adobe/react-spectrum';
-
-function App() {
-  return (
-    <Flex direction="column" gap="size-100" height='100%' justifyContent='start' margin={10}>
-      <Heading level={1}>AEM GenAI Assistant</Heading>
-      <Divider size='M' />
-      <TextArea>
-      </TextArea>
-    </Flex>
-  );
-}
-
-export default App;
+module.exports = {
+  root: true,
+  extends: [
+    "@adobe/helix",
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
+  rules: {
+    'no-console': 'off',
+    'no-unused-vars': 'off',
+    'arrow-body-style': 'off',
+  },
+  env: {
+    jest: true,
+  },
+};

@@ -1,0 +1,31 @@
+{
+  "name": "aem-genai-assistent",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "core-js": "^3.6.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
+    "react-error-boundary": "^1.2.5",
+    "regenerator-runtime": "^0.13.5",
+    "@adobe/exc-app": "^0.2.21",
+    "@adobe/react-spectrum": "^3.4.0",
+    "@spectrum-icons/workflow": "^3.2.0"
+  },
+  "devDependencies": {
+    "jest": "^29",
+    "@adobe/aio-cli": "9.4.1",
+    "@babel/core": "^7.8.7",
+    "@babel/polyfill": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "@babel/plugin-transform-react-jsx": "^7.8.3"
+  },
+  "scripts": {
+    "dev": "aio app run",
+    "build": "aio app build",
+    "deploy": "aio app deploy",
+    "test": "jest --passWithNoTests ./test",
+    "e2e": "jest --collectCoverage=false --testRegex ./e2e"
+  }
+}

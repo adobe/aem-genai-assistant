@@ -11,13 +11,22 @@
  */
 import React, { useCallback, useEffect } from 'react';
 import {
-  TextArea, Item, ButtonGroup, Button, Grid, Picker, Flex, NumberField, ToggleButton,
+  Item, ButtonGroup, Button, Grid, Picker, Flex, NumberField, ToggleButton,
 } from '@adobe/react-spectrum';
+import { default as SimpleEditor } from 'react-simple-code-editor';
+import { highlight, languages } from 'prismjs/components/prism-core';
 import wretch from 'wretch';
 import { useApplicationContext } from './ApplicationProvider.js';
+import 'prismjs/themes/prism.css';
+
+const EXPRESSION_REGEX = /{\s*([^{}\s]+)\s*}/g;
+
+Prism.languages['custom'] = {
+  'function': EXPRESSION_REGEX,
+};
 
 function replaceTemplateStrings(str, valuesMap) {
-  return str.replace(/{\s*([^{}\s]+)\s*}/g, (match, key) => {
+  return str.replace(EXPRESSION_REGEX, (match, key) => {
     return key in valuesMap ? valuesMap[key] : match;
   });
 }
@@ -84,9 +93,18 @@ function Editor() {
         <NumberField label="Number Of Variants" defaultValue={4} minValue={1} maxValue={4} onChange={setVariationCount} />
         <ToggleButton isSelected={sourceView} onChange={setSourceView}>Source</ToggleButton>
       </Flex>
-      <TextArea width="100%" height="100%"
-                value={renderPrompt(prompt, segment, variationCount, sourceView)}
-                onChange={setPrompt}/>
+      <SimpleEditor
+        value={renderPrompt(prompt, segment, variationCount, sourceView)}
+        onValueChange={setPrompt}
+        highlight={code => highlight(code, languages.custom, 'custom')}
+        readOnly={!sourceView}
+        style={{
+          width: '100%',
+          height: '100%',
+          fontSize: 16,
+          border: '1px solid #ddd',
+        }}
+      />
       <ButtonGroup>
         <Button variant="primary" onPress={() => console.log(completionService.complete('prompt', 0.1))}>Generate</Button>
       </ButtonGroup>

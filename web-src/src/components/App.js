@@ -11,17 +11,15 @@
  */
 import React from 'react';
 import {
-  Divider, Flex, Heading, Text, TextArea,
+  Flex,
 } from '@adobe/react-spectrum';
+import Editor from './Editor.js';
 
 function App() {
   return (
-    <Flex direction="column" gap="size-100" height='100%' justifyContent='start' margin={10}>
-      <Heading level={1}>AEM GenAI Assistant</Heading>
-      <Divider size='M' />
-      <TextArea>
-      </TextArea>
-    </Flex>
+    <div style={{ padding: '10px', width: '100%', height: '100%' }}>
+      <Editor />
+    </div>
   );
 }
 

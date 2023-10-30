@@ -5,16 +5,16 @@
   "type": "module",
   "scripts": {
     "dev": "aio app run",
-    "lint": "eslint web-src/src/**/*.js test/**/*.js",
-    "fix": "eslint web-src/src/**/*.js test/**/*.js --fix",
     "build": "aio app build",
     "deploy": "aio app deploy",
+    "lint": "eslint web-src/src/**/*.js test/**/*.js",
+    "fix": "eslint web-src/src/**/*.js test/**/*.js --fix",
     "test": "jest --passWithNoTests ./test",
     "e2e": "jest --collectCoverage=false --testRegex ./e2e"
   },
   "dependencies": {
-    "@adobe/react-spectrum": "3.4.0",
-    "@spectrum-icons/workflow": "3.2.0",
+    "@adobe/react-spectrum": "3.31.1",
+    "@spectrum-icons/workflow": "4.2.6",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },

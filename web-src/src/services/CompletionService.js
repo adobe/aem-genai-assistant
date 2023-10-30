@@ -9,18 +9,14 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import ReactDOM from 'react-dom'
+export class CompletionService {
+  constructor() {
+    console.log('CompletionService constructor');
+  }
 
-import App from './components/App'
-import {defaultTheme, Provider} from '@adobe/react-spectrum';
-import {ApplicationProvider} from './components/ApplicationProvider.js';
-import './index.css'
-
-ReactDOM.render(
-  <Provider theme={defaultTheme} height="100%">
-    <ApplicationProvider>
-      <App />
-    </ApplicationProvider>
-  </Provider>,
-  document.getElementById('root')
-)
+  /* eslint-disable class-methods-use-this */
+  complete(text, temperature) {
+    console.log(`CompletionService complete: ${text}, ${temperature}`);
+    return 'completed text';
+  }
+}

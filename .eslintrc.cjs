@@ -20,6 +20,7 @@ module.exports = {
     'no-console': 'off',
     'no-unused-vars': 'off',
     'arrow-body-style': 'off',
+    'react/prop-types': 'off',
   },
   env: {
     jest: true,

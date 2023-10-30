@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "aio app run",
-    "lint": "eslint web-src/src/**/*.js",
-    "fix": "eslint web-src/src/**/*.js --fix",
+    "lint": "eslint web-src/src/**/*.js test/**/*.js",
+    "fix": "eslint web-src/src/**/*.js test/**/*.js --fix",
     "build": "aio app build",
     "deploy": "aio app deploy",
     "test": "jest --passWithNoTests ./test",

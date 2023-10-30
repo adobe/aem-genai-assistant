@@ -13,6 +13,7 @@ import React, { useCallback, useEffect } from 'react';
 import {
   Item, ButtonGroup, Button, Grid, Picker, Flex, NumberField, ToggleButton,
 } from '@adobe/react-spectrum';
+/* eslint-disable-next-line import/no-named-default */
 import { default as SimpleEditor } from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import wretch from 'wretch';
@@ -21,8 +22,8 @@ import 'prismjs/themes/prism.css';
 
 const EXPRESSION_REGEX = /{\s*([^{}\s]+)\s*}/g;
 
-Prism.languages['custom'] = {
-  'function': EXPRESSION_REGEX,
+languages.custom = {
+  function: EXPRESSION_REGEX,
 };
 
 function replaceTemplateStrings(str, valuesMap) {
@@ -96,7 +97,7 @@ function Editor() {
       <SimpleEditor
         value={renderPrompt(prompt, segment, variationCount, sourceView)}
         onValueChange={setPrompt}
-        highlight={code => highlight(code, languages.custom, 'custom')}
+        highlight={(code) => highlight(code, languages.custom, 'custom')}
         readOnly={!sourceView}
         style={{
           width: '100%',

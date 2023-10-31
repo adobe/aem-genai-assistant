@@ -11,7 +11,7 @@
  */
 import React, { useCallback, useEffect } from 'react';
 import {
-  Item, Button, Grid, Picker, Flex, NumberField, Switch, Slider, Link,
+  Item, Button, Grid, Picker, Flex, NumberField, Switch, Slider, Link, TextField,
 } from '@adobe/react-spectrum';
 import OpenIcon from '@spectrum-icons/workflow/OpenInLight';
 /* eslint-disable-next-line import/no-named-default */
@@ -21,7 +21,7 @@ import wretch from 'wretch';
 import { useApplicationContext } from './ApplicationProvider.js';
 import 'prismjs/themes/prism.css';
 
-const EXPRESSION_REGEX = /{\s*([^{}\s]+)\s*}/g;
+const EXPRESSION_REGEX = /\{([^|]+?)(?:\|([^}]+?))?\}/g;
 
 const PROMPT_TEMPLATES_FILENAME = 'prompttemplates.json';
 const SEGMENTS_FILENAME = 'segments.json';
@@ -56,17 +56,33 @@ async function fetchBlockTypes(url) {
   }));
 }
 
+function findCustomExpressions(text) {
+  const matches = Array.from(text.matchAll(EXPRESSION_REGEX));
+  return matches.reduce((acc, match) => {
+    if (match[2]) {
+      acc.push({
+        name: match[1].trim(),
+        label: match[2].trim(),
+      });
+    }
+    return acc;
+  }, []);
+}
+
 function replaceTemplateStrings(str, valuesMap) {
+  console.log(valuesMap);
   return str.replace(EXPRESSION_REGEX, (match, key) => {
     return key in valuesMap ? (valuesMap[key] || '<please select>') : '<please select>';
   });
 }
 
-function renderPrompt(prompt, segment, blockType, blockDescription, variationCount, sourceView) {
+/* eslint-disable-next-line max-len */
+function renderPrompt(prompt, segment, blockType, blockDescription, customExpressions, variationCount, sourceView) {
   return sourceView ? prompt : replaceTemplateStrings(prompt, {
     segment,
     block_type: blockType,
     block_description: blockDescription,
+    ...customExpressions,
     num: variationCount,
   });
 }
@@ -79,6 +95,22 @@ function getLabelWithOpenLink(label, url) {
   );
 }
 
+function getCustomComponents(expressions, state, setState) {
+  return expressions.map((expression) => {
+    return (
+        <TextField
+          key={expression.name}
+          label={expression.label}
+          defaultValue={state[expression.name]}
+          onChange={(value) => {
+            console.log(value);
+            setState({ ...state, [expression.name]: value });
+          }}
+        />
+    );
+  });
+}
+
 function Editor() {
   const { websiteUrl, completionService } = useApplicationContext();
 
@@ -88,6 +120,7 @@ function Editor() {
   const [segment, setSegment] = React.useState('');
   const [blockType, setBlockType] = React.useState('');
   const [blockDescription, setBlockDescription] = React.useState('');
+  const [customExpressions, setCustomExpressions] = React.useState([]);
   const [variationCount, setVariationCount] = React.useState(1);
   const [sourceView, setSourceView] = React.useState(false);
   const [prompt, setPrompt] = React.useState('');
@@ -103,6 +136,7 @@ function Editor() {
 
   const promptSelectionHandler = useCallback((selected) => {
     setPrompt(promptTemplates[selected].template);
+    setSourceView(false);
   }, [promptTemplates]);
 
   const segmentSelectionHandler = useCallback((selected) => {
@@ -113,6 +147,8 @@ function Editor() {
     setBlockType(blockTypes[selected].type);
     setBlockDescription(blockTypes[selected].description);
   }, [blockTypes]);
+
+  console.log(customExpressions);
 
   return (
     <Grid
@@ -133,7 +169,7 @@ function Editor() {
       </Flex>
       <SimpleEditor
         /* eslint-disable-next-line max-len */
-        value={renderPrompt(prompt, segment, blockType, blockDescription, variationCount, sourceView)}
+        value={renderPrompt(prompt, segment, blockType, blockDescription, customExpressions, variationCount, sourceView)}
         onValueChange={setPrompt}
         highlight={(code) => highlight(code, languages.custom, 'custom')}
         readOnly={!sourceView}
@@ -142,6 +178,7 @@ function Editor() {
           border: '1px solid grey',
           borderRadius: 5,
           backgroundColor: sourceView ? 'white' : 'transparent',
+          whiteSpace: 'pre-wrap',
         }}
       />
       <Flex direction="column" gap="size-200" alignItems="start">
@@ -159,9 +196,10 @@ function Editor() {
           {segments ? segments
             .map((seg, index) => <Item key={index}>{seg.label}</Item>) : []}
         </Picker>
+        {getCustomComponents(findCustomExpressions(prompt), customExpressions, setCustomExpressions)}
         <NumberField label="Number Of Variants" defaultValue={4} minValue={1} maxValue={4} onChange={setVariationCount} />
       </Flex>
-      <Flex direction="row" gap="size-200" gridColumn='span 2'>
+      <Flex direction="row" gap="size-400" gridColumn='span 2' alignItems="center">
         <Button variant="primary" onPress={() => console.log(completionService.complete('prompt', 0.1))}>Generate</Button>
         <Slider
           label="Creativity"

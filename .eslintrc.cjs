@@ -21,6 +21,11 @@ module.exports = {
     'no-unused-vars': 'off',
     'arrow-body-style': 'off',
     'react/prop-types': 'off',
+    'max-len': [ 'error', {
+      'ignoreTemplateLiterals': true,
+      'ignoreStrings': true,
+      'code': 120
+    }]
   },
   env: {
     jest: true,

@@ -21,7 +21,7 @@ function ContainerView() {
       areas={[
         'prompt variations',
       ]}
-      columns={['1fr', '1fr']}
+      columns={['2fr', '1.5fr']}
       rows={['auto']}
       height="100%"
       >

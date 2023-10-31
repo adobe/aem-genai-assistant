@@ -58,7 +58,7 @@ async function fetchBlockTypes(url) {
 
 function replaceTemplateStrings(str, valuesMap) {
   return str.replace(EXPRESSION_REGEX, (match, key) => {
-    return key in valuesMap ? valuesMap[key] : '<please select>';
+    return key in valuesMap ? (valuesMap[key] || '<please select>') : '<please select>';
   });
 }
 

@@ -1,2 +1,13 @@
 application:
   web: web-src
+  runtimeManifest:
+    packages:
+      aem-genai-assistant:
+        license: Apache-2.0
+        actions:
+          complete:
+            function: actions/complete/index.js
+            web: true
+            runtime: nodejs:18
+            inputs:
+              LOG_LEVEL: debug

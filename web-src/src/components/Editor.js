@@ -11,8 +11,9 @@
  */
 import React, { useCallback, useEffect } from 'react';
 import {
-  Item, Button, Grid, Picker, Flex, NumberField, Switch, Slider,
+  Item, Button, Grid, Picker, Flex, NumberField, Switch, Slider, Link,
 } from '@adobe/react-spectrum';
+import OpenIcon from '@spectrum-icons/workflow/OpenInLight';
 /* eslint-disable-next-line import/no-named-default */
 import { default as SimpleEditor } from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
@@ -22,13 +23,17 @@ import 'prismjs/themes/prism.css';
 
 const EXPRESSION_REGEX = /{\s*([^{}\s]+)\s*}/g;
 
+const PROMPT_TEMPLATES_FILENAME = 'prompttemplates.json';
+const SEGMENTS_FILENAME = 'segments.json';
+const BLOCK_TYPES_FILENAME = 'blocktypes.json';
+
 languages.custom = {
   function: EXPRESSION_REGEX,
   variable: /<please select>/,
 };
 
 async function fetchPromptTemplates(url) {
-  const json = await wretch(`${url}/prompttemplates.json`).get().json();
+  const json = await wretch(`${url}/${PROMPT_TEMPLATES_FILENAME}`).get().json();
   return json.data.map((row) => ({
     label: row.Label,
     template: row['Prompt Template'],
@@ -36,7 +41,7 @@ async function fetchPromptTemplates(url) {
 }
 
 async function fetchSegments(url) {
-  const json = await wretch(`${url}/segments.json`).get().json();
+  const json = await wretch(`${url}/${SEGMENTS_FILENAME}`).get().json();
   return json.data.map((row) => ({
     label: row.Label,
     segment: row.Segment,
@@ -44,7 +49,7 @@ async function fetchSegments(url) {
 }
 
 async function fetchBlockTypes(url) {
-  const json = await wretch(`${url}/blocktypes.json`).get().json();
+  const json = await wretch(`${url}/${BLOCK_TYPES_FILENAME}`).get().json();
   return json.data.map((row) => ({
     type: row.Type,
     description: row.Description,
@@ -64,6 +69,14 @@ function renderPrompt(prompt, segment, blockType, blockDescription, variationCou
     block_description: blockDescription,
     num: variationCount,
   });
+}
+
+function getLabelWithOpenLink(label, url) {
+  return (
+    <>
+      {label}&nbsp;<Link target="_blank" href={url}><OpenIcon size="XS"/></Link>
+    </>
+  );
 }
 
 function Editor() {
@@ -103,45 +116,51 @@ function Editor() {
 
   return (
     <Grid
-      columns={['1fr']}
+      columns={['auto', 'min-content']}
       rows={['min-content', 'auto', 'min-content']}
       gap="size-200"
       margin={0}
       width="100%" height="100%">
-      <Flex direction="row" gap="size-200" alignItems={'end'}>
-        <Picker label="Prompt Template" isLoading={!promptTemplates} placeholder="" onSelectionChange={promptSelectionHandler}>
+      <Flex direction="row" gap="size-200" alignItems={'end'} gridColumn='span 2'>
+        <Picker
+          label={getLabelWithOpenLink('Prompt Template', `${websiteUrl}/prompttemplates.json`)}
+          isLoading={!promptTemplates} placeholder="" onSelectionChange={promptSelectionHandler}>
           {promptTemplates ? promptTemplates
             .map((template, index) => <Item key={index}>{template.label}</Item>) : []}
         </Picker>
         <Switch isSelected={sourceView} onChange={setSourceView}>Edit Mode</Switch>
       </Flex>
-      <Flex direction="row" gap="size-200">
-        <SimpleEditor
-          /* eslint-disable-next-line max-len */
-          value={renderPrompt(prompt, segment, blockType, blockDescription, variationCount, sourceView)}
-          onValueChange={setPrompt}
-          highlight={(code) => highlight(code, languages.custom, 'custom')}
-          readOnly={!sourceView}
-          padding={10}
-          style={{
-            border: '1px solid grey',
-            borderRadius: 10,
-            backgroundColor: sourceView ? 'white' : 'transparent',
-          }}
-        />
-        <Flex direction="column" gap="size-200" alignItems="start">
-          <Picker label="Block Type" isLoading={!blockTypes} placeholder="" onSelectionChange={blockTypeSelectionHandler}>
-            {blockTypes ? blockTypes
-              .map((block, index) => <Item key={index}>{block.type}</Item>) : []}
-          </Picker>
-          <Picker label="Segment" isLoading={!segments} placeholder="" onSelectionChange={segmentSelectionHandler}>
-            {segments ? segments
-              .map((seg, index) => <Item key={index}>{seg.label}</Item>) : []}
-          </Picker>
-          <NumberField label="Number Of Variants" defaultValue={4} minValue={1} maxValue={4} onChange={setVariationCount} />
-        </Flex>
+      <SimpleEditor
+        /* eslint-disable-next-line max-len */
+        value={renderPrompt(prompt, segment, blockType, blockDescription, variationCount, sourceView)}
+        onValueChange={setPrompt}
+        highlight={(code) => highlight(code, languages.custom, 'custom')}
+        readOnly={!sourceView}
+        padding={10}
+        style={{
+          border: '1px solid grey',
+          borderRadius: 5,
+          backgroundColor: sourceView ? 'white' : 'transparent',
+        }}
+      />
+      <Flex direction="column" gap="size-200" alignItems="start">
+        <Picker
+          label={getLabelWithOpenLink('Block Type', `${websiteUrl}/${BLOCK_TYPES_FILENAME}`)}
+          isLoading={!blockTypes}
+          onSelectionChange={blockTypeSelectionHandler}>
+          {blockTypes ? blockTypes
+            .map((block, index) => <Item key={index}>{block.type}</Item>) : []}
+        </Picker>
+        <Picker
+          label={getLabelWithOpenLink('Segments', `${websiteUrl}/${SEGMENTS_FILENAME}`)}
+          isLoading={!segments}
+          onSelectionChange={segmentSelectionHandler}>
+          {segments ? segments
+            .map((seg, index) => <Item key={index}>{seg.label}</Item>) : []}
+        </Picker>
+        <NumberField label="Number Of Variants" defaultValue={4} minValue={1} maxValue={4} onChange={setVariationCount} />
       </Flex>
-      <Flex direction="row" gap="size-200">
+      <Flex direction="row" gap="size-200" gridColumn='span 2'>
         <Button variant="primary" onPress={() => console.log(completionService.complete('prompt', 0.1))}>Generate</Button>
         <Slider
           label="Creativity"

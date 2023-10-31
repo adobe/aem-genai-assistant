@@ -11,7 +11,7 @@
  */
 import React, { useCallback, useEffect } from 'react';
 import {
-  Item, ButtonGroup, Button, Grid, Picker, Flex, NumberField, ToggleButton,
+  Item, Button, Grid, Picker, Flex, NumberField, Switch, Slider,
 } from '@adobe/react-spectrum';
 /* eslint-disable-next-line import/no-named-default */
 import { default as SimpleEditor } from 'react-simple-code-editor';
@@ -24,16 +24,46 @@ const EXPRESSION_REGEX = /{\s*([^{}\s]+)\s*}/g;
 
 languages.custom = {
   function: EXPRESSION_REGEX,
+  variable: /<please select>/,
 };
+
+async function fetchPromptTemplates(url) {
+  const json = await wretch(`${url}/prompttemplates.json`).get().json();
+  return json.data.map((row) => ({
+    label: row.Label,
+    template: row['Prompt Template'],
+  }));
+}
+
+async function fetchSegments(url) {
+  const json = await wretch(`${url}/segments.json`).get().json();
+  return json.data.map((row) => ({
+    label: row.Label,
+    segment: row.Segment,
+  }));
+}
+
+async function fetchBlockTypes(url) {
+  const json = await wretch(`${url}/blocktypes.json`).get().json();
+  return json.data.map((row) => ({
+    type: row.Type,
+    description: row.Description,
+  }));
+}
 
 function replaceTemplateStrings(str, valuesMap) {
   return str.replace(EXPRESSION_REGEX, (match, key) => {
-    return key in valuesMap ? valuesMap[key] : match;
+    return key in valuesMap ? valuesMap[key] : '<please select>';
   });
 }
 
-function renderPrompt(prompt, segment, variationCount, sourceView) {
-  return sourceView ? prompt : replaceTemplateStrings(prompt, { segment, num: variationCount });
+function renderPrompt(prompt, segment, blockType, blockDescription, variationCount, sourceView) {
+  return sourceView ? prompt : replaceTemplateStrings(prompt, {
+    segment,
+    block_type: blockType,
+    block_description: blockDescription,
+    num: variationCount,
+  });
 }
 
 function Editor() {
@@ -41,30 +71,21 @@ function Editor() {
 
   const [promptTemplates, setPromptTemplates] = React.useState([]);
   const [segments, setSegments] = React.useState([]);
+  const [blockTypes, setBlockTypes] = React.useState([]);
   const [segment, setSegment] = React.useState('');
+  const [blockType, setBlockType] = React.useState('');
+  const [blockDescription, setBlockDescription] = React.useState('');
   const [variationCount, setVariationCount] = React.useState(1);
   const [sourceView, setSourceView] = React.useState(false);
   const [prompt, setPrompt] = React.useState('');
 
   useEffect(() => {
-    // Fetch prompt templates
-    wretch(`${websiteUrl}/prompttemplates.json`).get().json((json) => {
-      setPromptTemplates(json.data.map((row) => ({
-        label: row.Label,
-        template: row['Prompt Template'],
-      })));
-    }).catch((error) => {
-      console.log(error);
-    });
-    // Fetch segments
-    wretch(`${websiteUrl}/segments.json`).get().json((json) => {
-      setSegments(json.data.map((row) => ({
-        label: row.Label,
-        segment: row.Segment,
-      })));
-    }).catch((error) => {
-      console.log(error);
-    });
+    /* eslint-disable-next-line no-shadow */
+    fetchPromptTemplates(websiteUrl).then((promptTemplates) => setPromptTemplates(promptTemplates));
+    /* eslint-disable-next-line no-shadow */
+    fetchSegments(websiteUrl).then((segments) => setSegments(segments));
+    /* eslint-disable-next-line no-shadow */
+    fetchBlockTypes(websiteUrl).then((blockTypes) => setBlockTypes(blockTypes));
   }, []);
 
   const promptSelectionHandler = useCallback((selected) => {
@@ -74,6 +95,11 @@ function Editor() {
   const segmentSelectionHandler = useCallback((selected) => {
     setSegment(segments[selected].segment);
   }, [segments]);
+
+  const blockTypeSelectionHandler = useCallback((selected) => {
+    setBlockType(blockTypes[selected].type);
+    setBlockDescription(blockTypes[selected].description);
+  }, [blockTypes]);
 
   return (
     <Grid
@@ -87,28 +113,43 @@ function Editor() {
           {promptTemplates ? promptTemplates
             .map((template, index) => <Item key={index}>{template.label}</Item>) : []}
         </Picker>
-        <Picker label="Segment" isLoading={!segments} placeholder="" onSelectionChange={segmentSelectionHandler}>
-          {segments ? segments
-            .map((seg, index) => <Item key={index}>{seg.label}</Item>) : []}
-        </Picker>
-        <NumberField label="Number Of Variants" defaultValue={4} minValue={1} maxValue={4} onChange={setVariationCount} />
-        <ToggleButton isSelected={sourceView} onChange={setSourceView}>Source</ToggleButton>
+        <Switch isSelected={sourceView} onChange={setSourceView}>Edit Mode</Switch>
       </Flex>
-      <SimpleEditor
-        value={renderPrompt(prompt, segment, variationCount, sourceView)}
-        onValueChange={setPrompt}
-        highlight={(code) => highlight(code, languages.custom, 'custom')}
-        readOnly={!sourceView}
-        style={{
-          width: '100%',
-          height: '100%',
-          fontSize: 16,
-          border: '1px solid #ddd',
-        }}
-      />
-      <ButtonGroup>
+      <Flex direction="row" gap="size-200">
+        <SimpleEditor
+          /* eslint-disable-next-line max-len */
+          value={renderPrompt(prompt, segment, blockType, blockDescription, variationCount, sourceView)}
+          onValueChange={setPrompt}
+          highlight={(code) => highlight(code, languages.custom, 'custom')}
+          readOnly={!sourceView}
+          padding={10}
+          style={{
+            border: '1px solid grey',
+            borderRadius: 10,
+            backgroundColor: sourceView ? 'white' : 'transparent',
+          }}
+        />
+        <Flex direction="column" gap="size-200" alignItems="start">
+          <Picker label="Block Type" isLoading={!blockTypes} placeholder="" onSelectionChange={blockTypeSelectionHandler}>
+            {blockTypes ? blockTypes
+              .map((block, index) => <Item key={index}>{block.type}</Item>) : []}
+          </Picker>
+          <Picker label="Segment" isLoading={!segments} placeholder="" onSelectionChange={segmentSelectionHandler}>
+            {segments ? segments
+              .map((seg, index) => <Item key={index}>{seg.label}</Item>) : []}
+          </Picker>
+          <NumberField label="Number Of Variants" defaultValue={4} minValue={1} maxValue={4} onChange={setVariationCount} />
+        </Flex>
+      </Flex>
+      <Flex direction="row" gap="size-200">
         <Button variant="primary" onPress={() => console.log(completionService.complete('prompt', 0.1))}>Generate</Button>
-      </ButtonGroup>
+        <Slider
+          label="Creativity"
+          maxValue={1.0}
+          step={0.001}
+          formatOptions={{ style: 'percent', minimumFractionDigits: 1 }}
+          defaultValue={0.1} />
+      </Flex>
     </Grid>
   );
 }

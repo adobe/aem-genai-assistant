@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "aio app run",
+    "start": "aio app run",
     "build": "aio app build",
     "deploy": "aio app deploy",
     "lint": "eslint web-src/src/**/*.js test/**/*.js",

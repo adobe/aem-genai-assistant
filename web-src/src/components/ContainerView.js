@@ -23,12 +23,12 @@ function ContainerView() {
       ]}
       columns={['1fr', '1fr']}
       rows={['auto']}
-      height="100vh"
+      height="100%"
       >
-      <View gridArea="prompt" overflow="auto" height="90vh" UNSAFE_style={{"paddingRight": "30px"}}>
+      <View gridArea="prompt" UNSAFE_style={{"paddingRight": "30px"}}>
         <Editor />
       </View>
-      <View gridArea="variations" height="90vh" UNSAFE_style={{"paddingLeft": "30px", "border": "2px solid lightgray", "borderRadius": "10px"}}>
+      <View gridArea="variations" UNSAFE_style={{"paddingLeft": "30px", "border": "2px solid lightgray", "borderRadius": "10px"}}>
         <IllustratedMessage>
           <WriteIcon />
           <Heading>Nothing here yet</Heading>

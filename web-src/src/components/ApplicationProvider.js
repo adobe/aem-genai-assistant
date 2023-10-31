@@ -12,8 +12,20 @@
 import React, { useContext } from 'react';
 import { CompletionService } from '../services/CompletionService.js';
 
+function getWebsiteUrlFromReferrer() {
+  /* eslint-disable-next-line no-undef */
+  const searchParams = new URLSearchParams(window.location.search);
+  if (!searchParams.has('referrer')) {
+    throw Error('No referrer search param');
+  }
+  const referrer = searchParams.get('referrer');
+  const url = new URL(referrer);
+  return `${url.protocol}//${url.host}`;
+}
+
 function createApplication() {
   return {
+    websiteUrl: getWebsiteUrlFromReferrer(),
     completionService: new CompletionService(),
   };
 }
@@ -21,12 +33,21 @@ function createApplication() {
 export const ApplicationContext = React.createContext(undefined);
 
 export const ApplicationProvider = ({ children }) => {
-  const application = createApplication();
-  return (
-    <ApplicationContext.Provider value={application} width="100%" height="100%">
-      {children}
-    </ApplicationContext.Provider>
-  );
+  try {
+    const application = createApplication();
+    return (
+      <ApplicationContext.Provider value={application} width="100%" height="100%">
+        {children}
+      </ApplicationContext.Provider>
+    );
+  } catch (e) {
+    return (
+      <div>
+        <h1>Application Error</h1>
+        <p>{e.message}</p>
+      </div>
+    );
+  }
 };
 
 export const useApplicationContext = () => {

@@ -10,15 +10,12 @@
  * governing permissions and limitations under the License.
  */
 import React from 'react';
-import {
-  Flex,
-} from '@adobe/react-spectrum';
-import Editor from './Editor.js';
+import ContainerView from "./ContainerView";
 
 function App() {
   return (
-    <div style={{ padding: '10px', width: '100%', height: '100%' }}>
-      <Editor />
+    <div style={{ padding: '30px', width: '100%', height: '100%' }}>
+      <ContainerView />
     </div>
   );
 }

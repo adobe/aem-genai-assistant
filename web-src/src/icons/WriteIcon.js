@@ -9,7 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React from "react";
+import React from 'react';
 
 /**
  * This component allows to render Sensei GenAI icon.
@@ -24,10 +24,10 @@ export default function WriteIcon() {
       y="0px"
       width="100" height="100"
       viewBox="0 0 106.67 122.88"
-      style={{ enableBackground: "new 0 0 106.67 122.88" }}
+      style={{ enableBackground: 'new 0 0 106.67 122.88' }}
     >
       <style type="text/css">
-        {`.st0{fill-rule:evenodd;clip-rule:evenodd;}`}
+        {'.st0{fill-rule:evenodd;clip-rule:evenodd;}'}
       </style>
       <g>
         <path

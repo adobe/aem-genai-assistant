@@ -9,13 +9,14 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, { useEffect, useState } from 'react';
-import { Content, Grid, Heading, IllustratedMessage, View } from '@adobe/react-spectrum';
-import WriteIcon from '../icons/WriteIcon';
-import Editor from './Editor';
+import React from 'react';
+import {
+  Content, Grid, Heading, IllustratedMessage, View,
+} from '@adobe/react-spectrum';
+import WriteIcon from '../icons/WriteIcon.js';
+import Editor from './Editor.js';
 
 function ContainerView() {
-
   return (
     <Grid
       areas={[
@@ -25,18 +26,18 @@ function ContainerView() {
       rows={['auto']}
       height="100%"
       >
-      <View gridArea="prompt" UNSAFE_style={{"paddingRight": "30px"}}>
+      <View gridArea="prompt" UNSAFE_style={{ paddingRight: '30px' }}>
         <Editor />
       </View>
-      <View gridArea="variations" UNSAFE_style={{"paddingLeft": "30px", "border": "2px solid lightgray", "borderRadius": "10px"}}>
+      <View gridArea="variations" UNSAFE_style={{ paddingLeft: '30px', border: '2px solid lightgray', borderRadius: '10px' }}>
         <IllustratedMessage>
-          <WriteIcon />
+          <WriteIcon size="S"/>
           <Heading>Nothing here yet</Heading>
           <Content>Type in a prompt to generate content</Content>
         </IllustratedMessage>
       </View>
     </Grid>
-  )
-};
+  );
+}
 
 export default ContainerView;

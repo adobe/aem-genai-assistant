@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import React from 'react';
-import ContainerView from "./ContainerView";
+import ContainerView from './ContainerView.js';
 
 function App() {
   return (

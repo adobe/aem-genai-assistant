@@ -124,7 +124,8 @@ function Editor() {
       <Flex direction="row" gap="size-200" alignItems={'end'} gridColumn='span 2'>
         <Picker
           label={getLabelWithOpenLink('Prompt Template', `${websiteUrl}/prompttemplates.json`)}
-          isLoading={!promptTemplates} placeholder="" onSelectionChange={promptSelectionHandler}>
+          isLoading={!promptTemplates}
+          onSelectionChange={promptSelectionHandler}>
           {promptTemplates ? promptTemplates
             .map((template, index) => <Item key={index}>{template.label}</Item>) : []}
         </Picker>

@@ -10,11 +10,14 @@
  * governing permissions and limitations under the License.
  */
 import React from 'react';
+import { ToastContainer } from '@react-spectrum/toast'
+
 import ContainerView from "./ContainerView";
 
 function App() {
   return (
     <div style={{ padding: '30px', width: '100%', height: '100%' }}>
+      <ToastContainer />
       <ContainerView />
     </div>
   );

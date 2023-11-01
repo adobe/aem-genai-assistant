@@ -30,3 +30,5 @@ body {
 *:any-link {
   color: inherit;
 }
+
+.hover-cursor-pointer:hover { cursor: pointer; }

@@ -56,6 +56,7 @@ function VariationsSection({variations, onFavorite, onCopy, onDelete}) {
                       <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => onFavorite(variation.id)}>
                         {variation.isFavorite ? <Star /> : <StarOutline />}
                       </ActionButton>
+                      <Tooltip>Save Variation</Tooltip>
                     </TooltipTrigger>
                     <TooltipTrigger delay={0}>
                       <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => onCopy(variation.id)}>
@@ -67,7 +68,7 @@ function VariationsSection({variations, onFavorite, onCopy, onDelete}) {
                       <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => onDelete(variation.id)}>
                         <Delete />
                       </ActionButton>
-                      <Tooltip>Remove variation</Tooltip>
+                      <Tooltip>Remove Variation</Tooltip>
                     </TooltipTrigger>
                   </Flex>
                   <Well UNSAFE_style={{ "whiteSpace": "pre-wrap" }}>{variation.content}</Well>

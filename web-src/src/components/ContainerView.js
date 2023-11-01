@@ -117,6 +117,15 @@ function ContainerView() {
     localStorage.setItem(localStorageKey, JSON.stringify(updatedFavorites));
   };
 
+  // Function to delete all the selected favorites and update local storage
+  const deleteSelectedFavorites = (keys) => {
+    const updatedFavorites = favorites.filter(favorite => !keys.includes(favorite.id));
+    setFavorites(updatedFavorites);
+    localStorage.setItem(localStorageKey, JSON.stringify(updatedFavorites));
+
+    ToastQueue.positive('Selected saved variations deleted successfully!', {timeout: 2000})
+  };
+
   // Function to check if a variation is a favorite and return boolean
   const isAlreadyFavorite = (id) => {
     const storedFavorites = localStorage.getItem(localStorageKey);
@@ -151,6 +160,15 @@ function ContainerView() {
     ToastQueue.positive('Variation copied to clipboard!', {timeout: 2000})
   }
 
+  const copySelectedFavorites = (keys) => {
+    const selectedFavorites = favorites.filter(favorite => keys.includes(favorite.id));
+    const selectedFavoritesContent = selectedFavorites.map(favorite => favorite.content);
+    const selectedFavoritesContentString = selectedFavoritesContent.join('\r\n');
+    navigator.clipboard.writeText(selectedFavoritesContentString);
+
+    ToastQueue.positive('Selected saved variations copied successfully!', {timeout: 2000})
+  }
+
   const deleteVariation = (id) => {
     const updatedVariations = variations.filter(variation => variation.id !== id);
     setVariations(updatedVariations);
@@ -179,7 +197,7 @@ function ContainerView() {
               <VariationsSection variations={variations} onFavorite={favoriteVariation} onCopy={copyVariation} onDelete={deleteVariation}/>
             </Item>
             <Item key="favorites">
-              <FavoritesSection favorites={favorites} onCopy={copyFavorite} onDelete={deleteFavorite}/>
+              <FavoritesSection favorites={favorites} onCopy={copyFavorite} onDelete={deleteFavorite} onBulkCopy= {copySelectedFavorites} onBulkDelete={deleteSelectedFavorites}/>
             </Item>
           </TabPanels>
         </Tabs>

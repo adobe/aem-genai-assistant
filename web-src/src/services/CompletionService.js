@@ -17,6 +17,6 @@ export class CompletionService {
   /* eslint-disable class-methods-use-this */
   complete(text, temperature) {
     console.log(`CompletionService complete: ${text}, ${temperature}`);
-    return 'completed text';
+    return 'completed content';
   }
 }

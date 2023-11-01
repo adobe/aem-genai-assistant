@@ -20,6 +20,7 @@ import { highlight, languages } from 'prismjs/components/prism-core';
 import wretch from 'wretch';
 import { useApplicationContext } from './ApplicationProvider.js';
 import 'prismjs/themes/prism.css';
+import EditorComponent from './EditorComponent.js';
 
 const EXPRESSION_REGEX = /\{([^|]+?)(?:\|([^}]+?))?\}/g;
 
@@ -29,7 +30,7 @@ const BLOCK_TYPES_FILENAME = 'blocktypes.json';
 
 languages.custom = {
   function: EXPRESSION_REGEX,
-  variable: /<please select>/,
+  variable: /@please select@/,
 };
 
 async function fetchPromptTemplates(url) {
@@ -70,9 +71,8 @@ function findCustomExpressions(text) {
 }
 
 function replaceTemplateStrings(str, valuesMap) {
-  console.log(valuesMap);
   return str.replace(EXPRESSION_REGEX, (match, key) => {
-    return key in valuesMap ? (valuesMap[key] || '<please select>') : '<please select>';
+    return key in valuesMap ? (valuesMap[key] || '@please select@') : '@please select@';
   });
 }
 
@@ -111,7 +111,7 @@ function getCustomComponents(expressions, state, setState) {
   });
 }
 
-function Editor() {
+function PromptEditor() {
   const { websiteUrl, completionService } = useApplicationContext();
 
   const [promptTemplates, setPromptTemplates] = React.useState([]);
@@ -148,7 +148,7 @@ function Editor() {
     setBlockDescription(blockTypes[selected].description);
   }, [blockTypes]);
 
-  console.log(customExpressions);
+  console.log(highlight(renderPrompt(prompt, segment, blockType, blockDescription, customExpressions, variationCount, sourceView), languages.custom, 'custom'))
 
   return (
     <Grid
@@ -167,20 +167,10 @@ function Editor() {
         </Picker>
         <Switch isSelected={sourceView} onChange={setSourceView}>Edit Mode</Switch>
       </Flex>
-      <SimpleEditor
-        /* eslint-disable-next-line max-len */
-        value={renderPrompt(prompt, segment, blockType, blockDescription, customExpressions, variationCount, sourceView)}
-        onValueChange={setPrompt}
-        highlight={(code) => highlight(code, languages.custom, 'custom')}
-        readOnly={!sourceView}
-        padding={10}
-        style={{
-          border: '1px solid grey',
-          borderRadius: 5,
-          backgroundColor: sourceView ? 'white' : 'transparent',
-          whiteSpace: 'pre-wrap',
-        }}
-      />
+      <EditorComponent
+        content={highlight(renderPrompt(prompt, segment, blockType, blockDescription, customExpressions, variationCount, sourceView), languages.custom, 'custom')}
+        onContentUpdate={setPrompt}
+        editable={sourceView} />
       <Flex direction="column" gap="size-200" alignItems="start">
         <Picker
           label={getLabelWithOpenLink('Block Type', `${websiteUrl}/${BLOCK_TYPES_FILENAME}`)}
@@ -212,4 +202,4 @@ function Editor() {
   );
 }
 
-export default Editor;
+export default PromptEditor;

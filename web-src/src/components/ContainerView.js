@@ -14,7 +14,7 @@ import {
   Content, Grid, Heading, IllustratedMessage, View,
 } from '@adobe/react-spectrum';
 import WriteIcon from '../icons/WriteIcon.js';
-import Editor from './Editor.js';
+import PromptEditor from './PromptEditor.js';
 
 function ContainerView() {
   return (
@@ -27,11 +27,11 @@ function ContainerView() {
       height="100%"
       >
       <View gridArea="prompt" UNSAFE_style={{ paddingRight: '30px' }}>
-        <Editor />
+        <PromptEditor />
       </View>
       <View gridArea="variations" UNSAFE_style={{ paddingLeft: '30px', border: '2px solid lightgray', borderRadius: '10px' }}>
         <IllustratedMessage>
-          <WriteIcon size="S"/>
+          <WriteIcon/>
           <Heading>Nothing here yet</Heading>
           <Content>Type in a prompt to generate content</Content>
         </IllustratedMessage>

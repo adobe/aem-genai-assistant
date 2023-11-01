@@ -11,11 +11,12 @@
  */
 import React from 'react';
 import ContainerView from './ContainerView.js';
+import PromptEditor from './PromptEditor.js';
 
 function App() {
   return (
     <div style={{ padding: '30px', width: '100%', height: '100%' }}>
-      <ContainerView />
+      <PromptEditor />
     </div>
   );
 }

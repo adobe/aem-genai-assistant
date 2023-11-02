@@ -19,6 +19,7 @@ import AnnotatePen from '@spectrum-icons/workflow/AnnotatePen';
 import Star from '@spectrum-icons/workflow/Star.js';
 
 import Editor from './Editor.js';
+import WriteIcon from '../icons/WriteIcon.js';
 import VariationsSection from './VariationsSection.js';
 import FavoritesSection from './FavoritesSection.js';
 import { MOCK_VARIATIONS, LOCAL_STORAGE_KEY } from '../constants/Constants.js';

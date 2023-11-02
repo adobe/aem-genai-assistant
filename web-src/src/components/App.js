@@ -12,7 +12,7 @@
 import React from 'react';
 import { ToastContainer } from '@react-spectrum/toast'
 
-import ContainerView from "./ContainerView";
+import ContainerView from './ContainerView.js';
 
 function App() {
   return (

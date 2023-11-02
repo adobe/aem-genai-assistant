@@ -19,8 +19,8 @@ import StarOutline from '@spectrum-icons/workflow/StarOutline';
 import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
 
-import WriteIcon from '../icons/WriteIcon';
-import { LOCAL_STORAGE_KEY } from '../constants/Constants';
+import WriteIcon from '../icons/WriteIcon.js';
+import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 
 function VariationsSection({variations, favorites, onVariationsChange, onFavoritesChange}) {
   const scrollView = useRef(null);
@@ -89,7 +89,7 @@ function VariationsSection({variations, favorites, onVariationsChange, onFavorit
     <>
       {(variations.length === 0) ? (
         <IllustratedMessage>
-          <WriteIcon />
+          <WriteIcon size="S"/>
           <Heading>Nothing here yet</Heading>
           <Content>Set up your prompt to generate new variations</Content>
         </IllustratedMessage>

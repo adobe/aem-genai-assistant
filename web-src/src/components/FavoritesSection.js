@@ -18,8 +18,8 @@ import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
 import Edit from '@spectrum-icons/workflow/Edit';
 
-import WriteIcon from '../icons/WriteIcon';
-import { LOCAL_STORAGE_KEY } from '../constants/Constants';
+import WriteIcon from '../icons/WriteIcon.js';
+import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 
 function FavoritesSection({favorites, onChange}) {
   const [selectedKeys, setSelectedKeys] = useState([]);
@@ -76,7 +76,7 @@ function FavoritesSection({favorites, onChange}) {
     <>
       {(favorites.length === 0) ? (
         <IllustratedMessage>
-          <WriteIcon />
+          <WriteIcon size="S"/>
           <Heading>Nothing here yet</Heading>
           <Content>Favorite your generated favorites</Content>
         </IllustratedMessage>

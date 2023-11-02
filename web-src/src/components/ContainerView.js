@@ -11,15 +11,17 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import { Grid, View, Tabs, TabList, TabPanels, Item, Text } from '@adobe/react-spectrum';
+import {
+  Grid, View, Tabs, TabList, TabPanels, Item, Text,
+} from '@adobe/react-spectrum';
 
 import AnnotatePen from '@spectrum-icons/workflow/AnnotatePen';
-import Star from '@spectrum-icons/workflow/Star';
+import Star from '@spectrum-icons/workflow/Star.js';
 
-import Editor from './Editor';
-import VariationsSection from './VariationsSection';
-import FavoritesSection from './FavoritesSection';
-import { MOCK_VARIATIONS, LOCAL_STORAGE_KEY } from '../constants/Constants';
+import Editor from './Editor.js';
+import VariationsSection from './VariationsSection.js';
+import FavoritesSection from './FavoritesSection.js';
+import { MOCK_VARIATIONS, LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 
 function ContainerView() {
   const [variations, setVariations] = useState(MOCK_VARIATIONS);
@@ -45,7 +47,7 @@ function ContainerView() {
       rows={['auto']}
       height="100%"
       >
-      <View gridArea="prompt" UNSAFE_style={{"paddingRight": "30px"}}>
+      <View gridArea="prompt" UNSAFE_style={{ paddingRight: '30px' }}>
         <Editor />
       </View>
       <View gridArea="variations" paddingLeft="30px" borderWidth="thick" borderColor="gray-300" borderRadius="medium" overflow="auto">
@@ -65,7 +67,7 @@ function ContainerView() {
         </Tabs>
       </View>
     </Grid>
-  )
-};
+  );
+}
 
 export default ContainerView;

@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, IllustratedMessage, Heading, Content, Flex, Tooltip, TooltipTrigger, ActionButton, Well, CheckboxGroup, Checkbox, ActionBarContainer, ActionBar, Item, Text } from '@adobe/react-spectrum';
 import { ToastQueue } from '@react-spectrum/toast'
 
@@ -25,52 +25,52 @@ function FavoritesSection({favorites, onChange}) {
   const [selectedKeys, setSelectedKeys] = useState([]);
 
   // Function to copy a favorite to the clipboard
-  const copyFavorite = (id) => {
+  const copyFavoriteHandler = useCallback((id) => {
     const favorite = favorites.find(favorite => favorite.id === id);
     navigator.clipboard.writeText(favorite.content);
 
     ToastQueue.positive('Variation copied to clipboard!', {timeout: 2000})
-  }
+  }, [favorites]);
 
   // Function to copy all the selected favorites to the clipboard
-  const copySelectedFavorites = (keys) => {
+  const copySelectedFavoritesHandler = useCallback((keys) => {
     const selectedFavorites = favorites.filter(favorite => keys.includes(favorite.id));
     const selectedFavoritesContent = selectedFavorites.map(favorite => favorite.content);
     const selectedFavoritesContentString = selectedFavoritesContent.join('\r\n');
     navigator.clipboard.writeText(selectedFavoritesContentString);
 
     ToastQueue.positive('Selected saved variations copied successfully!', {timeout: 2000})
-  }
+  }, [favorites]);
 
   // Function to delete a favorite and update local storage
-  const deleteFavorite = (id) => {
+  const deleteFavoriteHandler = useCallback((id) => {
     // Filter out the item with the matching id
     const updatedFavorites = favorites.filter(favorite => favorite.id !== id);
     onChange(updatedFavorites);
 
     // Update the local storage with the new favorites
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedFavorites));
-  };
+  }, [favorites]);
 
   // Function to delete all the selected favorites and update local storage
-  const deleteSelectedFavorites = (keys) => {
+  const deleteSelectedFavoritesHandler = useCallback((keys) => {
     const updatedFavorites = favorites.filter(favorite => !keys.includes(favorite.id));
     onChange(updatedFavorites);
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedFavorites));
 
     ToastQueue.positive('Selected saved variations deleted successfully!', {timeout: 2000})
-  };
+  }, [favorites]);
 
   // Function to handle the action bar actions
-  const actionCallback = (key) => {
+  const actionCallbackHandler = useCallback((key) => {
     if (key === 'select-all') {
       setSelectedKeys(favorites.map((favorite) => favorite.id));
-    } else if (key === 'copy-all') {
-      copySelectedFavorites(selectedKeys);
-    } else if (key === 'delete-all') {
-      deleteSelectedFavorites(selectedKeys);
+    } else if (key === 'copy') {
+      copySelectedFavoritesHandler(selectedKeys);
+    } else if (key === 'delete') {
+      deleteSelectedFavoritesHandler(selectedKeys);
     }
-  }
+  }, [favorites, selectedKeys]);
   
   return (
     <>
@@ -85,18 +85,18 @@ function FavoritesSection({favorites, onChange}) {
           <ActionBar
             isEmphasized
             selectedItemCount={selectedKeys.length}
-            onAction={actionCallback}
+            onAction={actionCallbackHandler}
             onClearSelection={() => setSelectedKeys([])}
           >
             <Item key="select-all">
               <Edit />
               <Text>Select All</Text>
             </Item>
-            <Item key="copy-all">
+            <Item key="copy">
               <Copy />
               <Text>Copy</Text>
             </Item>
-            <Item key="delete-all">
+            <Item key="delete">
               <Delete />
               <Text>Delete</Text>
             </Item>
@@ -113,13 +113,13 @@ function FavoritesSection({favorites, onChange}) {
                     >
                       <Flex direction="row" gap="size-100" justifyContent="right">
                         <TooltipTrigger delay={0}>
-                          <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => copyFavorite(favorite.id)}>
+                          <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => copyFavoriteHandler(favorite.id)}>
                             <Copy />
                           </ActionButton>
                           <Tooltip>Copy to Clipboard</Tooltip>
                         </TooltipTrigger>
                         <TooltipTrigger delay={0}>
-                          <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => deleteFavorite(favorite.id)}>
+                          <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => deleteFavoriteHandler(favorite.id)}>
                             <Delete />
                           </ActionButton>
                           <Tooltip>Delete Saved Variation</Tooltip>

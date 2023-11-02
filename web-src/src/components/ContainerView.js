@@ -33,7 +33,7 @@ function ContainerView() {
       <ListView
         UNSAFE_style={{ border: '2px solid lightgray', borderRadius: '10px' }}
         maxWidth="size-6000"
-        items={results.map((result) => ({ key: result, textValue: result }))}
+        items={results.map((result) => ({ key: `${result}`, textValue: `${result}`}))}
         renderEmptyState={() => (
             <IllustratedMessage>
               <WriteIcon size="S" />

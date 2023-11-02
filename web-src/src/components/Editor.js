@@ -166,6 +166,7 @@ function Editor({ setResults }) {
     completionService.complete(finalPrompt, temperature)
       .then((result) => {
         try {
+          console.log(result);
           setResults(JSON.parse(result));
         } catch (error) {
           setResults([result]);
@@ -188,9 +189,10 @@ function Editor({ setResults }) {
       width="100%" height="100%">
       <Flex direction="row" gap="size-200" alignItems={'end'} gridColumn='span 2'>
         <Picker
-          label={getLabelWithOpenLink('Prompt Template', `${websiteUrl}/prompttemplates.json`)}
+          label={getLabelWithOpenLink('Prompt Library', `${websiteUrl}/prompttemplates.json`)}
           isLoading={!promptTemplates}
-          onSelectionChange={promptSelectionHandler}>
+          onSelectionChange={promptSelectionHandler}
+          width="50%">
           {promptTemplates ? promptTemplates
             .map((template, index) => <Item key={index}>{template.label}</Item>) : []}
         </Picker>

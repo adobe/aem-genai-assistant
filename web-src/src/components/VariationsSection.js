@@ -12,14 +12,17 @@
 
 import React, { useEffect, useRef } from 'react';
 import { View, IllustratedMessage, Heading, Content, Flex, Tooltip, TooltipTrigger, ActionButton, Well } from '@adobe/react-spectrum';
+import { ToastQueue } from '@react-spectrum/toast'
+
 import Star from '@spectrum-icons/workflow/Star';
 import StarOutline from '@spectrum-icons/workflow/StarOutline';
 import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
 
 import WriteIcon from '../icons/WriteIcon';
+import { LOCAL_STORAGE_KEY } from '../constants/Constants';
 
-function VariationsSection({variations, onFavorite, onCopy, onDelete}) {
+function VariationsSection({variations, favorites, onVariationsChange, onFavoritesChange}) {
   const scrollView = useRef(null);
 
   // useEffect(() => {
@@ -32,6 +35,55 @@ function VariationsSection({variations, onFavorite, onCopy, onDelete}) {
   //     }
   //   }
   // }, [variations]);
+
+  // Function to add a favorite and update local storage
+  const favoriteVariation = (id) => {
+    const updatedVariations = variations.map(variation => {
+      if (variation.id === id) {
+        variation.isFavorite = true;
+        addFavorite(variation);
+      }
+      return variation;
+    });
+    onVariationsChange(updatedVariations);
+  }
+
+  // Function to copy a variation to the clipboard
+  const copyVariation = (id) => {
+    const variation = variations.find(variation => variation.id === id);
+    navigator.clipboard.writeText(variation.content);
+
+    ToastQueue.positive('Variation copied to clipboard!', {timeout: 2000})
+  }
+
+  // Function to delete a variation
+  const deleteVariation = (id) => {
+    const updatedVariations = variations.filter(variation => variation.id !== id);
+    onVariationsChange(updatedVariations);
+  };
+
+  // Function to add a favorite and update local storage
+  const addFavorite = (item) => {
+    if (isAlreadyFavorite(item.id)) {
+      return;
+    }
+    
+    // Add the item to the favorites state
+    const updatedFavorites = [...favorites, item];
+    onFavoritesChange(updatedFavorites);
+
+    // Update the local storage with the new favorites
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedFavorites));
+  };
+
+  // Function to check if a variation is a favorite and return boolean
+  const isAlreadyFavorite = (id) => {
+    const storedFavorites = localStorage.getItem(LOCAL_STORAGE_KEY);
+    const favorites = storedFavorites ? JSON.parse(storedFavorites) : [];
+    const favorite = favorites.find(favorite => favorite.id === id);
+    
+    return favorite ? true : false;
+  }
 
   return (
     <>
@@ -53,19 +105,19 @@ function VariationsSection({variations, onFavorite, onCopy, onDelete}) {
                 >
                   <Flex direction="row" gap="size-100" justifyContent="right">
                     <TooltipTrigger delay={0}>
-                      <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => onFavorite(variation.id)}>
+                      <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => favoriteVariation(variation.id)}>
                         {variation.isFavorite ? <Star /> : <StarOutline />}
                       </ActionButton>
                       <Tooltip>Save Variation</Tooltip>
                     </TooltipTrigger>
                     <TooltipTrigger delay={0}>
-                      <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => onCopy(variation.id)}>
+                      <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => copyVariation(variation.id)}>
                         <Copy />
                       </ActionButton>
                       <Tooltip>Copy to Clipboard</Tooltip>
                     </TooltipTrigger>
                     <TooltipTrigger delay={0}>
-                      <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => onDelete(variation.id)}>
+                      <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => deleteVariation(variation.id)}>
                         <Delete />
                       </ActionButton>
                       <Tooltip>Remove Variation</Tooltip>

@@ -12,7 +12,6 @@
 
 import React, { useEffect, useState } from 'react';
 import { Grid, View, Tabs, TabList, TabPanels, Item, Text } from '@adobe/react-spectrum';
-import { ToastQueue } from '@react-spectrum/toast'
 
 import AnnotatePen from '@spectrum-icons/workflow/AnnotatePen';
 import Star from '@spectrum-icons/workflow/Star';
@@ -37,87 +36,6 @@ function ContainerView() {
     }
   }, []);
 
-  // Function to add a favorite and update local storage
-  const addFavorite = (item) => {
-    if (isAlreadyFavorite(item.id)) {
-      return;
-    }
-    
-    // Add the item to the favorites state
-    const updatedFavorites = [...favorites, item];
-    setFavorites(updatedFavorites);
-
-    // Update the local storage with the new favorites
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedFavorites));
-  };
-
-  // Function to delete a favorite and update local storage
-  const deleteFavorite = (id) => {
-    // Filter out the item with the matching id
-    const updatedFavorites = favorites.filter(favorite => favorite.id !== id);
-    setFavorites(updatedFavorites);
-
-    // Update the local storage with the new favorites
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedFavorites));
-  };
-
-  // Function to delete all the selected favorites and update local storage
-  const deleteSelectedFavorites = (keys) => {
-    const updatedFavorites = favorites.filter(favorite => !keys.includes(favorite.id));
-    setFavorites(updatedFavorites);
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedFavorites));
-
-    ToastQueue.positive('Selected saved variations deleted successfully!', {timeout: 2000})
-  };
-
-  // Function to check if a variation is a favorite and return boolean
-  const isAlreadyFavorite = (id) => {
-    const storedFavorites = localStorage.getItem(LOCAL_STORAGE_KEY);
-    const favorites = storedFavorites ? JSON.parse(storedFavorites) : [];
-    const favorite = favorites.find(favorite => favorite.id === id);
-    
-    return favorite ? true : false;
-  }
-
-  const favoriteVariation = (id) => {
-    const updatedVariations = variations.map(variation => {
-      if (variation.id === id) {
-        variation.isFavorite = true;
-        addFavorite(variation);
-      }
-      return variation;
-    });
-    setVariations(updatedVariations);
-  }
-
-  const copyVariation = (id) => {
-    const variation = variations.find(variation => variation.id === id);
-    navigator.clipboard.writeText(variation.content);
-
-    ToastQueue.positive('Variation copied to clipboard!', {timeout: 2000})
-  }
-
-  const copyFavorite = (id) => {
-    const favorite = favorites.find(favorite => favorite.id === id);
-    navigator.clipboard.writeText(favorite.content);
-
-    ToastQueue.positive('Variation copied to clipboard!', {timeout: 2000})
-  }
-
-  const copySelectedFavorites = (keys) => {
-    const selectedFavorites = favorites.filter(favorite => keys.includes(favorite.id));
-    const selectedFavoritesContent = selectedFavorites.map(favorite => favorite.content);
-    const selectedFavoritesContentString = selectedFavoritesContent.join('\r\n');
-    navigator.clipboard.writeText(selectedFavoritesContentString);
-
-    ToastQueue.positive('Selected saved variations copied successfully!', {timeout: 2000})
-  }
-
-  const deleteVariation = (id) => {
-    const updatedVariations = variations.filter(variation => variation.id !== id);
-    setVariations(updatedVariations);
-  };
-
   return (
     <Grid
       areas={[
@@ -138,10 +56,10 @@ function ContainerView() {
           </TabList>
           <TabPanels UNSAFE_style={{"overflow": "auto"}}>
             <Item key="variations">
-              <VariationsSection variations={variations} onFavorite={favoriteVariation} onCopy={copyVariation} onDelete={deleteVariation}/>
+              <VariationsSection variations={variations} favorites={favorites} onVariationsChange={setVariations} onFavoritesChange={setFavorites} />
             </Item>
             <Item key="favorites">
-              <FavoritesSection favorites={favorites} onCopy={copyFavorite} onDelete={deleteFavorite} onBulkCopy= {copySelectedFavorites} onBulkDelete={deleteSelectedFavorites}/>
+              <FavoritesSection favorites={favorites} onChange={setFavorites} />
             </Item>
           </TabPanels>
         </Tabs>

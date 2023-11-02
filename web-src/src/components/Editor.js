@@ -11,7 +11,7 @@
  */
 import React, { useCallback, useEffect } from 'react';
 import {
-  Item, Button, Grid, Picker, Flex, NumberField, Switch, Slider, Link, TextField,
+  Item, Button, Grid, Picker, Flex, NumberField, Switch, Slider, Link, TextField, View,
 } from '@adobe/react-spectrum';
 import OpenIcon from '@spectrum-icons/workflow/OpenInLight';
 /* eslint-disable-next-line import/no-named-default */
@@ -70,7 +70,6 @@ function findCustomExpressions(text) {
 }
 
 function replaceTemplateStrings(str, valuesMap) {
-  console.log(valuesMap);
   return str.replace(EXPRESSION_REGEX, (match, key) => {
     return key in valuesMap ? (valuesMap[key] || '<please select>') : '<please select>';
   });
@@ -148,8 +147,6 @@ function Editor() {
     setBlockDescription(blockTypes[selected].description);
   }, [blockTypes]);
 
-  console.log(customExpressions);
-
   return (
     <Grid
       columns={['auto', 'min-content']}
@@ -167,20 +164,16 @@ function Editor() {
         </Picker>
         <Switch isSelected={sourceView} onChange={setSourceView}>Edit Mode</Switch>
       </Flex>
-      <SimpleEditor
-        /* eslint-disable-next-line max-len */
-        value={renderPrompt(prompt, segment, blockType, blockDescription, customExpressions, variationCount, sourceView)}
-        onValueChange={setPrompt}
-        highlight={(code) => highlight(code, languages.custom, 'custom')}
-        readOnly={!sourceView}
-        padding={10}
-        style={{
-          border: '1px solid grey',
-          borderRadius: 5,
-          backgroundColor: sourceView ? 'white' : 'transparent',
-          whiteSpace: 'pre-wrap',
-        }}
-      />
+      <View UNSAFE_className={['editor-container', sourceView ? 'editable' : ''].join(' ')}>
+        <SimpleEditor
+          /* eslint-disable-next-line max-len */
+          className="editor"
+          value={renderPrompt(prompt, segment, blockType, blockDescription, customExpressions, variationCount, sourceView)}
+          onValueChange={setPrompt}
+          highlight={(code) => highlight(code, languages.custom, 'custom')}
+          readOnly={!sourceView}
+        />
+      </View>
       <Flex direction="column" gap="size-200" alignItems="start">
         <Picker
           label={getLabelWithOpenLink('Block Type', `${websiteUrl}/${BLOCK_TYPES_FILENAME}`)}

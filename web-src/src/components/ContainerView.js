@@ -23,10 +23,9 @@ function ContainerView() {
         'prompt variations',
       ]}
       columns={['2fr', '1.5fr']}
-      rows={['auto']}
-      height="100%"
-      >
-      <View gridArea="prompt" UNSAFE_style={{ paddingRight: '30px' }}>
+      rows={['minmax(0, 1fr)']}
+      height="100%">
+      <View gridArea="prompt" UNSAFE_style={{ paddingRight: '30px', height: '100%' }}>
         <Editor />
       </View>
       <View gridArea="variations" UNSAFE_style={{ paddingLeft: '30px', border: '2px solid lightgray', borderRadius: '10px' }}>

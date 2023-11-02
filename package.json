@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "aio app run",
-    "build": "aio app build",
+    "start": "aio app run",
+    "deploy:app": "aio app deploy --no-actions",
+    "deploy:actions": "aio app deploy --no-web-assets",
     "deploy": "aio app deploy",
     "lint": "eslint web-src/src/**/*.js test/**/*.js",
     "fix": "eslint web-src/src/**/*.js test/**/*.js --fix",

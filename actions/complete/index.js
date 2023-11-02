@@ -5,7 +5,6 @@ async function getAccessToken(params) {
   const endpoint = params['IMS_ENDPOINT']
   const clientId = params['IMS_CLIENT_ID']
   const clientSecret = params['IMS_CLIENT_SECRET']
-  const pac = params['IMS_PAC']
 
   const json = await wretch(endpoint + '/ims/token/v2')
     .addon(FormDataAddon).formData({
@@ -24,10 +23,6 @@ async function completion(params, accessToken, prompt, model, temperature) {
   const endpoint = params['FIREFALL_ENDPOINT']
   const apiKey = params['FIREFALL_API_KEY']
   const org = params['FIREFALL_IMS_ORG']
-
-  console.log(endpoint)
-  console.log(apiKey)
-  console.log(org)
 
   return await wretch(endpoint + '/v1/completions')
     .headers({

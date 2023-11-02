@@ -27,6 +27,13 @@ const PROMPT_TEMPLATES_FILENAME = 'prompttemplates.json';
 const SEGMENTS_FILENAME = 'segments.json';
 const BLOCK_TYPES_FILENAME = 'blocktypes.json';
 
+const CREATIVITY_LABELS = [
+  'Conventional',
+  'Balanced',
+  'Innovator',
+  'Visionary',
+];
+
 languages.custom = {
   function: EXPRESSION_REGEX,
   variable: /<please select>/,
@@ -76,13 +83,12 @@ function replaceTemplateStrings(str, valuesMap) {
 }
 
 /* eslint-disable-next-line max-len */
-function renderPrompt(prompt, segment, blockType, blockDescription, customExpressions, variationCount, sourceView) {
+function renderPrompt(prompt, segment, blockType, blockDescription, customExpressions, sourceView) {
   return sourceView ? prompt : replaceTemplateStrings(prompt, {
     segment,
     block_type: blockType,
     block_description: blockDescription,
-    ...customExpressions,
-    num: variationCount,
+    ...customExpressions
   });
 }
 
@@ -110,7 +116,7 @@ function getCustomComponents(expressions, state, setState) {
   });
 }
 
-function Editor() {
+function Editor({ setResults }) {
   const { websiteUrl, completionService } = useApplicationContext();
 
   const [promptTemplates, setPromptTemplates] = React.useState([]);
@@ -120,9 +126,10 @@ function Editor() {
   const [blockType, setBlockType] = React.useState('');
   const [blockDescription, setBlockDescription] = React.useState('');
   const [customExpressions, setCustomExpressions] = React.useState([]);
-  const [variationCount, setVariationCount] = React.useState(1);
   const [sourceView, setSourceView] = React.useState(false);
   const [prompt, setPrompt] = React.useState('');
+  const [temperature, setTemperature] = React.useState(0.30);
+  const [busy, setBusy] = React.useState(false);
 
   useEffect(() => {
     /* eslint-disable-next-line no-shadow */
@@ -147,6 +154,31 @@ function Editor() {
     setBlockDescription(blockTypes[selected].description);
   }, [blockTypes]);
 
+  const completionHandler = useCallback(() => {
+    setBusy(true);
+    const finalPrompt = renderPrompt(
+      prompt,
+      segment,
+      blockType,
+      blockDescription,
+      customExpressions,
+      sourceView);
+    completionService.complete(finalPrompt, temperature)
+      .then((result) => {
+        try {
+          setResults(JSON.parse(result));
+        } catch (error) {
+          setResults([result]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setBusy(false);
+      });
+  }, [completionService, prompt, temperature, customExpressions]);
+
   return (
     <Grid
       columns={['auto', 'min-content']}
@@ -168,7 +200,7 @@ function Editor() {
         <SimpleEditor
           className="editor"
           /* eslint-disable-next-line max-len */
-          value={renderPrompt(prompt, segment, blockType, blockDescription, customExpressions, variationCount, sourceView)}
+          value={renderPrompt(prompt, segment, blockType, blockDescription, customExpressions, sourceView)}
           onValueChange={setPrompt}
           highlight={(code) => highlight(code, languages.custom, 'custom')}
           readOnly={!sourceView}
@@ -190,16 +222,17 @@ function Editor() {
             .map((seg, index) => <Item key={index}>{seg.label}</Item>) : []}
         </Picker>
         {getCustomComponents(findCustomExpressions(prompt), customExpressions, setCustomExpressions)}
-        <NumberField label="Number Of Variants" defaultValue={4} minValue={1} maxValue={4} onChange={setVariationCount} />
       </Flex>
       <Flex direction="row" gap="size-400" gridColumn='span 2' alignItems="center">
-        <Button variant="primary" onPress={() => console.log(completionService.complete('prompt', 0.1))}>Generate</Button>
+        <Button variant="primary" onPress={completionHandler} isDisabled={busy}>Generate</Button>
         <Slider
           label="Creativity"
-          maxValue={1.0}
-          step={0.001}
-          formatOptions={{ style: 'percent', minimumFractionDigits: 1 }}
-          defaultValue={0.1} />
+          minValue={0.0}
+          maxValue={0.9}
+          step={0.30}
+          getValueLabel={(value) => CREATIVITY_LABELS[value / 0.30]}
+          onChange={setTemperature}
+          defaultValue={temperature} />
       </Flex>
     </Grid>
   );

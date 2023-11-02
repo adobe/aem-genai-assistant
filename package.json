@@ -2,7 +2,6 @@
   "name": "aem-genai-assistent",
   "version": "1.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "start": "aio app run",
     "deploy:app": "aio app deploy --no-actions",

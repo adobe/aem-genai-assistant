@@ -9,14 +9,16 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React from 'react';
+import React, {useState} from 'react';
 import {
-  Content, Grid, Heading, IllustratedMessage, View,
+  Content, Grid, Heading, IllustratedMessage, Item, ListView, View, Text,
 } from '@adobe/react-spectrum';
 import WriteIcon from '../icons/WriteIcon.js';
 import Editor from './Editor.js';
 
 function ContainerView() {
+  const [results, setResults] = useState([]);
+
   return (
     <Grid
       areas={[
@@ -26,15 +28,27 @@ function ContainerView() {
       rows={['minmax(0, 1fr)']}
       height="100%">
       <View gridArea="prompt" UNSAFE_style={{ paddingRight: '30px', height: '100%' }}>
-        <Editor />
+        <Editor setResults={setResults} />
       </View>
-      <View gridArea="variations" UNSAFE_style={{ paddingLeft: '30px', border: '2px solid lightgray', borderRadius: '10px' }}>
-        <IllustratedMessage>
-          <WriteIcon size="S"/>
-          <Heading>Nothing here yet</Heading>
-          <Content>Type in a prompt to generate content</Content>
-        </IllustratedMessage>
-      </View>
+      <ListView
+        UNSAFE_style={{ border: '2px solid lightgray', borderRadius: '10px' }}
+        maxWidth="size-6000"
+        items={results.map((result) => ({ key: result, textValue: result }))}
+        renderEmptyState={() => (
+            <IllustratedMessage>
+              <WriteIcon size="S" />
+              <Heading>Nothing here yet</Heading>
+              <Content>Type in a prompt to generate content</Content>
+            </IllustratedMessage>
+          )}>
+        {(item) => (
+          <Item key={item.key} textValue="Utilities" hasChildItems>
+            <View>
+              <Text>{item.textValue}</Text>
+            </View>
+          </Item>
+        )}
+      </ListView>
     </Grid>
   );
 }

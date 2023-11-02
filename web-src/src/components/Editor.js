@@ -166,8 +166,8 @@ function Editor() {
       </Flex>
       <View UNSAFE_className={['editor-container', sourceView ? 'editable' : ''].join(' ')}>
         <SimpleEditor
-          /* eslint-disable-next-line max-len */
           className="editor"
+          /* eslint-disable-next-line max-len */
           value={renderPrompt(prompt, segment, blockType, blockDescription, customExpressions, variationCount, sourceView)}
           onValueChange={setPrompt}
           highlight={(code) => highlight(code, languages.custom, 'custom')}

@@ -9,15 +9,36 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, {useState} from 'react';
+
+import React, { useEffect, useState } from 'react';
 import {
-  Content, Grid, Heading, IllustratedMessage, Item, ListView, View, Text,
+  Content, Grid, Heading, IllustratedMessage, Item, ListView, View, Text, Tabs, TabList, TabPanels,
 } from '@adobe/react-spectrum';
-import WriteIcon from '../icons/WriteIcon.js';
+
+import AnnotatePen from '@spectrum-icons/workflow/AnnotatePen';
+import Star from '@spectrum-icons/workflow/Star.js';
+
 import Editor from './Editor.js';
+import VariationsSection from './VariationsSection.js';
+import FavoritesSection from './FavoritesSection.js';
+import { MOCK_VARIATIONS, LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 
 function ContainerView() {
   const [results, setResults] = useState([]);
+
+  const [variations, setVariations] = useState(MOCK_VARIATIONS);
+  const [favorites, setFavorites] = useState([]);
+
+  // Effect to run on component mount to initialize favorites from local storage
+  useEffect(() => {
+    // Get the favorites from local storage
+    const storedFavorites = localStorage.getItem(LOCAL_STORAGE_KEY);
+
+    // If there are stored favorites, parse and set them as the initial state
+    if (storedFavorites) {
+      setFavorites(JSON.parse(storedFavorites));
+    }
+  }, []);
 
   return (
     <Grid
@@ -48,6 +69,22 @@ function ContainerView() {
           </Item>
         )}
       </ListView>
+      {/* <View gridArea="variations" paddingLeft="30px" borderWidth="thick" borderColor="gray-300" borderRadius="medium" overflow="auto">
+        <Tabs aria-label="Tabs" height="100%">
+          <TabList>
+            <Item key="variations"><AnnotatePen /><Text>Variations</Text></Item>
+            <Item key="favorites"><Star /><Text>Favorites</Text></Item>
+          </TabList>
+          <TabPanels UNSAFE_style={{"overflow": "auto"}}>
+            <Item key="variations">
+              <VariationsSection variations={variations} favorites={favorites} onVariationsChange={setVariations} onFavoritesChange={setFavorites} />
+            </Item>
+            <Item key="favorites">
+              <FavoritesSection favorites={favorites} onChange={setFavorites} />
+            </Item>
+          </TabPanels>
+        </Tabs>
+      </View> */}
     </Grid>
   );
 }

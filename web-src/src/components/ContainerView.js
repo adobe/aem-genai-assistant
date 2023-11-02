@@ -24,7 +24,7 @@ function ContainerView() {
       areas={[
         'prompt variations',
       ]}
-      columns={['2fr', '1.5fr']}
+      columns={['2fr', '1fr']}
       rows={['minmax(0, 1fr)']}
       height="100%">
       <View gridArea="prompt" UNSAFE_style={{ paddingRight: '30px', height: '100%' }}>
@@ -32,7 +32,6 @@ function ContainerView() {
       </View>
       <ListView
         UNSAFE_style={{ border: '2px solid lightgray', borderRadius: '10px' }}
-        maxWidth="size-6000"
         items={results.map((result) => ({ key: `${result}`, textValue: `${result}`}))}
         renderEmptyState={() => (
             <IllustratedMessage>

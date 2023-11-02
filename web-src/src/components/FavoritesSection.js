@@ -53,11 +53,11 @@ function FavoritesSection({favorites, onCopy, onDelete, onBulkCopy, onBulkDelete
             </Item>
             <Item key="copy-all">
               <Copy />
-              <Text>Copy All</Text>
+              <Text>Copy</Text>
             </Item>
             <Item key="delete-all">
               <Delete />
-              <Text>Delete All</Text>
+              <Text>Delete</Text>
             </Item>
           </ActionBar>
           <View marginTop="size-300">

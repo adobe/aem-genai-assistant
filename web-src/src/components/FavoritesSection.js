@@ -78,7 +78,7 @@ function FavoritesSection({favorites, onChange}) {
         <IllustratedMessage>
           <WriteIcon size="S"/>
           <Heading>Nothing here yet</Heading>
-          <Content>Favorite your generated favorites</Content>
+          <Content>Favorite your generated variations</Content>
         </IllustratedMessage>
       ) : (
         <ActionBarContainer height="size-900">

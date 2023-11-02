@@ -11,3 +11,8 @@ application:
             runtime: nodejs:18
             inputs:
               LOG_LEVEL: debug
+              FIREFALL_API_KEY: $FIREFALL_API_KEY
+              FIREFALL_IMSS_ORG: $FIREFALL_IMSS_ORG
+              IMSS_CLIENT_ID: $IMSS_CLIENT_ID
+              IMSS_CLIENT_SECRET: $IMSS_CLIENT_SECRET
+              IMSS_SERVICE_PERMANENT_ATHORIZATION_CODE: $IMSS_SERVICE_PERMANENT_ATHORIZATION_CODE

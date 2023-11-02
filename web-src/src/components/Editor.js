@@ -11,7 +11,7 @@
  */
 import React, { useCallback, useEffect } from 'react';
 import {
-  Item, Button, Grid, Picker, Flex, NumberField, Switch, Slider, Link, TextField,
+  Item, Button, Grid, Picker, Flex, NumberField, Switch, Slider, Link, TextField, View,
 } from '@adobe/react-spectrum';
 import OpenIcon from '@spectrum-icons/workflow/OpenInLight';
 /* eslint-disable-next-line import/no-named-default */
@@ -26,6 +26,13 @@ const EXPRESSION_REGEX = /\{([^|]+?)(?:\|([^}]+?))?\}/g;
 const PROMPT_TEMPLATES_FILENAME = 'prompttemplates.json';
 const SEGMENTS_FILENAME = 'segments.json';
 const BLOCK_TYPES_FILENAME = 'blocktypes.json';
+
+const CREATIVITY_LABELS = [
+  'Conventional',
+  'Balanced',
+  'Innovator',
+  'Visionary',
+];
 
 languages.custom = {
   function: EXPRESSION_REGEX,
@@ -70,20 +77,18 @@ function findCustomExpressions(text) {
 }
 
 function replaceTemplateStrings(str, valuesMap) {
-  console.log(valuesMap);
   return str.replace(EXPRESSION_REGEX, (match, key) => {
     return key in valuesMap ? (valuesMap[key] || '<please select>') : '<please select>';
   });
 }
 
 /* eslint-disable-next-line max-len */
-function renderPrompt(prompt, segment, blockType, blockDescription, customExpressions, variationCount, sourceView) {
+function renderPrompt(prompt, segment, blockType, blockDescription, customExpressions, sourceView) {
   return sourceView ? prompt : replaceTemplateStrings(prompt, {
     segment,
     block_type: blockType,
     block_description: blockDescription,
-    ...customExpressions,
-    num: variationCount,
+    ...customExpressions
   });
 }
 
@@ -111,7 +116,7 @@ function getCustomComponents(expressions, state, setState) {
   });
 }
 
-function Editor() {
+function Editor({ setResults }) {
   const { websiteUrl, completionService } = useApplicationContext();
 
   const [promptTemplates, setPromptTemplates] = React.useState([]);
@@ -121,9 +126,10 @@ function Editor() {
   const [blockType, setBlockType] = React.useState('');
   const [blockDescription, setBlockDescription] = React.useState('');
   const [customExpressions, setCustomExpressions] = React.useState([]);
-  const [variationCount, setVariationCount] = React.useState(1);
   const [sourceView, setSourceView] = React.useState(false);
   const [prompt, setPrompt] = React.useState('');
+  const [temperature, setTemperature] = React.useState(0.30);
+  const [busy, setBusy] = React.useState(false);
 
   useEffect(() => {
     /* eslint-disable-next-line no-shadow */
@@ -148,7 +154,31 @@ function Editor() {
     setBlockDescription(blockTypes[selected].description);
   }, [blockTypes]);
 
-  console.log(customExpressions);
+  const completionHandler = useCallback(() => {
+    setBusy(true);
+    const finalPrompt = renderPrompt(
+      prompt,
+      segment,
+      blockType,
+      blockDescription,
+      customExpressions,
+      sourceView);
+    completionService.complete(finalPrompt, temperature)
+      .then((result) => {
+        try {
+          console.log(result);
+          setResults(JSON.parse(result));
+        } catch (error) {
+          setResults([result]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setBusy(false);
+      });
+  }, [completionService, prompt, temperature, customExpressions]);
 
   return (
     <Grid
@@ -159,28 +189,25 @@ function Editor() {
       width="100%" height="100%">
       <Flex direction="row" gap="size-200" alignItems={'end'} gridColumn='span 2'>
         <Picker
-          label={getLabelWithOpenLink('Prompt Template', `${websiteUrl}/prompttemplates.json`)}
+          label={getLabelWithOpenLink('Prompt Library', `${websiteUrl}/prompttemplates.json`)}
           isLoading={!promptTemplates}
-          onSelectionChange={promptSelectionHandler}>
+          onSelectionChange={promptSelectionHandler}
+          width="50%">
           {promptTemplates ? promptTemplates
             .map((template, index) => <Item key={index}>{template.label}</Item>) : []}
         </Picker>
         <Switch isSelected={sourceView} onChange={setSourceView}>Edit Mode</Switch>
       </Flex>
-      <SimpleEditor
-        /* eslint-disable-next-line max-len */
-        value={renderPrompt(prompt, segment, blockType, blockDescription, customExpressions, variationCount, sourceView)}
-        onValueChange={setPrompt}
-        highlight={(code) => highlight(code, languages.custom, 'custom')}
-        readOnly={!sourceView}
-        padding={10}
-        style={{
-          border: '1px solid grey',
-          borderRadius: 5,
-          backgroundColor: sourceView ? 'white' : 'transparent',
-          whiteSpace: 'pre-wrap',
-        }}
-      />
+      <View UNSAFE_className={['editor-container', sourceView ? 'editable' : ''].join(' ')}>
+        <SimpleEditor
+          className="editor"
+          /* eslint-disable-next-line max-len */
+          value={renderPrompt(prompt, segment, blockType, blockDescription, customExpressions, sourceView)}
+          onValueChange={setPrompt}
+          highlight={(code) => highlight(code, languages.custom, 'custom')}
+          readOnly={!sourceView}
+        />
+      </View>
       <Flex direction="column" gap="size-200" alignItems="start">
         <Picker
           label={getLabelWithOpenLink('Block Type', `${websiteUrl}/${BLOCK_TYPES_FILENAME}`)}
@@ -197,16 +224,17 @@ function Editor() {
             .map((seg, index) => <Item key={index}>{seg.label}</Item>) : []}
         </Picker>
         {getCustomComponents(findCustomExpressions(prompt), customExpressions, setCustomExpressions)}
-        <NumberField label="Number Of Variants" defaultValue={4} minValue={1} maxValue={4} onChange={setVariationCount} />
       </Flex>
       <Flex direction="row" gap="size-400" gridColumn='span 2' alignItems="center">
-        <Button variant="primary" onPress={() => console.log(completionService.complete('prompt', 0.1))}>Generate</Button>
+        <Button variant="primary" onPress={completionHandler} isDisabled={busy}>Generate</Button>
         <Slider
           label="Creativity"
-          maxValue={1.0}
-          step={0.001}
-          formatOptions={{ style: 'percent', minimumFractionDigits: 1 }}
-          defaultValue={0.1} />
+          minValue={0.0}
+          maxValue={0.9}
+          step={0.30}
+          getValueLabel={(value) => CREATIVITY_LABELS[value / 0.30]}
+          onChange={setTemperature}
+          defaultValue={temperature} />
       </Flex>
     </Grid>
   );

@@ -12,7 +12,7 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-  Grid, View, Tabs, TabList, TabPanels, Item, Text,
+  Content, Grid, Heading, IllustratedMessage, Item, ListView, View, Text, Tabs, TabList, TabPanels,
 } from '@adobe/react-spectrum';
 
 import AnnotatePen from '@spectrum-icons/workflow/AnnotatePen';
@@ -24,6 +24,8 @@ import FavoritesSection from './FavoritesSection.js';
 import { MOCK_VARIATIONS, LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 
 function ContainerView() {
+  const [results, setResults] = useState([]);
+
   const [variations, setVariations] = useState(MOCK_VARIATIONS);
   const [favorites, setFavorites] = useState([]);
 
@@ -43,14 +45,31 @@ function ContainerView() {
       areas={[
         'prompt variations',
       ]}
-      columns={['2fr', '1.5fr']}
-      rows={['auto']}
-      height="100%"
-      >
-      <View gridArea="prompt" UNSAFE_style={{ paddingRight: '30px' }}>
-        <Editor />
+      columns={['2fr', '1fr']}
+      rows={['minmax(0, 1fr)']}
+      height="100%">
+      <View gridArea="prompt" UNSAFE_style={{ paddingRight: '30px', height: '100%' }}>
+        <Editor setResults={setResults} />
       </View>
-      <View gridArea="variations" paddingLeft="30px" borderWidth="thick" borderColor="gray-300" borderRadius="medium" overflow="auto">
+      <ListView
+        UNSAFE_style={{ border: '2px solid lightgray', borderRadius: '10px' }}
+        items={results.map((result) => ({ key: `${result}`, textValue: `${result}`}))}
+        renderEmptyState={() => (
+            <IllustratedMessage>
+              <WriteIcon size="S" />
+              <Heading>Nothing here yet</Heading>
+              <Content>Type in a prompt to generate content</Content>
+            </IllustratedMessage>
+          )}>
+        {(item) => (
+          <Item key={item.key} textValue="Utilities" hasChildItems>
+            <View>
+              <Text>{item.textValue}</Text>
+            </View>
+          </Item>
+        )}
+      </ListView>
+      {/* <View gridArea="variations" paddingLeft="30px" borderWidth="thick" borderColor="gray-300" borderRadius="medium" overflow="auto">
         <Tabs aria-label="Tabs" height="100%">
           <TabList>
             <Item key="variations"><AnnotatePen /><Text>Variations</Text></Item>
@@ -65,7 +84,7 @@ function ContainerView() {
             </Item>
           </TabPanels>
         </Tabs>
-      </View>
+      </View> */}
     </Grid>
   );
 }

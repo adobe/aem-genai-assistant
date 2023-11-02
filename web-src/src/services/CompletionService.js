@@ -9,14 +9,21 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+import wretch from 'wretch';
+
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+console.log(`API_ENDPOINT: ${API_ENDPOINT}`);
+
 export class CompletionService {
   constructor() {
     console.log('CompletionService constructor');
   }
 
   /* eslint-disable class-methods-use-this */
-  complete(text, temperature) {
-    console.log(`CompletionService complete: ${text}, ${temperature}`);
-    return 'completed text';
+  async complete(prompt, temperature) {
+    console.log(`CompletionService complete prompt: ${prompt} temperature: ${temperature}`);
+    const json = await wretch(`${API_ENDPOINT}?prompt=${encodeURIComponent(prompt)}&t=${temperature}`).get().json();
+    // TODO: handle error response
+    return json['generations'][0][0]['message']['content'];
   }
 }

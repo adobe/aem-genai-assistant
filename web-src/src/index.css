@@ -31,4 +31,36 @@ body {
   color: inherit;
 }
 
+.editor-container {
+  overflow: scroll;
+  padding: 0 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+}
+
+.editor-container.editable {
+  background-color: white;
+}
+
+.editor textarea:focus  {
+  outline: none;
+}
+
+.editor-container {
+  overflow: scroll;
+  padding: 0 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f5f5f5;
+}
+
+.editor-container.editable {
+  background-color: white;
+}
+
+.editor textarea:focus  {
+  outline: none;
+}
+
 .hover-cursor-pointer:hover { cursor: pointer; }

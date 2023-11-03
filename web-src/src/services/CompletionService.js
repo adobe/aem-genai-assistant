@@ -11,19 +11,15 @@
  */
 import wretch from 'wretch';
 
-const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
-console.log(`API_ENDPOINT: ${API_ENDPOINT}`);
-
 export class CompletionService {
-  constructor() {
-    console.log('CompletionService constructor');
+  constructor(endpoint) {
+    this.endpoint = endpoint;
+    console.log(`CompletionService endpoint: ${endpoint}`);
   }
 
-  /* eslint-disable class-methods-use-this */
   async complete(prompt, temperature) {
     console.log(`CompletionService complete prompt: ${prompt} temperature: ${temperature}`);
-    const json = await wretch(`${API_ENDPOINT}?prompt=${encodeURIComponent(prompt)}&t=${temperature}`).get().json();
-    // TODO: handle error response
-    return json['generations'][0][0]['message']['content'];
+    const json = await wretch(`${this.endpoint}?prompt=${encodeURIComponent(prompt)}&t=${temperature}`).get().json();
+    return json.generations[0][0].message.content;
   }
 }

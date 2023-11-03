@@ -11,8 +11,11 @@
  */
 
 import React, { useState, useCallback } from 'react';
-import { View, IllustratedMessage, Heading, Content, Flex, Tooltip, TooltipTrigger, ActionButton, Well, CheckboxGroup, Checkbox, ActionBarContainer, ActionBar, Item, Text } from '@adobe/react-spectrum';
-import { ToastQueue } from '@react-spectrum/toast'
+import {
+  View, IllustratedMessage, Heading, Content, Flex, Tooltip, TooltipTrigger,
+  ActionButton, Well, CheckboxGroup, Checkbox, ActionBarContainer, ActionBar, Item, Text,
+} from '@adobe/react-spectrum';
+import { ToastQueue } from '@react-spectrum/toast';
 
 import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
@@ -21,31 +24,32 @@ import Edit from '@spectrum-icons/workflow/Edit';
 import WriteIcon from '../icons/WriteIcon.js';
 import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 
-function FavoritesSection({favorites, onChange}) {
+function FavoritesSection({ favorites, onChange }) {
   const [selectedKeys, setSelectedKeys] = useState([]);
 
   // Function to copy a favorite to the clipboard
   const copyFavoriteHandler = useCallback((id) => {
-    const favorite = favorites.find(favorite => favorite.id === id);
+    /* eslint-disable-next-line no-shadow */
+    const favorite = favorites.find((favorite) => favorite.id === id);
     navigator.clipboard.writeText(favorite.content);
 
-    ToastQueue.positive('Variation copied to clipboard!', {timeout: 2000})
+    ToastQueue.positive('Variation copied to clipboard!', { timeout: 2000 });
   }, [favorites]);
 
   // Function to copy all the selected favorites to the clipboard
   const copySelectedFavoritesHandler = useCallback((keys) => {
-    const selectedFavorites = favorites.filter(favorite => keys.includes(favorite.id));
-    const selectedFavoritesContent = selectedFavorites.map(favorite => favorite.content);
+    const selectedFavorites = favorites.filter((favorite) => keys.includes(favorite.id));
+    const selectedFavoritesContent = selectedFavorites.map((favorite) => favorite.content);
     const selectedFavoritesContentString = selectedFavoritesContent.join('\r\n');
     navigator.clipboard.writeText(selectedFavoritesContentString);
 
-    ToastQueue.positive('Selected saved variations copied successfully!', {timeout: 2000})
+    ToastQueue.positive('Selected saved variations copied successfully!', { timeout: 2000 });
   }, [favorites]);
 
   // Function to delete a favorite and update local storage
   const deleteFavoriteHandler = useCallback((id) => {
     // Filter out the item with the matching id
-    const updatedFavorites = favorites.filter(favorite => favorite.id !== id);
+    const updatedFavorites = favorites.filter((favorite) => favorite.id !== id);
     onChange(updatedFavorites);
 
     // Update the local storage with the new favorites
@@ -54,11 +58,11 @@ function FavoritesSection({favorites, onChange}) {
 
   // Function to delete all the selected favorites and update local storage
   const deleteSelectedFavoritesHandler = useCallback((keys) => {
-    const updatedFavorites = favorites.filter(favorite => !keys.includes(favorite.id));
+    const updatedFavorites = favorites.filter((favorite) => !keys.includes(favorite.id));
     onChange(updatedFavorites);
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedFavorites));
 
-    ToastQueue.positive('Selected saved variations deleted successfully!', {timeout: 2000})
+    ToastQueue.positive('Selected saved variations deleted successfully!', { timeout: 2000 });
   }, [favorites]);
 
   // Function to handle the action bar actions
@@ -71,7 +75,7 @@ function FavoritesSection({favorites, onChange}) {
       deleteSelectedFavoritesHandler(selectedKeys);
     }
   }, [favorites, selectedKeys]);
-  
+
   return (
     <>
       {(favorites.length === 0) ? (
@@ -104,8 +108,8 @@ function FavoritesSection({favorites, onChange}) {
           <View marginTop="size-300">
             <Flex direction="column" gap="size-300">
               <CheckboxGroup value={selectedKeys} onChange={setSelectedKeys}>
-                {favorites.length &&
-                  favorites.map((favorite) => (
+                {favorites.length
+                  && favorites.map((favorite) => (
                     <View
                       paddingRight="size-300"
                       paddingBottom="size-300"
@@ -127,7 +131,7 @@ function FavoritesSection({favorites, onChange}) {
                       </Flex>
                       <Flex direction="row" justifyContent="space-between" gap="size-10">
                         <Checkbox value={favorite.id} />
-                        < Well UNSAFE_style={{ "whiteSpace": "pre-wrap" }}>{favorite.content}</Well>
+                        < Well UNSAFE_style={{ whiteSpace: 'pre-wrap' }}>{favorite.content}</Well>
                       </Flex>
                     </View>
                   ))}
@@ -137,7 +141,7 @@ function FavoritesSection({favorites, onChange}) {
         </ActionBarContainer>
       )}
     </>
-  )
+  );
 }
 
 export default FavoritesSection;

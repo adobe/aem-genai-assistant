@@ -12,6 +12,9 @@
 import React, { useContext } from 'react';
 import { CompletionService } from '../services/CompletionService.js';
 
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+console.log(`API_ENDPOINT: ${API_ENDPOINT}`);
+
 function getWebsiteUrlFromReferrer() {
   /* eslint-disable-next-line no-undef */
   const searchParams = new URLSearchParams(window.location.search);
@@ -26,7 +29,7 @@ function getWebsiteUrlFromReferrer() {
 function createApplication() {
   return {
     websiteUrl: getWebsiteUrlFromReferrer(),
-    completionService: new CompletionService(),
+    completionService: new CompletionService(API_ENDPOINT),
   };
 }
 

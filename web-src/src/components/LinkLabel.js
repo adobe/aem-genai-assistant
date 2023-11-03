@@ -9,26 +9,14 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-module.exports = {
-  root: true,
-  extends: [
-    "@adobe/helix",
-    "eslint:recommended",
-    "plugin:react/recommended"
-  ],
-  rules: {
-    'no-console': 'off',
-    'no-unused-vars': 'off',
-    'arrow-body-style': 'off',
-    'react/prop-types': 'off',
-    'max-len': [ 'error', {
-      'ignoreTemplateLiterals': true,
-      'ignoreStrings': true,
-      'code': 120
-    }]
-  },
-  env: {
-    browser: true,
-    jest: true,
-  },
-};
+import { Link } from '@adobe/react-spectrum';
+import OpenIcon from '@spectrum-icons/workflow/OpenInLight';
+import React from 'react';
+
+export function LinkLabel({ label, url }) {
+  return (
+    <>
+      {label}&nbsp;<Link target="_blank" href={url}><OpenIcon size="XS"/></Link>
+    </>
+  );
+}

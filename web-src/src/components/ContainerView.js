@@ -16,12 +16,13 @@ import {
 } from '@adobe/react-spectrum';
 
 import AnnotatePen from '@spectrum-icons/workflow/AnnotatePen';
-import Star from '@spectrum-icons/workflow/Star.js';
+import Star from '@spectrum-icons/workflow/Star';
 
 import Editor from './Editor.js';
 import VariationsSection from './VariationsSection.js';
 import FavoritesSection from './FavoritesSection.js';
 import { MOCK_VARIATIONS, LOCAL_STORAGE_KEY } from '../constants/Constants.js';
+import WriteIcon from '../icons/WriteIcon.js';
 
 function ContainerView() {
   const [results, setResults] = useState([]);
@@ -47,20 +48,21 @@ function ContainerView() {
       ]}
       columns={['2fr', '1fr']}
       rows={['minmax(0, 1fr)']}
+      gap={'size-200'}
       height="100%">
-      <View gridArea="prompt" UNSAFE_style={{ paddingRight: '30px', height: '100%' }}>
+      <View gridArea="prompt" UNSAFE_style={{ height: '100%' }}>
         <Editor setResults={setResults} />
       </View>
       <ListView
         UNSAFE_style={{ border: '2px solid lightgray', borderRadius: '10px' }}
-        items={results.map((result) => ({ key: `${result}`, textValue: `${result}`}))}
+        items={results.map((result) => ({ key: `${result}`, textValue: `${result}` }))}
         renderEmptyState={() => (
             <IllustratedMessage>
               <WriteIcon size="S" />
               <Heading>Nothing here yet</Heading>
               <Content>Type in a prompt to generate content</Content>
             </IllustratedMessage>
-          )}>
+        )}>
         {(item) => (
           <Item key={item.key} textValue="Utilities" hasChildItems>
             <View>
@@ -69,7 +71,8 @@ function ContainerView() {
           </Item>
         )}
       </ListView>
-      {/* <View gridArea="variations" paddingLeft="30px" borderWidth="thick" borderColor="gray-300" borderRadius="medium" overflow="auto">
+      {/* <View gridArea="variations" paddingLeft="30px"
+          borderWidth="thick" borderColor="gray-300" borderRadius="medium" overflow="auto">
         <Tabs aria-label="Tabs" height="100%">
           <TabList>
             <Item key="variations"><AnnotatePen /><Text>Variations</Text></Item>
@@ -77,7 +80,8 @@ function ContainerView() {
           </TabList>
           <TabPanels UNSAFE_style={{"overflow": "auto"}}>
             <Item key="variations">
-              <VariationsSection variations={variations} favorites={favorites} onVariationsChange={setVariations} onFavoritesChange={setFavorites} />
+              <VariationsSection variations={variations}
+                  favorites={favorites} onVariationsChange={setVariations} onFavoritesChange={setFavorites} />
             </Item>
             <Item key="favorites">
               <FavoritesSection favorites={favorites} onChange={setFavorites} />

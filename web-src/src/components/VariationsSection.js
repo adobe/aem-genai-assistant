@@ -11,8 +11,10 @@
  */
 
 import React, { useEffect, useCallback, useRef } from 'react';
-import { View, IllustratedMessage, Heading, Content, Flex, Tooltip, TooltipTrigger, ActionButton, Well } from '@adobe/react-spectrum';
-import { ToastQueue } from '@react-spectrum/toast'
+import {
+  View, IllustratedMessage, Heading, Content, Flex, Tooltip, TooltipTrigger, ActionButton, Well,
+} from '@adobe/react-spectrum';
+import { ToastQueue } from '@react-spectrum/toast';
 
 import Star from '@spectrum-icons/workflow/Star';
 import StarOutline from '@spectrum-icons/workflow/StarOutline';
@@ -22,7 +24,9 @@ import Delete from '@spectrum-icons/workflow/Delete';
 import WriteIcon from '../icons/WriteIcon.js';
 import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 
-function VariationsSection({variations, favorites, onVariationsChange, onFavoritesChange}) {
+function VariationsSection({
+  variations, favorites, onVariationsChange, onFavoritesChange,
+}) {
   const scrollView = useRef(null);
 
   // useEffect(() => {
@@ -36,10 +40,36 @@ function VariationsSection({variations, favorites, onVariationsChange, onFavorit
   //   }
   // }, [variations]);
 
+  // Function to check if a variation is a favorite and return boolean
+  const isAlreadyFavoriteHandler = useCallback((id) => {
+    const storedFavorites = localStorage.getItem(LOCAL_STORAGE_KEY);
+    /* eslint-disable-next-line no-shadow */
+    const favorites = storedFavorites ? JSON.parse(storedFavorites) : [];
+    /* eslint-disable-next-line no-shadow */
+    const favorite = favorites.find((favorite) => favorite.id === id);
+
+    return !!favorite;
+  }, [favorites]);
+
+  // Function to add a favorite and update local storage
+  const addFavoriteHandler = useCallback((item) => {
+    if (isAlreadyFavoriteHandler(item.id)) {
+      return;
+    }
+
+    // Add the item to the favorites state
+    const updatedFavorites = [...favorites, item];
+    onFavoritesChange(updatedFavorites);
+
+    // Update the local storage with the new favorites
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedFavorites));
+  }, [favorites]);
+
   // Function to favorite a variation
   const favoriteVariationHandler = useCallback((id) => {
-    const updatedVariations = variations.map(variation => {
+    const updatedVariations = variations.map((variation) => {
       if (variation.id === id) {
+        /* eslint-disable no-param-reassign */
         variation.isFavorite = true;
         addFavoriteHandler(variation);
       }
@@ -50,40 +80,18 @@ function VariationsSection({variations, favorites, onVariationsChange, onFavorit
 
   // Function to copy a variation to the clipboard
   const copyVariationHandler = useCallback((id) => {
-    const variation = variations.find(variation => variation.id === id);
+    /* eslint-disable-next-line no-shadow */
+    const variation = variations.find((variation) => variation.id === id);
     navigator.clipboard.writeText(variation.content);
 
-    ToastQueue.positive('Variation copied to clipboard!', {timeout: 2000})
+    ToastQueue.positive('Variation copied to clipboard!', { timeout: 2000 });
   }, [variations]);
 
   // Function to delete a variation
   const deleteVariationHandler = useCallback((id) => {
-    const updatedVariations = variations.filter(variation => variation.id !== id);
+    const updatedVariations = variations.filter((variation) => variation.id !== id);
     onVariationsChange(updatedVariations);
-  }, [variations])
-
-  // Function to add a favorite and update local storage
-  const addFavoriteHandler = useCallback((item) => {
-    if (isAlreadyFavoriteHandler(item.id)) {
-      return;
-    }
-    
-    // Add the item to the favorites state
-    const updatedFavorites = [...favorites, item];
-    onFavoritesChange(updatedFavorites);
-
-    // Update the local storage with the new favorites
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updatedFavorites));
-  }, [favorites]);
-
-  // Function to check if a variation is a favorite and return boolean
-  const isAlreadyFavoriteHandler = useCallback((id) => {
-    const storedFavorites = localStorage.getItem(LOCAL_STORAGE_KEY);
-    const favorites = storedFavorites ? JSON.parse(storedFavorites) : [];
-    const favorite = favorites.find(favorite => favorite.id === id);
-    
-    return favorite ? true : false;
-  }, [favorites]);
+  }, [variations]);
 
   return (
     <>
@@ -96,8 +104,8 @@ function VariationsSection({variations, favorites, onVariationsChange, onFavorit
       ) : (
         <View marginTop="size-300" marginBottom="size-300">
           <Flex direction="column" gap="size-300">
-            {variations.length &&
-              variations.map((variation) => (
+            {variations.length
+              && variations.map((variation) => (
                 <View ref={scrollView}
                   borderRadius="regular"
                   paddingRight="24px"
@@ -123,14 +131,14 @@ function VariationsSection({variations, favorites, onVariationsChange, onFavorit
                       <Tooltip>Remove Variation</Tooltip>
                     </TooltipTrigger>
                   </Flex>
-                  <Well UNSAFE_style={{ "whiteSpace": "pre-wrap" }}>{variation.content}</Well>
+                  <Well UNSAFE_style={{ whiteSpace: 'pre-wrap' }}>{variation.content}</Well>
                 </View>
               ))}
           </Flex>
         </View>
       )}
     </>
-  )
+  );
 }
 
 export default VariationsSection;

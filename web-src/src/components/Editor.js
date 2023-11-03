@@ -88,7 +88,6 @@ function Editor({ setResults }) {
     completionService.complete(finalPrompt, temperature)
       .then((result) => {
         try {
-          console.log(result);
           setResults(JSON.parse(result));
         } catch (error) {
           setResults([result]);
@@ -107,7 +106,7 @@ function Editor({ setResults }) {
   return (
     <Grid
       columns={['auto', 'minmax(0, min-content)']}
-      rows={['min-content', 'auto', 'min-content']}
+      rows={['65px', 'auto', '65px']}
       gap="size-200"
       margin={0}
       width="100%" height="100%">

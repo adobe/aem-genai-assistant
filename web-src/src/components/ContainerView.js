@@ -23,7 +23,6 @@ import WriteIcon from '../icons/WriteIcon.js';
 import VariationsSection from './VariationsSection.js';
 import FavoritesSection from './FavoritesSection.js';
 import { MOCK_VARIATIONS, LOCAL_STORAGE_KEY } from '../constants/Constants.js';
-import WriteIcon from '../icons/WriteIcon.js';
 
 function ContainerView() {
   const [results, setResults] = useState([]);

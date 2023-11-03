@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "aio app run",
-    "deploy:app": "aio app deploy --no-actions",
+    "start": "REACT_APP_VERSION=$npm_package_version aio app run",
+    "deploy:app": "REACT_APP_VERSION=$npm_package_version aio app deploy --no-actions",
     "deploy:actions": "aio app deploy --no-web-assets",
     "deploy": "aio app deploy",
     "lint": "eslint web-src/src/**/*.js test/**/*.js",
@@ -45,5 +45,8 @@
   },
   "aio-app-builder-templates": [
     "@adobe/generator-add-action-generic"
-  ]
+  ],
+  "@parcel/resolver-default": {
+    "packageExports": true
+  }
 }

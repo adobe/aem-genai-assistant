@@ -12,6 +12,9 @@
 import React, { useContext } from 'react';
 import { CompletionService } from '../services/CompletionService.js';
 
+const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
+console.log(`Version: ${APP_VERSION}`);
+
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 console.log(`API_ENDPOINT: ${API_ENDPOINT}`);
 
@@ -28,6 +31,7 @@ function getWebsiteUrlFromReferrer() {
 
 function createApplication() {
   return {
+    appVersion: APP_VERSION,
     websiteUrl: getWebsiteUrlFromReferrer(),
     completionService: new CompletionService(API_ENDPOINT),
   };

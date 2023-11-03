@@ -17,3 +17,5 @@ application:
               IMS_ENDPOINT: $IMS_ENDPOINT
               IMS_CLIENT_ID: $IMS_CLIENT_ID
               IMS_CLIENT_SECRET: $IMS_CLIENT_SECRET
+            limits:
+              timeout: 180000

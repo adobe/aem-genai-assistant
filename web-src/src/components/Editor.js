@@ -11,7 +11,7 @@
  */
 import React, { useCallback, useEffect } from 'react';
 import {
-  Item, Button, Grid, Picker, Flex, Switch, Slider, View,
+  Item, Button, Grid, Picker, Flex, Switch, Slider, View, Badge,
 } from '@adobe/react-spectrum';
 /* eslint-disable-next-line import/no-named-default */
 import { default as SimpleEditor } from 'react-simple-code-editor';
@@ -59,7 +59,7 @@ function renderPrompt(prompt, expressions, sourceView) {
 }
 
 function Editor({ setResults }) {
-  const { websiteUrl, completionService } = useApplicationContext();
+  const { appVersion, websiteUrl, completionService } = useApplicationContext();
 
   const [promptTemplates, setPromptTemplates] = React.useState([]);
   const [parameters, setParameters] = React.useState([]);
@@ -150,6 +150,7 @@ function Editor({ setResults }) {
           getValueLabel={(value) => CREATIVITY_LABELS[value / 0.30]}
           onChange={setTemperature}
           defaultValue={temperature} />
+        <Badge variant="neutral">v{appVersion}</Badge>
       </Flex>
     </Grid>
   );

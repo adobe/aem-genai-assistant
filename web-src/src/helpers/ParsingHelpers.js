@@ -10,11 +10,15 @@
  * governing permissions and limitations under the License.
  */
 import wretch from 'wretch';
+import {retry} from 'wretch/middlewares/retry';
 
 export const EXPRESSION_REGEX = /\{(\w+)((?:,\s*\w+\s*=\s*[^,}]+)*)\}/g;
 
 export async function parseSpreadSheet(url, valueColumnName = 'Value') {
-  const json = await wretch(`${url}`).get().json();
+  const json = await wretch(`${url}`).middlewares([retry({
+    retryOnNetworkError: false,
+  })]).get().json();
+
   return json.data.map((row) => {
     return {
       key: row.Key,

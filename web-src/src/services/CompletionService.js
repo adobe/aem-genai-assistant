@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import wretch from 'wretch';
+import {retry} from 'wretch/middlewares/retry';
 
 export class CompletionService {
   constructor(endpoint) {
@@ -19,7 +20,10 @@ export class CompletionService {
 
   async complete(prompt, temperature) {
     console.log(`CompletionService complete prompt: ${prompt} temperature: ${temperature}`);
-    const json = await wretch(`${this.endpoint}?prompt=${encodeURIComponent(prompt)}&t=${temperature}`).get().json();
+    const url = `${this.endpoint}?prompt=${encodeURIComponent(prompt)}&t=${temperature}`;
+    const json = await wretch(url).middlewares([retry({
+      retryOnNetworkError: false,
+    })]).get().json();
     return json.generations[0][0].message.content;
   }
 }

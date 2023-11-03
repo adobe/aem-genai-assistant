@@ -21,6 +21,7 @@ module.exports = {
     'no-unused-vars': 'off',
     'arrow-body-style': 'off',
     'react/prop-types': 'off',
+    'no-nested-ternary': 'off',
     'max-len': [ 'error', {
       'ignoreTemplateLiterals': true,
       'ignoreStrings': true,

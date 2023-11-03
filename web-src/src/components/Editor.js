@@ -63,6 +63,7 @@ function Editor({ setResults }) {
 
   const [promptTemplates, setPromptTemplates] = React.useState([]);
   const [parameters, setParameters] = React.useState([]);
+  const [showPrompt, setShowPrompt] = React.useState(true);
   const [sourceView, setSourceView] = React.useState(false);
   const [prompt, setPrompt] = React.useState('');
   const [temperature, setTemperature] = React.useState(0.30);
@@ -119,9 +120,11 @@ function Editor({ setResults }) {
           {promptTemplates ? promptTemplates
             .map((template, index) => <Item key={index}>{template.key}</Item>) : []}
         </Picker>
-        <Switch isSelected={sourceView} onChange={setSourceView}>Edit Mode</Switch>
+        <Switch isSelected={showPrompt} onChange={setShowPrompt}>Show Prompt</Switch>
+        <Switch isSelected={sourceView} onChange={setSourceView} isDisabled={!showPrompt}>Edit Mode</Switch>
       </Flex>
-      <View UNSAFE_className={['editor-container', sourceView ? 'editable' : ''].join(' ')}>
+      <View UNSAFE_style={{ display: showPrompt ? 'block' : 'none' }}
+            UNSAFE_className={['editor-container', sourceView ? 'editable' : ''].join(' ')}>
         <SimpleEditor
           className="editor"
           value={renderPrompt(prompt, parameters, sourceView)}
@@ -130,7 +133,11 @@ function Editor({ setResults }) {
           readOnly={!sourceView}
         />
       </View>
-      <Flex direction="column" gap="size-200" alignItems="start" width={Object.keys(expressions).length ? '200px' : 0}>
+      <Flex
+        direction="column"
+        gap="size-200"
+        alignItems="start"
+        width={Object.keys(expressions).length ? (showPrompt ? '200px' : '80%') : 0}>
         <ParametersView expressions={expressions} state={parameters} setState={setParameters} />
       </Flex>
       <Flex direction="row" gap="size-400" gridColumn='span 2' alignItems="center">

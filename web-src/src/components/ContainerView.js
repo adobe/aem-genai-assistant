@@ -64,7 +64,7 @@ function ContainerView() {
         paddingLeft="30px"
         marginTop={80}
         marginBottom={80}
-        borderWidth="thick"
+        borderWidth="thin"
         borderColor="gray-300"
         borderRadius="medium"
         overflow="auto">

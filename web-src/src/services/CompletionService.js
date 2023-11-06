@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import wretch from 'wretch';
-import {retry} from 'wretch/middlewares/retry';
+import { retry } from 'wretch/middlewares/retry';
 
 export class CompletionService {
   constructor(endpoint) {

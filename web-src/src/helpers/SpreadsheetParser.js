@@ -10,9 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import wretch from 'wretch';
-import {retry} from 'wretch/middlewares/retry';
-
-export const EXPRESSION_REGEX = /\{(\w+)((?:,\s*\w+\s*=\s*[^,}]+)*)\}/g;
+import { retry } from 'wretch/middlewares/retry';
 
 export async function parseSpreadSheet(url, valueColumnName = 'Value') {
   const json = await wretch(`${url}`).middlewares([retry({
@@ -25,23 +23,4 @@ export async function parseSpreadSheet(url, valueColumnName = 'Value') {
       value: row[valueColumnName],
     };
   });
-}
-
-function parseExpressionParams(paramsString) {
-  if (paramsString) {
-    return paramsString.trim().split(/\s*,\s*/).slice(1).reduce((params, paramPairString) => {
-      const [name, value] = paramPairString.split(/\s*=\s*/);
-      return { ...params, [name]: value };
-    }, {});
-  }
-  return {};
-}
-
-export function parseExpressions(text) {
-  return Array.from(text.matchAll(EXPRESSION_REGEX)).reduce((expressions, match) => {
-    const [_, name, paramsString] = match;
-    /* eslint-disable no-param-reassign */
-    expressions[name] = { ...expressions[name], ...parseExpressionParams(paramsString) };
-    return expressions;
-  }, {});
 }

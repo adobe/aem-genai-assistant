@@ -21,8 +21,8 @@ import StarOutline from '@spectrum-icons/workflow/StarOutline';
 import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
 
-import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 import EmptyIcon from '@spectrum-icons/workflow/AnnotatePen';
+import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 
 function VariationsSection({
   variations, favorites, onVariationsChange, onFavoritesChange,
@@ -88,7 +88,7 @@ function VariationsSection({
     <>
       {(variations.length === 0) ? (
         <IllustratedMessage>
-          <EmptyIcon size={"XL"}/>
+          <EmptyIcon size={'XL'}/>
           <Heading>Nothing here yet</Heading>
           <Content>Set up your prompt to generate new variations</Content>
         </IllustratedMessage>

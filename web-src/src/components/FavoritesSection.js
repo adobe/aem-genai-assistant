@@ -80,7 +80,7 @@ function FavoritesSection({ favorites, onChange }) {
     <>
       {(favorites.length === 0) ? (
         <IllustratedMessage>
-          <EmptyIcon size={"XL"}/>
+          <EmptyIcon size={'XL'}/>
           <Heading>Nothing here yet</Heading>
           <Content>Favorite your generated variations</Content>
         </IllustratedMessage>

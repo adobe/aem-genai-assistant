@@ -42,10 +42,10 @@ function ContainerView() {
 
   // Function to flatten a mixed list of strings and JSON objects
   const flattenMixedList = (mixedList) => {
-    const flattenedList = mixedList.map(item => {
+    const flattenedList = mixedList.map((item) => {
       try {
-        let parsedJson = JSON.parse(item);
-        return parsedJson.map(jsonItem => {
+        const parsedJson = JSON.parse(item);
+        return parsedJson.map((jsonItem) => {
           return Object.entries(jsonItem).map(([key, value]) => `[${key}]  ${value}`).join('\n');
         });
       } catch (e) {
@@ -54,7 +54,7 @@ function ContainerView() {
     }).flat();
 
     return flattenedList;
-}
+  };
 
   const handleResults = (results) => {
     const flattenedResults = flattenMixedList(results);
@@ -63,7 +63,7 @@ function ContainerView() {
       content: result,
       isFavorite: false,
     })));
-    
+
     setTab('variations');
   };
 

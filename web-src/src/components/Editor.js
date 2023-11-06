@@ -11,7 +11,7 @@
  */
 import React, { useCallback, useEffect } from 'react';
 import {
-  Item, Button, Grid, Picker, Flex, Switch, Slider, View, Badge, Text, ProgressCircle
+  Item, Button, Grid, Picker, Flex, Switch, Slider, View, Badge, Text, ProgressCircle,
 } from '@adobe/react-spectrum';
 import { ToastQueue } from '@react-spectrum/toast';
 /* eslint-disable-next-line import/no-named-default */

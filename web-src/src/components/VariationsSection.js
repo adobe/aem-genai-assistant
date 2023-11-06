@@ -29,7 +29,6 @@ import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 function VariationsSection({
   variations, favorites, onVariationsChange, onFavoritesChange,
 }) {
-
   // Function to check if a variation is a favorite and return boolean
   const isAlreadyFavoriteHandler = useCallback((id) => {
     const storedFavorites = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -94,7 +93,7 @@ function VariationsSection({
           <Content>Set up your prompt to generate new variations</Content>
         </IllustratedMessage>
       ) : (
-        <View UNSAFE_className="results-enter" marginTop="size-300" marginBottom="size-300" UNSAFE_style={{ "overflow-x": "hidden" }}>
+        <View UNSAFE_className="results-enter" marginTop="size-300" marginBottom="size-300" UNSAFE_style={{ 'overflow-x': 'hidden' }}>
           <Flex direction="column" gap="size-300">
             <TransitionGroup component={null}>
               {variations.length

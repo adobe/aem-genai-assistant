@@ -108,7 +108,7 @@ function FavoritesSection({ favorites, onChange }) {
             </Item>
           </ActionBar>
           <View marginTop="size-300">
-            <Flex direction="column" gap="size-300" UNSAFE_style={{ "overflow-x": "hidden" }}>
+            <Flex direction="column" gap="size-300" UNSAFE_style={{ 'overflow-x': 'hidden' }}>
               <CheckboxGroup value={selectedKeys} onChange={setSelectedKeys}>
                 <TransitionGroup component={null}>
                   {favorites.length

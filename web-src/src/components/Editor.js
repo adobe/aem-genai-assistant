@@ -133,8 +133,8 @@ function Editor({ setResults }) {
           variant="primary"
           style="fill"
           onPress={completionHandler}
-          isDisabled={busy}>
-            {busy ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px"/> : <SenseiGenAIIcon />}
+          isDisabled={pending}>
+            {pending ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px"/> : <SenseiGenAIIcon />}
             Generate
         </Button>
         <Slider

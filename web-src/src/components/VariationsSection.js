@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { useEffect, useCallback, useRef } from 'react';
+import React, { useCallback } from 'react';
 import {
   View, IllustratedMessage, Heading, Content, Flex, Tooltip, TooltipTrigger, ActionButton, Well,
 } from '@adobe/react-spectrum';
@@ -21,14 +21,14 @@ import StarOutline from '@spectrum-icons/workflow/StarOutline';
 import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
 
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+
 import EmptyIcon from '@spectrum-icons/workflow/AnnotatePen';
 import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 
 function VariationsSection({
   variations, favorites, onVariationsChange, onFavoritesChange,
 }) {
-  const scrollView = useRef(null);
-
   // Function to check if a variation is a favorite and return boolean
   const isAlreadyFavoriteHandler = useCallback((id) => {
     const storedFavorites = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -93,38 +93,46 @@ function VariationsSection({
           <Content>Set up your prompt to generate new variations</Content>
         </IllustratedMessage>
       ) : (
-        <View marginTop="size-300" marginBottom="size-300">
+        <View UNSAFE_className="results-enter" marginTop="size-300" marginBottom="size-300" UNSAFE_style={{ 'overflow-x': 'hidden' }}>
           <Flex direction="column" gap="size-300">
-            {variations.length
-              && variations.map((variation) => (
-                <View ref={scrollView}
-                  borderRadius="regular"
-                  paddingRight="24px"
-                  key={variation.id}
-                >
-                  <Flex direction="row" gap="size-100" justifyContent="right">
-                    <TooltipTrigger delay={0}>
-                      <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => favoriteVariationHandler(variation.id)}>
-                        {variation.isFavorite ? <Star /> : <StarOutline />}
-                      </ActionButton>
-                      <Tooltip>Save Variation</Tooltip>
-                    </TooltipTrigger>
-                    <TooltipTrigger delay={0}>
-                      <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => copyVariationHandler(variation.id)}>
-                        <Copy />
-                      </ActionButton>
-                      <Tooltip>Copy to Clipboard</Tooltip>
-                    </TooltipTrigger>
-                    <TooltipTrigger delay={0}>
-                      <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => deleteVariationHandler(variation.id)}>
-                        <Delete />
-                      </ActionButton>
-                      <Tooltip>Remove Variation</Tooltip>
-                    </TooltipTrigger>
-                  </Flex>
-                  <Well UNSAFE_style={{ whiteSpace: 'pre-wrap' }}>{variation.content}</Well>
-                </View>
-              ))}
+            <TransitionGroup component={null}>
+              {variations.length
+                && variations.map((variation) => (
+                  <CSSTransition
+                    key={variation.id}
+                    timeout={500}
+                    classNames="fade"
+                  >
+                    <View
+                      borderRadius="regular"
+                      paddingRight="24px"
+                      key={variation.id}
+                    >
+                      <Flex direction="row" gap="size-100" justifyContent="right">
+                        <TooltipTrigger delay={0}>
+                          <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => favoriteVariationHandler(variation.id)}>
+                            {variation.isFavorite ? <Star /> : <StarOutline />}
+                          </ActionButton>
+                          <Tooltip>Save Variation</Tooltip>
+                        </TooltipTrigger>
+                        <TooltipTrigger delay={0}>
+                          <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => copyVariationHandler(variation.id)}>
+                            <Copy />
+                          </ActionButton>
+                          <Tooltip>Copy to Clipboard</Tooltip>
+                        </TooltipTrigger>
+                        <TooltipTrigger delay={0}>
+                          <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => deleteVariationHandler(variation.id)}>
+                            <Delete />
+                          </ActionButton>
+                          <Tooltip>Remove Variation</Tooltip>
+                        </TooltipTrigger>
+                      </Flex>
+                      <Well UNSAFE_style={{ whiteSpace: 'pre-wrap' }}>{variation.content}</Well>
+                    </View>
+                  </CSSTransition>
+                ))}
+            </TransitionGroup>
           </Flex>
         </View>
       )}

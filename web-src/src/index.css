@@ -46,6 +46,7 @@ body {
 
 .editor {
   font-family: monospace;
+  min-height: 100%;
 }
 
 .editor textarea:focus  {

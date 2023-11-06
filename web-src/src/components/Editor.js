@@ -19,6 +19,7 @@ import { default as SimpleEditor } from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import InfoIcon from '@spectrum-icons/workflow/InfoOutline';
 import GenerateIcon from '@spectrum-icons/workflow/MagicWand';
+import { atom, useRecoilState } from 'recoil';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { ParametersView } from './ParametersView.js';
 import 'prismjs/themes/prism.css';
@@ -48,7 +49,13 @@ languages.custom = {
   comment: /{#([^{}]+)}/,
 };
 
-function Editor({ setResults }) {
+export const resultsState = atom({
+  key: 'resultsState',
+  default: [],
+});
+
+function Editor() {
+  const [, setResults] = useRecoilState(resultsState);
   const { appVersion, websiteUrl, completionService } = useApplicationContext();
 
   const [promptTemplates, setPromptTemplates] = React.useState([]);
@@ -121,11 +128,11 @@ function Editor({ setResults }) {
       </View>
       <Flex
         direction="column"
-        gap="size-200"
+        gap="size-00"
         alignItems="start"
         width={Object.keys(expressions).length ? (showPrompt ? '230px' : '100%') : 0}
         UNSAFE_style={{
-          overflow: 'scroll',
+          overflow: 'auto',
         }}>
         <ParametersView expressions={expressions} state={parameters} setState={setParameters} />
       </Flex>

@@ -98,7 +98,7 @@ export function ParametersView({ expressions, state, setState }) {
   return (
     <Flex
       direction="column"
-      gap="size-50"
+      gap="size-100"
       alignItems={'end'}
       width={'100%'}>
       {

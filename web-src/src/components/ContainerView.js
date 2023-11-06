@@ -19,12 +19,41 @@ import { v4 as uuidv4 } from 'uuid';
 import AnnotatePen from '@spectrum-icons/workflow/AnnotatePen';
 import Star from '@spectrum-icons/workflow/Star';
 
-import Editor from './Editor.js';
+import {
+  atom, selector, useRecoilState, useRecoilValue,
+} from 'recoil';
+import Editor, { resultsState } from './Editor.js';
 import VariationsSection from './VariationsSection.js';
 import FavoritesSection from './FavoritesSection.js';
 import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 
+// Function to flatten a mixed list of strings and JSON objects
+const flattenMixedList = (mixedList) => {
+  return mixedList.map((item) => {
+    try {
+      const parsedJson = JSON.parse(item);
+      return parsedJson.map((jsonItem) => {
+        return Object.entries(jsonItem).map(([key, value]) => `[${key}]  ${value}`).join('\n');
+      });
+    } catch (e) {
+      return item;
+    }
+  }).flat();
+};
+
+const newVariationsState = selector({
+  key: 'variationsState',
+  get: ({ get }) => {
+    return flattenMixedList(get(resultsState)).map((result) => ({
+      id: uuidv4(),
+      content: result,
+      isFavorite: false,
+    }));
+  },
+});
+
 function ContainerView() {
+  const newVariations = useRecoilValue(newVariationsState);
   const [variations, setVariations] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [tab, setTab] = useState('variations');
@@ -40,55 +69,27 @@ function ContainerView() {
     }
   }, []);
 
-  // Function to flatten a mixed list of strings and JSON objects
-  const flattenMixedList = (mixedList) => {
-    const flattenedList = mixedList.map((item) => {
-      try {
-        const parsedJson = JSON.parse(item);
-        return parsedJson.map((jsonItem) => {
-          return Object.entries(jsonItem).map(([key, value]) => `[${key}]  ${value}`).join('\n');
-        });
-      } catch (e) {
-        return item;
-      }
-    }).flat();
-
-    return flattenedList;
-  };
-
-  const handleResults = (results) => {
-    const flattenedResults = flattenMixedList(results);
-    setVariations(flattenedResults.map((result) => ({
-      id: uuidv4(),
-      content: result,
-      isFavorite: false,
-    })));
-
-    setTab('variations');
-  };
+  useEffect(() => {
+    setVariations(newVariations);
+  }, [newVariations]);
 
   return (
     <Grid
-      areas={[
-        'prompt variations',
-      ]}
-      columns={['2fr', '1fr']}
-      rows={['minmax(0, 1fr)']}
+      columns={['auto']}
+      rows={['auto']}
       gap={'size-200'}
+      width={'100%'}
       height="100%">
-      <View gridArea="prompt" UNSAFE_style={{ height: '100%' }}>
-        <Editor setResults={handleResults} />
-      </View>
       <View
-        gridArea="variations"
         paddingLeft="30px"
         marginTop={80}
         marginBottom={80}
+        width={'100%'}
         borderWidth="thin"
         borderColor="gray-300"
         borderRadius="medium"
         overflow="auto">
-        <Tabs aria-label="Tabs" height="100%" selectedKey={tab} onSelectionChange={setTab}>
+        <Tabs aria-label="Tabs" width={'100%'} height="100%" selectedKey={tab} onSelectionChange={setTab}>
           <TabList>
             <Item key="variations"><AnnotatePen /><Text>Variations</Text></Item>
             <Item key="favorites"><Star /><Text>Favorites</Text></Item>

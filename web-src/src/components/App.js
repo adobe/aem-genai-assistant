@@ -11,15 +11,23 @@
  */
 import React from 'react';
 import { ToastContainer } from '@react-spectrum/toast';
-import { View } from '@adobe/react-spectrum';
+import { Grid, View } from '@adobe/react-spectrum';
 import ContainerView from './ContainerView.js';
+import Editor from './Editor.js';
 
 function App() {
   return (
-    <View UNSAFE_style={{ padding: '30px', width: '100%', height: '100%' }}>
+    <>
       <ToastContainer />
-      <ContainerView />
-    </View>
+      <Grid
+        columns={['2fr', '1fr']}
+        rows={['auto']}
+        UNSAFE_style={{ padding: '30px' }}
+        width="100%" height="100%">
+        <Editor />
+        <ContainerView />
+      </Grid>
+    </>
   );
 }
 

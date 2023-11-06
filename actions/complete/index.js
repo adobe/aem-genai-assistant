@@ -1,12 +1,19 @@
 const wretch = require('wretch');
 const FormDataAddon = require('wretch/addons/formData');
+const {retry} = require('wretch/middlewares/retry');
+
+function wretchRetry(url) {
+  return wretch(url).middlewares([retry({
+    retryOnNetworkError: false,
+  })]);
+}
 
 async function getAccessToken(params) {
   const endpoint = params['IMS_ENDPOINT']
   const clientId = params['IMS_CLIENT_ID']
   const clientSecret = params['IMS_CLIENT_SECRET']
 
-  const json = await wretch(endpoint + '/ims/token/v2')
+  const json = await wretchRetry(endpoint + '/ims/token/v2')
     .addon(FormDataAddon).formData({
       client_id: clientId,
       client_secret: clientSecret,
@@ -24,7 +31,7 @@ async function completion(params, accessToken, prompt, model, temperature) {
   const apiKey = params['FIREFALL_API_KEY']
   const org = params['FIREFALL_IMS_ORG']
 
-  return await wretch(endpoint + '/v1/completions')
+  return await wretchRetry(endpoint + '/v1/completions')
     .headers({
       'x-gw-ims-org-id': org,
       'x-api-key': apiKey,

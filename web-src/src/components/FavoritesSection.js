@@ -23,7 +23,7 @@ import Edit from '@spectrum-icons/workflow/Edit';
 
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-import WriteIcon from '../icons/WriteIcon.js';
+import EmptyIcon from '@spectrum-icons/workflow/AnnotatePen';
 import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 
 function FavoritesSection({ favorites, onChange }) {
@@ -82,7 +82,7 @@ function FavoritesSection({ favorites, onChange }) {
     <>
       {(favorites.length === 0) ? (
         <IllustratedMessage>
-          <WriteIcon size="S" />
+          <EmptyIcon size={'XL'}/>
           <Heading>Nothing here yet</Heading>
           <Content>Favorite your generated variations</Content>
         </IllustratedMessage>

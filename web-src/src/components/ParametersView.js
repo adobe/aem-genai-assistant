@@ -96,7 +96,11 @@ function SpreadSheetPicker({
 
 export function ParametersView({ expressions, state, setState }) {
   return (
-    <Flex direction="column" gap="size-200" alignItems={'end'} width="100%">
+    <Flex
+      direction="column"
+      gap="size-50"
+      alignItems={'end'}
+      width={'100%'}>
       {
         Object.entries(expressions).sort(compareExpressions).map(([name, params]) => {
           if (params.comment) {
@@ -104,7 +108,6 @@ export function ParametersView({ expressions, state, setState }) {
           }
           const label = getComponentLabel(name, params.label);
           const type = getComponentType(params);
-          const defaultValue = params.default;
 
           switch (type) {
             case 'spreadsheet':

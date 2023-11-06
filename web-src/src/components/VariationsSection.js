@@ -23,7 +23,7 @@ import Delete from '@spectrum-icons/workflow/Delete';
 
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
-import WriteIcon from '../icons/WriteIcon.js';
+import EmptyIcon from '@spectrum-icons/workflow/AnnotatePen';
 import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 
 function VariationsSection({
@@ -89,7 +89,7 @@ function VariationsSection({
     <>
       {(variations.length === 0) ? (
         <IllustratedMessage>
-          <WriteIcon size="S" />
+          <EmptyIcon size={'XL'}/>
           <Heading>Nothing here yet</Heading>
           <Content>Set up your prompt to generate new variations</Content>
         </IllustratedMessage>

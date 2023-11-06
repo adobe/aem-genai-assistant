@@ -21,7 +21,7 @@ import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
 import Edit from '@spectrum-icons/workflow/Edit';
 
-import WriteIcon from '../icons/WriteIcon.js';
+import EmptyIcon from '@spectrum-icons/workflow/AnnotatePen';
 import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 
 function FavoritesSection({ favorites, onChange }) {
@@ -80,7 +80,7 @@ function FavoritesSection({ favorites, onChange }) {
     <>
       {(favorites.length === 0) ? (
         <IllustratedMessage>
-          <WriteIcon size="S"/>
+          <EmptyIcon size={"XL"}/>
           <Heading>Nothing here yet</Heading>
           <Content>Favorite your generated variations</Content>
         </IllustratedMessage>
@@ -113,8 +113,7 @@ function FavoritesSection({ favorites, onChange }) {
                     <View
                       paddingRight="size-300"
                       paddingBottom="size-300"
-                      key={favorite.id}
-                    >
+                      key={favorite.id}>
                       <Flex direction="row" gap="size-100" justifyContent="right">
                         <TooltipTrigger delay={0}>
                           <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => copyFavoriteHandler(favorite.id)}>
@@ -131,7 +130,7 @@ function FavoritesSection({ favorites, onChange }) {
                       </Flex>
                       <Flex direction="row" justifyContent="space-between" gap="size-10">
                         <Checkbox value={favorite.id} />
-                        < Well UNSAFE_style={{ whiteSpace: 'pre-wrap' }}>{favorite.content}</Well>
+                        <Well UNSAFE_style={{ whiteSpace: 'pre-wrap' }}>{favorite.content}</Well>
                       </Flex>
                     </View>
                   ))}

@@ -21,24 +21,13 @@ import StarOutline from '@spectrum-icons/workflow/StarOutline';
 import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
 
-import WriteIcon from '../icons/WriteIcon.js';
 import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
+import EmptyIcon from '@spectrum-icons/workflow/AnnotatePen';
 
 function VariationsSection({
   variations, favorites, onVariationsChange, onFavoritesChange,
 }) {
   const scrollView = useRef(null);
-
-  // useEffect(() => {
-  //   if (variations) {
-  //     const scrollable = scrollView.current && scrollView.current.UNSAFE_getDOMNode();
-  //     scrollable.style.animation = "slide-in 0.5s forwards, fade-in 1s forwards";
-  //     scrollable.style.transform = "translateY(50%)";
-  //     if (variations.length > 0) {
-  //       scrollable.scrollIntoView({behavior: "smooth", block: "nearest", inline: "nearest"});
-  //     }
-  //   }
-  // }, [variations]);
 
   // Function to check if a variation is a favorite and return boolean
   const isAlreadyFavoriteHandler = useCallback((id) => {
@@ -99,7 +88,7 @@ function VariationsSection({
     <>
       {(variations.length === 0) ? (
         <IllustratedMessage>
-          <WriteIcon size="S"/>
+          <EmptyIcon size={"XL"}/>
           <Heading>Nothing here yet</Heading>
           <Content>Set up your prompt to generate new variations</Content>
         </IllustratedMessage>

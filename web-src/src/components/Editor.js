@@ -119,7 +119,10 @@ function Editor({ setResults }) {
         direction="column"
         gap="size-200"
         alignItems="start"
-        width={Object.keys(expressions).length ? (showPrompt ? '200px' : '100%') : 0}>
+        width={Object.keys(expressions).length ? (showPrompt ? '200px' : '100%') : 0}
+        UNSAFE_style={{
+          overflow: 'scroll',
+        }}>
         <ParametersView expressions={expressions} state={parameters} setState={setParameters} />
       </Flex>
       <Flex direction="row" gap="size-400" gridColumn='span 2' alignItems="center">

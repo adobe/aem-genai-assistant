@@ -11,8 +11,9 @@
  */
 import React, { useCallback, useEffect } from 'react';
 import {
-  Item, Button, Grid, Picker, Flex, Switch, Slider, View, Badge,
+  Item, Button, Grid, Picker, Flex, Switch, Slider, View, Badge, ProgressCircle
 } from '@adobe/react-spectrum';
+import { ToastQueue } from '@react-spectrum/toast';
 /* eslint-disable-next-line import/no-named-default */
 import { default as SimpleEditor } from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
@@ -21,6 +22,8 @@ import { ParametersView } from './ParametersView.js';
 import 'prismjs/themes/prism.css';
 import { LinkLabel } from './LinkLabel.js';
 import { EXPRESSION_REGEX, parseSpreadSheet, parseExpressions } from '../helpers/ParsingHelpers.js';
+
+import SenseiGenAIIcon from '../icons/SenseiGenAIIcon.js';
 
 const PROMPT_TEMPLATES_FILENAME = 'prompttemplates.json';
 
@@ -96,6 +99,7 @@ function Editor({ setResults }) {
       })
       .catch((error) => {
         console.log(error);
+        ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
       })
       .finally(() => {
         setBusy(false);
@@ -141,8 +145,18 @@ function Editor({ setResults }) {
         <ParametersView expressions={expressions} state={parameters} setState={setParameters} />
       </Flex>
       <Flex direction="row" gap="size-400" gridColumn='span 2' alignItems="center">
-        <Button variant="primary" onPress={completionHandler} isDisabled={busy}>Generate</Button>
+        <Button
+          UNSAFE_className="hover-cursor-pointer"
+          width="size-1700"
+          variant="primary"
+          style="fill"
+          onPress={completionHandler}
+          isDisabled={busy}>
+            {busy ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px"/> : <SenseiGenAIIcon />}
+            Generate
+        </Button>
         <Slider
+          UNSAFE_className="creativity-slider"
           label="Creativity"
           minValue={0.0}
           maxValue={0.9}

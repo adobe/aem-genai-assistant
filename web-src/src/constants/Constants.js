@@ -63,6 +63,77 @@ const MOCK_VARIATIONS = [
   },
 ];
 
+const MOCK_MIXED_VARIATIONS = [
+  {
+    id: 11,
+    content: `[
+      {
+        "Title": "Tech Trends Unveiled",
+        "Body": "Discover the latest advancements in technology",
+        "Button": "Explore Now"
+    },
+    {
+        "Title": "Innovation at Your Fingertips",
+        "Body": "Stay ahead with the newest tech trends",
+        "Button": "Dive In Today"
+      }
+  ]`,
+    isFavorite: false,
+  },
+  {
+    id: 12,
+    content: `[
+      {
+      "Segment": "free-lapsed-paid-illustrator",
+      "Title": "Design Precisely, Impactfully",
+      "Body": "Renew your Illustrator subscription, for precise and influential designs.",
+      "Reasoning": "Aims to emphasize the influence users can have with their designs upon renewing."
+      }
+    ]`,
+    isFavorite: false,
+  },
+  {
+    id: 13,
+    content: 'Greetings, tech visionaries! In a world of 010101, we decipher the language of innovation and transformation, crafting software that shapes the future.',
+    isFavorite: false,
+  },
+  {
+    id: 14,
+    content: 'Salutations, code architects! With each line of code, we construct the digital skyscrapers of tomorrow, reaching new heights of functionality and creativity.',
+    isFavorite: false,
+  },
+  {
+    id: 15,
+    content: 'Hello, software artisans! We sculpt digital artistry with the chisels of code, transforming abstract concepts into tangible solutions.',
+    isFavorite: false,
+  },
+  {
+    id: 16,
+    content: 'Greetings, code pioneers! With our compass of logic and creativity, we navigate the vast seas of software development, always charting a course toward excellence.',
+    isFavorite: false,
+  },
+  {
+    id: 17,
+    content: 'Hello, digital magicians! Our code is the wand that brings magic to the digital world, making the impossible possible through innovation and ingenuity.',
+    isFavorite: false,
+  },
+  {
+    id: 18,
+    content: 'Salutations, coding virtuosos! In the symphony of software, our orchestration of algorithms and data structures creates harmonious and functional compositions.',
+    isFavorite: false,
+  },
+  {
+    id: 19,
+    content: 'Greetings from the realm of software! We are the architects of the virtual kingdom, constructing digital fortresses of code and logic that stand the test of time.',
+    isFavorite: false,
+  },
+  {
+    id: 20,
+    content: 'Hello, code explorers! With our code compass in hand, we journey through the vast landscapes of programming, discovering new solutions and conquering challenges along the way.',
+    isFavorite: false,
+  },
+];
+
 const LOCAL_STORAGE_KEY = 'favorite-variations';
 
-export { MOCK_VARIATIONS, LOCAL_STORAGE_KEY };
+export { MOCK_VARIATIONS, MOCK_MIXED_VARIATIONS, LOCAL_STORAGE_KEY };

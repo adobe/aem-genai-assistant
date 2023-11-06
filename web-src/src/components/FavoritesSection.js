@@ -21,6 +21,8 @@ import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
 import Edit from '@spectrum-icons/workflow/Edit';
 
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
+
 import WriteIcon from '../icons/WriteIcon.js';
 import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 
@@ -80,7 +82,7 @@ function FavoritesSection({ favorites, onChange }) {
     <>
       {(favorites.length === 0) ? (
         <IllustratedMessage>
-          <WriteIcon size="S"/>
+          <WriteIcon size="S" />
           <Heading>Nothing here yet</Heading>
           <Content>Favorite your generated variations</Content>
         </IllustratedMessage>
@@ -106,35 +108,43 @@ function FavoritesSection({ favorites, onChange }) {
             </Item>
           </ActionBar>
           <View marginTop="size-300">
-            <Flex direction="column" gap="size-300">
+            <Flex direction="column" gap="size-300" UNSAFE_style={{ "overflow-x": "hidden" }}>
               <CheckboxGroup value={selectedKeys} onChange={setSelectedKeys}>
-                {favorites.length
-                  && favorites.map((favorite) => (
-                    <View
-                      paddingRight="size-300"
-                      paddingBottom="size-300"
-                      key={favorite.id}
-                    >
-                      <Flex direction="row" gap="size-100" justifyContent="right">
-                        <TooltipTrigger delay={0}>
-                          <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => copyFavoriteHandler(favorite.id)}>
-                            <Copy />
-                          </ActionButton>
-                          <Tooltip>Copy to Clipboard</Tooltip>
-                        </TooltipTrigger>
-                        <TooltipTrigger delay={0}>
-                          <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => deleteFavoriteHandler(favorite.id)}>
-                            <Delete />
-                          </ActionButton>
-                          <Tooltip>Delete Saved Variation</Tooltip>
-                        </TooltipTrigger>
-                      </Flex>
-                      <Flex direction="row" justifyContent="space-between" gap="size-10">
-                        <Checkbox value={favorite.id} />
-                        < Well UNSAFE_style={{ whiteSpace: 'pre-wrap' }}>{favorite.content}</Well>
-                      </Flex>
-                    </View>
-                  ))}
+                <TransitionGroup component={null}>
+                  {favorites.length
+                    && favorites.map((favorite) => (
+                      <CSSTransition
+                        key={favorite.id}
+                        timeout={500}
+                        classNames="fade"
+                      >
+                        <View
+                          paddingRight="size-300"
+                          paddingBottom="size-300"
+                          key={favorite.id}
+                        >
+                          <Flex direction="row" gap="size-100" justifyContent="right">
+                            <TooltipTrigger delay={0}>
+                              <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => copyFavoriteHandler(favorite.id)}>
+                                <Copy />
+                              </ActionButton>
+                              <Tooltip>Copy to Clipboard</Tooltip>
+                            </TooltipTrigger>
+                            <TooltipTrigger delay={0}>
+                              <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => deleteFavoriteHandler(favorite.id)}>
+                                <Delete />
+                              </ActionButton>
+                              <Tooltip>Delete Saved Variation</Tooltip>
+                            </TooltipTrigger>
+                          </Flex>
+                          <Flex direction="row" alignItems="center" justifyContent="space-between" gap="size-10">
+                            <Checkbox value={favorite.id} />
+                            <Well width="100%" UNSAFE_style={{ whiteSpace: 'pre-wrap' }}>{favorite.content}</Well>
+                          </Flex>
+                        </View>
+                      </CSSTransition>
+                    ))}
+                </TransitionGroup>
               </CheckboxGroup>
             </Flex>
           </View>

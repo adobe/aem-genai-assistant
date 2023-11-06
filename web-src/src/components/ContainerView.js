@@ -12,7 +12,7 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-  Content, Grid, Heading, IllustratedMessage, Item, ListView, View, Text, Tabs, TabList, TabPanels,
+  Grid, Item, View, Text, Tabs, TabList, TabPanels,
 } from '@adobe/react-spectrum';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -27,6 +27,7 @@ import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 function ContainerView() {
   const [variations, setVariations] = useState([]);
   const [favorites, setFavorites] = useState([]);
+  const [tab, setTab] = useState('variations');
 
   // Effect to run on component mount to initialize favorites from local storage
   useEffect(() => {
@@ -39,12 +40,31 @@ function ContainerView() {
     }
   }, []);
 
+  // Function to flatten a mixed list of strings and JSON objects
+  const flattenMixedList = (mixedList) => {
+    const flattenedList = mixedList.map(item => {
+      try {
+        let parsedJson = JSON.parse(item);
+        return parsedJson.map(jsonItem => {
+          return Object.entries(jsonItem).map(([key, value]) => `[${key}]  ${value}`).join('\n');
+        });
+      } catch (e) {
+        return item;
+      }
+    }).flat();
+
+    return flattenedList;
+}
+
   const handleResults = (results) => {
-    setVariations(results.map((result) => ({
+    const flattenedResults = flattenMixedList(results);
+    setVariations(flattenedResults.map((result) => ({
       id: uuidv4(),
       content: result,
       isFavorite: false,
     })));
+    
+    setTab('variations');
   };
 
   return (
@@ -68,7 +88,7 @@ function ContainerView() {
         borderColor="gray-300"
         borderRadius="medium"
         overflow="auto">
-        <Tabs aria-label="Tabs" height="100%">
+        <Tabs aria-label="Tabs" height="100%" selectedKey={tab} onSelectionChange={setTab}>
           <TabList>
             <Item key="variations"><AnnotatePen /><Text>Variations</Text></Item>
             <Item key="favorites"><Star /><Text>Favorites</Text></Item>

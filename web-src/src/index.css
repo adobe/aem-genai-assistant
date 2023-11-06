@@ -44,6 +44,10 @@ body {
   background-color: white;
 }
 
+.editor {
+  font-family: monospace;
+}
+
 .editor textarea:focus  {
   outline: none;
 }

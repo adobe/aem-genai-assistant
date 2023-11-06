@@ -10,17 +10,18 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Item, NumberField, Picker, TextArea, View,
+  Flex, Item, NumberField, Picker, Text, TextArea, View,
 } from '@adobe/react-spectrum';
+import InfoIcon from '@spectrum-icons/workflow/InfoOutline';
 import React, { useCallback, useEffect } from 'react';
 import { LinkLabel } from './LinkLabel.js';
 import { useApplicationContext } from './ApplicationProvider.js';
-import { parseSpreadSheet } from '../helpers/ParsingHelpers.js';
+import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
 
-function compareExpressions([a], [b]) {
-  if (a < b) {
+function compareExpressions([a, { order: aorder }], [b, { order: border }]) {
+  if (aorder < border) {
     return -1;
-  } else if (a > b) {
+  } else if (aorder > border) {
     return 1;
   }
   return 0;
@@ -44,8 +45,21 @@ function getComponentType(params) {
   return params.type || 'string';
 }
 
+function DescriptionLabel({ description }) {
+  console.log('description', description);
+  if (!description) {
+    return <></>;
+  }
+  return (
+    <Flex direction="row" gap="size-50" alignItems="center">
+      <InfoIcon size="S"/>
+      <Text UNSAFE_style={{ overflow: 'hidden', height: '1.3em' }}>{description}</Text>
+    </Flex>
+  );
+}
+
 function SpreadSheetPicker({
-  name, label, spreadsheet, onChange,
+  name, label, description, spreadsheet, onChange,
 }) {
   const { websiteUrl } = useApplicationContext();
   const [items, setItems] = React.useState([]);
@@ -67,17 +81,15 @@ function SpreadSheetPicker({
     onChange(items[selected].value);
   }, [items, onChange]);
 
-  console.log(items);
-
   return (
     <Picker
       key={name}
       label={<LinkLabel label={label} url={url}/>}
+      description={<DescriptionLabel description={description} />}
       width="100%"
       items={items}
       onSelectionChange={selectionHandler}>
-      {items ? items
-        .map((item, index) => <Item key={index}>{item.key}</Item>) : []}
+      {items ? items.map((item, index) => <Item key={index}>{item.key}</Item>) : []}
     </Picker>
   );
 }
@@ -87,8 +99,12 @@ export function ParametersView({ expressions, state, setState }) {
     <Flex direction="column" gap="size-200" alignItems={'end'} width="100%">
       {
         Object.entries(expressions).sort(compareExpressions).map(([name, params]) => {
+          if (params.comment) {
+            return null;
+          }
           const label = getComponentLabel(name, params.label);
           const type = getComponentType(params);
+          const defaultValue = params.default;
 
           switch (type) {
             case 'spreadsheet':
@@ -97,6 +113,7 @@ export function ParametersView({ expressions, state, setState }) {
                 <SpreadSheetPicker
                   name={name}
                   label={label}
+                  description={params.description}
                   spreadsheet={params.spreadsheet}
                   onChange={(value) => {
                     setState({ ...state, [name]: value });
@@ -108,7 +125,7 @@ export function ParametersView({ expressions, state, setState }) {
                 <NumberField
                   key={name}
                   label={label}
-                  defaultValue={state[name]}
+                  description={<DescriptionLabel description={params.description}/>}
                   width="100%"
                   onChange={(value) => {
                     setState({ ...state, [name]: value });
@@ -121,7 +138,7 @@ export function ParametersView({ expressions, state, setState }) {
                 <TextArea
                   key={name}
                   label={label}
-                  defaultValue={state[name]}
+                  description={<DescriptionLabel description={params.description}/>}
                   width="100%"
                   onChange={(value) => {
                     setState({ ...state, [name]: value });

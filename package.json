@@ -4,12 +4,13 @@
   "private": true,
   "scripts": {
     "start": "REACT_APP_VERSION=$npm_package_version aio app run",
-    "deploy:app": "REACT_APP_VERSION=$npm_package_version aio app deploy --no-actions",
+    "grammar": "nearleyc web-src/src/helpers/expressions.ne -o web-src/src/helpers/Parser.generated.js",
+    "deploy:app": "npm run grammar && REACT_APP_VERSION=$npm_package_version aio app deploy --no-actions",
     "deploy:actions": "aio app deploy --no-web-assets",
     "deploy": "REACT_APP_VERSION=$npm_package_version aio app deploy",
-    "lint": "eslint web-src/src/**/*.js test/**/*.js",
-    "fix": "eslint web-src/src/**/*.js test/**/*.js --fix",
-    "test": "jest --passWithNoTests ./test",
+    "lint": "eslint --quiet web-src/src/**/*.js test/**/*.js",
+    "fix": "eslint --fix --quiet web-src/src/**/*.js test/**/*.js",
+    "test": "jest --passWithNoTests ./test ./web-src/src",
     "e2e": "jest --collectCoverage=false --testRegex ./e2e"
   },
   "dependencies": {
@@ -19,6 +20,7 @@
     "@react-spectrum/toast": "3.0.0-beta.6",
     "@spectrum-icons/illustrations": "3.6.7",
     "@spectrum-icons/workflow": "4.2.6",
+    "nearley": "^2.20.1",
     "prismjs": "1.29.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -36,7 +38,8 @@
     "@babel/preset-env": "7.8.7",
     "@openwhisk/wskdebug": "1.3.0",
     "@semantic-release/changelog": "6.0.3",
-    "eslint": "8.52.0",
+    "babel-jest": "29.7.0",
+    "eslint": "8.53.0",
     "eslint-plugin-react": "7.33.2",
     "jest": "29"
   },

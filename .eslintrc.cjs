@@ -11,6 +11,7 @@
  */
 module.exports = {
   root: true,
+  ignorePatterns: ["**/*.generated.js"],
   extends: [
     "@adobe/helix",
     "eslint:recommended",
@@ -32,4 +33,9 @@ module.exports = {
     browser: true,
     jest: true,
   },
+  settings: {
+    react: {
+      version: "detect"
+    }
+  }
 };

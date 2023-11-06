@@ -11,16 +11,23 @@
  */
 import React, { useCallback, useEffect } from 'react';
 import {
-  Item, Button, Grid, Picker, Flex, Switch, Slider, View, Badge,
+  Item, Button, Grid, Picker, Flex, Switch, Slider, View, Badge, Text,
 } from '@adobe/react-spectrum';
 /* eslint-disable-next-line import/no-named-default */
 import { default as SimpleEditor } from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
+import InfoIcon from '@spectrum-icons/workflow/InfoOutline';
+import GenerateIcon from '@spectrum-icons/workflow/MagicWand';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { ParametersView } from './ParametersView.js';
 import 'prismjs/themes/prism.css';
 import { LinkLabel } from './LinkLabel.js';
-import { EXPRESSION_REGEX, parseSpreadSheet, parseExpressions } from '../helpers/ParsingHelpers.js';
+import {
+  EXPRESSION_REGEX,
+  parseExpressions,
+} from '../helpers/ExpressionParser.js';
+import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
+import { renderExpressions } from '../helpers/ExpressionRenderer.js';
 
 const PROMPT_TEMPLATES_FILENAME = 'prompttemplates.json';
 
@@ -32,31 +39,11 @@ const CREATIVITY_LABELS = [
 ];
 
 languages.custom = {
-  function: /\{[^}]+}/g,
-  variable: /<please select>/,
+  function: /{[^@#]([^{}]+)}/,
+  keyword: /{@([^{}]+)}/,
+  regex: /<please select>/,
+  comment: /{#([^{}]+)}/,
 };
-
-function isBlankExpressionValue(value) {
-  if (typeof value === 'number') {
-    return false;
-  } else if (typeof value === 'string') {
-    return value.trim() === '';
-  }
-  return value === null || value === undefined;
-}
-
-function replaceTemplateStrings(str, valuesMap) {
-  return str.replace(EXPRESSION_REGEX, (match, key) => {
-    /* eslint-disable-next-line no-nested-ternary */
-    return key in valuesMap
-      ? (isBlankExpressionValue(valuesMap[key]) ? '<please select>' : valuesMap[key])
-      : '<please select>';
-  });
-}
-
-function renderPrompt(prompt, expressions, sourceView) {
-  return sourceView ? prompt : replaceTemplateStrings(prompt, expressions);
-}
 
 function Editor({ setResults }) {
   const { appVersion, websiteUrl, completionService } = useApplicationContext();
@@ -67,7 +54,7 @@ function Editor({ setResults }) {
   const [sourceView, setSourceView] = React.useState(false);
   const [prompt, setPrompt] = React.useState('');
   const [temperature, setTemperature] = React.useState(0.30);
-  const [busy, setBusy] = React.useState(false);
+  const [pending, setPending] = React.useState(false);
 
   useEffect(() => {
     parseSpreadSheet(`${websiteUrl}/${PROMPT_TEMPLATES_FILENAME}`).then(setPromptTemplates);
@@ -79,13 +66,8 @@ function Editor({ setResults }) {
   }, [promptTemplates]);
 
   const completionHandler = useCallback(() => {
-    setBusy(true);
-    const finalPrompt = renderPrompt(
-      prompt,
-      parameters,
-
-      sourceView,
-    );
+    setPending(true);
+    const finalPrompt = sourceView ? prompt : renderExpressions(prompt, parameters);
     completionService.complete(finalPrompt, temperature)
       .then((result) => {
         try {
@@ -98,7 +80,7 @@ function Editor({ setResults }) {
         console.log(error);
       })
       .finally(() => {
-        setBusy(false);
+        setPending(false);
       });
   }, [completionService, prompt, temperature, parameters]);
 
@@ -127,7 +109,7 @@ function Editor({ setResults }) {
             UNSAFE_className={['editor-container', sourceView ? 'editable' : ''].join(' ')}>
         <SimpleEditor
           className="editor"
-          value={renderPrompt(prompt, parameters, sourceView)}
+          value={sourceView ? prompt : renderExpressions(prompt, parameters)}
           onValueChange={setPrompt}
           highlight={(code) => highlight(code, languages.custom, 'custom')}
           readOnly={!sourceView}
@@ -141,7 +123,10 @@ function Editor({ setResults }) {
         <ParametersView expressions={expressions} state={parameters} setState={setParameters} />
       </Flex>
       <Flex direction="row" gap="size-400" gridColumn='span 2' alignItems="center">
-        <Button variant="primary" onPress={completionHandler} isDisabled={busy}>Generate</Button>
+        <Button variant="primary" isPending={pending} onPress={completionHandler} isDisabled={pending}>
+          <GenerateIcon/>
+          <Text>Generate</Text>
+        </Button>
         <Slider
           label="Creativity"
           minValue={0.0}

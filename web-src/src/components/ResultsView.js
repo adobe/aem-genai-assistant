@@ -22,10 +22,10 @@ import Star from '@spectrum-icons/workflow/Star';
 import {
   atom, selector, useRecoilState, useRecoilValue,
 } from 'recoil';
-import Editor, { resultsState } from './Editor.js';
 import VariationsSection from './VariationsSection.js';
 import FavoritesSection from './FavoritesSection.js';
 import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
+import { generationResultsState } from './GenerateButton.js';
 
 // Function to flatten a mixed list of strings and JSON objects
 const flattenMixedList = (mixedList) => {
@@ -44,7 +44,7 @@ const flattenMixedList = (mixedList) => {
 const newVariationsState = selector({
   key: 'variationsState',
   get: ({ get }) => {
-    return flattenMixedList(get(resultsState)).map((result) => ({
+    return flattenMixedList(get(generationResultsState)).map((result) => ({
       id: uuidv4(),
       content: result,
       isFavorite: false,
@@ -52,7 +52,7 @@ const newVariationsState = selector({
   },
 });
 
-function ContainerView() {
+function ResultsView() {
   const newVariations = useRecoilValue(newVariationsState);
   const [variations, setVariations] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -74,42 +74,35 @@ function ContainerView() {
   }, [newVariations]);
 
   return (
-    <Grid
-      columns={['auto']}
-      rows={['auto']}
-      gap={'size-200'}
+    <View
+      paddingLeft="15px"
+      paddingRight="15px"
       width={'100%'}
-      height="100%">
-      <View
-        paddingLeft="30px"
-        marginTop={80}
-        marginBottom={80}
-        width={'100%'}
-        borderWidth="thin"
-        borderColor="gray-300"
-        borderRadius="medium"
-        overflow="auto">
-        <Tabs aria-label="Tabs" width={'100%'} height="100%" selectedKey={tab} onSelectionChange={setTab}>
-          <TabList>
-            <Item key="variations"><AnnotatePen /><Text>Variations</Text></Item>
-            <Item key="favorites"><Star /><Text>Favorites</Text></Item>
-          </TabList>
-          <TabPanels UNSAFE_style={{ overflow: 'auto' }}>
-            <Item key="variations">
-              <VariationsSection
-                variations={variations}
-                favorites={favorites}
-                onVariationsChange={setVariations}
-                onFavoritesChange={setFavorites} />
-            </Item>
-            <Item key="favorites">
-              <FavoritesSection favorites={favorites} onChange={setFavorites} />
-            </Item>
-          </TabPanels>
-        </Tabs>
-      </View>
-    </Grid>
+      height={'100%'}
+      borderWidth="thin"
+      borderColor="gray-300"
+      borderRadius="medium"
+      overflow="auto">
+      <Tabs aria-label="Tabs" width={'100%'} height="100%" selectedKey={tab} onSelectionChange={setTab}>
+        <TabList>
+          <Item key="variations"><AnnotatePen /><Text>Variations</Text></Item>
+          <Item key="favorites"><Star /><Text>Favorites</Text></Item>
+        </TabList>
+        <TabPanels UNSAFE_style={{ overflow: 'auto' }}>
+          <Item key="variations">
+            <VariationsSection
+              variations={variations}
+              favorites={favorites}
+              onVariationsChange={setVariations}
+              onFavoritesChange={setFavorites} />
+          </Item>
+          <Item key="favorites">
+            <FavoritesSection favorites={favorites} onChange={setFavorites} />
+          </Item>
+        </TabPanels>
+      </Tabs>
+    </View>
   );
 }
 
-export default ContainerView;
+export default ResultsView;

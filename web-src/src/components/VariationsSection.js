@@ -82,8 +82,6 @@ function VariationsSection({
     onVariationsChange(updatedVariations);
   }, [variations]);
 
-  console.log(variations);
-
   return (
     <>
       {(variations.length === 0) ? (

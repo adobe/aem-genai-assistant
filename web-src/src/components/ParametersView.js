@@ -14,9 +14,11 @@ import {
 } from '@adobe/react-spectrum';
 import InfoIcon from '@spectrum-icons/workflow/InfoOutline';
 import React, { useCallback, useEffect } from 'react';
+import { atom, useRecoilState } from 'recoil';
 import { LinkLabel } from './LinkLabel.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
+import { expressionsState } from './Editor.js';
 
 function compareExpressions([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
@@ -94,13 +96,23 @@ function SpreadSheetPicker({
   );
 }
 
-export function ParametersView({ expressions, state, setState }) {
+export const parametersState = atom({
+  key: 'parametersState',
+  default: [],
+});
+
+export function ParametersView() {
+  const [expressions] = useRecoilState(expressionsState);
+  const [parameters, setParameters] = useRecoilState(parametersState);
+
+  console.log('p', parameters);
+
   return (
     <Flex
       direction="column"
       gap="size-100"
       alignItems={'end'}
-      width={'100%'}>
+      width={Object.entries(expressions).length ? '300px' : 0}>
       {
         Object.entries(expressions).sort(compareExpressions).map(([name, params]) => {
           if (params.comment) {
@@ -119,7 +131,7 @@ export function ParametersView({ expressions, state, setState }) {
                   description={params.description}
                   spreadsheet={params.spreadsheet}
                   onChange={(value) => {
-                    setState({ ...state, [name]: value });
+                    setParameters({ ...parameters, [name]: value });
                   }}
                 />
               );
@@ -131,7 +143,7 @@ export function ParametersView({ expressions, state, setState }) {
                   description={<DescriptionLabel description={params.description}/>}
                   width="100%"
                   onChange={(value) => {
-                    setState({ ...state, [name]: value });
+                    setParameters({ ...parameters, [name]: value });
                   }}
                 />
               );
@@ -144,7 +156,7 @@ export function ParametersView({ expressions, state, setState }) {
                   description={<DescriptionLabel description={params.description}/>}
                   width="100%"
                   onChange={(value) => {
-                    setState({ ...state, [name]: value });
+                    setParameters({ ...parameters, [name]: value });
                   }}
                 />
               );

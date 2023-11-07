@@ -12,7 +12,7 @@
 import React from 'react';
 import { ToastContainer } from '@react-spectrum/toast';
 import {
-  Badge, Flex, Grid, Switch, View,
+  Text, Flex, Grid, Switch, View,
 } from '@adobe/react-spectrum';
 import { atom, useRecoilState } from 'recoil';
 import ResultsView from './ResultsView.js';
@@ -45,7 +45,7 @@ function App() {
         columns={['1.5fr', 'minmax(0, auto)', '1fr']}
         rows={['min-content', 'auto', 'min-content']}
         gap={'size-200'}
-        UNSAFE_style={{ padding: '15px' }}
+        UNSAFE_style={{ padding: '30px' }}
         width="100%" height="100%">
         <Flex gridArea={'header1'} direction={'row'} gap={'size-400'} alignItems={'last baseline'}>
           <PromptTemplatePicker />
@@ -68,7 +68,7 @@ function App() {
           <CreativitySelector />
         </Flex>
         <Flex gridArea={'footer2'} direction={'row'} gap={'size-400'} alignItems={'center'} justifyContent={'end'}>
-          <Badge variant="neutral" justifySelf={'end'}>v{appVersion}</Badge>
+          <Text justifySelf={'end'}>v{appVersion}</Text>
         </Flex>
       </Grid>
     </>

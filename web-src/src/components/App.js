@@ -69,7 +69,7 @@ function App() {
       <Grid
         columns={['1.5fr', 'minmax(0, 300px)', '1fr']}
         rows={['auto', '1fr', 'auto']}
-        gap={'size-200'}
+        gap={'size-300'}
         UNSAFE_style={{ padding: '30px' }}
         width="100%" height="100%">
         <Flex direction={'row'} gap={'size-400'} alignItems={'end'} gridColumn={'1/span 3'}>

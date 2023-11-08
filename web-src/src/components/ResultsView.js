@@ -52,6 +52,7 @@ function ResultsView({ gridColumn }) {
     // If there are stored favorites, parse and set them as the initial state
     if (storedFavorites) {
       setFavorites(JSON.parse(storedFavorites));
+      setTab('favorites');
     }
   }, []);
 

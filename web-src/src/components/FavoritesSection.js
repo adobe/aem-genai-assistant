@@ -139,7 +139,8 @@ function FavoritesSection({ favorites, onChange }) {
                           </Flex>
                           <Flex direction="row" alignItems="center" justifyContent="space-between" gap="size-10">
                             <Checkbox value={favorite.id} />
-                            <Well width="100%" UNSAFE_style={{ whiteSpace: 'pre-wrap' }}>{favorite.content}</Well>
+                            <div style={{ width: '100%', whiteSpace: 'pre-wrap' }}
+                                 dangerouslySetInnerHTML={{ __html: favorite.content }}/>
                           </Flex>
                         </View>
                       </CSSTransition>

@@ -82,8 +82,6 @@ function VariationsSection({
     onVariationsChange(updatedVariations);
   }, [variations]);
 
-  console.log(variations);
-
   return (
     <>
       {(variations.length === 0) ? (
@@ -128,7 +126,8 @@ function VariationsSection({
                           <Tooltip>Remove Variation</Tooltip>
                         </TooltipTrigger>
                       </Flex>
-                      <Well UNSAFE_style={{ whiteSpace: 'pre-wrap' }}>{variation.content}</Well>
+                      <div style={{ width: '100%', whiteSpace: 'pre-wrap' }}
+                           dangerouslySetInnerHTML={{ __html: variation.content }}/>
                     </View>
                   </CSSTransition>
                 ))}

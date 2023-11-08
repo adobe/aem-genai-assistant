@@ -10,13 +10,18 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Item, NumberField, Picker, Text, TextArea, View,
+  Flex, Item, NumberField, Picker, Text, TextArea,
 } from '@adobe/react-spectrum';
 import InfoIcon from '@spectrum-icons/workflow/InfoOutline';
 import React, { useCallback, useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { LinkLabel } from './LinkLabel.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
+import { promptState } from '../state/PromptState.js';
+import { expressionsState } from '../state/ExpressionsState.js';
+import { parametersState } from '../state/ParametersState.js';
+import { showParametersState } from '../state/ShowParametersState.js';
 
 function compareExpressions([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
@@ -94,12 +99,24 @@ function SpreadSheetPicker({
   );
 }
 
-export function ParametersView({ expressions, state, setState }) {
+export function ParametersView({ gridColumn }) {
+  const [expressions] = useRecoilState(expressionsState);
+  const [parameters, setParameters] = useRecoilState(parametersState);
+  const prompt = useRecoilValue(promptState);
+  const showParameters = useRecoilValue(showParametersState);
+
+  useEffect(() => {
+    setParameters([]);
+  }, [prompt]);
+
   return (
     <Flex
       direction="column"
-      gap="size-50"
+      gap="size-100"
       alignItems={'end'}
+      gridColumn={gridColumn}
+      isHidden={!showParameters}
+      UNSAFE_style={{ overflow: 'auto' }}
       width={'100%'}>
       {
         Object.entries(expressions).sort(compareExpressions).map(([name, params]) => {
@@ -119,7 +136,7 @@ export function ParametersView({ expressions, state, setState }) {
                   description={params.description}
                   spreadsheet={params.spreadsheet}
                   onChange={(value) => {
-                    setState({ ...state, [name]: value });
+                    setParameters({ ...parameters, [name]: value });
                   }}
                 />
               );
@@ -131,7 +148,7 @@ export function ParametersView({ expressions, state, setState }) {
                   description={<DescriptionLabel description={params.description}/>}
                   width="100%"
                   onChange={(value) => {
-                    setState({ ...state, [name]: value });
+                    setParameters({ ...parameters, [name]: value });
                   }}
                 />
               );
@@ -144,7 +161,7 @@ export function ParametersView({ expressions, state, setState }) {
                   description={<DescriptionLabel description={params.description}/>}
                   width="100%"
                   onChange={(value) => {
-                    setState({ ...state, [name]: value });
+                    setParameters({ ...parameters, [name]: value });
                   }}
                 />
               );

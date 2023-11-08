@@ -9,37 +9,22 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, { useCallback, useEffect } from 'react';
-import {
-  Item, Button, Grid, Picker, Flex, Switch, Slider, View, Badge, Text, ProgressCircle,
-} from '@adobe/react-spectrum';
-import { ToastQueue } from '@react-spectrum/toast';
+import React, { useEffect } from 'react';
+import { View } from '@adobe/react-spectrum';
 /* eslint-disable-next-line import/no-named-default */
 import { default as SimpleEditor } from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
-import InfoIcon from '@spectrum-icons/workflow/InfoOutline';
-import GenerateIcon from '@spectrum-icons/workflow/MagicWand';
-import { useApplicationContext } from './ApplicationProvider.js';
-import { ParametersView } from './ParametersView.js';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import 'prismjs/themes/prism.css';
-import { LinkLabel } from './LinkLabel.js';
-import {
-  EXPRESSION_REGEX,
-  parseExpressions,
-} from '../helpers/ExpressionParser.js';
-import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
+import { parseExpressions } from '../helpers/ExpressionParser.js';
 import { renderExpressions } from '../helpers/ExpressionRenderer.js';
 
-import SenseiGenAIIcon from '../icons/SenseiGenAIIcon.js';
-
-const PROMPT_TEMPLATES_FILENAME = 'prompttemplates.json';
-
-const CREATIVITY_LABELS = [
-  'Conventional',
-  'Balanced',
-  'Innovator',
-  'Visionary',
-];
+import { showPromptState } from '../state/ShowPromptState.js';
+import { sourceViewState } from '../state/SourceViewState.js';
+import { promptState } from '../state/PromptState.js';
+import { expressionsState } from '../state/ExpressionsState.js';
+import { parametersState } from '../state/ParametersState.js';
+import { promptTemplateState } from '../state/PromptTemplateState.js';
 
 languages.custom = {
   function: /{[^@#]([^{}]+)}/,
@@ -48,110 +33,38 @@ languages.custom = {
   comment: /{#([^{}]+)}/,
 };
 
-function Editor({ setResults }) {
-  const { appVersion, websiteUrl, completionService } = useApplicationContext();
-
-  const [promptTemplates, setPromptTemplates] = React.useState([]);
-  const [parameters, setParameters] = React.useState([]);
-  const [showPrompt, setShowPrompt] = React.useState(true);
-  const [sourceView, setSourceView] = React.useState(false);
-  const [prompt, setPrompt] = React.useState('');
-  const [temperature, setTemperature] = React.useState(0.30);
-  const [pending, setPending] = React.useState(false);
+function Editor({ gridColumn }) {
+  const setExpressions = useSetRecoilState(expressionsState);
+  const [sourceView, setSourceView] = useRecoilState(sourceViewState);
+  const promptTemplate = useRecoilValue(promptTemplateState);
+  const [prompt, setPrompt] = useRecoilState(promptState);
+  const parameters = useRecoilValue(parametersState);
+  const showPrompt = useRecoilValue(showPromptState);
 
   useEffect(() => {
-    parseSpreadSheet(`${websiteUrl}/${PROMPT_TEMPLATES_FILENAME}`).then(setPromptTemplates);
-  }, []);
+    if (promptTemplate) {
+      setPrompt(promptTemplate.value);
+      setSourceView(false);
+    }
+  }, [promptTemplate, setPrompt]);
 
-  const promptSelectionHandler = useCallback((selected) => {
-    setPrompt(promptTemplates[selected].value);
-    setSourceView(false);
-  }, [promptTemplates]);
-
-  const completionHandler = useCallback(() => {
-    setPending(true);
-    const finalPrompt = sourceView ? prompt : renderExpressions(prompt, parameters);
-    completionService.complete(finalPrompt, temperature)
-      .then((result) => {
-        try {
-          setResults(JSON.parse(result));
-        } catch (error) {
-          setResults([result]);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-        ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
-      })
-      .finally(() => {
-        setPending(false);
-      });
-  }, [completionService, prompt, temperature, parameters]);
-
-  const expressions = parseExpressions(prompt);
+  useEffect(() => {
+    setExpressions(parseExpressions(prompt));
+  }, [prompt, setExpressions]);
 
   return (
-    <Grid
-      columns={['auto', 'minmax(0, min-content)']}
-      rows={['65px', 'auto', '65px']}
-      gap="size-200"
-      margin={0}
-      width="100%" height="100%">
-      <Flex direction="row" gap="size-200" alignItems={'end'} gridColumn='span 2'>
-        <Picker
-          label={<LinkLabel label="Prompt Library" url={`${websiteUrl}/${PROMPT_TEMPLATES_FILENAME}`}/>}
-          isLoading={!promptTemplates}
-          onSelectionChange={promptSelectionHandler}
-          width="35%">
-          {promptTemplates ? promptTemplates
-            .map((template, index) => <Item key={index}>{template.key}</Item>) : []}
-        </Picker>
-        <Switch isSelected={showPrompt} onChange={setShowPrompt}>Show Prompt</Switch>
-        <Switch isSelected={sourceView} onChange={setSourceView} isDisabled={!showPrompt}>Edit Mode</Switch>
-      </Flex>
-      <View UNSAFE_style={{ display: showPrompt ? 'block' : 'none' }}
-            UNSAFE_className={['editor-container', sourceView ? 'editable' : ''].join(' ')}>
-        <SimpleEditor
-          className="editor"
-          value={sourceView ? prompt : renderExpressions(prompt, parameters)}
-          onValueChange={setPrompt}
-          highlight={(code) => highlight(code, languages.custom, 'custom')}
-          readOnly={!sourceView}
-        />
-      </View>
-      <Flex
-        direction="column"
-        gap="size-200"
-        alignItems="start"
-        width={Object.keys(expressions).length ? (showPrompt ? '230px' : '100%') : 0}
-        UNSAFE_style={{
-          overflow: 'scroll',
-        }}>
-        <ParametersView expressions={expressions} state={parameters} setState={setParameters} />
-      </Flex>
-      <Flex direction="row" gap="size-400" gridColumn='span 2' alignItems="center">
-        <Button
-          UNSAFE_className="hover-cursor-pointer"
-          width="size-1700"
-          variant="primary"
-          style="fill"
-          onPress={completionHandler}
-          isDisabled={pending}>
-            {pending ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px"/> : <SenseiGenAIIcon />}
-            Generate
-        </Button>
-        <Slider
-          UNSAFE_className="creativity-slider"
-          label="Creativity"
-          minValue={0.0}
-          maxValue={0.9}
-          step={0.30}
-          getValueLabel={(value) => CREATIVITY_LABELS[value / 0.30]}
-          onChange={setTemperature}
-          defaultValue={temperature} />
-        <Badge variant="neutral">v{appVersion}</Badge>
-      </Flex>
-    </Grid>
+    <View
+      gridColumn={gridColumn}
+      isHidden={!showPrompt}
+      UNSAFE_className={['editor-container', sourceView ? 'editable' : ''].join(' ')}>
+      <SimpleEditor
+        className="editor"
+        value={sourceView ? prompt : renderExpressions(prompt, parameters)}
+        onValueChange={setPrompt}
+        highlight={(code) => highlight(code, languages.custom, 'custom')}
+        readOnly={!sourceView}
+      />
+    </View>
   );
 }
 

@@ -9,27 +9,14 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import ReactDOM from 'react-dom'
+import { atom } from 'recoil';
 
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from 'recoil';
-import App from './components/App'
-import {defaultTheme, Provider} from '@adobe/react-spectrum';
-import {ApplicationProvider} from './components/ApplicationProvider.js';
-import './index.css'
+export const TEMPERATURE_MIN = 0.0;
+export const TEMPERATURE_MAX = 0.9;
+export const TEMPERATURE_STEP = 0.30;
+const DEFAULT_TEMPERATURE = 0.30;
 
-ReactDOM.render(
-  <RecoilRoot>
-    <Provider theme={defaultTheme} width="100%" height="100%">
-      <ApplicationProvider>
-        <App />
-      </ApplicationProvider>
-    </Provider>,
-  </RecoilRoot>,
-  document.getElementById('root')
-)
+export const temperatureState = atom({
+  key: 'temperatureState',
+  default: DEFAULT_TEMPERATURE,
+});

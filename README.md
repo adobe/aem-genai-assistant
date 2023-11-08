@@ -1,8 +1,30 @@
 # AEM GenAI Assistant
 
-## Creating Prompt Templates
+Welcome to the AEM GenAI Assistant GitHub repository!
+Follow these instructions to integrate this powerful tool into your website.
 
-### Using Placeholders
+## Getting Started
+
+### Setting Up AEM GenAI Assistant
+
+To activate the AEM GenAI Assistant on your EDS website, it's necessary to incorporate the following code into your Sidekick configuration at `tools/sidekick/config.json`:
+```json
+{
+  "id": "aem-genai-assistant",
+  "title": "Assistant",
+  "url": "<coming soon>",
+  "passConfig": true,
+  "passReferrer": true,
+  "environments": [ "edit", "dev", "preview", "live", "prod" ],
+  "includePaths": [ "/**" ]
+}
+```
+
+### Creating Dynamic Prompt Templates
+
+Learn how to make your prompt templates both flexible and reusable using placeholders.
+
+#### Using Placeholders
 Placeholders make prompt templates flexible and reusable. They are special spots in a template where users can input customized values. When a prompt with placeholders is run, these spots are filled with the user's specific inputs, making the prompt tailored for the situation.
 
 A placeholder is an expression defined as a sequence enclosed in curly braces {}. It may optionally start with a modifier, followed by an identifier and optional parameters. 
@@ -28,24 +50,26 @@ The list of supported parameters are:
     - `spreadsheet` - A drop-down list of values from a spreadsheet.
 - `spreadsheet` - The name of the spreadsheet to use for the placeholder. If not provided, the placeholder will be displayed as a text input. This parameter sets the type to `spreadsheet`.
 
-## Setup
+## Development Guidelines
+
+### Initial Setup
 
 - Populate the `.env` file in the project root and fill it as shown [below](#env)
 
-## Local Dev
+### Local Development
 
 - `npm start` to start your local Dev server
 - App will run on `localhost:9080` by default
 
-## Test & Coverage
+### Testing
 
 - Run `npm test` to run unit tests for ui and actions
 
-## Deploy & Cleanup
+### Deployment
 
 - `npm run deploy` to build and deploy all actions on Runtime and static files to CDN
 
-## Config
+### Configuration
 
 ### `.env`
 

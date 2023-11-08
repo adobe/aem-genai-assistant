@@ -20,7 +20,7 @@ import { highlight, languages } from 'prismjs/components/prism-core';
 import {
   atom, useRecoilState, useRecoilValue, useSetRecoilState,
 } from 'recoil';
-import { parametersState, ParametersView } from './ParametersView.js';
+import { parametersState } from './ParametersView.js';
 import 'prismjs/themes/prism.css';
 import {
   parseExpressions,
@@ -28,7 +28,7 @@ import {
 import { renderExpressions } from '../helpers/ExpressionRenderer.js';
 
 import { promptTemplateState } from './PromptTemplateSelector.js';
-import {showPromptState, sourceViewState} from './App.js';
+import { showPromptState, sourceViewState } from './App.js';
 
 languages.custom = {
   function: /{[^@#]([^{}]+)}/,
@@ -47,7 +47,7 @@ export const expressionsState = atom({
   default: {},
 });
 
-function Editor({gridColumn}) {
+function Editor({ gridColumn }) {
   const setExpressions = useSetRecoilState(expressionsState);
   const [sourceView, setSourceView] = useRecoilState(sourceViewState);
   const promptTemplate = useRecoilValue(promptTemplateState);

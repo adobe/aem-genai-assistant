@@ -11,7 +11,7 @@
  */
 import { Item, Picker } from '@adobe/react-spectrum';
 import { useCallback, useEffect } from 'react';
-import {atom, useRecoilState, useSetRecoilState} from 'recoil';
+import { atom, useRecoilState, useSetRecoilState } from 'recoil';
 import { LinkLabel } from './LinkLabel.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';

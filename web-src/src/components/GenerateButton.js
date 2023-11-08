@@ -23,7 +23,7 @@ import { temperatureState } from './CreativitySelector.js';
 import { parametersState } from './ParametersView.js';
 
 function objectToString(obj) {
-  return String(obj).replace(/<\/?[^>]+(>|$)/g, "");
+  return String(obj).replace(/<\/?[^>]+(>|$)/g, '');
 }
 
 function jsonToString(json) {
@@ -32,7 +32,7 @@ function jsonToString(json) {
   }
   return Object.entries(json).map(([key, value]) => {
     return `<b>${key}</b>: ${objectToString(value)}`;
-  }).join('<br/>')
+  }).join('<br/>');
 }
 
 export const generationResultsState = atom({

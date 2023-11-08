@@ -14,11 +14,13 @@ import {
 } from '@adobe/react-spectrum';
 import InfoIcon from '@spectrum-icons/workflow/InfoOutline';
 import React, { useCallback, useEffect } from 'react';
-import {atom, selector, useRecoilState, useRecoilValue} from 'recoil';
+import {
+  atom, selector, useRecoilState, useRecoilValue,
+} from 'recoil';
 import { LinkLabel } from './LinkLabel.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
-import {expressionsState, promptState} from './Editor.js';
+import { expressionsState, promptState } from './Editor.js';
 
 function compareExpressions([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
@@ -106,7 +108,7 @@ export const showParametersState = selector({
   get: ({ get }) => {
     return !!Object.keys(get(expressionsState)).length;
   },
-})
+});
 
 export function ParametersView({ gridColumn }) {
   const [expressions] = useRecoilState(expressionsState);

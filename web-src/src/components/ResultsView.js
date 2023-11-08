@@ -38,7 +38,7 @@ const newVariationsState = selector({
   },
 });
 
-function ResultsView({gridColumn}) {
+function ResultsView({ gridColumn }) {
   const newVariations = useRecoilValue(newVariationsState);
   const [variations, setVariations] = useState([]);
   const [favorites, setFavorites] = useState([]);

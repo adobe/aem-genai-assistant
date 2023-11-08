@@ -14,10 +14,10 @@ import { ToastContainer } from '@react-spectrum/toast';
 import {
   Text, Flex, Grid, ToggleButton,
 } from '@adobe/react-spectrum';
-import {atom, useRecoilState, useRecoilValue} from 'recoil';
+import { atom, useRecoilState, useRecoilValue } from 'recoil';
 import ResultsView from './ResultsView.js';
 import Editor from './Editor.js';
-import {ParametersView, showParametersState} from './ParametersView.js';
+import { ParametersView, showParametersState } from './ParametersView.js';
 import { PromptTemplateSelector } from './PromptTemplateSelector.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { GenerateButton } from './GenerateButton.js';
@@ -25,7 +25,7 @@ import { CreativitySelector } from './CreativitySelector.js';
 
 export const showPromptState = atom({
   key: 'showPromptState',
-  default: true,
+  default: false,
 });
 
 export const sourceViewState = atom({

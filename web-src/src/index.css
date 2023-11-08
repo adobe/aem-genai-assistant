@@ -3,6 +3,7 @@ html {
   height: 100%;
   margin: 0;
   padding: 0;
+  overflow: hidden;
 }
 
 body {
@@ -22,7 +23,6 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
 }
 
 * {
@@ -35,6 +35,7 @@ body {
 
 .editor-container {
   width: 100%;
+  height: 100%;
   overflow: auto;
   padding: 15px;
   border: 1px solid #ccc;

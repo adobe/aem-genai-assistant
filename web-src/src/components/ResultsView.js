@@ -27,24 +27,10 @@ import FavoritesSection from './FavoritesSection.js';
 import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 import { generationResultsState } from './GenerateButton.js';
 
-// Function to flatten a mixed list of strings and JSON objects
-const flattenMixedList = (mixedList) => {
-  return mixedList.map((item) => {
-    try {
-      const parsedJson = JSON.parse(item);
-      return parsedJson.map((jsonItem) => {
-        return Object.entries(jsonItem).map(([key, value]) => `[${key}]  ${value}`).join('\n');
-      });
-    } catch (e) {
-      return item;
-    }
-  }).flat();
-};
-
 const newVariationsState = selector({
   key: 'variationsState',
   get: ({ get }) => {
-    return flattenMixedList(get(generationResultsState)).map((result) => ({
+    return get(generationResultsState).map((result) => ({
       id: uuidv4(),
       content: result,
       isFavorite: false,
@@ -52,7 +38,7 @@ const newVariationsState = selector({
   },
 });
 
-function ResultsView() {
+function ResultsView({gridColumn}) {
   const newVariations = useRecoilValue(newVariationsState);
   const [variations, setVariations] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -79,6 +65,7 @@ function ResultsView() {
       paddingRight="15px"
       width={'100%'}
       height={'100%'}
+      gridColumn={gridColumn}
       borderWidth="thin"
       borderColor="gray-300"
       borderRadius="medium"

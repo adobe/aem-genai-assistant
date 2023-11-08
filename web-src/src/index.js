@@ -25,7 +25,7 @@ import './index.css'
 
 ReactDOM.render(
   <RecoilRoot>
-    <Provider theme={defaultTheme} height="100%">
+    <Provider theme={defaultTheme} width="100%" height="100%">
       <ApplicationProvider>
         <App />
       </ApplicationProvider>

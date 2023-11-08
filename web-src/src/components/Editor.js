@@ -9,34 +9,26 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
-  Item, Button, Grid, Picker, Flex, Switch, Slider, View, Badge, Text, ProgressCircle,
+  View,
 } from '@adobe/react-spectrum';
 import { ToastQueue } from '@react-spectrum/toast';
 /* eslint-disable-next-line import/no-named-default */
 import { default as SimpleEditor } from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
-import InfoIcon from '@spectrum-icons/workflow/InfoOutline';
-import GenerateIcon from '@spectrum-icons/workflow/MagicWand';
 import {
   atom, useRecoilState, useRecoilValue, useSetRecoilState,
 } from 'recoil';
-import { useApplicationContext } from './ApplicationProvider.js';
 import { parametersState, ParametersView } from './ParametersView.js';
 import 'prismjs/themes/prism.css';
-import { LinkLabel } from './LinkLabel.js';
 import {
-  EXPRESSION_REGEX,
   parseExpressions,
 } from '../helpers/ExpressionParser.js';
 import { renderExpressions } from '../helpers/ExpressionRenderer.js';
 
-import SenseiGenAIIcon from '../icons/SenseiGenAIIcon.js';
-import { promptTemplateState } from './PromptTemplatePicker.js';
-import { showPromptState, sourceViewState } from './App.js';
-import { CreativitySelector, temperatureState } from './CreativitySelector.js';
-import { GenerateButton } from './GenerateButton.js';
+import { promptTemplateState } from './PromptTemplateSelector.js';
+import {showPromptState, sourceViewState} from './App.js';
 
 languages.custom = {
   function: /{[^@#]([^{}]+)}/,
@@ -55,13 +47,13 @@ export const expressionsState = atom({
   default: {},
 });
 
-function Editor() {
+function Editor({gridColumn}) {
   const setExpressions = useSetRecoilState(expressionsState);
-  const showPrompt = useRecoilValue(showPromptState);
   const [sourceView, setSourceView] = useRecoilState(sourceViewState);
   const promptTemplate = useRecoilValue(promptTemplateState);
   const [prompt, setPrompt] = useRecoilState(promptState);
   const parameters = useRecoilValue(parametersState);
+  const showPrompt = useRecoilValue(showPromptState);
 
   useEffect(() => {
     if (promptTemplate) {
@@ -76,7 +68,8 @@ function Editor() {
 
   return (
     <View
-      UNSAFE_style={{ display: showPrompt ? 'block' : 'none' }}
+      gridColumn={gridColumn}
+      isHidden={!showPrompt}
       UNSAFE_className={['editor-container', sourceView ? 'editable' : ''].join(' ')}>
       <SimpleEditor
         className="editor"

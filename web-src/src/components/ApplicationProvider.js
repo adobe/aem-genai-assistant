@@ -43,7 +43,7 @@ export const ApplicationProvider = ({ children }) => {
   try {
     const application = createApplication();
     return (
-      <ApplicationContext.Provider value={application} width="100%" height="100%">
+      <ApplicationContext.Provider value={application}>
         {children}
       </ApplicationContext.Provider>
     );

@@ -12,13 +12,13 @@
 import React from 'react';
 import { ToastContainer } from '@react-spectrum/toast';
 import {
-  Text, Flex, Grid, Switch, View,
+  Text, Flex, Grid, ToggleButton,
 } from '@adobe/react-spectrum';
-import { atom, useRecoilState } from 'recoil';
+import {atom, useRecoilState, useRecoilValue} from 'recoil';
 import ResultsView from './ResultsView.js';
 import Editor from './Editor.js';
-import { ParametersView } from './ParametersView.js';
-import { PromptTemplatePicker } from './PromptTemplatePicker.js';
+import {ParametersView, showParametersState} from './ParametersView.js';
+import { PromptTemplateSelector } from './PromptTemplateSelector.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { GenerateButton } from './GenerateButton.js';
 import { CreativitySelector } from './CreativitySelector.js';
@@ -33,41 +33,58 @@ export const sourceViewState = atom({
   default: false,
 });
 
+function getEditorGridColumns(showPrompt, showParameters) {
+  if (showPrompt && showParameters) {
+    return '1/span 1';
+  } else if (showPrompt) {
+    return '1/span 2';
+  }
+  return '';
+}
+
+function getParametersGridColumns(showPrompt, showParameters) {
+  if (showPrompt && showParameters) {
+    return '2/span 1';
+  } else if (showParameters) {
+    return '1/span 2';
+  }
+  return '';
+}
+
+function getResultsGridColumns(showPrompt, showParameters) {
+  if (showPrompt || showParameters) {
+    return '3/span 1';
+  }
+  return '1/span 3';
+}
+
 function App() {
   const { appVersion } = useApplicationContext();
   const [showPrompt, setShowPrompt] = useRecoilState(showPromptState);
+  const showParameters = useRecoilValue(showParametersState);
   const [sourceView, setSourceView] = useRecoilState(sourceViewState);
   return (
     <>
       <ToastContainer />
       <Grid
-        areas={['header1 header1 header2', 'editor parameters results', 'footer1 footer1 footer2']}
-        columns={['1.5fr', 'minmax(0, auto)', '1fr']}
-        rows={['min-content', 'auto', 'min-content']}
+        columns={['1.5fr', 'minmax(0, 300px)', '1fr']}
+        rows={['auto', '1fr', 'auto']}
         gap={'size-200'}
         UNSAFE_style={{ padding: '30px' }}
         width="100%" height="100%">
-        <Flex gridArea={'header1'} direction={'row'} gap={'size-400'} alignItems={'last baseline'}>
-          <PromptTemplatePicker />
-          <Switch gridArea={'header1'} isSelected={sourceView} onChange={setSourceView} isDisabled={!showPrompt}>Edit Mode</Switch>
+        <Flex direction={'row'} gap={'size-400'} alignItems={'end'} gridColumn={'1/span 3'}>
+          <PromptTemplateSelector />
+          <ToggleButton isSelected={sourceView} onChange={setSourceView} isDisabled={!showPrompt} >Edit Mode</ToggleButton>
+          <ToggleButton isSelected={showPrompt} onChange={setShowPrompt}>Show Prompt</ToggleButton>
         </Flex>
-        <Flex gridArea={'header2'} direction={'row'} gap={'size-400'} alignItems={'last baseline'} justifyContent={'end'}>
-          <Switch isSelected={showPrompt} onChange={setShowPrompt}>Show Prompt</Switch>
-        </Flex>
-        <Flex gridArea={'editor'} direction={'column'}>
-          <Editor />
-        </Flex>
-        <View gridArea={'parameters'}>
-          <ParametersView />
-        </View>
-        <View gridArea={'results'}>
-          <ResultsView gridArea={'results'} />
-        </View>
-        <Flex gridArea={'footer1'} direction={'row'} gap={'size-400'} alignItems={'center'}>
+        <Editor gridColumn={getEditorGridColumns(showPrompt, showParameters)} />
+        <ParametersView gridColumn={getParametersGridColumns(showPrompt, showParameters)} />
+        <ResultsView gridColumn={getResultsGridColumns(showPrompt, showParameters)} />
+        <Flex direction={'row'} gap={'size-400'} alignItems={'center'} gridColumn={'1/span 2'}>
           <GenerateButton />
           <CreativitySelector />
         </Flex>
-        <Flex gridArea={'footer2'} direction={'row'} gap={'size-400'} alignItems={'center'} justifyContent={'end'}>
+        <Flex direction={'row'} gap={'size-400'} alignItems={'center'} justifyContent={'end'}>
           <Text justifySelf={'end'}>v{appVersion}</Text>
         </Flex>
       </Grid>

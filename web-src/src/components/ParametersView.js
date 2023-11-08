@@ -14,11 +14,11 @@ import {
 } from '@adobe/react-spectrum';
 import InfoIcon from '@spectrum-icons/workflow/InfoOutline';
 import React, { useCallback, useEffect } from 'react';
-import { atom, useRecoilState } from 'recoil';
+import {atom, selector, useRecoilState, useRecoilValue} from 'recoil';
 import { LinkLabel } from './LinkLabel.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
-import { expressionsState } from './Editor.js';
+import {expressionsState, promptState} from './Editor.js';
 
 function compareExpressions([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
@@ -101,18 +101,32 @@ export const parametersState = atom({
   default: [],
 });
 
-export function ParametersView() {
+export const showParametersState = selector({
+  key: 'showParametersState',
+  get: ({ get }) => {
+    return !!Object.keys(get(expressionsState)).length;
+  },
+})
+
+export function ParametersView({ gridColumn }) {
   const [expressions] = useRecoilState(expressionsState);
   const [parameters, setParameters] = useRecoilState(parametersState);
+  const prompt = useRecoilValue(promptState);
+  const showParameters = useRecoilValue(showParametersState);
 
-  console.log('p', parameters);
+  useEffect(() => {
+    setParameters([]);
+  }, [prompt]);
 
   return (
     <Flex
       direction="column"
       gap="size-100"
       alignItems={'end'}
-      width={Object.entries(expressions).length ? '300px' : 0}>
+      gridColumn={gridColumn}
+      isHidden={!showParameters}
+      UNSAFE_style={{ overflow: 'auto' }}
+      width={'100%'}>
       {
         Object.entries(expressions).sort(compareExpressions).map(([name, params]) => {
           if (params.comment) {

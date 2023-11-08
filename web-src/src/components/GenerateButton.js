@@ -22,6 +22,19 @@ import { promptState } from './Editor.js';
 import { temperatureState } from './CreativitySelector.js';
 import { parametersState } from './ParametersView.js';
 
+function objectToString(obj) {
+  return String(obj).replace(/<\/?[^>]+(>|$)/g, "");
+}
+
+function jsonToString(json) {
+  if (json === null || typeof json !== 'object') {
+    return objectToString(json);
+  }
+  return Object.entries(json).map(([key, value]) => {
+    return `<b>${key}</b>: ${objectToString(value)}`;
+  }).join('<br/>')
+}
+
 export const generationResultsState = atom({
   key: 'generationResultsState',
   default: [],
@@ -48,7 +61,7 @@ export function GenerateButton() {
         try {
           const json = JSON.parse(result);
           if (Array.isArray(json)) {
-            setGenerationResults(JSON.parse(result));
+            setGenerationResults(json.map((item) => jsonToString(item)));
           } else {
             setGenerationResults([result]);
           }

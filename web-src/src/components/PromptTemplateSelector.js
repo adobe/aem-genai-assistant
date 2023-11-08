@@ -11,7 +11,7 @@
  */
 import { Item, Picker } from '@adobe/react-spectrum';
 import { useCallback, useEffect } from 'react';
-import { atom, useRecoilState } from 'recoil';
+import {atom, useRecoilState, useSetRecoilState} from 'recoil';
 import { LinkLabel } from './LinkLabel.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
@@ -28,18 +28,18 @@ export const promptTemplateState = atom({
   default: undefined,
 });
 
-export function PromptTemplatePicker() {
+export function PromptTemplateSelector() {
   const { websiteUrl } = useApplicationContext();
   const [promptTemplates, setPromptTemplates] = useRecoilState(promptTemplatesState);
-  const [, setPrompt] = useRecoilState(promptTemplateState);
+  const setPrompt = useSetRecoilState(promptTemplateState);
 
   useEffect(() => {
     parseSpreadSheet(`${websiteUrl}/${PROMPT_TEMPLATES_FILENAME}`).then(setPromptTemplates);
-  }, []);
+  }, [websiteUrl, setPromptTemplates]);
 
   const promptSelectionHandler = useCallback((selected) => {
     setPrompt(promptTemplates[selected]);
-  }, [promptTemplates]);
+  }, [promptTemplates, setPrompt]);
 
   return (
     <Picker

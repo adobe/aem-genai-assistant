@@ -18,6 +18,16 @@ Parameters are a list of key-value pairs, providing additional information or co
 Each parameter is defined as a key-value pair, separated by an equals sign `=`. Parameters themselves are separated from each other by commas `,`.
 The value in a key-value pair can be either a simple string or a quoted string.
 
+The list of supported parameters are:
+- `label` - The label to display for the placeholder. If not provided, the placeholder will be displayed as the identifier transformed into a user-friendly format.
+- `description` - The description to display for the placeholder.
+- `type` - The type of input to expect from the user. If not provided, the placeholder will be displayed as a text input.
+  - The list of supported types:
+    - `string` - A multi-line text input (default).
+    - `number` - A number.
+    - `spreadsheet` - A drop-down list of values from a spreadsheet.
+- `spreadsheet` - The name of the spreadsheet to use for the placeholder. If not provided, the placeholder will be displayed as a text input. This parameter sets the type to `spreadsheet`.
+
 ## Setup
 
 - Populate the `.env` file in the project root and fill it as shown [below](#env)

@@ -4,7 +4,7 @@ const {retry} = require('wretch/middlewares/retry');
 
 function wretchRetry(url) {
   return wretch(url).middlewares([retry({
-    retryOnNetworkError: false,
+    retryOnNetworkError: true,
   })]);
 }
 

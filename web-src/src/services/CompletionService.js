@@ -22,7 +22,7 @@ export class CompletionService {
     console.log(`CompletionService complete prompt: ${prompt} temperature: ${temperature}`);
     const url = `${this.endpoint}?prompt=${encodeURIComponent(prompt)}&t=${temperature}`;
     const json = await wretch(url).middlewares([retry({
-      retryOnNetworkError: false,
+      retryOnNetworkError: true,
     })]).get().json();
     return json.generations[0][0].message.content;
   }

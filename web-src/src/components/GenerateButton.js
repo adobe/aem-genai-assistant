@@ -11,16 +11,16 @@
  */
 import { Button, ProgressCircle } from '@adobe/react-spectrum';
 import React, { useCallback } from 'react';
-import {
-  atom, useRecoilState, useRecoilValue, useSetRecoilState,
-} from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { ToastQueue } from '@react-spectrum/toast';
 import SenseiGenAIIcon from '../icons/SenseiGenAIIcon.js';
 import { renderExpressions } from '../helpers/ExpressionRenderer.js';
 import { useApplicationContext } from './ApplicationProvider.js';
-import { promptState } from './Editor.js';
-import { temperatureState } from './CreativitySelector.js';
-import { parametersState } from './ParametersView.js';
+import { promptState } from '../state/PromptState.js';
+import { temperatureState } from '../state/TemperatureState.js';
+import { generationResultsState } from '../state/GenerationResultsState.js';
+import { generationInProgressState } from '../state/GenerationInProgressState.js';
+import { parametersState } from '../state/ParametersState.js';
 
 function objectToString(obj) {
   return String(obj).replace(/<\/?[^>]+(>|$)/g, '');
@@ -34,16 +34,6 @@ function jsonToString(json) {
     return `<b>${key}</b>: ${objectToString(value)}`;
   }).join('<br/>');
 }
-
-export const generationResultsState = atom({
-  key: 'generationResultsState',
-  default: [],
-});
-
-export const generationInProgressState = atom({
-  key: 'generationInProgressState',
-  default: false,
-});
 
 export function GenerateButton() {
   const { completionService } = useApplicationContext();

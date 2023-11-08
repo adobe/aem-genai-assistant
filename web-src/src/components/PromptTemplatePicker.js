@@ -10,25 +10,17 @@
  * governing permissions and limitations under the License.
  */
 import { Item, Picker } from '@adobe/react-spectrum';
-import { useCallback, useEffect } from 'react';
-import { atom, useRecoilState, useSetRecoilState } from 'recoil';
+import React, { useCallback, useEffect } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { LinkLabel } from './LinkLabel.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
+import { promptTemplatesState } from '../state/PromptTemplatesState.js';
+import { promptTemplateState } from '../state/PromptTemplateState.js';
 
 const PROMPT_TEMPLATES_FILENAME = 'prompttemplates.json';
 
-export const promptTemplatesState = atom({
-  key: 'promptTemplatesState',
-  default: [],
-});
-
-export const promptTemplateState = atom({
-  key: 'promptTemplateState',
-  default: undefined,
-});
-
-export function PromptTemplateSelector() {
+export function PromptTemplatePicker() {
   const { websiteUrl } = useApplicationContext();
   const [promptTemplates, setPromptTemplates] = useRecoilState(promptTemplatesState);
   const setPrompt = useSetRecoilState(promptTemplateState);

@@ -12,34 +12,20 @@
 
 import React, { useEffect, useState } from 'react';
 import {
-  Grid, Item, View, Text, Tabs, TabList, TabPanels,
+  Item, TabList, TabPanels, Tabs, Text, View,
 } from '@adobe/react-spectrum';
-import { v4 as uuidv4 } from 'uuid';
 
 import AnnotatePen from '@spectrum-icons/workflow/AnnotatePen';
 import Star from '@spectrum-icons/workflow/Star';
 
-import {
-  atom, selector, useRecoilState, useRecoilValue,
-} from 'recoil';
+import { useRecoilValue } from 'recoil';
 import VariationsSection from './VariationsSection.js';
 import FavoritesSection from './FavoritesSection.js';
 import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
-import { generationResultsState } from './GenerateButton.js';
-
-const newVariationsState = selector({
-  key: 'variationsState',
-  get: ({ get }) => {
-    return get(generationResultsState).map((result) => ({
-      id: uuidv4(),
-      content: result,
-      isFavorite: false,
-    }));
-  },
-});
+import { newVariationsSelector } from '../state/NewVariationsSelector.js';
 
 function ResultsView({ gridColumn }) {
-  const newVariations = useRecoilValue(newVariationsState);
+  const newVariations = useRecoilValue(newVariationsSelector);
   const [variations, setVariations] = useState([]);
   const [favorites, setFavorites] = useState([]);
   const [tab, setTab] = useState('variations');

@@ -10,25 +10,21 @@
  * governing permissions and limitations under the License.
  */
 import React, { useEffect } from 'react';
-import {
-  View,
-} from '@adobe/react-spectrum';
-import { ToastQueue } from '@react-spectrum/toast';
+import { View } from '@adobe/react-spectrum';
 /* eslint-disable-next-line import/no-named-default */
 import { default as SimpleEditor } from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
-import {
-  atom, useRecoilState, useRecoilValue, useSetRecoilState,
-} from 'recoil';
-import { parametersState } from './ParametersView.js';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import 'prismjs/themes/prism.css';
-import {
-  parseExpressions,
-} from '../helpers/ExpressionParser.js';
+import { parseExpressions } from '../helpers/ExpressionParser.js';
 import { renderExpressions } from '../helpers/ExpressionRenderer.js';
 
-import { promptTemplateState } from './PromptTemplateSelector.js';
-import { showPromptState, sourceViewState } from './App.js';
+import { showPromptState } from '../state/ShowPromptState.js';
+import { sourceViewState } from '../state/SourceViewState.js';
+import { promptState } from '../state/PromptState.js';
+import { expressionsState } from '../state/ExpressionsState.js';
+import { parametersState } from '../state/ParametersState.js';
+import { promptTemplateState } from '../state/PromptTemplateState.js';
 
 languages.custom = {
   function: /{[^@#]([^{}]+)}/,
@@ -36,16 +32,6 @@ languages.custom = {
   regex: /<please select>/,
   comment: /{#([^{}]+)}/,
 };
-
-export const promptState = atom({
-  key: 'promptState',
-  default: '',
-});
-
-export const expressionsState = atom({
-  key: 'expressionsState',
-  default: {},
-});
 
 function Editor({ gridColumn }) {
   const setExpressions = useSetRecoilState(expressionsState);

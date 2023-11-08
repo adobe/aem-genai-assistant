@@ -12,26 +12,19 @@
 import React from 'react';
 import { ToastContainer } from '@react-spectrum/toast';
 import {
-  Text, Flex, Grid, ToggleButton,
+  Flex, Grid, Text, ToggleButton,
 } from '@adobe/react-spectrum';
-import { atom, useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import ResultsView from './ResultsView.js';
 import Editor from './Editor.js';
-import { ParametersView, showParametersState } from './ParametersView.js';
-import { PromptTemplateSelector } from './PromptTemplateSelector.js';
+import { ParametersView } from './ParametersView.js';
+import { PromptTemplatePicker } from './PromptTemplatePicker.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { GenerateButton } from './GenerateButton.js';
-import { CreativitySelector } from './CreativitySelector.js';
-
-export const showPromptState = atom({
-  key: 'showPromptState',
-  default: false,
-});
-
-export const sourceViewState = atom({
-  key: 'sourceViewState',
-  default: false,
-});
+import { CreativitySlider } from './CreativitySlider.js';
+import { showPromptState } from '../state/ShowPromptState.js';
+import { sourceViewState } from '../state/SourceViewState.js';
+import { showParametersState } from '../state/ShowParametersState.js';
 
 function getEditorGridColumns(showPrompt, showParameters) {
   if (showPrompt && showParameters) {
@@ -73,16 +66,18 @@ function App() {
         UNSAFE_style={{ padding: '30px' }}
         width="100%" height="100%">
         <Flex direction={'row'} gap={'size-400'} alignItems={'end'} gridColumn={'1/span 3'}>
-          <PromptTemplateSelector />
-          <ToggleButton isSelected={sourceView} onChange={setSourceView} isDisabled={!showPrompt} >Edit Mode</ToggleButton>
-          <ToggleButton isSelected={showPrompt} onChange={setShowPrompt}>Show Prompt</ToggleButton>
-        </Flex>
+          <PromptTemplatePicker />
+          <ToggleButton isSelected={sourceView}
+            onChange={setSourceView} isDisabled={!showPrompt} >Edit Mode</ToggleButton>
+          <ToggleButton isSelected={showPrompt}
+            onChange={setShowPrompt}>Show Prompt</ToggleButton>
+      </Flex>
         <Editor gridColumn={getEditorGridColumns(showPrompt, showParameters)} />
         <ParametersView gridColumn={getParametersGridColumns(showPrompt, showParameters)} />
         <ResultsView gridColumn={getResultsGridColumns(showPrompt, showParameters)} />
         <Flex direction={'row'} gap={'size-400'} alignItems={'center'} gridColumn={'1/span 2'}>
           <GenerateButton />
-          <CreativitySelector />
+          <CreativitySlider />
         </Flex>
         <Flex direction={'row'} gap={'size-400'} alignItems={'center'} justifyContent={'end'}>
           <Text justifySelf={'end'}>v{appVersion}</Text>

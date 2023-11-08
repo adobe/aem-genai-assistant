@@ -11,7 +11,10 @@
  */
 import { Slider } from '@adobe/react-spectrum';
 import React from 'react';
-import { atom, useRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
+import {
+  TEMPERATURE_MAX, TEMPERATURE_MIN, TEMPERATURE_STEP, temperatureState,
+} from '../state/TemperatureState.js';
 
 const CREATIVITY_LABELS = [
   'Conventional',
@@ -20,17 +23,7 @@ const CREATIVITY_LABELS = [
   'Visionary',
 ];
 
-const TEMPERATURE_MIN = 0.0;
-const TEMPERATURE_MAX = 0.9;
-const TEMPERATURE_STEP = 0.30;
-const DEFAULT_TEMPERATURE = 0.30;
-
-export const temperatureState = atom({
-  key: 'temperatureState',
-  default: DEFAULT_TEMPERATURE,
-});
-
-export function CreativitySelector() {
+export function CreativitySlider() {
   const [temperature, setTemperature] = useRecoilState(temperatureState);
   return (
     <Slider

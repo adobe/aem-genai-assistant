@@ -10,17 +10,18 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Item, NumberField, Picker, Text, TextArea, View,
+  Flex, Item, NumberField, Picker, Text, TextArea,
 } from '@adobe/react-spectrum';
 import InfoIcon from '@spectrum-icons/workflow/InfoOutline';
 import React, { useCallback, useEffect } from 'react';
-import {
-  atom, selector, useRecoilState, useRecoilValue,
-} from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { LinkLabel } from './LinkLabel.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
-import { expressionsState, promptState } from './Editor.js';
+import { promptState } from '../state/PromptState.js';
+import { expressionsState } from '../state/ExpressionsState.js';
+import { parametersState } from '../state/ParametersState.js';
+import { showParametersState } from '../state/ShowParametersState.js';
 
 function compareExpressions([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
@@ -97,18 +98,6 @@ function SpreadSheetPicker({
     </Picker>
   );
 }
-
-export const parametersState = atom({
-  key: 'parametersState',
-  default: [],
-});
-
-export const showParametersState = selector({
-  key: 'showParametersState',
-  get: ({ get }) => {
-    return !!Object.keys(get(expressionsState)).length;
-  },
-});
 
 export function ParametersView({ gridColumn }) {
   const [expressions] = useRecoilState(expressionsState);

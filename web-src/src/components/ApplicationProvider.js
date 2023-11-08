@@ -22,7 +22,7 @@ function getWebsiteUrlFromReferrer() {
   /* eslint-disable-next-line no-undef */
   const searchParams = new URLSearchParams(window.location.search);
   if (!searchParams.has('referrer')) {
-    throw Error('No referrer search param');
+    throw Error('It seems we\'re missing the referrer search parameter in your application.');
   }
   const referrer = searchParams.get('referrer');
   const url = new URL(referrer);
@@ -49,8 +49,8 @@ export const ApplicationProvider = ({ children }) => {
     );
   } catch (e) {
     return (
-      <div>
-        <h1>Application Error</h1>
+      <div style={{ padding: '10px', margin: '50px' }}>
+        <h2>Oops! It looks like we ran into a small snag.</h2>
         <p>{e.message}</p>
       </div>
     );

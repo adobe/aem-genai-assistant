@@ -59,7 +59,8 @@ The list of supported parameters are:
 ### Local Development
 
 - `npm start` to start your local Dev server
-- App will run on `localhost:9080` by default
+  - App will run on `localhost:9080` by default
+  - Actions will be deployed locally (requires Docker running)
 
 ### Testing
 

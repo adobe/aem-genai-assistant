@@ -7,16 +7,31 @@ Follow these instructions to integrate this powerful tool into your website.
 
 ### Setting Up AEM GenAI Assistant
 
-To activate the AEM GenAI Assistant on your EDS website, it's necessary to incorporate the following code into your Sidekick configuration at `tools/sidekick/config.json`:
-```json
+To activate the AEM GenAI Assistant on your EDS website, it's necessary to include the following code into your Sidekick configuration at `tools/sidekick/config.json`:
+```json5
 {
-  "id": "aem-genai-assistant",
-  "title": "Assistant",
-  "url": "<coming soon>",
-  "passConfig": true,
-  "passReferrer": true,
-  "environments": [ "edit", "dev", "preview", "live", "prod" ],
-  "includePaths": [ "/**" ]
+  // ...
+  "plugins": [
+    // ...
+    {
+      "id": "aem-genai-assistant",
+      "title": "Assistant",
+      "url": "<coming soon>",
+      "passConfig": true,
+      "passReferrer": true,
+      "environments": [
+        "edit",
+        "dev",
+        "preview",
+        "live",
+        "prod"
+      ],
+      "includePaths": [
+        "/**"
+      ]
+    }
+    // ...
+  ]
 }
 ```
 

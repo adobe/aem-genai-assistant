@@ -22,33 +22,37 @@ To activate the AEM GenAI Assistant on your EDS website, it's necessary to incor
 
 ### Creating Dynamic Prompt Templates
 
-Learn how to make your prompt templates both flexible and reusable using placeholders.
-
-#### Using Placeholders
 Placeholders make prompt templates flexible and reusable. They are special spots in a template where users can input customized values. When a prompt with placeholders is run, these spots are filled with the user's specific inputs, making the prompt tailored for the situation.
+
+#### Placeholder Syntax
 
 A placeholder is an expression defined as a sequence enclosed in curly braces {}. It may optionally start with a modifier, followed by an identifier and optional parameters. 
 
 `{@placeholder, label="Placeholder"}`
 
+#### Modifiers
+
 A modifier is a single character, either # or @, used to modify the behavior of the expression.
 - `#` is used for comments that the language model does not see.
 - `@` transforms an expression into a definition that remains hidden from LLM. Definitions organize parameters outside the template, making prompts cleaner and easier to manage.
+
+#### Parameters
 
 Parameters are a list of key-value pairs, providing additional information or configuration for the expression.
 
 Each parameter is defined as a key-value pair, separated by an equals sign `=`. Parameters themselves are separated from each other by commas `,`.
 The value in a key-value pair can be either a simple string or a quoted string.
 
-The list of supported parameters are:
+The list of supported parameters:
 - `label` - The label to display for the placeholder. If not provided, the placeholder will be displayed as the identifier transformed into a user-friendly format.
 - `description` - The description to display for the placeholder.
 - `type` - The type of input to expect from the user. If not provided, the placeholder will be displayed as a text input.
-  - The list of supported types:
-    - `string` - A multi-line text input (default).
-    - `number` - A number.
-    - `spreadsheet` - A drop-down list of values from a spreadsheet.
 - `spreadsheet` - The name of the spreadsheet to use for the placeholder. If not provided, the placeholder will be displayed as a text input. This parameter sets the type to `spreadsheet`.
+
+The list of supported types:
+- `string` - A multi-line text input (default).
+- `number` - A number.
+- `spreadsheet` - A drop-down list of values from a spreadsheet.
 
 ## Development Guidelines
 

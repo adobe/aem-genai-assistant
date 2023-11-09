@@ -8,7 +8,7 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        node-version: ['16']
+        node-version: ['12']
         os: [ubuntu-latest]
     steps:
       - name: Checkout
@@ -22,8 +22,8 @@ jobs:
       - name: Setup CLI
         uses: adobe/aio-cli-setup-action@1.1.0
         with:
-          os: ${{ matrix.os }}
-          version: 8.x.x
+          os: ubuntu-latest
+          version: 7.0.0
       - name: Build
         env:
           AIO_RUNTIME_NAMESPACE: ${{ secrets.AIO_RUNTIME_NAMESPACE_STAGE }}

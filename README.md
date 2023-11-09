@@ -1,4 +1,4 @@
-# AEM GenAI Assistant
+# AEM GenAI Assistant Sidekick Plugin
 
 Welcome to the AEM GenAI Assistant GitHub repository!
 Follow these instructions to integrate this powerful tool into your website.
@@ -7,7 +7,7 @@ Follow these instructions to integrate this powerful tool into your website.
 
 ### Setting Up AEM GenAI Assistant
 
-To activate the AEM GenAI Assistant on your EDS website, it's necessary to include the following code into your Sidekick configuration at `tools/sidekick/config.json`:
+To activate the AEM GenAI Assistant Sidekick Plugin on your Edge Delivery Services website, it's necessary to include the following code into your Sidekick configuration at `tools/sidekick/config.json`:
 ```json5
 {
   // ...

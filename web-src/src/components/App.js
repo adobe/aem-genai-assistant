@@ -25,6 +25,7 @@ import { CreativitySlider } from './CreativitySlider.js';
 import { showPromptState } from '../state/ShowPromptState.js';
 import { sourceViewState } from '../state/SourceViewState.js';
 import { showParametersState } from '../state/ShowParametersState.js';
+import { ConsentDialog } from './ConsentDialog.js';
 
 function getEditorGridColumns(showPrompt, showParameters) {
   if (showPrompt && showParameters) {
@@ -59,6 +60,7 @@ function App() {
   return (
     <>
       <ToastContainer />
+      <ConsentDialog />
       <Grid
         columns={['1.5fr', 'minmax(0, 300px)', '1fr']}
         rows={['auto', '1fr', 'auto']}

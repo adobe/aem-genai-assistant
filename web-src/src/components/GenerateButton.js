@@ -9,7 +9,9 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { Button, ProgressCircle } from '@adobe/react-spectrum';
+import {
+  Button, Content, ContextualHelp, Flex, Heading, Link, ProgressCircle, Text,
+} from '@adobe/react-spectrum';
 import React, { useCallback } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { ToastQueue } from '@react-spectrum/toast';
@@ -21,6 +23,7 @@ import { temperatureState } from '../state/TemperatureState.js';
 import { generationResultsState } from '../state/GenerationResultsState.js';
 import { generationInProgressState } from '../state/GenerationInProgressState.js';
 import { parametersState } from '../state/ParametersState.js';
+import { UserGuidelinesLink } from './UserGuidelinesLink.js';
 
 function objectToString(obj) {
   return String(obj).replace(/<\/?[^>]+(>|$)/g, '');
@@ -69,15 +72,28 @@ export function GenerateButton() {
   }, [completionService, prompt, temperature, parameters]);
 
   return (
-    <Button
-      UNSAFE_className="hover-cursor-pointer"
-      width="size-1700"
-      variant="primary"
-      style="fill"
-      onPress={generateHandler}
-      isDisabled={generationInProgress}>
-      {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px"/> : <SenseiGenAIIcon />}
-      Generate
-    </Button>
+    <Flex direction="row" gap="size-100">
+      <Button
+        UNSAFE_className="hover-cursor-pointer"
+        width="size-1700"
+        variant="primary"
+        style="fill"
+        onPress={generateHandler}
+        isDisabled={generationInProgress}>
+        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px"/> : <SenseiGenAIIcon />}
+        Generate
+      </Button>
+      <ContextualHelp variant="info">
+        <Heading>Terms of use</Heading>
+        <Content>
+          <p>
+            Your inputs to the service should be tied to a context.This context can be your branding
+            materials, website content, data, schemas for such data, templates, or other trusted documents.
+            You should evaluate the accuracy of any output as appropriate to your use case.
+          </p>
+          <UserGuidelinesLink />
+        </Content>
+      </ContextualHelp>
+    </Flex>
   );
 }

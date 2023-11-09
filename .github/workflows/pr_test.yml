@@ -25,7 +25,7 @@ jobs:
           version: 8.x.x
       - name: Build
         env:
-          AIO_RUNTIME_NAMESPACE: ${{ secrets.AIO_RUNTIME_NAMESPACE_PROD }}
+          AIO_RUNTIME_NAMESPACE: ${{ secrets.AIO_RUNTIME_NAMESPACE_STAGE }}
         uses: adobe/aio-apps-action@2.0.1
         with:
           os: ${{ matrix.os }}
@@ -37,8 +37,8 @@ jobs:
           command: test
       - name: Deploy
         env:
-          AIO_RUNTIME_NAMESPACE: ${{ secrets.AIO_RUNTIME_NAMESPACE_PROD }}
-          AIO_RUNTIME_AUTH: ${{ secrets.AIO_RUNTIME_AUTH_PROD }}
+          AIO_RUNTIME_NAMESPACE: ${{ secrets.AIO_RUNTIME_NAMESPACE_STAGE }}
+          AIO_RUNTIME_AUTH: ${{ secrets.AIO_RUNTIME_AUTH_STAGE }}
         uses: adobe/aio-apps-action@2.0.1
         with:
           os: ${{ matrix.os }}

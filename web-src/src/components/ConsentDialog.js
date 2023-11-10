@@ -45,7 +45,7 @@ export function ConsentDialog() {
   };
 
   return (
-    <DialogContainer onDismiss={() => setOpen(false)}>
+    <DialogContainer onDismiss={handleCancel}>
       {isOpen
         && <Dialog onDismiss={handleCancel}>
           <Heading>Generative AI in Adobe apps</Heading>

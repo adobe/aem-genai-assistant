@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@adobe/aio-sdk": "3.0.0",
+    "@adobe/exc-app": "1.2.10",
     "@adobe/generator-add-action-generic": "0.2.9",
     "@adobe/react-spectrum": "3.31.1",
     "@react-spectrum/toast": "3.0.0-beta.6",

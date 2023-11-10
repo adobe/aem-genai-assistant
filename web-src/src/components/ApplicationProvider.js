@@ -18,6 +18,8 @@ console.log(`Version: ${APP_VERSION}`);
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 console.log(`API_ENDPOINT: ${API_ENDPOINT}`);
 
+// https://experience.adobe.com/?devMode=true#/custom-apps/?localDevUrl=https://localhost:9080/?referrer=https://genai--express-website--vtsaplin.hlx.page/express/create/flyer
+
 function getWebsiteUrlFromReferrer() {
   /* eslint-disable-next-line no-undef */
   const searchParams = new URLSearchParams(window.location.search);
@@ -25,7 +27,7 @@ function getWebsiteUrlFromReferrer() {
     throw Error('It seems we\'re missing the referrer search parameter in your application.');
   }
   const referrer = searchParams.get('referrer');
-  const url = new URL(referrer);
+  const url = new URL(referrer ?? window.referrer);
   return `${url.protocol}//${url.host}`;
 }
 

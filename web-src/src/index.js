@@ -22,14 +22,75 @@ import App from './components/App'
 import {defaultTheme, Provider} from '@adobe/react-spectrum';
 import {ApplicationProvider} from './components/ApplicationProvider.js';
 import './index.css'
+import excApp from '@adobe/exc-app';
 
-ReactDOM.render(
-  <RecoilRoot>
-    <Provider theme={defaultTheme} width="100%" height="100%">
-      <ApplicationProvider>
-        <App />
-      </ApplicationProvider>
-    </Provider>,
-  </RecoilRoot>,
-  document.getElementById('root')
-)
+import {init} from '@adobe/exc-app';
+import wretch from 'wretch';
+
+// https://experience.adobe.com/?devMode=true#/custom-apps/?localDevUrl=https://localhost:9080?referrer=https://genai--express-website--vtsaplin.hlx.page/express/create/flyer
+
+async function completion(accessToken, prompt, model, temperature) {
+  const endpoint = 'https://firefall.adobe.io'
+  const apiKey = 'gen-ai-experiments'
+  const org = 'tsaplin@adobe.com'
+
+  return await wretch(endpoint + '/v1/completions')
+    .headers({
+      'x-gw-ims-org-id': org,
+      'x-api-key': apiKey,
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json'
+    })
+    .post({
+      dialogue: {
+        question: prompt
+      },
+      llm_metadata: {
+        llm_type: 'azure_chat_openai',
+        model_name: model,
+        temperature: temperature,
+        max_tokens: 4096,
+        top_p: 1,
+        frequency_penalty: 0,
+        presence_penalty: 0,
+        n: 1
+      }
+    })
+    .json();
+}
+
+init((config) => {
+
+  const runtime = excApp();
+  runtime.on('ready', ({imsToken, gainsight}) => {
+    const pair= gainsight.shellPath.split('?')[1];
+    window.referrer = pair.split('=')[1];
+
+    console.log('\n\n-----------------');
+    console.log('\n   IMS Token');
+    console.log('\n-----------------');
+    console.log(imsToken);
+
+    console.log('\n-----------------');
+    const prompt = 'Tell me a funny joke about firefall and firefly';
+    console.log(`Prompt: ${prompt}`);
+    const model = 'gpt-4';
+    console.log(`Model: ${model}`);
+    completion(imsToken, prompt, model, 0.1).then((json) => {
+      const content = json.generations[0][0].message.content;
+      console.log(`\nResponse from Firefall: \n\n${content}`);
+      console.log('\n-----------------\n');
+    });
+  });
+
+  ReactDOM.render(
+    <RecoilRoot>
+      <Provider theme={defaultTheme} width="100%" height="100%">
+        <ApplicationProvider>
+          <App />
+        </ApplicationProvider>
+      </Provider>,
+    </RecoilRoot>,
+    document.getElementById('root')
+  );
+});

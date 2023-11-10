@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import React, { useContext } from 'react';
+import { Content, Heading, InlineAlert } from '@adobe/react-spectrum';
 import { CompletionService } from '../services/CompletionService.js';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
@@ -49,10 +50,10 @@ export const ApplicationProvider = ({ children }) => {
     );
   } catch (e) {
     return (
-      <div style={{ padding: '10px', margin: '50px' }}>
-        <h2>Oops! It looks like we ran into a small snag.</h2>
-        <p>{e.message}</p>
-      </div>
+      <InlineAlert margin={'50px'}>
+        <Heading>Oops! It looks like we ran into a small snag</Heading>
+        <Content>{e.message}</Content>
+      </InlineAlert>
     );
   }
 };

@@ -20,6 +20,7 @@ import {
 import Cookies from 'js-cookie';
 import React, { useEffect } from 'react';
 import { UserGuidelinesLink } from './UserGuidelinesLink.js';
+import { sampleRUM } from './rum';
 
 const CONSENT_COOKIE_NAME = 'genai-assistant-consent';
 const CONSENT_COOKIE_EXPIRATION_DAYS = 365 * 10;
@@ -35,11 +36,13 @@ export function ConsentDialog() {
   }, []);
 
   const handleAgree = () => {
+    sampleRUM('genai:consent:agree', { source: 'ConsentDialog#handleAgree' });
     Cookies.set(CONSENT_COOKIE_NAME, CONSENT_COOKIE_VALUE, { expires: CONSENT_COOKIE_EXPIRATION_DAYS });
     setOpen(false);
   };
 
   const handleCancel = () => {
+    sampleRUM('genai:consent:cancel', { source: 'ConsentDialog#handleCancel' });
     setOpen(false);
     window.location.href = REDIRECT_URL;
   };

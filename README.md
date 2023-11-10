@@ -17,6 +17,7 @@ To activate the AEM GenAI Assistant Sidekick Plugin on your Edge Delivery Servic
       "id": "aem-genai-assistant",
       "title": "Assistant",
       "url": "<coming soon>",
+      "passReferrer": true,
       "environments": ["edit"],
       "includePaths": ["**.docx**"]
     }

@@ -126,8 +126,9 @@ function VariationsSection({
                           <Tooltip>Remove Variation</Tooltip>
                         </TooltipTrigger>
                       </Flex>
-                      <div style={{ width: '100%', whiteSpace: 'pre-wrap' }}
-                           dangerouslySetInnerHTML={{ __html: variation.content }}/>
+                      {/* <div style={{ width: '100%', whiteSpace: 'pre-wrap' }}
+                           dangerouslySetInnerHTML={{ __html: variation.content }}/> */}
+                           <Well UNSAFE_style={{ "whiteSpace": "pre-wrap" }}>{variation.content}</Well>
                     </View>
                   </CSSTransition>
                 ))}

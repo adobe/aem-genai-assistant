@@ -12,7 +12,7 @@
 import React from 'react';
 import { ToastContainer } from '@react-spectrum/toast';
 import {
-  Flex, Grid, Text, ToggleButton,
+  Flex, Grid, Text, ToggleButton, ActionButton,
 } from '@adobe/react-spectrum';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import ResultsView from './ResultsView.js';
@@ -25,6 +25,8 @@ import { CreativitySlider } from './CreativitySlider.js';
 import { showPromptState } from '../state/ShowPromptState.js';
 import { sourceViewState } from '../state/SourceViewState.js';
 import { showParametersState } from '../state/ShowParametersState.js';
+
+import { useAuthContext } from './AuthProvider.js';
 
 function getEditorGridColumns(showPrompt, showParameters) {
   if (showPrompt && showParameters) {
@@ -53,6 +55,7 @@ function getResultsGridColumns(showPrompt, showParameters) {
 
 function App() {
   const { appVersion } = useApplicationContext();
+  const { isSignedInUser, onSignOut } = useAuthContext();
   const [showPrompt, setShowPrompt] = useRecoilState(showPromptState);
   const showParameters = useRecoilValue(showParametersState);
   const [sourceView, setSourceView] = useRecoilState(sourceViewState);
@@ -71,7 +74,7 @@ function App() {
             onChange={setSourceView} isDisabled={!showPrompt} >Edit Mode</ToggleButton>
           <ToggleButton isSelected={showPrompt}
             onChange={setShowPrompt}>Show Prompt</ToggleButton>
-      </Flex>
+        </Flex>
         <Editor gridColumn={getEditorGridColumns(showPrompt, showParameters)} />
         <ParametersView gridColumn={getParametersGridColumns(showPrompt, showParameters)} />
         <ResultsView gridColumn={getResultsGridColumns(showPrompt, showParameters)} />
@@ -81,6 +84,7 @@ function App() {
         </Flex>
         <Flex direction={'row'} gap={'size-400'} alignItems={'center'} justifyContent={'end'}>
           <Text justifySelf={'end'}>v{appVersion}</Text>
+          {isSignedInUser && <ActionButton UNSAFE_className="hover-cursor-pointer" onPress={onSignOut}>Sign Out</ActionButton>}
         </Flex>
       </Grid>
     </>

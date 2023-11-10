@@ -19,15 +19,18 @@ import {
   useRecoilValue,
 } from 'recoil';
 import App from './components/App'
-import {defaultTheme, Provider} from '@adobe/react-spectrum';
-import {ApplicationProvider} from './components/ApplicationProvider.js';
+import { defaultTheme, Provider } from '@adobe/react-spectrum';
+import { ApplicationProvider } from './components/ApplicationProvider.js';
+import { AuthProvider } from './components/AuthProvider.js';
 import './index.css'
 
 ReactDOM.render(
   <RecoilRoot>
     <Provider theme={defaultTheme} width="100%" height="100%">
       <ApplicationProvider>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </ApplicationProvider>
     </Provider>,
   </RecoilRoot>,

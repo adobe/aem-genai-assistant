@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "REACT_APP_VERSION=$npm_package_version REACT_APP_API_ENDPOINT=http://localhost:3233/api/v1/web/guest/aem-genai-assistant/complete aio app run --local",
+    "start": "REACT_APP_VERSION=$npm_package_version REACT_APP_API_ENDPOINT=http://localhost:3233/api/v1/web/guest/aem-genai-assistant aio app run --local",
     "preview": "REACT_APP_VERSION=$npm_package_version aio app run",
     "grammar": "nearleyc web-src/src/helpers/expressions.ne -o web-src/src/helpers/Parser.generated.js",
     "build": "REACT_APP_VERSION=$npm_package_version aio app build",

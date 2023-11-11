@@ -21,12 +21,11 @@ export const AuthProvider = ({ children }) => {
   const initImsAuthInfo = {
     env: process.env.IMS_ENV,
     imsClientId: process.env.IMS_CLIENT_ID,
-    imsScope:
-      'AdobeID,openid,read_organizations',
-    // redirectUrl: "https://www.adobe.com",
+    imsScope: 'AdobeID,openid,read_organizations,additional_info.projectedProductContext,additional_info.roles',
     redirectUrl: window.location.href,
     modalMode: false,
     imsAuthService: undefined,
+    useLocalStorage: true,
     onAccessTokenReceived: () => {
       console.log('onAccessTokenReceived');
       if (window.assistantAuthService?.isSignedInUser()) {

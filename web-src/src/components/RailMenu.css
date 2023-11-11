@@ -1,0 +1,8 @@
+.rail-menu__collection {
+  border: 1px solid #ccc;
+}
+
+.rail-menu__item {
+  background-color: #ccc;
+  padding: 0.5rem;
+}

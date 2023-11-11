@@ -33,7 +33,7 @@ languages.custom = {
   comment: /{#([^{}]+)}/,
 };
 
-function Editor({ gridColumn }) {
+function Editor(props) {
   const setExpressions = useSetRecoilState(expressionsState);
   const [sourceView, setSourceView] = useRecoilState(sourceViewState);
   const promptTemplate = useRecoilValue(promptTemplateState);
@@ -54,8 +54,8 @@ function Editor({ gridColumn }) {
 
   return (
     <View
-      gridColumn={gridColumn}
-      isHidden={!showPrompt}
+      {...props}
+      // isHidden={!showPrompt}
       UNSAFE_className={['editor-container', sourceView ? 'editable' : ''].join(' ')}>
       <SimpleEditor
         className="editor"

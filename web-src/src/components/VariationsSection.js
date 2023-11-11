@@ -85,11 +85,7 @@ function VariationsSection({
   return (
     <>
       {(variations.length === 0) ? (
-        <IllustratedMessage>
-          <EmptyIcon size={'XL'}/>
-          <Heading>Nothing here yet</Heading>
-          <Content>Set up your prompt to generate new variations</Content>
-        </IllustratedMessage>
+        <></>
       ) : (
         <View UNSAFE_className="results-enter" marginTop="size-300" marginBottom="size-300" UNSAFE_style={{ 'overflow-x': 'hidden' }}>
           <Flex direction="column" gap="size-300">

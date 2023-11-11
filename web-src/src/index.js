@@ -13,15 +13,19 @@ import ReactDOM from 'react-dom'
 
 import {
   RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
 } from 'recoil';
+
 import App from './components/App'
 import {defaultTheme, Provider} from '@adobe/react-spectrum';
 import {ApplicationProvider} from './components/ApplicationProvider.js';
 import './index.css'
+
+import '@spectrum-css/vars/dist/spectrum-global.css';
+import '@spectrum-css/vars/dist/spectrum-medium.css';
+import '@spectrum-css/vars/dist/spectrum-light.css';
+import '@spectrum-css/page/dist/index-vars.css';
+import '@spectrum-css/button/dist/index-vars.css';
+import '@spectrum-css/sidenav/dist/index-vars.css';
 
 ReactDOM.render(
   <RecoilRoot>

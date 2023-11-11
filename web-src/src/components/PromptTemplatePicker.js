@@ -37,8 +37,7 @@ export function PromptTemplatePicker() {
     <Picker
       label={<LinkLabel label="Prompt Library" url={`${websiteUrl}/${PROMPT_TEMPLATES_FILENAME}`}/>}
       isLoading={!promptTemplates}
-      onSelectionChange={promptSelectionHandler}
-      width="300px">
+      onSelectionChange={promptSelectionHandler}>
       {promptTemplates ? promptTemplates
         .map((template, index) => <Item key={index}>{template.key}</Item>) : []}
     </Picker>

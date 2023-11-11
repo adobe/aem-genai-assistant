@@ -24,7 +24,7 @@ import FavoritesSection from './FavoritesSection.js';
 import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 import { newVariationsSelector } from '../state/NewVariationsSelector.js';
 
-function ResultsView({ gridColumn }) {
+function ResultsView(props) {
   const newVariations = useRecoilValue(newVariationsSelector);
   const [variations, setVariations] = useState([]);
   const [favorites, setFavorites] = useState([]);
@@ -48,33 +48,13 @@ function ResultsView({ gridColumn }) {
 
   return (
     <View
-      paddingLeft="15px"
-      paddingRight="15px"
-      width={'100%'}
-      height={'100%'}
-      gridColumn={gridColumn}
-      borderWidth="thin"
-      borderColor="gray-300"
-      borderRadius="medium"
+      {...props}
       overflow="auto">
-      <Tabs aria-label="Tabs" width={'100%'} height="100%" selectedKey={tab} onSelectionChange={setTab}>
-        <TabList>
-          <Item key="variations"><AnnotatePen /><Text>Variations</Text></Item>
-          <Item key="favorites"><Star /><Text>Favorites</Text></Item>
-        </TabList>
-        <TabPanels UNSAFE_style={{ overflow: 'auto' }}>
-          <Item key="variations">
-            <VariationsSection
-              variations={variations}
-              favorites={favorites}
-              onVariationsChange={setVariations}
-              onFavoritesChange={setFavorites} />
-          </Item>
-          <Item key="favorites">
-            <FavoritesSection favorites={favorites} onChange={setFavorites} />
-          </Item>
-        </TabPanels>
-      </Tabs>
+      <VariationsSection
+        variations={variations}
+        favorites={favorites}
+        onVariationsChange={setVariations}
+        onFavoritesChange={setFavorites} />
     </View>
   );
 }

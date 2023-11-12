@@ -18,6 +18,7 @@ import { ToastQueue } from '@react-spectrum/toast';
 import SenseiGenAIIcon from '../icons/SenseiGenAIIcon.js';
 import { renderExpressions } from '../helpers/ExpressionRenderer.js';
 import { useApplicationContext } from './ApplicationProvider.js';
+import { useAuthContext } from './AuthProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { temperatureState } from '../state/TemperatureState.js';
 import { generationResultsState } from '../state/GenerationResultsState.js';
@@ -40,6 +41,7 @@ function jsonToString(json) {
 
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
+  const { imsToken } = useAuthContext();
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
   const temperature = useRecoilValue(temperatureState);
@@ -49,7 +51,7 @@ export function GenerateButton() {
   const generateHandler = useCallback(() => {
     setGenerationInProgress(true);
     const finalPrompt = renderExpressions(prompt, parameters);
-    firefallService.complete(finalPrompt, temperature)
+    firefallService.complete(finalPrompt, temperature, imsToken)
       .then(({ queryId, content }) => {
         console.log(`queryId: ${queryId}`);
         try {

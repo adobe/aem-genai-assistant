@@ -41,11 +41,11 @@ export class ImsData {
   }
 
   adobeIdData = {
-    client_id: process.env.TEST_IMS_CLIENT_ID,
+    client_id: process.env.IMS_CLIENT_ID,
     scope: 'AdobeID,openid,read_organizations,additional_info.projectedProductContext,additional_info.roles',
     locale: 'en_US',
-    environment: 'stg1',
-    modalMode: true,
+    environment: process.env.IMS_ENV,
+    modalMode: false,
     onAccessToken: (token) => {
       const imslibData = {
         ...this.imslibData,

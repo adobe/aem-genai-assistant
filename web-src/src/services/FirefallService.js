@@ -25,10 +25,10 @@ export class FirefallService {
     this.endpoint = endpoint;
   }
 
-  async complete(prompt, temperature) {
+  async complete(prompt, temperature, accessToken) {
     /* eslint-disable-next-line camelcase */
     const { query_id, generations } = await wretchRetry(`${this.endpoint}/complete`)
-      .post({ prompt, temperature })
+      .post({ prompt, temperature, accessToken })
       .json();
     return {
       /* eslint-disable-next-line camelcase */

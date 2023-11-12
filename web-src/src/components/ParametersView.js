@@ -22,6 +22,7 @@ import { promptState } from '../state/PromptState.js';
 import { expressionsState } from '../state/ExpressionsState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { showParametersState } from '../state/ShowParametersState.js';
+import {ContentFetchField} from './ContentFetchField.js';
 
 function compareExpressions([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
@@ -51,7 +52,6 @@ function getComponentType(params) {
 }
 
 function DescriptionLabel({ description }) {
-  console.log('description', description);
   if (!description) {
     return <></>;
   }
@@ -143,6 +143,18 @@ export function ParametersView({ gridColumn }) {
             case 'number':
               return (
                 <NumberField
+                  key={name}
+                  label={label}
+                  description={<DescriptionLabel description={params.description}/>}
+                  width="100%"
+                  onChange={(value) => {
+                    setParameters({ ...parameters, [name]: value });
+                  }}
+                />
+              );
+            case 'content':
+              return (
+                <ContentFetchField
                   key={name}
                   label={label}
                   description={<DescriptionLabel description={params.description}/>}

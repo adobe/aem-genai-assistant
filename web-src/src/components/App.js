@@ -12,7 +12,7 @@
 import React from 'react';
 import { ToastContainer } from '@react-spectrum/toast';
 import {
-  Flex, Grid, Text, ToggleButton,
+  Flex, Grid, Text, ToggleButton, ActionButton,
 } from '@adobe/react-spectrum';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import ResultsView from './ResultsView.js';
@@ -20,6 +20,7 @@ import Editor from './Editor.js';
 import { ParametersView } from './ParametersView.js';
 import { PromptTemplatePicker } from './PromptTemplatePicker.js';
 import { useApplicationContext } from './ApplicationProvider.js';
+import { useAuthContext } from './AuthProvider.js';
 import { GenerateButton } from './GenerateButton.js';
 import { CreativitySlider } from './CreativitySlider.js';
 import { showPromptState } from '../state/ShowPromptState.js';
@@ -53,7 +54,8 @@ function getResultsGridColumns(showPrompt, showParameters) {
 }
 
 function App() {
-  const { appVersion } = useApplicationContext();
+  const { appVersion, imsAuthClient } = useApplicationContext();
+  const { onSignOut } = useAuthContext();
   const [showPrompt, setShowPrompt] = useRecoilState(showPromptState);
   const showParameters = useRecoilValue(showParametersState);
   const [sourceView, setSourceView] = useRecoilState(sourceViewState);
@@ -83,6 +85,7 @@ function App() {
         </Flex>
         <Flex direction={'row'} gap={'size-400'} alignItems={'center'} justifyContent={'end'}>
           <Text justifySelf={'end'}>v{appVersion}</Text>
+          {imsAuthClient.imsActions.isSignedInUser() && <ActionButton UNSAFE_className="hover-cursor-pointer" onPress={onSignOut}>Sign Out</ActionButton>}
         </Flex>
       </Grid>
     </>

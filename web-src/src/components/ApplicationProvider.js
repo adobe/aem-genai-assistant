@@ -12,6 +12,7 @@
 import React, { useContext } from 'react';
 import { Content, Heading, InlineAlert } from '@adobe/react-spectrum';
 import { FirefallService } from '../services/FirefallService.js';
+import { ImsAuthClient } from '../ims/ImsAuthClient.js';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 console.log(`Version: ${APP_VERSION}`);
@@ -35,6 +36,7 @@ function createApplication() {
     appVersion: APP_VERSION,
     websiteUrl: getWebsiteUrlFromReferrer(),
     firefallService: new FirefallService(API_ENDPOINT),
+    imsAuthClient: new ImsAuthClient(),
   };
 }
 

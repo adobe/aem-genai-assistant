@@ -20,7 +20,7 @@ import {
 import Cookies from 'js-cookie';
 import React, { useEffect } from 'react';
 import { UserGuidelinesLink } from './UserGuidelinesLink.js';
-import { sampleRUM } from './rum';
+import { sampleRUM } from '../rum.js';
 
 const CONSENT_COOKIE_NAME = 'genai-assistant-consent';
 const CONSENT_COOKIE_EXPIRATION_DAYS = 365 * 10;

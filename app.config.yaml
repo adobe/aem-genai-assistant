@@ -19,3 +19,17 @@ application:
               IMS_CLIENT_SECRET: $IMS_CLIENT_SECRET
             limits:
               timeout: 180000
+          feedback:
+            function: actions/feedback/index.js
+            web: true
+            runtime: nodejs:18
+            inputs:
+              LOG_LEVEL: debug
+              FIREFALL_ENDPOINT: $FIREFALL_ENDPOINT
+              FIREFALL_API_KEY: $FIREFALL_API_KEY
+              FIREFALL_IMS_ORG: $FIREFALL_IMS_ORG
+              IMS_ENDPOINT: $IMS_ENDPOINT
+              IMS_CLIENT_ID: $IMS_CLIENT_ID
+              IMS_CLIENT_SECRET: $IMS_CLIENT_SECRET
+            limits:
+              timeout: 180000

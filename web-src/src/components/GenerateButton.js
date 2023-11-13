@@ -39,7 +39,7 @@ function jsonToString(json) {
 }
 
 export function GenerateButton() {
-  const { completionService } = useApplicationContext();
+  const { firefallService } = useApplicationContext();
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
   const temperature = useRecoilValue(temperatureState);
@@ -49,17 +49,18 @@ export function GenerateButton() {
   const generateHandler = useCallback(() => {
     setGenerationInProgress(true);
     const finalPrompt = renderExpressions(prompt, parameters);
-    completionService.complete(finalPrompt, temperature)
-      .then((result) => {
+    firefallService.complete(finalPrompt, temperature)
+      .then(({ queryId, content }) => {
+        console.log(`queryId: ${queryId}`);
         try {
-          const json = JSON.parse(result);
+          const json = JSON.parse(content);
           if (Array.isArray(json)) {
-            setGenerationResults(json.map((item) => jsonToString(item)));
+            setGenerationResults(json.map((item) => ({ queryId, content: jsonToString(item) })));
           } else {
-            setGenerationResults([result]);
+            setGenerationResults([{ queryId, content }]);
           }
         } catch (error) {
-          setGenerationResults([result]);
+          setGenerationResults([{ queryId, content }]);
         }
       })
       .catch((error) => {
@@ -69,7 +70,7 @@ export function GenerateButton() {
       .finally(() => {
         setGenerationInProgress(false);
       });
-  }, [completionService, prompt, temperature, parameters]);
+  }, [firefallService, prompt, temperature, parameters]);
 
   return (
     <Flex direction="row" gap="size-100">

@@ -16,10 +16,11 @@ import { generationResultsState } from './GenerationResultsState.js';
 export const newVariationsSelector = selector({
   key: 'variationsState',
   get: ({ get }) => {
-    return get(generationResultsState).map((result) => ({
+    return get(generationResultsState).map(({ queryId, content }) => ({
       id: uuidv4(),
-      content: result,
       isFavorite: false,
+      queryId,
+      content,
     }));
   },
 });

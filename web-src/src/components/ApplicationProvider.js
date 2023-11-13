@@ -11,7 +11,7 @@
  */
 import React, { useContext } from 'react';
 import { Content, Heading, InlineAlert } from '@adobe/react-spectrum';
-import { CompletionService } from '../services/CompletionService.js';
+import { FirefallService } from '../services/FirefallService.js';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 console.log(`Version: ${APP_VERSION}`);
@@ -34,7 +34,7 @@ function createApplication() {
   return {
     appVersion: APP_VERSION,
     websiteUrl: getWebsiteUrlFromReferrer(),
-    completionService: new CompletionService(API_ENDPOINT),
+    firefallService: new FirefallService(API_ENDPOINT),
   };
 }
 

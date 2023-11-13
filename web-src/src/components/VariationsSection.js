@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
 import {
   View, IllustratedMessage, Heading, Content, Flex, Tooltip, TooltipTrigger, ActionButton, Well,
 } from '@adobe/react-spectrum';
@@ -18,6 +18,8 @@ import { ToastQueue } from '@react-spectrum/toast';
 
 import Star from '@spectrum-icons/workflow/Star';
 import StarOutline from '@spectrum-icons/workflow/StarOutline';
+import ThumbUp from '@spectrum-icons/workflow/ThumbUp';
+import ThumbDown from '@spectrum-icons/workflow/ThumbDown';
 import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
 
@@ -25,10 +27,13 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 import EmptyIcon from '@spectrum-icons/workflow/AnnotatePen';
 import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
+import { ApplicationContext } from './ApplicationProvider.js';
 
 function VariationsSection({
   variations, favorites, onVariationsChange, onFavoritesChange,
 }) {
+  const { firefallService } = useContext(ApplicationContext);
+
   // Function to check if a variation is a favorite and return boolean
   const isAlreadyFavoriteHandler = useCallback((id) => {
     const storedFavorites = localStorage.getItem(LOCAL_STORAGE_KEY);
@@ -66,6 +71,18 @@ function VariationsSection({
     });
     onVariationsChange(updatedVariations);
   }, [variations]);
+
+  const feedbackHandler = useCallback((queryId, sentiment) => {
+    firefallService.feedback(queryId, sentiment)
+      .then((result) => {
+        console.log(`feedbackId: ${result.feedbackId}`);
+        ToastQueue.positive('Thanks for your feedback!', { timeout: 2000 });
+      })
+      .catch((error) => {
+        console.error(error);
+        ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
+      });
+  }, [firefallService]);
 
   // Function to copy a variation to the clipboard
   const copyVariationHandler = useCallback((id) => {
@@ -113,6 +130,12 @@ function VariationsSection({
                           </ActionButton>
                           <Tooltip>Save Variation</Tooltip>
                         </TooltipTrigger>
+                        <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => feedbackHandler(variation.queryId, true)}>
+                          <ThumbUp />
+                        </ActionButton>
+                        <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => feedbackHandler(variation.queryId, false)}>
+                          <ThumbDown />
+                        </ActionButton>
                         <TooltipTrigger delay={0}>
                           <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer" onPress={() => copyVariationHandler(variation.id)}>
                             <Copy />

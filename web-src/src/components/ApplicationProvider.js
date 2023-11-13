@@ -19,21 +19,23 @@ console.log(`Version: ${APP_VERSION}`);
 const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 console.log(`API_ENDPOINT: ${API_ENDPOINT}`);
 
-function getWebsiteUrlFromReferrer() {
-  /* eslint-disable-next-line no-undef */
+function getWebsiteUrl() {
   const searchParams = new URLSearchParams(window.location.search);
-  if (!searchParams.has('referrer')) {
-    throw Error('It seems we\'re missing the referrer search parameter in your application.');
+  const ref = searchParams.get('ref');
+  const repo = searchParams.get('repo');
+  const owner = searchParams.get('owner');
+  if (!ref || !repo || !owner) {
+    throw Error('It seems we\'re missing the ref, repo or owner search parameter in your application.');
   }
-  const referrer = searchParams.get('referrer');
-  const url = new URL(referrer);
-  return `${url.protocol}//${url.host}`;
+  return `https://${ref}--${repo}--${owner}.hlx.page`;
 }
 
 function createApplication() {
+  const websiteUrl = getWebsiteUrl();
+  console.log(`Website URL: ${websiteUrl}`);
   return {
     appVersion: APP_VERSION,
-    websiteUrl: getWebsiteUrlFromReferrer(),
+    websiteUrl,
     firefallService: new FirefallService(API_ENDPOINT),
   };
 }

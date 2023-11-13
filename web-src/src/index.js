@@ -15,7 +15,7 @@ import {
   RecoilRoot,
 } from 'recoil';
 
-import App from './components/App'
+import {App} from './components/App'
 import {defaultTheme, Provider} from '@adobe/react-spectrum';
 import {ApplicationProvider} from './components/ApplicationProvider.js';
 import './index.css'

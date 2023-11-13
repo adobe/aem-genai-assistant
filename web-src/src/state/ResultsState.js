@@ -11,7 +11,7 @@
  */
 import { atom } from 'recoil';
 
-export const generationResultsState = atom({
-  key: 'generationResultsState',
+export const resultsState = atom({
+  key: 'resultsState',
   default: [],
 });

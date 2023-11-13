@@ -33,7 +33,7 @@ export class FirefallService {
     return {
       /* eslint-disable-next-line camelcase */
       queryId: query_id,
-      content: generations[0][0].message.content,
+      response: generations[0][0].message.content,
     };
   }
 

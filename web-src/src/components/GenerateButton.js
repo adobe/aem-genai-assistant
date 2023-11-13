@@ -15,15 +15,16 @@ import {
 import React, { useCallback } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { ToastQueue } from '@react-spectrum/toast';
-import SenseiGenAIIcon from '../icons/SenseiGenAIIcon.js';
+import SenseiGenAIIcon from '../assets/SenseiGenAIIcon.js';
 import { renderExpressions } from '../helpers/ExpressionRenderer.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { temperatureState } from '../state/TemperatureState.js';
-import { generationResultsState } from '../state/GenerationResultsState.js';
+import { resultsState } from '../state/ResultsState.js';
 import { generationInProgressState } from '../state/GenerationInProgressState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { UserGuidelinesLink } from './UserGuidelinesLink.js';
+import { v4 as uuidv4 } from 'uuid';
 
 function objectToString(obj) {
   return String(obj).replace(/<\/?[^>]+(>|$)/g, '');
@@ -38,31 +39,40 @@ function jsonToString(json) {
   }).join('<br/>');
 }
 
+function createVariants(response) {
+  try {
+    const json = JSON.parse(response);
+    if (Array.isArray(json)) {
+      return json.map((item) => ({ id: uuidv4, content: jsonToString(item) }));
+    } else {
+      return { id: uuidv4, content: String(response) };
+    }
+  } catch (error) {
+    return { id: uuidv4, content: String(response) };
+  }
+}
+
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
   const temperature = useRecoilValue(temperatureState);
-  const setGenerationResults = useSetRecoilState(generationResultsState);
+  const setResults = useSetRecoilState(resultsState);
   const [generationInProgress, setGenerationInProgress] = useRecoilState(generationInProgressState);
 
-  const generateHandler = useCallback(() => {
+  const handleResponse = useCallback((queryId, response, finalPrompt) => {
+    setResults(results => [...results, {
+      id: queryId,
+      variants: createVariants(response),
+      prompt: finalPrompt
+    }]);
+  }, [setResults]);
+
+  const handleGenerate = useCallback(() => {
     setGenerationInProgress(true);
     const finalPrompt = renderExpressions(prompt, parameters);
     firefallService.complete(finalPrompt, temperature)
-      .then(({ queryId, content }) => {
-        console.log(`queryId: ${queryId}`);
-        try {
-          const json = JSON.parse(content);
-          if (Array.isArray(json)) {
-            setGenerationResults(json.map((item) => ({ queryId, content: jsonToString(item) })));
-          } else {
-            setGenerationResults([{ queryId, content }]);
-          }
-        } catch (error) {
-          setGenerationResults([{ queryId, content }]);
-        }
-      })
+      .then(({ queryId, response }) => handleResponse(queryId, response, finalPrompt))
       .catch((error) => {
         console.log(error);
         ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
@@ -79,7 +89,7 @@ export function GenerateButton() {
         width="size-1700"
         variant="primary"
         style="fill"
-        onPress={generateHandler}
+        onPress={handleGenerate}
         isDisabled={generationInProgress}>
         {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px"/> : <SenseiGenAIIcon />}
         Generate

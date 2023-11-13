@@ -9,18 +9,12 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { selector } from 'recoil';
-import { v4 as uuidv4 } from 'uuid';
-import { generationResultsState } from './GenerationResultsState.js';
+import { atom } from 'recoil';
 
-export const newVariationsSelector = selector({
-  key: 'variationsState',
-  get: ({ get }) => {
-    return get(generationResultsState).map(({ queryId, content }) => ({
-      id: uuidv4(),
-      isFavorite: false,
-      queryId,
-      content,
-    }));
-  },
+export const NEW_SESSION = 'NEW_SESSION';
+export const WORKSPACE = 'WORKSPACE';
+
+export const viewState = atom({
+  key: 'viewState',
+  default: NEW_SESSION,
 });

@@ -33,7 +33,7 @@ ReactDOM.render(
       <ApplicationProvider>
         <App />
       </ApplicationProvider>
-    </Provider>,
+    </Provider>
   </RecoilRoot>,
   document.getElementById('root')
 )

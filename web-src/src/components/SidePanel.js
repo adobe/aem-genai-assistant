@@ -1,5 +1,4 @@
 import {Flex, Grid, Image, Link, Text} from '@adobe/react-spectrum';
-import {PromptTemplatePicker} from './PromptTemplatePicker.js';
 import React from 'react';
 import {useApplicationContext} from './ApplicationProvider.js';
 
@@ -13,26 +12,26 @@ export function SidePanel(props) {
   const [view, setView] = useRecoilState(viewState);
   return (
     <Grid {...props}
-      areas={['header', 'picker', 'menu', 'footer']}
+      UNSAFE_style={{ padding: '10px' }}
+      areas={['header', 'menu', 'footer']}
       columns={['auto']}
-      rows={['min-content', 'min-content', 'auto', 'min-content']}
-      gap={'size-100'}>
+      rows={['min-content', '1fr', 'min-content']}
+      gap={'size-400'}>
       <Flex direction={'row'} justifyContent={'space-between'} alignItems={'center'} gridArea={'header'}>
         <Image src={LogoIcon} alt={'logo'}/>
         <Text>AEM GenAI Assistant</Text>
         <Text justifySelf={'end'}>v{appVersion}</Text>
       </Flex>
-      <PromptTemplatePicker />
-      <Flex direction={'column'} gridArea={'menu'} gap={'size-100'}>
+      <Flex direction={'column'} gridArea={'menu'} gap={'size-100'} margin={25}>
         <Link onPress={() => setView(NEW_SESSION)}>Prompts</Link>
         <Link>Favorites</Link>
         <Link onPress={() => setView(WORKSPACE)}>Recent</Link>
       </Flex>
-      <Flex direction={'column'} gridArea={'footer'}>
+      <Flex direction={'column'} gridArea={'footer'} gap={10}>
         <Flex direction={'row'} justifyContent={'start'} alignItems={'center'} gap={'size-100'}>
           <Image src={HelpIcon} width={'20px'}/><Link>Help</Link>
         </Flex>
-        <Text>Copyright © 2023 Adobe. All rights reserved</Text>
+        <Text UNSAFE_style={{ fontSize: '10px' }}>Copyright © 2023 Adobe. All rights reserved</Text>
       </Flex>
     </Grid>
   )

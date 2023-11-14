@@ -16,7 +16,7 @@ export function FormPanel(props) {
       {...props}
       areas={['breadcrumbs', 'info', 'form', 'buttons']}
       columns={['auto']}
-      rows={['min-content', 'min-content', 'auto', 'min-content']}
+      rows={['min-content', 'min-content', '1fr', 'min-content']}
       gap={'size-100'}>
       <Flex direction={'row'} justifyContent={'space-between'} alignItems={'center'} gridArea={'breadcrumbs'}>
         <Link>Prompts</Link>
@@ -28,11 +28,7 @@ export function FormPanel(props) {
         </Flex>
         <Text>lorem ipsum</Text>
       </Flex>
-      <Flex direction={'column'} justifyContent={'start'} alignItems={'start'} gridArea={'form'}>
-        <Heading level={5} gridArea={'form'}>Inputs</Heading>
-        <ParametersView/>
-        <CreativitySlider/>
-      </Flex>
+      <ParametersView/>
       <Flex direction={'row'} justifyContent={'space-between'} alignItems={'center'} gridArea={'buttons'}>
         <ActionButton><Image src={ResetIcon}/>Reset</ActionButton>
         <GenerateButton/>

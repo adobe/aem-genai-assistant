@@ -1,23 +1,24 @@
-import {ActionButton, Flex, Grid, Link, Text, Tooltip, TooltipTrigger, View, Well} from '@adobe/react-spectrum';
-import ThumbUp from '@spectrum-icons/workflow/ThumbUp';
-import ThumbDown from '@spectrum-icons/workflow/ThumbDown';
-import Copy from '@spectrum-icons/workflow/Copy';
-import Delete from '@spectrum-icons/workflow/Delete';
+import {ActionButton, Flex, Grid, Link, Text, Tooltip, TooltipTrigger, View, Image} from '@adobe/react-spectrum';
 import React, {useEffect, useState} from 'react';
 import {useRecoilValue} from 'recoil';
 import {resultsState} from '../state/ResultsState.js';
-import Star from '@spectrum-icons/workflow/Star';
-import {PaddingBox} from '../helpers/StyleHelper.js';
-import {VariantsView} from './VariantsView.js';
+import {ResultsCard} from './ResultsCard.js';
+
+import EmptyResults from '../assets/empty-results.svg';
 
 export function ResultsView(props) {
   const results = useRecoilValue(resultsState);
-
   return (
-    <View
+    <Flex
       {...props}
+      width={'100%'}
+      height={'100%'}
+      alignItems={'center'}
+      justifyContent={'center'}
       overflow="auto">
-      { results.map(({variants, prompt}) => <VariantsView variants={variants} prompt={prompt}/>) }
-    </View>
+      { !results || results.length === 0
+        ? <img src={EmptyResults} width={'600px'}></img>
+        : results.map(({variants, prompt}) => <ResultsCard variants={variants} prompt={prompt}/>) }
+    </Flex>
   );
 }

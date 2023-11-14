@@ -43,7 +43,7 @@ function Editor(props) {
 
   useEffect(() => {
     if (promptTemplate) {
-      setPrompt(promptTemplate.value);
+      setPrompt(promptTemplate.template);
       setSourceView(false);
     }
   }, [promptTemplate, setPrompt]);

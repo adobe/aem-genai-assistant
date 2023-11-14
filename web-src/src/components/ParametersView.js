@@ -116,8 +116,9 @@ export function ParametersView({ gridColumn }) {
       alignItems={'end'}
       gridColumn={gridColumn}
       isHidden={!showParameters}
-      UNSAFE_style={{ overflow: 'auto' }}
-      width={'100%'}>
+      UNSAFE_style={{ overflowY: 'scroll' }}
+      width={'100%'}
+      height={'100%'}>
       {
         Object.entries(expressions).sort(compareExpressions).map(([name, params]) => {
           if (params.comment) {

@@ -19,7 +19,7 @@ import {SidePanel} from './SidePanel.js';
 import { WorkspacePanel} from './WorkspacePanel.js';
 import {useRecoilValue} from 'recoil';
 import {NEW_SESSION, viewState} from '../state/ViewState.js';
-import {NewSessionPanel} from './NewSessionPanel.js';
+import {PromptTemplatesPanel} from './PromptTemplatesPanel.js';
 
 export function App() {
   const view = useRecoilValue(viewState);
@@ -28,13 +28,13 @@ export function App() {
       <ToastContainer />
       <ConsentDialog />
       <Grid
-        columns={['250px', 'auto']}
-        rows={['auto']}
+        columns={['250px', '1fr']}
+        rows={['100%']}
         gap={'size-300'}
-        UNSAFE_style={{ padding: '15px 15px 0 15px' }}
+        UNSAFE_style={{ padding: '25px 25px 0 25px' }}
         width="100%" height="100%">
-        <SidePanel />
-        { view === NEW_SESSION ? <NewSessionPanel /> : <WorkspacePanel /> }
+        <SidePanel width="100%" height="100%" />
+        { view === NEW_SESSION ? <PromptTemplatesPanel/> : <WorkspacePanel /> }
       </Grid>
     </>
   )

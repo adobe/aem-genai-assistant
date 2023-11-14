@@ -9,7 +9,7 @@ import {resultsState} from '../state/ResultsState.js';
 import Star from '@spectrum-icons/workflow/Star';
 import {PaddingBox} from '../helpers/StyleHelper.js';
 
-export function VariantsView({variants, prompt, ...props}) {
+export function ResultsCard({variants, prompt, ...props}) {
   const [selectedVariant, setSelectedVariant] = useState(null);
   return (
     <Grid

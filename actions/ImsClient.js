@@ -17,7 +17,6 @@ class ImsClient {
         client_secret: this.clientSecret,
         code: this.permAuthCode,
         grant_type: 'authorization_code',
-        scope: 'openid,AdobeID,read_organizations',
       })
       .post()
       .json();

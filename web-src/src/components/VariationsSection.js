@@ -28,11 +28,13 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import EmptyIcon from '@spectrum-icons/workflow/AnnotatePen';
 import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
 import { ApplicationContext } from './ApplicationProvider.js';
+import { useAuthContext } from './AuthProvider.js';
 
 function VariationsSection({
   variations, favorites, onVariationsChange, onFavoritesChange,
 }) {
   const { firefallService } = useContext(ApplicationContext);
+  const { imsToken } = useAuthContext();
 
   // Function to check if a variation is a favorite and return boolean
   const isAlreadyFavoriteHandler = useCallback((id) => {
@@ -73,7 +75,7 @@ function VariationsSection({
   }, [variations]);
 
   const feedbackHandler = useCallback((queryId, sentiment) => {
-    firefallService.feedback(queryId, sentiment)
+    firefallService.feedback(queryId, sentiment, imsToken)
       .then((result) => {
         console.log(`feedbackId: ${result.feedbackId}`);
         ToastQueue.positive('Thanks for your feedback!', { timeout: 2000 });

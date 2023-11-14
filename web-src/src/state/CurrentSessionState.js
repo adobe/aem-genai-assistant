@@ -9,12 +9,22 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom } from 'recoil';
+import {atom, useSetRecoilState} from 'recoil';
+import {sessionsState} from './SessionsState.js';
 
-export const NEW_SESSION = 'NEW_SESSION';
-export const WORKSPACE = 'WORKSPACE';
+function sync() {
+  const setSessions = useSetRecoilState(sessionsState);
+  return function ({setSelf, onSet}) {
+    onSet((newValue, _, isReset) => {
+      setSessions([newValue]);
+    });
+  }
+}
 
-export const viewState = atom({
-  key: 'viewState',
-  default: NEW_SESSION,
+export const currentSessionState = atom({
+  key: 'currentSessionState',
+  default: undefined
+  // effects: [
+  //   sync()
+  // ]
 });

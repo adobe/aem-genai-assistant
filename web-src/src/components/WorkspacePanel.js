@@ -17,7 +17,7 @@ export function WorkspacePanel() {
       <FormPanel />
       <Grid columns={'1fr'} rows={['1fr', 'min-content']} alignItems={'center'} justifyContent={'center'}>
         <ResultsView flexGrow={1}/>
-        <Editor flexGrow={0} flaxBasis={'200px'} height={'200px'} />
+        <Editor flexGrow={0} flaxBasis={'200px'} height={'150px'} />
       </Grid>
     </Grid>
   )

@@ -1,16 +1,19 @@
-import {ActionButton, Flex, Grid, Heading, Image, Link, Text, View} from '@adobe/react-spectrum';
+import {Flex, Grid, Image, Link, Text} from '@adobe/react-spectrum';
 import {ParametersView} from './ParametersView.js';
 import {CreativitySlider} from './CreativitySlider.js';
 import {GenerateButton} from './GenerateButton.js';
 import React from 'react';
 
 import GenerateIcon from '../assets/generate.svg';
-import ResetIcon from '../assets/reset.svg';
 import {useRecoilValue} from 'recoil';
-import {promptTemplateState} from '../state/PromptTemplateState.js';
+import {expressionsState} from '../state/ExpressionsState.js';
+import {ResetButton} from './ResetButton.js';
+import {currentSessionState} from '../state/CurrentSessionState.js';
 
 export function FormPanel(props) {
-  const promptTemplate = useRecoilValue(promptTemplateState);
+  const currentSession = useRecoilValue(currentSessionState);
+  const expressions = useRecoilValue(expressionsState);
+
   return (
     <Grid
       {...props}
@@ -18,21 +21,37 @@ export function FormPanel(props) {
       columns={['auto']}
       rows={['min-content', 'min-content', '1fr', 'min-content']}
       gap={'size-100'}>
+
       <Flex direction={'row'} justifyContent={'space-between'} alignItems={'center'} gridArea={'breadcrumbs'}>
         <Link>Prompts</Link>
       </Flex>
-      <Flex UNSAFE_style={{ borderBottom: '1px solid #a0a0a0'}} direction={'column'} justifyContent={'stretch'} alignItems={'stretch'} gridArea={'info'}>
-        <Flex UNSAFE_style={{ borderRadius: '8px', background: '#E0F2FF', padding: '10px' }} gap={'size-100'} alignItems={'center'}>
-          <Image src={GenerateIcon} width={'24px'}/>
-          <Text>{ promptTemplate ? promptTemplate.key : 'Empty' }</Text>
+
+      { currentSession ?
+        <Flex UNSAFE_style={{ borderBottom: '1px solid #a0a0a0'}} direction={'column'} justifyContent={'stretch'} alignItems={'stretch'} gridArea={'info'}>
+          <Flex UNSAFE_style={{ borderRadius: '8px', background: '#E0F2FF', padding: '10px' }} gap={'size-100'} alignItems={'center'}>
+            <Image src={GenerateIcon} width={'24px'}/>
+            <Text>{ currentSession.name ?? 'Empty' }</Text>
+          </Flex>
+          <Text UNSAFE_style={{ padding: '10px' }}>{ currentSession.description ?? 'Empty' }</Text>
         </Flex>
-        <Text>lorem ipsum</Text>
+        : <div></div>
+      }
+
+      <Flex direction={'column'}>
+        <h3>Inputs</h3>
+        { Object.keys(expressions).length > 0 &&
+          <Flex direction={'column'} UNSAFE_style={{ position: 'relative', height: '100%' }}>
+            <ParametersView/>
+          </Flex>
+        }
+        <CreativitySlider/>
       </Flex>
-      <ParametersView/>
+
       <Flex direction={'row'} justifyContent={'space-between'} alignItems={'center'} gridArea={'buttons'}>
-        <ActionButton><Image src={ResetIcon}/>Reset</ActionButton>
+        <ResetButton/>
         <GenerateButton/>
       </Flex>
+
     </Grid>
   )
 }

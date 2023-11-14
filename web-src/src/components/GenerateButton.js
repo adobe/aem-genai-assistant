@@ -15,7 +15,7 @@ import {
 import React, { useCallback } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { ToastQueue } from '@react-spectrum/toast';
-import SenseiGenAIIcon from '../assets/SenseiGenAIIcon.js';
+import SenseiGenAIIcon from '../icons/GenAIIcon.js';
 import { renderExpressions } from '../helpers/ExpressionRenderer.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { promptState } from '../state/PromptState.js';

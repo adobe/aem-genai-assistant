@@ -21,7 +21,11 @@ import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
 import { promptState } from '../state/PromptState.js';
 import { expressionsState } from '../state/ExpressionsState.js';
 import { parametersState } from '../state/ParametersState.js';
-import { showParametersState } from '../state/ShowParametersState.js';
+import { showParametersSelector } from '../state/ShowParametersSelector.js';
+
+function getIndexByValue(items, value) {
+  return items.findIndex((item) => item.value === value);
+}
 
 function compareExpressions([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
@@ -63,9 +67,7 @@ function DescriptionLabel({ description }) {
   );
 }
 
-function SpreadSheetPicker({
-  name, label, description, spreadsheet, onChange,
-}) {
+function SpreadSheetPicker({name, label, description, spreadsheet, value, onChange}) {
   const { websiteUrl } = useApplicationContext();
   const [items, setItems] = React.useState([]);
   const [url, setUrl] = React.useState('');
@@ -93,6 +95,7 @@ function SpreadSheetPicker({
       description={<DescriptionLabel description={description} />}
       width="100%"
       items={items}
+      selectedKey={String(getIndexByValue(items, value))}
       onSelectionChange={selectionHandler}>
       {items ? items.map((item, index) => <Item key={index}>{item.key}</Item>) : []}
     </Picker>
@@ -100,10 +103,10 @@ function SpreadSheetPicker({
 }
 
 export function ParametersView({ gridColumn }) {
-  const [expressions] = useRecoilState(expressionsState);
+  const expressions = useRecoilValue(expressionsState);
   const [parameters, setParameters] = useRecoilState(parametersState);
   const prompt = useRecoilValue(promptState);
-  const showParameters = useRecoilValue(showParametersState);
+  const showParameters = useRecoilValue(showParametersSelector);
 
   useEffect(() => {
     setParameters([]);
@@ -116,9 +119,8 @@ export function ParametersView({ gridColumn }) {
       alignItems={'end'}
       gridColumn={gridColumn}
       isHidden={!showParameters}
-      UNSAFE_style={{ overflowY: 'scroll' }}
-      width={'100%'}
-      height={'100%'}>
+      UNSAFE_style={{ overflowY: 'auto', position: 'absolute', top: '0', bottom: '0' }}
+      width={'100%'}>
       {
         Object.entries(expressions).sort(compareExpressions).map(([name, params]) => {
           if (params.comment) {
@@ -136,6 +138,7 @@ export function ParametersView({ gridColumn }) {
                   label={label}
                   description={params.description}
                   spreadsheet={params.spreadsheet}
+                  value={parameters[name]}
                   onChange={(value) => {
                     setParameters({ ...parameters, [name]: value });
                   }}
@@ -148,6 +151,7 @@ export function ParametersView({ gridColumn }) {
                   label={label}
                   description={<DescriptionLabel description={params.description}/>}
                   width="100%"
+                  value={parameters[name]}
                   onChange={(value) => {
                     setParameters({ ...parameters, [name]: value });
                   }}
@@ -161,6 +165,7 @@ export function ParametersView({ gridColumn }) {
                   label={label}
                   description={<DescriptionLabel description={params.description}/>}
                   width="100%"
+                  value={parameters[name]}
                   onChange={(value) => {
                     setParameters({ ...parameters, [name]: value });
                   }}

@@ -18,11 +18,11 @@ import { ConsentDialog } from './ConsentDialog.js';
 import {SidePanel} from './SidePanel.js';
 import { WorkspacePanel} from './WorkspacePanel.js';
 import {useRecoilValue} from 'recoil';
-import {NEW_SESSION, viewState} from '../state/ViewState.js';
-import {PromptTemplatesPanel} from './PromptTemplatesPanel.js';
+import {NewSessionWizardPanel} from './NewSessionWizardPanel.js';
+import {currentSessionState} from '../state/CurrentSessionState.js';
 
 export function App() {
-  const view = useRecoilValue(viewState);
+  const currentSession = useRecoilValue(currentSessionState);
   return (
     <>
       <ToastContainer />
@@ -34,7 +34,7 @@ export function App() {
         UNSAFE_style={{ padding: '25px 25px 0 25px' }}
         width="100%" height="100%">
         <SidePanel width="100%" height="100%" />
-        { view === NEW_SESSION ? <PromptTemplatesPanel/> : <WorkspacePanel /> }
+        { currentSession ? <WorkspacePanel /> : <NewSessionWizardPanel/> }
       </Grid>
     </>
   )

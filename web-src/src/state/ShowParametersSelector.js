@@ -12,7 +12,7 @@
 import { selector } from 'recoil';
 import { expressionsState } from './ExpressionsState.js';
 
-export const showParametersState = selector({
+export const showParametersSelector = selector({
   key: 'showParametersState',
   get: ({ get }) => {
     return !!Object.keys(get(expressionsState)).length;

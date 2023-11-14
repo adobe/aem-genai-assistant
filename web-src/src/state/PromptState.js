@@ -9,9 +9,13 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom } from 'recoil';
+import {selector} from 'recoil';
+import {currentSessionState} from './CurrentSessionState.js';
 
-export const promptState = atom({
+export const promptState = selector({
   key: 'promptState',
-  default: '',
+  get: ({ get }) => {
+    return get(currentSessionState)?.prompt ?? '';
+  },
+  set: ({set, get}, newValue) => set(currentSessionState, {...get(currentSessionState), prompt: newValue}),
 });

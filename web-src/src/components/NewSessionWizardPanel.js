@@ -5,27 +5,38 @@ import React, {useCallback, useEffect} from 'react';
 import {useApplicationContext} from './ApplicationProvider.js';
 import {useRecoilState, useSetRecoilState} from 'recoil';
 import {promptTemplatesState} from '../state/PromptTemplatesState.js';
-import {promptTemplateState} from '../state/PromptTemplateState.js';
 import {parseSpreadSheet} from '../helpers/SpreadsheetParser.js';
 import {PromptTemplateCard} from './PromptTemplateCard.js';
-import {viewState, WORKSPACE} from '../state/ViewState.js';
+import {NewSessionButton} from './NewSessionButton.js';
+import {v4 as uuid} from 'uuid';
+import {sessionsState} from '../state/SessionsState.js';
+import {currentSessionState} from '../state/CurrentSessionState.js';
 
 const PROMPT_TEMPLATES_FILENAME = 'prompttemplates.json';
 
-export function PromptTemplatesPanel({props}) {
+export function NewSessionWizardPanel({props}) {
   const { websiteUrl } = useApplicationContext();
   const [promptTemplates, setPromptTemplates] = useRecoilState(promptTemplatesState);
-  const setPrompt = useSetRecoilState(promptTemplateState);
-  const setView = useSetRecoilState(viewState);
+  const setSessions = useSetRecoilState(sessionsState);
+  const setCurrentSession = useSetRecoilState(currentSessionState);
 
   useEffect(() => {
     parseSpreadSheet(`${websiteUrl}/${PROMPT_TEMPLATES_FILENAME}`).then(setPromptTemplates);
   }, [websiteUrl, setPromptTemplates]);
 
   const promptSelectionHandler = useCallback((selected) => {
-    setPrompt(promptTemplates[selected]);
-    setView(WORKSPACE);
-  }, [promptTemplates, setPrompt]);
+    const selectedTemplate = promptTemplates[selected];
+    const session = {
+      id: uuid(),
+      name: selectedTemplate.label,
+      description: selectedTemplate.description,
+      timestamp: Date.now(),
+      prompt: selectedTemplate.template,
+      results: [],
+    };
+    setSessions((sessions) => [...sessions, session]);
+    setCurrentSession(session)
+  }, [promptTemplates, setSessions, setCurrentSession]);
 
   return (
     <Grid
@@ -33,12 +44,16 @@ export function PromptTemplatesPanel({props}) {
       columns={['1fr']}
       rows={['min-content', 'min-content', '1fr']}
       UNSAFE_style={{ background: 'white', padding: '50px', margin: '0 20px 0 20px', borderRadius: '20px 20px 0 0', border: '2px #e0e0e0 solid' }}>
-      <Flex direction={'column'}
-            width={'70%'}
-            gap={0}
-            height={'300px'}
-            marginTop={20}
-            marginBottom={20}>
+
+      <Flex
+        direction={'column'}
+        position={'relative'}
+        width={'70%'}
+        gap={0}
+        height={'300px'}
+        justifySelf={'center'}
+        marginTop={20}
+        marginBottom={20}>
         <Image
           src={NewSessionBanner}
           objectFit={'cover'}
@@ -47,8 +62,11 @@ export function PromptTemplatesPanel({props}) {
         />
         <h3 style={{ padding: 0, margin: 0 }}>Welcome to the AEM GenAI Assistant!</h3>
         <p>Create high quality content quickly then measure it with experimentation or publish it to your site.</p>
+        <NewSessionButton right={-100} />
       </Flex>
+
       <Heading level={4} alignSelf={'start'}>Prompts</Heading>
+
       <View
         overflow={'auto'}>
         <Grid

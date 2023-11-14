@@ -16,15 +16,11 @@ import { default as SimpleEditor } from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import 'prismjs/themes/prism.css';
-import { parseExpressions } from '../helpers/ExpressionParser.js';
 import { renderExpressions } from '../helpers/ExpressionRenderer.js';
 
-import { showPromptState } from '../state/ShowPromptState.js';
 import { sourceViewState } from '../state/SourceViewState.js';
 import { promptState } from '../state/PromptState.js';
-import { expressionsState } from '../state/ExpressionsState.js';
 import { parametersState } from '../state/ParametersState.js';
-import { promptTemplateState } from '../state/PromptTemplateState.js';
 
 languages.custom = {
   function: /{[^@#]([^{}]+)}/,
@@ -34,23 +30,9 @@ languages.custom = {
 };
 
 function Editor(props) {
-  const setExpressions = useSetRecoilState(expressionsState);
   const [sourceView, setSourceView] = useRecoilState(sourceViewState);
-  const promptTemplate = useRecoilValue(promptTemplateState);
   const [prompt, setPrompt] = useRecoilState(promptState);
   const parameters = useRecoilValue(parametersState);
-  const showPrompt = useRecoilValue(showPromptState);
-
-  useEffect(() => {
-    if (promptTemplate) {
-      setPrompt(promptTemplate.template);
-      setSourceView(false);
-    }
-  }, [promptTemplate, setPrompt]);
-
-  useEffect(() => {
-    setExpressions(parseExpressions(prompt));
-  }, [prompt, setExpressions]);
 
   return (
     <View

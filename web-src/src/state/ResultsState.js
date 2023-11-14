@@ -15,14 +15,9 @@ import {currentSessionState} from './CurrentSessionState.js';
 export const resultsState = selector({
   key: 'resultsState',
   get: ({ get }) => {
-    console.log('get resultsState', JSON.stringify(get(currentSessionState)));
     return get(currentSessionState)?.results ?? [];
   },
   set: ({set, get}, newValue) => {
-    console.log('set resultsState', JSON.stringify({
-      ...get(currentSessionState),
-      results: newValue
-    }));
     set(currentSessionState, {
       ...get(currentSessionState),
       results: newValue

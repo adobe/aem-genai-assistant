@@ -1,6 +1,6 @@
 import {Flex, Grid, Image, Link, Text} from '@adobe/react-spectrum';
-import {ParametersView} from './ParametersView.js';
-import {CreativitySlider} from './CreativitySlider.js';
+import {InputsView} from './InputsView.js';
+import {TemperatureSelector} from './TemperatureSelector.js';
 import {GenerateButton} from './GenerateButton.js';
 import React from 'react';
 
@@ -10,7 +10,7 @@ import {expressionsState} from '../state/ExpressionsState.js';
 import {ResetButton} from './ResetButton.js';
 import {currentSessionState} from '../state/CurrentSessionState.js';
 
-export function FormPanel(props) {
+export function PromptPropertiesPanel(props) {
   const currentSession = useRecoilValue(currentSessionState);
   const expressions = useRecoilValue(expressionsState);
 
@@ -41,10 +41,10 @@ export function FormPanel(props) {
         <h3>Inputs</h3>
         { Object.keys(expressions).length > 0 &&
           <Flex direction={'column'} UNSAFE_style={{ position: 'relative', height: '100%' }}>
-            <ParametersView/>
+            <InputsView/>
           </Flex>
         }
-        <CreativitySlider/>
+        <TemperatureSelector/>
       </Flex>
 
       <Flex direction={'row'} justifyContent={'space-between'} alignItems={'center'} gridArea={'buttons'}>

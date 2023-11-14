@@ -13,7 +13,7 @@ import {
   Button, Content, ContextualHelp, Flex, Heading, Link, ProgressCircle, Text,
 } from '@adobe/react-spectrum';
 import React, { useCallback } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
 import { ToastQueue } from '@react-spectrum/toast';
 import SenseiGenAIIcon from '../icons/GenAIIcon.js';
 import { renderExpressions } from '../helpers/ExpressionRenderer.js';
@@ -23,8 +23,9 @@ import { temperatureState } from '../state/TemperatureState.js';
 import { resultsState } from '../state/ResultsState.js';
 import { generationInProgressState } from '../state/GenerationInProgressState.js';
 import { parametersState } from '../state/ParametersState.js';
-import { UserGuidelinesLink } from './UserGuidelinesLink.js';
-import { v4 as uuidv4 } from 'uuid';
+import { LegalTermsLink } from './LegalTermsLink.js';
+import { v4 as uuid } from 'uuid';
+import {useSaveSessionCallback} from '../state/SaveSessionHook.js';
 
 function objectToString(obj) {
   return String(obj).replace(/<\/?[^>]+(>|$)/g, '');
@@ -43,12 +44,12 @@ function createVariants(response) {
   try {
     const json = JSON.parse(response);
     if (Array.isArray(json)) {
-      return json.map((item) => ({ id: uuidv4, content: jsonToString(item) }));
+      return json.map((item) => ({ id: uuid(), content: jsonToString(item) }));
     } else {
-      return { id: uuidv4, content: String(response) };
+      return { id: uuid(), content: String(response) };
     }
   } catch (error) {
-    return { id: uuidv4, content: String(response) };
+    return { id: uuid(), content: String(response) };
   }
 }
 
@@ -59,6 +60,7 @@ export function GenerateButton() {
   const temperature = useRecoilValue(temperatureState);
   const setResults = useSetRecoilState(resultsState);
   const [generationInProgress, setGenerationInProgress] = useRecoilState(generationInProgressState);
+  const saveSessionCallback = useSaveSessionCallback();
 
   const handleResponse = useCallback((queryId, response, finalPrompt) => {
     setResults(results => [...results, {
@@ -66,6 +68,7 @@ export function GenerateButton() {
       variants: createVariants(response),
       prompt: finalPrompt
     }]);
+    saveSessionCallback().catch(error => console.log(error));
   }, [setResults]);
 
   const handleGenerate = useCallback(() => {
@@ -102,7 +105,7 @@ export function GenerateButton() {
             materials, website content, data, schemas for such data, templates, or other trusted documents.
             You should evaluate the accuracy of any output as appropriate to your use case.
           </p>
-          <UserGuidelinesLink />
+          <LegalTermsLink />
         </Content>
       </ContextualHelp>
     </Flex>

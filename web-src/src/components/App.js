@@ -16,9 +16,9 @@ import {
 } from '@adobe/react-spectrum';
 import { ConsentDialog } from './ConsentDialog.js';
 import {SidePanel} from './SidePanel.js';
-import { WorkspacePanel} from './WorkspacePanel.js';
+import { CurrentSessionPanel} from './CurrentSessionPanel.js';
 import {useRecoilValue} from 'recoil';
-import {NewSessionWizardPanel} from './NewSessionWizardPanel.js';
+import {NewSessionPanel} from './NewSessionPanel.js';
 import {currentSessionState} from '../state/CurrentSessionState.js';
 
 export function App() {
@@ -34,7 +34,7 @@ export function App() {
         UNSAFE_style={{ padding: '25px 25px 0 25px' }}
         width="100%" height="100%">
         <SidePanel width="100%" height="100%" />
-        { currentSession ? <WorkspacePanel /> : <NewSessionWizardPanel/> }
+        { currentSession ? <CurrentSessionPanel /> : <NewSessionPanel /> }
       </Grid>
     </>
   )

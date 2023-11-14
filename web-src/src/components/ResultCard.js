@@ -3,14 +3,15 @@ import ThumbUp from '@spectrum-icons/workflow/ThumbUp';
 import ThumbDown from '@spectrum-icons/workflow/ThumbDown';
 import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
-import React, {useEffect, useState} from 'react';
-import {useRecoilValue} from 'recoil';
-import {resultsState} from '../state/ResultsState.js';
+import React, {useState} from 'react';
 import Star from '@spectrum-icons/workflow/Star';
 import {PaddingBox} from '../helpers/StyleHelper.js';
 
-export function ResultsCard({variants, prompt, ...props}) {
-  const [selectedVariant, setSelectedVariant] = useState(null);
+export function ResultCard({variants, prompt, isFavorite, makeFavorite, ...props}) {
+  const [selectedVariant, setSelectedVariant] = useState(variants[0]);
+
+  console.log(`Selected variant: ${selectedVariant.id}`);
+
   return (
     <Grid
       {...props}
@@ -31,17 +32,21 @@ export function ResultsCard({variants, prompt, ...props}) {
         }
       </Flex>
       <Flex direction={'column'} UNSAFE_style={PaddingBox}>
-        <Text>{selectedVariant?.content ?? variants[0].content}</Text>
+        <Text>{selectedVariant.content}</Text>
       </Flex>
       <View
         borderRadius="regular"
         paddingRight="24px">
         <Flex direction="row" gap="size-100" justifyContent="left">
           <TooltipTrigger delay={0}>
-            <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer">
+            <ActionButton
+              isQuiet
+              isDisabled={isFavorite(selectedVariant)}
+              onPress={() => makeFavorite(selectedVariant)}
+              UNSAFE_className="hover-cursor-pointer">
               <Star />
             </ActionButton>
-            <Tooltip>Save Variation</Tooltip>
+            <Tooltip>Save</Tooltip>
           </TooltipTrigger>
           <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer">
             <ThumbUp />
@@ -59,7 +64,7 @@ export function ResultsCard({variants, prompt, ...props}) {
             <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer">
               <Delete />
             </ActionButton>
-            <Tooltip>Remove Variation</Tooltip>
+            <Tooltip>Remove</Tooltip>
           </TooltipTrigger>
         </Flex>
       </View>

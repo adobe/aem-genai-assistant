@@ -7,8 +7,7 @@ import {sessionsState} from '../state/SessionsState.js';
 import {currentSessionState} from '../state/CurrentSessionState.js';
 import {useCallback} from 'react';
 
-export function NewSessionButton(props) {
-  const setSessions = useSetRecoilState(sessionsState);
+export function NewButton(props) {
   const setCurrentSession = useSetRecoilState(currentSessionState);
 
   const handleNewPrompt = useCallback(() => {
@@ -20,9 +19,8 @@ export function NewSessionButton(props) {
       prompt: '',
       results: [],
     };
-    setSessions((sessions) => [...sessions, session]);
     setCurrentSession(session)
-  }, [setSessions, setCurrentSession]);
+  }, [setCurrentSession]);
 
   return (
     <Button

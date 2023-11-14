@@ -19,7 +19,7 @@ import {
 } from '@adobe/react-spectrum';
 import Cookies from 'js-cookie';
 import React, { useEffect } from 'react';
-import { UserGuidelinesLink } from './UserGuidelinesLink.js';
+import { LegalTermsLink } from './LegalTermsLink.js';
 import { sampleRUM } from '../rum.js';
 
 const CONSENT_COOKIE_NAME = 'genai-assistant-consent';
@@ -58,7 +58,7 @@ export function ConsentDialog() {
               You can create in new ways with generative AI technology.
             </p>
             <p>
-              By clicking &quot;Agree&quot;, you agree to our <UserGuidelinesLink />.
+              By clicking &quot;Agree&quot;, you agree to our <LegalTermsLink />.
             </p>
           </Content>
           <ButtonGroup>

@@ -9,12 +9,13 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { selector } from 'recoil';
-import { expressionsState } from './ExpressionsState.js';
+import { Link } from '@adobe/react-spectrum';
+import React from 'react';
 
-export const showParametersSelector = selector({
-  key: 'showParametersState',
-  get: ({ get }) => {
-    return !!Object.keys(get(expressionsState)).length;
-  },
-});
+const USER_GUIDELINES_URL = 'https://www.adobe.com/legal/licenses-terms/adobe-gen-ai-user-guidelines.html';
+
+export function LegalTermsLink() {
+  return (
+    <Link href={USER_GUIDELINES_URL} target="_blank">Generative AI User Guidelines</Link>
+  );
+}

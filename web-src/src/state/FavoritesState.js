@@ -9,9 +9,9 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom } from 'recoil';
+import {atom} from 'recoil';
 
-export const sourceViewState = atom({
-  key: 'sourceViewState',
-  default: false,
+export const favoritesState = atom({
+  key: 'favoritesState',
+  default: [],
 });

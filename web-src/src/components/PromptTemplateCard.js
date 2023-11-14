@@ -1,9 +1,9 @@
- import {Grid, Text, Image} from '@adobe/react-spectrum';
+import {Grid, Text, Image} from '@adobe/react-spectrum';
 import React from 'react';
 
 import GenerateIcon from '../assets/generate.svg';
 import SmallLogo from '../assets/logo_small.svg';
- import {css} from '@emotion/css';
+import {css} from '@emotion/css';
 
 const styles = {
   card: css`

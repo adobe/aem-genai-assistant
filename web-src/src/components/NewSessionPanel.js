@@ -7,17 +7,16 @@ import {useRecoilState, useSetRecoilState} from 'recoil';
 import {promptTemplatesState} from '../state/PromptTemplatesState.js';
 import {parseSpreadSheet} from '../helpers/SpreadsheetParser.js';
 import {PromptTemplateCard} from './PromptTemplateCard.js';
-import {NewSessionButton} from './NewSessionButton.js';
+import {NewButton} from './NewButton.js';
 import {v4 as uuid} from 'uuid';
 import {sessionsState} from '../state/SessionsState.js';
 import {currentSessionState} from '../state/CurrentSessionState.js';
 
 const PROMPT_TEMPLATES_FILENAME = 'prompttemplates.json';
 
-export function NewSessionWizardPanel({props}) {
+export function NewSessionPanel({props}) {
   const { websiteUrl } = useApplicationContext();
   const [promptTemplates, setPromptTemplates] = useRecoilState(promptTemplatesState);
-  const setSessions = useSetRecoilState(sessionsState);
   const setCurrentSession = useSetRecoilState(currentSessionState);
 
   useEffect(() => {
@@ -34,9 +33,8 @@ export function NewSessionWizardPanel({props}) {
       prompt: selectedTemplate.template,
       results: [],
     };
-    setSessions((sessions) => [...sessions, session]);
     setCurrentSession(session)
-  }, [promptTemplates, setSessions, setCurrentSession]);
+  }, [promptTemplates, setCurrentSession]);
 
   return (
     <Grid
@@ -62,7 +60,7 @@ export function NewSessionWizardPanel({props}) {
         />
         <h3 style={{ padding: 0, margin: 0 }}>Welcome to the AEM GenAI Assistant!</h3>
         <p>Create high quality content quickly then measure it with experimentation or publish it to your site.</p>
-        <NewSessionButton right={-100} />
+        <NewButton right={-100} />
       </Flex>
 
       <Heading level={4} alignSelf={'start'}>Prompts</Heading>

@@ -21,7 +21,6 @@ import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
 import { promptState } from '../state/PromptState.js';
 import { expressionsState } from '../state/ExpressionsState.js';
 import { parametersState } from '../state/ParametersState.js';
-import { showParametersSelector } from '../state/ShowParametersSelector.js';
 
 function getIndexByValue(items, value) {
   return items.findIndex((item) => item.value === value);
@@ -102,11 +101,10 @@ function SpreadSheetPicker({name, label, description, spreadsheet, value, onChan
   );
 }
 
-export function ParametersView({ gridColumn }) {
+export function InputsView({ gridColumn }) {
   const expressions = useRecoilValue(expressionsState);
   const [parameters, setParameters] = useRecoilState(parametersState);
   const prompt = useRecoilValue(promptState);
-  const showParameters = useRecoilValue(showParametersSelector);
 
   useEffect(() => {
     setParameters([]);
@@ -118,7 +116,6 @@ export function ParametersView({ gridColumn }) {
       gap="size-100"
       alignItems={'end'}
       gridColumn={gridColumn}
-      isHidden={!showParameters}
       UNSAFE_style={{ overflowY: 'auto', position: 'absolute', top: '0', bottom: '0' }}
       width={'100%'}>
       {

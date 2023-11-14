@@ -23,7 +23,7 @@ const CREATIVITY_LABELS = [
   'Visionary',
 ];
 
-export function CreativitySlider() {
+export function TemperatureSelector() {
   const [temperature, setTemperature] = useRecoilState(temperatureState);
   return (
     <Slider

@@ -36,7 +36,7 @@ function createApplication() {
   console.log(`Website URL: ${websiteUrl}`);
   return {
     appVersion: APP_VERSION,
-    websiteUrl: getWebsiteUrlFromReferrer(),
+    websiteUrl,
     firefallService: new FirefallService(API_ENDPOINT),
     imsAuthClient: new ImsAuthClient(),
   };

@@ -56,16 +56,12 @@ export function GenerateButton() {
         console.log(`queryId: ${queryId}`);
         try {
           const json = JSON.parse(content);
-          const json = JSON.parse(content);
           if (Array.isArray(json)) {
-            setGenerationResults(json.map((item) => ({ queryId, content: jsonToString(item) })));
             setGenerationResults(json.map((item) => ({ queryId, content: jsonToString(item) })));
           } else {
             setGenerationResults([{ queryId, content }]);
-            setGenerationResults([{ queryId, content }]);
           }
         } catch (error) {
-          setGenerationResults([{ queryId, content }]);
           setGenerationResults([{ queryId, content }]);
         }
       })
@@ -76,7 +72,6 @@ export function GenerateButton() {
       .finally(() => {
         setGenerationInProgress(false);
       });
-  }, [firefallService, prompt, temperature, parameters]);
   }, [firefallService, prompt, temperature, parameters]);
 
   return (

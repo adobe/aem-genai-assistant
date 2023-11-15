@@ -68,7 +68,7 @@ async function getImsOrgForProductContext(endpoint, clientId, token, productCont
       if (Array.isArray(json['projectedProductContext'])) {
         const filteredContextData = json['projectedProductContext'].filter((obj) => obj['prodCtx']['serviceCode'] === productContext);
 
-        // If there is no product context, return the first IMS org
+        // If there is no product context, return empty string
         if (filteredContextData.length === 0) {
           return '';
         }

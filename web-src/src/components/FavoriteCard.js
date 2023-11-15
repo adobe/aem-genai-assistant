@@ -6,6 +6,8 @@ const style = {
   card: css`
     padding: 10px;
     border: 1px solid #ccc;
+    height: 100%;
+    border-radius: 10px; 
   `
 }
 
@@ -14,7 +16,7 @@ export function FavoriteCard({variant, ...props}) {
     <View
       {...props}
       UNSAFE_className={style.card}>
-      <Text>{variant}</Text>
+      <Text>{variant.content}</Text>
     </View>
   )
 }

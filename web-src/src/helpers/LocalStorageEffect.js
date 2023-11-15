@@ -8,7 +8,7 @@ export function createLocalStorageEffect(key) {
       if (isReset) {
         localStorage.removeItem(key);
       } else {
-        localStorage.setItem(key, newValue);
+        localStorage.setItem(key, JSON.stringify(newValue));
       }
     });
   }

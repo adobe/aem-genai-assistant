@@ -10,8 +10,6 @@ import {PaddingBox} from '../helpers/StyleHelper.js';
 export function ResultCard({variants, prompt, isFavorite, makeFavorite, ...props}) {
   const [selectedVariant, setSelectedVariant] = useState(variants[0]);
 
-  console.log(`Selected variant: ${selectedVariant.id}`);
-
   return (
     <Grid
       {...props}

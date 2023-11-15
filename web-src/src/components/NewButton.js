@@ -6,9 +6,11 @@ import {useSetRecoilState} from 'recoil';
 import {sessionsState} from '../state/SessionsState.js';
 import {currentSessionState} from '../state/CurrentSessionState.js';
 import {useCallback} from 'react';
+import {ViewType, viewTypeState} from '../state/ViewType.js';
 
 export function NewButton(props) {
   const setCurrentSession = useSetRecoilState(currentSessionState);
+  const setViewType = useSetRecoilState(viewTypeState);
 
   const handleNewPrompt = useCallback(() => {
     const session = {
@@ -19,7 +21,8 @@ export function NewButton(props) {
       prompt: '',
       results: [],
     };
-    setCurrentSession(session)
+    setCurrentSession(session);
+    setViewType(ViewType.CurrentSession);
   }, [setCurrentSession]);
 
   return (

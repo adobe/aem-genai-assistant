@@ -1,6 +1,6 @@
 import {Flex, Grid, Image, Link, Text} from '@adobe/react-spectrum';
 import {InputsView} from './InputsView.js';
-import {TemperatureSelector} from './TemperatureSelector.js';
+import {TemperatureSlider} from './TemperatureSlider.js';
 import {GenerateButton} from './GenerateButton.js';
 import React from 'react';
 
@@ -44,7 +44,7 @@ export function PromptPropertiesPanel(props) {
             <InputsView/>
           </Flex>
         }
-        <TemperatureSelector/>
+        <TemperatureSlider/>
       </Flex>
 
       <Flex direction={'row'} justifyContent={'space-between'} alignItems={'center'} gridArea={'buttons'}>

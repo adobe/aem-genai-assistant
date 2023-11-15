@@ -1,5 +1,5 @@
 import {Flex, Grid, Image, Link, Text} from '@adobe/react-spectrum';
-import React from 'react';
+import React, {useCallback} from 'react';
 import {useApplicationContext} from './ApplicationProvider.js';
 
 import LogoIcon from '../assets/logo.svg';
@@ -7,11 +7,18 @@ import HelpIcon from '../assets/help.svg';
 import {useRecoilState, useRecoilValue} from 'recoil';
 import {sessionsState} from '../state/SessionsState.js';
 import {currentSessionState} from '../state/CurrentSessionState.js';
+import {ViewType, viewTypeState} from '../state/ViewType.js';
 
 export function SidePanel(props) {
   const { appVersion } = useApplicationContext();
   const sessions = useRecoilValue(sessionsState);
   const [currentSession, setCurrentSession] = useRecoilState(currentSessionState);
+  const [viewType, setViewType] = useRecoilState(viewTypeState);
+
+  const handleRecent = useCallback((session) => {
+    setCurrentSession(session);
+    setViewType(ViewType.CurrentSession);
+  }, [setCurrentSession, setViewType]);
 
   return (
     <Grid {...props}
@@ -28,14 +35,14 @@ export function SidePanel(props) {
 
       <Flex direction={'column'} gridArea={'menu'} gap={'size-100'}>
         <ul>
-          <li><Link onPress={() => setCurrentSession(null)}>Prompts</Link></li>
-          <li><Link>Favorites</Link></li>
+          <li><Link onPress={() => setViewType(ViewType.NewSession)}>Prompts</Link></li>
+          <li><Link onPress={() => setViewType(ViewType.Favorites)}>Favorites</Link></li>
           <li>
             <Text>Recent</Text>
             <ul>
               { (sessions && sessions.length > 0) && sessions.map((session) => (
                 <li key={session.id}>
-                  <Link onPress={() => setCurrentSession(session)}>{session.name}</Link>
+                  <Link onPress={() => handleRecent(session)}>{session.name}</Link>
                 </li>
               )) }
             </ul>

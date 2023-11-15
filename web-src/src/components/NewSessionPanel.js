@@ -11,6 +11,7 @@ import {NewButton} from './NewButton.js';
 import {v4 as uuid} from 'uuid';
 import {sessionsState} from '../state/SessionsState.js';
 import {currentSessionState} from '../state/CurrentSessionState.js';
+import {ViewType, viewTypeState} from '../state/ViewType.js';
 
 const PROMPT_TEMPLATES_FILENAME = 'prompttemplates.json';
 
@@ -18,6 +19,7 @@ export function NewSessionPanel({props}) {
   const { websiteUrl } = useApplicationContext();
   const [promptTemplates, setPromptTemplates] = useRecoilState(promptTemplatesState);
   const setCurrentSession = useSetRecoilState(currentSessionState);
+  const setViewType = useSetRecoilState(viewTypeState);
 
   useEffect(() => {
     parseSpreadSheet(`${websiteUrl}/${PROMPT_TEMPLATES_FILENAME}`).then(setPromptTemplates);
@@ -33,7 +35,8 @@ export function NewSessionPanel({props}) {
       prompt: selectedTemplate.template,
       results: [],
     };
-    setCurrentSession(session)
+    setCurrentSession(session);
+    setViewType(ViewType.CurrentSession);
   }, [promptTemplates, setCurrentSession]);
 
   return (

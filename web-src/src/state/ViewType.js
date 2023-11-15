@@ -9,13 +9,15 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom } from 'recoil';
-import {createLocalStorageEffect} from '../helpers/LocalStorageEffect.js';
+import {atom} from 'recoil';
 
-const LOCAL_STORAGE_KEY = 'sessions';
+export const ViewType = {
+  NewSession: "newSession",
+  CurrentSession: "currentSession",
+  Favorites: "favorites",
+}
 
-export const sessionsState = atom({
-  key: 'sessionsState',
-  default: [],
-  effects: [ createLocalStorageEffect(LOCAL_STORAGE_KEY) ]
+export const viewTypeState = atom({
+  key: 'viewTypeState',
+  default: ViewType.NewSession,
 });

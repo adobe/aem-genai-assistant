@@ -29,9 +29,8 @@ export function ResultsView(props) {
     <Flex
       {...props}
       direction={'column'}
-      width={'100%'}
-      height={'100%'}
-      justifyContent={'center'}>
+      position={'absolute'}
+      width={'100%'}>
       { results.length === 0
         ? <Image src={EmptyResults} width={'600px'}></Image>
         : results.map(({variants, prompt}) =>

@@ -12,19 +12,7 @@
 import {atom, useSetRecoilState} from 'recoil';
 import {sessionsState} from './SessionsState.js';
 
-function sync() {
-  const setSessions = useSetRecoilState(sessionsState);
-  return function ({setSelf, onSet}) {
-    onSet((newValue, _, isReset) => {
-      setSessions([newValue]);
-    });
-  }
-}
-
 export const currentSessionState = atom({
   key: 'currentSessionState',
   default: undefined
-  // effects: [
-  //   sync()
-  // ]
 });

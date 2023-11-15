@@ -19,10 +19,22 @@ import {SidePanel} from './SidePanel.js';
 import { CurrentSessionPanel} from './CurrentSessionPanel.js';
 import {useRecoilValue} from 'recoil';
 import {NewSessionPanel} from './NewSessionPanel.js';
-import {currentSessionState} from '../state/CurrentSessionState.js';
+import {viewTypeState, ViewType} from '../state/ViewType.js';
+import {FavoritesPanel} from './FavoritesPanel.js';
+
+function getView(viewType) {
+  switch (viewType) {
+    case ViewType.CurrentSession:
+      return <CurrentSessionPanel />;
+    case ViewType.Favorites:
+      return <FavoritesPanel />;
+    default:
+      return <NewSessionPanel />;
+  }
+}
 
 export function App() {
-  const currentSession = useRecoilValue(currentSessionState);
+  const viewType = useRecoilValue(viewTypeState);
   return (
     <>
       <ToastContainer />
@@ -34,7 +46,7 @@ export function App() {
         UNSAFE_style={{ padding: '25px 25px 0 25px' }}
         width="100%" height="100%">
         <SidePanel width="100%" height="100%" />
-        { currentSession ? <CurrentSessionPanel /> : <NewSessionPanel /> }
+        { getView(viewType) }
       </Grid>
     </>
   )

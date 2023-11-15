@@ -14,10 +14,11 @@ import { Content, Heading, InlineAlert } from '@adobe/react-spectrum';
 import { FirefallService } from '../services/FirefallService.js';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
-console.log(`Version: ${APP_VERSION}`);
 
-const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
-console.log(`API_ENDPOINT: ${API_ENDPOINT}`);
+const COMPLETE_ACTION = 'complete';
+const FEEDBACK_ACTION = 'feedback';
+
+import actions from '../config.json';
 
 function getWebsiteUrl() {
   const searchParams = new URLSearchParams(window.location.search);
@@ -36,7 +37,10 @@ function createApplication() {
   return {
     appVersion: APP_VERSION,
     websiteUrl,
-    firefallService: new FirefallService(API_ENDPOINT),
+    firefallService: new FirefallService({
+      completeEndpoint: actions[COMPLETE_ACTION],
+      feedbackEndpoint: actions[FEEDBACK_ACTION],
+    }),
   };
 }
 

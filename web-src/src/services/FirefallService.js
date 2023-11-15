@@ -21,13 +21,17 @@ function wretchRetry(url) {
 }
 
 export class FirefallService {
-  constructor(endpoint) {
-    this.endpoint = endpoint;
+  constructor({ completeEndpoint, feedbackEndpoint }) {
+    this.completeEndpoint = completeEndpoint;
+    this.feedbackEndpoint = feedbackEndpoint;
+    console.log(`FirefallService initialized!`);
+    console.log(`Complete: ${this.completeEndpoint}`);
+    console.log(`Feedback: ${this.feedbackEndpoint}`);
   }
 
   async complete(prompt, temperature) {
     /* eslint-disable-next-line camelcase */
-    const { query_id, generations } = await wretchRetry(`${this.endpoint}/complete`)
+    const { query_id, generations } = await wretchRetry(this.completeEndpoint)
       .post({ prompt, temperature })
       .json();
     return {
@@ -39,7 +43,7 @@ export class FirefallService {
 
   async feedback(queryId, sentiment) {
     /* eslint-disable-next-line camelcase */
-    const { feedback_id } = await wretchRetry(`${this.endpoint}/feedback`)
+    const { feedback_id } = await wretchRetry(this.feedbackEndpoint)
       .post({ queryId, sentiment })
       .json();
     return {

@@ -89,8 +89,13 @@ async function getImsOrgForProductContext(endpoint, clientId, token, productCont
           .json()
           .then((imsOrgsList) => {
             if (Array.isArray(imsOrgsList)) {
-              const { ident: orgIdent, authSrc: orgAuthSrc } = imsOrgsList[0]['orgRef'];
-              return `${orgIdent}@${orgAuthSrc}`;
+              if (imsOrgsList.length === 1) {
+                const { ident: orgIdent, authSrc: orgAuthSrc } = imsOrgsList[0]['orgRef'];
+                return `${orgIdent}@${orgAuthSrc}`;
+              
+              } else if (imsOrgsList.length > 1) {
+                return filteredContextData[0]['prodCtx']['owningEntity'];
+              }
             }
           })
           .catch((error) => {

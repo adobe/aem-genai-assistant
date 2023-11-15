@@ -42,17 +42,11 @@ const style = {
   `,
   editable: css`
     background-color: white;
-    height: 300px;
+    height: 400px;
   `,
   editor: css`
     font-family: monospace;
     position: absolute;
-    
-    & textarea {
-      width: 100%;
-      height: 100%
-    }
-    
     & textarea:focus  {
       outline: none;
     }

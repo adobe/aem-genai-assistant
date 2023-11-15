@@ -10,7 +10,8 @@ const styles = {
     padding: 20px;
     border: 1px #e0e0e0 solid;
     border-radius: 10px;
-    height: 150px;
+    height: 200px;
+    overflow: hidden; 
     &:hover {
       cursor: pointer;
       border-color: blue;
@@ -20,9 +21,10 @@ const styles = {
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    &:hover {
-      color: #000000;
-    }
+  `,
+  description: css`
+    overflow: hidden;
+    color: #999999;
   `
 }
 
@@ -34,7 +36,7 @@ export function PromptTemplateCard({ key, template, onClick, ...props }) {
         key={key}
         UNSAFE_className={styles.card}
         alignItems={'center'}
-        gap={'10px'}
+        gap={5}
         areas={[
           'icon title logo',
           'description description description'
@@ -42,9 +44,9 @@ export function PromptTemplateCard({ key, template, onClick, ...props }) {
         columns={['min-content', 'auto', 'min-content']}
         rows={['min-content', 'min-content']}>
         <Image src={GenerateIcon} width="24px" gridArea={'icon'}/>
-        <Text gridArea={'title'} UNSAFE_className={styles.title}>{template.label}</Text>
+        <Text UNSAFE_className={styles.title} gridArea={'title'}>{template.label}</Text>
         <Image src={SmallLogo} width={'18px'} gridArea={'logo'}/>
-        <Text style={{ color: '#999999', padding: '10px', textOverflow: 'fade', overflow: 'hidden' }} gridArea={'description'}>{template.description}</Text>
+        <Text UNSAFE_className={styles.description} gridArea={'description'}>{template.description}</Text>
       </Grid>
     </a>
   )

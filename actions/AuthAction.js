@@ -2,8 +2,11 @@ const {ImsClient} = require('./ImsClient.js');
 const {wretchRetry} = require('./Network');
 const QueryStringAddon = require('wretch/addons/queryString');
 
+const { Core } = require('@adobe/aio-sdk');
+
 function asAuthAction(action) {
   return async function (params) {
+    const logger = Core.Logger('main', { level: params.LOG_LEVEL || 'info' });
     const imsEndpoint = params['IMS_ENDPOINT']
     const clientId = params['IMS_CLIENT_ID']
     const serviceClientId = params['IMS_SERVICE_CLIENT_ID']
@@ -15,12 +18,12 @@ function asAuthAction(action) {
     const accessToken = params.accessToken;
 
     // Validate the access token
-    if (!await isValidToken(imsEndpoint, clientId, accessToken)) {
+    if (!await isValidToken(imsEndpoint, clientId, accessToken, logger)) {
       throw new Error('Access token is invalid');
     }
 
     // Check that the profile has expected product context and retrieve the IMS org
-    const imsOrg = await getImsOrgForProductContext(imsEndpoint, clientId, accessToken, productContext);
+    const imsOrg = await getImsOrgForProductContext(imsEndpoint, clientId, accessToken, productContext, logger);
     if (imsOrg === '') {
       throw new Error('Profile does not have the required product context');
     }
@@ -33,7 +36,7 @@ function asAuthAction(action) {
   }
 }
 
-async function isValidToken(endpoint, clientId, token) {
+async function isValidToken(endpoint, clientId, token, logger) {
   return await wretchRetry(endpoint + '/ims/validate_token/v1')
     .addon(QueryStringAddon).query({
       client_id: clientId,
@@ -49,11 +52,12 @@ async function isValidToken(endpoint, clientId, token) {
       return json['valid'];
     })
     .catch((error) => {
+      logger.error(error);
       return false;
     });
 }
 
-async function getImsOrgForProductContext(endpoint, clientId, token, productContext) {
+async function getImsOrgForProductContext(endpoint, clientId, token, productContext, logger) {
   return await wretchRetry(endpoint + '/ims/profile/v1')
     .addon(QueryStringAddon).query({
       client_id: clientId
@@ -94,11 +98,13 @@ async function getImsOrgForProductContext(endpoint, clientId, token, productCont
                 return `${orgIdent}@${orgAuthSrc}`;
               
               } else if (imsOrgsList.length > 1) {
+                logger.warn(`Multiple orgs found in the profile with ${productContext}. Returning the first one.`);
                 return filteredContextData[0]['prodCtx']['owningEntity'];
               }
             }
           })
           .catch((error) => {
+            logger.error(error);
             return '';
           });
         }
@@ -106,6 +112,7 @@ async function getImsOrgForProductContext(endpoint, clientId, token, productCont
       return '';
     })
     .catch((error) => {
+      logger.error(error);
       return '';
     });
 }

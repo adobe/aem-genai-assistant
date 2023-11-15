@@ -28,7 +28,6 @@ function replacePlaceholders(str, valuesMap) {
     if (modifier === '#' || modifier === '@') {
       return '';
     }
-    console.log(`identifier: ${identifier}`);
     /* eslint-disable-next-line no-nested-ternary */
     return identifier in valuesMap
       ? (isBlankValue(valuesMap[identifier]) ? NO_VALUE_STRING : valuesMap[identifier])

@@ -54,7 +54,6 @@ function getComponentType(params) {
 }
 
 function DescriptionLabel({ description }) {
-  console.log('description', description);
   if (!description) {
     return <></>;
   }

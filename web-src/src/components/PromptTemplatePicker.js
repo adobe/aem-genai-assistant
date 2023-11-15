@@ -26,7 +26,7 @@ export function PromptTemplatePicker() {
   const setPrompt = useSetRecoilState(promptTemplateState);
 
   useEffect(() => {
-    parseSpreadSheet(`${websiteUrl}/${PROMPT_TEMPLATES_FILENAME}`).then(setPromptTemplates);
+    parseSpreadSheet(`${websiteUrl}/${PROMPT_TEMPLATES_FILENAME}`, 'Label', 'Template').then(setPromptTemplates);
   }, [websiteUrl, setPromptTemplates]);
 
   const promptSelectionHandler = useCallback((selected) => {

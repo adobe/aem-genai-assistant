@@ -73,7 +73,7 @@ function SpreadSheetPicker({
   useEffect(() => {
     const [filename, columnName] = spreadsheet.split(':');
     const fileUrl = `${websiteUrl}/${filename || ''}.json`;
-    parseSpreadSheet(fileUrl, columnName ?? 'Value')
+    parseSpreadSheet(fileUrl, 'Key', columnName ?? 'Value')
       .then(setItems)
       .catch((error) => {
         setItems([]);

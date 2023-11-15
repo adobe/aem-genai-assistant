@@ -64,12 +64,35 @@ async function getImsOrgForProductContext(endpoint, clientId, token, productCont
     })
     .get()
     .json()
-    .then((json) => {
+    .then(async (json) => {
       if (Array.isArray(json['projectedProductContext'])) {
-        for (const obj of json['projectedProductContext']) {
-          if (obj['prodCtx']['serviceCode'] === productContext) {
-            return obj['prodCtx']['owningEntity'];
-          }
+        const filteredContextData = json['projectedProductContext'].filter((obj) => obj['prodCtx']['serviceCode'] === productContext);
+
+        if (filteredContextData.length === 0) {
+          return '';
+        }
+
+        if (filteredContextData.length === 1) {
+          return filteredContextData[0]['prodCtx']['owningEntity'];
+        }
+
+        if (filteredContextData.length > 1) {
+          return await wretchRetry(endpoint + '/ims/organizations/v6')
+          .headers({
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          })
+          .get()
+          .json()
+          .then((imsOrgsList) => {
+            if (Array.isArray(imsOrgsList['projectedProductContext'])) {
+              const { ident: orgIdent, authSrc: orgAuthSrc } = imsOrgsList[0]['orgRef'];
+              return `${orgIdent}@${orgAuthSrc}`;
+            }
+          })
+          .catch((error) => {
+            return '';
+          });
         }
       }
       return '';

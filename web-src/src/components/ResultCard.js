@@ -1,10 +1,10 @@
-import {ActionButton, Tooltip, TooltipTrigger} from '@adobe/react-spectrum';
+import {ActionButton, Image, Tooltip, TooltipTrigger} from '@adobe/react-spectrum';
 import ThumbUp from '@spectrum-icons/workflow/ThumbUp';
 import ThumbDown from '@spectrum-icons/workflow/ThumbDown';
 import Star from '@spectrum-icons/workflow/Star';
 import StarOutline from '@spectrum-icons/workflow/StarOutline';
 import Copy from '@spectrum-icons/workflow/Copy';
-import Add from '@spectrum-icons/workflow/Add';
+import ReusePromptIcon from '../assets/reuse-prompt.svg';
 import Delete from '@spectrum-icons/workflow/Delete';
 import React, {useCallback, useState} from 'react';
 import {css} from '@emotion/css';
@@ -15,6 +15,8 @@ import {ToastQueue} from '@react-spectrum/toast';
 import {useSetRecoilState} from 'recoil';
 import {promptState} from '../state/PromptState.js';
 import {parametersState} from '../state/ParametersState.js';
+import {resultsState} from '../state/ResultsState.js';
+import {useSaveSession} from '../state/SaveSessionHook.js';
 
 const styles = {
   card: css`
@@ -95,8 +97,10 @@ export function ResultCard({result, ...props}) {
   const [selectedVariant, setSelectedVariant] = useState(result.variants[0]);
   const setPrompt = useSetRecoilState(promptState);
   const setParameters = useSetRecoilState(parametersState);
+  const setResults = useSetRecoilState(resultsState);
   const isFavorite = useIsFavorite();
   const toggleFavorite = useToggleFavorite();
+  const saveSession = useSaveSession();
 
   const sendFeedback = useCallback((sentiment) => {
     firefallService.feedback(result.resultId, sentiment)
@@ -114,6 +118,11 @@ export function ResultCard({result, ...props}) {
     setPrompt(result.promptTemplate);
     setParameters(result.parameters);
   }, [result, setPrompt, setParameters]);
+
+  const deleteResult = useCallback(async (resultId) => {
+    setResults(results => results.filter(result => result.resultId !== resultId));
+    await saveSession();
+  }, [setResults]);
 
   return (
     <div {...props} className={styles.card}>
@@ -135,7 +144,7 @@ export function ResultCard({result, ...props}) {
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
               onPress={reusePrompt}>
-              <Add/>
+              <Image src={ReusePromptIcon} />
             </ActionButton>
             <Tooltip>Re-use</Tooltip>
           </TooltipTrigger>
@@ -194,7 +203,8 @@ export function ResultCard({result, ...props}) {
           <TooltipTrigger delay={0}>
             <ActionButton
               isQuiet
-              UNSAFE_className="hover-cursor-pointer">
+              UNSAFE_className="hover-cursor-pointer"
+              onPress={() => deleteResult(result.resultId)}>
               <Delete/>
             </ActionButton>
             <Tooltip>Remove</Tooltip>

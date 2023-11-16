@@ -64,6 +64,7 @@ export function SidePanel(props) {
       padding: 10px 10px 10px 50px;
       gap: 12px;
       border-radius: 8px;
+      font-weight: normal;
     `,
     menuItemLink: css`
       color: #222;

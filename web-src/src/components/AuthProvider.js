@@ -42,7 +42,6 @@ export const AuthProvider = ({ children }) => {
       setImsToken(token);
       setInProgress(false);
       setAccessGranted(true);
-      imsAuthClient.imsActions.getProfile();
     });
   }, []);
 

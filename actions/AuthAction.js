@@ -70,20 +70,20 @@ async function getImsOrgForProductContext(endpoint, clientId, token, productCont
     .json()
     .then(async (json) => {
       if (Array.isArray(json['projectedProductContext'])) {
-        const filteredContextData = json['projectedProductContext'].filter((obj) => obj['prodCtx']['serviceCode'] === productContext);
+        const filteredProductContext = json['projectedProductContext'].filter((obj) => obj['prodCtx']['serviceCode'] === productContext);
 
         // Case 1: No product context found
-        if (filteredContextData.length === 0) {
+        if (filteredProductContext.length === 0) {
           return '';
         }
 
         // Case 2: Exactly one product context found
-        if (filteredContextData.length === 1) {
-          return filteredContextData[0]['prodCtx']['owningEntity'];
+        if (filteredProductContext.length === 1) {
+          return filteredProductContext[0]['prodCtx']['owningEntity'];
         }
 
         // Case 3: Multiple product contexts found
-        if (filteredContextData.length > 1) {
+        if (filteredProductContext.length > 1) {
           return await wretchRetry(endpoint + '/ims/organizations/v6')
           .headers({
             'Authorization': `Bearer ${token}`,
@@ -101,7 +101,7 @@ async function getImsOrgForProductContext(endpoint, clientId, token, productCont
               // Case 3b: More than one IMS Org found in the profile
               } else if (imsOrgsList.length > 1) {
                 logger.warn(`Multiple IMS Orgs found in the profile with ${productContext}. Returning the first one.`);
-                return filteredContextData[0]['prodCtx']['owningEntity'];
+                return filteredProductContext[0]['prodCtx']['owningEntity'];
               }
             }
           })

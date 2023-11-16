@@ -115,9 +115,8 @@ const styles = {
 };
 
 export function ResultCard({ result, ...props }) {
-  const variants = (!Array.isArray(result.variants)) ? [result.variants] : result.variants;
   const { firefallService } = useApplicationContext();
-  const [selectedVariant, setSelectedVariant] = useState(variants);
+  const [selectedVariant, setSelectedVariant] = useState(result.variants[0]);
   const setPrompt = useSetRecoilState(promptState);
   const setParameters = useSetRecoilState(parametersState);
   const setResults = useSetRecoilState(resultsState);

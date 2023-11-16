@@ -46,10 +46,10 @@ function createVariants(response) {
     if (Array.isArray(json)) {
       return json.map((item) => ({ id: uuid(), content: jsonToString(item) }));
     } else {
-      return { id: uuid(), content: String(response) };
+      return [{ id: uuid(), content: String(response) }];
     }
   } catch (error) {
-    return { id: uuid(), content: String(response) };
+    return [{ id: uuid(), content: String(response) }];
   }
 }
 

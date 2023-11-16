@@ -17,6 +17,7 @@ import { React, useCallback } from 'react';
 import GenAIIcon from '../icons/GenAIIcon.js';
 import { currentSessionState } from '../state/CurrentSessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
+import {formatTimestamp} from '../helpers/FormatHelper.js';
 
 export function NewButton(props) {
   const setCurrentSession = useSetRecoilState(currentSessionState);
@@ -25,11 +26,7 @@ export function NewButton(props) {
   const handleNewPrompt = useCallback(() => {
     const timestamp = Date.now();
 
-    // convert timestamp into human readable date and time
-    const date = new Date(timestamp);
-    const dateStr = date.toLocaleDateString('en-US');
-    const timeStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' });
-    const timestampStr = `${dateStr} ${timeStr}`;
+    const timestampStr = formatTimestamp(timestamp);
 
     const session = {
       id: uuid(),

@@ -25,6 +25,7 @@ import { NewButton } from './NewButton.js';
 import { sessionsState } from '../state/SessionsState.js';
 import { currentSessionState } from '../state/CurrentSessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
+import {formatTimestamp} from '../helpers/FormatHelper.js';
 import { SignOutButton } from './SignOutButton.js';
 
 const PROMPT_TEMPLATES_FILENAME = 'prompttemplates.json';
@@ -42,16 +43,13 @@ export function NewSessionPanel({ props }) {
   const promptSelectionHandler = useCallback((selected) => {
     const selectedTemplate = promptTemplates[selected];
 
-    const date = new Date();
-    const dateStr = date.toLocaleDateString('en-US');
-    const timeStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' });
-    const timestampStr = `${dateStr} ${timeStr}`;
+    const timestamp = Date.now();
 
     const session = {
       id: uuid(),
-      name: `${selectedTemplate.label} ${timestampStr}`,
+      name: `${selectedTemplate.label} ${formatTimestamp(timestamp)}`,
       description: selectedTemplate.description,
-      timestamp: Date.now(),
+      timestamp,
       prompt: selectedTemplate.template,
       results: [],
     };

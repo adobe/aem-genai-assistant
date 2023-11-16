@@ -40,9 +40,15 @@ export function NewSessionPanel({ props }) {
 
   const promptSelectionHandler = useCallback((selected) => {
     const selectedTemplate = promptTemplates[selected];
+
+    const date = new Date();
+    const dateStr = date.toLocaleDateString('en-US');
+    const timeStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' });
+    const timestampStr = `${dateStr} ${timeStr}`;
+
     const session = {
       id: uuid(),
-      name: selectedTemplate.label,
+      name: `${selectedTemplate.label} ${timestampStr}`,
       description: selectedTemplate.description,
       timestamp: Date.now(),
       prompt: selectedTemplate.template,

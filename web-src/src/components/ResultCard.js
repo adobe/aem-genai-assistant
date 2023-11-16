@@ -29,19 +29,30 @@ const styles = {
   promptSection: css`
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    align-items: flex-start;
+    justify-content: start;
+    align-items: start;
   `,
   promptContent: css`
+    --max-lines: 3;
+    --line-height: 1.4;
+    height: calc(var(--max-lines) * 1em * var(--line-height));
+    line-height: var(--line-height);
     overflow: hidden;
     color: var(--alias-content-neutral-subdued-default, var(--alias-content-neutral-subdued-default, #464646));
-    text-overflow: ellipsis;
-    white-space: nowrap;
     font-family: Adobe Clean, serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
-    line-height: 21px;
+    position: relative;
+    ::before {
+      content: "";
+      position: absolute;
+      height: calc(1em * var(--line-height));
+      width: 100%;
+      bottom: 0;
+      pointer-events: none;
+      background: linear-gradient(to bottom, transparent, white);
+    }
   `,
   promptActions: css`
   `,
@@ -61,16 +72,14 @@ const styles = {
     flex-direction: row;
     gap: 10px;
     justify-content: left;
+    width: 100%;
     overflow: auto;
+    padding: 10px;
   `,
   variant: css`
-    display: flex;
-    width: 152px;
-    height: 80px;
+    width: 300px;
+    height: 100px;
     padding: 8px;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
     border-radius: 8px;
     border: 1px solid var(--palette-gray-300, #D5D5D5);
     background: var(--palette-gray-50, #FFF);
@@ -128,7 +137,7 @@ export function ResultCard({result, ...props}) {
     <div {...props} className={styles.card}>
 
       <div className={styles.promptSection}>
-        <p className={styles.promptContent}>{result.prompt}</p>
+        <div className={styles.promptContent}>{result.prompt}</div>
         <div className={styles.promptActions}>
           <TooltipTrigger delay={0}>
             <ActionButton
@@ -156,19 +165,18 @@ export function ResultCard({result, ...props}) {
             result.variants.map((variant) => {
               return (
                 <a onClick={() => setSelectedVariant(variant)}>
-                  <p className={css`
+                  <div className={css`
                     ${styles.variant};
                     ${variant.id === selectedVariant.id && styles.variantSelected};
                     ${isFavorite(variant) && styles.variantFavorite};
-                  `}>
-                    {variant.content}
-                  </p>
+                  `}
+                   dangerouslySetInnerHTML={{__html: variant.content}} />
                 </a>
               )
             })
           }
         </div>
-        <div className={styles.resultContent}>{selectedVariant.content}</div>
+        <div className={styles.resultContent} dangerouslySetInnerHTML={{__html: selectedVariant.content}}/>
         <div className={styles.resultActions}>
           <TooltipTrigger delay={0}>
             <ActionButton

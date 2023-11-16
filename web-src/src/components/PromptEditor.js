@@ -40,8 +40,13 @@ const style = {
     border-radius: 8px;
   `,
   editable: css`
+    box-shadow: 
+      0px -10px 20px -20px rgba(0,0,0,0.45),
+      10px 0px 20px -20px rgba(0,0,0,0.45),
+      0px 10px 20px -20px rgba(0,0,0,0.45),
+      -10px 0px 20px -20px rgba(0,0,0,0.45);
     background-color: white;
-    height: 400px;
+    height: 500px;
   `,
   editor: css`
     color: var(--palette-gray-600, var(--palette-gray-600, #6D6D6D));

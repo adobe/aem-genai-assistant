@@ -1,18 +1,29 @@
 import {Flex, Grid, Image, Link, Text} from '@adobe/react-spectrum';
 import {InputsView} from './InputsView.js';
-import {TemperatureSlider} from './TemperatureSlider.js';
 import {GenerateButton} from './GenerateButton.js';
 import React from 'react';
 
 import GenerateIcon from '../assets/generate.svg';
 import {useRecoilValue} from 'recoil';
-import {expressionsState} from '../state/ExpressionsState.js';
 import {ResetButton} from './ResetButton.js';
 import {currentSessionState} from '../state/CurrentSessionState.js';
+import {css} from '@emotion/css';
+
+const styles = {
+  actions: css`
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: var(--spectrum-global-dimension-size-100);
+    border-top: 1px solid #ccc;
+    padding: 16px 0 0 0;
+    grid-area: buttons;
+  `,
+}
 
 export function PromptPropertiesPanel(props) {
   const currentSession = useRecoilValue(currentSessionState);
-  const expressions = useRecoilValue(expressionsState);
 
   return (
     <Grid
@@ -44,10 +55,10 @@ export function PromptPropertiesPanel(props) {
         </Flex>
       </Flex>
 
-      <Flex direction={'row'} justifyContent={'space-around'} alignItems={'center'} gap={'size-100'} gridArea={'buttons'}>
+      <div className={styles.actions}>
         <ResetButton/>
         <GenerateButton/>
-      </Flex>
+      </div>
 
     </Grid>
   )

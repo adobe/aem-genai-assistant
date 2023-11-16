@@ -12,12 +12,13 @@ export function ResetButton(props) {
   };
 
   return (
-    <Button
+    <ActionButton
       {...props}
+      isQuiet
       onPress={handleReset}
-      variant={'secondary'}>
+      variant={''}>
       <Image src={ResetIcon}/>
       <Text>Reset</Text>
-    </Button>
+    </ActionButton>
   );
 }

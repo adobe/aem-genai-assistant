@@ -86,28 +86,28 @@ export function GenerateButton() {
   }, [firefallService, prompt, temperature, parameters]);
 
   return (
-    <Flex direction="row" gap="size-100">
+    <Flex direction="row" gap="size-100" alignItems={'center'}>
       <Button
         UNSAFE_className="hover-cursor-pointer"
         width="size-1700"
-        variant="primary"
+        variant="cta"
         style="fill"
         onPress={handleGenerate}
         isDisabled={generationInProgress}>
         {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px"/> : <SenseiGenAIIcon />}
         Generate
       </Button>
-      {/*<ContextualHelp variant="info">*/}
-      {/*  <Heading>Terms of use</Heading>*/}
-      {/*  <Content>*/}
-      {/*    <p>*/}
-      {/*      Your inputs to the service should be tied to a context.This context can be your branding*/}
-      {/*      materials, website content, data, schemas for such data, templates, or other trusted documents.*/}
-      {/*      You should evaluate the accuracy of any output as appropriate to your use case.*/}
-      {/*    </p>*/}
-      {/*    <LegalTermsLink />*/}
-      {/*  </Content>*/}
-      {/*</ContextualHelp>*/}
+      <ContextualHelp variant="info">
+        <Heading>Terms of use</Heading>
+        <Content>
+          <p>
+            Your inputs to the service should be tied to a context.This context can be your branding
+            materials, website content, data, schemas for such data, templates, or other trusted documents.
+            You should evaluate the accuracy of any output as appropriate to your use case.
+          </p>
+          <LegalTermsLink />
+        </Content>
+      </ContextualHelp>
     </Flex>
   );
 }

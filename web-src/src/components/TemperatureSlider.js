@@ -31,6 +31,8 @@ export function TemperatureSlider() {
       label="Creativity"
       minValue={TEMPERATURE_MIN}
       maxValue={TEMPERATURE_MAX}
+      isFilled={true}
+      width={'100%'}
       step={TEMPERATURE_STEP}
       getValueLabel={(value) => CREATIVITY_LABELS[value / TEMPERATURE_STEP]}
       onChange={setTemperature}

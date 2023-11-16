@@ -12,12 +12,12 @@ export function ResetButton(props) {
   };
 
   return (
-    <ActionButton
+    <Button
       {...props}
       onPress={handleReset}
       variant={'secondary'}>
       <Image src={ResetIcon}/>
       <Text>Reset</Text>
-    </ActionButton>
+    </Button>
   );
 }

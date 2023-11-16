@@ -30,6 +30,7 @@ export function ResultsView(props) {
       {...props}
       direction={'column'}
       position={'absolute'}
+      gap={'size-200'}
       width={'100%'}>
       { results.length === 0
         ? <Image src={EmptyResults} width={'600px'}></Image>

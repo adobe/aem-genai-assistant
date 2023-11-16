@@ -21,6 +21,7 @@ import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
 import { promptState } from '../state/PromptState.js';
 import { expressionsState } from '../state/ExpressionsState.js';
 import { parametersState } from '../state/ParametersState.js';
+import {TemperatureSlider} from './TemperatureSlider.js';
 
 function getIndexByValue(items, value) {
   return items.findIndex((item) => item.value === value);
@@ -170,6 +171,7 @@ export function InputsView({ gridColumn }) {
           }
         })
       }
+      <TemperatureSlider/>
     </Flex>
   );
 }

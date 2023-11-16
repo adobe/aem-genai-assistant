@@ -39,15 +39,12 @@ export function PromptPropertiesPanel(props) {
 
       <Flex direction={'column'}>
         <h3>Inputs</h3>
-        { Object.keys(expressions).length > 0 &&
-          <Flex direction={'column'} UNSAFE_style={{ position: 'relative', height: '100%' }}>
-            <InputsView/>
-          </Flex>
-        }
-        <TemperatureSlider/>
+        <Flex direction={'column'} UNSAFE_style={{ position: 'relative', height: '100%' }}>
+          <InputsView/>
+        </Flex>
       </Flex>
 
-      <Flex direction={'row'} justifyContent={'space-between'} alignItems={'center'} gridArea={'buttons'}>
+      <Flex direction={'row'} justifyContent={'space-around'} alignItems={'center'} gap={'size-100'} gridArea={'buttons'}>
         <ResetButton/>
         <GenerateButton/>
       </Flex>

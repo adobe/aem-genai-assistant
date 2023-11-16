@@ -38,14 +38,18 @@ const style = {
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    background-color: #f0f0f0;
   `,
   editable: css`
     background-color: white;
     height: 400px;
   `,
   editor: css`
-    font-family: monospace;
+    color: var(--palette-gray-600, var(--palette-gray-600, #6D6D6D));
+    font-family: Adobe Clean,serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
     position: absolute;
     & textarea:focus  {
       outline: none;

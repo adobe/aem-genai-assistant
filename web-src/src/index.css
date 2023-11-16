@@ -107,10 +107,6 @@ body {
   cursor: pointer;
 }
 
-.creativity-slider label {
-  font-weight: bold;
-}
-
 .fade-enter {
   opacity: 0;
   transform: translateX(-100%) scale(0.8);

@@ -29,7 +29,34 @@ export function SidePanel(props) {
   const [currentSession, setCurrentSession] = useRecoilState(currentSessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
 
-  const style = {
+  const styles = {
+    menu: css`
+      margin: 10px;
+      & a {
+        text-decoration: none;
+      }
+      & a:hover {
+        text-decoration: underline;
+        cursor: pointer;
+      }
+      & ul {
+        margin: 0;
+        padding: 0;
+      }
+      & ul > li {
+        color: var(--palette-gray-800, var(--palette-gray-800, #222));
+        font-family: Adobe Clean, Helvetica Neue, Helvetica, Arial, sans-serif;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: bold;
+        list-style-type: none;
+        line-height: 2em;
+      }
+      & li li {
+        font-weight: normal;
+        margin-left: 10px;
+      }
+    `,
     help: css`
       /* Heading/Sans/Sans Default XXS */
       font-size: 14px;
@@ -52,7 +79,6 @@ export function SidePanel(props) {
 
   return (
     <Grid {...props}
-      UNSAFE_style={{ padding: '10px' }}
       areas={['header', 'menu', 'footer']}
       columns={['auto']}
       rows={['min-content', '1fr', 'min-content']}
@@ -63,16 +89,16 @@ export function SidePanel(props) {
         <Text justifySelf={'end'}>v{appVersion}</Text>
       </Flex>
 
-      <Flex direction={'column'} gridArea={'menu'} gap={'size-100'}>
+      <Flex direction={'column'} gridArea={'menu'} gap={'size-100'} UNSAFE_className={styles.menu}>
         <ul>
-          <li><Link onPress={() => setViewType(ViewType.NewSession)}>Prompts</Link></li>
-          <li><Link onPress={() => setViewType(ViewType.Favorites)}>Favorites</Link></li>
+          <li><a onClick={() => setViewType(ViewType.NewSession)}>Prompts</a></li>
+          <li><a onClick={() => setViewType(ViewType.Favorites)}>Favorites</a></li>
           <li>
             <Text>Recent</Text>
             <ul>
               { (sessions && sessions.length > 0) && sessions.map((session) => (
                 <li key={session.id}>
-                  <Link onPress={() => handleRecent(session)}>{session.name}</Link>
+                  <a onClick={() => handleRecent(session)}>{session.name}</a>
                 </li>
               )) }
             </ul>
@@ -80,11 +106,11 @@ export function SidePanel(props) {
         </ul>
       </Flex>
 
-      <Flex direction={'column'} gridArea={'footer'} gap={10}>
+      <Flex direction={'column'} gridArea={'footer'} margin={10} ap={10}>
         <Flex direction={'row'} justifyContent={'start'} alignItems={'center'} gap={'size-100'}>
-          <Image src={HelpIcon} width={'20px'}/><Link href="https://www.aem.live/developer/configuring-aem-genai-assistant-sidekick-plugin" target="_blank" UNSAFE_className={style.help}>Help & FAQ</Link>
+          <Image src={HelpIcon} width={'20px'}/><Link href="https://www.aem.live/developer/configuring-aem-genai-assistant-sidekick-plugin" target="_blank" UNSAFE_className={styles.help}>Help & FAQ</Link>
         </Flex>
-        <Text UNSAFE_className={style.copyright}>Copyright © 2023 Adobe. All rights reserved</Text>
+        <Text UNSAFE_className={styles.copyright}>Copyright © 2023 Adobe. All rights reserved</Text>
       </Flex>
     </Grid>
   );

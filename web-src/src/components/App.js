@@ -14,13 +14,13 @@ import { ToastContainer } from '@react-spectrum/toast';
 import {
   Grid,
 } from '@adobe/react-spectrum';
+import { useRecoilValue } from 'recoil';
 import { ConsentDialog } from './ConsentDialog.js';
-import {SidePanel} from './SidePanel.js';
-import { CurrentSessionPanel} from './CurrentSessionPanel.js';
-import {useRecoilValue} from 'recoil';
-import {NewSessionPanel} from './NewSessionPanel.js';
-import {viewTypeState, ViewType} from '../state/ViewType.js';
-import {FavoritesPanel} from './FavoritesPanel.js';
+import { SidePanel } from './SidePanel.js';
+import { CurrentSessionPanel } from './CurrentSessionPanel.js';
+import { NewSessionPanel } from './NewSessionPanel.js';
+import { viewTypeState, ViewType } from '../state/ViewType.js';
+import { FavoritesPanel } from './FavoritesPanel.js';
 
 function getView(viewType) {
   switch (viewType) {
@@ -49,5 +49,5 @@ export function App() {
         { getView(viewType) }
       </Grid>
     </>
-  )
+  );
 }

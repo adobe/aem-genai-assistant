@@ -68,7 +68,6 @@ export function SidePanel(props) {
     `,
     menuItemLink: css`
       color: #222;
-      text-decoration: none;
       &:hover {
         text-decoration: none;
       }
@@ -114,8 +113,8 @@ export function SidePanel(props) {
 
       <Flex direction={'column'} gridArea={'menu'} gap={'size-100'}>
         <ul className={style.menu}>
-          <li className={viewType === ViewType.NewSession ? derivedStyle.clickedMenuItem : style.menuItem}><Image src={PromptsIcon} width={'20px'}/><Link UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>Prompts</Link></li>
-          <li className={viewType === ViewType.Favorites ? derivedStyle.clickedMenuItem : style.menuItem}><Image src={FavoritesIcon} width={'20px'}/><Link UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.Favorites)}>Favorites</Link></li>
+          <li className={viewType === ViewType.NewSession ? derivedStyle.clickedMenuItem : style.menuItem}><Image src={PromptsIcon} width={'20px'}/><Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>Prompts</Link></li>
+          <li className={viewType === ViewType.Favorites ? derivedStyle.clickedMenuItem : style.menuItem}><Image src={FavoritesIcon} width={'20px'}/><Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.Favorites)}>Favorites</Link></li>
           <li className={style.menuItem}>
             <Image src={RecentsIcon} width={'20px'}/>
             <Text>Recent</Text>
@@ -123,7 +122,7 @@ export function SidePanel(props) {
           { (sessions && sessions.length > 0) && sessions.map((session) => (
             // eslint-disable-next-line max-len
             <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyle.clickedSubMenuItem : style.subMenuItem} key={session.id}>
-              <Link UNSAFE_className={style.menuItemLink} onPress={() => handleRecent(session)}>{session.name}</Link>
+              <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => handleRecent(session)}>{session.name}</Link>
             </li>
           )) }
         </ul>

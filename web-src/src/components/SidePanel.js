@@ -34,6 +34,36 @@ export function SidePanel(props) {
   const [viewType, setViewType] = useRecoilState(viewTypeState);
 
   const style = {
+    headerText: css`
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 700;
+    `,
+    versionTag: css`
+      background-color: #E9E9E9;
+      padding: 0px 9px;
+      border-radius: 7px;
+    `,
+    menu: css`
+      font-size: 14px;
+      font-style: normal;
+      font-weight: 700;
+      list-style: none;
+      padding: 0;
+    `,
+    menuItem: css`
+      display: flex;
+      padding: 10px 10px;
+      gap: 12px;
+      border-radius: 8px;
+    `,
+    menuItemLink: css`
+      color: #222;
+      text-decoration: none;
+      &:hover {
+        text-decoration: none;
+      }
+    `,
     help: css`
       /* Heading/Sans/Sans Default XXS */
       font-size: 14px;
@@ -77,11 +107,11 @@ export function SidePanel(props) {
       </Flex>
 
       <Flex direction={'column'} gridArea={'menu'} gap={'size-100'}>
-        <ul>
-          <li><Link onPress={() => setViewType(ViewType.NewSession)}>Prompts</Link></li>
-          <li><Link onPress={() => setViewType(ViewType.Favorites)}>Favorites</Link></li>
-          <li>
-            <Text>Recent</Text>
+        <ul className={style.menu}>
+          <li className={viewType === ViewType.NewSession ? derivedStyle.clickedMenuItem : style.menuItem}><Image src={PromptsIcon} width={'20px'}/><Link UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>Prompts</Link></li>
+          <li className={viewType === ViewType.Favorites ? derivedStyle.clickedMenuItem : style.menuItem}><Image src={FavoritesIcon} width={'20px'}/><Link UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.Favorites)}>Favorites</Link></li>
+          <li className={style.menuItem}>
+          <Image src={RecentsIcon} width={'20px'}/><Text>Recent</Text>
             <ul>
               { (sessions && sessions.length > 0) && sessions.map((session) => (
                 <li key={session.id}>
@@ -93,8 +123,8 @@ export function SidePanel(props) {
         </ul>
       </Flex>
 
-      <Flex direction={'column'} gridArea={'footer'} gap={10}>
-        <Flex direction={'row'} justifyContent={'start'} alignItems={'center'} gap={'size-100'}>
+      <Flex UNSAFE_style={{ padding: '10px 10px'}} direction={'column'} gridArea={'footer'} gap={'16px'}>
+        <Flex direction={'row'} justifyContent={'start'} alignItems={'center'} gap={'12px'}>
           <Image src={HelpIcon} width={'20px'}/><Link href="https://www.aem.live/developer/configuring-aem-genai-assistant-sidekick-plugin" target="_blank" UNSAFE_className={style.help}>Help & FAQ</Link>
         </Flex>
         <Text UNSAFE_className={style.copyright}>Copyright © 2023 Adobe. All rights reserved</Text>

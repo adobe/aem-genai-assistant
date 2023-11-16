@@ -12,7 +12,7 @@
 import { Link } from '@adobe/react-spectrum';
 import React from 'react';
 
-const USER_GUIDELINES_URL = 'https://www.adobe.com/legal/licenses-terms/adobe-gen-ai-user-guidelines.html';
+export const USER_GUIDELINES_URL = 'https://www.adobe.com/legal/licenses-terms/adobe-gen-ai-user-guidelines.html';
 
 export function LegalTermsLink() {
   return (

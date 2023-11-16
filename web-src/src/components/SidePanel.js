@@ -16,12 +16,14 @@ import React, { useCallback } from 'react';
 import { css } from '@emotion/css';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useApplicationContext } from './ApplicationProvider.js';
+import { USER_GUIDELINES_URL } from './LegalTermsLink.js';
 
 import LogoIcon from '../assets/logo.svg';
 import PromptsIcon from '../assets/prompts.svg';
 import FavoritesIcon from '../assets/favorites.svg';
 import RecentsIcon from '../assets/recents.svg';
 import HelpIcon from '../assets/help.svg';
+import FileTxt from '../assets/file-txt.svg';
 
 import { sessionsState } from '../state/SessionsState.js';
 import { currentSessionState } from '../state/CurrentSessionState.js';
@@ -64,13 +66,6 @@ export function SidePanel(props) {
         text-decoration: none;
       }
     `,
-    help: css`
-      /* Heading/Sans/Sans Default XXS */
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 18px; /* 128.571% */
-    `,
     copyright: css`
       font-size: 10px;
       font-style: normal;
@@ -84,7 +79,7 @@ export function SidePanel(props) {
       ${style.menuItem};
       background-color: #E0F2FF;
     `,
-  }
+  };
 
   const handleRecent = useCallback((session) => {
     setCurrentSession(session);
@@ -98,7 +93,7 @@ export function SidePanel(props) {
       columns={['auto']}
       rows={['min-content', '1fr', 'min-content']}
       gap={'size-400'}>
-      <Flex UNSAFE_style={{padding: '8px'}} direction={'row'} justifyContent={'space-between'} alignItems={'center'} gridArea={'header'}>
+      <Flex UNSAFE_style={{ padding: '8px' }} direction={'row'} justifyContent={'space-between'} alignItems={'center'} gridArea={'header'}>
         <Flex direction={'row'} gap={'12px'}>
           <Image src={LogoIcon} alt={'logo'}/>
           <Text UNSAFE_className={style.headerText}>AEM GenAI Assistant</Text>
@@ -123,9 +118,12 @@ export function SidePanel(props) {
         </ul>
       </Flex>
 
-      <Flex UNSAFE_style={{ padding: '10px 10px'}} direction={'column'} gridArea={'footer'} gap={'16px'}>
+      <Flex direction={'column'} gridArea={'footer'} gap={'16px'}>
         <Flex direction={'row'} justifyContent={'start'} alignItems={'center'} gap={'12px'}>
-          <Image src={HelpIcon} width={'20px'}/><Link href="https://www.aem.live/developer/configuring-aem-genai-assistant-sidekick-plugin" target="_blank" UNSAFE_className={style.help}>Help & FAQ</Link>
+          <Image src={HelpIcon} width={'20px'}/><Link href="https://www.aem.live/developer/configuring-aem-genai-assistant-sidekick-plugin" target="_blank" UNSAFE_className={style.menu}>Help & FAQ</Link>
+        </Flex>
+        <Flex direction={'row'} justifyContent={'start'} alignItems={'center'} gap={'12px'}>
+          <Image src={FileTxt} width={'20px'}/><Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={style.menu}>User Guidelines</Link>
         </Flex>
         <Text UNSAFE_className={style.copyright}>Copyright © 2023 Adobe. All rights reserved</Text>
       </Flex>

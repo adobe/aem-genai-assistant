@@ -175,7 +175,7 @@ export function ResultCard({ result, ...props }) {
       <div className={styles.resultsSection}>
         <div className={styles.variantsContainer}>
           {
-            variants.map((variant) => {
+            result.variants.map((variant) => {
               return (
                 // eslint-disable-next-line react/jsx-key
                 <a onClick={() => setSelectedVariant(variant)}>

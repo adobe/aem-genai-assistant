@@ -18,7 +18,11 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { useApplicationContext } from './ApplicationProvider.js';
 
 import LogoIcon from '../assets/logo.svg';
+import PromptsIcon from '../assets/prompts.svg';
+import FavoritesIcon from '../assets/favorites.svg';
+import RecentsIcon from '../assets/recents.svg';
 import HelpIcon from '../assets/help.svg';
+
 import { sessionsState } from '../state/SessionsState.js';
 import { currentSessionState } from '../state/CurrentSessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
@@ -29,34 +33,7 @@ export function SidePanel(props) {
   const [currentSession, setCurrentSession] = useRecoilState(currentSessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
 
-  const styles = {
-    menu: css`
-      margin: 10px;
-      & a {
-        text-decoration: none;
-      }
-      & a:hover {
-        text-decoration: underline;
-        cursor: pointer;
-      }
-      & ul {
-        margin: 0;
-        padding: 0;
-      }
-      & ul > li {
-        color: var(--palette-gray-800, var(--palette-gray-800, #222));
-        font-family: Adobe Clean, Helvetica Neue, Helvetica, Arial, sans-serif;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: bold;
-        list-style-type: none;
-        line-height: 2em;
-      }
-      & li li {
-        font-weight: normal;
-        margin-left: 10px;
-      }
-    `,
+  const style = {
     help: css`
       /* Heading/Sans/Sans Default XXS */
       font-size: 14px;
@@ -72,6 +49,13 @@ export function SidePanel(props) {
     `,
   };
 
+  const derivedStyle = {
+    clickedMenuItem: css`
+      ${style.menuItem};
+      background-color: #E0F2FF;
+    `,
+  }
+
   const handleRecent = useCallback((session) => {
     setCurrentSession(session);
     setViewType(ViewType.CurrentSession);
@@ -79,26 +63,29 @@ export function SidePanel(props) {
 
   return (
     <Grid {...props}
+      UNSAFE_style={{ padding: '10px' }}
       areas={['header', 'menu', 'footer']}
       columns={['auto']}
       rows={['min-content', '1fr', 'min-content']}
       gap={'size-400'}>
-      <Flex direction={'row'} justifyContent={'space-between'} alignItems={'center'} gridArea={'header'}>
-        <Image src={LogoIcon} alt={'logo'}/>
-        <Text>AEM GenAI Assistant</Text>
-        <Text justifySelf={'end'}>v{appVersion}</Text>
+      <Flex UNSAFE_style={{padding: '8px'}} direction={'row'} justifyContent={'space-between'} alignItems={'center'} gridArea={'header'}>
+        <Flex direction={'row'} gap={'12px'}>
+          <Image src={LogoIcon} alt={'logo'}/>
+          <Text UNSAFE_className={style.headerText}>AEM GenAI Assistant</Text>
+        </Flex>
+        <Text UNSAFE_className={style.versionTag} justifySelf={'end'}>v{appVersion}</Text>
       </Flex>
 
-      <Flex direction={'column'} gridArea={'menu'} gap={'size-100'} UNSAFE_className={styles.menu}>
+      <Flex direction={'column'} gridArea={'menu'} gap={'size-100'}>
         <ul>
-          <li><a onClick={() => setViewType(ViewType.NewSession)}>Prompts</a></li>
-          <li><a onClick={() => setViewType(ViewType.Favorites)}>Favorites</a></li>
+          <li><Link onPress={() => setViewType(ViewType.NewSession)}>Prompts</Link></li>
+          <li><Link onPress={() => setViewType(ViewType.Favorites)}>Favorites</Link></li>
           <li>
             <Text>Recent</Text>
             <ul>
               { (sessions && sessions.length > 0) && sessions.map((session) => (
                 <li key={session.id}>
-                  <a onClick={() => handleRecent(session)}>{session.name}</a>
+                  <Link onPress={() => handleRecent(session)}>{session.name}</Link>
                 </li>
               )) }
             </ul>
@@ -106,11 +93,11 @@ export function SidePanel(props) {
         </ul>
       </Flex>
 
-      <Flex direction={'column'} gridArea={'footer'} margin={10} ap={10}>
+      <Flex direction={'column'} gridArea={'footer'} gap={10}>
         <Flex direction={'row'} justifyContent={'start'} alignItems={'center'} gap={'size-100'}>
-          <Image src={HelpIcon} width={'20px'}/><Link href="https://www.aem.live/developer/configuring-aem-genai-assistant-sidekick-plugin" target="_blank" UNSAFE_className={styles.help}>Help & FAQ</Link>
+          <Image src={HelpIcon} width={'20px'}/><Link href="https://www.aem.live/developer/configuring-aem-genai-assistant-sidekick-plugin" target="_blank" UNSAFE_className={style.help}>Help & FAQ</Link>
         </Flex>
-        <Text UNSAFE_className={styles.copyright}>Copyright © 2023 Adobe. All rights reserved</Text>
+        <Text UNSAFE_className={style.copyright}>Copyright © 2023 Adobe. All rights reserved</Text>
       </Flex>
     </Grid>
   );

@@ -43,12 +43,11 @@ export class FirefallService {
 
   async feedback(queryId, sentiment) {
     /* eslint-disable-next-line camelcase */
+    console.log(`Feedback: ${queryId} ${sentiment}`);
+    console.log(`Feedback: ${this.feedbackEndpoint}`);
     const { feedback_id } = await wretchRetry(this.feedbackEndpoint)
       .post({ queryId, sentiment })
       .json();
-    return {
-      /* eslint-disable-next-line camelcase */
-      feedbackId: feedback_id,
-    };
+    return feedback_id;
   }
 }

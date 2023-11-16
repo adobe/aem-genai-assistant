@@ -18,8 +18,9 @@ export function ResultsView(props) {
       width={'100%'}>
       { results.length === 0
         ? <Image src={EmptyResults} width={'600px'}></Image>
-        : results.map(({variants, prompt}) =>
+        : results.map(({id, variants, prompt}) =>
           <ResultCard
+            resultId={id}
             variants={variants}
             prompt={prompt} />)
       }

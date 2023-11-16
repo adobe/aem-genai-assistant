@@ -6,10 +6,12 @@ import StarOutline from '@spectrum-icons/workflow/StarOutline';
 import Copy from '@spectrum-icons/workflow/Copy';
 import Add from '@spectrum-icons/workflow/Add';
 import Delete from '@spectrum-icons/workflow/Delete';
-import React, {useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {css} from '@emotion/css';
 import {useIsFavorite} from '../state/IsFavoriteHook.js';
 import {useToggleFavorite} from '../state/ToggleFavoriteHook.js';
+import {useApplicationContext} from './ApplicationProvider.js';
+import {ToastQueue} from '@react-spectrum/toast';
 
 const styles = {
   card: css`
@@ -85,10 +87,23 @@ const styles = {
   `,
 }
 
-export function ResultCard({variants, prompt, ...props}) {
+export function ResultCard({resultId, variants, prompt, ...props}) {
+  const { firefallService } = useApplicationContext();
   const [selectedVariant, setSelectedVariant] = useState(variants[0]);
   const isFavorite = useIsFavorite();
   const toggleFavorite = useToggleFavorite();
+
+  const sendFeedback = useCallback((sentiment) => {
+    firefallService.feedback(resultId, sentiment)
+      .then((id) => {
+        console.log('Feedback sent', id);
+        ToastQueue.positive('Feedback sent', {timeout: 1000});
+      })
+      .catch((error) => {
+        console.error('Failed to send feedback', error);
+        ToastQueue.negative('Failed to send feedback', {timeout: 1000});
+      });
+  }, [resultId, firefallService]);
 
   return (
     <div {...props} className={styles.card}>
@@ -106,7 +121,7 @@ export function ResultCard({variants, prompt, ...props}) {
             <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer">
               <Add/>
             </ActionButton>
-            <Tooltip>Remove</Tooltip>
+            <Tooltip>Use</Tooltip>
           </TooltipTrigger>
         </div>
       </div>
@@ -145,10 +160,16 @@ export function ResultCard({variants, prompt, ...props}) {
             </ActionButton>
             <Tooltip>Copy</Tooltip>
           </TooltipTrigger>
-          <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer">
+          <ActionButton
+            isQuiet
+            UNSAFE_className="hover-cursor-pointer"
+            onPress={() => sendFeedback(true)}>
             <ThumbUp/>
           </ActionButton>
-          <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer">
+          <ActionButton
+            isQuiet
+            UNSAFE_className="hover-cursor-pointer"
+            onPress={() => sendFeedback(false)}>
             <ThumbDown/>
           </ActionButton>
           <TooltipTrigger delay={0}>

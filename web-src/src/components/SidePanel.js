@@ -59,6 +59,12 @@ export function SidePanel(props) {
       gap: 12px;
       border-radius: 8px;
     `,
+    subMenuItem: css`
+      display: flex;
+      padding: 10px 10px 10px 50px;
+      gap: 12px;
+      border-radius: 8px;
+    `,
     menuItemLink: css`
       color: #222;
       text-decoration: none;
@@ -77,6 +83,10 @@ export function SidePanel(props) {
   const derivedStyle = {
     clickedMenuItem: css`
       ${style.menuItem};
+      background-color: #E0F2FF;
+    `,
+    clickedSubMenuItem: css`
+      ${style.subMenuItem};
       background-color: #E0F2FF;
     `,
   };
@@ -106,15 +116,15 @@ export function SidePanel(props) {
           <li className={viewType === ViewType.NewSession ? derivedStyle.clickedMenuItem : style.menuItem}><Image src={PromptsIcon} width={'20px'}/><Link UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>Prompts</Link></li>
           <li className={viewType === ViewType.Favorites ? derivedStyle.clickedMenuItem : style.menuItem}><Image src={FavoritesIcon} width={'20px'}/><Link UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.Favorites)}>Favorites</Link></li>
           <li className={style.menuItem}>
-          <Image src={RecentsIcon} width={'20px'}/><Text>Recent</Text>
-            <ul>
-              { (sessions && sessions.length > 0) && sessions.map((session) => (
-                <li key={session.id}>
-                  <Link onPress={() => handleRecent(session)}>{session.name}</Link>
-                </li>
-              )) }
-            </ul>
+            <Image src={RecentsIcon} width={'20px'}/>
+            <Text>Recent</Text>
           </li>
+          { (sessions && sessions.length > 0) && sessions.map((session) => (
+            // eslint-disable-next-line max-len
+            <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyle.clickedSubMenuItem : style.subMenuItem} key={session.id}>
+              <Link UNSAFE_className={style.menuItemLink} onPress={() => handleRecent(session)}>{session.name}</Link>
+            </li>
+          )) }
         </ul>
       </Flex>
 

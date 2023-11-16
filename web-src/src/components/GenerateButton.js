@@ -62,20 +62,23 @@ export function GenerateButton() {
   const [generationInProgress, setGenerationInProgress] = useRecoilState(generationInProgressState);
   const saveSession = useSaveSession();
 
-  const handleResponse = useCallback((queryId, response, finalPrompt) => {
+  const generateResults = useCallback(async () => {
+    const finalPrompt = renderExpressions(prompt, parameters);
+    const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
     setResults(results => [...results, {
-      id: queryId,
+      resultId: queryId,
       variants: createVariants(response),
-      prompt: finalPrompt
+      prompt: finalPrompt,
+      promptTemplate: prompt,
+      parameters,
+      temperature
     }]);
-    saveSession().catch(error => console.log(error));
-  }, [setResults]);
+    await saveSession();
+  }, [firefallService, prompt, parameters, temperature]);
 
   const handleGenerate = useCallback(() => {
     setGenerationInProgress(true);
-    const finalPrompt = renderExpressions(prompt, parameters);
-    firefallService.complete(finalPrompt, temperature)
-      .then(({ queryId, response }) => handleResponse(queryId, response, finalPrompt))
+    generateResults()
       .catch((error) => {
         console.log(error);
         ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
@@ -83,7 +86,7 @@ export function GenerateButton() {
       .finally(() => {
         setGenerationInProgress(false);
       });
-  }, [firefallService, prompt, temperature, parameters]);
+  }, [generateResults, setGenerationInProgress]);
 
   return (
     <Flex direction="row" gap="size-100" alignItems={'center'}>

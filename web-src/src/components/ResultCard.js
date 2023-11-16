@@ -12,6 +12,9 @@ import {useIsFavorite} from '../state/IsFavoriteHook.js';
 import {useToggleFavorite} from '../state/ToggleFavoriteHook.js';
 import {useApplicationContext} from './ApplicationProvider.js';
 import {ToastQueue} from '@react-spectrum/toast';
+import {useSetRecoilState} from 'recoil';
+import {promptState} from '../state/PromptState.js';
+import {parametersState} from '../state/ParametersState.js';
 
 const styles = {
   card: css`
@@ -87,14 +90,16 @@ const styles = {
   `,
 }
 
-export function ResultCard({resultId, variants, prompt, ...props}) {
+export function ResultCard({result, ...props}) {
   const { firefallService } = useApplicationContext();
-  const [selectedVariant, setSelectedVariant] = useState(variants[0]);
+  const [selectedVariant, setSelectedVariant] = useState(result.variants[0]);
+  const setPrompt = useSetRecoilState(promptState);
+  const setParameters = useSetRecoilState(parametersState);
   const isFavorite = useIsFavorite();
   const toggleFavorite = useToggleFavorite();
 
   const sendFeedback = useCallback((sentiment) => {
-    firefallService.feedback(resultId, sentiment)
+    firefallService.feedback(result.resultId, sentiment)
       .then((id) => {
         console.log('Feedback sent', id);
         ToastQueue.positive('Feedback sent', {timeout: 1000});
@@ -103,35 +108,43 @@ export function ResultCard({resultId, variants, prompt, ...props}) {
         console.error('Failed to send feedback', error);
         ToastQueue.negative('Failed to send feedback', {timeout: 1000});
       });
-  }, [resultId, firefallService]);
+  }, [result, firefallService]);
+
+  const reusePrompt = useCallback(() => {
+    setPrompt(result.promptTemplate);
+    setParameters(result.parameters);
+  }, [result, setPrompt, setParameters]);
 
   return (
     <div {...props} className={styles.card}>
 
       <div className={styles.promptSection}>
-        <p className={styles.promptContent}>{prompt}</p>
+        <p className={styles.promptContent}>{result.prompt}</p>
         <div className={styles.promptActions}>
           <TooltipTrigger delay={0}>
             <ActionButton
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
-              onPress={() => navigator.clipboard.writeText(prompt)}>
+              onPress={() => navigator.clipboard.writeText(result.prompt)}>
               <Copy/>
             </ActionButton>
             <Tooltip>Copy</Tooltip>
           </TooltipTrigger>
           <TooltipTrigger delay={0}>
-            <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer">
+            <ActionButton
+              isQuiet
+              UNSAFE_className="hover-cursor-pointer"
+              onPress={reusePrompt}>
               <Add/>
             </ActionButton>
-            <Tooltip>Use</Tooltip>
+            <Tooltip>Re-use</Tooltip>
           </TooltipTrigger>
         </div>
       </div>
       <div className={styles.resultsSection}>
         <div className={styles.variantsContainer}>
           {
-            variants.map((variant) => {
+            result.variants.map((variant) => {
               return (
                 <a onClick={() => setSelectedVariant(variant)}>
                   <p className={css`
@@ -179,7 +192,9 @@ export function ResultCard({resultId, variants, prompt, ...props}) {
             <ThumbDown/>
           </ActionButton>
           <TooltipTrigger delay={0}>
-            <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer">
+            <ActionButton
+              isQuiet
+              UNSAFE_className="hover-cursor-pointer">
               <Delete/>
             </ActionButton>
             <Tooltip>Remove</Tooltip>

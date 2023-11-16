@@ -22,7 +22,7 @@ function asAuthAction(action) {
       throw new Error('Access token is invalid');
     }
 
-    // Check that the profile has expected product context and retrieve the IMS org
+    // Check that the profile has expected product context and retrieve the IMS Org
     const imsOrg = await getImsOrgForProductContext(imsEndpoint, clientId, accessToken, productContext, logger);
     if (imsOrg === '') {
       throw new Error('Profile does not have the required product context');
@@ -72,17 +72,17 @@ async function getImsOrgForProductContext(endpoint, clientId, token, productCont
       if (Array.isArray(json['projectedProductContext'])) {
         const filteredContextData = json['projectedProductContext'].filter((obj) => obj['prodCtx']['serviceCode'] === productContext);
 
-        // If there is no product context, return empty string
+        // Case 1: No product context found
         if (filteredContextData.length === 0) {
           return '';
         }
 
-        // If there is one product context, return the owning entity
+        // Case 2: Exactly one product context found
         if (filteredContextData.length === 1) {
           return filteredContextData[0]['prodCtx']['owningEntity'];
         }
 
-        // If there are multiple product contexts, query orgs and return the first IMS org
+        // Case 3: Multiple product contexts found
         if (filteredContextData.length > 1) {
           return await wretchRetry(endpoint + '/ims/organizations/v6')
           .headers({
@@ -93,12 +93,14 @@ async function getImsOrgForProductContext(endpoint, clientId, token, productCont
           .json()
           .then((imsOrgsList) => {
             if (Array.isArray(imsOrgsList)) {
+              // Case 3a: Exactly one IMS Org found in the profile
               if (imsOrgsList.length === 1) {
                 const { ident: orgIdent, authSrc: orgAuthSrc } = imsOrgsList[0]['orgRef'];
                 return `${orgIdent}@${orgAuthSrc}`;
               
+              // Case 3b: More than one IMS Org found in the profile
               } else if (imsOrgsList.length > 1) {
-                logger.warn(`Multiple orgs found in the profile with ${productContext}. Returning the first one.`);
+                logger.warn(`Multiple IMS Orgs found in the profile with ${productContext}. Returning the first one.`);
                 return filteredContextData[0]['prodCtx']['owningEntity'];
               }
             }

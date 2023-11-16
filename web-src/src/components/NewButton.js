@@ -1,23 +1,41 @@
-import {Button, Text} from '@adobe/react-spectrum';
-import {v4 as uuid} from 'uuid';
+/*
+ * Copyright 2023 Adobe. All rights reserved.
+ * This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+import { Button, Text } from '@adobe/react-spectrum';
+import { v4 as uuid } from 'uuid';
 
+import { useSetRecoilState } from 'recoil';
+import { React, useCallback } from 'react';
 import GenAIIcon from '../icons/GenAIIcon.js';
-import {useSetRecoilState} from 'recoil';
-import {sessionsState} from '../state/SessionsState.js';
-import {currentSessionState} from '../state/CurrentSessionState.js';
-import {useCallback} from 'react';
-import {ViewType, viewTypeState} from '../state/ViewType.js';
+import { currentSessionState } from '../state/CurrentSessionState.js';
+import { ViewType, viewTypeState } from '../state/ViewType.js';
 
 export function NewButton(props) {
   const setCurrentSession = useSetRecoilState(currentSessionState);
   const setViewType = useSetRecoilState(viewTypeState);
 
   const handleNewPrompt = useCallback(() => {
+    const timestamp = Date.now();
+
+    // convert timestamp into human readable date and time
+    const date = new Date(timestamp);
+    const dateStr = date.toLocaleDateString('en-US');
+    const timeStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' });
+    const timestampStr = `${dateStr} ${timeStr}`;
+
     const session = {
       id: uuid(),
-      name: `Session ${Date.now()}`,
-      description: `Session ${Date.now()}`,
-      timestamp: Date.now(),
+      name: `Session ${timestampStr}`,
+      description: `Session ${timestampStr}`,
+      timestamp,
       prompt: '',
       results: [],
     };
@@ -32,7 +50,7 @@ export function NewButton(props) {
       position={'absolute'}
       variant={'secondary'}>
       <GenAIIcon color="#909090" />
-      <Text>New</Text>
+      <Text>New Session</Text>
     </Button>
   );
 }

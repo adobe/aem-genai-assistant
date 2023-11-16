@@ -1,22 +1,35 @@
-import {ActionButton, Image, Tooltip, TooltipTrigger} from '@adobe/react-spectrum';
+/*
+ * Copyright 2023 Adobe. All rights reserved.
+ * This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+import {
+  ActionButton, Image, Tooltip, TooltipTrigger,
+} from '@adobe/react-spectrum';
 import ThumbUp from '@spectrum-icons/workflow/ThumbUp';
 import ThumbDown from '@spectrum-icons/workflow/ThumbDown';
 import Star from '@spectrum-icons/workflow/Star';
 import StarOutline from '@spectrum-icons/workflow/StarOutline';
 import Copy from '@spectrum-icons/workflow/Copy';
-import ReusePromptIcon from '../assets/reuse-prompt.svg';
 import Delete from '@spectrum-icons/workflow/Delete';
-import React, {useCallback, useState} from 'react';
-import {css} from '@emotion/css';
-import {useIsFavorite} from '../state/IsFavoriteHook.js';
-import {useToggleFavorite} from '../state/ToggleFavoriteHook.js';
-import {useApplicationContext} from './ApplicationProvider.js';
-import {ToastQueue} from '@react-spectrum/toast';
-import {useSetRecoilState} from 'recoil';
-import {promptState} from '../state/PromptState.js';
-import {parametersState} from '../state/ParametersState.js';
-import {resultsState} from '../state/ResultsState.js';
-import {useSaveSession} from '../state/SaveSessionHook.js';
+import React, { useCallback, useState } from 'react';
+import { css } from '@emotion/css';
+import { ToastQueue } from '@react-spectrum/toast';
+import { useSetRecoilState } from 'recoil';
+import { useIsFavorite } from '../state/IsFavoriteHook.js';
+import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
+import { useApplicationContext } from './ApplicationProvider.js';
+import ReusePromptIcon from '../assets/reuse-prompt.svg';
+import { promptState } from '../state/PromptState.js';
+import { parametersState } from '../state/ParametersState.js';
+import { resultsState } from '../state/ResultsState.js';
+import { useSaveSession } from '../state/SaveSessionHook.js';
 
 const styles = {
   card: css`
@@ -99,9 +112,9 @@ const styles = {
   `,
   resultActions: css`
   `,
-}
+};
 
-export function ResultCard({result, ...props}) {
+export function ResultCard({ result, ...props }) {
   const { firefallService } = useApplicationContext();
   const [selectedVariant, setSelectedVariant] = useState(result.variants[0]);
   const setPrompt = useSetRecoilState(promptState);
@@ -115,11 +128,11 @@ export function ResultCard({result, ...props}) {
     firefallService.feedback(result.resultId, sentiment)
       .then((id) => {
         console.log('Feedback sent', id);
-        ToastQueue.positive('Feedback sent', {timeout: 1000});
+        ToastQueue.positive('Feedback sent', { timeout: 1000 });
       })
       .catch((error) => {
         console.error('Failed to send feedback', error);
-        ToastQueue.negative('Failed to send feedback', {timeout: 1000});
+        ToastQueue.negative('Failed to send feedback', { timeout: 1000 });
       });
   }, [result, firefallService]);
 
@@ -129,11 +142,9 @@ export function ResultCard({result, ...props}) {
   }, [result, setPrompt, setParameters]);
 
   const deleteResult = useCallback(async (resultId) => {
-    setResults(results => results.filter(result => result.resultId !== resultId));
+    setResults((results) => results.filter((result) => result.resultId !== resultId));
     await saveSession();
   }, [setResults]);
-
-  console.log(JSON.stringify(result, null, 2));
 
   return (
     <div {...props} className={styles.card}>
@@ -166,19 +177,20 @@ export function ResultCard({result, ...props}) {
           {
             result.variants.map((variant) => {
               return (
+                // eslint-disable-next-line react/jsx-key
                 <a onClick={() => setSelectedVariant(variant)}>
                   <div className={css`
                     ${styles.variant};
                     ${variant.id === selectedVariant.id && styles.variantSelected};
                     ${isFavorite(variant) && styles.variantFavorite};
                   `}
-                   dangerouslySetInnerHTML={{__html: variant.content}} />
+                   dangerouslySetInnerHTML={{ __html: variant.content }} />
                 </a>
-              )
+              );
             })
           }
         </div>
-        <div className={styles.resultContent} dangerouslySetInnerHTML={{__html: selectedVariant.content}}/>
+        <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: selectedVariant.content }}/>
         <div className={styles.resultActions}>
           <TooltipTrigger delay={0}>
             <ActionButton
@@ -222,5 +234,5 @@ export function ResultCard({result, ...props}) {
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -35,7 +35,7 @@ const styles = {
   promptContent: css`
     --max-lines: 3;
     --line-height: 1.4;
-    height: calc(var(--max-lines) * 1em * var(--line-height));
+    max-height: calc(var(--max-lines) * 1em * var(--line-height));
     line-height: var(--line-height);
     overflow: hidden;
     color: var(--alias-content-neutral-subdued-default, var(--alias-content-neutral-subdued-default, #464646));
@@ -132,6 +132,8 @@ export function ResultCard({result, ...props}) {
     setResults(results => results.filter(result => result.resultId !== resultId));
     await saveSession();
   }, [setResults]);
+
+  console.log(JSON.stringify(result, null, 2));
 
   return (
     <div {...props} className={styles.card}>

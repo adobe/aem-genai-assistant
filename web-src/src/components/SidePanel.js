@@ -56,10 +56,6 @@ export function SidePanel(props) {
       padding: 10px 10px;
       gap: 12px;
       border-radius: 8px;
-      &:hover {
-        background-color: #E0F2FF;
-        cursor: pointer;
-      }
     `,
     menuItemLink: css`
       color: #222;
@@ -83,6 +79,13 @@ export function SidePanel(props) {
     `,
   };
 
+  const derivedStyle = {
+    clickedMenuItem: css`
+      ${style.menuItem};
+      background-color: #E0F2FF;
+    `,
+  }
+
   const handleRecent = useCallback((session) => {
     setCurrentSession(session);
     setViewType(ViewType.CurrentSession);
@@ -105,8 +108,8 @@ export function SidePanel(props) {
 
       <Flex direction={'column'} gridArea={'menu'} gap={'size-100'}>
         <ul className={style.menu}>
-          <li className={style.menuItem}><Image src={PromptsIcon} width={'20px'}/><Link UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>Prompts</Link></li>
-          <li className={style.menuItem}><Image src={FavoritesIcon} width={'20px'}/><Link UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.Favorites)}>Favorites</Link></li>
+          <li className={viewType === ViewType.NewSession ? derivedStyle.clickedMenuItem : style.menuItem}><Image src={PromptsIcon} width={'20px'}/><Link UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>Prompts</Link></li>
+          <li className={viewType === ViewType.Favorites ? derivedStyle.clickedMenuItem : style.menuItem}><Image src={FavoritesIcon} width={'20px'}/><Link UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.Favorites)}>Favorites</Link></li>
           <li className={style.menuItem}>
           <Image src={RecentsIcon} width={'20px'}/><Text>Recent</Text>
             <ul>

@@ -47,6 +47,13 @@ function getComponentLabel(name, label) {
   return label || expressionNameToLabel(name);
 }
 
+function getComponentDefaultValue(defaultValue) {
+  if (!defaultValue) {
+    return ' ';
+  }
+  return defaultValue;
+}
+
 function getComponentType(params) {
   if (params.spreadsheet) {
     return 'spreadsheet';
@@ -124,11 +131,11 @@ export function InputsView({ gridColumn }) {
             return null;
           }
           const label = getComponentLabel(name, params.label);
+          const defaultValue = getComponentDefaultValue(params.defaultValue);
           const type = getComponentType(params);
 
           switch (type) {
             case 'spreadsheet':
-              console.log(params);
               return (
                 <SpreadSheetPicker
                   name={name}
@@ -163,6 +170,7 @@ export function InputsView({ gridColumn }) {
                   description={<DescriptionLabel description={params.description}/>}
                   width="100%"
                   value={parameters[name]}
+                  defaultValue={defaultValue}
                   onChange={(value) => {
                     setParameters({ ...parameters, [name]: value });
                   }}

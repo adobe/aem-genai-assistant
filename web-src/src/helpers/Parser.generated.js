@@ -30,11 +30,11 @@ var grammar = {
     {"name": "key", "symbols": ["key$ebnf$1"], "postprocess": ([key]) => key.join('')},
     {"name": "value", "symbols": ["string"], "postprocess": ([value]) => value},
     {"name": "value", "symbols": ["quotedString"], "postprocess": ([value]) => value},
-    {"name": "string$ebnf$1", "symbols": [/[a-zA-Z0-9_?:]/]},
-    {"name": "string$ebnf$1", "symbols": ["string$ebnf$1", /[a-zA-Z0-9_?:]/], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
+    {"name": "string$ebnf$1", "symbols": [/[a-zA-Z0-9_?:.,']/]},
+    {"name": "string$ebnf$1", "symbols": ["string$ebnf$1", /[a-zA-Z0-9_?:.,']/], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
     {"name": "string", "symbols": ["string$ebnf$1"], "postprocess": ([string]) => string.join('')},
-    {"name": "quotedString$ebnf$1", "symbols": [/[a-zA-Z0-9_?:\s]/]},
-    {"name": "quotedString$ebnf$1", "symbols": ["quotedString$ebnf$1", /[a-zA-Z0-9_?:\s]/], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
+    {"name": "quotedString$ebnf$1", "symbols": [/[a-zA-Z0-9_?:\s.,']/]},
+    {"name": "quotedString$ebnf$1", "symbols": ["quotedString$ebnf$1", /[a-zA-Z0-9_?:\s.,']/], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
     {"name": "quotedString", "symbols": [{"literal":"\""}, "quotedString$ebnf$1", {"literal":"\""}], "postprocess": ([,string]) => string.join('')}
 ]
   , ParserStart: "expression"

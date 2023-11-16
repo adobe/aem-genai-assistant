@@ -18,6 +18,7 @@ import { ToastQueue } from '@react-spectrum/toast';
 import SenseiGenAIIcon from '../icons/GenAIIcon.js';
 import { renderExpressions } from '../helpers/ExpressionRenderer.js';
 import { useApplicationContext } from './ApplicationProvider.js';
+import { useAuthContext } from './AuthProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { temperatureState } from '../state/TemperatureState.js';
 import { resultsState } from '../state/ResultsState.js';
@@ -55,6 +56,7 @@ function createVariants(response) {
 
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
+  const { imsToken } = useAuthContext();
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
   const temperature = useRecoilValue(temperatureState);
@@ -64,7 +66,7 @@ export function GenerateButton() {
 
   const generateResults = useCallback(async () => {
     const finalPrompt = renderExpressions(prompt, parameters);
-    const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
+    const { queryId, response } = await firefallService.complete(finalPrompt, temperature, imsToken);
     setResults(results => [...results, {
       resultId: queryId,
       variants: createVariants(response),

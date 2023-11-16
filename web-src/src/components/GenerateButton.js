@@ -25,7 +25,7 @@ import { generationInProgressState } from '../state/GenerationInProgressState.js
 import { parametersState } from '../state/ParametersState.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
 import { v4 as uuid } from 'uuid';
-import {useSaveSessionCallback} from '../state/SaveSessionHook.js';
+import {useSaveSession} from '../state/SaveSessionHook.js';
 
 function objectToString(obj) {
   return String(obj).replace(/<\/?[^>]+(>|$)/g, '');
@@ -60,7 +60,7 @@ export function GenerateButton() {
   const temperature = useRecoilValue(temperatureState);
   const setResults = useSetRecoilState(resultsState);
   const [generationInProgress, setGenerationInProgress] = useRecoilState(generationInProgressState);
-  const saveSessionCallback = useSaveSessionCallback();
+  const saveSession = useSaveSession();
 
   const handleResponse = useCallback((queryId, response, finalPrompt) => {
     setResults(results => [...results, {
@@ -68,7 +68,7 @@ export function GenerateButton() {
       variants: createVariants(response),
       prompt: finalPrompt
     }]);
-    saveSessionCallback().catch(error => console.log(error));
+    saveSession().catch(error => console.log(error));
   }, [setResults]);
 
   const handleGenerate = useCallback(() => {

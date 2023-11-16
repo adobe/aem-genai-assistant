@@ -2,11 +2,14 @@ import {ActionButton, Tooltip, TooltipTrigger} from '@adobe/react-spectrum';
 import ThumbUp from '@spectrum-icons/workflow/ThumbUp';
 import ThumbDown from '@spectrum-icons/workflow/ThumbDown';
 import Star from '@spectrum-icons/workflow/Star';
+import StarOutline from '@spectrum-icons/workflow/StarOutline';
 import Copy from '@spectrum-icons/workflow/Copy';
 import Add from '@spectrum-icons/workflow/Add';
 import Delete from '@spectrum-icons/workflow/Delete';
 import React, {useState} from 'react';
 import {css} from '@emotion/css';
+import {useIsFavorite} from '../state/IsFavoriteHook.js';
+import {useToggleFavorite} from '../state/ToggleFavoriteHook.js';
 
 const styles = {
   card: css`
@@ -22,7 +25,7 @@ const styles = {
     justify-content: flex-end;
     align-items: flex-start;
   `,
-  prompt: css`
+  promptContent: css`
     overflow: hidden;
     color: var(--alias-content-neutral-subdued-default, var(--alias-content-neutral-subdued-default, #464646));
     text-overflow: ellipsis;
@@ -66,30 +69,32 @@ const styles = {
     background: var(--palette-gray-50, #FFF);
     user-select: none;
     overflow: hidden;
-    &[data-selected=true] {
-      border-bottom-width: 5px;
-    }
-    &[data-favorite=true] {
-      background-color: #fffff0;
-    }
     &:hover {
       border-color: var(--alias-content-semantic-accent-default, #0265DC);
     }
+    `,
+  variantSelected: css`
+    border-bottom-width: 5px;
+    `,
+  variantFavorite: css`
+    background-color: #fffff0;
   `,
-  selectedVariant: css`
+  resultContent: css`
   `,
-  selectedVariantActions: css`
+  resultActions: css`
   `,
 }
 
-export function ResultCard({variants, prompt, isFavorite, makeFavorite, ...props}) {
+export function ResultCard({variants, prompt, ...props}) {
   const [selectedVariant, setSelectedVariant] = useState(variants[0]);
+  const isFavorite = useIsFavorite();
+  const toggleFavorite = useToggleFavorite();
 
   return (
     <div {...props} className={styles.card}>
 
       <div className={styles.promptSection}>
-        <p className={styles.prompt}>{prompt}</p>
+        <p className={styles.promptContent}>{prompt}</p>
         <div className={styles.promptActions}>
           <TooltipTrigger delay={0}>
             <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer">
@@ -111,9 +116,11 @@ export function ResultCard({variants, prompt, isFavorite, makeFavorite, ...props
             variants.map((variant) => {
               return (
                 <a onClick={() => setSelectedVariant(variant)}>
-                  <p className={styles.variant}
-                     data-selected={variant.id === selectedVariant.id}
-                     data-favorite={isFavorite(variant)}>
+                  <p className={css`
+                    ${styles.variant};
+                    ${variant.id === selectedVariant.id && styles.variantSelected};
+                    ${isFavorite(variant) && styles.variantFavorite};
+                  `}>
                     {variant.content}
                   </p>
                 </a>
@@ -121,15 +128,14 @@ export function ResultCard({variants, prompt, isFavorite, makeFavorite, ...props
             })
           }
         </div>
-        <div className={styles.selectedVariant}>{selectedVariant.content}</div>
-        <div className={styles.selectedVariantActions}>
+        <div className={styles.resultContent}>{selectedVariant.content}</div>
+        <div className={styles.resultActions}>
           <TooltipTrigger delay={0}>
             <ActionButton
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
-              onPress={() => makeFavorite(selectedVariant)}
-              isDisabled={isFavorite(selectedVariant)}>
-              <Star/>
+              onPress={() => toggleFavorite(selectedVariant)}>
+              {isFavorite(selectedVariant) ? <StarOutline/> : <Star/>}
             </ActionButton>
             <Tooltip>Save</Tooltip>
           </TooltipTrigger>
@@ -137,7 +143,7 @@ export function ResultCard({variants, prompt, isFavorite, makeFavorite, ...props
             <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer">
               <Copy/>
             </ActionButton>
-            <Tooltip>Copy to Clipboard</Tooltip>
+            <Tooltip>Copy</Tooltip>
           </TooltipTrigger>
           <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer">
             <ThumbUp/>

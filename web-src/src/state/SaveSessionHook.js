@@ -2,7 +2,7 @@ import {useRecoilCallback} from 'recoil';
 import {currentSessionState} from '../state/CurrentSessionState.js';
 import {sessionsState} from '../state/SessionsState.js';
 
-export function useSaveSessionCallback() {
+export function useSaveSession() {
   return useRecoilCallback(({snapshot, set}) => async () => {
     const currentSession = await snapshot.getPromise(currentSessionState);
     const sessions = await snapshot.getPromise(sessionsState);

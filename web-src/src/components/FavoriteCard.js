@@ -1,11 +1,9 @@
 import {ActionButton, Flex, Text, Tooltip, TooltipTrigger, View} from '@adobe/react-spectrum';
 import React from 'react';
 import {css} from '@emotion/css';
-import Star from '@spectrum-icons/workflow/Star';
-import ThumbUp from '@spectrum-icons/workflow/ThumbUp';
-import ThumbDown from '@spectrum-icons/workflow/ThumbDown';
 import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
+import {useToggleFavorite} from '../state/ToggleFavoriteHook.js';
 
 const styles = {
   card: css`
@@ -21,6 +19,8 @@ const styles = {
 }
 
 export function FavoriteCard({variant, ...props}) {
+  const toggleFavorite = useToggleFavorite();
+
   return (
     <View
       {...props}
@@ -37,7 +37,10 @@ export function FavoriteCard({variant, ...props}) {
             <Tooltip>Copy</Tooltip>
           </TooltipTrigger>
           <TooltipTrigger delay={0}>
-            <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer">
+            <ActionButton
+              isQuiet U
+              NSAFE_className="hover-cursor-pointer"
+              onPress={() => toggleFavorite(variant)}>
               <Delete />
             </ActionButton>
             <Tooltip>Remove</Tooltip>

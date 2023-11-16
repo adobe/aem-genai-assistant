@@ -31,7 +31,10 @@ export function FavoriteCard({variant, ...props}) {
         paddingRight="24px">
         <Flex direction="row" gap="size-100" justifyContent="left">
           <TooltipTrigger delay={0}>
-            <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer">
+            <ActionButton
+              isQuiet
+              UNSAFE_className="hover-cursor-pointer"
+              onPress={() => navigator.clipboard.writeText(variant.content)}>
               <Copy />
             </ActionButton>
             <Tooltip>Copy</Tooltip>

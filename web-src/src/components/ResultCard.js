@@ -112,7 +112,10 @@ export function ResultCard({resultId, variants, prompt, ...props}) {
         <p className={styles.promptContent}>{prompt}</p>
         <div className={styles.promptActions}>
           <TooltipTrigger delay={0}>
-            <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer">
+            <ActionButton
+              isQuiet
+              UNSAFE_className="hover-cursor-pointer"
+              onPress={() => navigator.clipboard.writeText(prompt)}>
               <Copy/>
             </ActionButton>
             <Tooltip>Copy</Tooltip>
@@ -155,7 +158,10 @@ export function ResultCard({resultId, variants, prompt, ...props}) {
             <Tooltip>Save</Tooltip>
           </TooltipTrigger>
           <TooltipTrigger delay={0}>
-            <ActionButton isQuiet UNSAFE_className="hover-cursor-pointer">
+            <ActionButton
+              isQuiet
+              UNSAFE_className="hover-cursor-pointer"
+              onPress={() => navigator.clipboard.writeText(selectedVariant.content)}>
               <Copy/>
             </ActionButton>
             <Tooltip>Copy</Tooltip>

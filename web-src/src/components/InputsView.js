@@ -130,14 +130,12 @@ export function InputsView({ gridColumn }) {
           if (params.comment) {
             return null;
           }
-          console.log(`params: ${params.defaultValue}`);
           const label = getComponentLabel(name, params.label);
           const defaultValue = getComponentDefaultValue(params.defaultValue);
           const type = getComponentType(params);
 
           switch (type) {
             case 'spreadsheet':
-              console.log(params);
               return (
                 <SpreadSheetPicker
                   name={name}
@@ -165,7 +163,6 @@ export function InputsView({ gridColumn }) {
               );
             case 'string':
             default:
-              console.log(params);
               return (
                 <TextArea
                   key={name}

@@ -9,13 +9,13 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import {selector} from 'recoil';
-import {currentSessionState} from './CurrentSessionState.js';
+import { selector } from 'recoil';
+import { currentSessionState } from './CurrentSessionState.js';
 
 export const promptState = selector({
   key: 'promptState',
   get: ({ get }) => {
     return get(currentSessionState)?.prompt ?? '';
   },
-  set: ({set, get}, newValue) => set(currentSessionState, {...get(currentSessionState), prompt: newValue}),
+  set: ({ set, get }, newValue) => set(currentSessionState, { ...get(currentSessionState), prompt: newValue }),
 });

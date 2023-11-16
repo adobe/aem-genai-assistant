@@ -17,7 +17,7 @@ export async function parseSpreadSheet(url) {
     retryOnNetworkError: false,
   })]).get().json();
 
-  return json.data.map(row => {
-    return Object.entries(row).reduce((acc, [key, value]) => ({...acc, [key.toLowerCase()]: value}), {});
+  return json.data.map((row) => {
+    return Object.entries(row).reduce((acc, [key, value]) => ({ ...acc, [key.toLowerCase()]: value }), {});
   });
 }

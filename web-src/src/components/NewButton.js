@@ -17,7 +17,7 @@ import { React, useCallback } from 'react';
 import GenAIIcon from '../icons/GenAIIcon.js';
 import { currentSessionState } from '../state/CurrentSessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
-import {formatTimestamp} from '../helpers/FormatHelper.js';
+import { formatTimestamp } from '../helpers/FormatHelper.js';
 
 export function NewButton(props) {
   const setCurrentSession = useSetRecoilState(currentSessionState);

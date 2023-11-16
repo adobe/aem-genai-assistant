@@ -24,7 +24,7 @@ export class FirefallService {
   constructor({ completeEndpoint, feedbackEndpoint }) {
     this.completeEndpoint = completeEndpoint;
     this.feedbackEndpoint = feedbackEndpoint;
-    console.log(`FirefallService initialized!`);
+    console.log('FirefallService initialized!');
     console.log(`Complete: ${this.completeEndpoint}`);
     console.log(`Feedback: ${this.feedbackEndpoint}`);
   }
@@ -45,9 +45,11 @@ export class FirefallService {
     /* eslint-disable-next-line camelcase */
     console.log(`Feedback: ${queryId} ${sentiment}`);
     console.log(`Feedback: ${this.feedbackEndpoint}`);
+    /* eslint-disable-next-line camelcase */
     const { feedback_id } = await wretchRetry(this.feedbackEndpoint)
       .post({ queryId, sentiment, accessToken })
       .json();
+    /* eslint-disable-next-line camelcase */
     return feedback_id;
   }
 }

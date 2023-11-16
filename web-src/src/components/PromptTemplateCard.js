@@ -1,9 +1,20 @@
-import {Grid, Text, Image} from '@adobe/react-spectrum';
+/*
+ * Copyright 2023 Adobe. All rights reserved.
+ * This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+import { Grid, Text, Image } from '@adobe/react-spectrum';
 import React from 'react';
 
+import { css } from '@emotion/css';
 import GenerateIcon from '../assets/generate.svg';
 import SmallLogo from '../assets/logo_small.svg';
-import {css} from '@emotion/css';
 
 const styles = {
   card: css`
@@ -25,10 +36,12 @@ const styles = {
   description: css`
     overflow: hidden;
     color: #999999;
-  `
-}
+  `,
+};
 
-export function PromptTemplateCard({ key, template, onClick, ...props }) {
+export function PromptTemplateCard({
+  key, template, onClick, ...props
+}) {
   return (
     <a onClick={onClick}>
       <Grid
@@ -39,7 +52,7 @@ export function PromptTemplateCard({ key, template, onClick, ...props }) {
         gap={5}
         areas={[
           'icon title logo',
-          'description description description'
+          'description description description',
         ]}
         columns={['min-content', 'auto', 'min-content']}
         rows={['min-content', 'min-content']}>
@@ -49,5 +62,5 @@ export function PromptTemplateCard({ key, template, onClick, ...props }) {
         <Text UNSAFE_className={styles.description} gridArea={'description'}>{template.description}</Text>
       </Grid>
     </a>
-  )
+  );
 }

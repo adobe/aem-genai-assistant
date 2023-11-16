@@ -1,9 +1,20 @@
-import {Flex, Image} from '@adobe/react-spectrum';
+/*
+ * Copyright 2023 Adobe. All rights reserved.
+ * This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+import { Flex, Image } from '@adobe/react-spectrum';
 import React from 'react';
 import { css } from '@emotion/css';
-import {useRecoilValue} from 'recoil';
-import {resultsState} from '../state/ResultsState.js';
-import {ResultCard} from './ResultCard.js';
+import { useRecoilValue } from 'recoil';
+import { resultsState } from '../state/ResultsState.js';
+import { ResultCard } from './ResultCard.js';
 
 import EmptyResults from '../assets/empty-results.svg';
 
@@ -28,7 +39,7 @@ export function ResultsView(props) {
       width={'100%'}>
       { results.length === 0
         ? <Image src={EmptyResults} width={'600px'} UNSAFE_className={style.emptyResults}></Image>
-        : results.map(result => <ResultCard result={result} />)
+        : results.map((result) => <ResultCard key={result.resultId} result={result} />)
       }
     </Flex>
   );

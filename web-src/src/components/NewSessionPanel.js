@@ -63,7 +63,7 @@ export function NewSessionPanel({ props }) {
       columns={['1fr']}
       rows={['min-content', 'min-content', '1fr']}
       UNSAFE_style={{
-        background: 'white', padding: '50px', margin: '0 20px 0 20px', borderRadius: '20px 20px 0 0', border: '2px #e0e0e0 solid',
+        background: 'white', padding: '50px', margin: '0 20px 0 20px', borderRadius: '20px 20px 0 0', border: '2px #e0e0e0 solid', overflow: 'auto',
       }}>
 
       <Flex
@@ -89,8 +89,7 @@ export function NewSessionPanel({ props }) {
 
       <Heading level={4} alignSelf={'start'}>Prompts</Heading>
 
-      <View
-        overflow={'auto'}>
+      <View>
         <Grid
           width={'100%'}
           alignItems={'center'}

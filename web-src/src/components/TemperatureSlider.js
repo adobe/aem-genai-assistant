@@ -13,28 +13,20 @@ import { Slider } from '@adobe/react-spectrum';
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import {
-  TEMPERATURE_MAX, TEMPERATURE_MIN, TEMPERATURE_STEP, temperatureState,
+  TEMPERATURE_MAX, TEMPERATURE_MIN, temperatureState,
 } from '../state/TemperatureState.js';
-
-const CREATIVITY_LABELS = [
-  'Conventional',
-  'Balanced',
-  'Innovator',
-  'Visionary',
-];
 
 export function TemperatureSlider() {
   const [temperature, setTemperature] = useRecoilState(temperatureState);
   return (
     <Slider
       UNSAFE_className="creativity-slider"
-      label="Creativity"
+      label="Temperature"
       minValue={TEMPERATURE_MIN}
       maxValue={TEMPERATURE_MAX}
       isFilled={true}
       width={'100%'}
-      step={TEMPERATURE_STEP}
-      getValueLabel={(value) => CREATIVITY_LABELS[value / TEMPERATURE_STEP]}
+      step={0.01}
       onChange={setTemperature}
       defaultValue={temperature} />
   );

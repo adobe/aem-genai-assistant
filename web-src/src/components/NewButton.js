@@ -44,7 +44,7 @@ export function NewButton(props) {
   }, [setCurrentSession]);
 
   return (
-    <Button
+    <Button UNSAFE_className={'hover-cursor-pointer'}
       {...props}
       onPress={handleNewPrompt}
       position={'absolute'}

@@ -25,6 +25,7 @@ import { NewButton } from './NewButton.js';
 import { sessionsState } from '../state/SessionsState.js';
 import { currentSessionState } from '../state/CurrentSessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
+import { SignOutButton } from './SignOutButton.js';
 
 const PROMPT_TEMPLATES_FILENAME = 'prompttemplates.json';
 
@@ -85,6 +86,7 @@ export function NewSessionPanel({ props }) {
         <h3 style={{ padding: 0, margin: 0 }}>Welcome to the AEM GenAI Assistant!</h3>
         <p>Create high quality content quickly then measure it with experimentation or publish it to your site.</p>
         <NewButton right={-150} />
+        <SignOutButton right={-150} top={50}/>
       </Flex>
 
       <Heading level={4} alignSelf={'start'}>Prompts</Heading>

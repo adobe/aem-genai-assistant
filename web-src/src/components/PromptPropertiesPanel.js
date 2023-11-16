@@ -51,7 +51,7 @@ const styles = {
     grid-area: buttons;
   `,
   promptFlexItems: css`
-    padding: 15px;
+    padding: 15px 20px;
   `,
 };
 

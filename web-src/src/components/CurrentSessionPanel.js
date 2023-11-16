@@ -25,7 +25,7 @@ for (let i = 0; i < 100; i++) {
 export function CurrentSessionPanel() {
   return (
     <Grid
-      columns={['300px', '1fr']}
+      columns={['330px', '1fr']}
       rows={['100%']}
       justifyContent={'stretch'}
       alignItems={'stretch'}

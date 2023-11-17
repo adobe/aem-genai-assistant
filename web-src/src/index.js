@@ -18,18 +18,49 @@ import {
 import { defaultTheme, Provider } from '@adobe/react-spectrum';
 import { App } from './components/App';
 import { ApplicationProvider } from './components/ApplicationProvider.js';
-import { AuthProvider } from './components/AuthProvider.js';
+import { ShellAuthProvider } from './components/ShellAuthProvider.js';
 import './index.css';
+import excApp, { init } from '@adobe/exc-app';
 
-ReactDOM.render(
-  <RecoilRoot>
-    <Provider colorScheme="light" theme={defaultTheme} width="100%" height="100%">
-      <ApplicationProvider>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </ApplicationProvider>
-    </Provider>
-  </RecoilRoot>,
-  document.getElementById('root'),
-);
+init((config) => {
+
+  const runtime = excApp();
+  runtime.on('ready', ({imsOrg, imsToken, imsProfile, gainsight}) => {
+    // const pair= gainsight.shellPath.split('?')[1];
+    // window.referrer = pair.split('=')[1];
+    
+    console.log('Ready! received imsProfile:', imsProfile)
+    
+    const ims = {
+      imsProfile: imsProfile,
+      imsOrg: imsOrg,
+      imsToken: imsToken
+    }
+
+    ReactDOM.render(
+      <RecoilRoot>
+        <Provider colorScheme="light" theme={defaultTheme} width="100%" height="100%">
+          <ApplicationProvider>
+            <ShellAuthProvider runtime={runtime} ims={ims}>
+              <App />
+            </ShellAuthProvider>
+          </ApplicationProvider>
+        </Provider>
+      </RecoilRoot>,
+      document.getElementById('root'),
+    );
+  });
+
+  // ReactDOM.render(
+  //   <RecoilRoot>
+  //     <Provider colorScheme="light" theme={defaultTheme} width="100%" height="100%">
+  //       <ApplicationProvider>
+  //         <ShellAuthProvider runtime={runtime} ims={ims}>
+  //           <App />
+  //         </ShellAuthProvider>
+  //       </ApplicationProvider>
+  //     </Provider>
+  //   </RecoilRoot>,
+  //   document.getElementById('root'),
+  // );
+});

@@ -25,7 +25,7 @@ import { useSetRecoilState } from 'recoil';
 import { useIsFavorite } from '../state/IsFavoriteHook.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { useApplicationContext } from './ApplicationProvider.js';
-import { useAuthContext } from './AuthProvider.js';
+import { useAuthContext } from './ShellAuthProvider.js';
 import ReusePromptIcon from '../assets/reuse-prompt.svg';
 import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
@@ -117,7 +117,7 @@ const styles = {
 
 export function ResultCard({ result, ...props }) {
   const { firefallService } = useApplicationContext();
-  const { imsToken } = useAuthContext();
+  const { imsOrg, imsToken } = useAuthContext();
   const [selectedVariant, setSelectedVariant] = useState(result.variants[0]);
   const setPrompt = useSetRecoilState(promptState);
   const setParameters = useSetRecoilState(parametersState);

@@ -56,7 +56,7 @@ function createVariants(response) {
 
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
-  const { imsOrg, imsToken } = useAuthContext();
+  const { user } = useAuthContext();
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
   const temperature = useRecoilValue(temperatureState);
@@ -66,7 +66,7 @@ export function GenerateButton() {
 
   const generateResults = useCallback(async () => {
     const finalPrompt = renderExpressions(prompt, parameters);
-    const { queryId, response } = await firefallService.complete(finalPrompt, temperature, imsToken);
+    const { queryId, response } = await firefallService.complete(finalPrompt, temperature, user.imsToken);
     setResults((results) => [...results, {
       resultId: queryId,
       variants: createVariants(response),
@@ -99,7 +99,7 @@ export function GenerateButton() {
         style="fill"
         onPress={handleGenerate}
         isDisabled={generationInProgress}>
-        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px"/> : <SenseiGenAIIcon />}
+        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px" /> : <SenseiGenAIIcon />}
         Generate
       </Button>
       <ContextualHelp variant="info">

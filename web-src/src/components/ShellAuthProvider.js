@@ -10,33 +10,68 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, createContext, useState, useContext } from 'react';
+import { ToastQueue } from '@react-spectrum/toast';
 
-export const AuthContext = React.createContext({});
+import { useApplicationContext } from './ApplicationProvider';
 
-export const ShellAuthProvider = (props) => {
-  console.log('runtime object:', props.runtime)
-  console.log('ims object:', props.ims)
+export const ShellAuthContext = createContext({});
 
-  // use exc runtime event handlers
-  // respond to configuration change events (e.g. user switches org)
-  props.runtime.on('configuration', ({ imsOrg, imsToken, locale }) => {
-    console.log('configuration change', { imsOrg, imsToken, locale })
-  });
-  // respond to history change events
-  props.runtime.on('history', ({ type, path }) => {
-    console.log('history change', { type, path })
-  });
+export const ShellAuthProvider = ({ children }) => {
+
+  const [user, setUser] = useState(null);
+  const [isUserAuthorized, setIsUserAuthorized] = useState(false);
+  const { config } = useApplicationContext();
+
+  // set userContext from config.imsProfile and config.imsToken and config.imsOrg
+  useEffect(() => {
+    setUser({
+      imsProfile: config.imsProfile,
+      imsToken: config.imsToken,
+      imsOrg: config.imsOrg
+    });
+  }, [config]);
+
+  // when the user changes, invoke isAuthorized function and display an error message in the UI if the user is not authorized
+  // otherwise display the application
+  useEffect(() => {
+    if (user) {
+      setIsUserAuthorized(isAuthorized(user));
+      if (!isAuthorized(user)) {
+        ToastQueue.negative('Oops it looks like you don\'t have access to this feature. Please ask you Administrator to give you access !', { timeout: 2000 });
+      }
+
+    }
+  }, [user]);
+
+
+  // check if the user is authorized
+  // the user is authorized if userInfo.imsProfile.projectedProductContext which is an array
+  // containes inside the array an object having the property "context" as "dma_aem_cloud"
+  const isAuthorized = (user) => {
+    let userProfile = user.imsProfile;
+    if (Array.isArray(userProfile['projectedProductContext'])) {
+      const filteredProductContext = userProfile['projectedProductContext'].filter((obj) => obj['prodCtx']['serviceCode'] === "dma_aem_cloud");
+
+      // for each entry in filteredProductContext check  that
+      // there is at least one entry where user.imsOrg matches the owningEntity property 
+      // otherwise, if no match, the user is not authorized
+      return filteredProductContext.some((obj) => obj['prodCtx']['owningEntity'] === user.imsOrg);
+
+    }
+    return false;
+  }
+
 
   return (
-    <AuthContext.Provider value={ props.ims }>
-      <>{props.children}</>
-    </AuthContext.Provider>
+    <ShellAuthContext.Provider value={{ user, isUserAuthorized }}>
+      <>{children}</>
+    </ShellAuthContext.Provider>
   );
 };
 
 export const useAuthContext = () => {
-  const context = useContext(AuthContext);
+  const context = useContext(ShellAuthContext);
   if (context === undefined) {
     throw new Error('useAuthContext was used outside of its Provider');
   }

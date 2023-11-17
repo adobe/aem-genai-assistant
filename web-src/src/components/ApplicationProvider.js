@@ -9,10 +9,12 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, { useContext } from 'react';
+import React, { Fragment, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Content, Heading, InlineAlert } from '@adobe/react-spectrum';
 import { FirefallService } from '../services/FirefallService.js';
 import { ImsAuthClient } from '../ims/ImsAuthClient.js';
+import page from '@adobe/exc-app/page';
+import excApp, { RuntimeConfiguration } from '@adobe/exc-app';
 
 import actions from '../config.json';
 
@@ -43,7 +45,7 @@ function getWebsiteUrlFromReferrer() {
   return `${url.protocol}//${url.host}`;
 }
 
-function createApplication() {
+function createApplication(config) {
   const websiteUrl = getWebsiteUrlFromReferrer();
   console.log(`Website URL: ${websiteUrl}`);
   return {
@@ -53,15 +55,34 @@ function createApplication() {
       completeEndpoint: actions[COMPLETE_ACTION],
       feedbackEndpoint: actions[FEEDBACK_ACTION],
     }),
-    imsAuthClient: new ImsAuthClient(),
+    config: config
   };
 }
 
 export const ApplicationContext = React.createContext(undefined);
 
 export const ApplicationProvider = ({ children }) => {
+  const [application, setApplication] = useState(undefined);
+
+  const shellEventsHandler = useCallback((config) => {
+    setApplication(() => createApplication(config));
+    console.log(config);
+  }, []);
+
+  useEffect(() => {
+    const runtime = excApp();
+    runtime.on('ready', shellEventsHandler);
+    runtime.on('configuration', shellEventsHandler);
+  }, []);
+
+  if (!application) {
+    return (<Fragment />);
+  }
+
+  page.done();
+
+
   try {
-    const application = createApplication();
     return (
       <ApplicationContext.Provider value={application}>
         {children}

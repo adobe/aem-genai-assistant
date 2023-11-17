@@ -163,8 +163,10 @@ export function InputsView({ gridColumn }) {
                   width="100%"
                   value={parameters[name]}
                   defaultValue={defaultValue}
-                  onChange={(value) => {
-                    setParameters({ ...parameters, [name]: value });
+                  onChange={(value) =>  {
+                    setParameters({ 
+                      ...parameters, [name]: value >= 0 ? value : 0 
+                    });
                   }}
                 />
               );

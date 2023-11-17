@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  ActionButton, Button, Image, Text,
+  ActionButton, Image, Text,
 } from '@adobe/react-spectrum';
 import { useSetRecoilState } from 'recoil';
 import React from 'react';
@@ -22,7 +22,7 @@ export function ResetButton(props) {
   const setParameters = useSetRecoilState(parametersState);
 
   const handleReset = () => {
-    setParameters([]);
+    setParameters({});
   };
 
   return (

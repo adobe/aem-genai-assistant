@@ -10,8 +10,24 @@
  * governing permissions and limitations under the License.
  */
 import { atom } from 'recoil';
+import { expressionsState } from './ExpressionsState.js';
+
+function setDefaultValuesEffect({ onSet, getPromise, setSelf }) {
+  onSet(async (newValue) => {
+    getPromise(expressionsState).then((expressions) => {
+      const newParameters = { ...newValue };
+      Object.entries(expressions).forEach(([name, params]) => {
+        if (newParameters[name] === undefined && params.default !== undefined) {
+          newParameters[name] = params.default;
+        }
+      });
+      setSelf(newParameters);
+    });
+  });
+}
 
 export const parametersState = atom({
   key: 'parametersState',
-  default: [],
+  default: {},
+  effects: [setDefaultValuesEffect],
 });

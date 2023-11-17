@@ -15,7 +15,6 @@ import { parseExpressions } from '../helpers/ExpressionParser.js';
 
 export const expressionsState = selector({
   key: 'expressionsState',
-  default: {},
   get: ({ get }) => {
     return parseExpressions(get(promptState));
   },

@@ -47,13 +47,6 @@ function getComponentLabel(name, label) {
   return label || expressionNameToLabel(name);
 }
 
-function getComponentDefaultValue(defaultValue) {
-  if (!defaultValue) {
-    return '';
-  }
-  return defaultValue;
-}
-
 function getComponentType(params) {
   if (params.spreadsheet) {
     return 'spreadsheet';
@@ -74,7 +67,7 @@ function DescriptionLabel({ description }) {
 }
 
 function SpreadSheetPicker({
-  name, label, description, spreadsheet, value, defaultValue, onChange,
+  name, label, description, spreadsheet, value, onChange,
 }) {
   const { websiteUrl } = useApplicationContext();
   const [items, setItems] = React.useState([]);
@@ -104,7 +97,6 @@ function SpreadSheetPicker({
       width="100%"
       items={items}
       selectedKey={String(getIndexByValue(items, value))}
-      defaultSelectedKey={String(getIndexByValue(items, defaultValue))}
       onSelectionChange={selectionHandler}>
       {items ? items.map((item, index) => <Item key={index}>{item.key}</Item>) : []}
     </Picker>
@@ -114,11 +106,10 @@ function SpreadSheetPicker({
 export function InputsView({ gridColumn }) {
   const expressions = useRecoilValue(expressionsState);
   const [parameters, setParameters] = useRecoilState(parametersState);
-  const prompt = useRecoilValue(promptState);
 
   useEffect(() => {
-    setParameters([]);
-  }, [prompt]);
+    setParameters({});
+  }, [expressions]);
 
   return (
     <Flex
@@ -136,8 +127,8 @@ export function InputsView({ gridColumn }) {
             return null;
           }
           const label = getComponentLabel(name, params.label);
-          const defaultValue = getComponentDefaultValue(params.defaultValue);
           const type = getComponentType(params);
+          const parameterValue = parameters[name] ?? '';
 
           switch (type) {
             case 'spreadsheet':
@@ -147,8 +138,7 @@ export function InputsView({ gridColumn }) {
                   label={label}
                   description={params.description}
                   spreadsheet={params.spreadsheet}
-                  value={parameters[name]}
-                  defaultValue={defaultValue}
+                  value={parameterValue}
                   onChange={(value) => {
                     setParameters({ ...parameters, [name]: value });
                   }}
@@ -161,8 +151,8 @@ export function InputsView({ gridColumn }) {
                   label={label}
                   description={<DescriptionLabel description={params.description}/>}
                   width="100%"
-                  value={parameters[name]}
-                  defaultValue={defaultValue}
+                  value={parameterValue}
+                  minValue={0}
                   onChange={(value) => {
                     setParameters({ ...parameters, [name]: value });
                   }}
@@ -176,8 +166,7 @@ export function InputsView({ gridColumn }) {
                   label={label}
                   description={<DescriptionLabel description={params.description}/>}
                   width="100%"
-                  value={parameters[name]}
-                  defaultValue={defaultValue}
+                  value={parameterValue}
                   onChange={(value) => {
                     setParameters({ ...parameters, [name]: value });
                   }}

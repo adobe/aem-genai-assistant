@@ -15,13 +15,6 @@ import { PromptPropertiesPanel } from './PromptPropertiesPanel.js';
 import { ResultsView } from './ResultsView.js';
 import PromptEditor from './PromptEditor.js';
 
-const arr = [];
-for (let i = 0; i < 100; i++) {
-  const div = document.createElement('div');
-  div.innerText = 'hello world';
-  arr.push(div);
-}
-
 export function CurrentSessionPanel() {
   return (
     <Grid

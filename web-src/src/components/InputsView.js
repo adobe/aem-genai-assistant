@@ -21,7 +21,7 @@ import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
 import { promptState } from '../state/PromptState.js';
 import { expressionsState } from '../state/ExpressionsState.js';
 import { parametersState } from '../state/ParametersState.js';
-import {TemperatureSlider} from './TemperatureSlider.js';
+import { TemperatureSlider } from './TemperatureSlider.js';
 
 function getIndexByValue(items, value) {
   return items.findIndex((item) => item.value === value);
@@ -49,7 +49,7 @@ function getComponentLabel(name, label) {
 
 function getComponentDefaultValue(defaultValue) {
   if (!defaultValue) {
-    return ' ';
+    return '';
   }
   return defaultValue;
 }
@@ -73,7 +73,9 @@ function DescriptionLabel({ description }) {
   );
 }
 
-function SpreadSheetPicker({name, label, description, spreadsheet, value, onChange}) {
+function SpreadSheetPicker({
+  name, label, description, spreadsheet, value, defaultValue, onChange,
+}) {
   const { websiteUrl } = useApplicationContext();
   const [items, setItems] = React.useState([]);
   const [url, setUrl] = React.useState('');
@@ -102,6 +104,7 @@ function SpreadSheetPicker({name, label, description, spreadsheet, value, onChan
       width="100%"
       items={items}
       selectedKey={String(getIndexByValue(items, value))}
+      defaultSelectedKey={String(getIndexByValue(items, defaultValue))}
       onSelectionChange={selectionHandler}>
       {items ? items.map((item, index) => <Item key={index}>{item.key}</Item>) : []}
     </Picker>
@@ -123,21 +126,21 @@ export function InputsView({ gridColumn }) {
       gap="size-100"
       alignItems={'end'}
       gridColumn={gridColumn}
-      UNSAFE_style={{ overflowY: 'auto', position: 'absolute', top: '0', bottom: '0' }}
+      UNSAFE_style={{
+        overflowY: 'auto', position: 'absolute', top: '0', bottom: '0',
+      }}
       width={'100%'}>
       {
         Object.entries(expressions).sort(compareExpressions).map(([name, params]) => {
           if (params.comment) {
             return null;
           }
-          console.log(`params: ${params.defaultValue}`);
           const label = getComponentLabel(name, params.label);
           const defaultValue = getComponentDefaultValue(params.defaultValue);
           const type = getComponentType(params);
 
           switch (type) {
             case 'spreadsheet':
-              console.log(params);
               return (
                 <SpreadSheetPicker
                   name={name}
@@ -145,6 +148,7 @@ export function InputsView({ gridColumn }) {
                   description={params.description}
                   spreadsheet={params.spreadsheet}
                   value={parameters[name]}
+                  defaultValue={defaultValue}
                   onChange={(value) => {
                     setParameters({ ...parameters, [name]: value });
                   }}
@@ -158,6 +162,7 @@ export function InputsView({ gridColumn }) {
                   description={<DescriptionLabel description={params.description}/>}
                   width="100%"
                   value={parameters[name]}
+                  defaultValue={defaultValue}
                   onChange={(value) => {
                     setParameters({ ...parameters, [name]: value });
                   }}
@@ -165,7 +170,6 @@ export function InputsView({ gridColumn }) {
               );
             case 'string':
             default:
-              console.log(params);
               return (
                 <TextArea
                   key={name}

@@ -13,8 +13,9 @@ import {
   Button, Content, ContextualHelp, Flex, Heading, Link, ProgressCircle, Text,
 } from '@adobe/react-spectrum';
 import React, { useCallback } from 'react';
-import {useRecoilState, useRecoilValue, useSetRecoilState} from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { ToastQueue } from '@react-spectrum/toast';
+import { v4 as uuid } from 'uuid';
 import SenseiGenAIIcon from '../icons/GenAIIcon.js';
 import { renderExpressions } from '../helpers/ExpressionRenderer.js';
 import { useApplicationContext } from './ApplicationProvider.js';
@@ -25,8 +26,7 @@ import { resultsState } from '../state/ResultsState.js';
 import { generationInProgressState } from '../state/GenerationInProgressState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
-import { v4 as uuid } from 'uuid';
-import {useSaveSession} from '../state/SaveSessionHook.js';
+import { useSaveSession } from '../state/SaveSessionHook.js';
 
 function objectToString(obj) {
   return String(obj).replace(/<\/?[^>]+(>|$)/g, '');
@@ -67,13 +67,13 @@ export function GenerateButton() {
   const generateResults = useCallback(async () => {
     const finalPrompt = renderExpressions(prompt, parameters);
     const { queryId, response } = await firefallService.complete(finalPrompt, temperature, imsToken);
-    setResults(results => [...results, {
+    setResults((results) => [...results, {
       resultId: queryId,
       variants: createVariants(response),
       prompt: finalPrompt,
       promptTemplate: prompt,
       parameters,
-      temperature
+      temperature,
     }]);
     await saveSession();
   }, [firefallService, prompt, parameters, temperature]);

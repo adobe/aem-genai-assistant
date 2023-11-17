@@ -144,6 +144,7 @@ export function ResultCard({ result, ...props }) {
   }, [result, setPrompt, setParameters]);
 
   const deleteResult = useCallback(async (resultId) => {
+    /* eslint-disable-next-line no-shadow */
     setResults((results) => results.filter((result) => result.resultId !== resultId));
     await saveSession();
   }, [setResults]);

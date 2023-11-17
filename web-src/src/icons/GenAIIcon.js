@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import React from 'react';
-import {Icon} from '@adobe/react-spectrum';
+import { Icon } from '@adobe/react-spectrum';
 
 export default function GenAIIcon(props) {
   return (

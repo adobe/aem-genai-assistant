@@ -14,12 +14,12 @@ import { Content, Heading, InlineAlert } from '@adobe/react-spectrum';
 import { FirefallService } from '../services/FirefallService.js';
 import { ImsAuthClient } from '../ims/ImsAuthClient.js';
 
+import actions from '../config.json';
+
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 
 const COMPLETE_ACTION = 'complete';
 const FEEDBACK_ACTION = 'feedback';
-
-import actions from '../config.json';
 
 function getWebsiteUrl() {
   const searchParams = new URLSearchParams(window.location.search);

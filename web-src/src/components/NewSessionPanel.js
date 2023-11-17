@@ -25,7 +25,7 @@ import { NewButton } from './NewButton.js';
 import { sessionsState } from '../state/SessionsState.js';
 import { currentSessionState } from '../state/CurrentSessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
-import {formatTimestamp} from '../helpers/FormatHelper.js';
+import { formatTimestamp } from '../helpers/FormatHelper.js';
 import { SignOutButton } from './SignOutButton.js';
 
 const PROMPT_TEMPLATES_FILENAME = 'prompttemplates.json';

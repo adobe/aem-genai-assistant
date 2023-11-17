@@ -9,13 +9,13 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import {atom} from 'recoil';
+import { atom } from 'recoil';
 
 export const ViewType = {
-  NewSession: "newSession",
-  CurrentSession: "currentSession",
-  Favorites: "favorites",
-}
+  NewSession: 'newSession',
+  CurrentSession: 'currentSession',
+  Favorites: 'favorites',
+};
 
 export const viewTypeState = atom({
   key: 'viewTypeState',

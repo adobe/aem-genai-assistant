@@ -10,30 +10,39 @@
  * governing permissions and limitations under the License.
  */
 import React, { useContext } from 'react';
-import { CompletionService } from '../services/CompletionService.js';
+import { Content, Heading, InlineAlert } from '@adobe/react-spectrum';
+import { FirefallService } from '../services/FirefallService.js';
+import { ImsAuthClient } from '../ims/ImsAuthClient.js';
+
+import actions from '../config.json';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
-console.log(`Version: ${APP_VERSION}`);
 
-const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
-console.log(`API_ENDPOINT: ${API_ENDPOINT}`);
+const COMPLETE_ACTION = 'complete';
+const FEEDBACK_ACTION = 'feedback';
 
-function getWebsiteUrlFromReferrer() {
-  /* eslint-disable-next-line no-undef */
+function getWebsiteUrl() {
   const searchParams = new URLSearchParams(window.location.search);
-  if (!searchParams.has('referrer')) {
-    throw Error('It seems we\'re missing the referrer search parameter in your application.');
+  const ref = searchParams.get('ref');
+  const repo = searchParams.get('repo');
+  const owner = searchParams.get('owner');
+  if (!ref || !repo || !owner) {
+    throw Error('It seems we\'re missing the ref, repo or owner search parameter in your application.');
   }
-  const referrer = searchParams.get('referrer');
-  const url = new URL(referrer);
-  return `${url.protocol}//${url.host}`;
+  return `https://${ref}--${repo}--${owner}.hlx.page`;
 }
 
 function createApplication() {
+  const websiteUrl = getWebsiteUrl();
+  console.log(`Website URL: ${websiteUrl}`);
   return {
     appVersion: APP_VERSION,
-    websiteUrl: getWebsiteUrlFromReferrer(),
-    completionService: new CompletionService(API_ENDPOINT),
+    websiteUrl,
+    firefallService: new FirefallService({
+      completeEndpoint: actions[COMPLETE_ACTION],
+      feedbackEndpoint: actions[FEEDBACK_ACTION],
+    }),
+    imsAuthClient: new ImsAuthClient(),
   };
 }
 
@@ -49,10 +58,10 @@ export const ApplicationProvider = ({ children }) => {
     );
   } catch (e) {
     return (
-      <div style={{ padding: '10px', margin: '50px' }}>
-        <h2>Oops! It looks like we ran into a small snag.</h2>
-        <p>{e.message}</p>
-      </div>
+      <InlineAlert margin={'50px'}>
+        <Heading>Oops! It looks like we ran into a small snag</Heading>
+        <Content>{e.message}</Content>
+      </InlineAlert>
     );
   }
 };

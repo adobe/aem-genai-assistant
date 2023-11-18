@@ -9,21 +9,13 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import wretch from 'wretch';
-import { retry } from 'wretch/middlewares/retry';
+import { Link } from '@adobe/react-spectrum';
+import React from 'react';
 
-export class CompletionService {
-  constructor(endpoint) {
-    this.endpoint = endpoint;
-    console.log(`CompletionService endpoint: ${endpoint}`);
-  }
+export const USER_GUIDELINES_URL = 'https://www.adobe.com/legal/licenses-terms/adobe-dx-gen-ai-user-guidelines.html';
 
-  async complete(prompt, temperature) {
-    console.log(`CompletionService complete prompt: ${prompt} temperature: ${temperature}`);
-    const url = `${this.endpoint}?prompt=${encodeURIComponent(prompt)}&t=${temperature}`;
-    const json = await wretch(url).middlewares([retry({
-      retryOnNetworkError: true,
-    })]).get().json();
-    return json.generations[0][0].message.content;
-  }
+export function LegalTermsLink() {
+  return (
+    <Link href={USER_GUIDELINES_URL} target="_blank">Generative AI User Guidelines</Link>
+  );
 }

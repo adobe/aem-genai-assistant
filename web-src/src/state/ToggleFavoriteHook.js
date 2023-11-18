@@ -9,9 +9,22 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom } from 'recoil';
+import { useSetRecoilState } from 'recoil';
+import { useCallback } from 'react';
+import { useIsFavorite } from './IsFavoriteHook.js';
+import { favoritesState } from './FavoritesState.js';
 
-export const generationResultsState = atom({
-  key: 'generationResultsState',
-  default: [],
-});
+export function useToggleFavorite() {
+  const isFavorite = useIsFavorite();
+  const setFavorites = useSetRecoilState(favoritesState);
+
+  return useCallback((variant) => {
+    setFavorites((favorites) => {
+      if (isFavorite(variant)) {
+        return favorites.filter((favorite) => favorite.id !== variant.id);
+      } else {
+        return [...favorites, variant];
+      }
+    });
+  }, [isFavorite, setFavorites]);
+}

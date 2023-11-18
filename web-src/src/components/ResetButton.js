@@ -9,9 +9,30 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom } from 'recoil';
+import {
+  ActionButton, Image, Text,
+} from '@adobe/react-spectrum';
+import { useSetRecoilState } from 'recoil';
+import React from 'react';
 
-export const showPromptState = atom({
-  key: 'showPromptState',
-  default: false,
-});
+import ResetIcon from '../assets/reset.svg';
+import { parametersState } from '../state/ParametersState.js';
+
+export function ResetButton(props) {
+  const setParameters = useSetRecoilState(parametersState);
+
+  const handleReset = () => {
+    setParameters({});
+  };
+
+  return (
+    <ActionButton
+      {...props}
+      isQuiet
+      onPress={handleReset}
+      variant={''}>
+      <Image src={ResetIcon}/>
+      <Text>Reset</Text>
+    </ActionButton>
+  );
+}

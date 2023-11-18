@@ -10,16 +10,17 @@
  * governing permissions and limitations under the License.
  */
 import { selector } from 'recoil';
-import { v4 as uuidv4 } from 'uuid';
-import { generationResultsState } from './GenerationResultsState.js';
+import { currentSessionState } from './CurrentSessionState.js';
 
-export const newVariationsSelector = selector({
-  key: 'variationsState',
+export const resultsState = selector({
+  key: 'resultsState',
   get: ({ get }) => {
-    return get(generationResultsState).map((result) => ({
-      id: uuidv4(),
-      content: result,
-      isFavorite: false,
-    }));
+    return get(currentSessionState)?.results ?? [];
+  },
+  set: ({ set, get }, newValue) => {
+    set(currentSessionState, {
+      ...get(currentSessionState),
+      results: newValue,
+    });
   },
 });

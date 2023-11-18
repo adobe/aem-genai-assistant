@@ -9,74 +9,38 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
-import React, { useEffect, useState } from 'react';
-import {
-  Item, TabList, TabPanels, Tabs, Text, View,
-} from '@adobe/react-spectrum';
-
-import AnnotatePen from '@spectrum-icons/workflow/AnnotatePen';
-import Star from '@spectrum-icons/workflow/Star';
-
+import { Flex, Image } from '@adobe/react-spectrum';
+import React from 'react';
+import { css } from '@emotion/css';
 import { useRecoilValue } from 'recoil';
-import VariationsSection from './VariationsSection.js';
-import FavoritesSection from './FavoritesSection.js';
-import { LOCAL_STORAGE_KEY } from '../constants/Constants.js';
-import { newVariationsSelector } from '../state/NewVariationsSelector.js';
+import { resultsState } from '../state/ResultsState.js';
+import { ResultCard } from './ResultCard.js';
 
-function ResultsView({ gridColumn }) {
-  const newVariations = useRecoilValue(newVariationsSelector);
-  const [variations, setVariations] = useState([]);
-  const [favorites, setFavorites] = useState([]);
-  const [tab, setTab] = useState('variations');
+import EmptyResults from '../assets/empty-results.svg';
 
-  // Effect to run on component mount to initialize favorites from local storage
-  useEffect(() => {
-    // Get the favorites from local storage
-    const storedFavorites = localStorage.getItem(LOCAL_STORAGE_KEY);
+export function ResultsView(props) {
+  const results = useRecoilValue(resultsState);
 
-    // If there are stored favorites, parse and set them as the initial state
-    if (storedFavorites) {
-      setFavorites(JSON.parse(storedFavorites));
-      setTab('favorites');
-    }
-  }, []);
-
-  useEffect(() => {
-    setVariations(newVariations);
-  }, [newVariations]);
+  const style = {
+    emptyResults: css`
+      position: absolute;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+    `,
+  };
 
   return (
-    <View
-      paddingLeft="15px"
-      paddingRight="15px"
-      width={'100%'}
-      height={'100%'}
-      gridColumn={gridColumn}
-      borderWidth="thin"
-      borderColor="gray-300"
-      borderRadius="medium"
-      overflow="auto">
-      <Tabs aria-label="Tabs" width={'100%'} height="100%" selectedKey={tab} onSelectionChange={setTab}>
-        <TabList>
-          <Item key="variations"><AnnotatePen /><Text>Variations</Text></Item>
-          <Item key="favorites"><Star /><Text>Favorites</Text></Item>
-        </TabList>
-        <TabPanels UNSAFE_style={{ overflow: 'auto' }}>
-          <Item key="variations">
-            <VariationsSection
-              variations={variations}
-              favorites={favorites}
-              onVariationsChange={setVariations}
-              onFavoritesChange={setFavorites} />
-          </Item>
-          <Item key="favorites">
-            <FavoritesSection favorites={favorites} onChange={setFavorites} />
-          </Item>
-        </TabPanels>
-      </Tabs>
-    </View>
+    <Flex
+      {...props}
+      direction={'column'}
+      position={'absolute'}
+      gap={'size-200'}
+      width={'100%'}>
+      { results.length === 0
+        ? <Image src={EmptyResults} width={'600px'} UNSAFE_className={style.emptyResults}></Image>
+        : results.map((result) => <ResultCard key={result.resultId} result={result} />)
+      }
+    </Flex>
   );
 }
-
-export default ResultsView;

@@ -53,6 +53,7 @@ The list of supported parameters:
 - `label` - The label to display for the placeholder. If not provided, the placeholder will be displayed as the identifier transformed into a user-friendly format.
 - `description` - The description to display for the placeholder.
 - `type` - The type of input to expect from the user. If not provided, the placeholder will be displayed as a text input.
+- `default` - The default value to use for the placeholder. If not provided, the placeholder will be displayed as an empty input.
 - `spreadsheet` - The name of the spreadsheet to use for the placeholder. If not provided, the placeholder will be displayed as a text input. This parameter sets the type to `spreadsheet`.
 
 The list of supported types:

@@ -15,16 +15,18 @@ import {
 import React, { useCallback } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { ToastQueue } from '@react-spectrum/toast';
-import SenseiGenAIIcon from '../icons/SenseiGenAIIcon.js';
+import { v4 as uuid } from 'uuid';
+import SenseiGenAIIcon from '../icons/GenAIIcon.js';
 import { renderExpressions } from '../helpers/ExpressionRenderer.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { useAuthContext } from './AuthProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { temperatureState } from '../state/TemperatureState.js';
-import { generationResultsState } from '../state/GenerationResultsState.js';
+import { resultsState } from '../state/ResultsState.js';
 import { generationInProgressState } from '../state/GenerationInProgressState.js';
 import { parametersState } from '../state/ParametersState.js';
-import { UserGuidelinesLink } from './UserGuidelinesLink.js';
+import { LegalTermsLink } from './LegalTermsLink.js';
+import { useSaveSession } from '../state/SaveSessionHook.js';
 
 function objectToString(obj) {
   return String(obj).replace(/<\/?[^>]+(>|$)/g, '');
@@ -39,32 +41,46 @@ function jsonToString(json) {
   }).join('<br/>');
 }
 
+function createVariants(response) {
+  try {
+    const json = JSON.parse(response);
+    if (Array.isArray(json)) {
+      return json.map((item) => ({ id: uuid(), content: jsonToString(item) }));
+    } else {
+      return [{ id: uuid(), content: String(response) }];
+    }
+  } catch (error) {
+    return [{ id: uuid(), content: String(response) }];
+  }
+}
+
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
   const { imsToken } = useAuthContext();
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
   const temperature = useRecoilValue(temperatureState);
-  const setGenerationResults = useSetRecoilState(generationResultsState);
+  const setResults = useSetRecoilState(resultsState);
   const [generationInProgress, setGenerationInProgress] = useRecoilState(generationInProgressState);
+  const saveSession = useSaveSession();
 
-  const generateHandler = useCallback(() => {
-    setGenerationInProgress(true);
+  const generateResults = useCallback(async () => {
     const finalPrompt = renderExpressions(prompt, parameters);
-    firefallService.complete(finalPrompt, temperature, imsToken)
-      .then(({ queryId, content }) => {
-        console.log(`queryId: ${queryId}`);
-        try {
-          const json = JSON.parse(content);
-          if (Array.isArray(json)) {
-            setGenerationResults(json.map((item) => ({ queryId, content: jsonToString(item) })));
-          } else {
-            setGenerationResults([{ queryId, content }]);
-          }
-        } catch (error) {
-          setGenerationResults([{ queryId, content }]);
-        }
-      })
+    const { queryId, response } = await firefallService.complete(finalPrompt, temperature, imsToken);
+    setResults((results) => [...results, {
+      resultId: queryId,
+      variants: createVariants(response),
+      prompt: finalPrompt,
+      promptTemplate: prompt,
+      parameters,
+      temperature,
+    }]);
+    await saveSession();
+  }, [firefallService, prompt, parameters, temperature]);
+
+  const handleGenerate = useCallback(() => {
+    setGenerationInProgress(true);
+    generateResults()
       .catch((error) => {
         console.log(error);
         ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
@@ -72,16 +88,16 @@ export function GenerateButton() {
       .finally(() => {
         setGenerationInProgress(false);
       });
-  }, [firefallService, prompt, temperature, parameters]);
+  }, [generateResults, setGenerationInProgress]);
 
   return (
-    <Flex direction="row" gap="size-100">
+    <Flex direction="row" gap="size-100" alignItems={'center'}>
       <Button
         UNSAFE_className="hover-cursor-pointer"
         width="size-1700"
-        variant="primary"
+        variant="cta"
         style="fill"
-        onPress={generateHandler}
+        onPress={handleGenerate}
         isDisabled={generationInProgress}>
         {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px"/> : <SenseiGenAIIcon />}
         Generate
@@ -94,7 +110,7 @@ export function GenerateButton() {
             materials, website content, data, schemas for such data, templates, or other trusted documents.
             You should evaluate the accuracy of any output as appropriate to your use case.
           </p>
-          <UserGuidelinesLink />
+          <LegalTermsLink />
         </Content>
       </ContextualHelp>
     </Flex>

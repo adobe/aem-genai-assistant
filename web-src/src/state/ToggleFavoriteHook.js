@@ -9,18 +9,22 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { selector } from 'recoil';
-import { v4 as uuidv4 } from 'uuid';
-import { generationResultsState } from './GenerationResultsState.js';
+import { useSetRecoilState } from 'recoil';
+import { useCallback } from 'react';
+import { useIsFavorite } from './IsFavoriteHook.js';
+import { favoritesState } from './FavoritesState.js';
 
-export const newVariationsSelector = selector({
-  key: 'variationsState',
-  get: ({ get }) => {
-    return get(generationResultsState).map(({ queryId, content }) => ({
-      id: uuidv4(),
-      isFavorite: false,
-      queryId,
-      content,
-    }));
-  },
-});
+export function useToggleFavorite() {
+  const isFavorite = useIsFavorite();
+  const setFavorites = useSetRecoilState(favoritesState);
+
+  return useCallback((variant) => {
+    setFavorites((favorites) => {
+      if (isFavorite(variant)) {
+        return favorites.filter((favorite) => favorite.id !== variant.id);
+      } else {
+        return [...favorites, variant];
+      }
+    });
+  }, [isFavorite, setFavorites]);
+}

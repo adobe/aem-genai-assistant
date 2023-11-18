@@ -9,22 +9,18 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import { View } from '@adobe/react-spectrum';
 /* eslint-disable-next-line import/no-named-default */
 import { default as SimpleEditor } from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import 'prismjs/themes/prism.css';
-import { parseExpressions } from '../helpers/ExpressionParser.js';
+import { css } from '@emotion/css';
 import { renderExpressions } from '../helpers/ExpressionRenderer.js';
 
-import { showPromptState } from '../state/ShowPromptState.js';
-import { sourceViewState } from '../state/SourceViewState.js';
 import { promptState } from '../state/PromptState.js';
-import { expressionsState } from '../state/ExpressionsState.js';
 import { parametersState } from '../state/ParametersState.js';
-import { promptTemplateState } from '../state/PromptTemplateState.js';
 
 languages.custom = {
   function: /{[^@#]([^{}]+)}/,
@@ -33,39 +29,59 @@ languages.custom = {
   comment: /{#([^{}]+)}/,
 };
 
-function Editor({ gridColumn }) {
-  const setExpressions = useSetRecoilState(expressionsState);
-  const [sourceView, setSourceView] = useRecoilState(sourceViewState);
-  const promptTemplate = useRecoilValue(promptTemplateState);
+const style = {
+  container: css`
+    width: 100%;
+    height: 150px;
+    position: relative;
+    overflow: auto;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  `,
+  editable: css`
+    box-shadow: 
+      0px -10px 20px -20px rgba(0,0,0,0.45),
+      10px 0px 20px -20px rgba(0,0,0,0.45),
+      0px 10px 20px -20px rgba(0,0,0,0.45),
+      -10px 0px 20px -20px rgba(0,0,0,0.45);
+    background-color: white;
+    height: 500px;
+  `,
+  editor: css`
+    color: var(--palette-gray-600, var(--palette-gray-600, #6D6D6D));
+    font-family: Adobe Clean,serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    position: absolute;
+    & textarea:focus  {
+      outline: none;
+    }
+  `,
+};
+
+function PromptEditor(props) {
+  const [viewSource, setViewSource] = useState(false);
   const [prompt, setPrompt] = useRecoilState(promptState);
   const parameters = useRecoilValue(parametersState);
-  const showPrompt = useRecoilValue(showPromptState);
-
-  useEffect(() => {
-    if (promptTemplate) {
-      setPrompt(promptTemplate.value);
-      setSourceView(false);
-    }
-  }, [promptTemplate, setPrompt]);
-
-  useEffect(() => {
-    setExpressions(parseExpressions(prompt));
-  }, [prompt, setExpressions]);
 
   return (
     <View
-      gridColumn={gridColumn}
-      isHidden={!showPrompt}
-      UNSAFE_className={['editor-container', sourceView ? 'editable' : ''].join(' ')}>
+      {...props}
+      UNSAFE_className={[style.container, viewSource && style.editable].join(' ')}>
       <SimpleEditor
-        className="editor"
-        value={sourceView ? prompt : renderExpressions(prompt, parameters)}
+        className={style.editor}
+        onFocus={() => setViewSource(true)}
+        onBlur={() => setViewSource(false)}
+        value={viewSource ? prompt : renderExpressions(prompt, parameters)}
         onValueChange={setPrompt}
         highlight={(code) => highlight(code, languages.custom, 'custom')}
-        readOnly={!sourceView}
+        readOnly={!viewSource}
       />
     </View>
   );
 }
 
-export default Editor;
+export default PromptEditor;

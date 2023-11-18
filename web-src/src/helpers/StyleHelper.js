@@ -9,13 +9,6 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { selector } from 'recoil';
-import { promptState } from './PromptState.js';
-import { parseExpressions } from '../helpers/ExpressionParser.js';
-
-export const expressionsState = selector({
-  key: 'expressionsState',
-  get: ({ get }) => {
-    return parseExpressions(get(promptState));
-  },
-});
+export const PaddingBox = {
+  padding: '20px',
+};

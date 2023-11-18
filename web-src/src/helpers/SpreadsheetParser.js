@@ -12,15 +12,12 @@
 import wretch from 'wretch';
 import { retry } from 'wretch/middlewares/retry';
 
-export async function parseSpreadSheet(url, keyColumnName = 'Key', valueColumnName = 'Value') {
+export async function parseSpreadSheet(url) {
   const json = await wretch(`${url}`).middlewares([retry({
     retryOnNetworkError: false,
   })]).get().json();
 
   return json.data.map((row) => {
-    return {
-      key: row[keyColumnName],
-      value: row[valueColumnName],
-    };
+    return Object.entries(row).reduce((acc, [key, value]) => ({ ...acc, [key.toLowerCase()]: value }), {});
   });
 }

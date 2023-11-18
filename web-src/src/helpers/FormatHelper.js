@@ -9,9 +9,9 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom } from 'recoil';
-
-export const sourceViewState = atom({
-  key: 'sourceViewState',
-  default: false,
-});
+export function formatTimestamp(timestamp) {
+  const date = new Date(timestamp);
+  const dateStr = date.toLocaleDateString('en-US');
+  const timeStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' });
+  return `${dateStr} ${timeStr}`;
+}

@@ -21,30 +21,35 @@ function wretchRetry(url) {
 }
 
 export class FirefallService {
-  constructor(endpoint) {
-    this.endpoint = endpoint;
+  constructor({ completeEndpoint, feedbackEndpoint }) {
+    this.completeEndpoint = completeEndpoint;
+    this.feedbackEndpoint = feedbackEndpoint;
+    console.log('FirefallService initialized!');
+    console.log(`Complete: ${this.completeEndpoint}`);
+    console.log(`Feedback: ${this.feedbackEndpoint}`);
   }
 
   async complete(prompt, temperature, accessToken) {
     /* eslint-disable-next-line camelcase */
-    const { query_id, generations } = await wretchRetry(`${this.endpoint}/complete`)
+    const { query_id, generations } = await wretchRetry(this.completeEndpoint)
       .post({ prompt, temperature, accessToken })
       .json();
     return {
       /* eslint-disable-next-line camelcase */
       queryId: query_id,
-      content: generations[0][0].message.content,
+      response: generations[0][0].message.content,
     };
   }
 
   async feedback(queryId, sentiment, accessToken) {
     /* eslint-disable-next-line camelcase */
-    const { feedback_id } = await wretchRetry(`${this.endpoint}/feedback`)
+    console.log(`Feedback: ${queryId} ${sentiment}`);
+    console.log(`Feedback: ${this.feedbackEndpoint}`);
+    /* eslint-disable-next-line camelcase */
+    const { feedback_id } = await wretchRetry(this.feedbackEndpoint)
       .post({ queryId, sentiment, accessToken })
       .json();
-    return {
-      /* eslint-disable-next-line camelcase */
-      feedbackId: feedback_id,
-    };
+    /* eslint-disable-next-line camelcase */
+    return feedback_id;
   }
 }

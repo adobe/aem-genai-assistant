@@ -9,9 +9,21 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom } from 'recoil';
+import { Button, Text } from '@adobe/react-spectrum';
+import { React } from 'react';
 
-export const showPromptState = atom({
-  key: 'showPromptState',
-  default: false,
-});
+import { useAuthContext } from './AuthProvider.js';
+
+export function SignOutButton(props) {
+  const { onSignOut } = useAuthContext();
+
+  return (
+    <Button UNSAFE_className={'hover-cursor-pointer'}
+      {...props}
+      onPress={onSignOut}
+      position={'absolute'}
+      variant={'cta'}>
+      <Text>Sign Out</Text>
+    </Button>
+  );
+}

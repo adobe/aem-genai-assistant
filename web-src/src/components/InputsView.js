@@ -21,7 +21,11 @@ import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
 import { promptState } from '../state/PromptState.js';
 import { expressionsState } from '../state/ExpressionsState.js';
 import { parametersState } from '../state/ParametersState.js';
-import { showParametersState } from '../state/ShowParametersState.js';
+import { TemperatureSlider } from './TemperatureSlider.js';
+
+function getIndexByValue(items, value) {
+  return items.findIndex((item) => item.value === value);
+}
 
 function compareExpressions([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
@@ -51,7 +55,6 @@ function getComponentType(params) {
 }
 
 function DescriptionLabel({ description }) {
-  console.log('description', description);
   if (!description) {
     return <></>;
   }
@@ -64,7 +67,7 @@ function DescriptionLabel({ description }) {
 }
 
 function SpreadSheetPicker({
-  name, label, description, spreadsheet, onChange,
+  name, label, description, spreadsheet, value, onChange,
 }) {
   const { websiteUrl } = useApplicationContext();
   const [items, setItems] = React.useState([]);
@@ -93,21 +96,20 @@ function SpreadSheetPicker({
       description={<DescriptionLabel description={description} />}
       width="100%"
       items={items}
+      selectedKey={String(getIndexByValue(items, value))}
       onSelectionChange={selectionHandler}>
       {items ? items.map((item, index) => <Item key={index}>{item.key}</Item>) : []}
     </Picker>
   );
 }
 
-export function ParametersView({ gridColumn }) {
-  const [expressions] = useRecoilState(expressionsState);
+export function InputsView({ gridColumn }) {
+  const expressions = useRecoilValue(expressionsState);
   const [parameters, setParameters] = useRecoilState(parametersState);
-  const prompt = useRecoilValue(promptState);
-  const showParameters = useRecoilValue(showParametersState);
 
   useEffect(() => {
-    setParameters([]);
-  }, [prompt]);
+    setParameters({});
+  }, [expressions]);
 
   return (
     <Flex
@@ -115,8 +117,9 @@ export function ParametersView({ gridColumn }) {
       gap="size-100"
       alignItems={'end'}
       gridColumn={gridColumn}
-      isHidden={!showParameters}
-      UNSAFE_style={{ overflow: 'auto' }}
+      UNSAFE_style={{
+        overflowY: 'auto', position: 'absolute', top: '0', bottom: '0',
+      }}
       width={'100%'}>
       {
         Object.entries(expressions).sort(compareExpressions).map(([name, params]) => {
@@ -125,16 +128,17 @@ export function ParametersView({ gridColumn }) {
           }
           const label = getComponentLabel(name, params.label);
           const type = getComponentType(params);
+          const parameterValue = parameters[name] ?? '';
 
           switch (type) {
             case 'spreadsheet':
-              console.log(params);
               return (
                 <SpreadSheetPicker
                   name={name}
                   label={label}
                   description={params.description}
                   spreadsheet={params.spreadsheet}
+                  value={parameterValue}
                   onChange={(value) => {
                     setParameters({ ...parameters, [name]: value });
                   }}
@@ -147,6 +151,8 @@ export function ParametersView({ gridColumn }) {
                   label={label}
                   description={<DescriptionLabel description={params.description}/>}
                   width="100%"
+                  value={parameterValue}
+                  minValue={0}
                   onChange={(value) => {
                     setParameters({ ...parameters, [name]: value });
                   }}
@@ -160,6 +166,7 @@ export function ParametersView({ gridColumn }) {
                   label={label}
                   description={<DescriptionLabel description={params.description}/>}
                   width="100%"
+                  value={parameterValue}
                   onChange={(value) => {
                     setParameters({ ...parameters, [name]: value });
                   }}
@@ -168,6 +175,7 @@ export function ParametersView({ gridColumn }) {
           }
         })
       }
+      <TemperatureSlider/>
     </Flex>
   );
 }

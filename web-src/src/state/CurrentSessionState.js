@@ -9,13 +9,10 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { selector } from 'recoil';
-import { promptState } from './PromptState.js';
-import { parseExpressions } from '../helpers/ExpressionParser.js';
+import { atom, useSetRecoilState } from 'recoil';
+import { sessionsState } from './SessionsState.js';
 
-export const expressionsState = selector({
-  key: 'expressionsState',
-  get: ({ get }) => {
-    return parseExpressions(get(promptState));
-  },
+export const currentSessionState = atom({
+  key: 'currentSessionState',
+  default: undefined,
 });

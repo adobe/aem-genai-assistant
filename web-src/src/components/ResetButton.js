@@ -9,13 +9,30 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { Link } from '@adobe/react-spectrum';
+import {
+  ActionButton, Image, Text,
+} from '@adobe/react-spectrum';
+import { useSetRecoilState } from 'recoil';
 import React from 'react';
 
-const USER_GUIDELINES_URL = 'https://www.adobe.com/legal/licenses-terms/adobe-gen-ai-user-guidelines.html';
+import ResetIcon from '../assets/reset.svg';
+import { parametersState } from '../state/ParametersState.js';
 
-export function UserGuidelinesLink() {
+export function ResetButton(props) {
+  const setParameters = useSetRecoilState(parametersState);
+
+  const handleReset = () => {
+    setParameters({});
+  };
+
   return (
-    <Link href={USER_GUIDELINES_URL} target="_blank">Generative AI User Guidelines</Link>
+    <ActionButton
+      {...props}
+      isQuiet
+      onPress={handleReset}
+      variant={''}>
+      <Image src={ResetIcon}/>
+      <Text>Reset</Text>
+    </ActionButton>
   );
 }

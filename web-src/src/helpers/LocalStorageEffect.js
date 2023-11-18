@@ -9,13 +9,18 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { selector } from 'recoil';
-import { promptState } from './PromptState.js';
-import { parseExpressions } from '../helpers/ExpressionParser.js';
-
-export const expressionsState = selector({
-  key: 'expressionsState',
-  get: ({ get }) => {
-    return parseExpressions(get(promptState));
-  },
-});
+export function createLocalStorageEffect(key) {
+  return function ({ setSelf, onSet }) {
+    const savedValue = localStorage.getItem(key);
+    if (savedValue != null) {
+      setSelf(JSON.parse(savedValue));
+    }
+    onSet((newValue, _, isReset) => {
+      if (isReset) {
+        localStorage.removeItem(key);
+      } else {
+        localStorage.setItem(key, JSON.stringify(newValue));
+      }
+    });
+  };
+}

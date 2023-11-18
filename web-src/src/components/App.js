@@ -12,84 +12,42 @@
 import React from 'react';
 import { ToastContainer } from '@react-spectrum/toast';
 import {
-  Flex, Grid, Text, ToggleButton, ActionButton,
+  Grid, ActionButton,
 } from '@adobe/react-spectrum';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import ResultsView from './ResultsView.js';
-import Editor from './Editor.js';
-import { ParametersView } from './ParametersView.js';
-import { PromptTemplatePicker } from './PromptTemplatePicker.js';
-import { useApplicationContext } from './ApplicationProvider.js';
-import { useAuthContext } from './AuthProvider.js';
-import { GenerateButton } from './GenerateButton.js';
-import { CreativitySlider } from './CreativitySlider.js';
-import { showPromptState } from '../state/ShowPromptState.js';
-import { sourceViewState } from '../state/SourceViewState.js';
-import { showParametersState } from '../state/ShowParametersState.js';
+import { useRecoilValue } from 'recoil';
 import { ConsentDialog } from './ConsentDialog.js';
+import { SidePanel } from './SidePanel.js';
+import { CurrentSessionPanel } from './CurrentSessionPanel.js';
+import { NewSessionPanel } from './NewSessionPanel.js';
+import { viewTypeState, ViewType } from '../state/ViewType.js';
+import { FavoritesPanel } from './FavoritesPanel.js';
 
-function getEditorGridColumns(showPrompt, showParameters) {
-  if (showPrompt && showParameters) {
-    return '1/span 1';
-  } else if (showPrompt) {
-    return '1/span 2';
+function getView(viewType) {
+  switch (viewType) {
+    case ViewType.CurrentSession:
+      return <CurrentSessionPanel />;
+    case ViewType.Favorites:
+      return <FavoritesPanel />;
+    default:
+      return <NewSessionPanel />;
   }
-  return '';
 }
 
-function getParametersGridColumns(showPrompt, showParameters) {
-  if (showPrompt && showParameters) {
-    return '2/span 1';
-  } else if (showParameters) {
-    return '1/span 2';
-  }
-  return '';
-}
-
-function getResultsGridColumns(showPrompt, showParameters) {
-  if (showPrompt || showParameters) {
-    return '3/span 1';
-  }
-  return '1/span 3';
-}
-
-function App() {
-  const { appVersion, imsAuthClient } = useApplicationContext();
-  const { onSignOut } = useAuthContext();
-  const [showPrompt, setShowPrompt] = useRecoilState(showPromptState);
-  const showParameters = useRecoilValue(showParametersState);
-  const [sourceView, setSourceView] = useRecoilState(sourceViewState);
+export function App() {
+  const viewType = useRecoilValue(viewTypeState);
   return (
     <>
       <ToastContainer />
       <ConsentDialog />
       <Grid
-        columns={['1.5fr', 'minmax(0, 300px)', '1fr']}
-        rows={['auto', '1fr', 'auto']}
+        columns={['300px', '1fr']}
+        rows={['100%']}
         gap={'size-300'}
-        UNSAFE_style={{ padding: '30px' }}
+        UNSAFE_style={{ padding: '25px 25px 0 25px' }}
         width="100%" height="100%">
-        <Flex direction={'row'} gap={'size-400'} alignItems={'end'} gridColumn={'1/span 3'}>
-          <PromptTemplatePicker />
-          <ToggleButton isSelected={sourceView}
-            onChange={setSourceView} isDisabled={!showPrompt} >Edit Mode</ToggleButton>
-          <ToggleButton isSelected={showPrompt}
-            onChange={setShowPrompt}>Show Prompt</ToggleButton>
-      </Flex>
-        <Editor gridColumn={getEditorGridColumns(showPrompt, showParameters)} />
-        <ParametersView gridColumn={getParametersGridColumns(showPrompt, showParameters)} />
-        <ResultsView gridColumn={getResultsGridColumns(showPrompt, showParameters)} />
-        <Flex direction={'row'} gap={'size-400'} alignItems={'center'} gridColumn={'1/span 2'}>
-          <GenerateButton />
-          <CreativitySlider />
-        </Flex>
-        <Flex direction={'row'} gap={'size-400'} alignItems={'center'} justifyContent={'end'}>
-          <Text justifySelf={'end'}>v{appVersion}</Text>
-          {imsAuthClient.imsActions.isSignedInUser() && <ActionButton UNSAFE_className="hover-cursor-pointer" onPress={onSignOut}>Sign Out</ActionButton>}
-        </Flex>
+        <SidePanel width="100%" height="100%" />
+        { getView(viewType) }
       </Grid>
     </>
   );
 }
-
-export default App;

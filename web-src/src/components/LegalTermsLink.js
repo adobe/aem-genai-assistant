@@ -9,9 +9,13 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom } from 'recoil';
+import { Link } from '@adobe/react-spectrum';
+import React from 'react';
 
-export const generationResultsState = atom({
-  key: 'generationResultsState',
-  default: [],
-});
+export const USER_GUIDELINES_URL = 'https://www.adobe.com/legal/licenses-terms/adobe-dx-gen-ai-user-guidelines.html';
+
+export function LegalTermsLink() {
+  return (
+    <Link href={USER_GUIDELINES_URL} target="_blank">Generative AI User Guidelines</Link>
+  );
+}

@@ -9,13 +9,19 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { selector } from 'recoil';
+import { useRecoilCallback } from 'recoil';
 import { currentSessionState } from './CurrentSessionState.js';
+import { sessionsState } from './SessionsState.js';
 
-export const promptState = selector({
-  key: 'promptState',
-  get: ({ get }) => {
-    return get(currentSessionState)?.prompt ?? '';
-  },
-  set: ({ set, get }, newValue) => set(currentSessionState, { ...get(currentSessionState), prompt: newValue }),
-});
+export function useSaveSession() {
+  return useRecoilCallback(({ snapshot, set }) => async () => {
+    const currentSession = await snapshot.getPromise(currentSessionState);
+    const sessions = await snapshot.getPromise(sessionsState);
+    const existingSession = sessions.find((session) => session.id === currentSession.id);
+    if (existingSession) {
+      set(sessionsState, sessions.map((session) => (session.id === currentSession.id ? currentSession : session)));
+    } else {
+      set(sessionsState, [...sessions, currentSession]);
+    }
+  }, []);
+}

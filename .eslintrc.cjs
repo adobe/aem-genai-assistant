@@ -17,6 +17,9 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended"
   ],
+  plugins: [
+    "react-hooks"
+  ],
   rules: {
     'no-console': 'off',
     'no-unused-vars': 'off',
@@ -27,7 +30,8 @@ module.exports = {
       'ignoreTemplateLiterals': true,
       'ignoreStrings': true,
       'code': 120
-    }]
+    }],
+    'react-hooks/rules-of-hooks': 'error'
   },
   env: {
     browser: true,

@@ -9,12 +9,18 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { selector } from 'recoil';
-import { expressionsState } from './ExpressionsState.js';
+import { atom, selector } from 'recoil';
+import { currentSessionState } from './CurrentSessionState.js';
 
-export const showParametersState = selector({
-  key: 'showParametersState',
+export const resultsState = selector({
+  key: 'resultsState',
   get: ({ get }) => {
-    return !!Object.keys(get(expressionsState)).length;
+    return get(currentSessionState)?.results ?? [];
+  },
+  set: ({ set, get }, newValue) => {
+    set(currentSessionState, {
+      ...get(currentSessionState),
+      results: newValue,
+    });
   },
 });

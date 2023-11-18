@@ -23,10 +23,7 @@ export function CurrentSessionPanel() {
       justifyContent={'stretch'}
       alignItems={'stretch'}
       gap={'size-300'}
-      height={'100%'}
-      UNSAFE_style={{
-        background: 'white', margin: '0 20px 0 20px', borderRadius: '20px 20px 0 0', border: '2px #e0e0e0 solid',
-      }}>
+      height={'100%'}>
       <PromptPropertiesPanel />
       <Grid UNSAFE_style={{ padding: '20px 20px 20px 0' }} columns={'1fr'} rows={['1fr', 'min-content']} alignItems={'center'} justifyContent={'center'} gap={25}>
         <Flex direction={'column'} UNSAFE_style={{

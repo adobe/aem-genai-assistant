@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Button, Content, ContextualHelp, Flex, Heading, Link, ProgressCircle, Text,
+  Button, Content, ContextualHelp, Flex, Heading, ProgressCircle,
 } from '@adobe/react-spectrum';
 import React, { useCallback } from 'react';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';

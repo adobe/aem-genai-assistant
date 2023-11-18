@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  ActionButton, Flex, Text, Tooltip, TooltipTrigger, View,
+  ActionButton, Flex, Tooltip, TooltipTrigger, View,
 } from '@adobe/react-spectrum';
 import React from 'react';
 import { css } from '@emotion/css';
@@ -21,7 +21,6 @@ import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 const styles = {
   card: css`
     padding: 10px;
-    margin: 10px;
     border: 1px solid #e0e0e0;
     border-radius: 10px;
   `,

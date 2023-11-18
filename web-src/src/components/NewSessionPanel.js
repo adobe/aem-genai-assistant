@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Grid, Heading, Image, Item, Text, View, Well,
+  Flex, Grid, Heading, Image, View,
 } from '@adobe/react-spectrum';
 
 import React, { useCallback, useEffect } from 'react';
@@ -22,7 +22,6 @@ import { promptTemplatesState } from '../state/PromptTemplatesState.js';
 import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
 import { PromptTemplateCard } from './PromptTemplateCard.js';
 import { NewButton } from './NewButton.js';
-import { sessionsState } from '../state/SessionsState.js';
 import { currentSessionState } from '../state/CurrentSessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
@@ -62,8 +61,9 @@ export function NewSessionPanel({ props }) {
       {...props}
       columns={['1fr']}
       rows={['min-content', 'min-content', '1fr']}
+      height={'100%'}
       UNSAFE_style={{
-        background: 'white', padding: '50px', margin: '0 20px 0 20px', borderRadius: '20px 20px 0 0', border: '2px #e0e0e0 solid', overflow: 'auto',
+        padding: '50px', overflow: 'auto',
       }}>
 
       <Flex

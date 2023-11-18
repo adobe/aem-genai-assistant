@@ -23,9 +23,8 @@ export function FavoritesPanel(props) {
 
   return (
     <View
-      UNSAFE_style={{
-        background: 'white', padding: '16px', margin: '0 20px 0 20px', borderRadius: '20px 20px 0 0', border: '2px #e0e0e0 solid',
-      }}
+      padding={'size-400'}
+      height={'100%'}
       overflow={'auto'}>
       <Heading level={4} alignSelf={'start'}>Favorites</Heading>
       <Grid

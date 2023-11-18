@@ -18,7 +18,8 @@ module.exports = {
     "plugin:react/recommended"
   ],
   plugins: [
-    "react-hooks"
+    "react-hooks",
+    "unused-imports"
   ],
   rules: {
     'no-console': 'off',
@@ -31,6 +32,7 @@ module.exports = {
       'ignoreStrings': true,
       'code': 120
     }],
+    'unused-imports/no-unused-imports': 'error',
     'react-hooks/rules-of-hooks': 'error'
   },
   env: {

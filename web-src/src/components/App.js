@@ -12,15 +12,26 @@
 import React from 'react';
 import { ToastContainer } from '@react-spectrum/toast';
 import {
-  Grid, ActionButton,
+  Grid,
 } from '@adobe/react-spectrum';
 import { useRecoilValue } from 'recoil';
+import { css } from '@emotion/css';
 import { ConsentDialog } from './ConsentDialog.js';
 import { SidePanel } from './SidePanel.js';
 import { CurrentSessionPanel } from './CurrentSessionPanel.js';
 import { NewSessionPanel } from './NewSessionPanel.js';
 import { viewTypeState, ViewType } from '../state/ViewType.js';
 import { FavoritesPanel } from './FavoritesPanel.js';
+
+const styles = {
+  container: css`
+    background: white;
+    margin: 0 20px 0 20px;
+    border-radius: 20px 20px 0 0;
+    border: 2px #e0e0e0 solid;
+    height: 100%;
+  `,
+};
 
 function getView(viewType) {
   switch (viewType) {
@@ -42,11 +53,13 @@ export function App() {
       <Grid
         columns={['300px', '1fr']}
         rows={['100%']}
-        gap={'size-300'}
+        gap={'size-200'}
         UNSAFE_style={{ padding: '25px 25px 0 25px' }}
         width="100%" height="100%">
         <SidePanel width="100%" height="100%" />
-        { getView(viewType) }
+        <div className={styles.container}>
+          { getView(viewType) }
+        </div>
       </Grid>
     </>
   );

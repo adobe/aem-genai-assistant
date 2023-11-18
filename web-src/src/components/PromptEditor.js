@@ -14,7 +14,7 @@ import { View } from '@adobe/react-spectrum';
 /* eslint-disable-next-line import/no-named-default */
 import { default as SimpleEditor } from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import 'prismjs/themes/prism.css';
 import { css } from '@emotion/css';
 import { renderExpressions } from '../helpers/ExpressionRenderer.js';

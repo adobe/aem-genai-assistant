@@ -34,19 +34,19 @@ function getWebsiteUrl() {
   return `https://${ref}--${repo}--${owner}.hlx.page`;
 }
 
-function getWebsiteUrlFromReferrer() {
-  /* eslint-disable-next-line no-undef */
-  const searchParams = new URLSearchParams(window.location.search);
-  if (!searchParams.has('referrer')) {
-    throw Error('It seems we\'re missing the referrer search parameter in your application.');
-  }
-  const referrer = searchParams.get('referrer');
-  const url = new URL(referrer ?? window.referrer);
-  return `${url.protocol}//${url.host}`;
-}
+// function getWebsiteUrlFromReferrer() {
+//   /* eslint-disable-next-line no-undef */
+//   const searchParams = new URLSearchParams(window.location.search);
+//   if (!searchParams.has('referrer')) {
+//     throw Error('It seems we\'re missing the referrer search parameter in your application.');
+//   }
+//   const referrer = searchParams.get('referrer');
+//   const url = new URL(referrer ?? window.referrer);
+//   return `${url.protocol}//${url.host}`;
+// }
 
 function createApplication(config) {
-  const websiteUrl = getWebsiteUrlFromReferrer();
+  const websiteUrl = getWebsiteUrl();
   console.log(`Website URL: ${websiteUrl}`);
   return {
     appVersion: APP_VERSION,
@@ -80,7 +80,6 @@ export const ApplicationProvider = ({ children }) => {
   }
 
   page.done();
-
 
   try {
     return (

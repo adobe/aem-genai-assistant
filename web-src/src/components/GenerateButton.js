@@ -19,7 +19,7 @@ import { v4 as uuid } from 'uuid';
 import SenseiGenAIIcon from '../icons/GenAIIcon.js';
 import { renderExpressions } from '../helpers/ExpressionRenderer.js';
 import { useApplicationContext } from './ApplicationProvider.js';
-import { useAuthContext } from './ShellAuthProvider.js';
+import { useShellAuthContext } from './ShellAuthProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { temperatureState } from '../state/TemperatureState.js';
 import { resultsState } from '../state/ResultsState.js';
@@ -56,7 +56,7 @@ function createVariants(response) {
 
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
-  const { user } = useAuthContext();
+  const { user } = useShellAuthContext();
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
   const temperature = useRecoilValue(temperatureState);

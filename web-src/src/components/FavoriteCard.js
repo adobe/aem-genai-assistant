@@ -16,6 +16,7 @@ import React from 'react';
 import { css } from '@emotion/css';
 import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
+import { motion } from 'framer-motion';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 
 const styles = {
@@ -34,34 +35,39 @@ export function FavoriteCard({ variant, ...props }) {
   const toggleFavorite = useToggleFavorite();
 
   return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ ease: 'easeIn', duration: 0.3 }}>
     <View
       {...props}
       UNSAFE_className={styles.card}>
       <div className={styles.variant}>{variant.content}</div>
-      <View
-        borderRadius="regular"
-        paddingRight="24px">
-        <Flex direction="row" gap="size-100" justifyContent="left">
-          <TooltipTrigger delay={0}>
-            <ActionButton
-              isQuiet
-              UNSAFE_className="hover-cursor-pointer"
-              onPress={() => navigator.clipboard.writeText(variant.content)}>
-              <Copy />
-            </ActionButton>
-            <Tooltip>Copy</Tooltip>
-          </TooltipTrigger>
-          <TooltipTrigger delay={0}>
-            <ActionButton
-              isQuiet U
-              NSAFE_className="hover-cursor-pointer"
-              onPress={() => toggleFavorite(variant)}>
-              <Delete />
-            </ActionButton>
-            <Tooltip>Remove</Tooltip>
-          </TooltipTrigger>
-        </Flex>
+        <View
+          borderRadius="regular"
+          paddingRight="24px">
+          <Flex direction="row" gap="size-100" justifyContent="left">
+            <TooltipTrigger delay={0}>
+              <ActionButton
+                isQuiet
+                UNSAFE_className="hover-cursor-pointer"
+                onPress={() => navigator.clipboard.writeText(variant.content)}>
+                <Copy />
+              </ActionButton>
+              <Tooltip>Copy</Tooltip>
+            </TooltipTrigger>
+            <TooltipTrigger delay={0}>
+              <ActionButton
+                isQuiet U
+                NSAFE_className="hover-cursor-pointer"
+                onPress={() => toggleFavorite(variant)}>
+                <Delete />
+              </ActionButton>
+              <Tooltip>Remove</Tooltip>
+            </TooltipTrigger>
+          </Flex>
+        </View>
       </View>
-    </View>
+    </motion.div>
   );
 }

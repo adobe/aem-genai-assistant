@@ -31,15 +31,14 @@ export const ShellAuthProvider = ({ children }) => {
     });
   }, [config]);
 
-  // When the user changes, invoke isAuthorized function and display an error message in the UI if the user is not authorized
-  // Otherwise, display the application
+  // When the user changes, invoke isAuthorized function and display an error message in the UI 
+  // if the user is not authorized
   useEffect(() => {
     if (user) {
       setIsUserAuthorized(isAuthorized(user));
       if (!isAuthorized(user)) {
         ToastQueue.negative('Oops it looks like you don\'t have access to this feature. Please ask you Administrator to give you access !', { timeout: 2000 });
       }
-
     }
   }, [user]);
 

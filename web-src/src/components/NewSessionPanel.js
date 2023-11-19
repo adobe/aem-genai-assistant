@@ -10,37 +10,28 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Grid, Heading, Image, View,
+  Flex, Grid, Heading, Image,
 } from '@adobe/react-spectrum';
 
-import React, { useCallback, useEffect } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import React, { useCallback } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { v4 as uuid } from 'uuid';
 import NewSessionBanner from '../assets/new-session-banner.png';
-import { useApplicationContext } from './ApplicationProvider.js';
-import { promptTemplatesState } from '../state/PromptTemplatesState.js';
-import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
 import { PromptTemplateCard } from './PromptTemplateCard.js';
 import { NewButton } from './NewButton.js';
-import { currentSessionState } from '../state/CurrentSessionState.js';
+import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
 import { SignOutButton } from './SignOutButton.js';
-
-const PROMPT_TEMPLATES_FILENAME = 'prompttemplates.json';
+import { promptTemplateCollectionState } from '../state/PromptTemplateCollectionState.js';
 
 export function NewSessionPanel({ props }) {
-  const { websiteUrl } = useApplicationContext();
-  const [promptTemplates, setPromptTemplates] = useRecoilState(promptTemplatesState);
-  const setCurrentSession = useSetRecoilState(currentSessionState);
+  const promptTemplateCollection = useRecoilValue(promptTemplateCollectionState);
+  const setCurrentSession = useSetRecoilState(sessionState);
   const setViewType = useSetRecoilState(viewTypeState);
 
-  useEffect(() => {
-    parseSpreadSheet(`${websiteUrl}/${PROMPT_TEMPLATES_FILENAME}`).then(setPromptTemplates);
-  }, [websiteUrl, setPromptTemplates]);
-
   const promptSelectionHandler = useCallback((selected) => {
-    const selectedTemplate = promptTemplates[selected];
+    const selectedTemplate = promptTemplateCollection[selected];
 
     const timestamp = Date.now();
 
@@ -52,9 +43,10 @@ export function NewSessionPanel({ props }) {
       prompt: selectedTemplate.template,
       results: [],
     };
+
     setCurrentSession(session);
     setViewType(ViewType.CurrentSession);
-  }, [promptTemplates, setCurrentSession]);
+  }, [promptTemplateCollection, setCurrentSession]);
 
   return (
     <Grid
@@ -89,23 +81,21 @@ export function NewSessionPanel({ props }) {
 
       <Heading level={4} alignSelf={'start'}>Prompts</Heading>
 
-      <View>
-        <Grid
-          width={'100%'}
-          alignItems={'center'}
-          columns={'repeat(auto-fill, minmax(250px, 1fr))'} gap={'size-200'}>
-          {
-            promptTemplates
-              && promptTemplates
-                .map((template, index) => (
-                  <PromptTemplateCard
-                    key={index}
-                    template={template}
-                    onClick={() => promptSelectionHandler(index)} />
-                ))
-          }
-        </Grid>
-      </View>
+      <Grid
+        width={'100%'}
+        alignItems={'center'}
+        columns={'repeat(auto-fill, minmax(250px, 1fr))'} gap={'size-200'}>
+        {
+          promptTemplateCollection
+            && promptTemplateCollection
+              .map((template, index) => (
+                <PromptTemplateCard
+                  key={index}
+                  template={template}
+                  onClick={() => promptSelectionHandler(index)} />
+              ))
+        }
+      </Grid>
     </Grid>
   );
 }

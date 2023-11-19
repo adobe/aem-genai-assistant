@@ -10,18 +10,18 @@
  * governing permissions and limitations under the License.
  */
 import { useRecoilCallback } from 'recoil';
-import { currentSessionState } from './CurrentSessionState.js';
-import { sessionsState } from './SessionsState.js';
+import { sessionState } from './SessionState.js';
+import { sessionCollectionState } from './SessionCollectionState.js';
 
 export function useSaveSession() {
   return useRecoilCallback(({ snapshot, set }) => async () => {
-    const currentSession = await snapshot.getPromise(currentSessionState);
-    const sessions = await snapshot.getPromise(sessionsState);
+    const currentSession = await snapshot.getPromise(sessionState);
+    const sessions = await snapshot.getPromise(sessionCollectionState);
     const existingSession = sessions.find((session) => session.id === currentSession.id);
     if (existingSession) {
-      set(sessionsState, sessions.map((session) => (session.id === currentSession.id ? currentSession : session)));
+      set(sessionCollectionState, sessions.map((session) => (session.id === currentSession.id ? currentSession : session)));
     } else {
-      set(sessionsState, [...sessions, currentSession]);
+      set(sessionCollectionState, [...sessions, currentSession]);
     }
   }, []);
 }

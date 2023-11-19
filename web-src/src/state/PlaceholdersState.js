@@ -9,9 +9,16 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom } from 'recoil';
+import { selector } from 'recoil';
+import { promptState } from './PromptState.js';
+import { parseExpressions } from '../helpers/ExpressionParser.js';
+import { promptTemplateLibraryState } from './PromptTemplateLibraryState.js';
 
-export const currentSessionState = atom({
-  key: 'currentSessionState',
-  default: undefined,
+export const placeholdersState = selector({
+  key: 'placeholdersState',
+  get: async ({ get }) => {
+    const { placeholders } = await get(promptTemplateLibraryState);
+    const parsedPlaceholders = parseExpressions(get(promptState));
+    return { ...parsedPlaceholders, ...placeholders };
+  },
 });

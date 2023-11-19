@@ -9,10 +9,10 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ToastContainer } from '@react-spectrum/toast';
 import {
-  Grid,
+  Grid, ProgressCircle,
 } from '@adobe/react-spectrum';
 import { useRecoilValue } from 'recoil';
 import { css } from '@emotion/css';
@@ -58,7 +58,9 @@ export function App() {
         width="100%" height="100%">
         <SidePanel width="100%" height="100%" />
         <div className={styles.container}>
-          { getView(viewType) }
+          <Suspense fallback={<ProgressCircle/>}>
+            { getView(viewType) }
+          </Suspense>
         </div>
       </Grid>
     </>

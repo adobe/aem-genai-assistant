@@ -17,7 +17,7 @@ import { highlight, languages } from 'prismjs/components/prism-core';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import 'prismjs/themes/prism.css';
 import { css } from '@emotion/css';
-import { renderExpressions } from '../helpers/ExpressionRenderer.js';
+import { renderPrompt } from '../helpers/PromptRenderer.js';
 
 import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
@@ -75,7 +75,7 @@ function PromptEditor(props) {
         className={style.editor}
         onFocus={() => setViewSource(true)}
         onBlur={() => setViewSource(false)}
-        value={viewSource ? prompt : renderExpressions(prompt, parameters)}
+        value={viewSource ? prompt : renderPrompt(prompt, parameters)}
         onValueChange={setPrompt}
         highlight={(code) => highlight(code, languages.custom, 'custom')}
         readOnly={!viewSource}

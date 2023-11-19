@@ -10,12 +10,12 @@
  * governing permissions and limitations under the License.
  */
 import { selector } from 'recoil';
-import { promptState } from './PromptState.js';
-import { parseExpressions } from '../helpers/ExpressionParser.js';
+import { promptTemplateLibraryState } from './PromptTemplateLibraryState.js';
 
-export const expressionsState = selector({
-  key: 'expressionsState',
-  get: ({ get }) => {
-    return parseExpressions(get(promptState));
+export const promptTemplateCollectionState = selector({
+  key: 'promptTemplateCollectionState',
+  get: async ({ get }) => {
+    const { promptTemplates } = await get(promptTemplateLibraryState);
+    return promptTemplates;
   },
 });

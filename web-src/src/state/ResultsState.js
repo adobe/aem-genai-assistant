@@ -10,16 +10,16 @@
  * governing permissions and limitations under the License.
  */
 import { selector } from 'recoil';
-import { currentSessionState } from './CurrentSessionState.js';
+import { sessionState } from './SessionState.js';
 
 export const resultsState = selector({
   key: 'resultsState',
   get: ({ get }) => {
-    return get(currentSessionState)?.results ?? [];
+    return get(sessionState)?.results ?? [];
   },
   set: ({ set, get }, newValue) => {
-    set(currentSessionState, {
-      ...get(currentSessionState),
+    set(sessionState, {
+      ...get(sessionState),
       results: newValue,
     });
   },

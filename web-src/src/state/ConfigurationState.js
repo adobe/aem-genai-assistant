@@ -10,12 +10,8 @@
  * governing permissions and limitations under the License.
  */
 import { atom } from 'recoil';
-import { createLocalStorageEffect } from '../helpers/LocalStorageEffect.js';
 
-const LOCAL_STORAGE_KEY = 'sessions';
-
-export const sessionsState = atom({
-  key: 'sessionsState',
-  default: [],
-  effects: [createLocalStorageEffect(LOCAL_STORAGE_KEY)],
+export const configurationState = atom({
+  key: 'configurationState',
+  default: undefined,
 });

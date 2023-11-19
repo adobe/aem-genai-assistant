@@ -21,7 +21,7 @@ import { GenerateButton } from './GenerateButton.js';
 import GenerateIcon from '../assets/generate.svg';
 import ChevronLeft from '../assets/chevron-left.svg';
 import { ResetButton } from './ResetButton.js';
-import { currentSessionState } from '../state/CurrentSessionState.js';
+import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 
 const styles = {
@@ -56,7 +56,7 @@ const styles = {
 };
 
 export function PromptPropertiesPanel(props) {
-  const currentSession = useRecoilValue(currentSessionState);
+  const currentSession = useRecoilValue(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
 
   return (

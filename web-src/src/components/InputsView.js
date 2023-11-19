@@ -18,7 +18,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { LinkLabel } from './LinkLabel.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
-import { expressionsState } from '../state/ExpressionsState.js';
+import { placeholdersState } from '../state/PlaceholdersState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { TemperatureSlider } from './TemperatureSlider.js';
 
@@ -26,7 +26,7 @@ function getIndexByValue(items, value) {
   return items.findIndex((item) => item.value === value);
 }
 
-function compareExpressions([a, { order: aorder }], [b, { order: border }]) {
+function comparePlaceholders([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
     return -1;
   } else if (aorder > border) {
@@ -35,7 +35,7 @@ function compareExpressions([a, { order: aorder }], [b, { order: border }]) {
   return 0;
 }
 
-function expressionNameToLabel(name) {
+function placeholderNameToLabel(name) {
   let label = name.replace(/[_-]/g, ' ');
   label = label.replace(/([a-z])([A-Z])/g, (match, p1, p2) => `${p1} ${p2}`);
   const words = label.trim().split(/\s+/);
@@ -43,7 +43,7 @@ function expressionNameToLabel(name) {
 }
 
 function getComponentLabel(name, label) {
-  return label || expressionNameToLabel(name);
+  return label || placeholderNameToLabel(name);
 }
 
 function getComponentType(params) {
@@ -103,12 +103,12 @@ function SpreadSheetPicker({
 }
 
 export function InputsView({ gridColumn }) {
-  const expressions = useRecoilValue(expressionsState);
+  const placeholders = useRecoilValue(placeholdersState);
   const [parameters, setParameters] = useRecoilState(parametersState);
 
   useEffect(() => {
     setParameters({});
-  }, [expressions]);
+  }, [placeholders]);
 
   return (
     <Flex
@@ -121,7 +121,7 @@ export function InputsView({ gridColumn }) {
       }}
       width={'100%'}>
       {
-        Object.entries(expressions).sort(compareExpressions).map(([name, params]) => {
+        Object.entries(placeholders).sort(comparePlaceholders).map(([name, params]) => {
           if (params.comment) {
             return null;
           }

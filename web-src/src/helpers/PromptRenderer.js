@@ -22,7 +22,7 @@ function isBlankValue(value) {
   return value === null || value === undefined;
 }
 
-function replacePlaceholders(str, valuesMap) {
+function resolvePlaceholders(str, valuesMap) {
   return str.replace(EXPRESSION_REGEX, (match) => {
     const [[_, modifier, identifier]] = match.matchAll(EXPRESSION_REGEX);
     if (modifier === '#' || modifier === '@') {
@@ -39,6 +39,6 @@ function removeEmptyLines(text) {
   return text.replace(/\n\s*\n/g, '\n\n');
 }
 
-export function renderExpressions(prompt, expressions) {
-  return removeEmptyLines(replacePlaceholders(prompt, expressions));
+export function renderPrompt(prompt, placeholders) {
+  return removeEmptyLines(resolvePlaceholders(prompt, placeholders));
 }

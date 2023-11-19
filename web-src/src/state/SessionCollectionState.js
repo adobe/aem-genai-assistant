@@ -9,13 +9,13 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { selector } from 'recoil';
-import { sessionState } from './SessionState.js';
+import { atom } from 'recoil';
+import { createLocalStorageEffect } from '../helpers/LocalStorageEffect.js';
 
-export const promptState = selector({
-  key: 'promptState',
-  get: ({ get }) => {
-    return get(sessionState)?.prompt ?? '';
-  },
-  set: ({ set, get }, newValue) => set(sessionState, { ...get(sessionState), prompt: newValue }),
+const LOCAL_STORAGE_KEY = 'sessions';
+
+export const sessionCollectionState = atom({
+  key: 'sessionCollectionState',
+  default: [],
+  effects: [createLocalStorageEffect(LOCAL_STORAGE_KEY)],
 });

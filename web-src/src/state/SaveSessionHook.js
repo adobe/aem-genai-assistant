@@ -19,7 +19,9 @@ export function useSaveSession() {
     const sessions = await snapshot.getPromise(sessionCollectionState);
     const existingSession = sessions.find((session) => session.id === currentSession.id);
     if (existingSession) {
-      set(sessionCollectionState, sessions.map((session) => (session.id === currentSession.id ? currentSession : session)));
+      set(sessionCollectionState, sessions.map((session) => {
+        return (session.id === currentSession.id ? currentSession : session);
+      }));
     } else {
       set(sessionCollectionState, [...sessions, currentSession]);
     }

@@ -16,7 +16,7 @@ import { highlight, languages } from 'prismjs/components/prism-core';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { css, injectGlobal } from '@emotion/css';
 import { Global } from '@emotion/react';
-import { renderExpressions } from '../helpers/ExpressionRenderer.js';
+import { NO_VALUE_STRING, renderExpressions } from '../helpers/ExpressionRenderer.js';
 
 import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
@@ -24,31 +24,30 @@ import { parametersState } from '../state/ParametersState.js';
 languages.custom = {
   function: /{[^@#]([^{}]+)}/,
   keyword: /{@([^{}]+)}/,
-  regex: /<please select>/,
+  regex: new RegExp(`${NO_VALUE_STRING}`),
   comment: /{#([^{}]+)}/,
 };
 
 const style = {
-  container: css`
+  frame: css`
     width: 100%;
     height: 150px;
-    position: relative;
-    overflow: auto;
-    padding: 15px;
     border: 1px solid #ccc;
     border-radius: 8px;
+    padding: 10px;
   `,
   editable: css`
-    box-shadow: 
-      0px -10px 20px -20px rgba(0,0,0,0.45),
-      10px 0px 20px -20px rgba(0,0,0,0.45),
-      0px 10px 20px -20px rgba(0,0,0,0.45),
-      -10px 0px 20px -20px rgba(0,0,0,0.45);
     background-color: white;
     height: 500px;
+    border: 2px solid #ccc;
+  `,
+  container: css`
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: auto;
   `,
   editor: css`
-    color: var(--palette-gray-600, var(--palette-gray-600, #6D6D6D));
     font-family: Adobe Clean,serif;
     font-size: 14px;
     font-style: normal;
@@ -67,33 +66,37 @@ function PromptEditor(props) {
   const parameters = useRecoilValue(parametersState);
 
   return (
-    <div
-      {...props}
-      className={[style.container, viewSource && style.editable].join(' ')}>
+    <div {...props} className={[style.frame, viewSource && style.editable].join(' ')}>
       <Global styles={injectGlobal`
-        .token.function, .token.regex {
+        .token.regex {
           font-weight: bold !important;
           color: #0095ff !important;
         }
-        .token.keyword {
-          font-weight: bold !important;
-          color: #099300 !important;
+
+        .token.function, .token.regex {
+          color: #0095ff !important;
         }
+
+        .token.keyword {
+          color: #b25b5b !important;
+        }
+
         .token.comment {
-          font-weight: bold !important;
-          color: #abc2c9 !important;
+          color: #8a8a8a !important;
         }
       `}/>
-      <SimpleEditor
-        className={style.editor}
-        onFocus={() => setViewSource(true)}
-        onBlur={() => setViewSource(false)}
-        value={viewSource ? prompt : renderExpressions(prompt, parameters)}
-        onValueChange={setPrompt}
-        highlight={(code) => highlight(code, languages.custom, 'custom')}
-        style={{ minHeight: '100%' }}
-        readOnly={!viewSource}
-      />
+      <div className={style.container}>
+        <SimpleEditor
+          className={style.editor}
+          onFocus={() => setViewSource(true)}
+          onBlur={() => setViewSource(false)}
+          value={viewSource ? prompt : renderExpressions(prompt, parameters)}
+          onValueChange={setPrompt}
+          highlight={(code) => highlight(code, languages.custom, 'custom')}
+          style={{ minHeight: '100%' }}
+          readOnly={!viewSource}
+        />
+      </div>
     </div>
   );
 }

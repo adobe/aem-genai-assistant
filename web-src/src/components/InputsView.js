@@ -23,7 +23,7 @@ import { parametersState } from '../state/ParametersState.js';
 import { TemperatureSlider } from './TemperatureSlider.js';
 
 function getIndexByValue(items, value) {
-  return items.findIndex((item) => item.value === value);
+  return items.findIndex((item) => item.value.includes(value));
 }
 
 function comparePlaceholders([a, { order: aorder }], [b, { order: border }]) {

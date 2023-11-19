@@ -14,11 +14,13 @@ import { wretchRetry } from '../../../actions/Network.js';
 import { configurationState } from './ConfigurationState.js';
 
 function parsePromptTemplates(data) {
-  return data.map(({ Label, Description, Template }) => {
+  return data.map(({
+    Label, Description, Prompt, Template,
+  }) => {
     return {
       label: Label,
       description: Description,
-      template: Template,
+      template: Prompt || Template || '',
     };
   });
 }

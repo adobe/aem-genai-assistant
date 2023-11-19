@@ -10,13 +10,12 @@
  * governing permissions and limitations under the License.
  */
 import React, { useState } from 'react';
-import { View } from '@adobe/react-spectrum';
 /* eslint-disable-next-line import/no-named-default */
 import { default as SimpleEditor } from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import 'prismjs/themes/prism.css';
-import { css } from '@emotion/css';
+import { css, injectGlobal } from '@emotion/css';
+import { Global } from '@emotion/react';
 import { renderExpressions } from '../helpers/ExpressionRenderer.js';
 
 import { promptState } from '../state/PromptState.js';
@@ -68,9 +67,23 @@ function PromptEditor(props) {
   const parameters = useRecoilValue(parametersState);
 
   return (
-    <View
+    <div
       {...props}
-      UNSAFE_className={[style.container, viewSource && style.editable].join(' ')}>
+      className={[style.container, viewSource && style.editable].join(' ')}>
+      <Global styles={injectGlobal`
+        .token.function, .token.regex {
+          font-weight: bold !important;
+          color: #0095ff !important;
+        }
+        .token.keyword {
+          font-weight: bold !important;
+          color: #099300 !important;
+        }
+        .token.comment {
+          font-weight: bold !important;
+          color: #abc2c9 !important;
+        }
+      `}/>
       <SimpleEditor
         className={style.editor}
         onFocus={() => setViewSource(true)}
@@ -78,9 +91,10 @@ function PromptEditor(props) {
         value={viewSource ? prompt : renderExpressions(prompt, parameters)}
         onValueChange={setPrompt}
         highlight={(code) => highlight(code, languages.custom, 'custom')}
+        style={{ minHeight: '100%' }}
         readOnly={!viewSource}
       />
-    </View>
+    </div>
   );
 }
 

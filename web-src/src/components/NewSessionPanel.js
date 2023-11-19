@@ -10,12 +10,13 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Grid, Heading, Image,
+  Flex, Grid, Heading, Image, ProgressCircle,
 } from '@adobe/react-spectrum';
 
-import React, { useCallback } from 'react';
+import React, { Suspense, useCallback } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { v4 as uuid } from 'uuid';
+import { ErrorBoundary } from 'react-error-boundary';
 import NewSessionBanner from '../assets/new-session-banner.png';
 import { PromptTemplateCard } from './PromptTemplateCard.js';
 import { NewButton } from './NewButton.js';
@@ -23,18 +24,35 @@ import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
 import { SignOutButton } from './SignOutButton.js';
-import { promptTemplateCollectionState } from '../state/PromptTemplateCollectionState.js';
+import { promptTemplateListState } from '../state/PromptTemplateListState.js';
+
+function PromptTemplateListView({ onSelect }) {
+  const promptTemplates = useRecoilValue(promptTemplateListState);
+  return (
+    <Grid
+      width={'100%'}
+      alignItems={'center'}
+      columns={'repeat(auto-fill, minmax(250px, 1fr))'} gap={'size-200'}>
+      {
+        promptTemplates
+        && promptTemplates
+          .map((template, index) => (
+            <PromptTemplateCard
+              key={index}
+              template={template}
+              onClick={() => onSelect(promptTemplates[index])} />
+          ))
+      }
+    </Grid>
+  );
+}
 
 export function NewSessionPanel({ props }) {
-  const promptTemplateCollection = useRecoilValue(promptTemplateCollectionState);
   const setCurrentSession = useSetRecoilState(sessionState);
   const setViewType = useSetRecoilState(viewTypeState);
 
-  const promptSelectionHandler = useCallback((selected) => {
-    const selectedTemplate = promptTemplateCollection[selected];
-
+  const handleSelect = useCallback((selectedTemplate) => {
     const timestamp = Date.now();
-
     const session = {
       id: uuid(),
       name: `${selectedTemplate.label} ${formatTimestamp(timestamp)}`,
@@ -43,10 +61,9 @@ export function NewSessionPanel({ props }) {
       prompt: selectedTemplate.template,
       results: [],
     };
-
     setCurrentSession(session);
     setViewType(ViewType.CurrentSession);
-  }, [promptTemplateCollection, setCurrentSession]);
+  }, [setCurrentSession, setViewType]);
 
   return (
     <Grid
@@ -81,21 +98,11 @@ export function NewSessionPanel({ props }) {
 
       <Heading level={4} alignSelf={'start'}>Prompts</Heading>
 
-      <Grid
-        width={'100%'}
-        alignItems={'center'}
-        columns={'repeat(auto-fill, minmax(250px, 1fr))'} gap={'size-200'}>
-        {
-          promptTemplateCollection
-            && promptTemplateCollection
-              .map((template, index) => (
-                <PromptTemplateCard
-                  key={index}
-                  template={template}
-                  onClick={() => promptSelectionHandler(index)} />
-              ))
-        }
-      </Grid>
+      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+        <Suspense fallback={<ProgressCircle isIndeterminate />}>
+          <PromptTemplateListView onSelect={handleSelect} />
+        </Suspense>
+      </ErrorBoundary>
     </Grid>
   );
 }

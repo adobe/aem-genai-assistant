@@ -14,8 +14,8 @@ import { createLocalStorageEffect } from '../helpers/LocalStorageEffect.js';
 
 const LOCAL_STORAGE_KEY = 'sessions';
 
-export const sessionCollectionState = atom({
-  key: 'sessionCollectionState',
+export const sessionListState = atom({
+  key: 'sessionListState',
   default: [],
   effects: [createLocalStorageEffect(LOCAL_STORAGE_KEY)],
 });

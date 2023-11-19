@@ -25,13 +25,13 @@ import RecentsIcon from '../assets/recents.svg';
 import HelpIcon from '../assets/help.svg';
 import FileTxt from '../assets/file-txt.svg';
 
-import { sessionCollectionState } from '../state/SessionCollectionState.js';
+import { sessionListState } from '../state/SessionListState.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 
 export function SidePanel(props) {
   const { appVersion } = useApplicationContext();
-  const sessions = useRecoilValue(sessionCollectionState);
+  const sessions = useRecoilValue(sessionListState);
   const [currentSession, setCurrentSession] = useRecoilState(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
 

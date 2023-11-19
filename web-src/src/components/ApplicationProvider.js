@@ -34,10 +34,16 @@ function getWebsiteUrl() {
   return `https://${ref}--${repo}--${owner}.hlx.page`;
 }
 
+function getPromptTemplateLibraryPath() {
+  const searchParams = new URLSearchParams(window.location.search);
+  return searchParams.get('prompts') || 'prompttemplates';
+}
+
 function getConfiguration() {
   return {
     appVersion: APP_VERSION,
     websiteUrl: getWebsiteUrl(),
+    promptTemplateLibraryPath: getPromptTemplateLibraryPath(),
   };
 }
 

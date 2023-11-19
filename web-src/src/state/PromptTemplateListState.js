@@ -12,8 +12,8 @@
 import { selector } from 'recoil';
 import { promptTemplateLibraryState } from './PromptTemplateLibraryState.js';
 
-export const promptTemplateCollectionState = selector({
-  key: 'promptTemplateCollectionState',
+export const promptTemplateListState = selector({
+  key: 'promptTemplateListState',
   get: async ({ get }) => {
     const { promptTemplates } = await get(promptTemplateLibraryState);
     return promptTemplates;

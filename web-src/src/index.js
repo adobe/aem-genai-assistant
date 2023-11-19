@@ -16,15 +16,13 @@ import {
 } from 'recoil';
 
 import { defaultTheme, Provider } from '@adobe/react-spectrum';
-/* eslint-disable import/no-extraneous-dependencies */
 import React from 'react';
 import { App } from './components/App.js';
 import { ApplicationProvider } from './components/ApplicationProvider.js';
 import { AuthProvider } from './components/AuthProvider.js';
 import './index.css';
 
-// eslint-disable-next-line react/no-deprecated
-ReactDOM.render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <RecoilRoot>
     <ApplicationProvider>
       <Provider colorScheme="light" theme={defaultTheme} width="100%" height="100%">

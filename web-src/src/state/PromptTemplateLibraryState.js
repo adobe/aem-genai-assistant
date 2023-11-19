@@ -13,56 +13,66 @@ import { selector } from 'recoil';
 import { wretchRetry } from '../../../actions/Network.js';
 import { configurationState } from './ConfigurationState.js';
 
-const PROMPT_TEMPLATES_FILENAME = 'prompttemplatelibrary.json';
+function parsePromptTemplates(data) {
+  return data.map(({ Label, Description, Template }) => {
+    return {
+      label: Label,
+      description: Description,
+      template: Template,
+    };
+  });
+}
+
+function parsePlaceholders(data) {
+  return data.reduce((acc, row) => {
+    const {
+      Name, Type, Label, Description, Default, Options,
+    } = row;
+    return {
+      ...acc,
+      [Name]: {
+        type: Type === 'select' ? 'spreadsheet' : Type,
+        label: Label,
+        description: Description,
+        default: Default,
+        options: Options,
+        spreadsheet: Type === 'select' ? Options : undefined,
+      },
+    };
+  }, {});
+}
 
 export const promptTemplateLibraryState = selector({
   key: 'promptTemplateLibraryState',
+
   get: async ({ get }) => {
-    const { websiteUrl } = get(configurationState);
+    try {
+      const { websiteUrl, promptTemplateLibraryPath } = get(configurationState);
+      const url = `${websiteUrl}/${promptTemplateLibraryPath.toLowerCase()}.json`;
 
-    const {
-      ':type': type, data, prompts, placeholders,
-    } = await wretchRetry(`${websiteUrl}/${PROMPT_TEMPLATES_FILENAME}`).get().json();
+      const {
+        ':type': type, data, prompts, placeholders,
+      } = await wretchRetry(url).get().json();
 
-    if (type === 'sheet') {
-      return {
-        promptTemplates: data.map(({ Label, Description, Template }) => {
-          return {
-            label: Label,
-            description: Description,
-            template: Template,
-          };
-        }),
-        placeholders: {},
-      };
-    } else if (type === 'multi-sheet') {
-      return {
-        promptTemplates: prompts.data.map(({ Label, Description, Prompt }) => {
-          return {
-            label: Label,
-            description: Description,
-            template: Prompt,
-          };
-        }),
-        placeholders: placeholders.data.reduce((acc, row) => {
-          const {
-            Name, Type, Label, Description, Default, Options,
-          } = row;
-          return {
-            ...acc,
-            [Name]: {
-              type: Type === 'select' ? 'spreadsheet' : Type,
-              label: Label,
-              description: Description,
-              default: Default,
-              options: Options,
-              spreadsheet: Type === 'select' ? Options : undefined,
-            },
-          };
-        }, {}),
-      };
+      if (type === 'sheet') {
+        return {
+          promptTemplates: parsePromptTemplates(data),
+          placeholders: {},
+        };
+      } else if (type === 'multi-sheet') {
+        return {
+          promptTemplates: parsePromptTemplates(prompts.data),
+          placeholders: parsePlaceholders(placeholders.data),
+        };
+      }
+      console.error(`Unknown spreadsheet type: ${type}`);
+    } catch (e) {
+      console.error(e);
     }
 
-    throw new Error(`Unknown spreadsheet type: ${type}`);
+    return {
+      promptTemplates: [],
+      placeholders: {},
+    };
   },
 });

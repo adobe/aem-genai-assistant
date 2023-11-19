@@ -64,15 +64,12 @@ export const promptTemplateLibraryState = selector({
           promptTemplates: parsePromptTemplates(prompts.data),
           placeholders: parsePlaceholders(placeholders.data),
         };
+      } else {
+        throw new Error(`Unknown prompt template library type: ${type}`);
       }
-      console.error(`Unknown spreadsheet type: ${type}`);
     } catch (e) {
       console.error(e);
+      throw new Error('Unable to load prompt template library');
     }
-
-    return {
-      promptTemplates: [],
-      placeholders: {},
-    };
   },
 });

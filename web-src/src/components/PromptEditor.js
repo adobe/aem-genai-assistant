@@ -44,7 +44,7 @@ const style = {
   container: css`
     width: 100%;
     height: 100%;
-    position: relative;
+    position: relative; 
     overflow: auto;
   `,
   editor: css`
@@ -69,6 +69,12 @@ function PromptEditor(props) {
   useEffect(() => {
     setPrompt(promptText);
   }, [promptText, setPrompt]);
+
+  useEffect(() => {
+    if (!viewSource) {
+      setPromptText(prompt);
+    }
+  }, [prompt, setPromptText]);
 
   return (
     <div {...props} className={[style.frame, viewSource && style.editable].join(' ')}>

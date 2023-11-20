@@ -51,7 +51,7 @@ export function App() {
       <ToastContainer />
       <ConsentDialog />
       <Grid
-        columns={['300px', '1fr']}
+        columns={['330px', '1fr']}
         rows={['100%']}
         gap={'size-200'}
         UNSAFE_style={{ padding: '25px 25px 0 25px' }}

@@ -72,7 +72,7 @@ export function NewSessionPanel({ props }) {
       rows={['min-content', 'min-content', '1fr']}
       height={'100%'}
       UNSAFE_style={{
-        padding: '50px', overflow: 'auto',
+        padding: '25px 50px', overflow: 'auto',
       }}>
 
       <Flex
@@ -88,10 +88,10 @@ export function NewSessionPanel({ props }) {
           src={NewSessionBanner}
           objectFit={'cover'}
           marginBottom={20}
-          UNSAFE_style={{ borderRadius: '20px' }}
-        />
-        <h3 style={{ padding: 0, margin: 0 }}>Welcome to the AEM GenAI Assistant!</h3>
-        <p>Create high quality content quickly then measure it with experimentation or publish it to your site.</p>
+          UNSAFE_style={{ borderRadius: '20px' }}/>
+        <h3 style={{ padding: 0, margin: 0 }}>
+          Create high quality content quickly then measure it with experimentation or publish it to your site.
+        </h3>
         <NewButton right={-150} />
         <SignOutButton right={-150} top={50}/>
       </Flex>

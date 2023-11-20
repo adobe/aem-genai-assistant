@@ -11,7 +11,7 @@
  */
 import { EXPRESSION_REGEX } from './ExpressionParser.js';
 
-const NO_VALUE_STRING = '<please select>';
+export const NO_VALUE_STRING = '<please_select>';
 
 function isBlankValue(value) {
   if (typeof value === 'number') {
@@ -36,7 +36,7 @@ function resolvePlaceholders(str, valuesMap) {
 }
 
 function removeEmptyLines(text) {
-  return text.replace(/\n\s*\n/g, '\n\n');
+  return text.replace(/\n\s*\n/g, '\n\n').trim();
 }
 
 export function renderPrompt(prompt, placeholders) {

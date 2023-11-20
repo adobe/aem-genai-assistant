@@ -10,8 +10,8 @@
     "deploy:app": "npm run grammar && REACT_APP_VERSION=$npm_package_version aio app deploy --no-actions",
     "deploy:actions": "aio app deploy --no-web-assets",
     "deploy": "npm run grammar && REACT_APP_VERSION=$npm_package_version aio app deploy",
-    "lint": "eslint --quiet web-src/src/**/*.js test/**/*.js",
-    "fix": "eslint --fix --quiet web-src/src/**/*.js test/**/*.js",
+    "lint": "eslint --quiet 'web-src/src/**/*.js' 'actions/*.js' 'test/**/*.js'",
+    "fix": "eslint --fix --quiet 'web-src/src/**/*.js' 'actions/*.js' 'test/**/*.js'",
     "test": "jest --passWithNoTests ./test ./web-src/src",
     "e2e": "jest --collectCoverage=false --testRegex ./e2e"
   },

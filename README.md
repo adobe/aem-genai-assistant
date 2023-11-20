@@ -14,8 +14,8 @@ To activate the AEM GenAI Assistant Sidekick Plugin on your Edge Delivery Servic
   "plugins": [
     // ...
     {
-      "id": "aem-genai-assistant",
-      "title": "Assistant",
+      "id": "generate-content-variations",
+      "title": "Generate Content Variations",
       "url": "<coming soon>",
       "passConfig": true,
       "environments": ["edit"],

@@ -105,8 +105,7 @@ export function SidePanel(props) {
       gap={'size-400'}>
       <Flex UNSAFE_style={{ padding: '8px' }} direction={'row'} justifyContent={'space-between'} alignItems={'center'} gridArea={'header'}>
         <Flex direction={'row'} gap={'12px'}>
-          <Image src={LogoIcon} alt={'logo'}/>
-          <Text UNSAFE_className={style.headerText}>AEM GenAI Assistant</Text>
+          <Text UNSAFE_className={style.headerText}>Generate Variations</Text>
         </Flex>
         <Text UNSAFE_className={style.versionTag} justifySelf={'end'}>v{appVersion}</Text>
       </Flex>

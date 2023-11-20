@@ -19,15 +19,14 @@ import { v4 as uuid } from 'uuid';
 import { ErrorBoundary } from 'react-error-boundary';
 import NewSessionBanner from '../assets/new-session-banner.png';
 import { PromptTemplateCard } from './PromptTemplateCard.js';
-import { NewButton } from './NewButton.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
 import { SignOutButton } from './SignOutButton.js';
-import { promptTemplateListState } from '../state/PromptTemplateListState.js';
+import { promptTemplatesState } from '../state/PromptTemplatesState.js';
 
-function PromptTemplateListView({ onSelect }) {
-  const promptTemplates = useRecoilValue(promptTemplateListState);
+function PromptTemplatesView({ onSelect }) {
+  const promptTemplates = useRecoilValue(promptTemplatesState);
   return (
     <Grid
       width={'100%'}
@@ -47,7 +46,7 @@ function PromptTemplateListView({ onSelect }) {
   );
 }
 
-export function NewSessionPanel({ props }) {
+export function HomePanel({ props }) {
   const setCurrentSession = useSetRecoilState(sessionState);
   const setViewType = useSetRecoilState(viewTypeState);
 
@@ -99,7 +98,7 @@ export function NewSessionPanel({ props }) {
 
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
         <Suspense fallback={<ProgressCircle isIndeterminate />}>
-          <PromptTemplateListView onSelect={handleSelect} />
+          <PromptTemplatesView onSelect={handleSelect} />
         </Suspense>
       </ErrorBoundary>
     </Grid>

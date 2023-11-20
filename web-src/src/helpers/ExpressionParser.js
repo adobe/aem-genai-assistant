@@ -12,7 +12,7 @@
 import nearley from 'nearley';
 import grammar from './Parser.generated.js';
 
-export const EXPRESSION_REGEX = /{([@#]?)([^,}]+)[^{}]*}/g;
+export const EXPRESSION_REGEX = /{{([@#]?)([^,}]+)[^{}]*}}/g;
 
 export function parseExpression(expression) {
   return new nearley.Parser(nearley.Grammar.fromCompiled(grammar))

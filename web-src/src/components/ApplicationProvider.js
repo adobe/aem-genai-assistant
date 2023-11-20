@@ -23,6 +23,8 @@ const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 const COMPLETE_ACTION = 'complete';
 const FEEDBACK_ACTION = 'feedback';
 
+const PROMPT_TEMPLATES_FILENAME = 'prompttemplates';
+
 function getWebsiteUrl() {
   const searchParams = new URLSearchParams(window.location.search);
   const ref = searchParams.get('ref');
@@ -34,16 +36,16 @@ function getWebsiteUrl() {
   return `https://${ref}--${repo}--${owner}.hlx.page`;
 }
 
-function getPromptTemplateLibraryPath() {
+function getPromptTemplatesPath() {
   const searchParams = new URLSearchParams(window.location.search);
-  return searchParams.get('prompts') || 'prompttemplates';
+  return searchParams.get('prompts') || PROMPT_TEMPLATES_FILENAME;
 }
 
 function getConfiguration() {
   return {
     appVersion: APP_VERSION,
     websiteUrl: getWebsiteUrl(),
-    promptTemplateLibraryPath: getPromptTemplateLibraryPath(),
+    promptTemplatesPath: getPromptTemplatesPath(),
   };
 }
 

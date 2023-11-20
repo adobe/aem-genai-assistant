@@ -48,9 +48,9 @@ function getComponentLabel(name, label) {
 
 function getComponentType(params) {
   if (params.spreadsheet) {
-    return 'spreadsheet';
+    return 'select';
   }
-  return params.type || 'string';
+  return params.type || 'text';
 }
 
 function DescriptionLabel({ description }) {

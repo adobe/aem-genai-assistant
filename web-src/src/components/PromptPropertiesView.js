@@ -55,7 +55,7 @@ const styles = {
   `,
 };
 
-export function PromptPropertiesPanel(props) {
+export function PromptPropertiesView(props) {
   const currentSession = useRecoilValue(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
 

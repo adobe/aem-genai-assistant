@@ -1,6 +1,6 @@
 @builtin "whitespace.ne"
 
-expression -> "{" modifier:? _ identifier _ parameters:? _ "}" {% ([,modifier,, identifier,, parameters]) => ({modifier, identifier, parameters}) %}
+expression -> "{{" modifier:? _ identifier _ parameters:? _ "}}" {% ([,modifier,, identifier,, parameters]) => ({modifier, identifier, parameters}) %}
 modifier -> [#@] {% ([modifier]) => modifier %}
 identifier -> [a-zA-Z0-9_]:+ {% ([name]) => name.join('') %}
 parameters -> parameter:* {% ([parameters]) => parameters %}

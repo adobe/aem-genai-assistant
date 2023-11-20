@@ -18,8 +18,8 @@ import { useRecoilValue } from 'recoil';
 import { css } from '@emotion/css';
 import { ConsentDialog } from './ConsentDialog.js';
 import { SidePanel } from './SidePanel.js';
-import { CurrentSessionPanel } from './CurrentSessionPanel.js';
-import { NewSessionPanel } from './NewSessionPanel.js';
+import { SessionPanel } from './SessionPanel.js';
+import { HomePanel } from './HomePanel.js';
 import { viewTypeState, ViewType } from '../state/ViewType.js';
 import { FavoritesPanel } from './FavoritesPanel.js';
 
@@ -36,11 +36,11 @@ const styles = {
 function getView(viewType) {
   switch (viewType) {
     case ViewType.CurrentSession:
-      return <CurrentSessionPanel />;
+      return <SessionPanel />;
     case ViewType.Favorites:
       return <FavoritesPanel />;
     default:
-      return <NewSessionPanel />;
+      return <HomePanel />;
   }
 }
 

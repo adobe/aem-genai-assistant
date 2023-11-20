@@ -9,6 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+
 import { selector } from 'recoil';
 import { sessionState } from './SessionState.js';
 
@@ -17,5 +18,10 @@ export const promptState = selector({
   get: ({ get }) => {
     return get(sessionState)?.prompt ?? '';
   },
-  set: ({ set, get }, newValue) => set(sessionState, { ...get(sessionState), prompt: newValue }),
+  set: ({ set, get }, newValue) => {
+    set(sessionState, {
+      ...get(sessionState),
+      prompt: newValue,
+    });
+  },
 });

@@ -12,13 +12,10 @@
 import { selector } from 'recoil';
 import { promptState } from './PromptState.js';
 import { parseExpressions } from '../helpers/ExpressionParser.js';
-import { promptTemplateLibraryState } from './PromptTemplateLibraryState.js';
 
 export const placeholdersState = selector({
   key: 'placeholdersState',
   get: async ({ get }) => {
-    const { placeholders } = await get(promptTemplateLibraryState);
-    const parsedPlaceholders = parseExpressions(get(promptState));
-    return { ...parsedPlaceholders, ...placeholders };
+    return parseExpressions(get(promptState));
   },
 });

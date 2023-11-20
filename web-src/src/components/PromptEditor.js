@@ -9,7 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 /* eslint-disable-next-line import/no-named-default */
 import { default as SimpleEditor } from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
@@ -18,14 +18,14 @@ import { css, injectGlobal } from '@emotion/css';
 import { Global } from '@emotion/react';
 import { NO_VALUE_STRING, renderPrompt } from '../helpers/PromptRenderer.js';
 
-import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
+import { promptState } from '../state/PromptState.js';
 
 languages.custom = {
-  function: /{[^@#]([^{}]+)}/,
-  keyword: /{@([^{}]+)}/,
+  function: /{{[^@#]([^{}]+)}}/,
+  keyword: /{{@([^{}]+)}}/,
+  comment: /{{#([^{}]+)}}/,
   regex: new RegExp(`${NO_VALUE_STRING}`),
-  comment: /{#([^{}]+)}/,
 };
 
 const style = {
@@ -48,22 +48,27 @@ const style = {
     overflow: auto;
   `,
   editor: css`
-    font-family: Adobe Clean,serif;
-    font-size: 14px;
+    font-family: Monospaced, monospace;
+    font-size: 12px;
     font-style: normal;
     font-weight: 400;
     line-height: 21px;
     position: absolute;
-    & textarea:focus  {
-      outline: none;
-    }
+  `,
+  textarea: css`
+    outline: none;
   `,
 };
 
 function PromptEditor(props) {
-  const [viewSource, setViewSource] = useState(false);
   const [prompt, setPrompt] = useRecoilState(promptState);
+  const [promptText, setPromptText] = useState(prompt);
+  const [viewSource, setViewSource] = useState(false);
   const parameters = useRecoilValue(parametersState);
+
+  useEffect(() => {
+    setPrompt(promptText);
+  }, [promptText, setPrompt]);
 
   return (
     <div {...props} className={[style.frame, viewSource && style.editable].join(' ')}>
@@ -85,10 +90,11 @@ function PromptEditor(props) {
       <div className={style.container}>
         <SimpleEditor
           className={style.editor}
+          textareaClassName={style.textarea}
           onFocus={() => setViewSource(true)}
           onBlur={() => setViewSource(false)}
-          value={viewSource ? prompt : renderPrompt(prompt, parameters)}
-          onValueChange={setPrompt}
+          value={viewSource ? promptText : renderPrompt(promptText, parameters)}
+          onValueChange={setPromptText}
           highlight={(code) => highlight(code, languages.custom, 'custom')}
           style={{ minHeight: '100%' }}
           readOnly={!viewSource}

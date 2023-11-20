@@ -83,7 +83,7 @@ export function GenerateButton() {
     generateResults()
       .catch((error) => {
         switch (error.status) {
-          case 400:          
+          case 400:
             ToastQueue.negative('The response was filtered due to the prompt triggering Sensei GenAI\'s content management policy. Please modify your prompt and retry.', { timeout: 2000 });
             break;
           default:

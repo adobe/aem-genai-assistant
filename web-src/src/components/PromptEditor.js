@@ -72,15 +72,12 @@ function PromptEditor(props) {
           font-weight: bold !important;
           color: #0095ff !important;
         }
-
         .token.function, .token.regex {
           color: #0095ff !important;
         }
-
         .token.keyword {
           color: #b25b5b !important;
         }
-
         .token.comment {
           color: #8a8a8a !important;
         }

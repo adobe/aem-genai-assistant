@@ -17,10 +17,10 @@ import React, { useCallback, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { LinkLabel } from './LinkLabel.js';
 import { useApplicationContext } from './ApplicationProvider.js';
-import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
 import { placeholdersState } from '../state/PlaceholdersState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { TemperatureSlider } from './TemperatureSlider.js';
+import { wretchRetry } from '../../../actions/Network.js';
 
 function getIndexByValue(items, value) {
   return items.findIndex((item) => item.value.includes(value));
@@ -75,12 +75,21 @@ function SpreadSheetPicker({
   useEffect(() => {
     const [filename, columnName] = spreadsheet.split(':');
     const fileUrl = `${websiteUrl}/${filename || ''}.json`;
-    parseSpreadSheet(fileUrl, 'Key', columnName ?? 'Value')
-      .then(setItems)
+
+    wretchRetry(fileUrl).get().json()
+      .then(({ data }) => {
+        setItems(data.map(({ Key, Value }) => {
+          return {
+            key: Key,
+            value: Value,
+          };
+        }));
+      })
       .catch((error) => {
         setItems([]);
         console.error(error);
       });
+
     setUrl(fileUrl);
   }, [spreadsheet]);
 

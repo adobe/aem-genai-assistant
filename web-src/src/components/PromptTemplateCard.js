@@ -40,13 +40,12 @@ const styles = {
 };
 
 export function PromptTemplateCard({
-  key, template, onClick, ...props
+  template, onClick, ...props
 }) {
   return (
     <a onClick={onClick}>
       <Grid
         {...props}
-        key={key}
         UNSAFE_className={styles.card}
         alignItems={'center'}
         gap={5}

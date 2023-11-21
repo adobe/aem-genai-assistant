@@ -18,6 +18,7 @@ import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
 import { motion } from 'framer-motion';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
+import { toClipboard, toHTML } from '../helpers/ExportPrompt.js';
 
 const styles = {
   card: css`
@@ -42,7 +43,7 @@ export function FavoriteCard({ variant, ...props }) {
     <View
       {...props}
       UNSAFE_className={styles.card}>
-      <div className={styles.variant}>{variant.content}</div>
+      <div className={styles.variant} dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
         <View
           borderRadius="regular"
           paddingRight="24px">
@@ -51,7 +52,7 @@ export function FavoriteCard({ variant, ...props }) {
               <ActionButton
                 isQuiet
                 UNSAFE_className="hover-cursor-pointer"
-                onPress={() => navigator.clipboard.writeText(variant.content)}>
+                onPress={() => navigator.clipboard.write(toClipboard(toHTML(variant.content)))}>
                 <Copy />
               </ActionButton>
               <Tooltip>Copy</Tooltip>

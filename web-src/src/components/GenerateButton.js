@@ -27,32 +27,7 @@ import { generationInProgressState } from '../state/GenerationInProgressState.js
 import { parametersState } from '../state/ParametersState.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
 import { useSaveSession } from '../state/SaveSessionHook.js';
-
-function objectToString(obj) {
-  return String(obj).replace(/<\/?[^>]+(>|$)/g, '');
-}
-
-function jsonToString(json) {
-  if (json === null || typeof json !== 'object') {
-    return objectToString(json);
-  }
-  return Object.entries(json).map(([key, value]) => {
-    return `<b>${key}</b>: ${objectToString(value)}`;
-  }).join('<br/>');
-}
-
-function createVariants(response) {
-  try {
-    const json = JSON.parse(response);
-    if (Array.isArray(json)) {
-      return json.map((item) => ({ id: uuid(), content: jsonToString(item) }));
-    } else {
-      return [{ id: uuid(), content: String(response) }];
-    }
-  } catch (error) {
-    return [{ id: uuid(), content: String(response) }];
-  }
-}
+import { createVariants } from '../helpers/CreateVariants.js';
 
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
@@ -69,7 +44,7 @@ export function GenerateButton() {
     const { queryId, response } = await firefallService.complete(finalPrompt, temperature, imsToken);
     setResults((results) => [...results, {
       resultId: queryId,
-      variants: createVariants(response),
+      variants: createVariants(uuid, response),
       prompt: finalPrompt,
       promptTemplate: prompt,
       parameters,

@@ -66,7 +66,7 @@ export function GenerateButton() {
 
   const generateResults = useCallback(async () => {
     const finalPrompt = renderPrompt(prompt, parameters);
-    const { queryId, response } = await firefallService.complete(finalPrompt, temperature, user.imsToken);
+    const { queryId, response } = await firefallService.complete(finalPrompt, temperature, user.imsOrg, user.imsToken);
     setResults((results) => [...results, {
       resultId: queryId,
       variants: createVariants(response),

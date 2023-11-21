@@ -127,7 +127,7 @@ export function ResultCard({ result, ...props }) {
   const saveSession = useSaveSession();
 
   const sendFeedback = useCallback((sentiment) => {
-    firefallService.feedback(result.resultId, sentiment, user.imsToken)
+    firefallService.feedback(result.resultId, sentiment, user.imsOrg, user.imsToken)
       .then((id) => {
         ToastQueue.positive('Feedback sent', { timeout: 1000 });
       })

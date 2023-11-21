@@ -31,6 +31,8 @@ import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
 import { useSaveSession } from '../state/SaveSessionHook.js';
+import { sampleRUM } from '../rum.js';
+import { toClipboard, toHTML } from '../helpers/ExportPrompt.js';
 
 const styles = {
   card: css`
@@ -185,13 +187,13 @@ export function ResultCard({ result, ...props }) {
                     ${variant.id === selectedVariant.id && styles.variantSelected};
                     ${isFavorite(variant) && styles.variantFavorite};
                   `}
-                   dangerouslySetInnerHTML={{ __html: variant.content }} />
+                   dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
                 </a>
               );
             })
           }
         </div>
-        <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: selectedVariant.content }}/>
+        <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariant.content) }}/>
         <div className={styles.resultActions}>
           <TooltipTrigger delay={0}>
             <ActionButton
@@ -206,7 +208,10 @@ export function ResultCard({ result, ...props }) {
             <ActionButton
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
-              onPress={() => navigator.clipboard.writeText(selectedVariant.content)}>
+              onPress={() => {
+                sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress'});
+                navigator.clipboard.write(toClipboard(toHTML(selectedVariant.content)));
+              }}>
               <Copy/>
             </ActionButton>
             <Tooltip>Copy</Tooltip>

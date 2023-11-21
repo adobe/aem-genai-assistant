@@ -24,6 +24,7 @@ import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
 import { SignOutButton } from './SignOutButton.js';
 import { promptTemplatesState } from '../state/PromptTemplatesState.js';
+import { sampleRUM } from '../rum.js';
 
 function PromptTemplatesView({ onSelect }) {
   const promptTemplates = useRecoilValue(promptTemplatesState);
@@ -51,6 +52,11 @@ export function HomePanel({ props }) {
   const setViewType = useSetRecoilState(viewTypeState);
 
   const handleSelect = useCallback((selectedTemplate) => {
+    if (selectedTemplate.isNew) {
+      sampleRUM('genai:prompt:new', { source: 'HomePanel#handleSelect' });
+    } else {
+      sampleRUM(`genai:prompt:${selectedTemplate.isAdobe ? 'isAdobe' : 'isCustom'}`, { source: 'HomePanel#handleSelect' });
+    }
     const timestamp = Date.now();
     const session = {
       id: uuid(),

@@ -21,7 +21,7 @@ function getIndexByValue(items, value) {
 }
 
 export function SpreadSheetPicker({
-  name, label, description, spreadsheet, value, onChange,
+  name, label, description, spreadsheet, fallback, value, onChange,
 }) {
   const { websiteUrl } = useApplicationContext();
   const [items, setItems] = React.useState([]);
@@ -42,19 +42,18 @@ export function SpreadSheetPicker({
         setUrl(fileUrl);
       })
       .catch((error) => {
-        if (value) {
-          setItems(value ? [{ key: value, value }] : []);
-          setUrl('https://adobe.com'); // TODO: use a better default
-          console.log(error);
-        } else {
-          throw new Error(`Could not load spreadsheet ${spreadsheet} and no default value was provided`);
-        }
+        setItems([]);
+        console.warn(`Could not load spreadsheet ${spreadsheet} and no fallback value provided`);
       });
   }, [spreadsheet]);
 
   const selectionHandler = useCallback((selected) => {
     onChange(items[selected].value);
   }, [items, onChange]);
+
+  if (items.length === 0) {
+    return fallback;
+  }
 
   return (
     <Picker

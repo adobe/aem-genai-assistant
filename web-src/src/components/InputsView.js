@@ -41,13 +41,13 @@ function getComponentType(params) {
   return params.type || 'text';
 }
 
-function createSelectComponent(name, label, params, value, onChange) {
+function createTextComponent(name, label, params, value, onChange) {
   return (
-    <SpreadSheetPicker
-      name={name}
+    <TextArea
+      key={name}
       label={label}
-      description={params.description}
-      spreadsheet={params.spreadsheet}
+      description={<DescriptionLabel description={params.description}/>}
+      width="100%"
       value={value}
       onChange={(newValue) => onChange(name, newValue)}
     />
@@ -68,13 +68,14 @@ function createNumberComponent(name, label, params, value, onChange) {
   );
 }
 
-function createTextComponent(name, label, params, value, onChange) {
+function createSelectComponent(name, label, params, value, onChange) {
   return (
-    <TextArea
-      key={name}
+    <SpreadSheetPicker
+      name={name}
       label={label}
-      description={<DescriptionLabel description={params.description}/>}
-      width="100%"
+      description={params.description}
+      spreadsheet={params.spreadsheet}
+      fallback={createTextComponent(name, label, params, value, onChange)}
       value={value}
       onChange={(newValue) => onChange(name, newValue)}
     />
@@ -124,12 +125,7 @@ export function InputsView({ gridColumn }) {
           const type = getComponentType(params);
           const value = parameters[name] ?? '';
 
-          try {
-            return createInputComponent(type, name, label, params, value, onChange);
-          } catch (e) {
-            createTextComponent(name, label, params, value, onChange);
-            console.warn(`Cannot create input component for ${name} (${type})`, e);
-          }
+          return createInputComponent(type, name, label, params, value, onChange);
         })
       }
       <TemperatureSlider/>

@@ -20,7 +20,7 @@ export const newPromptTemplate = {
   description: 'To start a new prompt use this and then add it to your prompt templates for future use.',
   template: '',
   isFeatured: true,
-  isBundled: true,
+  isBundled: false,
 };
 
 function parsePromptTemplates(data) {
@@ -37,21 +37,26 @@ function parsePromptTemplates(data) {
   });
 }
 
+async function fetchPromptTemplates(websiteUrl, promptTemplatesPath) {
+  try {
+    const url = `${websiteUrl}/${promptTemplatesPath.toLowerCase()}.json`;
+    console.log('Fetching prompt templates from', url);
+    const { data: promptTemplates } = await wretchRetry(url).get().json();
+    return parsePromptTemplates(promptTemplates);
+  } catch (e) {
+    console.warn('Could not fetch prompt templates', e);
+    return [];
+  }
+}
+
 export const promptTemplatesState = selector({
   key: 'promptTemplatesState',
   get: async ({ get }) => {
-    try {
-      const { websiteUrl, promptTemplatesPath } = get(configurationState);
-      const url = `${websiteUrl}/${promptTemplatesPath.toLowerCase()}.json`;
-      const { data: promptTemplates } = await wretchRetry(url).get().json();
-      return [
-        newPromptTemplate,
-        ...(parsePromptTemplates(bundledPromptTemplates)),
-        ...(parsePromptTemplates(promptTemplates)),
-      ];
-    } catch (e) {
-      console.error(e);
-      throw new Error('Unable to load prompt templates');
-    }
+    const { websiteUrl, promptTemplatesPath } = get(configurationState);
+    return [
+      newPromptTemplate,
+      ...(parsePromptTemplates(bundledPromptTemplates)),
+      ...(await fetchPromptTemplates(websiteUrl, promptTemplatesPath)),
+    ];
   },
 });

@@ -42,6 +42,10 @@ function PromptTemplatesView({ onSelect }) {
               onClick={() => onSelect(promptTemplates[index])} />
           ))
       }
+      <PromptTemplateCard
+              key={-1}
+              template={{ title: 'New Prompt', description: 'To start a new prompt use this and then add it to your prompt templates for future use.', template: '' }}
+              onClick={() => onNewPrompt() } />
     </Grid>
   );
 }
@@ -49,6 +53,10 @@ function PromptTemplatesView({ onSelect }) {
 export function HomePanel({ props }) {
   const setCurrentSession = useSetRecoilState(sessionState);
   const setViewType = useSetRecoilState(viewTypeState);
+
+  const handleNewPrompt = useCallback((selectedTemplate) => {
+    handleSelect(selectedTemplate);    
+  }, [setCurrentSession]);
 
   const handleSelect = useCallback((selectedTemplate) => {
     const timestamp = Date.now();
@@ -98,7 +106,7 @@ export function HomePanel({ props }) {
 
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
         <Suspense fallback={<ProgressCircle isIndeterminate />}>
-          <PromptTemplatesView onSelect={handleSelect} />
+          <PromptTemplatesView onSelect={handleSelect} onNewPrompt={handleNewPrompt} />
         </Suspense>
       </ErrorBoundary>
     </Grid>

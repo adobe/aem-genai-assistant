@@ -139,7 +139,7 @@ export function InputsView({ gridColumn }) {
           const parameterValue = parameters[name] ?? '';
 
           switch (type) {
-            case 'spreadsheet':
+            case 'select':
               return (
                 <SpreadSheetPicker
                   name={name}
@@ -166,7 +166,7 @@ export function InputsView({ gridColumn }) {
                   }}
                 />
               );
-            case 'string':
+            case 'text':
             default:
               return (
                 <TextArea

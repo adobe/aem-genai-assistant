@@ -73,7 +73,7 @@ function SpreadSheetPicker({
   const [url, setUrl] = React.useState('');
 
   useEffect(() => {
-    const [filename, columnName] = spreadsheet.split(':');
+    const [filename] = spreadsheet.split(':');
     const fileUrl = `${websiteUrl}/${filename || ''}.json`;
 
     wretchRetry(fileUrl).get().json()
@@ -84,13 +84,13 @@ function SpreadSheetPicker({
             value: Value,
           };
         }));
+        setUrl(fileUrl);
       })
       .catch((error) => {
-        setItems([]);
+        setItems(value ? [{ key: value, value }] : []);
+        setUrl('https://adobe.com'); // TODO: use a better default
         console.error(error);
       });
-
-    setUrl(fileUrl);
   }, [spreadsheet]);
 
   const selectionHandler = useCallback((selected) => {

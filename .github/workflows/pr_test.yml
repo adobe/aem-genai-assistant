@@ -17,6 +17,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - name: npm config
+        run: npm config set strict-ssl false
       - name: npm install
         run: npm i
       - name: Setup CLI

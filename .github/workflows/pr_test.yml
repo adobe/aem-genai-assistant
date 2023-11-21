@@ -36,7 +36,7 @@ jobs:
         with:
           os: ${{ matrix.os }}
           command: test
-      - name: Deploy
+      - name: Deploy 1
         env:
           AIO_RUNTIME_NAMESPACE: ${{ secrets.AIO_RUNTIME_NAMESPACE_STAGE }}
           AIO_RUNTIME_AUTH: ${{ secrets.AIO_RUNTIME_AUTH_STAGE }}

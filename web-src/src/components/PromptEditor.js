@@ -81,7 +81,7 @@ function PromptEditor(props) {
           font-weight: bold !important;
           color: #0095ff !important;
         }
-        .token.function, .token.regex {
+        .token.function {
           color: #0095ff !important;
         }
         .token.keyword {

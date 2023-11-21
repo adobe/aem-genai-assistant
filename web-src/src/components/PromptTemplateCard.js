@@ -63,7 +63,7 @@ export function PromptTemplateCard({
           rows={['min-content', 'min-content']}>
           <Image src={GenerateIcon} width="24px" gridArea={'icon'}/>
           <Text UNSAFE_className={styles.title} gridArea={'title'}>{template.label}</Text>
-          <Image src={SmallLogo} width={'18px'} gridArea={'logo'}/>
+          {(template.isAdobe) ? <Image src={SmallLogo} width={'18px'} gridArea={'logo'}/> : <Image gridArea={'logo'}/> }
           <Text UNSAFE_className={styles.description} gridArea={'description'}>{template.description}</Text>
         </Grid>
       </motion.div>

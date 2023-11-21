@@ -19,7 +19,7 @@ import { v4 as uuid } from 'uuid';
 import SenseiGenAIIcon from '../icons/GenAIIcon.js';
 import { renderPrompt } from '../helpers/PromptRenderer.js';
 import { useApplicationContext } from './ApplicationProvider.js';
-import { useAuthContext } from './AuthProvider.js';
+import { useShellAuthContext } from './ShellAuthProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { temperatureState } from '../state/TemperatureState.js';
 import { resultsState } from '../state/ResultsState.js';
@@ -32,7 +32,7 @@ import { sampleRUM } from '../rum.js';
 
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
-  const { imsToken } = useAuthContext();
+  const { user } = useShellAuthContext();
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
   const temperature = useRecoilValue(temperatureState);
@@ -42,7 +42,7 @@ export function GenerateButton() {
 
   const generateResults = useCallback(async () => {
     const finalPrompt = renderPrompt(prompt, parameters);
-    const { queryId, response } = await firefallService.complete(finalPrompt, temperature, imsToken);
+    const { queryId, response } = await firefallService.complete(finalPrompt, temperature, user.imsOrg, user.imsToken);
     setResults((results) => [...results, {
       resultId: queryId,
       variants: createVariants(uuid, response),
@@ -81,7 +81,7 @@ export function GenerateButton() {
         style="fill"
         onPress={handleGenerate}
         isDisabled={generationInProgress}>
-        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px"/> : <SenseiGenAIIcon />}
+        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px" /> : <SenseiGenAIIcon />}
         Generate
       </Button>
       <ContextualHelp variant="info">

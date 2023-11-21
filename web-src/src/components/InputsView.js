@@ -12,13 +12,14 @@
 import {
   Flex, NumberField, TextArea,
 } from '@adobe/react-spectrum';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { placeholdersState } from '../state/PlaceholdersState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { TemperatureSlider } from './TemperatureSlider.js';
 import { SpreadSheetPicker } from './SpreadSheetPicker.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
+import { formatIdentifier } from '../helpers/FormatHelper.js';
 
 function comparePlaceholders([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
@@ -29,15 +30,8 @@ function comparePlaceholders([a, { order: aorder }], [b, { order: border }]) {
   return 0;
 }
 
-function placeholderNameToLabel(name) {
-  let label = name.replace(/[_-]/g, ' ');
-  label = label.replace(/([a-z])([A-Z])/g, (match, p1, p2) => `${p1} ${p2}`);
-  const words = label.trim().split(/\s+/);
-  return words.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-}
-
 function getComponentLabel(name, label) {
-  return label || placeholderNameToLabel(name);
+  return label || formatIdentifier(name);
 }
 
 function getComponentType(params) {
@@ -47,6 +41,58 @@ function getComponentType(params) {
   return params.type || 'text';
 }
 
+function createSelectComponent(name, label, params, value, onChange) {
+  return (
+    <SpreadSheetPicker
+      name={name}
+      label={label}
+      description={params.description}
+      spreadsheet={params.spreadsheet}
+      value={value}
+      onChange={(newValue) => onChange(name, newValue)}
+    />
+  );
+}
+
+function createNumberComponent(name, label, params, value, onChange) {
+  return (
+    <NumberField
+      key={name}
+      label={label}
+      description={<DescriptionLabel description={params.description}/>}
+      width="100%"
+      value={value}
+      minValue={0}
+      onChange={(newValue) => onChange(name, newValue)}
+    />
+  );
+}
+
+function createTextComponent(name, label, params, value, onChange) {
+  return (
+    <TextArea
+      key={name}
+      label={label}
+      description={<DescriptionLabel description={params.description}/>}
+      width="100%"
+      value={value}
+      onChange={(newValue) => onChange(name, newValue)}
+    />
+  );
+}
+
+function createInputComponent(type, name, label, params, value, onChange) {
+  switch (type) {
+    case 'select':
+      return createSelectComponent(name, label, params, value, onChange);
+    case 'number':
+      return createNumberComponent(name, label, params, value, onChange);
+    case 'text':
+    default:
+      return createTextComponent(name, label, params, value, onChange);
+  }
+}
+
 export function InputsView({ gridColumn }) {
   const placeholders = useRecoilValue(placeholdersState);
   const [parameters, setParameters] = useRecoilState(parametersState);
@@ -54,6 +100,10 @@ export function InputsView({ gridColumn }) {
   useEffect(() => {
     setParameters({});
   }, [placeholders]);
+
+  const onChange = useCallback((name, value) => {
+    setParameters({ ...parameters, [name]: value });
+  }, [parameters, setParameters]);
 
   return (
     <Flex
@@ -72,50 +122,13 @@ export function InputsView({ gridColumn }) {
           }
           const label = getComponentLabel(name, params.label);
           const type = getComponentType(params);
-          const parameterValue = parameters[name] ?? '';
+          const value = parameters[name] ?? '';
 
-          switch (type) {
-            case 'select':
-              return (
-                <SpreadSheetPicker
-                  name={name}
-                  label={label}
-                  description={params.description}
-                  spreadsheet={params.spreadsheet}
-                  value={parameterValue}
-                  onChange={(value) => {
-                    setParameters({ ...parameters, [name]: value });
-                  }}
-                />
-              );
-            case 'number':
-              return (
-                <NumberField
-                  key={name}
-                  label={label}
-                  description={<DescriptionLabel description={params.description}/>}
-                  width="100%"
-                  value={parameterValue}
-                  minValue={0}
-                  onChange={(value) => {
-                    setParameters({ ...parameters, [name]: value });
-                  }}
-                />
-              );
-            case 'text':
-            default:
-              return (
-                <TextArea
-                  key={name}
-                  label={label}
-                  description={<DescriptionLabel description={params.description}/>}
-                  width="100%"
-                  value={parameterValue}
-                  onChange={(value) => {
-                    setParameters({ ...parameters, [name]: value });
-                  }}
-                />
-              );
+          try {
+            return createInputComponent(type, name, label, params, value, onChange);
+          } catch (e) {
+            createTextComponent(name, label, params, value, onChange);
+            console.warn(`Cannot create input component for ${name} (${type})`, e);
           }
         })
       }

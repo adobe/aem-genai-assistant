@@ -42,9 +42,13 @@ export function SpreadSheetPicker({
         setUrl(fileUrl);
       })
       .catch((error) => {
-        setItems(value ? [{ key: value, value }] : []);
-        setUrl('https://adobe.com'); // TODO: use a better default
-        console.error(error);
+        if (value) {
+          setItems(value ? [{ key: value, value }] : []);
+          setUrl('https://adobe.com'); // TODO: use a better default
+          console.log(error);
+        } else {
+          throw new Error(`Could not load spreadsheet ${spreadsheet} and no default value was provided`);
+        }
       });
   }, [spreadsheet]);
 

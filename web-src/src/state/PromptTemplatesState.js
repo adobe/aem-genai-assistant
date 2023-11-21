@@ -13,6 +13,16 @@ import { selector } from 'recoil';
 import { configurationState } from './ConfigurationState.js';
 import { wretchRetry } from '../../../actions/Network.js';
 
+import { data as bundledPromptTemplates } from '../../../docs/bundledPromptTemplates.json';
+
+export const newPromptTemplate = {
+  label: 'New prompt',
+  description: 'To start a new prompt use this and then add it to your prompt templates for future use.',
+  template: '',
+  isFeatured: true,
+  isBundled: true,
+};
+
 function parsePromptTemplates(data) {
   return data.map(({
     Label, Description, Template,
@@ -21,19 +31,11 @@ function parsePromptTemplates(data) {
       label: Label,
       description: Description,
       template: Template || '',
-      isNew: false,
-      isAdobe: true, //todo: needs to be distinguished from user created templates
+      isFeatured: false,
+      isBundled: true,
     };
   });
 }
-
-export const newPromptTemplate = [{
-  label: 'New prompt',
-  description: 'To start a new prompt use this and then add it to your prompt templates for future use.',
-  template: '',
-  isNew: true,
-  isAdobe: false,
-}];
 
 export const promptTemplatesState = selector({
   key: 'promptTemplatesState',
@@ -41,9 +43,12 @@ export const promptTemplatesState = selector({
     try {
       const { websiteUrl, promptTemplatesPath } = get(configurationState);
       const url = `${websiteUrl}/${promptTemplatesPath.toLowerCase()}.json`;
-      const { data } = await wretchRetry(url).get().json();
-      const parsedPromptTemplates = parsePromptTemplates(data);
-      return [...parsedPromptTemplates, ...newPromptTemplate];
+      const { data: promptTemplates } = await wretchRetry(url).get().json();
+      return [
+        newPromptTemplate,
+        ...(parsePromptTemplates(bundledPromptTemplates)),
+        ...(parsePromptTemplates(promptTemplates)),
+      ];
     } catch (e) {
       console.error(e);
       throw new Error('Unable to load prompt templates');

@@ -9,13 +9,20 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-const { asGenericAction } = require('../GenericAction.js');
-const { asAuthAction } = require('../AuthAction.js');
-const { asFirefallAction } = require('../FirefallAction.js');
 
-async function main(params) {
-  const { queryId, sentiment, firefallClient } = params;
-  return firefallClient.feedback(queryId, sentiment);
+function objectToString(obj) {
+  return String(obj).replace(/<\/?[^>]+(>|$)/g, '');
 }
 
-exports.main = asAuthAction(asFirefallAction(asGenericAction(main)));
+export function createVariants(uuid, response) {
+  try {
+    const json = JSON.parse(response);
+    if (Array.isArray(json)) {
+      return json.map((content) => ({ id: uuid(), content: content === null || typeof content !== 'object' ? objectToString(content) : content }) );
+    } else {
+      return [{ id: uuid(), content: json }];
+    }
+  } catch (error) {
+    return [{ id: uuid(), content: String(response) }];
+  }
+}

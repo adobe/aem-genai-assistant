@@ -26,13 +26,13 @@ import HelpIcon from '../assets/help.svg';
 import FileTxt from '../assets/file-txt.svg';
 
 import { sessionsState } from '../state/SessionsState.js';
-import { currentSessionState } from '../state/CurrentSessionState.js';
+import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 
 export function SidePanel(props) {
   const { appVersion } = useApplicationContext();
   const sessions = useRecoilValue(sessionsState);
-  const [currentSession, setCurrentSession] = useRecoilState(currentSessionState);
+  const [currentSession, setCurrentSession] = useRecoilState(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
 
   const style = {
@@ -103,11 +103,8 @@ export function SidePanel(props) {
       columns={['auto']}
       rows={['min-content', '1fr', 'min-content']}
       gap={'size-400'}>
-      <Flex UNSAFE_style={{ padding: '8px' }} direction={'row'} justifyContent={'space-between'} alignItems={'center'} gridArea={'header'}>
-        <Flex direction={'row'} gap={'12px'}>
-          <Image src={LogoIcon} alt={'logo'}/>
-          <Text UNSAFE_className={style.headerText}>AEM GenAI Assistant</Text>
-        </Flex>
+      <Flex gap={'12px'} direction={'row'} justifyContent={'space-between'} alignItems={'center'} gridArea={'header'}>
+        <Text UNSAFE_className={style.headerText}>Generate Variations</Text>
         <Text UNSAFE_className={style.versionTag} justifySelf={'end'}>v{appVersion}</Text>
       </Flex>
 

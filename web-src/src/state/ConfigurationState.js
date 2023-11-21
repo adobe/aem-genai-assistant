@@ -9,10 +9,9 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom, useSetRecoilState } from 'recoil';
-import { sessionsState } from './SessionsState.js';
+import { atom } from 'recoil';
 
-export const currentSessionState = atom({
-  key: 'currentSessionState',
+export const configurationState = atom({
+  key: 'configurationState',
   default: undefined,
 });

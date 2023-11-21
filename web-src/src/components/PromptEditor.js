@@ -9,78 +9,102 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, { useState } from 'react';
-import { View } from '@adobe/react-spectrum';
+import React, { useEffect, useState } from 'react';
 /* eslint-disable-next-line import/no-named-default */
 import { default as SimpleEditor } from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
-import 'prismjs/themes/prism.css';
-import { css } from '@emotion/css';
-import { renderExpressions } from '../helpers/ExpressionRenderer.js';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { css, injectGlobal } from '@emotion/css';
+import { Global } from '@emotion/react';
+import { NO_VALUE_STRING, renderPrompt } from '../helpers/PromptRenderer.js';
 
-import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
+import { promptState } from '../state/PromptState.js';
 
 languages.custom = {
-  function: /{[^@#]([^{}]+)}/,
-  keyword: /{@([^{}]+)}/,
-  regex: /<please select>/,
-  comment: /{#([^{}]+)}/,
+  function: /{{[^@#]([^{}]+)}}/,
+  keyword: /{{@([^{}]+)}}/,
+  comment: /{{#([^{}]+)}}/,
+  regex: new RegExp(`${NO_VALUE_STRING}`),
 };
 
 const style = {
-  container: css`
+  frame: css`
     width: 100%;
     height: 150px;
-    position: relative;
-    overflow: auto;
-    padding: 15px;
     border: 1px solid #ccc;
     border-radius: 8px;
+    padding: 10px;
   `,
   editable: css`
-    box-shadow: 
-      0px -10px 20px -20px rgba(0,0,0,0.45),
-      10px 0px 20px -20px rgba(0,0,0,0.45),
-      0px 10px 20px -20px rgba(0,0,0,0.45),
-      -10px 0px 20px -20px rgba(0,0,0,0.45);
     background-color: white;
     height: 500px;
+    border: 2px solid #ccc;
+  `,
+  container: css`
+    width: 100%;
+    height: 100%;
+    position: relative; 
+    overflow: auto;
   `,
   editor: css`
-    color: var(--palette-gray-600, var(--palette-gray-600, #6D6D6D));
-    font-family: Adobe Clean,serif;
-    font-size: 14px;
+    font-family: Monospaced, monospace;
+    font-size: 12px;
     font-style: normal;
     font-weight: 400;
     line-height: 21px;
     position: absolute;
-    & textarea:focus  {
-      outline: none;
-    }
+  `,
+  textarea: css`
+    outline: none;
   `,
 };
 
 function PromptEditor(props) {
-  const [viewSource, setViewSource] = useState(false);
   const [prompt, setPrompt] = useRecoilState(promptState);
+  const [promptText, setPromptText] = useState(prompt);
+  const [viewSource, setViewSource] = useState(false);
   const parameters = useRecoilValue(parametersState);
 
+  useEffect(() => {
+    setPrompt(promptText);
+  }, [promptText, setPrompt]);
+
+  useEffect(() => {
+    setPromptText(prompt);
+  }, [prompt, setPromptText]);
+
   return (
-    <View
-      {...props}
-      UNSAFE_className={[style.container, viewSource && style.editable].join(' ')}>
-      <SimpleEditor
-        className={style.editor}
-        onFocus={() => setViewSource(true)}
-        onBlur={() => setViewSource(false)}
-        value={viewSource ? prompt : renderExpressions(prompt, parameters)}
-        onValueChange={setPrompt}
-        highlight={(code) => highlight(code, languages.custom, 'custom')}
-        readOnly={!viewSource}
-      />
-    </View>
+    <div {...props} className={[style.frame, viewSource && style.editable].join(' ')}>
+      <Global styles={injectGlobal`
+        .token.regex {
+          font-weight: bold !important;
+          color: #0095ff !important;
+        }
+        .token.function {
+          color: #0095ff !important;
+        }
+        .token.keyword {
+          color: #b25b5b !important;
+        }
+        .token.comment {
+          color: #8a8a8a !important;
+        }
+      `}/>
+      <div className={style.container}>
+        <SimpleEditor
+          className={style.editor}
+          textareaClassName={style.textarea}
+          onFocus={() => setViewSource(true)}
+          onBlur={() => setViewSource(false)}
+          value={viewSource ? promptText : renderPrompt(promptText, parameters)}
+          onValueChange={setPromptText}
+          highlight={(code) => highlight(code, languages.custom, 'custom')}
+          style={{ minHeight: '100%' }}
+          readOnly={!viewSource}
+        />
+      </div>
+    </div>
   );
 }
 

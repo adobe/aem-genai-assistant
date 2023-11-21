@@ -1,21 +1,20 @@
-# AEM GenAI Assistant Sidekick Plugin
+# AEM Generate Content Variations Sidekick Plugin
 
-Welcome to the AEM GenAI Assistant GitHub repository!
 Follow these instructions to integrate this powerful tool into your website.
 
 ## Getting Started
 
-### Setting Up AEM GenAI Assistant
+### Setting Up AEM Generate Content Variations
 
-To activate the AEM GenAI Assistant Sidekick Plugin on your Edge Delivery Services website, it's necessary to include the following code into your Sidekick configuration at `tools/sidekick/config.json`:
+To activate the AEM Generate Content Variations on your Edge Delivery Services website, it's necessary to include the following code into your Sidekick configuration at `tools/sidekick/config.json`:
 ```json5
 {
   // ...
   "plugins": [
     // ...
     {
-      "id": "aem-genai-assistant",
-      "title": "Assistant",
+      "id": "generate-content-variations",
+      "title": "Generate Content Variations",
       "url": "<coming soon>",
       "passConfig": true,
       "environments": ["edit"],

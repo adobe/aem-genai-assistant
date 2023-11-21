@@ -9,15 +9,19 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import wretch from 'wretch';
-import { retry } from 'wretch/middlewares/retry';
+export function toClipboard(html) {
+  const span = document.createElement('span');
+  span.innerHTML = html;
+  const blob = new Blob([span.outerHTML], { type: 'text/html' });
+  return [new ClipboardItem({ [blob.type]: blob })];
+}
 
-export async function parseSpreadSheet(url) {
-  const json = await wretch(`${url}`).middlewares([retry({
-    retryOnNetworkError: false,
-  })]).get().json();
-
-  return json.data.map((row) => {
-    return Object.entries(row).reduce((acc, [key, value]) => ({ ...acc, [key.toLowerCase()]: value }), {});
-  });
+export function toHTML(input) {
+  if (typeof input === 'string') {
+    return input;
+  } else {
+    return Object.entries(input).map(([key, value]) => {
+      return `<b>${key}</b>: ${value}`;
+    }).join('<br/>');
+  }
 }

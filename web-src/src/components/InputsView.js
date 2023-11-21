@@ -17,17 +17,16 @@ import React, { useCallback, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { LinkLabel } from './LinkLabel.js';
 import { useApplicationContext } from './ApplicationProvider.js';
-import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
-import { promptState } from '../state/PromptState.js';
-import { expressionsState } from '../state/ExpressionsState.js';
+import { placeholdersState } from '../state/PlaceholdersState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { TemperatureSlider } from './TemperatureSlider.js';
+import { wretchRetry } from '../../../actions/Network.js';
 
 function getIndexByValue(items, value) {
-  return items.findIndex((item) => item.value === value);
+  return items.findIndex((item) => item.value.includes(value));
 }
 
-function compareExpressions([a, { order: aorder }], [b, { order: border }]) {
+function comparePlaceholders([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
     return -1;
   } else if (aorder > border) {
@@ -36,7 +35,7 @@ function compareExpressions([a, { order: aorder }], [b, { order: border }]) {
   return 0;
 }
 
-function expressionNameToLabel(name) {
+function placeholderNameToLabel(name) {
   let label = name.replace(/[_-]/g, ' ');
   label = label.replace(/([a-z])([A-Z])/g, (match, p1, p2) => `${p1} ${p2}`);
   const words = label.trim().split(/\s+/);
@@ -44,14 +43,14 @@ function expressionNameToLabel(name) {
 }
 
 function getComponentLabel(name, label) {
-  return label || expressionNameToLabel(name);
+  return label || placeholderNameToLabel(name);
 }
 
 function getComponentType(params) {
   if (params.spreadsheet) {
-    return 'spreadsheet';
+    return 'select';
   }
-  return params.type || 'string';
+  return params.type || 'text';
 }
 
 function DescriptionLabel({ description }) {
@@ -76,12 +75,21 @@ function SpreadSheetPicker({
   useEffect(() => {
     const [filename, columnName] = spreadsheet.split(':');
     const fileUrl = `${websiteUrl}/${filename || ''}.json`;
-    parseSpreadSheet(fileUrl, columnName ?? 'Value')
-      .then(setItems)
+
+    wretchRetry(fileUrl).get().json()
+      .then(({ data }) => {
+        setItems(data.map(({ Key, Value }) => {
+          return {
+            key: Key,
+            value: Value,
+          };
+        }));
+      })
       .catch((error) => {
         setItems([]);
         console.error(error);
       });
+
     setUrl(fileUrl);
   }, [spreadsheet]);
 
@@ -104,12 +112,12 @@ function SpreadSheetPicker({
 }
 
 export function InputsView({ gridColumn }) {
-  const expressions = useRecoilValue(expressionsState);
+  const placeholders = useRecoilValue(placeholdersState);
   const [parameters, setParameters] = useRecoilState(parametersState);
 
   useEffect(() => {
     setParameters({});
-  }, [expressions]);
+  }, [placeholders]);
 
   return (
     <Flex
@@ -122,7 +130,7 @@ export function InputsView({ gridColumn }) {
       }}
       width={'100%'}>
       {
-        Object.entries(expressions).sort(compareExpressions).map(([name, params]) => {
+        Object.entries(placeholders).sort(comparePlaceholders).map(([name, params]) => {
           if (params.comment) {
             return null;
           }
@@ -131,7 +139,7 @@ export function InputsView({ gridColumn }) {
           const parameterValue = parameters[name] ?? '';
 
           switch (type) {
-            case 'spreadsheet':
+            case 'select':
               return (
                 <SpreadSheetPicker
                   name={name}
@@ -158,7 +166,7 @@ export function InputsView({ gridColumn }) {
                   }}
                 />
               );
-            case 'string':
+            case 'text':
             default:
               return (
                 <TextArea

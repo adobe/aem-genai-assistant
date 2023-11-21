@@ -11,7 +11,7 @@
  */
 import { atom } from 'recoil';
 
-export const promptTemplateState = atom({
-  key: 'promptTemplateState',
+export const sessionState = atom({
+  key: 'sessionState',
   default: undefined,
 });

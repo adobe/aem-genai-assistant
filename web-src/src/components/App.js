@@ -9,27 +9,38 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ToastContainer } from '@react-spectrum/toast';
 import {
-  Grid, ActionButton,
+  Grid, ProgressCircle,
 } from '@adobe/react-spectrum';
 import { useRecoilValue } from 'recoil';
+import { css } from '@emotion/css';
 import { ConsentDialog } from './ConsentDialog.js';
 import { SidePanel } from './SidePanel.js';
-import { CurrentSessionPanel } from './CurrentSessionPanel.js';
-import { NewSessionPanel } from './NewSessionPanel.js';
+import { SessionPanel } from './SessionPanel.js';
+import { HomePanel } from './HomePanel.js';
 import { viewTypeState, ViewType } from '../state/ViewType.js';
 import { FavoritesPanel } from './FavoritesPanel.js';
+
+const styles = {
+  container: css`
+    background: white;
+    margin: 0 20px 0 20px;
+    border-radius: 20px 20px 0 0;
+    border: 2px #e0e0e0 solid;
+    height: 100%;
+  `,
+};
 
 function getView(viewType) {
   switch (viewType) {
     case ViewType.CurrentSession:
-      return <CurrentSessionPanel />;
+      return <SessionPanel />;
     case ViewType.Favorites:
       return <FavoritesPanel />;
     default:
-      return <NewSessionPanel />;
+      return <HomePanel />;
   }
 }
 
@@ -40,13 +51,17 @@ export function App() {
       <ToastContainer />
       <ConsentDialog />
       <Grid
-        columns={['300px', '1fr']}
+        columns={['330px', '1fr']}
         rows={['100%']}
-        gap={'size-300'}
+        gap={'size-200'}
         UNSAFE_style={{ padding: '25px 25px 0 25px' }}
         width="100%" height="100%">
         <SidePanel width="100%" height="100%" />
-        { getView(viewType) }
+        <div className={styles.container}>
+          <Suspense fallback={<ProgressCircle/>}>
+            { getView(viewType) }
+          </Suspense>
+        </div>
       </Grid>
     </>
   );

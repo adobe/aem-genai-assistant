@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import { Grid, Text, Image } from '@adobe/react-spectrum';
-import React from 'react';
+import React, { Fragment } from 'react';
 
 import { css } from '@emotion/css';
 import { motion } from 'framer-motion';
@@ -52,7 +52,10 @@ export function PromptTemplateCard({
         transition={{ ease: 'easeInOut', duration: 0.3 }}>
         <Grid
           {...props}
-          UNSAFE_className={styles.card}
+          UNSAFE_className={css`
+            ${styles.card}
+            border-color: ${template.isFeatured ? 'black' : '#e0e0e0'}
+          `}
           alignItems={'center'}
           gap={5}
           areas={[
@@ -63,7 +66,7 @@ export function PromptTemplateCard({
           rows={['min-content', 'min-content']}>
           <Image src={GenerateIcon} width="24px" gridArea={'icon'}/>
           <Text UNSAFE_className={styles.title} gridArea={'title'}>{template.label}</Text>
-          {(template.isAdobe) ? <Image src={SmallLogo} width={'18px'} gridArea={'logo'}/> : <Image gridArea={'logo'}/> }
+          { (template.isBundled) ? <Image src={SmallLogo} width={'18px'} gridArea={'logo'}/> : <Fragment/> }
           <Text UNSAFE_className={styles.description} gridArea={'description'}>{template.description}</Text>
         </Grid>
       </motion.div>

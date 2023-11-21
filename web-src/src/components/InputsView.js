@@ -10,21 +10,16 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Item, NumberField, Picker, Text, TextArea,
+  Flex, NumberField, TextArea,
 } from '@adobe/react-spectrum';
-import InfoIcon from '@spectrum-icons/workflow/InfoOutline';
 import React, { useCallback, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { LinkLabel } from './LinkLabel.js';
-import { useApplicationContext } from './ApplicationProvider.js';
 import { placeholdersState } from '../state/PlaceholdersState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { TemperatureSlider } from './TemperatureSlider.js';
-import { wretchRetry } from '../../../actions/Network.js';
-
-function getIndexByValue(items, value) {
-  return items.findIndex((item) => item.value.includes(value));
-}
+import { SpreadSheetPicker } from './SpreadSheetPicker.js';
+import { DescriptionLabel } from './DescriptionLabel.js';
+import { formatIdentifier } from '../helpers/FormatHelper.js';
 
 function comparePlaceholders([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
@@ -35,15 +30,8 @@ function comparePlaceholders([a, { order: aorder }], [b, { order: border }]) {
   return 0;
 }
 
-function placeholderNameToLabel(name) {
-  let label = name.replace(/[_-]/g, ' ');
-  label = label.replace(/([a-z])([A-Z])/g, (match, p1, p2) => `${p1} ${p2}`);
-  const words = label.trim().split(/\s+/);
-  return words.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-}
-
 function getComponentLabel(name, label) {
-  return label || placeholderNameToLabel(name);
+  return label || formatIdentifier(name);
 }
 
 function getComponentType(params) {
@@ -53,62 +41,57 @@ function getComponentType(params) {
   return params.type || 'text';
 }
 
-function DescriptionLabel({ description }) {
-  if (!description) {
-    return <></>;
-  }
+function createTextComponent(name, label, params, value, onChange) {
   return (
-    <Flex direction="row" gap="size-50" alignItems="center">
-      <InfoIcon size="S"/>
-      <Text UNSAFE_style={{ overflow: 'hidden', height: '1.3em' }}>{description}</Text>
-    </Flex>
+    <TextArea
+      key={name}
+      label={label}
+      description={<DescriptionLabel description={params.description}/>}
+      width="100%"
+      value={value}
+      onChange={(newValue) => onChange(name, newValue)}
+    />
   );
 }
 
-function SpreadSheetPicker({
-  name, label, description, spreadsheet, value, onChange,
-}) {
-  const { websiteUrl } = useApplicationContext();
-  const [items, setItems] = React.useState([]);
-  const [url, setUrl] = React.useState('');
-
-  useEffect(() => {
-    const [filename, columnName] = spreadsheet.split(':');
-    const fileUrl = `${websiteUrl}/${filename || ''}.json`;
-
-    wretchRetry(fileUrl).get().json()
-      .then(({ data }) => {
-        setItems(data.map(({ Key, Value }) => {
-          return {
-            key: Key,
-            value: Value,
-          };
-        }));
-      })
-      .catch((error) => {
-        setItems([]);
-        console.error(error);
-      });
-
-    setUrl(fileUrl);
-  }, [spreadsheet]);
-
-  const selectionHandler = useCallback((selected) => {
-    onChange(items[selected].value);
-  }, [items, onChange]);
-
+function createNumberComponent(name, label, params, value, onChange) {
   return (
-    <Picker
+    <NumberField
       key={name}
-      label={<LinkLabel label={label} url={url}/>}
-      description={<DescriptionLabel description={description} />}
+      label={label}
+      description={<DescriptionLabel description={params.description}/>}
       width="100%"
-      items={items}
-      selectedKey={String(getIndexByValue(items, value))}
-      onSelectionChange={selectionHandler}>
-      {items ? items.map((item, index) => <Item key={index}>{item.key}</Item>) : []}
-    </Picker>
+      value={value}
+      minValue={0}
+      onChange={(newValue) => onChange(name, newValue)}
+    />
   );
+}
+
+function createSelectComponent(name, label, params, value, onChange) {
+  return (
+    <SpreadSheetPicker
+      name={name}
+      label={label}
+      description={params.description}
+      spreadsheet={params.spreadsheet}
+      fallback={createTextComponent(name, label, params, value, onChange)}
+      value={value}
+      onChange={(newValue) => onChange(name, newValue)}
+    />
+  );
+}
+
+function createInputComponent(type, name, label, params, value, onChange) {
+  switch (type) {
+    case 'select':
+      return createSelectComponent(name, label, params, value, onChange);
+    case 'number':
+      return createNumberComponent(name, label, params, value, onChange);
+    case 'text':
+    default:
+      return createTextComponent(name, label, params, value, onChange);
+  }
 }
 
 export function InputsView({ gridColumn }) {
@@ -118,6 +101,10 @@ export function InputsView({ gridColumn }) {
   useEffect(() => {
     setParameters({});
   }, [placeholders]);
+
+  const onChange = useCallback((name, value) => {
+    setParameters({ ...parameters, [name]: value });
+  }, [parameters, setParameters]);
 
   return (
     <Flex
@@ -136,51 +123,9 @@ export function InputsView({ gridColumn }) {
           }
           const label = getComponentLabel(name, params.label);
           const type = getComponentType(params);
-          const parameterValue = parameters[name] ?? '';
+          const value = parameters[name] ?? '';
 
-          switch (type) {
-            case 'select':
-              return (
-                <SpreadSheetPicker
-                  name={name}
-                  label={label}
-                  description={params.description}
-                  spreadsheet={params.spreadsheet}
-                  value={parameterValue}
-                  onChange={(value) => {
-                    setParameters({ ...parameters, [name]: value });
-                  }}
-                />
-              );
-            case 'number':
-              return (
-                <NumberField
-                  key={name}
-                  label={label}
-                  description={<DescriptionLabel description={params.description}/>}
-                  width="100%"
-                  value={parameterValue}
-                  minValue={0}
-                  onChange={(value) => {
-                    setParameters({ ...parameters, [name]: value });
-                  }}
-                />
-              );
-            case 'text':
-            default:
-              return (
-                <TextArea
-                  key={name}
-                  label={label}
-                  description={<DescriptionLabel description={params.description}/>}
-                  width="100%"
-                  value={parameterValue}
-                  onChange={(value) => {
-                    setParameters({ ...parameters, [name]: value });
-                  }}
-                />
-              );
-          }
+          return createInputComponent(type, name, label, params, value, onChange);
         })
       }
       <TemperatureSlider/>

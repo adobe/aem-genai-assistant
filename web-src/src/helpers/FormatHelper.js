@@ -15,3 +15,10 @@ export function formatTimestamp(timestamp) {
   const timeStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' });
   return `${dateStr} ${timeStr}`;
 }
+
+export function formatIdentifier(name) {
+  let label = name.replace(/[_-]/g, ' ');
+  label = label.replace(/([a-z])([A-Z])/g, (match, p1, p2) => `${p1} ${p2}`);
+  const words = label.trim().split(/\s+/);
+  return words.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+}

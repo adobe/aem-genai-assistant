@@ -9,7 +9,9 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, { Fragment, useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, {
+  Fragment, useCallback, useContext, useEffect, useState,
+} from 'react';
 import { Content, Heading, InlineAlert } from '@adobe/react-spectrum';
 import { useSetRecoilState } from 'recoil';
 import excApp from '@adobe/exc-app';
@@ -57,7 +59,7 @@ function createApplication(configuration, shellConfig) {
       completeEndpoint: actions[COMPLETE_ACTION],
       feedbackEndpoint: actions[FEEDBACK_ACTION],
     }),
-    shellConfig: shellConfig
+    shellConfig,
   };
 }
 

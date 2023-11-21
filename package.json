@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@adobe/aio-sdk": "3.0.0",
-    "@adobe/exc-app": "^1.2.10",
+    "@adobe/exc-app": "1.2.10",
     "@adobe/generator-add-action-generic": "0.2.9",
     "@adobe/react-spectrum": "3.32.0",
     "@emotion/css": "11.11.2",

@@ -18,7 +18,7 @@ export function createVariants(uuid, response) {
   try {
     const json = JSON.parse(response);
     if (Array.isArray(json)) {
-      return json.map((content) => ({ id: uuid(), content: content === null || typeof content !== 'object' ? objectToString(content) : content }) );
+      return json.map((content) => ({ id: uuid(), content: content === null || typeof content !== 'object' ? objectToString(content) : content }));
     } else {
       return [{ id: uuid(), content: json }];
     }

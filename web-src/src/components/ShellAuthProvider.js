@@ -10,12 +10,30 @@
  * governing permissions and limitations under the License.
  */
 
-import React, { useEffect, createContext, useState, useContext } from 'react';
+import React, {
+  useEffect, createContext, useState, useContext,
+} from 'react';
 import { ToastQueue } from '@react-spectrum/toast';
 
-import { useApplicationContext } from './ApplicationProvider';
+import { useApplicationContext } from './ApplicationProvider.js';
 
 export const ShellAuthContext = createContext({});
+
+// Check if the user is authorized
+// The user is authorized if userInfo.imsProfile.projectedProductContext which is an array contains inside the array
+// an object having the required product context and the owning entity matching the user.imsOrg
+const isAuthorized = (user) => {
+  if (Array.isArray(user.imsProfile.projectedProductContext)) {
+    const filteredProductContext = user.imsProfile.projectedProductContext
+      .filter((obj) => obj.prodCtx.serviceCode === process.env.IMS_PRODUCT_CONTEXT);
+
+    // For each entry in filteredProductContext check that
+    // there is at least one entry where user.imsOrg matches the owningEntity property
+    // otherwise, if no match, the user is not authorized
+    return filteredProductContext.some((obj) => obj.prodCtx.owningEntity === user.imsOrg);
+  }
+  return false;
+};
 
 export const ShellAuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -27,11 +45,11 @@ export const ShellAuthProvider = ({ children }) => {
     setUser({
       imsProfile: shellConfig.imsProfile,
       imsToken: shellConfig.imsToken,
-      imsOrg: shellConfig.imsOrg
+      imsOrg: shellConfig.imsOrg,
     });
   }, [shellConfig]);
 
-  // When the user changes, invoke isAuthorized function and display an error message in the UI 
+  // When the user changes, invoke isAuthorized function and display an error message in the UI
   // if the user is not authorized
   useEffect(() => {
     if (user) {
@@ -41,21 +59,6 @@ export const ShellAuthProvider = ({ children }) => {
       }
     }
   }, [user]);
-
-  // Check if the user is authorized
-  // The user is authorized if userInfo.imsProfile.projectedProductContext which is an array contains inside the array 
-  // an object having the required product context and the owning entity matching the user.imsOrg
-  const isAuthorized = (user) => {
-    if (Array.isArray(user.imsProfile['projectedProductContext'])) {
-      const filteredProductContext = user.imsProfile['projectedProductContext'].filter((obj) => obj['prodCtx']['serviceCode'] === process.env.IMS_PRODUCT_CONTEXT);
-
-      // For each entry in filteredProductContext check that
-      // there is at least one entry where user.imsOrg matches the owningEntity property 
-      // otherwise, if no match, the user is not authorized
-      return filteredProductContext.some((obj) => obj['prodCtx']['owningEntity'] === user.imsOrg);
-    }
-    return false;
-  }
 
   return (
     <ShellAuthContext.Provider value={{ user, isUserAuthorized }}>

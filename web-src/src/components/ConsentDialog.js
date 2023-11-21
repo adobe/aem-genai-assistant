@@ -18,11 +18,10 @@ import {
   Heading,
 } from '@adobe/react-spectrum';
 import React, { useEffect } from 'react';
+import settingsApi, { SettingsLevel } from '@adobe/exc-app/settings';
 import { LegalTermsLink } from './LegalTermsLink.js';
 import { sampleRUM } from '../rum.js';
 import { NoAccessDialog } from './NoAccessDialog.js';
-
-import settingsApi, { SettingsLevel } from '@adobe/exc-app/settings';
 
 const CONSENT_KEY = 'genai-assistant-consent';
 const REDIRECT_URL = 'https://experience.adobe.com';
@@ -35,7 +34,7 @@ export function ConsentDialog() {
     const { settings } = await settingsApi.get({
       groupId: 'test-aem-genai-assistant',
       level: SettingsLevel.USERORG,
-      settings: {[CONSENT_KEY]: false}
+      settings: { [CONSENT_KEY]: false },
     });
     setOpen(!settings[CONSENT_KEY]);
   }, []);
@@ -45,7 +44,7 @@ export function ConsentDialog() {
     settingsApi.set({
       groupId: 'test-aem-genai-assistant',
       level: SettingsLevel.USERORG,
-      settings: {[CONSENT_KEY]: true}
+      settings: { [CONSENT_KEY]: true },
     });
     setOpen(false);
   };

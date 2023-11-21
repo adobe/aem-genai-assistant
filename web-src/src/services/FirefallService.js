@@ -32,7 +32,9 @@ export class FirefallService {
   async complete(prompt, temperature, imsOrg, accessToken) {
     /* eslint-disable-next-line camelcase */
     const { query_id, generations } = await wretchRetry(this.completeEndpoint)
-      .post({ prompt, temperature, imsOrg, accessToken })
+      .post({
+        prompt, temperature, imsOrg, accessToken,
+      })
       .json();
     return {
       /* eslint-disable-next-line camelcase */
@@ -47,7 +49,9 @@ export class FirefallService {
     console.log(`Feedback: ${this.feedbackEndpoint}`);
     /* eslint-disable-next-line camelcase */
     const { feedback_id } = await wretchRetry(this.feedbackEndpoint)
-      .post({ queryId, sentiment, imsOrg, accessToken })
+      .post({
+        queryId, sentiment, imsOrg, accessToken,
+      })
       .json();
     /* eslint-disable-next-line camelcase */
     return feedback_id;

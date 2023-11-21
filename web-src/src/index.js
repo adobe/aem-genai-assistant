@@ -16,16 +16,14 @@ import {
 } from 'recoil';
 
 import { defaultTheme, Provider } from '@adobe/react-spectrum';
+import { init } from '@adobe/exc-app';
 import React from 'react';
 import { App } from './components/App.js';
 import { ApplicationProvider } from './components/ApplicationProvider.js';
 import { ShellAuthProvider } from './components/ShellAuthProvider.js';
 import './index.css';
 
-
-import {init} from '@adobe/exc-app';
 init(() => {
-  
   ReactDOM.createRoot(document.getElementById('root')).render(
     <RecoilRoot>
       <ApplicationProvider>
@@ -38,6 +36,4 @@ init(() => {
     </RecoilRoot>,
     document.getElementById('root'),
   );
-
 });
-

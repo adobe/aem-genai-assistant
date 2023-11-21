@@ -209,7 +209,7 @@ export function ResultCard({ result, ...props }) {
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
               onPress={() => {
-                sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress'});
+                sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress' });
                 navigator.clipboard.write(toClipboard(toHTML(selectedVariant.content)));
               }}>
               <Copy/>

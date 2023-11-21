@@ -52,7 +52,7 @@ async function checkForProductContext(endpoint, clientId, org, token, productCon
           .filter((obj) => obj.prodCtx.serviceCode === productContext);
 
         // For each entry in filteredProductContext check that
-        // there is at least one entry where imsOrg matches the owningEntity property 
+        // there is at least one entry where imsOrg matches the owningEntity property
         // otherwise, if no match, the user is not authorized
         return filteredProductContext.some((obj) => obj.prodCtx.owningEntity === org);
       }

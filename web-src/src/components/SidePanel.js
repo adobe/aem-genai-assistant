@@ -18,7 +18,6 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { USER_GUIDELINES_URL } from './LegalTermsLink.js';
 
-import LogoIcon from '../assets/logo.svg';
 import PromptsIcon from '../assets/prompts.svg';
 import FavoritesIcon from '../assets/favorites.svg';
 import RecentsIcon from '../assets/recents.svg';

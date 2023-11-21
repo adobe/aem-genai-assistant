@@ -22,7 +22,6 @@ import { PromptTemplateCard } from './PromptTemplateCard.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
-import { SignOutButton } from './SignOutButton.js';
 import { promptTemplatesState } from '../state/PromptTemplatesState.js';
 import { sampleRUM } from '../rum.js';
 

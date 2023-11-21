@@ -20,7 +20,6 @@ import {
 } from '@adobe/react-spectrum';
 
 import AccessDeniedIcon from '@spectrum-icons/workflow/LockClosed';
-import ErrorIcon from '@spectrum-icons/workflow/AlertCircleFilled';
 
 export function NoAccessDialog() {
   return (
@@ -30,7 +29,7 @@ export function NoAccessDialog() {
           <IllustratedMessage>
             <AccessDeniedIcon size={'XL'} />
             <Heading>Access Denied</Heading>
-            <Content>You have no access to the AEM GenAI Assistant</Content>
+            <Content>You have no access to this product</Content>
           </IllustratedMessage>
         </Content>
       </Dialog>

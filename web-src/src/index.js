@@ -28,14 +28,14 @@ init(() => {
   
   ReactDOM.createRoot(document.getElementById('root')).render(
     <RecoilRoot>
-    <ApplicationProvider>
+      <ApplicationProvider>
         <Provider colorScheme="light" theme={defaultTheme} width="100%" height="100%">
-            <ShellAuthProvider>
+          <ShellAuthProvider>
             <App />
           </ShellAuthProvider>
-      </Provider>
+        </Provider>
       </ApplicationProvider>
-      </RecoilRoot>,
+    </RecoilRoot>,
     document.getElementById('root'),
   );
 

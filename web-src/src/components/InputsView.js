@@ -10,21 +10,15 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Item, NumberField, Picker, Text, TextArea,
+  Flex, NumberField, TextArea,
 } from '@adobe/react-spectrum';
-import InfoIcon from '@spectrum-icons/workflow/InfoOutline';
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { LinkLabel } from './LinkLabel.js';
-import { useApplicationContext } from './ApplicationProvider.js';
 import { placeholdersState } from '../state/PlaceholdersState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { TemperatureSlider } from './TemperatureSlider.js';
-import { wretchRetry } from '../../../actions/Network.js';
-
-function getIndexByValue(items, value) {
-  return items.findIndex((item) => item.value.includes(value));
-}
+import { SpreadSheetPicker } from './SpreadSheetPicker.js';
+import { DescriptionLabel } from './DescriptionLabel.js';
 
 function comparePlaceholders([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
@@ -51,64 +45,6 @@ function getComponentType(params) {
     return 'select';
   }
   return params.type || 'text';
-}
-
-function DescriptionLabel({ description }) {
-  if (!description) {
-    return <></>;
-  }
-  return (
-    <Flex direction="row" gap="size-50" alignItems="center">
-      <InfoIcon size="S"/>
-      <Text UNSAFE_style={{ overflow: 'hidden', height: '1.3em' }}>{description}</Text>
-    </Flex>
-  );
-}
-
-function SpreadSheetPicker({
-  name, label, description, spreadsheet, value, onChange,
-}) {
-  const { websiteUrl } = useApplicationContext();
-  const [items, setItems] = React.useState([]);
-  const [url, setUrl] = React.useState('');
-
-  useEffect(() => {
-    const [filename] = spreadsheet.split(':');
-    const fileUrl = `${websiteUrl}/${filename || ''}.json`;
-
-    wretchRetry(fileUrl).get().json()
-      .then(({ data }) => {
-        setItems(data.map(({ Key, Value }) => {
-          return {
-            key: Key,
-            value: Value,
-          };
-        }));
-        setUrl(fileUrl);
-      })
-      .catch((error) => {
-        setItems(value ? [{ key: value, value }] : []);
-        setUrl('https://adobe.com'); // TODO: use a better default
-        console.error(error);
-      });
-  }, [spreadsheet]);
-
-  const selectionHandler = useCallback((selected) => {
-    onChange(items[selected].value);
-  }, [items, onChange]);
-
-  return (
-    <Picker
-      key={name}
-      label={<LinkLabel label={label} url={url}/>}
-      description={<DescriptionLabel description={description} />}
-      width="100%"
-      items={items}
-      selectedKey={String(getIndexByValue(items, value))}
-      onSelectionChange={selectionHandler}>
-      {items ? items.map((item, index) => <Item key={index}>{item.key}</Item>) : []}
-    </Picker>
-  );
 }
 
 export function InputsView({ gridColumn }) {

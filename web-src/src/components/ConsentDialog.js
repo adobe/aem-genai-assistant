@@ -25,10 +25,11 @@ import { NoAccessDialog } from './NoAccessDialog.js';
 import settingsApi, { SettingsLevel } from '@adobe/exc-app/settings';
 
 const CONSENT_KEY = 'genai-assistant-consent';
-const REDIRECT_URL = 'https://adobe.com';
+const REDIRECT_URL = 'https://experience.adobe.com';
 
 export function ConsentDialog() {
   const [isOpen, setOpen] = React.useState(false);
+  const [isAccess, setAccess] = React.useState(true);
 
   useEffect(async () => {
     const { settings } = await settingsApi.get({
@@ -52,29 +53,32 @@ export function ConsentDialog() {
   const handleCancel = () => {
     sampleRUM('genai:consent:cancel', { source: 'ConsentDialog#handleCancel' });
     setOpen(false);
-    window.location.href = REDIRECT_URL;
+    // window.location.href = REDIRECT_URL;
+    setAccess(false);
   };
 
   return (
-    <DialogContainer onDismiss={handleCancel}>
-      {isOpen
-        && <Dialog onDismiss={handleCancel}>
-          <Heading>Generative AI in Adobe apps</Heading>
-          <Divider />
-          <Content>
-            <p>
-              You can create in new ways with generative AI technology.
-            </p>
-            <p>
-              By clicking &quot;Agree&quot;, you agree to our <LegalTermsLink />.
-            </p>
-          </Content>
-          <ButtonGroup>
-            <Button variant="secondary" onPress={handleCancel}>Cancel</Button>
-            <Button variant="accent" onPress={handleAgree}>Agree</Button>
-          </ButtonGroup>
-        </Dialog>
-      }
-    </DialogContainer>
+    isAccess ? (
+      <DialogContainer onDismiss={handleCancel}>
+        {isOpen
+          && <Dialog onDismiss={handleCancel}>
+            <Heading>Generative AI in Adobe apps</Heading>
+            <Divider />
+            <Content>
+              <p>
+                You can create in new ways with generative AI technology.
+              </p>
+              <p>
+                By clicking &quot;Agree&quot;, you agree to our <LegalTermsLink />.
+              </p>
+            </Content>
+            <ButtonGroup>
+              <Button variant="secondary" onPress={handleCancel}>Cancel</Button>
+              <Button variant="accent" onPress={handleAgree}>Agree</Button>
+            </ButtonGroup>
+          </Dialog>
+        }
+      </DialogContainer>
+    ) : <NoAccessDialog />
   );
 }

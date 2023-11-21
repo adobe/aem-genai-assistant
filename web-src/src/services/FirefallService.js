@@ -29,10 +29,10 @@ export class FirefallService {
     console.log(`Feedback: ${this.feedbackEndpoint}`);
   }
 
-  async complete(prompt, temperature, accessToken) {
+  async complete(prompt, temperature, imsOrg, accessToken) {
     /* eslint-disable-next-line camelcase */
     const { query_id, generations } = await wretchRetry(this.completeEndpoint)
-      .post({ prompt, temperature, accessToken })
+      .post({ prompt, temperature, imsOrg, accessToken })
       .json();
     return {
       /* eslint-disable-next-line camelcase */
@@ -41,13 +41,13 @@ export class FirefallService {
     };
   }
 
-  async feedback(queryId, sentiment, accessToken) {
+  async feedback(queryId, sentiment, imsOrg, accessToken) {
     /* eslint-disable-next-line camelcase */
     console.log(`Feedback: ${queryId} ${sentiment}`);
     console.log(`Feedback: ${this.feedbackEndpoint}`);
     /* eslint-disable-next-line camelcase */
     const { feedback_id } = await wretchRetry(this.feedbackEndpoint)
-      .post({ queryId, sentiment, accessToken })
+      .post({ queryId, sentiment, imsOrg, accessToken })
       .json();
     /* eslint-disable-next-line camelcase */
     return feedback_id;

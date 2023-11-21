@@ -17,56 +17,68 @@ import {
   Divider,
   Heading,
 } from '@adobe/react-spectrum';
-import Cookies from 'js-cookie';
 import React, { useEffect } from 'react';
 import { LegalTermsLink } from './LegalTermsLink.js';
 import { sampleRUM } from '../rum.js';
+import { NoAccessDialog } from './NoAccessDialog.js';
 
-const CONSENT_COOKIE_NAME = 'genai-assistant-consent';
-const CONSENT_COOKIE_EXPIRATION_DAYS = 365 * 10;
-const CONSENT_COOKIE_VALUE = 'yes';
-const REDIRECT_URL = 'https://adobe.com';
+import settingsApi, { SettingsLevel } from '@adobe/exc-app/settings';
+
+const CONSENT_KEY = 'genai-assistant-consent';
+const REDIRECT_URL = 'https://experience.adobe.com';
 
 export function ConsentDialog() {
-  const [isOpen, setOpen] = React.useState(true);
+  const [isOpen, setOpen] = React.useState(false);
+  const [isAccess, setAccess] = React.useState(true);
 
-  useEffect(() => {
-    const consent = Cookies.get(CONSENT_COOKIE_NAME);
-    setOpen(!consent);
+  useEffect(async () => {
+    const { settings } = await settingsApi.get({
+      groupId: 'test-aem-genai-assistant',
+      level: SettingsLevel.USERORG,
+      settings: {[CONSENT_KEY]: false}
+    });
+    setOpen(!settings[CONSENT_KEY]);
   }, []);
 
   const handleAgree = () => {
     sampleRUM('genai:consent:agree', { source: 'ConsentDialog#handleAgree' });
-    Cookies.set(CONSENT_COOKIE_NAME, CONSENT_COOKIE_VALUE, { expires: CONSENT_COOKIE_EXPIRATION_DAYS });
+    settingsApi.set({
+      groupId: 'test-aem-genai-assistant',
+      level: SettingsLevel.USERORG,
+      settings: {[CONSENT_KEY]: true}
+    });
     setOpen(false);
   };
 
   const handleCancel = () => {
     sampleRUM('genai:consent:cancel', { source: 'ConsentDialog#handleCancel' });
     setOpen(false);
-    window.location.href = REDIRECT_URL;
+    // window.location.href = REDIRECT_URL;
+    setAccess(false);
   };
 
   return (
-    <DialogContainer onDismiss={handleCancel}>
-      {isOpen
-        && <Dialog onDismiss={handleCancel}>
-          <Heading>Generative AI in Adobe apps</Heading>
-          <Divider />
-          <Content>
-            <p>
-              You can create in new ways with generative AI technology.
-            </p>
-            <p>
-              By clicking &quot;Agree&quot;, you agree to our <LegalTermsLink />.
-            </p>
-          </Content>
-          <ButtonGroup>
-            <Button variant="secondary" onPress={handleCancel}>Cancel</Button>
-            <Button variant="accent" onPress={handleAgree}>Agree</Button>
-          </ButtonGroup>
-        </Dialog>
-      }
-    </DialogContainer>
+    isAccess ? (
+      <DialogContainer onDismiss={handleCancel}>
+        {isOpen
+          && <Dialog onDismiss={handleCancel}>
+            <Heading>Generative AI in Adobe apps</Heading>
+            <Divider />
+            <Content>
+              <p>
+                You can create in new ways with generative AI technology.
+              </p>
+              <p>
+                By clicking &quot;Agree&quot;, you agree to our <LegalTermsLink />.
+              </p>
+            </Content>
+            <ButtonGroup>
+              <Button variant="secondary" onPress={handleCancel}>Cancel</Button>
+              <Button variant="accent" onPress={handleAgree}>Agree</Button>
+            </ButtonGroup>
+          </Dialog>
+        }
+      </DialogContainer>
+    ) : <NoAccessDialog />
   );
 }

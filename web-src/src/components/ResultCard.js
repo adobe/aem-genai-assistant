@@ -25,7 +25,7 @@ import { useSetRecoilState } from 'recoil';
 import { useIsFavorite } from '../state/IsFavoriteHook.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { useApplicationContext } from './ApplicationProvider.js';
-import { useAuthContext } from './AuthProvider.js';
+import { useShellAuthContext } from './ShellAuthProvider.js';
 import ReusePromptIcon from '../assets/reuse-prompt.svg';
 import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
@@ -119,7 +119,7 @@ const styles = {
 
 export function ResultCard({ result, ...props }) {
   const { firefallService } = useApplicationContext();
-  const { imsToken } = useAuthContext();
+  const { user } = useShellAuthContext();
   const [selectedVariant, setSelectedVariant] = useState(result.variants[0]);
   const setPrompt = useSetRecoilState(promptState);
   const setParameters = useSetRecoilState(parametersState);
@@ -129,7 +129,7 @@ export function ResultCard({ result, ...props }) {
   const saveSession = useSaveSession();
 
   const sendFeedback = useCallback((sentiment) => {
-    firefallService.feedback(result.resultId, sentiment, imsToken)
+    firefallService.feedback(result.resultId, sentiment, user.imsOrg, user.imsToken)
       .then((id) => {
         ToastQueue.positive('Feedback sent', { timeout: 1000 });
       })

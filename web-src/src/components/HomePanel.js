@@ -97,7 +97,6 @@ export function HomePanel({ props }) {
         <h3 style={{ padding: 0, margin: 0 }}>
           Create high quality content quickly then measure it with experimentation or publish it to your site.
         </h3>
-        <SignOutButton right={-150} top={50}/>
       </Flex>
 
       <Heading level={4} alignSelf={'start'}>Prompts</Heading>

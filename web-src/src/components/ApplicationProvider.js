@@ -37,20 +37,12 @@ function getWebsiteUrl() {
   return `https://${ref}--${repo}--${owner}.hlx.page`;
 }
 
-function getWebsiteUrlFromReferrer() {
-  /* eslint-disable-next-line no-undef */
+function getPromptTemplatesPath() {
   const searchParams = new URLSearchParams(window.location.search);
-  if (!searchParams.has('referrer')) {
-    throw Error('It seems we\'re missing the referrer search parameter in your application.');
-  }
-  const referrer = searchParams.get('referrer');
-  const url = new URL(referrer ?? window.referrer);
-  return `${url.protocol}//${url.host}`;
+  return searchParams.get('prompts') || PROMPT_TEMPLATES_FILENAME;
 }
 
-function createApplication(shellConfig) {
-  const websiteUrl = getWebsiteUrl();
-  console.log(`Website URL: ${websiteUrl}`);
+function getConfiguration() {
   return {
     appVersion: APP_VERSION,
     websiteUrl: getWebsiteUrl(),
@@ -58,7 +50,7 @@ function createApplication(shellConfig) {
   };
 }
 
-function createApplication(configuration) {
+function createApplication(configuration, shellConfig) {
   return {
     ...configuration,
     firefallService: new FirefallService({
@@ -72,12 +64,21 @@ function createApplication(configuration) {
 export const ApplicationContext = React.createContext(undefined);
 
 export const ApplicationProvider = ({ children }) => {
+  const setConfiguration = useSetRecoilState(configurationState);
   const [application, setApplication] = useState(undefined);
+  const [error, setError] = React.useState(undefined);
 
   const shellEventsHandler = useCallback((config) => {
-    setApplication(() => createApplication(config));
-    console.log(config);
-  }, []);
+    try {
+      const appConfig = getConfiguration();
+      setConfiguration(appConfig);
+      setApplication(() => createApplication(appConfig, config));
+      console.log(config);
+    } catch (e) {
+      console.error(e, 'Failed to create application');
+      setError(e);
+    }
+  }, [setConfiguration, setError]);
 
   useEffect(() => {
     const runtime = excApp();
@@ -85,13 +86,16 @@ export const ApplicationProvider = ({ children }) => {
     runtime.on('configuration', shellEventsHandler);
   }, []);
 
-  if (!application) {
-    return (<Fragment />);
-  }
-
   page.done();
 
-  try {
+  if (error) {
+    return (
+      <InlineAlert margin={'50px'}>
+        <Heading>Oops! It looks like we ran into a small snag</Heading>
+        <Content>{error.message}</Content>
+      </InlineAlert>
+    );
+  } else if (application) {
     return (
       <ApplicationContext.Provider value={application}>
         {children}

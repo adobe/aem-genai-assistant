@@ -27,6 +27,7 @@ module.exports = {
     'arrow-body-style': 'off',
     'react/prop-types': 'off',
     'no-nested-ternary': 'off',
+    'max-statements-per-line': 'off',
     'max-len': [ 'error', {
       'ignoreTemplateLiterals': true,
       'ignoreStrings': true,

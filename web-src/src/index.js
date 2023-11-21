@@ -16,20 +16,21 @@ import {
 } from 'recoil';
 
 import { defaultTheme, Provider } from '@adobe/react-spectrum';
-import { App } from './components/App';
+import React from 'react';
+import { App } from './components/App.js';
 import { ApplicationProvider } from './components/ApplicationProvider.js';
 import { AuthProvider } from './components/AuthProvider.js';
 import './index.css';
 
-ReactDOM.render(
+ReactDOM.createRoot(document.getElementById('root')).render(
   <RecoilRoot>
-    <Provider colorScheme="light" theme={defaultTheme} width="100%" height="100%">
-      <ApplicationProvider>
+    <ApplicationProvider>
+      <Provider colorScheme="light" theme={defaultTheme} width="100%" height="100%">
         <AuthProvider>
           <App />
         </AuthProvider>
-      </ApplicationProvider>
-    </Provider>
+      </Provider>
+    </ApplicationProvider>
   </RecoilRoot>,
   document.getElementById('root'),
 );

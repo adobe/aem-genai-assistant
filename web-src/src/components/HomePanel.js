@@ -10,40 +10,48 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Grid, Heading, Image, View,
+  Flex, Grid, Heading, Image, ProgressCircle,
 } from '@adobe/react-spectrum';
 
-import React, { useCallback, useEffect } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import React, { Suspense, useCallback } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { v4 as uuid } from 'uuid';
+import { ErrorBoundary } from 'react-error-boundary';
 import NewSessionBanner from '../assets/new-session-banner.png';
-import { useApplicationContext } from './ApplicationProvider.js';
-import { promptTemplatesState } from '../state/PromptTemplatesState.js';
-import { parseSpreadSheet } from '../helpers/SpreadsheetParser.js';
 import { PromptTemplateCard } from './PromptTemplateCard.js';
-import { NewButton } from './NewButton.js';
-import { currentSessionState } from '../state/CurrentSessionState.js';
+import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
 import { SignOutButton } from './SignOutButton.js';
+import { promptTemplatesState } from '../state/PromptTemplatesState.js';
 
-const PROMPT_TEMPLATES_FILENAME = 'prompttemplates.json';
+function PromptTemplatesView({ onSelect }) {
+  const promptTemplates = useRecoilValue(promptTemplatesState);
+  return (
+    <Grid
+      width={'100%'}
+      alignItems={'center'}
+      columns={'repeat(auto-fill, minmax(250px, 1fr))'} gap={'size-200'}>
+      {
+        promptTemplates
+        && promptTemplates
+          .map((template, index) => (
+            <PromptTemplateCard
+              key={index}
+              template={template}
+              onClick={() => onSelect(promptTemplates[index])} />
+          ))
+      }
+    </Grid>
+  );
+}
 
-export function NewSessionPanel({ props }) {
-  const { websiteUrl } = useApplicationContext();
-  const [promptTemplates, setPromptTemplates] = useRecoilState(promptTemplatesState);
-  const setCurrentSession = useSetRecoilState(currentSessionState);
+export function HomePanel({ props }) {
+  const setCurrentSession = useSetRecoilState(sessionState);
   const setViewType = useSetRecoilState(viewTypeState);
 
-  useEffect(() => {
-    parseSpreadSheet(`${websiteUrl}/${PROMPT_TEMPLATES_FILENAME}`).then(setPromptTemplates);
-  }, [websiteUrl, setPromptTemplates]);
-
-  const promptSelectionHandler = useCallback((selected) => {
-    const selectedTemplate = promptTemplates[selected];
-
+  const handleSelect = useCallback((selectedTemplate) => {
     const timestamp = Date.now();
-
     const session = {
       id: uuid(),
       name: `${selectedTemplate.label} ${formatTimestamp(timestamp)}`,
@@ -54,7 +62,7 @@ export function NewSessionPanel({ props }) {
     };
     setCurrentSession(session);
     setViewType(ViewType.CurrentSession);
-  }, [promptTemplates, setCurrentSession]);
+  }, [setCurrentSession, setViewType]);
 
   return (
     <Grid
@@ -63,7 +71,7 @@ export function NewSessionPanel({ props }) {
       rows={['min-content', 'min-content', '1fr']}
       height={'100%'}
       UNSAFE_style={{
-        padding: '50px', overflow: 'auto',
+        padding: '25px 50px', overflow: 'auto',
       }}>
 
       <Flex
@@ -79,32 +87,20 @@ export function NewSessionPanel({ props }) {
           src={NewSessionBanner}
           objectFit={'cover'}
           marginBottom={20}
-          UNSAFE_style={{ borderRadius: '20px' }}
-        />
-        <h3 style={{ padding: 0, margin: 0 }}>Create high quality content quickly then measure it with experimentation or publish it to your site.</h3>
-        <NewButton right={-150} />
+          UNSAFE_style={{ borderRadius: '20px' }}/>
+        <h3 style={{ padding: 0, margin: 0 }}>
+          Create high quality content quickly then measure it with experimentation or publish it to your site.
+        </h3>
         <SignOutButton right={-150} top={50}/>
       </Flex>
 
       <Heading level={4} alignSelf={'start'}>Prompts</Heading>
 
-      <View>
-        <Grid
-          width={'100%'}
-          alignItems={'center'}
-          columns={'repeat(auto-fill, minmax(250px, 1fr))'} gap={'size-200'}>
-          {
-            promptTemplates
-              && promptTemplates
-                .map((template, index) => (
-                  <PromptTemplateCard
-                    key={index}
-                    template={template}
-                    onClick={() => promptSelectionHandler(index)} />
-                ))
-          }
-        </Grid>
-      </View>
+      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+        <Suspense fallback={<ProgressCircle isIndeterminate />}>
+          <PromptTemplatesView onSelect={handleSelect} />
+        </Suspense>
+      </ErrorBoundary>
     </Grid>
   );
 }

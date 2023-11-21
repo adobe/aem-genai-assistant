@@ -17,7 +17,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { ToastQueue } from '@react-spectrum/toast';
 import { v4 as uuid } from 'uuid';
 import SenseiGenAIIcon from '../icons/GenAIIcon.js';
-import { renderExpressions } from '../helpers/ExpressionRenderer.js';
+import { renderPrompt } from '../helpers/PromptRenderer.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { useAuthContext } from './AuthProvider.js';
 import { promptState } from '../state/PromptState.js';
@@ -65,7 +65,7 @@ export function GenerateButton() {
   const saveSession = useSaveSession();
 
   const generateResults = useCallback(async () => {
-    const finalPrompt = renderExpressions(prompt, parameters);
+    const finalPrompt = renderPrompt(prompt, parameters);
     const { queryId, response } = await firefallService.complete(finalPrompt, temperature, imsToken);
     setResults((results) => [...results, {
       resultId: queryId,
@@ -82,8 +82,13 @@ export function GenerateButton() {
     setGenerationInProgress(true);
     generateResults()
       .catch((error) => {
-        console.log(error);
-        ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
+        switch (error.status) {
+          case 400:
+            ToastQueue.negative('The response was filtered due to the prompt triggering Sensei GenAI\'s content management policy. Please modify your prompt and retry.', { timeout: 2000 });
+            break;
+          default:
+            ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
+        }
       })
       .finally(() => {
         setGenerationInProgress(false);

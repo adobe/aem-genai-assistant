@@ -9,17 +9,17 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React from 'react';
+import React, { Suspense } from 'react';
 import { ToastContainer } from '@react-spectrum/toast';
 import {
-  Grid,
+  Grid, ProgressCircle,
 } from '@adobe/react-spectrum';
 import { useRecoilValue } from 'recoil';
 import { css } from '@emotion/css';
 import { ConsentDialog } from './ConsentDialog.js';
 import { SidePanel } from './SidePanel.js';
-import { CurrentSessionPanel } from './CurrentSessionPanel.js';
-import { NewSessionPanel } from './NewSessionPanel.js';
+import { SessionPanel } from './SessionPanel.js';
+import { HomePanel } from './HomePanel.js';
 import { viewTypeState, ViewType } from '../state/ViewType.js';
 import { FavoritesPanel } from './FavoritesPanel.js';
 
@@ -36,11 +36,11 @@ const styles = {
 function getView(viewType) {
   switch (viewType) {
     case ViewType.CurrentSession:
-      return <CurrentSessionPanel />;
+      return <SessionPanel />;
     case ViewType.Favorites:
       return <FavoritesPanel />;
     default:
-      return <NewSessionPanel />;
+      return <HomePanel />;
   }
 }
 
@@ -58,7 +58,9 @@ export function App() {
         width="100%" height="100%">
         <SidePanel width="100%" height="100%" />
         <div className={styles.container}>
-          { getView(viewType) }
+          <Suspense fallback={<ProgressCircle/>}>
+            { getView(viewType) }
+          </Suspense>
         </div>
       </Grid>
     </>

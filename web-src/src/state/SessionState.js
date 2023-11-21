@@ -11,7 +11,7 @@
  */
 import { atom } from 'recoil';
 
-export const currentSessionState = atom({
-  key: 'currentSessionState',
+export const sessionState = atom({
+  key: 'sessionState',
   default: undefined,
 });

@@ -31,6 +31,7 @@ import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
 import { useSaveSession } from '../state/SaveSessionHook.js';
+import { sampleRUM } from '../rum.js';
 import { toClipboard, toHTML } from '../helpers/ExportPrompt.js';
 
 const styles = {
@@ -207,7 +208,10 @@ export function ResultCard({ result, ...props }) {
             <ActionButton
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
-              onPress={() => navigator.clipboard.write(toClipboard(toHTML(selectedVariant.content)))}>
+              onPress={() => {
+                sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress'});
+                navigator.clipboard.write(toClipboard(toHTML(selectedVariant.content)));
+              }}>
               <Copy/>
             </ActionButton>
             <Tooltip>Copy</Tooltip>

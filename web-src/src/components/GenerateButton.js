@@ -28,6 +28,7 @@ import { parametersState } from '../state/ParametersState.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
 import { useSaveSession } from '../state/SaveSessionHook.js';
 import { createVariants } from '../helpers/CreateVariants.js';
+import { sampleRUM } from '../rum.js';
 
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
@@ -54,6 +55,7 @@ export function GenerateButton() {
   }, [firefallService, prompt, parameters, temperature]);
 
   const handleGenerate = useCallback(() => {
+    sampleRUM('genai:prompt:generate', { source: 'GenerateButton#handleGenerate' });
     setGenerationInProgress(true);
     generateResults()
       .catch((error) => {

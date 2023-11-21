@@ -20,16 +20,16 @@ export const ShellAuthContext = createContext({});
 export const ShellAuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isUserAuthorized, setIsUserAuthorized] = useState(false);
-  const { config } = useApplicationContext();
+  const { shellConfig } = useApplicationContext();
 
   // Set userContext from config.imsProfile and config.imsToken and config.imsOrg
   useEffect(() => {
     setUser({
-      imsProfile: config.imsProfile,
-      imsToken: config.imsToken,
-      imsOrg: config.imsOrg
+      imsProfile: shellConfig.imsProfile,
+      imsToken: shellConfig.imsToken,
+      imsOrg: shellConfig.imsOrg
     });
-  }, [config]);
+  }, [shellConfig]);
 
   // When the user changes, invoke isAuthorized function and display an error message in the UI 
   // if the user is not authorized

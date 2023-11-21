@@ -44,7 +44,7 @@ function getWebsiteUrlFromReferrer() {
   return `${url.protocol}//${url.host}`;
 }
 
-function createApplication(config) {
+function createApplication(shellConfig) {
   const websiteUrl = getWebsiteUrl();
   console.log(`Website URL: ${websiteUrl}`);
   return {
@@ -54,7 +54,7 @@ function createApplication(config) {
       completeEndpoint: actions[COMPLETE_ACTION],
       feedbackEndpoint: actions[FEEDBACK_ACTION],
     }),
-    config: config
+    shellConfig: shellConfig
   };
 }
 

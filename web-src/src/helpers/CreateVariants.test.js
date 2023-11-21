@@ -1,34 +1,32 @@
-// write test for CreateVariations function
-
 import { createVariants } from './CreateVariants.js';
 
-function objectToString(obj) {
-  return String(obj).replace(/<\/?[^>]+(>|$)/g, '');
-}
-
-function jsonToString(json) {
-  if (json === null || typeof json !== 'object') {
-    return objectToString(json);
-  }
-}
-
-function createVariants(response) {
-  try {
-    const json = JSON.parse(response);
-    if (Array.isArray(json)) {
-      return json.map((item) => ({ id: uuid(), content: jsonToString(item) }));
-    } else {
-      return [{ id: uuid(), content: String(response) }];
-    }
-  } catch (error) {
-    return [{ id: uuid(), content: String(response) }];
-  }
-}
-
+const uuid = () => 123;
 
 describe('createVariants', () => {
-    test('variants is an array of json objects', () => {
-      const variants = [{key1: 'value1'}, {key2: 'value2'}];
-      expect(createVariants(123, variants)).toEqual({ id: 123, content: variants });
-    });
+  test('response is a JSON string: an array of json objects', () => {
+    const response = [
+      {key1: 'value1', key2: 'value2'},
+      {key3: 'value3', key4: 'value4'},
+      null,
+      'Hello!',
+      '<tag>how</tag> is it going?'
+    ];
+    expect(createVariants(uuid, JSON.stringify(response))).toEqual([
+      { id: 123, content: {key1: 'value1', key2: 'value2'} },
+      { id: 123, content: {key3: 'value3', key4: 'value4'} },
+      { id: 123, content: 'null' },
+      { id: 123, content: 'Hello!' },
+      { id: 123, content: 'how is it going?' }
+    ]);
   });
+  test('response is a JSON string: an object', () => {
+    const response = {key: 'value'};
+    expect(createVariants(uuid, JSON.stringify(response))).toEqual([
+      { id: 123, content: {key: 'value'} },
+    ]);
+  });
+  test('response is a string', () => {
+    const response = 'Hello! How can I assist you today?';
+    expect(createVariants(uuid, response)).toEqual([{ id: 123, content: response }]);
+  });
+});

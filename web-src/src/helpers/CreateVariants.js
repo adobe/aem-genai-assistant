@@ -9,15 +9,20 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-export function createVariants(id, response) {
-    try {
-      const json = JSON.parse(response);
-      if (Array.isArray(json)) {
-        return json.map((item) => ({ id, content: jsonToString(item) }));
-      } else {
-        return [{ id, content: String(response) }];
-      }
-    } catch (error) {
-      return [{ id, content: String(response) }];
+
+function objectToString(obj) {
+  return String(obj).replace(/<\/?[^>]+(>|$)/g, '');
+}
+
+export function createVariants(uuid, response) {
+  try {
+    const json = JSON.parse(response);
+    if (Array.isArray(json)) {
+      return json.map((content) => ({ id: uuid(), content: content === null || typeof content !== 'object' ? objectToString(content) : content }) );
+    } else {
+      return [{ id: uuid(), content: json }];
     }
+  } catch (error) {
+    return [{ id: uuid(), content: String(response) }];
   }
+}

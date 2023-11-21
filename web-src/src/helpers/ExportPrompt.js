@@ -9,39 +9,19 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-export function toWord(prompt) {
-    const table = document.createElement('table');
-    table.setAttribute('border', '1');
-    table.setAttribute('style', 'width:100%;');
-  
-    const headerRow = document.createElement('tr');
-    headerRow.append(createTag('td', { colspan: maxCols, style: `background-color: ${getPreferedBackgroundColor()}; color: ${getPreferedForegroundColor()};` }, getAuthorFriendlyName(name)));
-    table.append(headerRow);
-    rows.forEach((row) => {
-      const columns = [...row.children];
-      const tr = document.createElement('tr');
-      columns.forEach((col) => {
-        const columnWidthPercentage = (1 / columns.length) * 100;
-        const td = document.createElement('td');
-        if (row.children.length < maxCols) {
-          td.setAttribute('colspan', maxCols);
-        } else {
-          td.setAttribute('style', `width: ${columnWidthPercentage}%`);
-        }
-  
-        prepareImagesForCopy(col, url, columnWidthPercentage);
-  
-        td.innerHTML = col.innerHTML;
-  
-        tr.append(td);
-      });
-      table.append(tr);
-    });
-    return table;
-  }
+export function toClipboard(html) {
+  const span = document.createElement('span');
+  span.innerHTML = html;
+  const blob = new Blob([span.outerHTML], { type: 'text/html' });
+  return [new ClipboardItem({ [blob.type]: blob })];
+}
 
-export function toHTML(prompt) {
-  return Object.entries(json).map(([key, value]) => {
-    return `<b>${key}</b>: ${objectToString(value)}`;
-  }).join('<br/>');
+export function toHTML(input) {
+  if (typeof input === 'string') {
+    return input;
+  } else {
+    return Object.entries(input).map(([key, value]) => {
+      return `<b>${key}</b>: ${value}`;
+    }).join('<br/>');
+  }
 }

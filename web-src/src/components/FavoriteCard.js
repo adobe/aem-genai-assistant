@@ -19,6 +19,7 @@ import Delete from '@spectrum-icons/workflow/Delete';
 import { motion } from 'framer-motion';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { toClipboard, toHTML } from '../helpers/ExportPrompt.js';
+import { sampleRUM } from '../rum.js';
 
 const styles = {
   card: css`

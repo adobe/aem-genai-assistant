@@ -11,11 +11,10 @@
  */
 import React, { Fragment, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Content, Heading, InlineAlert } from '@adobe/react-spectrum';
-import { FirefallService } from '../services/FirefallService.js';
-import { ImsAuthClient } from '../ims/ImsAuthClient.js';
+import excApp from '@adobe/exc-app';
 import page from '@adobe/exc-app/page';
-import excApp, { RuntimeConfiguration } from '@adobe/exc-app';
 
+import { FirefallService } from '../services/FirefallService.js';
 import actions from '../config.json';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';

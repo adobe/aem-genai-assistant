@@ -27,6 +27,8 @@ import { generationInProgressState } from '../state/GenerationInProgressState.js
 import { parametersState } from '../state/ParametersState.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
 import { useSaveSession } from '../state/SaveSessionHook.js';
+import { sampleRUM } from '../rum.js';
+
 
 function objectToString(obj) {
   return String(obj).replace(/<\/?[^>]+(>|$)/g, '');
@@ -79,6 +81,7 @@ export function GenerateButton() {
   }, [firefallService, prompt, parameters, temperature]);
 
   const handleGenerate = useCallback(() => {
+    sampleRUM('genai:generate', { source: 'GenerateButton#handleGenerate' });
     setGenerationInProgress(true);
     generateResults()
       .catch((error) => {

@@ -31,6 +31,7 @@ import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
 import { useSaveSession } from '../state/SaveSessionHook.js';
+import { sampleRUM } from '../rum.js';
 
 const styles = {
   card: css`
@@ -208,7 +209,9 @@ export function ResultCard({ result, ...props }) {
             <ActionButton
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
-              onPress={() => navigator.clipboard.writeText(selectedVariant.content)}>
+              onPress={() => {navigator.clipboard.writeText(selectedVariant.content);
+                sampleRUM('genai:copy', { source: 'ResultCard'});
+              }}>
               <Copy/>
             </ActionButton>
             <Tooltip>Copy</Tooltip>

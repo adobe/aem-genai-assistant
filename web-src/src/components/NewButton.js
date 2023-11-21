@@ -18,12 +18,15 @@ import GenAIIcon from '../icons/GenAIIcon.js';
 import { currentSessionState } from '../state/CurrentSessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
+import { sampleRUM } from '../rum.js';
+
 
 export function NewButton(props) {
   const setCurrentSession = useSetRecoilState(currentSessionState);
   const setViewType = useSetRecoilState(viewTypeState);
 
   const handleNewPrompt = useCallback(() => {
+    sampleRUM('genai:newprompt', { source: 'NewButton#handleNewPrompt' });
     const timestamp = Date.now();
 
     const timestampStr = formatTimestamp(timestamp);

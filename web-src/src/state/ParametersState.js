@@ -10,14 +10,15 @@
  * governing permissions and limitations under the License.
  */
 import { atom } from 'recoil';
-import { expressionsState } from './ExpressionsState.js';
+import { placeholdersState } from './PlaceholdersState.js';
 
 function setDefaultValuesEffect({ onSet, getPromise, setSelf }) {
   onSet(async (newValue) => {
-    getPromise(expressionsState).then((expressions) => {
+    getPromise(placeholdersState).then((placeholders) => {
       const newParameters = { ...newValue };
-      Object.entries(expressions).forEach(([name, params]) => {
-        if (newParameters[name] === undefined && params.default !== undefined) {
+      Object.entries(placeholders).forEach(([name, params]) => {
+        if (newParameters[name] === undefined && params.default !== undefined && params.default !== '') {
+          console.log(`Setting default value for ${name} to ${params.default}`);
           newParameters[name] = params.default;
         }
       });

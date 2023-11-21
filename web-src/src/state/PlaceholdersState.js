@@ -13,9 +13,9 @@ import { selector } from 'recoil';
 import { promptState } from './PromptState.js';
 import { parseExpressions } from '../helpers/ExpressionParser.js';
 
-export const expressionsState = selector({
-  key: 'expressionsState',
-  get: ({ get }) => {
+export const placeholdersState = selector({
+  key: 'placeholdersState',
+  get: async ({ get }) => {
     return parseExpressions(get(promptState));
   },
 });

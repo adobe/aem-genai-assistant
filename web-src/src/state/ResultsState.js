@@ -9,17 +9,17 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom, selector } from 'recoil';
-import { currentSessionState } from './CurrentSessionState.js';
+import { selector } from 'recoil';
+import { sessionState } from './SessionState.js';
 
 export const resultsState = selector({
   key: 'resultsState',
   get: ({ get }) => {
-    return get(currentSessionState)?.results ?? [];
+    return get(sessionState)?.results ?? [];
   },
   set: ({ set, get }, newValue) => {
-    set(currentSessionState, {
-      ...get(currentSessionState),
+    set(sessionState, {
+      ...get(sessionState),
       results: newValue,
     });
   },

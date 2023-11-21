@@ -11,7 +11,7 @@
  */
 import { EXPRESSION_REGEX } from './ExpressionParser.js';
 
-const NO_VALUE_STRING = '<please select>';
+export const NO_VALUE_STRING = '<please_select>';
 
 function isBlankValue(value) {
   if (typeof value === 'number') {
@@ -22,7 +22,7 @@ function isBlankValue(value) {
   return value === null || value === undefined;
 }
 
-function replacePlaceholders(str, valuesMap) {
+function resolvePlaceholders(str, valuesMap) {
   return str.replace(EXPRESSION_REGEX, (match) => {
     const [[_, modifier, identifier]] = match.matchAll(EXPRESSION_REGEX);
     if (modifier === '#' || modifier === '@') {
@@ -36,9 +36,9 @@ function replacePlaceholders(str, valuesMap) {
 }
 
 function removeEmptyLines(text) {
-  return text.replace(/\n\s*\n/g, '\n\n');
+  return text.replace(/\n\s*\n/g, '\n\n').trim();
 }
 
-export function renderExpressions(prompt, expressions) {
-  return removeEmptyLines(replacePlaceholders(prompt, expressions));
+export function renderPrompt(prompt, placeholders) {
+  return removeEmptyLines(resolvePlaceholders(prompt, placeholders));
 }

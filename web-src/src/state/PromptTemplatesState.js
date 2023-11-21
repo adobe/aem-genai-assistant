@@ -9,9 +9,44 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom } from 'recoil';
+import { selector } from 'recoil';
+import { configurationState } from './ConfigurationState.js';
+import { wretchRetry } from '../../../actions/Network.js';
 
-export const promptTemplatesState = atom({
+function parsePromptTemplates(data) {
+  return data.map(({
+    Label, Description, Template,
+  }) => {
+    return {
+      label: Label,
+      description: Description,
+      template: Template || '',
+      isNew: false,
+      isAdobe: true, //todo: needs to be distinguished from user created templates
+    };
+  });
+}
+
+export const newPromptTemplate = [{
+  label: 'New prompt',
+  description: 'To start a new prompt use this and then add it to your prompt templates for future use.',
+  template: '',
+  isNew: true,
+  isAdobe: false,
+}];
+
+export const promptTemplatesState = selector({
   key: 'promptTemplatesState',
-  default: [],
+  get: async ({ get }) => {
+    try {
+      const { websiteUrl, promptTemplatesPath } = get(configurationState);
+      const url = `${websiteUrl}/${promptTemplatesPath.toLowerCase()}.json`;
+      const { data } = await wretchRetry(url).get().json();
+      const parsedPromptTemplates = parsePromptTemplates(data);
+      return [...parsedPromptTemplates, ...newPromptTemplate];
+    } catch (e) {
+      console.error(e);
+      throw new Error('Unable to load prompt templates');
+    }
+  },
 });

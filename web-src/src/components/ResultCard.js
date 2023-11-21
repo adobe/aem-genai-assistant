@@ -129,12 +129,10 @@ export function ResultCard({ result, ...props }) {
   const sendFeedback = useCallback((sentiment) => {
     firefallService.feedback(result.resultId, sentiment, user.imsToken)
       .then((id) => {
-        console.log('Feedback sent', id);
         ToastQueue.positive('Feedback sent', { timeout: 1000 });
       })
       .catch((error) => {
-        console.error('Failed to send feedback', error);
-        ToastQueue.negative('Failed to send feedback', { timeout: 1000 });
+        ToastQueue.negative('Failed to send feedback. Error code: IS-ERROR', { timeout: 1000 });
       });
   }, [result, firefallService]);
 

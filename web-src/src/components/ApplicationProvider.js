@@ -11,16 +11,20 @@
  */
 import React, { Fragment, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { Content, Heading, InlineAlert } from '@adobe/react-spectrum';
+import { useSetRecoilState } from 'recoil';
 import excApp from '@adobe/exc-app';
 import page from '@adobe/exc-app/page';
 
 import { FirefallService } from '../services/FirefallService.js';
 import actions from '../config.json';
+import { configurationState } from '../state/ConfigurationState.js';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 
 const COMPLETE_ACTION = 'complete';
 const FEEDBACK_ACTION = 'feedback';
+
+const PROMPT_TEMPLATES_FILENAME = 'prompttemplates';
 
 function getWebsiteUrl() {
   const searchParams = new URLSearchParams(window.location.search);
@@ -49,7 +53,14 @@ function createApplication(shellConfig) {
   console.log(`Website URL: ${websiteUrl}`);
   return {
     appVersion: APP_VERSION,
-    websiteUrl,
+    websiteUrl: getWebsiteUrl(),
+    promptTemplatesPath: getPromptTemplatesPath(),
+  };
+}
+
+function createApplication(configuration) {
+  return {
+    ...configuration,
     firefallService: new FirefallService({
       completeEndpoint: actions[COMPLETE_ACTION],
       feedbackEndpoint: actions[FEEDBACK_ACTION],
@@ -86,14 +97,9 @@ export const ApplicationProvider = ({ children }) => {
         {children}
       </ApplicationContext.Provider>
     );
-  } catch (e) {
-    return (
-      <InlineAlert margin={'50px'}>
-        <Heading>Oops! It looks like we ran into a small snag</Heading>
-        <Content>{e.message}</Content>
-      </InlineAlert>
-    );
   }
+
+  return (<Fragment/>);
 };
 
 export const useApplicationContext = () => {

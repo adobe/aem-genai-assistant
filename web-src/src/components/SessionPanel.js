@@ -11,11 +11,11 @@
  */
 import { Flex, Grid } from '@adobe/react-spectrum';
 import React from 'react';
-import { PromptPropertiesPanel } from './PromptPropertiesPanel.js';
+import { PromptPropertiesView } from './PromptPropertiesView.js';
 import { ResultsView } from './ResultsView.js';
 import PromptEditor from './PromptEditor.js';
 
-export function CurrentSessionPanel() {
+export function SessionPanel() {
   return (
     <Grid
       columns={['330px', '1fr']}
@@ -23,11 +23,8 @@ export function CurrentSessionPanel() {
       justifyContent={'stretch'}
       alignItems={'stretch'}
       gap={'size-300'}
-      height={'100%'}
-      UNSAFE_style={{
-        background: 'white', margin: '0 20px 0 20px', borderRadius: '20px 20px 0 0', border: '2px #e0e0e0 solid',
-      }}>
-      <PromptPropertiesPanel />
+      height={'100%'}>
+      <PromptPropertiesView />
       <Grid UNSAFE_style={{ padding: '20px 20px 20px 0' }} columns={'1fr'} rows={['1fr', 'min-content']} alignItems={'center'} justifyContent={'center'} gap={25}>
         <Flex direction={'column'} UNSAFE_style={{
           overflow: 'auto', position: 'relative', width: '100%', height: '100%',

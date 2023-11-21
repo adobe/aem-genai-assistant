@@ -71,9 +71,7 @@ function PromptEditor(props) {
   }, [promptText, setPrompt]);
 
   useEffect(() => {
-    if (!viewSource) {
-      setPromptText(prompt);
-    }
+    setPromptText(prompt);
   }, [prompt, setPromptText]);
 
   return (

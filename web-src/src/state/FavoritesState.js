@@ -10,12 +10,12 @@
  * governing permissions and limitations under the License.
  */
 import { atom } from 'recoil';
-import { createLocalStorageEffect } from '../helpers/LocalStorageEffect.js';
+import { createIndexedDbEffect } from '../helpers/IndexedDbEffect.js';
 
-const LOCAL_STORAGE_KEY = 'favorites';
+const STORAGE_KEY = 'favorites';
 
 export const favoritesState = atom({
   key: 'favoritesState',
   default: [],
-  effects: [createLocalStorageEffect(LOCAL_STORAGE_KEY)],
+  effects: [createIndexedDbEffect(STORAGE_KEY)],
 });

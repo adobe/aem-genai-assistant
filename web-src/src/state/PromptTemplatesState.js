@@ -23,7 +23,7 @@ export const newPromptTemplate = {
   isBundled: false,
 };
 
-function parsePromptTemplates(data) {
+function parsePromptTemplates(data, isBundled) {
   return data.map(({
     Label, Description, Template,
   }) => {
@@ -32,7 +32,7 @@ function parsePromptTemplates(data) {
       description: Description,
       template: Template || '',
       isFeatured: false,
-      isBundled: true,
+      isBundled,
     };
   });
 }
@@ -42,7 +42,7 @@ async function fetchPromptTemplates(websiteUrl, promptTemplatesPath) {
     const url = `${websiteUrl}/${promptTemplatesPath.toLowerCase()}.json`;
     console.log('Fetching prompt templates from', url);
     const { data: promptTemplates } = await wretchRetry(url).get().json();
-    return parsePromptTemplates(promptTemplates);
+    return parsePromptTemplates(promptTemplates, false);
   } catch (e) {
     console.warn('Could not fetch prompt templates', e);
     return [];
@@ -55,7 +55,7 @@ export const promptTemplatesState = selector({
     const { websiteUrl, promptTemplatesPath } = get(configurationState);
     return [
       newPromptTemplate,
-      ...(parsePromptTemplates(bundledPromptTemplates)),
+      ...(parsePromptTemplates(bundledPromptTemplates, true)),
       ...(await fetchPromptTemplates(websiteUrl, promptTemplatesPath)),
     ];
   },

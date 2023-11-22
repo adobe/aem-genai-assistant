@@ -1,8 +1,5 @@
 name: Frontend Test
 
-env:
- BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
-
 on:
   pull_request:
     branches:
@@ -18,9 +15,9 @@ jobs:
       with:
         node-version: '20'
     - run: npm install
+    - run: npm run grammar
     - run: npm run build
     - run: npm run lint
     - run: npm run test
-    - run: npm run grammar
       env:
         CI: true

@@ -52,10 +52,7 @@ export function PromptTemplateCard({
         transition={{ ease: 'easeInOut', duration: 0.3 }}>
         <Grid
           {...props}
-          UNSAFE_className={css`
-            ${styles.card}
-            border-color: ${template.isFeatured ? 'black' : '#e0e0e0'}
-          `}
+          UNSAFE_className={styles.card}
           alignItems={'center'}
           gap={5}
           areas={[

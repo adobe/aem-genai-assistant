@@ -12,8 +12,8 @@
 import {
   Button, Content, ContextualHelp, Flex, Heading, ProgressCircle,
 } from '@adobe/react-spectrum';
-import React, { useCallback } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import React, { useCallback, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { ToastQueue } from '@react-spectrum/toast';
 import { v4 as uuid } from 'uuid';
 import SenseiGenAIIcon from '../icons/GenAIIcon.js';
@@ -23,10 +23,9 @@ import { useShellAuthContext } from './ShellAuthProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { temperatureState } from '../state/TemperatureState.js';
 import { resultsState } from '../state/ResultsState.js';
-import { generationInProgressState } from '../state/GenerationInProgressState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
-import { useSaveSession } from '../state/SaveSessionHook.js';
+import { useSaveSession } from '../state/SaveResultsHook.js';
 import { createVariants } from '../helpers/CreateVariants.js';
 import { sampleRUM } from '../rum.js';
 
@@ -37,7 +36,7 @@ export function GenerateButton() {
   const parameters = useRecoilValue(parametersState);
   const temperature = useRecoilValue(temperatureState);
   const setResults = useSetRecoilState(resultsState);
-  const [generationInProgress, setGenerationInProgress] = useRecoilState(generationInProgressState);
+  const [generationInProgress, setGenerationInProgress] = useState(false);
   const saveSession = useSaveSession();
 
   const generateResults = useCallback(async () => {
@@ -81,7 +80,7 @@ export function GenerateButton() {
         style="fill"
         onPress={handleGenerate}
         isDisabled={generationInProgress}>
-        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px" /> : <SenseiGenAIIcon />}
+        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px" /> : <SenseiGenAIIcon marginRight={'10px'}/>}
         Generate
       </Button>
       <ContextualHelp variant="info">

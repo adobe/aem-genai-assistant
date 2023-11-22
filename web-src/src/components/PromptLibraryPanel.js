@@ -22,11 +22,11 @@ import { PromptTemplateCard } from './PromptTemplateCard.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
-import { promptTemplatesState } from '../state/PromptTemplatesState.js';
+import { promptLibraryState } from '../state/PromptLibraryState.js';
 import { sampleRUM } from '../rum.js';
 
 function PromptTemplatesView({ onSelect }) {
-  const promptTemplates = useRecoilValue(promptTemplatesState);
+  const promptTemplates = useRecoilValue(promptLibraryState);
   return (
     <Grid
       width={'100%'}
@@ -46,7 +46,7 @@ function PromptTemplatesView({ onSelect }) {
   );
 }
 
-export function HomePanel({ props }) {
+export function PromptLibraryPanel({ props }) {
   const setCurrentSession = useSetRecoilState(sessionState);
   const setViewType = useSetRecoilState(viewTypeState);
 
@@ -63,6 +63,7 @@ export function HomePanel({ props }) {
       description: selectedTemplate.description,
       timestamp,
       prompt: selectedTemplate.template,
+      parameters: {},
       results: [],
     };
     setCurrentSession(session);

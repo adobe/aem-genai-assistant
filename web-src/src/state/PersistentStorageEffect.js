@@ -9,17 +9,30 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-export function createLocalStorageEffect(key) {
-  return function ({ setSelf, onSet }) {
-    const savedValue = localStorage.getItem(key);
-    if (savedValue != null) {
-      setSelf(JSON.parse(savedValue));
-    }
+import localforage, { getItem, removeItem, setItem } from 'localforage';
+
+localforage.config({ name: 'sessions' });
+
+export function createPersistentStorageEffect(key) {
+  return ({ setSelf, onSet }) => {
+    getItem(key)
+      .then((savedValue) => {
+        if (savedValue != null) {
+          setSelf(JSON.parse(savedValue));
+        }
+      })
+      .catch((err) => {
+        console.error(`Error loading ${key} from IndexedDB`, err);
+      });
     onSet((newValue, _, isReset) => {
       if (isReset) {
-        localStorage.removeItem(key);
+        removeItem(key).catch((err) => {
+          console.error(`Error deleting ${key} from IndexedDB`, err);
+        });
       } else {
-        localStorage.setItem(key, JSON.stringify(newValue));
+        setItem(key, JSON.stringify(newValue)).catch((err) => {
+          console.error(`Error saving ${key} to IndexedDB`, err);
+        });
       }
     });
   };

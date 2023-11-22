@@ -10,12 +10,12 @@
  * governing permissions and limitations under the License.
  */
 import { atom } from 'recoil';
-import { createLocalStorageEffect } from '../helpers/LocalStorageEffect.js';
+import { createPersistentStorageEffect } from './PersistentStorageEffect.js';
 
-const LOCAL_STORAGE_KEY = 'favorites';
+const STORAGE_KEY = 'favorites';
 
 export const favoritesState = atom({
   key: 'favoritesState',
   default: [],
-  effects: [createLocalStorageEffect(LOCAL_STORAGE_KEY)],
+  effects: [createPersistentStorageEffect(STORAGE_KEY)],
 });

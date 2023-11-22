@@ -12,7 +12,7 @@
 import {
   Flex, NumberField, TextArea,
 } from '@adobe/react-spectrum';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { placeholdersState } from '../state/PlaceholdersState.js';
 import { parametersState } from '../state/ParametersState.js';
@@ -46,7 +46,7 @@ function createTextComponent(name, label, params, value, onChange) {
     <TextArea
       key={name}
       label={label}
-      description={<DescriptionLabel description={params.description}/>}
+      contextualHelp={<DescriptionLabel description={params.description}/>}
       width="100%"
       value={value}
       onChange={(newValue) => onChange(name, newValue)}
@@ -59,7 +59,7 @@ function createNumberComponent(name, label, params, value, onChange) {
     <NumberField
       key={name}
       label={label}
-      description={<DescriptionLabel description={params.description}/>}
+      contextualHelp={<DescriptionLabel description={params.description}/>}
       width="100%"
       value={value}
       minValue={0}
@@ -97,10 +97,6 @@ function createInputComponent(type, name, label, params, value, onChange) {
 export function InputsView({ gridColumn }) {
   const placeholders = useRecoilValue(placeholdersState);
   const [parameters, setParameters] = useRecoilState(parametersState);
-
-  useEffect(() => {
-    setParameters({});
-  }, [placeholders]);
 
   const onChange = useCallback((name, value) => {
     setParameters({ ...parameters, [name]: value });

@@ -10,8 +10,12 @@
  * governing permissions and limitations under the License.
  */
 import { atom } from 'recoil';
+import { createPersistentStorageEffect } from './PersistentStorageEffect.js';
 
-export const generationInProgressState = atom({
-  key: 'generationInProgressState',
-  default: false,
+const STORAGE_KEY = 'sessions';
+
+export const sessionHistoryState = atom({
+  key: 'sessionsState',
+  default: [],
+  effects: [createPersistentStorageEffect(STORAGE_KEY)],
 });

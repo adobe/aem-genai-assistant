@@ -219,13 +219,19 @@ export function ResultCard({ result, ...props }) {
           <ActionButton
             isQuiet
             UNSAFE_className="hover-cursor-pointer"
-            onPress={() => sendFeedback(true)}>
+            onPress={() =>{
+              sampleRUM('genai:prompt:thumbsUp', { source: 'ResultCard#onPress' });
+              sendFeedback(true);
+            }}>
             <ThumbUp/>
           </ActionButton>
           <ActionButton
             isQuiet
             UNSAFE_className="hover-cursor-pointer"
-            onPress={() => sendFeedback(false)}>
+            onPress={() => {
+              sampleRUM('genai:prompt:thumbsDown', { source: 'ResultCard#onPress' });
+              sendFeedback(false);
+            }}>
             <ThumbDown/>
           </ActionButton>
           <TooltipTrigger delay={0}>

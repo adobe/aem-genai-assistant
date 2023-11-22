@@ -25,8 +25,8 @@ import { temperatureState } from '../state/TemperatureState.js';
 import { resultsState } from '../state/ResultsState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
-import { useSaveSession } from '../state/SaveResultsHook.js';
-import { createVariants } from '../helpers/CreateVariants.js';
+import { useSaveResults } from '../state/SaveResultsHook.js';
+import { createVariants } from '../helpers/ResultsParser.js';
 import { sampleRUM } from '../rum.js';
 
 export function GenerateButton() {
@@ -37,20 +37,20 @@ export function GenerateButton() {
   const temperature = useRecoilValue(temperatureState);
   const setResults = useSetRecoilState(resultsState);
   const [generationInProgress, setGenerationInProgress] = useState(false);
-  const saveSession = useSaveSession();
+  const saveResults = useSaveResults();
 
   const generateResults = useCallback(async () => {
     const finalPrompt = renderPrompt(prompt, parameters);
     const { queryId, response } = await firefallService.complete(finalPrompt, temperature, user.imsOrg, user.imsToken);
     setResults((results) => [...results, {
-      resultId: queryId,
+      id: queryId,
       variants: createVariants(uuid, response),
       prompt: finalPrompt,
       promptTemplate: prompt,
       parameters,
       temperature,
     }]);
-    await saveSession();
+    await saveResults();
   }, [firefallService, prompt, parameters, temperature]);
 
   const handleGenerate = useCallback(() => {

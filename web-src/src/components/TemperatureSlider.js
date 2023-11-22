@@ -15,6 +15,9 @@ import { useRecoilState } from 'recoil';
 import {
   TEMPERATURE_MAX, TEMPERATURE_MIN, temperatureState,
 } from '../state/TemperatureState.js';
+import { DescriptionLabel } from './DescriptionLabel.js';
+
+const TEMPERATURE_DESC = 'A higher temperature strays from the prompt and leads to more randomness and creativity from the LLM';
 
 export function TemperatureSlider() {
   const [temperature, setTemperature] = useRecoilState(temperatureState);
@@ -22,6 +25,7 @@ export function TemperatureSlider() {
     <Slider
       UNSAFE_className="creativity-slider"
       label="Temperature"
+      contextualHelp={<DescriptionLabel description={TEMPERATURE_DESC}/>}
       minValue={TEMPERATURE_MIN}
       maxValue={TEMPERATURE_MAX}
       isFilled={true}

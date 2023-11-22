@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  ActionButton, Image, Tooltip, TooltipTrigger,
+  ActionButton, Tooltip, TooltipTrigger,
 } from '@adobe/react-spectrum';
 import ThumbUp from '@spectrum-icons/workflow/ThumbUp';
 import ThumbDown from '@spectrum-icons/workflow/ThumbDown';
@@ -18,6 +18,7 @@ import Star from '@spectrum-icons/workflow/Star';
 import StarOutline from '@spectrum-icons/workflow/StarOutline';
 import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
+import Refresh from '@spectrum-icons/workflow/Refresh';
 import React, { useCallback, useState } from 'react';
 import { css } from '@emotion/css';
 import { ToastQueue } from '@react-spectrum/toast';
@@ -26,7 +27,6 @@ import { useIsFavorite } from '../state/IsFavoriteHook.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { useShellAuthContext } from './ShellAuthProvider.js';
-import ReusePromptIcon from '../assets/reuse-prompt.svg';
 import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
@@ -159,17 +159,8 @@ export function ResultCard({ result, ...props }) {
             <ActionButton
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
-              onPress={() => navigator.clipboard.writeText(result.prompt)}>
-              <Copy/>
-            </ActionButton>
-            <Tooltip>Copy</Tooltip>
-          </TooltipTrigger>
-          <TooltipTrigger delay={0}>
-            <ActionButton
-              isQuiet
-              UNSAFE_className="hover-cursor-pointer"
               onPress={reusePrompt}>
-              <Image src={ReusePromptIcon} />
+              <Refresh/>
             </ActionButton>
             <Tooltip>Re-use</Tooltip>
           </TooltipTrigger>

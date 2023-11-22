@@ -18,6 +18,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: npm install
         run: npm i
+      - name: npm run lint && npm run test
+        run: npm run lint && npm run test
       - name: Setup CLI
         uses: adobe/aio-cli-setup-action@1.1.0
         with:

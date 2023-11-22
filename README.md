@@ -53,12 +53,11 @@ The list of supported parameters:
 - `description` - The description to display for the placeholder.
 - `type` - The type of input to expect from the user. If not provided, the placeholder will be displayed as a text input.
 - `default` - The default value to use for the placeholder. If not provided, the placeholder will be displayed as an empty input.
-- `spreadsheet` - The name of the spreadsheet to use for the placeholder. If not provided, the placeholder will be displayed as a text input. This parameter sets the type to `spreadsheet`.
-
+- `spreadsheet` - The name of the spreadsheet from which to read the values for the dropdown list. This parameter sets the type to `select`.
 The list of supported types:
 - `text` - A multi-line text input (default).
 - `number` - A number.
-- `select` - A drop-down list of values from a spreadsheet.
+- `select` - A drop-down list of values.
 
 ## Development Guidelines
 

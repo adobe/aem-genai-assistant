@@ -12,12 +12,6 @@
 import {
   ActionButton, Tooltip, TooltipTrigger,
 } from '@adobe/react-spectrum';
-import ThumbUp from '@spectrum-icons/workflow/ThumbUp';
-import ThumbDown from '@spectrum-icons/workflow/ThumbDown';
-import Star from '@spectrum-icons/workflow/Star';
-import StarOutline from '@spectrum-icons/workflow/StarOutline';
-import Copy from '@spectrum-icons/workflow/Copy';
-import Delete from '@spectrum-icons/workflow/Delete';
 import Refresh from '@spectrum-icons/workflow/Refresh';
 import React, { useCallback, useState } from 'react';
 import { css } from '@emotion/css';
@@ -33,6 +27,13 @@ import { resultsState } from '../state/ResultsState.js';
 import { useSaveSession } from '../state/SaveResultsHook.js';
 import { sampleRUM } from '../rum.js';
 import { toClipboard, toHTML } from '../helpers/ExportPrompt.js';
+
+import FavoritesIcon from '../icons/FavoritesIcon.js';
+import FavoritesOutlineIcon from '../icons/FavoritesOutlineIcon.js';
+import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';
+import DeleteOutlineIcon from '../icons/DeleteOutlineIcon.js';
+import ThumbsUpOutlineIcon from '../icons/ThumbsUpOutlineIcon.js';
+import ThumbsDownOutlineIcon from '../icons/ThumbsDownOutlineIcon.js';
 
 const styles = {
   card: css`
@@ -160,7 +161,7 @@ export function ResultCard({ result, ...props }) {
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
               onPress={reusePrompt}>
-              <Refresh/>
+              <Refresh />
             </ActionButton>
             <Tooltip>Re-use</Tooltip>
           </TooltipTrigger>
@@ -178,20 +179,20 @@ export function ResultCard({ result, ...props }) {
                     ${variant.id === selectedVariant.id && styles.variantSelected};
                     ${isFavorite(variant) && styles.variantFavorite};
                   `}
-                   dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
+                    dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
                 </a>
               );
             })
           }
         </div>
-        <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariant.content) }}/>
+        <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariant.content) }} />
         <div className={styles.resultActions}>
           <TooltipTrigger delay={0}>
             <ActionButton
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
               onPress={() => toggleFavorite(selectedVariant)}>
-              {isFavorite(selectedVariant) ? <StarOutline/> : <Star/>}
+              {isFavorite(selectedVariant) ? <FavoritesIcon /> : <FavoritesOutlineIcon />}
             </ActionButton>
             <Tooltip>Favorite</Tooltip>
           </TooltipTrigger>
@@ -203,34 +204,40 @@ export function ResultCard({ result, ...props }) {
                 sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress' });
                 navigator.clipboard.write(toClipboard(toHTML(selectedVariant.content)));
               }}>
-              <Copy/>
+              <CopyOutlineIcon />
             </ActionButton>
             <Tooltip>Copy</Tooltip>
           </TooltipTrigger>
-          <ActionButton
-            isQuiet
-            UNSAFE_className="hover-cursor-pointer"
-            onPress={() => {
-              sampleRUM('genai:prompt:thumbsUp', { source: 'ResultCard#onPress' });
-              sendFeedback(true);
-            }}>
-            <ThumbUp/>
-          </ActionButton>
-          <ActionButton
-            isQuiet
-            UNSAFE_className="hover-cursor-pointer"
-            onPress={() => {
-              sampleRUM('genai:prompt:thumbsDown', { source: 'ResultCard#onPress' });
-              sendFeedback(false);
-            }}>
-            <ThumbDown/>
-          </ActionButton>
+          <TooltipTrigger delay={0}>
+            <ActionButton
+              isQuiet
+              UNSAFE_className="hover-cursor-pointer"
+              onPress={() => {
+                sampleRUM('genai:prompt:thumbsUp', { source: 'ResultCard#onPress' });
+                sendFeedback(true);
+              }}>
+              <ThumbsUpOutlineIcon />
+            </ActionButton>
+            <Tooltip>Good</Tooltip>
+          </TooltipTrigger>
+          <TooltipTrigger delay={0}>
+            <ActionButton
+              isQuiet
+              UNSAFE_className="hover-cursor-pointer"
+              onPress={() => {
+                sampleRUM('genai:prompt:thumbsDown', { source: 'ResultCard#onPress' });
+                sendFeedback(false);
+              }}>
+              <ThumbsDownOutlineIcon />
+            </ActionButton>
+            <Tooltip>Poor</Tooltip>
+          </TooltipTrigger>
           <TooltipTrigger delay={0}>
             <ActionButton
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
               onPress={() => deleteResult(result.resultId)}>
-              <Delete/>
+              <DeleteOutlineIcon />
             </ActionButton>
             <Tooltip>Remove</Tooltip>
           </TooltipTrigger>

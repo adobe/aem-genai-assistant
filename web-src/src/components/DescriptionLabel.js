@@ -9,8 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { Flex, Text } from '@adobe/react-spectrum';
-import InfoIcon from '@spectrum-icons/workflow/InfoOutline';
+import { ContextualHelp, Content } from '@adobe/react-spectrum';
 import React from 'react';
 
 export function DescriptionLabel({ description }) {
@@ -18,9 +17,10 @@ export function DescriptionLabel({ description }) {
     return <></>;
   }
   return (
-    <Flex direction="row" gap="size-50" alignItems="center">
-      <InfoIcon size="S"/>
-      <Text UNSAFE_style={{ overflow: 'hidden', height: '1.3em' }}>{description}</Text>
-    </Flex>
+    <ContextualHelp variant="info">
+      <Content>
+        {description}
+      </Content>
+    </ContextualHelp>
   );
 }

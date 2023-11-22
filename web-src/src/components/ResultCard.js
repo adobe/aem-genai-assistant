@@ -220,7 +220,7 @@ export function ResultCard({ result, ...props }) {
             isQuiet
             UNSAFE_className="hover-cursor-pointer"
             onPress={() =>{
-              sampleRUM('genai:prompt:thumbs-up', { source: 'ResultCard#onPress' });
+              sampleRUM('genai:prompt:thumbsUp', { source: 'ResultCard#onPress' });
               sendFeedback(true);
             }}>
             <ThumbUp/>
@@ -229,7 +229,7 @@ export function ResultCard({ result, ...props }) {
             isQuiet
             UNSAFE_className="hover-cursor-pointer"
             onPress={() => {
-              sampleRUM('genai:prompt:thumbs-down', { source: 'ResultCard#onPress' });
+              sampleRUM('genai:prompt:thumbsDown', { source: 'ResultCard#onPress' });
               sendFeedback(false);
             }}>
             <ThumbDown/>

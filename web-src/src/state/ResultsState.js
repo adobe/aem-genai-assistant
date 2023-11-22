@@ -15,7 +15,7 @@ import { sessionState } from './SessionState.js';
 export const resultsState = selector({
   key: 'resultsState',
   get: ({ get }) => {
-    return get(sessionState)?.results ?? [];
+    return get(sessionState).results;
   },
   set: ({ set, get }, newValue) => {
     set(sessionState, {

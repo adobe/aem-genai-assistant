@@ -9,7 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { createVariants } from './CreateVariants.js';
+import { createVariants } from './ResultsParser.js';
 
 const uuid = () => 123;
 

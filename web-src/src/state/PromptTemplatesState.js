@@ -19,7 +19,6 @@ export const newPromptTemplate = {
   label: 'New prompt',
   description: 'To start a new prompt use this and then add it to your prompt templates for future use.',
   template: '',
-  isFeatured: true,
   isBundled: false,
 };
 
@@ -31,7 +30,6 @@ function parsePromptTemplates(data, isBundled) {
       label: Label,
       description: Description,
       template: Template || '',
-      isFeatured: false,
       isBundled,
     };
   });
@@ -54,9 +52,9 @@ export const promptTemplatesState = selector({
   get: async ({ get }) => {
     const { websiteUrl, promptTemplatesPath } = get(configurationState);
     return [
-      newPromptTemplate,
       ...(parsePromptTemplates(bundledPromptTemplates, true)),
       ...(await fetchPromptTemplates(websiteUrl, promptTemplatesPath)),
+      newPromptTemplate,
     ];
   },
 });

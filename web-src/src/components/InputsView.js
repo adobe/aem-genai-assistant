@@ -12,7 +12,7 @@
 import {
   Flex, NumberField, TextArea,
 } from '@adobe/react-spectrum';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { placeholdersState } from '../state/PlaceholdersState.js';
 import { parametersState } from '../state/ParametersState.js';
@@ -97,10 +97,6 @@ function createInputComponent(type, name, label, params, value, onChange) {
 export function InputsView({ gridColumn }) {
   const placeholders = useRecoilValue(placeholdersState);
   const [parameters, setParameters] = useRecoilState(parametersState);
-
-  useEffect(() => {
-    setParameters({});
-  }, [placeholders]);
 
   const onChange = useCallback((name, value) => {
     setParameters({ ...parameters, [name]: value });

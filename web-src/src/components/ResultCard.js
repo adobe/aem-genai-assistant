@@ -30,7 +30,7 @@ import { useShellAuthContext } from './ShellAuthProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
-import { useSaveSession } from '../state/SaveSessionHook.js';
+import { useSaveSession } from '../state/SaveResultsHook.js';
 import { sampleRUM } from '../rum.js';
 import { toClipboard, toHTML } from '../helpers/ExportPrompt.js';
 

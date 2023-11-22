@@ -19,7 +19,7 @@ import { css } from '@emotion/css';
 import { ConsentDialog } from './ConsentDialog.js';
 import { SidePanel } from './SidePanel.js';
 import { SessionPanel } from './SessionPanel.js';
-import { HomePanel } from './HomePanel.js';
+import { PromptLibraryPanel } from './PromptLibraryPanel.js';
 import { viewTypeState, ViewType } from '../state/ViewType.js';
 import { FavoritesPanel } from './FavoritesPanel.js';
 
@@ -40,7 +40,7 @@ function getView(viewType) {
     case ViewType.Favorites:
       return <FavoritesPanel />;
     default:
-      return <HomePanel />;
+      return <PromptLibraryPanel />;
   }
 }
 

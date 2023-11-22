@@ -47,7 +47,7 @@ async function fetchPromptTemplates(websiteUrl, promptTemplatesPath) {
   }
 }
 
-export const promptTemplatesState = selector({
+export const promptLibraryState = selector({
   key: 'promptTemplatesState',
   get: async ({ get }) => {
     const { websiteUrl, promptTemplatesPath } = get(configurationState);

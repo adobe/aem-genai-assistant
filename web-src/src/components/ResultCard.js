@@ -193,7 +193,7 @@ export function ResultCard({ result, ...props }) {
               onPress={() => toggleFavorite(selectedVariant)}>
               {isFavorite(selectedVariant) ? <StarOutline/> : <Star/>}
             </ActionButton>
-            <Tooltip>Save</Tooltip>
+            <Tooltip>Favorite</Tooltip>
           </TooltipTrigger>
           <TooltipTrigger delay={0}>
             <ActionButton

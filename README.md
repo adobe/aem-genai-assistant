@@ -73,7 +73,7 @@ The list of supported types:
 
 ### Testing
 
-- Run `npm test` to run unit tests for ui and actions
+- Run `npm run lint && npm test` to run lint and unit tests for ui and actions
 
 ### Deployment
 

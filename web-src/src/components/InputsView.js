@@ -46,7 +46,7 @@ function createTextComponent(name, label, params, value, onChange) {
     <TextArea
       key={name}
       label={label}
-      description={<DescriptionLabel description={params.description}/>}
+      contextualHelp={<DescriptionLabel description={params.description}/>}
       width="100%"
       value={value}
       onChange={(newValue) => onChange(name, newValue)}
@@ -59,7 +59,7 @@ function createNumberComponent(name, label, params, value, onChange) {
     <NumberField
       key={name}
       label={label}
-      description={<DescriptionLabel description={params.description}/>}
+      contextualHelp={<DescriptionLabel description={params.description}/>}
       width="100%"
       value={value}
       minValue={0}

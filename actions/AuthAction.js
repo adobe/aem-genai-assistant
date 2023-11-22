@@ -35,7 +35,7 @@ async function isValidToken(endpoint, clientId, token, logger) {
     });
 }
 
-async function getImsOrgForProductContext(endpoint, clientId, token, productContext, logger) {
+async function checkForProductContext(endpoint, clientId, org, token, productContext, logger) {
   return wretchRetry(`${endpoint}/ims/profile/v1`)
     .addon(QueryStringAddon).query({
       client_id: clientId,
@@ -51,51 +51,16 @@ async function getImsOrgForProductContext(endpoint, clientId, token, productCont
         const filteredProductContext = json.projectedProductContext
           .filter((obj) => obj.prodCtx.serviceCode === productContext);
 
-        // Case 1: No product context found
-        if (filteredProductContext.length === 0) {
-          return '';
-        }
-
-        // Case 2: Exactly one product context found
-        if (filteredProductContext.length === 1) {
-          return filteredProductContext[0].prodCtx.owningEntity;
-        }
-
-        // Case 3: Multiple product contexts found
-        if (filteredProductContext.length > 1) {
-          return wretchRetry(`${endpoint}/ims/organizations/v6`)
-            .headers({
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            })
-            .get()
-            .json()
-            // eslint-disable-next-line consistent-return
-            .then((imsOrgsList) => {
-              if (Array.isArray(imsOrgsList)) {
-              // Case 3a: Exactly one IMS Org found in the profile
-                if (imsOrgsList.length === 1) {
-                  const { ident: orgIdent, authSrc: orgAuthSrc } = imsOrgsList[0].orgRef;
-                  return `${orgIdent}@${orgAuthSrc}`;
-
-                  // Case 3b: More than one IMS Org found in the profile
-                } else if (imsOrgsList.length > 1) {
-                  logger.warn(`Multiple IMS Orgs found in the profile with ${productContext}. Returning the first one.`);
-                  return filteredProductContext[0].prodCtx.owningEntity;
-                }
-              }
-            })
-            .catch((error) => {
-              logger.error(error);
-              return '';
-            });
-        }
+        // For each entry in filteredProductContext check that
+        // there is at least one entry where imsOrg matches the owningEntity property
+        // otherwise, if no match, the user is not authorized
+        return filteredProductContext.some((obj) => obj.prodCtx.owningEntity === org);
       }
-      return '';
+      return false;
     })
     .catch((error) => {
       logger.error(error);
-      return '';
+      return false;
     });
 }
 
@@ -110,16 +75,15 @@ function asAuthAction(action) {
     const productContext = params.IMS_PRODUCT_CONTEXT;
 
     // Extract the token from the params
-    const { accessToken } = params;
+    const { imsOrg, accessToken } = params;
 
     // Validate the access token
     if (!await isValidToken(imsEndpoint, clientId, accessToken, logger)) {
       throw new Error('Access token is invalid');
     }
 
-    // Check that the profile has expected product context and retrieve the IMS Org
-    const imsOrg = await getImsOrgForProductContext(imsEndpoint, clientId, accessToken, productContext, logger);
-    if (imsOrg === '') {
+    // Check that the profile has the expected product context
+    if (!await checkForProductContext(imsEndpoint, clientId, imsOrg, accessToken, productContext, logger)) {
       throw new Error('Profile does not have the required product context');
     }
 

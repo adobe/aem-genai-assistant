@@ -9,12 +9,15 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, { Fragment, useContext, useEffect } from 'react';
+import React, {
+  Fragment, useCallback, useContext, useEffect, useState,
+} from 'react';
 import { Content, Heading, InlineAlert } from '@adobe/react-spectrum';
 import { useSetRecoilState } from 'recoil';
-import { FirefallService } from '../services/FirefallService.js';
-import { ImsAuthClient } from '../ims/ImsAuthClient.js';
+import excApp from '@adobe/exc-app';
+import page from '@adobe/exc-app/page';
 
+import { FirefallService } from '../services/FirefallService.js';
 import actions from '../config.json';
 import { configurationState } from '../state/ConfigurationState.js';
 
@@ -49,14 +52,14 @@ function getConfiguration() {
   };
 }
 
-function createApplication(configuration) {
+function createApplication(configuration, shellConfig) {
   return {
     ...configuration,
     firefallService: new FirefallService({
       completeEndpoint: actions[COMPLETE_ACTION],
       feedbackEndpoint: actions[FEEDBACK_ACTION],
     }),
-    imsAuthClient: new ImsAuthClient(),
+    shellConfig,
   };
 }
 
@@ -64,19 +67,28 @@ export const ApplicationContext = React.createContext(undefined);
 
 export const ApplicationProvider = ({ children }) => {
   const setConfiguration = useSetRecoilState(configurationState);
-  const [application, setApplication] = React.useState(undefined);
+  const [application, setApplication] = useState(undefined);
   const [error, setError] = React.useState(undefined);
 
-  useEffect(() => {
+  const shellEventsHandler = useCallback((config) => {
     try {
-      const config = getConfiguration();
-      setConfiguration(config);
-      setApplication(createApplication(config));
+      const appConfig = getConfiguration();
+      setConfiguration(appConfig);
+      setApplication(() => createApplication(appConfig, config));
+      console.log(config);
     } catch (e) {
       console.error(e, 'Failed to create application');
       setError(e);
     }
   }, [setConfiguration, setError]);
+
+  useEffect(() => {
+    const runtime = excApp();
+    runtime.on('ready', shellEventsHandler);
+    runtime.on('configuration', shellEventsHandler);
+  }, []);
+
+  page.done();
 
   if (error) {
     return (

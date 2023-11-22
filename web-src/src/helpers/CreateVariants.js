@@ -9,16 +9,20 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-export function formatTimestamp(timestamp) {
-  const date = new Date(timestamp);
-  const dateStr = date.toLocaleDateString('en-US');
-  const timeStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' });
-  return `${dateStr} ${timeStr}`;
+
+function objectToString(obj) {
+  return String(obj).replace(/<\/?[^>]+(>|$)/g, '');
 }
 
-export function formatIdentifier(name) {
-  let label = name.replace(/[_-]/g, ' ');
-  label = label.replace(/([a-z])([A-Z])/g, (match, p1, p2) => `${p1} ${p2}`);
-  const words = label.trim().split(/\s+/);
-  return words.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+export function createVariants(uuid, response) {
+  try {
+    const json = JSON.parse(response);
+    if (Array.isArray(json)) {
+      return json.map((content) => ({ id: uuid(), content: content === null || typeof content !== 'object' ? objectToString(content) : content }));
+    } else {
+      return [{ id: uuid(), content: json }];
+    }
+  } catch (error) {
+    return [{ id: uuid(), content: String(response) }];
+  }
 }

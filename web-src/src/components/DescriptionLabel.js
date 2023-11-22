@@ -9,16 +9,18 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-export function formatTimestamp(timestamp) {
-  const date = new Date(timestamp);
-  const dateStr = date.toLocaleDateString('en-US');
-  const timeStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' });
-  return `${dateStr} ${timeStr}`;
-}
+import { Flex, Text } from '@adobe/react-spectrum';
+import InfoIcon from '@spectrum-icons/workflow/InfoOutline';
+import React from 'react';
 
-export function formatIdentifier(name) {
-  let label = name.replace(/[_-]/g, ' ');
-  label = label.replace(/([a-z])([A-Z])/g, (match, p1, p2) => `${p1} ${p2}`);
-  const words = label.trim().split(/\s+/);
-  return words.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+export function DescriptionLabel({ description }) {
+  if (!description) {
+    return <></>;
+  }
+  return (
+    <Flex direction="row" gap="size-50" alignItems="center">
+      <InfoIcon size="S"/>
+      <Text UNSAFE_style={{ overflow: 'hidden', height: '1.3em' }}>{description}</Text>
+    </Flex>
+  );
 }

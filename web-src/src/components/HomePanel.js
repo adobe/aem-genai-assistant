@@ -22,8 +22,8 @@ import { PromptTemplateCard } from './PromptTemplateCard.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
-import { SignOutButton } from './SignOutButton.js';
 import { promptTemplatesState } from '../state/PromptTemplatesState.js';
+import { sampleRUM } from '../rum.js';
 
 function PromptTemplatesView({ onSelect }) {
   const promptTemplates = useRecoilValue(promptTemplatesState);
@@ -51,6 +51,11 @@ export function HomePanel({ props }) {
   const setViewType = useSetRecoilState(viewTypeState);
 
   const handleSelect = useCallback((selectedTemplate) => {
+    if (selectedTemplate.isNew) {
+      sampleRUM('genai:prompt:new', { source: 'HomePanel#handleSelect' });
+    } else {
+      sampleRUM(`genai:prompt:${selectedTemplate.isAdobe ? 'isAdobe' : 'isCustom'}`, { source: 'HomePanel#handleSelect' });
+    }
     const timestamp = Date.now();
     const session = {
       id: uuid(),
@@ -91,7 +96,6 @@ export function HomePanel({ props }) {
         <h3 style={{ padding: 0, margin: 0 }}>
           Create high quality content quickly then measure it with experimentation or publish it to your site.
         </h3>
-        <SignOutButton right={-150} top={50}/>
       </Flex>
 
       <Heading level={4} alignSelf={'start'}>Prompts</Heading>

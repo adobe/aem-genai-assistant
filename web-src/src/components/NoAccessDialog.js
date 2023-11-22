@@ -9,6 +9,30 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-export const PaddingBox = {
-  padding: '20px',
-};
+import React from 'react';
+
+import {
+  Content,
+  Dialog,
+  DialogContainer,
+  Heading,
+  IllustratedMessage,
+} from '@adobe/react-spectrum';
+
+import AccessDeniedIcon from '@spectrum-icons/workflow/LockClosed';
+
+export function NoAccessDialog() {
+  return (
+    <DialogContainer onDismiss={() => 0}>
+      <Dialog>
+        <Content>
+          <IllustratedMessage>
+            <AccessDeniedIcon size={'XL'} />
+            <Heading>Access Denied</Heading>
+            <Content>You have no access to this product</Content>
+          </IllustratedMessage>
+        </Content>
+      </Dialog>
+    </DialogContainer>
+  );
+}

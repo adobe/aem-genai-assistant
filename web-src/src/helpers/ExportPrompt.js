@@ -9,21 +9,19 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { Button, Text } from '@adobe/react-spectrum';
-import { React } from 'react';
+export function toClipboard(html) {
+  const span = document.createElement('span');
+  span.innerHTML = html;
+  const blob = new Blob([span.outerHTML], { type: 'text/html' });
+  return [new ClipboardItem({ [blob.type]: blob })];
+}
 
-import { useAuthContext } from './AuthProvider.js';
-
-export function SignOutButton(props) {
-  const { onSignOut } = useAuthContext();
-
-  return (
-    <Button UNSAFE_className={'hover-cursor-pointer'}
-      {...props}
-      onPress={onSignOut}
-      position={'absolute'}
-      variant={'cta'}>
-      <Text>Sign Out</Text>
-    </Button>
-  );
+export function toHTML(input) {
+  if (typeof input === 'string') {
+    return input;
+  } else {
+    return Object.entries(input).map(([key, value]) => {
+      return `<b>${key}</b>: ${value}`;
+    }).join('<br/>');
+  }
 }

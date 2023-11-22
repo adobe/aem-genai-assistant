@@ -9,16 +9,15 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-export function formatTimestamp(timestamp) {
-  const date = new Date(timestamp);
-  const dateStr = date.toLocaleDateString('en-US');
-  const timeStr = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' });
-  return `${dateStr} ${timeStr}`;
-}
+import { toHTML } from './ExportPrompt.js';
 
-export function formatIdentifier(name) {
-  let label = name.replace(/[_-]/g, ' ');
-  label = label.replace(/([a-z])([A-Z])/g, (match, p1, p2) => `${p1} ${p2}`);
-  const words = label.trim().split(/\s+/);
-  return words.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
-}
+describe('toHTML', () => {
+  test('returns html: prompt result is an key/value pair', () => {
+    const promptResponse = { key1: 'value1', key2: 'value2' };
+    expect(toHTML(promptResponse)).toEqual('<b>key1</b>: value1<br/><b>key2</b>: value2');
+  });
+  test('returns html: prompt result is a string', () => {
+    const promptResponse = 'hello';
+    expect(toHTML(promptResponse)).toEqual('hello');
+  });
+});

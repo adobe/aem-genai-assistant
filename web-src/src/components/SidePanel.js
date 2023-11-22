@@ -18,7 +18,6 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { USER_GUIDELINES_URL } from './LegalTermsLink.js';
 
-import LogoIcon from '../assets/logo.svg';
 import PromptsIcon from '../assets/prompts.svg';
 import FavoritesIcon from '../assets/favorites.svg';
 import RecentsIcon from '../assets/recents.svg';
@@ -104,8 +103,7 @@ export function SidePanel(props) {
       rows={['min-content', '1fr', 'min-content']}
       gap={'size-400'}>
       <Flex gap={'12px'} direction={'row'} justifyContent={'space-between'} alignItems={'center'} gridArea={'header'}>
-        <Image UNSAFE_className={style.headerLogo} src={LogoIcon} alt={'logo'}/>
-        <Text UNSAFE_className={style.headerText}>Generate Content Variations</Text>
+        <Text UNSAFE_className={style.headerText}>Generate Variations</Text>
         <Text UNSAFE_className={style.versionTag} justifySelf={'end'}>v{appVersion}</Text>
       </Flex>
 

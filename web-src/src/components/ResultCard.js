@@ -24,7 +24,7 @@ import { useShellAuthContext } from './ShellAuthProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
-import { useSaveSession } from '../state/SaveResultsHook.js';
+import { useSaveResults } from '../state/SaveResultsHook.js';
 import { sampleRUM } from '../rum.js';
 import { toClipboard, toHTML } from '../helpers/ExportPrompt.js';
 
@@ -127,10 +127,10 @@ export function ResultCard({ result, ...props }) {
   const setResults = useSetRecoilState(resultsState);
   const isFavorite = useIsFavorite();
   const toggleFavorite = useToggleFavorite();
-  const saveSession = useSaveSession();
+  const saveResults = useSaveResults();
 
   const sendFeedback = useCallback((sentiment) => {
-    firefallService.feedback(result.resultId, sentiment, user.imsOrg, user.imsToken)
+    firefallService.feedback(result.id, sentiment, user.imsOrg, user.imsToken)
       .then((id) => {
         ToastQueue.positive('Feedback sent', { timeout: 1000 });
       })
@@ -144,10 +144,18 @@ export function ResultCard({ result, ...props }) {
     setParameters(result.parameters);
   }, [result, setPrompt, setParameters]);
 
-  const deleteResult = useCallback(async (resultId) => {
-    /* eslint-disable-next-line no-shadow */
-    setResults((results) => results.filter((result) => result.resultId !== resultId));
-    await saveSession();
+  const deleteVariant = useCallback(async (variantId) => {
+    console.log('deleteVariant', variantId);
+    setResults((results) => results.reduce((acc, r) => {
+      const variants = r.variants.filter((v) => v.id !== variantId);
+      console.log('variants', variants);
+      if (variants.length > 0) {
+        acc.push({ ...r, variants });
+        return acc;
+      }
+      return acc;
+    }, []));
+    await saveResults();
   }, [setResults]);
 
   return (
@@ -236,7 +244,7 @@ export function ResultCard({ result, ...props }) {
             <ActionButton
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
-              onPress={() => deleteResult(result.resultId)}>
+              onPress={() => deleteVariant(selectedVariant.id)}>
               <DeleteOutlineIcon />
             </ActionButton>
             <Tooltip>Remove</Tooltip>

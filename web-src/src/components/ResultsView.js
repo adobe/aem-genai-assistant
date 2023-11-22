@@ -39,7 +39,7 @@ export function ResultsView(props) {
       width={'100%'}>
       { results.length === 0
         ? <Image src={EmptyResults} width={'600px'} UNSAFE_className={style.emptyResults}></Image>
-        : results.map((result) => <ResultCard key={result.resultId} result={result} />)
+        : results.map((result) => <ResultCard key={result.id} result={result} />)
       }
     </Flex>
   );

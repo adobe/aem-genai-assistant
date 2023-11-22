@@ -56,9 +56,9 @@ The list of supported parameters:
 - `spreadsheet` - The name of the spreadsheet to use for the placeholder. If not provided, the placeholder will be displayed as a text input. This parameter sets the type to `spreadsheet`.
 
 The list of supported types:
-- `string` - A multi-line text input (default).
+- `text` - A multi-line text input (default).
 - `number` - A number.
-- `spreadsheet` - A drop-down list of values from a spreadsheet.
+- `select` - A drop-down list of values from a spreadsheet.
 
 ## Development Guidelines
 

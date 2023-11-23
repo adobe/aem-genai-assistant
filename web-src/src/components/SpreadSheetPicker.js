@@ -60,7 +60,6 @@ export function SpreadSheetPicker({
       label={<LinkLabel label={label} url={url}/>}
       contextualHelp={<DescriptionLabel description={description} />}
       width="100%"
-      placeholder={'Select a value'}
       items={items}
       selectedKey={String(getIndexByValue(items, value))}
       onSelectionChange={selectionHandler}>

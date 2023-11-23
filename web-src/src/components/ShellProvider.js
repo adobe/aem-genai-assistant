@@ -48,6 +48,7 @@ export const ShellProvider = ({ children, runtime }) => {
   }, [setShellContext]);
 
   useEffect(() => {
+    runtime.on('ready', shellEventsHandler);
     runtime.on('configuration', shellEventsHandler);
   }, []);
 

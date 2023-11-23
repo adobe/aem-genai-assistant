@@ -93,6 +93,7 @@ export function PromptLibraryPanel({ props }) {
           src={NewSessionBanner}
           objectFit={'cover'}
           marginBottom={20}
+          alt={''}
           UNSAFE_style={{ borderRadius: '20px' }}/>
         <h3 style={{ padding: 0, margin: 0 }}>
           Create high quality content quickly then measure it with experimentation or publish it to your site.

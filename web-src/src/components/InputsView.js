@@ -71,6 +71,7 @@ function createNumberComponent(name, label, params, value, onChange) {
 function createSelectComponent(name, label, params, value, onChange) {
   return (
     <SpreadSheetPicker
+      key={name}
       name={name}
       label={label}
       description={params.description}

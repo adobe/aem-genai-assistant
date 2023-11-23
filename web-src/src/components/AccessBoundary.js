@@ -10,14 +10,13 @@
  * governing permissions and limitations under the License.
  */
 import React, { Fragment, useEffect } from 'react';
-import { Well } from '@adobe/react-spectrum';
 import { css } from '@emotion/css';
 import { useShellContext } from './ShellProvider.js';
 
 const styles = {
   container: css`
     display: block;
-    border: 1px solid;
+    border: 1px solid #ccc;
     border-radius: 5px;
     position: absolute;
     top: 50%;
@@ -28,21 +27,26 @@ const styles = {
   `,
 };
 
-export function AccessBoundary({ children }) {
-  const { isUserAuthorized, closeOverlay } = useShellContext();
+function NoAccessFallback() {
+  return (
+    <div className={styles.container}>
+      Apologies, it appears that you lack permission to use this feature.<br/>
+      Please try selecting a different organization or contact your Administrator to request access.
+    </div>
+  );
+}
+
+export function AccessBoundary({ children, fallback = <NoAccessFallback /> }) {
+  const { isUserAuthorized, ready } = useShellContext();
 
   useEffect(() => {
     if (!isUserAuthorized) {
-      closeOverlay();
+      ready();
     }
-  }, [isUserAuthorized]);
+  }, [isUserAuthorized, ready]);
 
   if (!isUserAuthorized) {
-    return (
-      <Well UNSAFE_className={styles.container}>
-        Oops it looks like you dont have access to this feature. Please ask you Administrator to give you access !
-      </Well>
-    );
+    return fallback;
   }
 
   return (<>{children}</>);

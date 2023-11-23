@@ -11,10 +11,7 @@
  */
 import { createRoot } from 'react-dom/client';
 
-import {
-  RecoilRoot,
-} from 'recoil';
-
+import { RecoilRoot } from 'recoil';
 import { defaultTheme, Provider } from '@adobe/react-spectrum';
 import { init } from '@adobe/exc-app';
 import React from 'react';
@@ -24,10 +21,10 @@ import { ShellProvider } from './components/ShellProvider.js';
 import './index.css';
 import { AccessBoundary } from './components/AccessBoundary.js';
 
-init(() => {
+init((runtime) => {
   createRoot(document.getElementById('root')).render(
     <RecoilRoot>
-      <ShellProvider>
+      <ShellProvider runtime={runtime}>
         <AccessBoundary>
           <ApplicationProvider>
             <Provider colorScheme="light" theme={defaultTheme} width="100%" height="100%">

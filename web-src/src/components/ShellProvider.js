@@ -14,45 +14,40 @@ import React, {
   useEffect, createContext, useState, useContext, useCallback, Fragment,
 } from 'react';
 
-import excApp from '@adobe/exc-app';
 import page from '@adobe/exc-app/page';
 
-export const ShellContext = createContext({});
+export const ShellContext = createContext();
 
-const isAuthorized = (user) => {
-  if (Array.isArray(user.imsProfile.projectedProductContext)) {
-    const filteredProductContext = user.imsProfile.projectedProductContext
+const isAuthorized = (imsProfile, imsOrg) => {
+  if (Array.isArray(imsProfile.projectedProductContext)) {
+    const filteredProductContext = imsProfile.projectedProductContext
       .filter((obj) => obj.prodCtx.serviceCode === process.env.IMS_PRODUCT_CONTEXT);
 
     // For each entry in filteredProductContext check that
     // there is at least one entry where user.imsOrg matches the owningEntity property
     // otherwise, if no match, the user is not authorized
-    return filteredProductContext.some((obj) => obj.prodCtx.owningEntity === user.imsOrg);
+    return filteredProductContext.some((obj) => obj.prodCtx.owningEntity === imsOrg);
   }
   return false;
 };
 
-export const ShellProvider = ({ children }) => {
+export const ShellProvider = ({ children, runtime }) => {
   const [shellContext, setShellContext] = useState();
 
   const shellEventsHandler = useCallback((shellConfig) => {
     const { imsProfile, imsToken, imsOrg } = shellConfig;
 
-    const user = {
-      imsProfile,
-      imsToken,
-      imsOrg,
-    };
-
     setShellContext({
-      user,
-      isUserAuthorized: isAuthorized(user),
-      closeOverlay: page.done,
+      user: {
+        imsToken,
+        imsOrg,
+      },
+      isUserAuthorized: isAuthorized(imsProfile, imsOrg),
+      ready: page.done,
     });
   }, [setShellContext]);
 
   useEffect(() => {
-    const runtime = excApp();
     runtime.on('configuration', shellEventsHandler);
   }, []);
 

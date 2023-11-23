@@ -48,7 +48,7 @@ function getPromptTemplatesPath() {
 export const ApplicationContext = React.createContext(undefined);
 
 export const ApplicationProvider = ({ children }) => {
-  const { user, closeOverlay } = useShellContext();
+  const { user, ready } = useShellContext();
   const setPromptTemplates = useSetRecoilState(promptTemplatesState);
   const [application, setApplication] = useState(undefined);
 
@@ -76,8 +76,8 @@ export const ApplicationProvider = ({ children }) => {
       console.error(`Failed to load prompt templates: ${e.message}`);
     });
 
-    closeOverlay();
-  }, [user, closeOverlay, setApplication]);
+    ready();
+  }, [user, ready, setApplication]);
 
   if (!application) {
     return <Fragment/>;

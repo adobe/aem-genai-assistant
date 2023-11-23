@@ -31,7 +31,7 @@ export function SessionPanel() {
         }}>
           <ResultsView />
         </Flex>
-        <PromptEditor flexGrow={0} />
+        <PromptEditor />
       </Grid>
     </Grid>
   );

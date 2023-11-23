@@ -35,7 +35,6 @@ export function ConsentDialog() {
       level: SettingsLevel.USERORG,
       settings: { [CONSENT_KEY]: false },
     }).then(({ settings }) => {
-      console.log('settings', settings);
       setOpen(!settings[CONSENT_KEY]);
     });
   }, [setOpen]);
@@ -55,7 +54,6 @@ export function ConsentDialog() {
   const handleCancel = () => {
     sampleRUM('genai:consent:cancel', { source: 'ConsentDialog#handleCancel' });
     setOpen(false);
-    // window.location.href = REDIRECT_URL;
     setAccess(false);
   };
 

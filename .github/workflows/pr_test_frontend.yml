@@ -1,4 +1,4 @@
-name: Frontend Test
+name: Frontend
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
       - "main"
 
 jobs:
-  linting:
+  test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -14,10 +14,12 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: '20'
-    - run: npm install
-    - run: npm run grammar
-    - run: npm run build
-    - run: npm run lint
-    - run: npm run test
+    - name: Run npm scripts
       env:
         CI: true
+      run: |
+        npm install
+        npm run grammar
+        npm run build
+        npm run lint
+        npm run test

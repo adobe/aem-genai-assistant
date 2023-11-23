@@ -12,7 +12,7 @@
 import {
   Flex, NumberField, TextArea,
 } from '@adobe/react-spectrum';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { placeholdersState } from '../state/PlaceholdersState.js';
 import { parametersState } from '../state/ParametersState.js';
@@ -46,7 +46,7 @@ function createTextComponent(name, label, params, value, onChange) {
     <TextArea
       key={name}
       label={label}
-      description={<DescriptionLabel description={params.description}/>}
+      contextualHelp={<DescriptionLabel description={params.description}/>}
       width="100%"
       value={value}
       onChange={(newValue) => onChange(name, newValue)}
@@ -59,7 +59,7 @@ function createNumberComponent(name, label, params, value, onChange) {
     <NumberField
       key={name}
       label={label}
-      description={<DescriptionLabel description={params.description}/>}
+      contextualHelp={<DescriptionLabel description={params.description}/>}
       width="100%"
       value={value}
       minValue={0}
@@ -71,6 +71,7 @@ function createNumberComponent(name, label, params, value, onChange) {
 function createSelectComponent(name, label, params, value, onChange) {
   return (
     <SpreadSheetPicker
+      key={name}
       name={name}
       label={label}
       description={params.description}
@@ -98,10 +99,6 @@ export function InputsView({ gridColumn }) {
   const placeholders = useRecoilValue(placeholdersState);
   const [parameters, setParameters] = useRecoilState(parametersState);
 
-  useEffect(() => {
-    setParameters({});
-  }, [placeholders]);
-
   const onChange = useCallback((name, value) => {
     setParameters({ ...parameters, [name]: value });
   }, [parameters, setParameters]);
@@ -128,6 +125,7 @@ export function InputsView({ gridColumn }) {
           return createInputComponent(type, name, label, params, value, onChange);
         })
       }
+      <h3 style={{ alignSelf: 'start', marginBottom: '10px' }}>Advanced</h3>
       <TemperatureSlider/>
     </Flex>
   );

@@ -9,13 +9,15 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom } from 'recoil';
-import { createIndexedDbEffect } from '../helpers/IndexedDbEffect.js';
+import { toHTML } from './PromptExporter.js';
 
-const STORAGE_KEY = 'sessions';
-
-export const sessionsState = atom({
-  key: 'sessionsState',
-  default: [],
-  effects: [createIndexedDbEffect(STORAGE_KEY)],
+describe('toHTML', () => {
+  test('returns html: prompt result is an key/value pair', () => {
+    const promptResponse = { key1: 'value1', key2: 'value2' };
+    expect(toHTML(promptResponse)).toEqual('<b>key1</b>: value1<br/><b>key2</b>: value2');
+  });
+  test('returns html: prompt result is a string', () => {
+    const promptResponse = 'hello';
+    expect(toHTML(promptResponse)).toEqual('hello');
+  });
 });

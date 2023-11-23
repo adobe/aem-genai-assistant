@@ -12,46 +12,43 @@
 import {
   Button, Content, ContextualHelp, Flex, Heading, ProgressCircle,
 } from '@adobe/react-spectrum';
-import React, { useCallback } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import React, { useCallback, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { ToastQueue } from '@react-spectrum/toast';
 import { v4 as uuid } from 'uuid';
 import SenseiGenAIIcon from '../icons/GenAIIcon.js';
 import { renderPrompt } from '../helpers/PromptRenderer.js';
 import { useApplicationContext } from './ApplicationProvider.js';
-import { useShellAuthContext } from './ShellAuthProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { temperatureState } from '../state/TemperatureState.js';
 import { resultsState } from '../state/ResultsState.js';
-import { generationInProgressState } from '../state/GenerationInProgressState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
-import { useSaveSession } from '../state/SaveSessionHook.js';
-import { createVariants } from '../helpers/CreateVariants.js';
+import { useSaveResults } from '../state/SaveResultsHook.js';
+import { createVariants } from '../helpers/ResultsParser.js';
 import { sampleRUM } from '../rum.js';
 
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
-  const { user } = useShellAuthContext();
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
   const temperature = useRecoilValue(temperatureState);
   const setResults = useSetRecoilState(resultsState);
-  const [generationInProgress, setGenerationInProgress] = useRecoilState(generationInProgressState);
-  const saveSession = useSaveSession();
+  const [generationInProgress, setGenerationInProgress] = useState(false);
+  const saveResults = useSaveResults();
 
   const generateResults = useCallback(async () => {
     const finalPrompt = renderPrompt(prompt, parameters);
-    const { queryId, response } = await firefallService.complete(finalPrompt, temperature, user.imsOrg, user.imsToken);
+    const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
     setResults((results) => [...results, {
-      resultId: queryId,
+      id: queryId,
       variants: createVariants(uuid, response),
       prompt: finalPrompt,
       promptTemplate: prompt,
       parameters,
       temperature,
     }]);
-    await saveSession();
+    await saveResults();
   }, [firefallService, prompt, parameters, temperature]);
 
   const handleGenerate = useCallback(() => {
@@ -81,7 +78,7 @@ export function GenerateButton() {
         style="fill"
         onPress={handleGenerate}
         isDisabled={generationInProgress}>
-        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px" /> : <SenseiGenAIIcon />}
+        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px" /> : <SenseiGenAIIcon marginRight={'10px'}/>}
         Generate
       </Button>
       <ContextualHelp variant="info">

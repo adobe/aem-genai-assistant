@@ -11,19 +11,19 @@
  */
 import { useRecoilCallback } from 'recoil';
 import { sessionState } from './SessionState.js';
-import { sessionsState } from './SessionsState.js';
+import { sessionHistoryState } from './SessionHistoryState.js';
 
-export function useSaveSession() {
+export function useSaveResults() {
   return useRecoilCallback(({ snapshot, set }) => async () => {
     const currentSession = await snapshot.getPromise(sessionState);
-    const sessions = await snapshot.getPromise(sessionsState);
+    const sessions = await snapshot.getPromise(sessionHistoryState);
     const existingSession = sessions.find((session) => session.id === currentSession.id);
     if (existingSession) {
-      set(sessionsState, sessions.map((session) => {
+      set(sessionHistoryState, sessions.map((session) => {
         return (session.id === currentSession.id ? currentSession : session);
       }));
     } else {
-      set(sessionsState, [...sessions, currentSession]);
+      set(sessionHistoryState, [...sessions, currentSession]);
     }
   }, []);
 }

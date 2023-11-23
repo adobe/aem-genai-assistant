@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  ActionButton, Image, Tooltip, TooltipTrigger,
+  ActionButton, Tooltip, TooltipTrigger,
 } from '@adobe/react-spectrum';
 import ThumbUp from '@spectrum-icons/workflow/ThumbUp';
 import ThumbDown from '@spectrum-icons/workflow/ThumbDown';
@@ -18,6 +18,7 @@ import Star from '@spectrum-icons/workflow/Star';
 import StarOutline from '@spectrum-icons/workflow/StarOutline';
 import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
+import Refresh from '@spectrum-icons/workflow/Refresh';
 import React, { useCallback, useState } from 'react';
 import { css } from '@emotion/css';
 import { ToastQueue } from '@react-spectrum/toast';
@@ -25,14 +26,12 @@ import { useSetRecoilState } from 'recoil';
 import { useIsFavorite } from '../state/IsFavoriteHook.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { useApplicationContext } from './ApplicationProvider.js';
-import { useShellAuthContext } from './ShellAuthProvider.js';
-import ReusePromptIcon from '../assets/reuse-prompt.svg';
 import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
-import { useSaveSession } from '../state/SaveSessionHook.js';
+import { useSaveResults } from '../state/SaveResultsHook.js';
 import { sampleRUM } from '../rum.js';
-import { toClipboard, toHTML } from '../helpers/ExportPrompt.js';
+import { toClipboard, toHTML } from '../helpers/PromptExporter.js';
 
 const styles = {
   card: css`
@@ -119,17 +118,16 @@ const styles = {
 
 export function ResultCard({ result, ...props }) {
   const { firefallService } = useApplicationContext();
-  const { user } = useShellAuthContext();
   const [selectedVariant, setSelectedVariant] = useState(result.variants[0]);
   const setPrompt = useSetRecoilState(promptState);
   const setParameters = useSetRecoilState(parametersState);
   const setResults = useSetRecoilState(resultsState);
   const isFavorite = useIsFavorite();
   const toggleFavorite = useToggleFavorite();
-  const saveSession = useSaveSession();
+  const saveResults = useSaveResults();
 
   const sendFeedback = useCallback((sentiment) => {
-    firefallService.feedback(result.resultId, sentiment, user.imsOrg, user.imsToken)
+    firefallService.feedback(result.id, sentiment)
       .then((id) => {
         ToastQueue.positive('Feedback sent', { timeout: 1000 });
       })
@@ -143,10 +141,18 @@ export function ResultCard({ result, ...props }) {
     setParameters(result.parameters);
   }, [result, setPrompt, setParameters]);
 
-  const deleteResult = useCallback(async (resultId) => {
-    /* eslint-disable-next-line no-shadow */
-    setResults((results) => results.filter((result) => result.resultId !== resultId));
-    await saveSession();
+  const deleteVariant = useCallback(async (variantId) => {
+    console.log('deleteVariant', variantId);
+    setResults((results) => results.reduce((acc, r) => {
+      const variants = r.variants.filter((v) => v.id !== variantId);
+      console.log('variants', variants);
+      if (variants.length > 0) {
+        acc.push({ ...r, variants });
+        return acc;
+      }
+      return acc;
+    }, []));
+    await saveResults();
   }, [setResults]);
 
   return (
@@ -159,17 +165,8 @@ export function ResultCard({ result, ...props }) {
             <ActionButton
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
-              onPress={() => navigator.clipboard.writeText(result.prompt)}>
-              <Copy/>
-            </ActionButton>
-            <Tooltip>Copy</Tooltip>
-          </TooltipTrigger>
-          <TooltipTrigger delay={0}>
-            <ActionButton
-              isQuiet
-              UNSAFE_className="hover-cursor-pointer"
               onPress={reusePrompt}>
-              <Image src={ReusePromptIcon} />
+              <Refresh/>
             </ActionButton>
             <Tooltip>Re-use</Tooltip>
           </TooltipTrigger>
@@ -202,7 +199,7 @@ export function ResultCard({ result, ...props }) {
               onPress={() => toggleFavorite(selectedVariant)}>
               {isFavorite(selectedVariant) ? <StarOutline/> : <Star/>}
             </ActionButton>
-            <Tooltip>Save</Tooltip>
+            <Tooltip>Favorite</Tooltip>
           </TooltipTrigger>
           <TooltipTrigger delay={0}>
             <ActionButton
@@ -238,7 +235,7 @@ export function ResultCard({ result, ...props }) {
             <ActionButton
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
-              onPress={() => deleteResult(result.resultId)}>
+              onPress={() => deleteVariant(selectedVariant.id)}>
               <Delete/>
             </ActionButton>
             <Tooltip>Remove</Tooltip>

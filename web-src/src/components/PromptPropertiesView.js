@@ -69,14 +69,14 @@ export function PromptPropertiesView(props) {
       gap={'size-100'}>
 
       <Flex UNSAFE_className={styles.promptFlexItems} UNSAFE_style={{ paddingTop: '0', paddingBottom: '0' }} direction={'row'} justifyContent={'left'} alignItems={'center'} gridArea={'breadcrumbs'}>
-        <Image src={ChevronLeft} width={'24px'}/>
+        <Image src={ChevronLeft} alt={'Back'} width={'24px'}/>
         <Link href="#" onPress={() => setViewType(ViewType.NewSession)} UNSAFE_className={styles.breadcrumbsLink}>Prompts</Link>
       </Flex>
 
       { currentSession
         ? <Flex UNSAFE_className={styles.promptFlexItems} UNSAFE_style={{ borderBottom: '1px solid rgb(224, 224, 224)' }} direction={'column'} justifyContent={'stretch'} alignItems={'stretch'} gridArea={'info'}>
           <Flex UNSAFE_style={{ borderRadius: '8px', background: '#E0F2FF', padding: '10px' }} gap={'size-100'} alignItems={'center'}>
-            <Image src={GenerateIcon} width={'24px'}/>
+            <Image src={GenerateIcon} alt={''} width={'24px'}/>
             <Text UNSAFE_className={styles.promptName}>{ currentSession.name ?? 'Empty' }</Text>
           </Flex>
           <Text UNSAFE_style={{ padding: '10px' }}>{ currentSession.description ?? 'Empty' }</Text>

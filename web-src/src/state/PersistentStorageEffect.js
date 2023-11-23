@@ -13,7 +13,7 @@ import localforage, { getItem, removeItem, setItem } from 'localforage';
 
 localforage.config({ name: 'sessions' });
 
-export function createIndexedDbEffect(key) {
+export function createPersistentStorageEffect(key) {
   return ({ setSelf, onSet }) => {
     getItem(key)
       .then((savedValue) => {

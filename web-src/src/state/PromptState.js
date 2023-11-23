@@ -16,7 +16,7 @@ import { sessionState } from './SessionState.js';
 export const promptState = selector({
   key: 'promptState',
   get: ({ get }) => {
-    return get(sessionState)?.prompt ?? '';
+    return get(sessionState).prompt;
   },
   set: ({ set, get }, newValue) => {
     set(sessionState, {

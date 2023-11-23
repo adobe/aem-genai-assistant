@@ -57,9 +57,8 @@ export function SpreadSheetPicker({
 
   return (
     <Picker
-      key={name}
       label={<LinkLabel label={label} url={url}/>}
-      description={<DescriptionLabel description={description} />}
+      contextualHelp={<DescriptionLabel description={description} />}
       width="100%"
       items={items}
       selectedKey={String(getIndexByValue(items, value))}

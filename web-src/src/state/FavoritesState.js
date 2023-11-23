@@ -10,12 +10,12 @@
  * governing permissions and limitations under the License.
  */
 import { atom } from 'recoil';
-import { createIndexedDbEffect } from '../helpers/IndexedDbEffect.js';
+import { createPersistentStorageEffect } from './PersistentStorageEffect.js';
 
 const STORAGE_KEY = 'favorites';
 
 export const favoritesState = atom({
   key: 'favoritesState',
   default: [],
-  effects: [createIndexedDbEffect(STORAGE_KEY)],
+  effects: [createPersistentStorageEffect(STORAGE_KEY)],
 });

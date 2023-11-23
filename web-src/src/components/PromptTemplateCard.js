@@ -61,9 +61,9 @@ export function PromptTemplateCard({
           ]}
           columns={['min-content', 'auto', 'min-content']}
           rows={['min-content', 'min-content']}>
-          <Image src={GenerateIcon} width="24px" gridArea={'icon'}/>
+          <Image src={GenerateIcon} width="24px" alt={''} gridArea={'icon'}/>
           <Text UNSAFE_className={styles.title} gridArea={'title'}>{template.label}</Text>
-          { (template.isBundled) ? <Image src={SmallLogo} width={'18px'} gridArea={'logo'}/> : <Fragment/> }
+          { (template.isBundled) ? <Image src={SmallLogo} width={'18px'} alt={''} gridArea={'logo'}/> : <Fragment/> }
           <Text UNSAFE_className={styles.description} gridArea={'description'}>{template.description}</Text>
         </Grid>
       </motion.div>

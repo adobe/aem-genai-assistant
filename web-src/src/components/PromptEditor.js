@@ -30,11 +30,17 @@ languages.custom = {
 
 const style = {
   frame: css`
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 150px;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 10px;
+  `,
+  title: css`
+    font-size: 13px;
+    margin-bottom: 15px;
   `,
   editable: css`
     background-color: white;
@@ -91,6 +97,7 @@ function PromptEditor(props) {
           color: #8a8a8a !important;
         }
       `}/>
+      <div className={style.title}>Prompt</div>
       <div className={style.container}>
         <SimpleEditor
           className={style.editor}

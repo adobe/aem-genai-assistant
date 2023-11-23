@@ -22,6 +22,7 @@ jobs:
           AIO_RUNTIME_AUTH: ${{ secrets.AIO_RUNTIME_AUTH_QA }}
           AIO_RUNTIME_NAMESPACE: 245265-879aquaant-qa
           AIO_RUNTIME_APIHOST: 'https://adobeioruntime.net'
+          IMS_PRODUCT_CONTEXT: dma_aem_cloud
       run: |
         npm install
         npm run grammar

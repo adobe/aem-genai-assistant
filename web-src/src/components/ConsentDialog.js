@@ -24,20 +24,20 @@ import { sampleRUM } from '../rum.js';
 import { NoAccessDialog } from './NoAccessDialog.js';
 
 const CONSENT_KEY = 'genai-assistant-consent';
-const REDIRECT_URL = 'https://experience.adobe.com';
 
 export function ConsentDialog() {
   const [isOpen, setOpen] = React.useState(false);
   const [isAccess, setAccess] = React.useState(true);
 
-  useEffect(async () => {
-    const { settings } = await settingsApi.get({
+  useEffect(() => {
+    settingsApi.get({
       groupId: 'test-aem-genai-assistant',
       level: SettingsLevel.USERORG,
       settings: { [CONSENT_KEY]: false },
+    }).then(({ settings }) => {
+      setOpen(!settings[CONSENT_KEY]);
     });
-    setOpen(!settings[CONSENT_KEY]);
-  }, []);
+  }, [setOpen]);
 
   const handleAgree = () => {
     sampleRUM('genai:consent:agree', { source: 'ConsentDialog#handleAgree' });
@@ -45,14 +45,15 @@ export function ConsentDialog() {
       groupId: 'test-aem-genai-assistant',
       level: SettingsLevel.USERORG,
       settings: { [CONSENT_KEY]: true },
+    }).then(() => {
+      setOpen(false);
+      setAccess(true);
     });
-    setOpen(false);
   };
 
   const handleCancel = () => {
     sampleRUM('genai:consent:cancel', { source: 'ConsentDialog#handleCancel' });
     setOpen(false);
-    // window.location.href = REDIRECT_URL;
     setAccess(false);
   };
 

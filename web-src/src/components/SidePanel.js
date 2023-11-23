@@ -109,10 +109,16 @@ export function SidePanel(props) {
 
       <Flex direction={'column'} gridArea={'menu'} gap={'size-100'}>
         <ul className={style.menu}>
-          <li className={viewType === ViewType.NewSession ? derivedStyle.clickedMenuItem : style.menuItem}><Image src={PromptsIcon} width={'20px'}/><Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>Prompts</Link></li>
-          <li className={viewType === ViewType.Favorites ? derivedStyle.clickedMenuItem : style.menuItem}><Image src={FavoritesIcon} width={'20px'}/><Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.Favorites)}>Favorites</Link></li>
+          <li className={viewType === ViewType.NewSession ? derivedStyle.clickedMenuItem : style.menuItem}>
+            <Image src={PromptsIcon} width={'20px'} alt={'New prompt template'}/>
+            <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>Prompts</Link>
+          </li>
+          <li className={viewType === ViewType.Favorites ? derivedStyle.clickedMenuItem : style.menuItem}>
+            <Image src={FavoritesIcon} width={'20px'} alt={'Favorites'}/>
+            <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.Favorites)}>Favorites</Link>
+          </li>
           <li className={style.menuItem}>
-            <Image src={RecentsIcon} width={'20px'}/>
+            <Image src={RecentsIcon} width={'20px'} alt={'Recent'}/>
             <Text>Recent</Text>
           </li>
           { (sessions && sessions.length > 0) && sessions.map((session) => (
@@ -126,10 +132,11 @@ export function SidePanel(props) {
 
       <Flex direction={'column'} gridArea={'footer'} gap={'16px'}>
         <Flex direction={'row'} justifyContent={'start'} alignItems={'center'} gap={'12px'}>
-          <Image src={HelpIcon} width={'20px'}/><Link href="https://www.aem.live/developer/configuring-aem-genai-assistant-sidekick-plugin" target="_blank" UNSAFE_className={style.menu}>Help & FAQ</Link>
+          <Image src={HelpIcon} width={'20px'}/>
+          <Link href="https://www.aem.live/developer/configuring-aem-genai-assistant-sidekick-plugin" target="_blank" UNSAFE_className={style.menu} alt={'Help'}>Help & FAQ</Link>
         </Flex>
         <Flex direction={'row'} justifyContent={'start'} alignItems={'center'} gap={'12px'}>
-          <Image src={FileTxt} width={'20px'}/><Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={style.menu}>User Guidelines</Link>
+          <Image src={FileTxt} width={'20px'}/><Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={style.menu} alt={'Guidelines'}>User Guidelines</Link>
         </Flex>
         <Text UNSAFE_className={style.copyright}>Copyright © 2023 Adobe. All rights reserved</Text>
       </Flex>

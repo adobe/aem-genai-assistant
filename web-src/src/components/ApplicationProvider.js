@@ -10,21 +10,20 @@
  * governing permissions and limitations under the License.
  */
 import React, {
-  Fragment, useCallback, useContext, useEffect, useState,
+  Fragment, useContext, useEffect, useState,
 } from 'react';
-import { Content, Heading, InlineAlert } from '@adobe/react-spectrum';
 import { useSetRecoilState } from 'recoil';
-import excApp from '@adobe/exc-app';
-import page from '@adobe/exc-app/page';
-
 import { FirefallService } from '../services/FirefallService.js';
 import actions from '../config.json';
-import { configurationState } from '../state/ConfigurationState.js';
+import { useShellContext } from './ShellProvider.js';
+import { loadPromptTemplates, promptTemplatesState } from '../state/PromptTemplatesState.js';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 
 const COMPLETE_ACTION = 'complete';
 const FEEDBACK_ACTION = 'feedback';
+
+const PROMPTS_TEMPLATES_PARAM_NAME = 'prompts';
 
 const PROMPT_TEMPLATES_FILENAME = 'prompttemplates';
 
@@ -33,79 +32,62 @@ function getWebsiteUrl() {
   const ref = searchParams.get('ref');
   const repo = searchParams.get('repo');
   const owner = searchParams.get('owner');
+
   if (!ref || !repo || !owner) {
     throw Error('It seems we\'re missing the ref, repo or owner search parameter in your application.');
   }
+
   return `https://${ref}--${repo}--${owner}.hlx.page`;
 }
 
 function getPromptTemplatesPath() {
   const searchParams = new URLSearchParams(window.location.search);
-  return searchParams.get('prompts') || PROMPT_TEMPLATES_FILENAME;
-}
-
-function getConfiguration() {
-  return {
-    appVersion: APP_VERSION,
-    websiteUrl: getWebsiteUrl(),
-    promptTemplatesPath: getPromptTemplatesPath(),
-  };
-}
-
-function createApplication(configuration, shellConfig) {
-  return {
-    ...configuration,
-    firefallService: new FirefallService({
-      completeEndpoint: actions[COMPLETE_ACTION],
-      feedbackEndpoint: actions[FEEDBACK_ACTION],
-    }),
-    shellConfig,
-  };
+  return searchParams.get(PROMPTS_TEMPLATES_PARAM_NAME) || PROMPT_TEMPLATES_FILENAME;
 }
 
 export const ApplicationContext = React.createContext(undefined);
 
 export const ApplicationProvider = ({ children }) => {
-  const setConfiguration = useSetRecoilState(configurationState);
+  const { user, done } = useShellContext();
+  const setPromptTemplates = useSetRecoilState(promptTemplatesState);
   const [application, setApplication] = useState(undefined);
-  const [error, setError] = React.useState(undefined);
-
-  const shellEventsHandler = useCallback((config) => {
-    try {
-      const appConfig = getConfiguration();
-      setConfiguration(appConfig);
-      setApplication(() => createApplication(appConfig, config));
-      console.log(config);
-    } catch (e) {
-      console.error(e, 'Failed to create application');
-      setError(e);
-    }
-  }, [setConfiguration, setError]);
 
   useEffect(() => {
-    const runtime = excApp();
-    runtime.on('ready', shellEventsHandler);
-    runtime.on('configuration', shellEventsHandler);
-  }, []);
+    if (!user) {
+      return;
+    }
 
-  page.done();
+    const websiteUrl = getWebsiteUrl();
 
-  if (error) {
-    return (
-      <InlineAlert margin={'50px'}>
-        <Heading>Oops! It looks like we ran into a small snag</Heading>
-        <Content>{error.message}</Content>
-      </InlineAlert>
-    );
-  } else if (application) {
-    return (
-      <ApplicationContext.Provider value={application}>
-        {children}
-      </ApplicationContext.Provider>
-    );
+    setApplication({
+      appVersion: APP_VERSION,
+      websiteUrl,
+      firefallService: new FirefallService({
+        completeEndpoint: actions[COMPLETE_ACTION],
+        feedbackEndpoint: actions[FEEDBACK_ACTION],
+        imsOrg: user.imsOrg,
+        accessToken: user.imsToken,
+      }),
+    });
+
+    loadPromptTemplates(websiteUrl, getPromptTemplatesPath()).then((templates) => {
+      setPromptTemplates(templates);
+    }).catch((e) => {
+      console.error(`Failed to load prompt templates: ${e.message}`);
+    });
+
+    done();
+  }, [user, done, setApplication]);
+
+  if (!application) {
+    return <Fragment/>;
   }
 
-  return (<Fragment/>);
+  return (
+    <ApplicationContext.Provider value={application}>
+      {children}
+    </ApplicationContext.Provider>
+  );
 };
 
 export const useApplicationContext = () => {

@@ -31,7 +31,7 @@ export function ResetButton(props) {
       isQuiet
       onPress={handleReset}
       variant={''}>
-      <Image src={ResetIcon}/>
+      <Image src={ResetIcon} alt={'Reset'} />
       <Text>Reset</Text>
     </ActionButton>
   );

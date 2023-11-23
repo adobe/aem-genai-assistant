@@ -19,7 +19,6 @@ import { v4 as uuid } from 'uuid';
 import SenseiGenAIIcon from '../icons/GenAIIcon.js';
 import { renderPrompt } from '../helpers/PromptRenderer.js';
 import { useApplicationContext } from './ApplicationProvider.js';
-import { useShellAuthContext } from './ShellAuthProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { temperatureState } from '../state/TemperatureState.js';
 import { resultsState } from '../state/ResultsState.js';
@@ -31,7 +30,6 @@ import { sampleRUM } from '../rum.js';
 
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
-  const { user } = useShellAuthContext();
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
   const temperature = useRecoilValue(temperatureState);
@@ -41,7 +39,7 @@ export function GenerateButton() {
 
   const generateResults = useCallback(async () => {
     const finalPrompt = renderPrompt(prompt, parameters);
-    const { queryId, response } = await firefallService.complete(finalPrompt, temperature, user.imsOrg, user.imsToken);
+    const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
     setResults((results) => [...results, {
       id: queryId,
       variants: createVariants(uuid, response),

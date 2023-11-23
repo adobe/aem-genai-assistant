@@ -18,7 +18,7 @@ import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
 import { motion } from 'framer-motion';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
-import { toClipboard, toHTML } from '../helpers/ExportPrompt.js';
+import { toClipboard, toHTML } from '../helpers/PromptExporter.js';
 import { sampleRUM } from '../rum.js';
 
 const styles = {

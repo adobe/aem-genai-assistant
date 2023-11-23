@@ -9,8 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { selector } from 'recoil';
-import { configurationState } from './ConfigurationState.js';
+import { atom } from 'recoil';
 import { wretchRetry } from '../../../actions/Network.js';
 
 import { data as bundledPromptTemplates } from '../../../docs/bundledPromptTemplates.json';
@@ -35,7 +34,7 @@ function parsePromptTemplates(data, isBundled) {
   });
 }
 
-async function fetchPromptTemplates(websiteUrl, promptTemplatesPath) {
+async function fetchUserPromptTemplates(websiteUrl, promptTemplatesPath) {
   try {
     const url = `${websiteUrl}/${promptTemplatesPath.toLowerCase()}.json`;
     console.log('Fetching prompt templates from', url);
@@ -47,14 +46,15 @@ async function fetchPromptTemplates(websiteUrl, promptTemplatesPath) {
   }
 }
 
-export const promptLibraryState = selector({
+export async function loadPromptTemplates(websiteUrl, promptTemplatesPath) {
+  return [
+    ...(parsePromptTemplates(bundledPromptTemplates, true)),
+    ...(await fetchUserPromptTemplates(websiteUrl, promptTemplatesPath)),
+    newPromptTemplate,
+  ];
+}
+
+export const promptTemplatesState = atom({
   key: 'promptTemplatesState',
-  get: async ({ get }) => {
-    const { websiteUrl, promptTemplatesPath } = get(configurationState);
-    return [
-      ...(parsePromptTemplates(bundledPromptTemplates, true)),
-      ...(await fetchPromptTemplates(websiteUrl, promptTemplatesPath)),
-      newPromptTemplate,
-    ];
-  },
+  default: [],
 });

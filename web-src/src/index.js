@@ -20,19 +20,22 @@ import { init } from '@adobe/exc-app';
 import React from 'react';
 import { App } from './components/App.js';
 import { ApplicationProvider } from './components/ApplicationProvider.js';
-import { ShellAuthProvider } from './components/ShellAuthProvider.js';
+import { ShellProvider } from './components/ShellProvider.js';
 import './index.css';
+import { AccessBoundary } from './components/AccessBoundary.js';
 
 init(() => {
   ReactDOM.createRoot(document.getElementById('root')).render(
     <RecoilRoot>
-      <ApplicationProvider>
-        <Provider colorScheme="light" theme={defaultTheme} width="100%" height="100%">
-          <ShellAuthProvider>
-            <App />
-          </ShellAuthProvider>
-        </Provider>
-      </ApplicationProvider>
+      <ShellProvider>
+        <AccessBoundary>
+          <ApplicationProvider>
+            <Provider colorScheme="light" theme={defaultTheme} width="100%" height="100%">
+              <App />
+            </Provider>
+          </ApplicationProvider>
+        </AccessBoundary>
+      </ShellProvider>
     </RecoilRoot>,
     document.getElementById('root'),
   );

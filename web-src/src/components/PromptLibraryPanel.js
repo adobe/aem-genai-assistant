@@ -22,11 +22,11 @@ import { PromptTemplateCard } from './PromptTemplateCard.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
-import { promptLibraryState } from '../state/PromptLibraryState.js';
+import { promptTemplatesState } from '../state/PromptTemplatesState.js';
 import { sampleRUM } from '../rum.js';
 
 function PromptTemplatesView({ onSelect }) {
-  const promptTemplates = useRecoilValue(promptLibraryState);
+  const promptTemplates = useRecoilValue(promptTemplatesState);
   return (
     <Grid
       width={'100%'}

@@ -21,19 +21,29 @@ function wretchRetry(url) {
 }
 
 export class FirefallService {
-  constructor({ completeEndpoint, feedbackEndpoint }) {
+  constructor({
+    completeEndpoint,
+    feedbackEndpoint,
+    imsOrg,
+    accessToken,
+  }) {
     this.completeEndpoint = completeEndpoint;
     this.feedbackEndpoint = feedbackEndpoint;
-    console.log('FirefallService initialized!');
+    this.imsOrg = imsOrg;
+    this.accessToken = accessToken;
+
     console.log(`Complete: ${this.completeEndpoint}`);
     console.log(`Feedback: ${this.feedbackEndpoint}`);
   }
 
-  async complete(prompt, temperature, imsOrg, accessToken) {
+  async complete(prompt, temperature) {
     /* eslint-disable-next-line camelcase */
     const { query_id, generations } = await wretchRetry(this.completeEndpoint)
       .post({
-        prompt, temperature, imsOrg, accessToken,
+        prompt,
+        temperature,
+        imsOrg: this.imsOrg,
+        accessToken: this.accessToken,
       })
       .json();
     return {
@@ -43,14 +53,14 @@ export class FirefallService {
     };
   }
 
-  async feedback(queryId, sentiment, imsOrg, accessToken) {
-    /* eslint-disable-next-line camelcase */
-    console.log(`Feedback: ${queryId} ${sentiment}`);
-    console.log(`Feedback: ${this.feedbackEndpoint}`);
+  async feedback(queryId, sentiment) {
     /* eslint-disable-next-line camelcase */
     const { feedback_id } = await wretchRetry(this.feedbackEndpoint)
       .post({
-        queryId, sentiment, imsOrg, accessToken,
+        queryId,
+        sentiment,
+        imsOrg: this.imsOrg,
+        accessToken: this.accessToken,
       })
       .json();
     /* eslint-disable-next-line camelcase */

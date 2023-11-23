@@ -43,7 +43,7 @@ export const ShellProvider = ({ children, runtime }) => {
         imsOrg,
       },
       isUserAuthorized: isAuthorized(imsProfile, imsOrg),
-      ready: page.done,
+      done: page.done,
     });
   }, [setShellContext]);
 

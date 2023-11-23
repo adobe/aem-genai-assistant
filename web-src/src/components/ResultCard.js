@@ -31,7 +31,7 @@ import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { sampleRUM } from '../rum.js';
-import { toClipboard, toHTML } from '../helpers/ExportPrompt.js';
+import { toClipboard, toHTML } from '../helpers/PromptExporter.js';
 
 const styles = {
   card: css`

@@ -17,8 +17,8 @@ describe('parser', () => {
     expect(parseExpression('{{ test }}')).toEqual({ modifier: null, identifier: 'test', parameters: [] });
     expect(parseExpression('{{@test}}')).toEqual({ modifier: '@', identifier: 'test', parameters: [] });
     expect(parseExpression('{{@ test }}')).toEqual({ modifier: '@', identifier: 'test', parameters: [] });
-    expect(parseExpression('{{#test}}')).toEqual({ modifier: '#', identifier: 'test', parameters: [] });
-    expect(parseExpression('{{# test }}')).toEqual({ modifier: '#', identifier: 'test', parameters: [] });
+    expect(parseExpression('{{#test}}')).toEqual(null);
+    expect(parseExpression('{{# test }}')).toEqual(null);
     expect(parseExpression('{{test, p1 = v1 }}')).toEqual({ modifier: null, identifier: 'test', parameters: [{ key: 'p1', value: 'v1' }] });
     expect(parseExpression('{{@ test, p1 = v1, p2 = "hello world" }}')).toEqual({ modifier: '@', identifier: 'test', parameters: [{ key: 'p1', value: 'v1' }, { key: 'p2', value: 'hello world' }] });
   });

@@ -9,7 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { toHTML } from './ExportPrompt.js';
+import { toHTML } from './PromptExporter.js';
 
 describe('toHTML', () => {
   test('returns html: prompt result is an key/value pair', () => {

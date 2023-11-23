@@ -12,6 +12,13 @@ var grammar = {
     {"name": "__$ebnf$1", "symbols": ["__$ebnf$1", "wschar"], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
     {"name": "__", "symbols": ["__$ebnf$1"], "postprocess": function(d) {return null;}},
     {"name": "wschar", "symbols": [/[ \t\n\v\f]/], "postprocess": id},
+    {"name": "placeholder", "symbols": ["comment"], "postprocess": ([value]) => value},
+    {"name": "placeholder", "symbols": ["expression"], "postprocess": ([value]) => value},
+    {"name": "comment$string$1", "symbols": [{"literal":"{"}, {"literal":"{"}, {"literal":"#"}], "postprocess": function joiner(d) {return d.join('');}},
+    {"name": "comment$ebnf$1", "symbols": []},
+    {"name": "comment$ebnf$1", "symbols": ["comment$ebnf$1", /[^}]/], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
+    {"name": "comment$string$2", "symbols": [{"literal":"}"}, {"literal":"}"}], "postprocess": function joiner(d) {return d.join('');}},
+    {"name": "comment", "symbols": ["comment$string$1", "comment$ebnf$1", "comment$string$2"], "postprocess": ([,comment]) => (null)},
     {"name": "expression$string$1", "symbols": [{"literal":"{"}, {"literal":"{"}], "postprocess": function joiner(d) {return d.join('');}},
     {"name": "expression$ebnf$1", "symbols": ["modifier"], "postprocess": id},
     {"name": "expression$ebnf$1", "symbols": [], "postprocess": function(d) {return null;}},
@@ -19,7 +26,7 @@ var grammar = {
     {"name": "expression$ebnf$2", "symbols": [], "postprocess": function(d) {return null;}},
     {"name": "expression$string$2", "symbols": [{"literal":"}"}, {"literal":"}"}], "postprocess": function joiner(d) {return d.join('');}},
     {"name": "expression", "symbols": ["expression$string$1", "expression$ebnf$1", "_", "identifier", "_", "expression$ebnf$2", "_", "expression$string$2"], "postprocess": ([,modifier,, identifier,, parameters]) => ({modifier, identifier, parameters})},
-    {"name": "modifier", "symbols": [/[#@]/], "postprocess": ([modifier]) => modifier},
+    {"name": "modifier", "symbols": [/[@]/], "postprocess": ([modifier]) => modifier},
     {"name": "identifier$ebnf$1", "symbols": [/[a-zA-Z0-9_]/]},
     {"name": "identifier$ebnf$1", "symbols": ["identifier$ebnf$1", /[a-zA-Z0-9_]/], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
     {"name": "identifier", "symbols": ["identifier$ebnf$1"], "postprocess": ([name]) => name.join('')},
@@ -39,7 +46,7 @@ var grammar = {
     {"name": "quotedString$ebnf$1", "symbols": ["quotedString$ebnf$1", /[a-zA-Z0-9_?:\s.,']/], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
     {"name": "quotedString", "symbols": [{"literal":"\""}, "quotedString$ebnf$1", {"literal":"\""}], "postprocess": ([,string]) => string.join('')}
 ]
-  , ParserStart: "expression"
+  , ParserStart: "placeholder"
 }
 if (typeof module !== 'undefined'&& typeof module.exports !== 'undefined') {
    module.exports = grammar;

@@ -37,13 +37,13 @@ function NoAccessFallback() {
 }
 
 export function AccessBoundary({ children, fallback = <NoAccessFallback /> }) {
-  const { isUserAuthorized, ready } = useShellContext();
+  const { isUserAuthorized, done } = useShellContext();
 
   useEffect(() => {
     if (!isUserAuthorized) {
-      ready();
+      done();
     }
-  }, [isUserAuthorized, ready]);
+  }, [isUserAuthorized, done]);
 
   if (!isUserAuthorized) {
     return fallback;

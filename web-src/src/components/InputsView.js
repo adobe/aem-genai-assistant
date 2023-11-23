@@ -125,6 +125,7 @@ export function InputsView({ gridColumn }) {
           return createInputComponent(type, name, label, params, value, onChange);
         })
       }
+      <h3 style={{ alignSelf: 'start', marginBottom: '10px' }}>Advanced</h3>
       <TemperatureSlider/>
     </Flex>
   );

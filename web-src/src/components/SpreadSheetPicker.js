@@ -17,7 +17,7 @@ import { LinkLabel } from './LinkLabel.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
 
 function getIndexByValue(items, value) {
-  return items.findIndex((item) => item.value.includes(value));
+  return items.findIndex((item) => item.value === value);
 }
 
 export function SpreadSheetPicker({
@@ -39,7 +39,6 @@ export function SpreadSheetPicker({
             value: Value,
           };
         }));
-        if (data[0]) onChange(data[0]?.Value);
         setUrl(fileUrl);
       })
       .catch((error) => {
@@ -61,6 +60,7 @@ export function SpreadSheetPicker({
       label={<LinkLabel label={label} url={url}/>}
       contextualHelp={<DescriptionLabel description={description} />}
       width="100%"
+      placeholder={'Select a value'}
       items={items}
       selectedKey={String(getIndexByValue(items, value))}
       onSelectionChange={selectionHandler}>

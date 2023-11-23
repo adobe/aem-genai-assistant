@@ -133,7 +133,7 @@ export function SidePanel(props) {
       <Flex direction={'column'} gridArea={'footer'} gap={'16px'}>
         <Flex direction={'row'} justifyContent={'start'} alignItems={'center'} gap={'12px'}>
           <Image src={HelpIcon} width={'20px'}/>
-          <Link href="https://www.aem.live/developer/configuring-aem-genai-assistant-sidekick-plugin" target="_blank" UNSAFE_className={style.menu} alt={'Help'}>Help & FAQ</Link>
+          <Link href="https://www.aem.live/docs/sidekick-generate-variations" target="_blank" UNSAFE_className={style.menu} alt={'Help'}>Help & FAQ</Link>
         </Flex>
         <Flex direction={'row'} justifyContent={'start'} alignItems={'center'} gap={'12px'}>
           <Image src={FileTxt} width={'20px'}/><Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={style.menu} alt={'Guidelines'}>User Guidelines</Link>

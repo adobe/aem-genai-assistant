@@ -23,7 +23,8 @@ jobs:
           AIO_RUNTIME_APIHOST: 'https://adobeioruntime.net'
       run: |
         npm install
+        npm run grammar
+        npm run build
         npm run lint
         npm run test
-        npm run build
         npm run deploy

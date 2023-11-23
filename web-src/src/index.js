@@ -9,7 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 
 import {
   RecoilRoot,
@@ -25,7 +25,7 @@ import './index.css';
 import { AccessBoundary } from './components/AccessBoundary.js';
 
 init(() => {
-  ReactDOM.createRoot(document.getElementById('root')).render(
+  createRoot(document.getElementById('root')).render(
     <RecoilRoot>
       <ShellProvider>
         <AccessBoundary>
@@ -37,6 +37,5 @@ init(() => {
         </AccessBoundary>
       </ShellProvider>
     </RecoilRoot>,
-    document.getElementById('root'),
   );
 });

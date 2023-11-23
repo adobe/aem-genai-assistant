@@ -27,7 +27,7 @@ const styles = {
   `,
 };
 
-function NoAccessFallback() {
+function NoAccessMessage() {
   return (
     <div className={styles.container}>
       Apologies, it appears that you lack permission to use this feature.<br/>
@@ -36,7 +36,7 @@ function NoAccessFallback() {
   );
 }
 
-export function AccessBoundary({ children, fallback = <NoAccessFallback /> }) {
+export function AccessBoundary({ children, fallback = <NoAccessMessage /> }) {
   const { isUserAuthorized, done } = useShellContext();
 
   useEffect(() => {

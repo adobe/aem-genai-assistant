@@ -39,6 +39,7 @@ export function SpreadSheetPicker({
             value: Value,
           };
         }));
+        onChange(data[0].Value);
         setUrl(fileUrl);
       })
       .catch((error) => {

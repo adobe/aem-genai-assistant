@@ -9,16 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import wretch from 'wretch';
-import { retry } from 'wretch/middlewares/retry';
-
-function wretchRetry(url) {
-  return wretch(url)
-    .middlewares([retry({
-      retryOnNetworkError: true,
-      until: (response) => response && (response.ok || (response.status >= 400 && response.status < 500)),
-    })]);
-}
+import { wretchRetry } from '../helpers/NetworkHelper.js';
 
 export class FirefallService {
   constructor({
@@ -32,8 +23,8 @@ export class FirefallService {
     this.imsOrg = imsOrg;
     this.accessToken = accessToken;
 
-    console.log(`Complete: ${this.completeEndpoint}`);
-    console.log(`Feedback: ${this.feedbackEndpoint}`);
+    console.debug(`Complete: ${this.completeEndpoint}`);
+    console.debug(`Feedback: ${this.feedbackEndpoint}`);
   }
 
   async complete(prompt, temperature) {

@@ -29,9 +29,11 @@ function PromptTemplatesView({ onSelect }) {
   const promptTemplates = useRecoilValue(promptTemplatesState);
   return (
     <Grid
+      data-testid={'prompt-templates-view'}
       width={'100%'}
       alignItems={'center'}
-      columns={'repeat(auto-fill, minmax(250px, 1fr))'} gap={'size-200'}>
+      columns={'repeat(auto-fill, minmax(250px, 1fr))'}
+      gap={'size-200'}>
       {
         promptTemplates
         && promptTemplates

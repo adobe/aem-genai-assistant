@@ -23,7 +23,7 @@ import { LegalTermsLink } from './LegalTermsLink.js';
 import { sampleRUM } from '../rum.js';
 import { NoAccessDialog } from './NoAccessDialog.js';
 
-const CONSENT_KEY = 'genai-assistant-consent';
+export const CONSENT_KEY = 'genai-assistant-consent';
 
 export function ConsentDialog() {
   const [isOpen, setOpen] = React.useState(false);

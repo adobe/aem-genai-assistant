@@ -16,9 +16,9 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 
 import { favoritesState } from '../state/FavoritesState.js';
-import { FavoriteCard } from './FavoriteCard.js';
+import { FavoriteVariantCard } from './FavoriteVariantCard.js';
 
-export function FavoritesPanel(props) {
+export function FavoriteVariantListPanel(props) {
   const favorites = useRecoilValue(favoritesState);
 
   return (
@@ -34,7 +34,7 @@ export function FavoritesPanel(props) {
         columns={'repeat(auto-fill, minmax(350px, 1fr))'} gap={'size-200'}>
         { favorites.length === 0
           ? <Text>No favorites yet</Text>
-          : favorites.map((variant) => <FavoriteCard key={variant.id} variant={variant} />) }
+          : favorites.map((variant) => <FavoriteVariantCard key={variant.id} variant={variant} />) }
       </Grid>
     </View>
   );

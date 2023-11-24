@@ -15,7 +15,7 @@ import {
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { css } from '@emotion/css';
-import { InputsView } from './InputsView.js';
+import { PromptInputView } from './PromptInputView.js';
 import { GenerateButton } from './GenerateButton.js';
 
 import GenerateIcon from '../assets/generate.svg';
@@ -55,7 +55,7 @@ const styles = {
   `,
 };
 
-export function PromptPropertiesView(props) {
+export function PromptSessionSideView(props) {
   const currentSession = useRecoilValue(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
 
@@ -87,7 +87,7 @@ export function PromptPropertiesView(props) {
       <Flex direction={'column'} UNSAFE_className={styles.promptFlexItems}>
         <h3>Inputs</h3>
         <Flex direction={'column'} UNSAFE_style={{ position: 'relative', height: '100%' }}>
-          <InputsView/>
+          <PromptInputView/>
         </Flex>
       </Flex>
 

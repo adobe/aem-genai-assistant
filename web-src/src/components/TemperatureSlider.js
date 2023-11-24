@@ -23,14 +23,13 @@ export function TemperatureSlider() {
   const [temperature, setTemperature] = useRecoilState(temperatureState);
   return (
     <Slider
-      UNSAFE_className="creativity-slider"
       label="Temperature"
       contextualHelp={<DescriptionLabel description={TEMPERATURE_DESC}/>}
       minValue={TEMPERATURE_MIN}
       maxValue={TEMPERATURE_MAX}
       isFilled={true}
-      width={'100%'}
       step={0.01}
+      width={'99%'}
       onChange={setTemperature}
       defaultValue={temperature} />
   );

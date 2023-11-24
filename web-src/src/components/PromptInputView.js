@@ -95,7 +95,7 @@ function createInputComponent(type, name, label, params, value, onChange) {
   }
 }
 
-export function InputsView({ gridColumn }) {
+export function PromptInputView({ gridColumn }) {
   const placeholders = useRecoilValue(placeholdersState);
   const [parameters, setParameters] = useRecoilState(parametersState);
 
@@ -107,7 +107,7 @@ export function InputsView({ gridColumn }) {
     <Flex
       direction="column"
       gap="size-100"
-      alignItems={'end'}
+      alignItems={'start'}
       gridColumn={gridColumn}
       UNSAFE_style={{
         overflowY: 'auto', position: 'absolute', top: '0', bottom: '0',

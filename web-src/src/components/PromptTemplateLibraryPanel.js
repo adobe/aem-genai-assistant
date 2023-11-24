@@ -54,7 +54,7 @@ export function PromptTemplateLibraryPanel({ props }) {
     if (selectedTemplate.isNew) {
       sampleRUM('genai:prompt:new', { source: 'HomePanel#handleSelect' });
     } else {
-      sampleRUM(`genai:prompt:${selectedTemplate.isAdobe ? 'isAdobe' : 'isCustom'}`, { source: 'HomePanel#handleSelect' });
+      sampleRUM(`genai:prompt:${selectedTemplate.isAdobe ? 'isadobe' : 'iscustom'}`, { source: 'HomePanel#handleSelect' });
     }
     const timestamp = Date.now();
     const session = {

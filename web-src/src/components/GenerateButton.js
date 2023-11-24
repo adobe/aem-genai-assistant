@@ -16,7 +16,7 @@ import React, { useCallback, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { ToastQueue } from '@react-spectrum/toast';
 import { v4 as uuid } from 'uuid';
-import SenseiGenAIIcon from '../icons/GenAIIcon.js';
+import GenAIIcon from '../icons/GenAIIcon.js';
 import { renderPrompt } from '../helpers/PromptRenderer.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { promptState } from '../state/PromptState.js';
@@ -78,7 +78,7 @@ export function GenerateButton() {
         style="fill"
         onPress={handleGenerate}
         isDisabled={generationInProgress}>
-        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px" /> : <SenseiGenAIIcon marginRight={'10px'}/>}
+        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px" /> : <GenAIIcon marginEnd={'10px'}/>}
         Generate
       </Button>
       <ContextualHelp variant="info">

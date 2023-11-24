@@ -14,7 +14,7 @@ import { Icon } from '@adobe/react-spectrum';
 
 export default function DeleteOutlineIcon(props) {
   return (
-    <Icon marginEnd={props.marginRight} {...props}>
+    <Icon {...props}>
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g id="Frame">
           <path id="iconPrimary" d="M7.42419 13.5193C7.06384 13.5193 6.76413 13.2337 6.75094 12.8707L6.52594 7.02071C6.511 6.64805 6.80192 6.33428 7.1737 6.32022C7.18336 6.31934 7.19216 6.31934 7.20094 6.31934C7.56129 6.31934 7.861 6.60498 7.87419 6.96797L8.09919 12.818C8.11413 13.1906 7.82321 13.5044 7.45143 13.5185C7.44176 13.5193 7.43297 13.5193 7.42419 13.5193Z" fill="#292929" />

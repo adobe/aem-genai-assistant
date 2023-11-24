@@ -178,8 +178,7 @@ export function ResultCard({ result, ...props }) {
           {
             result.variants.map((variant) => {
               return (
-                // eslint-disable-next-line react/jsx-key
-                <a onClick={() => setSelectedVariant(variant)}>
+                <a key={variant.id} onClick={() => setSelectedVariant(variant)}>
                   <div className={css`
                     ${styles.variant};
                     ${variant.id === selectedVariant.id && styles.variantSelected};

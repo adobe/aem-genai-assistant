@@ -16,9 +16,9 @@ import {
 import '@testing-library/jest-dom';
 import { RecoilRoot } from 'recoil';
 import { defaultTheme, Provider } from '@adobe/react-spectrum';
-import { ApplicationProvider } from '../src/components/ApplicationProvider.js';
-import { App } from '../src/components/App.js';
-import { CONSENT_KEY } from '../src/components/ConsentDialog.js';
+import { ApplicationProvider } from '../web-src/src/components/ApplicationProvider.js';
+import { App } from '../web-src/src/components/App.js';
+import { CONSENT_KEY } from '../web-src/src/components/ConsentDialog.js';
 
 const CONFIG_URL = 'https://localhost:9080/index.html?ref=ref&repo=repo&owner=owner';
 
@@ -33,7 +33,7 @@ jest.mock('@adobe/exc-app/settings', () => ({
   SettingsLevel: jest.fn(),
 }));
 
-jest.mock('../src/helpers/NetworkHelper.js', () => ({
+jest.mock('../web-src/src/helpers/NetworkHelper.js', () => ({
   wretchRetry: jest.fn().mockImplementation(() => ({
     get: jest.fn().mockImplementation(() => ({
       json: jest.fn().mockRejectedValue(new Error('error')),
@@ -41,7 +41,7 @@ jest.mock('../src/helpers/NetworkHelper.js', () => ({
   })),
 }));
 
-jest.mock('../src/components/ShellProvider.js', () => ({
+jest.mock('../web-src/src/components/ShellProvider.js', () => ({
   useShellContext: jest.fn().mockReturnValue({
     user: {
       imsOrg: 'org',
@@ -51,7 +51,7 @@ jest.mock('../src/components/ShellProvider.js', () => ({
   }),
 }));
 
-jest.mock('../src/services/FirefallService.js', () => ({
+jest.mock('../web-src/src/services/FirefallService.js', () => ({
   // eslint-disable-next-line func-names
   FirefallService: jest.fn().mockImplementation(function () {
     this.complete = jest.fn().mockReturnValue('text');
@@ -59,7 +59,7 @@ jest.mock('../src/services/FirefallService.js', () => ({
   }),
 }));
 
-describe('Application', () => {
+describe('WebApp', () => {
   beforeEach(() => {
     delete window.location;
     window.location = new URL(CONFIG_URL);

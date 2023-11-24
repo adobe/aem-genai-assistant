@@ -9,12 +9,13 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-module.exports = {
-  testEnvironment: 'jsdom',
-  moduleNameMapper: {
-    '\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-      '<rootDir>/.jest/fileMock.js',
-    '\\.(css|less)$':
-      '<rootDir>/.jest/styleMock.js',
-  },
-};
+import wretch from 'wretch';
+import { retry } from 'wretch/middlewares/retry';
+
+export function wretchRetry(url) {
+  return wretch(url)
+    .middlewares([retry({
+      retryOnNetworkError: true,
+      until: (response) => response && (response.ok || (response.status >= 400 && response.status < 500)),
+    })]);
+}

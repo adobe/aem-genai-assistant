@@ -10,9 +10,9 @@
  * governing permissions and limitations under the License.
  */
 import { atom } from 'recoil';
-import { wretchRetry } from '../../../actions/Network.js';
 
-import { data as bundledPromptTemplates } from '../../../docs/bundledPromptTemplates.json';
+import { data as bundledPromptTemplates } from '../../../data/bundledPromptTemplates.json';
+import { wretchRetry } from '../helpers/NetworkHelper.js';
 
 export const newPromptTemplate = {
   label: 'New prompt',
@@ -37,11 +37,10 @@ function parsePromptTemplates(data, isBundled) {
 async function fetchUserPromptTemplates(websiteUrl, promptTemplatesPath) {
   try {
     const url = `${websiteUrl}/${promptTemplatesPath.toLowerCase()}.json`;
-    console.log('Fetching prompt templates from', url);
+    console.debug('Fetching prompt templates from', url);
     const { data: promptTemplates } = await wretchRetry(url).get().json();
     return parsePromptTemplates(promptTemplates, false);
   } catch (e) {
-    console.warn('Could not fetch prompt templates', e);
     return [];
   }
 }

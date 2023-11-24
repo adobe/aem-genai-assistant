@@ -13,7 +13,7 @@
     "deploy": "npm run grammar && REACT_APP_VERSION=$npm_package_version aio app deploy",
     "lint": "eslint --quiet 'web-src/src/**/*.js' 'actions/*.js'",
     "fix": "eslint --fix --quiet 'web-src/src/**/*.js' 'actions/*.js'",
-    "test": "jest --passWithNoTests ./web-src/src"
+    "test": "jest --coverage --collectCoverageFrom 'web-src/src/**/*.js' 'actions/*.js' --passWithNoTests ./web-src/src ./web-src/it"
   },
   "dependencies": {
     "@adobe/aio-sdk": "3.0.0",
@@ -26,7 +26,6 @@
     "@spectrum-icons/illustrations": "3.6.7",
     "@spectrum-icons/workflow": "4.2.6",
     "framer-motion": "10.16.5",
-    "js-cookie": "3.0.5",
     "localforage": "1.10.0",
     "nearley": "2.20.1",
     "prismjs": "1.29.0",

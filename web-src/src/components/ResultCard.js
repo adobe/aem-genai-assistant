@@ -143,10 +143,10 @@ export function ResultCard({ result, ...props }) {
   }, [result, setPrompt, setParameters]);
 
   const deleteVariant = useCallback(async (variantId) => {
-    console.log('deleteVariant', variantId);
+    console.debug('deleteVariant', variantId);
     setResults((results) => results.reduce((acc, r) => {
       const variants = r.variants.filter((v) => v.id !== variantId);
-      console.log('variants', variants);
+      console.debug('variants', variants);
       if (variants.length > 0) {
         acc.push({ ...r, variants });
         return acc;

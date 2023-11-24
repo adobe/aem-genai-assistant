@@ -14,11 +14,11 @@ import React from 'react';
 import { css } from '@emotion/css';
 import { useRecoilValue } from 'recoil';
 import { resultsState } from '../state/ResultsState.js';
-import { ResultCard } from './ResultCard.js';
+import { PromptResultCard } from './PromptResultCard.js';
 
 import EmptyResults from '../assets/empty-results.svg';
 
-export function ResultsView(props) {
+export function PromptResultListView(props) {
   const results = useRecoilValue(resultsState);
 
   const style = {
@@ -39,7 +39,7 @@ export function ResultsView(props) {
       width={'100%'}>
       { results.length === 0
         ? <Image src={EmptyResults} width={'600px'} UNSAFE_className={style.emptyResults} alt={'Empty'}></Image>
-        : results.map((result) => <ResultCard key={result.id} result={result} />)
+        : results.map((result) => <PromptResultCard key={result.id} result={result} />)
       }
     </Flex>
   );

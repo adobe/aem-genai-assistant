@@ -28,7 +28,7 @@ import { sessionHistoryState } from '../state/SessionHistoryState.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 
-export function SidePanel(props) {
+export function MainSidePanel(props) {
   const { appVersion } = useApplicationContext();
   const sessions = useRecoilValue(sessionHistoryState);
   const [currentSession, setCurrentSession] = useRecoilState(sessionState);

@@ -17,11 +17,11 @@ import {
 import { useRecoilValue } from 'recoil';
 import { css } from '@emotion/css';
 import { ConsentDialog } from './ConsentDialog.js';
-import { SidePanel } from './SidePanel.js';
-import { SessionPanel } from './SessionPanel.js';
-import { PromptLibraryPanel } from './PromptLibraryPanel.js';
+import { MainSidePanel } from './MainSidePanel.js';
+import { PromptSessionPanel } from './PromptSessionPanel.js';
+import { PromptTemplateLibraryPanel } from './PromptTemplateLibraryPanel.js';
 import { viewTypeState, ViewType } from '../state/ViewType.js';
-import { FavoritesPanel } from './FavoritesPanel.js';
+import { FavoriteVariantListPanel } from './FavoriteVariantListPanel.js';
 
 const styles = {
   container: css`
@@ -36,11 +36,11 @@ const styles = {
 function getView(viewType) {
   switch (viewType) {
     case ViewType.CurrentSession:
-      return <SessionPanel />;
+      return <PromptSessionPanel />;
     case ViewType.Favorites:
-      return <FavoritesPanel />;
+      return <FavoriteVariantListPanel />;
     default:
-      return <PromptLibraryPanel />;
+      return <PromptTemplateLibraryPanel />;
   }
 }
 
@@ -56,7 +56,7 @@ export function App() {
         gap={'size-200'}
         UNSAFE_style={{ padding: '25px 25px 0 25px' }}
         width="100%" height="100%">
-        <SidePanel width="100%" height="100%" />
+        <MainSidePanel width="100%" height="100%" />
         <div className={styles.container}>
           <Suspense fallback={<ProgressCircle/>}>
             { getView(viewType) }

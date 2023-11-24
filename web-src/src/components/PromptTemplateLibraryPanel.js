@@ -46,7 +46,7 @@ function PromptTemplatesView({ onSelect }) {
   );
 }
 
-export function PromptLibraryPanel({ props }) {
+export function PromptTemplateLibraryPanel({ props }) {
   const setCurrentSession = useSetRecoilState(sessionState);
   const setViewType = useSetRecoilState(viewTypeState);
 

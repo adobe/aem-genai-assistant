@@ -33,7 +33,7 @@ const styles = {
   `,
 };
 
-export function FavoriteCard({ variant, ...props }) {
+export function FavoriteVariantCard({ variant, ...props }) {
   const toggleFavorite = useToggleFavorite();
 
   return (

@@ -111,7 +111,7 @@ export function SidePanel(props) {
         <ul className={style.menu}>
           <li className={viewType === ViewType.NewSession ? derivedStyle.clickedMenuItem : style.menuItem}>
             <Image src={PromptsIcon} width={'20px'} alt={'New prompt template'}/>
-            <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>Prompts</Link>
+            <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>Prompt Templates</Link>
           </li>
           <li className={viewType === ViewType.Favorites ? derivedStyle.clickedMenuItem : style.menuItem}>
             <Image src={FavoritesIcon} width={'20px'} alt={'Favorites'}/>

@@ -9,20 +9,18 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import {
-  Flex, Grid, Heading, Image, ProgressCircle,
-} from '@adobe/react-spectrum';
+import { Grid, Heading, ProgressCircle } from '@adobe/react-spectrum';
 
 import React, { Suspense, useCallback } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { v4 as uuid } from 'uuid';
 import { ErrorBoundary } from 'react-error-boundary';
-import NewSessionBanner from '../assets/new-session-banner.png';
 import { PromptTemplateCard } from './PromptTemplateCard.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
 import { promptTemplatesState } from '../state/PromptTemplatesState.js';
+import { WelcomeBanner } from './WelcomeBanner.js';
 import { sampleRUM } from '../rum.js';
 
 function PromptTemplatesView({ onSelect }) {
@@ -80,27 +78,9 @@ export function PromptLibraryPanel({ props }) {
         padding: '25px 50px', overflow: 'auto',
       }}>
 
-      <Flex
-        direction={'column'}
-        position={'relative'}
-        width={'70%'}
-        gap={0}
-        height={'300px'}
-        justifySelf={'center'}
-        marginTop={20}
-        marginBottom={20}>
-        <Image
-          src={NewSessionBanner}
-          objectFit={'cover'}
-          marginBottom={20}
-          alt={''}
-          UNSAFE_style={{ borderRadius: '20px' }}/>
-        <h3 style={{ padding: 0, margin: 0 }}>
-          Create high quality content quickly then measure it with experimentation or publish it to your site.
-        </h3>
-      </Flex>
+      <WelcomeBanner />
 
-      <Heading level={4} alignSelf={'start'}>Prompts</Heading>
+      <Heading level={3} alignSelf={'start'}>Prompt Templates</Heading>
 
       <ErrorBoundary fallback={<div>Something went wrong</div>}>
         <Suspense fallback={<ProgressCircle isIndeterminate />}>

@@ -70,7 +70,7 @@ export function PromptPropertiesView(props) {
 
       <Flex UNSAFE_className={styles.promptFlexItems} UNSAFE_style={{ paddingTop: '0', paddingBottom: '0' }} direction={'row'} justifyContent={'left'} alignItems={'center'} gridArea={'breadcrumbs'}>
         <Image src={ChevronLeft} alt={'Back'} width={'24px'}/>
-        <Link href="#" onPress={() => setViewType(ViewType.NewSession)} UNSAFE_className={styles.breadcrumbsLink}>Prompts</Link>
+        <Link href="#" onPress={() => setViewType(ViewType.NewSession)} UNSAFE_className={styles.breadcrumbsLink}>Prompt Templates</Link>
       </Flex>
 
       { currentSession

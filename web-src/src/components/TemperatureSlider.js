@@ -28,8 +28,8 @@ export function TemperatureSlider() {
       minValue={TEMPERATURE_MIN}
       maxValue={TEMPERATURE_MAX}
       isFilled={true}
-      step={0.01}
-      width={'99%'}
+      step={0.1}
+      width={'90%'}
       onChange={setTemperature}
       defaultValue={temperature} />
   );

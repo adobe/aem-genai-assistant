@@ -22,6 +22,13 @@ jobs:
           AIO_RUNTIME_AUTH: ${{ secrets.AIO_RUNTIME_AUTH_QA }}
           AIO_RUNTIME_NAMESPACE: 245265-879aquaant-qa
           AIO_RUNTIME_APIHOST: 'https://adobeioruntime.net'
+          FIREFALL_ENDPOINT: 'https://firefall.adobe.io'
+          FIREFALL_API_KEY: aem-sidekick-genai-assistant
+          IMS_ENDPOINT: 'https://ims-na1.adobelogin.com'
+          IMS_CLIENT_ID: aem-genai-assistant
+          IMS_SERVICE_CLIENT_ID: aem-sidekick-genai-assistant
+          IMS_SERVICE_CLIENT_SECRET: ${{ secrets.IMS_SERVICE_CLIENT_SECRET }}
+          IMS_SERVICE_PERM_AUTH_CODE: ${{ secrets.IMS_SERVICE_PERM_AUTH_CODE }}
           IMS_PRODUCT_CONTEXT: dma_aem_cloud
       run: |
         npm install

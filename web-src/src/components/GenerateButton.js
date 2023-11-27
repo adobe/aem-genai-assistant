@@ -78,7 +78,7 @@ export function GenerateButton() {
         style="fill"
         onPress={handleGenerate}
         isDisabled={generationInProgress}>
-        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px" /> : <GenAIIcon marginEnd={'10px'}/>}
+        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'}/>}
         Generate
       </Button>
       <ContextualHelp variant="info">

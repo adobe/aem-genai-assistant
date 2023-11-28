@@ -208,6 +208,7 @@ export function PromptResultCard({ result, ...props }) {
               onPress={() => {
                 sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress' });
                 navigator.clipboard.write(toClipboard(toHTML(selectedVariant.content)));
+                ToastQueue.positive('Copied to clipboard', { timeout: 1000 });
               }}>
               <CopyOutlineIcon />
             </ActionButton>

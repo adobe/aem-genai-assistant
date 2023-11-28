@@ -85,7 +85,7 @@ export function GenerateButton() {
         <Heading>Terms of use</Heading>
         <Content>
           <p>
-            Your inputs to the service should be tied to a context.This context can be your branding
+            Your inputs to the service should be tied to a context. This context can be your branding
             materials, website content, data, schemas for such data, templates, or other trusted documents.
             You should evaluate the accuracy of any output as appropriate to your use case.
           </p>

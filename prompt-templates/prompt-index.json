@@ -1,0 +1,37 @@
+[
+    {
+        "label": "Cards",
+        "description": "Generate crisp, audience-centric copy for your website's card elements - title and body included.",
+        "file": "card.prompt"
+    },
+    {
+        "label": "Cart abandonment",
+        "description": "With a mix of charm and strategy, this prompt delivers diligent web text to prompt customers on their pending orders.",
+        "file": "cart-abandonment.prompt"
+    },
+    {
+        "label": "FAQ Section",
+        "description": "Breathe life into a FAQ section, carefully curated with a fixed number of question-answer pairs.",
+        "file": "faq.prompt"
+    },
+    {
+        "label": "Headline",
+        "description": "Discover a distinctive headline copy for your website, attentively crafted to engage your target market.",
+        "file": "headline.prompt"
+    },
+    {
+        "label": "Hero Banner",
+        "description": "Design a compelling hero banner for your website, featuring a captivating title, body, and call-to-action button.",
+        "file": "hero.prompt"
+    },
+    {
+        "label": "Rewrite",
+        "description": "Rewrite. Reuse. Repurpose.",
+        "file": "rewrite.prompt"
+    },
+    {
+        "label": "Tile",
+        "description": "Craft engaging website Tile content, tailored to your target audience, with a succinct title and body.",
+        "file": "tile.prompt"
+    }
+]

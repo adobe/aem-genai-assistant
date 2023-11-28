@@ -12,7 +12,6 @@
 import {
   ActionButton, Tooltip, TooltipTrigger,
 } from '@adobe/react-spectrum';
-import Refresh from '@spectrum-icons/workflow/Refresh';
 import React, { useCallback, useState } from 'react';
 import { css } from '@emotion/css';
 import { ToastQueue } from '@react-spectrum/toast';
@@ -27,6 +26,7 @@ import { useSaveResults } from '../state/SaveResultsHook.js';
 import { sampleRUM } from '../rum.js';
 import { toClipboard, toHTML } from '../helpers/PromptExporter.js';
 
+import RefreshIcon from '../icons/RefreshIcon.js';
 import FavoritesIcon from '../icons/FavoritesIcon.js';
 import FavoritesOutlineIcon from '../icons/FavoritesOutlineIcon.js';
 import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';
@@ -167,7 +167,7 @@ export function PromptResultCard({ result, ...props }) {
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
               onPress={reusePrompt}>
-              <Refresh />
+              <RefreshIcon />
             </ActionButton>
             <Tooltip>Re-use</Tooltip>
           </TooltipTrigger>
@@ -208,6 +208,7 @@ export function PromptResultCard({ result, ...props }) {
               onPress={() => {
                 sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress' });
                 navigator.clipboard.write(toClipboard(toHTML(selectedVariant.content)));
+                ToastQueue.positive('Copied to clipboard', { timeout: 1000 });
               }}>
               <CopyOutlineIcon />
             </ActionButton>
@@ -218,7 +219,7 @@ export function PromptResultCard({ result, ...props }) {
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
               onPress={() => {
-                sampleRUM('genai:prompt:thumbsUp', { source: 'ResultCard#onPress' });
+                sampleRUM('genai:prompt:thumbsup', { source: 'ResultCard#onPress' });
                 sendFeedback(true);
               }}>
               <ThumbsUpOutlineIcon />
@@ -230,7 +231,7 @@ export function PromptResultCard({ result, ...props }) {
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
               onPress={() => {
-                sampleRUM('genai:prompt:thumbsDown', { source: 'ResultCard#onPress' });
+                sampleRUM('genai:prompt:thumbsdown', { source: 'ResultCard#onPress' });
                 sendFeedback(false);
               }}>
               <ThumbsDownOutlineIcon />

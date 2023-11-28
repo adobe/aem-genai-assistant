@@ -28,10 +28,11 @@ export function ResetButton(props) {
   return (
     <ActionButton
       {...props}
+      UNSAFE_className="hover-cursor-pointer"
       isQuiet
       onPress={handleReset}
       variant={''}>
-      <Image src={ResetIcon} alt={'Reset'} />
+      <Image src={ResetIcon} alt={'Reset'} marginEnd={'8px'}/>
       <Text>Reset</Text>
     </ActionButton>
   );

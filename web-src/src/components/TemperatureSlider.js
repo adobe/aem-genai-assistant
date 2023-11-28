@@ -17,7 +17,7 @@ import {
 } from '../state/TemperatureState.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
 
-const TEMPERATURE_DESC = 'A higher temperature strays from the prompt and leads to more randomness and creativity from the LLM';
+const TEMPERATURE_DESC = 'A higher temperature strays from the prompt and leads to more randomness and creativity';
 
 export function TemperatureSlider() {
   const [temperature, setTemperature] = useRecoilState(temperatureState);
@@ -28,8 +28,8 @@ export function TemperatureSlider() {
       minValue={TEMPERATURE_MIN}
       maxValue={TEMPERATURE_MAX}
       isFilled={true}
-      step={0.01}
-      width={'99%'}
+      step={0.1}
+      width={'90%'}
       onChange={setTemperature}
       defaultValue={temperature} />
   );

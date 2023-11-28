@@ -102,3 +102,7 @@ body {
   color: inherit;
   text-decoration: none;
 }
+
+.hover-cursor-pointer {
+  cursor: pointer;
+}

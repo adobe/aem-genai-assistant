@@ -78,14 +78,14 @@ export function GenerateButton() {
         style="fill"
         onPress={handleGenerate}
         isDisabled={generationInProgress}>
-        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px" /> : <GenAIIcon marginEnd={'10px'}/>}
+        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'}/>}
         Generate
       </Button>
       <ContextualHelp variant="info">
         <Heading>Terms of use</Heading>
         <Content>
           <p>
-            Your inputs to the service should be tied to a context.This context can be your branding
+            Your inputs to the service should be tied to a context. This context can be your branding
             materials, website content, data, schemas for such data, templates, or other trusted documents.
             You should evaluate the accuracy of any output as appropriate to your use case.
           </p>

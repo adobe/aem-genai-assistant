@@ -1,5 +1,5 @@
 {
-  "name": "aem-genai-assistent",
+  "name": "aem-genai-assistant",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -7,6 +7,7 @@
     "start": "REACT_APP_VERSION=$npm_package_version aio app run --local",
     "preview": "REACT_APP_VERSION=$npm_package_version aio app run",
     "grammar": "nearleyc web-src/src/helpers/expressions.ne -o web-src/src/helpers/Parser.generated.js",
+    "prompts": "node scripts/prompt-generator.js",
     "build": "REACT_APP_VERSION=$npm_package_version aio app build",
     "deploy:app": "npm run grammar && REACT_APP_VERSION=$npm_package_version aio app deploy --no-actions",
     "deploy:actions": "aio app deploy --no-web-assets",
@@ -25,6 +26,7 @@
     "@react-spectrum/toast": "3.0.0-beta.6",
     "@spectrum-icons/illustrations": "3.6.7",
     "@spectrum-icons/workflow": "4.2.6",
+"exceljs": "^4.4.0",
     "framer-motion": "10.16.5",
     "localforage": "1.10.0",
     "nearley": "2.20.1",

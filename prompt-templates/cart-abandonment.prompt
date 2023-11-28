@@ -1,0 +1,94 @@
+{{# -------------------------------------------------------------------------- }}
+{{# CONTEXT                                                                    }}
+{{# Describe the context of where content will be displayed, detailing the     }}
+{{# intented user experience or expected interaction.                          }}
+{{# -------------------------------------------------------------------------- }}
+On our webpage, users are presented with a web banner reminding them that they have an on-going purchase ready in their shopping cart. Upon interacting with the web banner, the user will navigate to a page where they can complete the checkout process or, alternatively, compare and choose a different product for purchase.
+
+{{# -------------------------------------------------------------------------- }}
+{{# INTENT                                                                     }}
+{{# State the intended user experience and the rationale behind crafting such  }}
+{{# an experience.                                                             }}
+{{# -------------------------------------------------------------------------- }}
+Our intent is for users to complete a purchase, either by completing the purchase that is in their shopping cart or by choosing a new product.
+
+{{# -------------------------------------------------------------------------- }}
+{{# TARGET AUDIENCE                                                            }}
+{{# Describe the audience you're targeting by specifying all relevant traits   }}
+{{# or behaviors.                                                              }}
+{{# -------------------------------------------------------------------------- }}
+Your assigned target audience is {{target_audience}}.
+
+{{# -------------------------------------------------------------------------- }}
+{{# TASK                                                                       }}
+{{# Describe the content to be generated. We suggest you modify the hypotheses }}
+{{# to fit your needs.                                                         }}
+{{# -------------------------------------------------------------------------- }}
+Your task is to compose {{number_of_variations}} distinct piece(s) of copy for a web banner targeted to our target audience that is specific to the Additional Context provided in double-brackets ([[]]) below. The text you compose will be used to test the hypotheses below in a live experiment. Keep in mind the specific traits of our target audience, considering that users will typically only read the title.
+
+To accomplish your task, the text you compose must strictly comply with the following requirements numbered in triple backticks (```) below and address the following hypotheses:
+- Customers will be more likely complete a purchase if there's a sense of urgency
+- Customers will be more likely complete a purchase if it is easy for them to complete the purchase
+- Customers will be more likely complete a purchase if the offer is relevant to their needs
+
+{{# -------------------------------------------------------------------------- }}
+{{# REQUIREMENTS                                                               }}
+{{# Specify any and all conditions your content must comply with to meet your  }}
+{{# brand writing guidelines.                                                  }}
+{{# -------------------------------------------------------------------------- }}
+Requirements: ```
+- The text must consist of four parts, a Title, a Body, a Call-to-Action and a "AI Rationale".
+- The text must be brief, such that:
+* In 20 words (100 characters) or less, compose the "AI Rationale" text first and use it to explain your reasoning for composing the copy, before composing the other parts.
+* The Title text must not exceed 7 words or 35 characters, including spaces.
+* The Body text must not exceed 15 words or 75 characters, including spaces.
+* The Call-to-Action text must not exceed 4 words or 20 characters, including spaces.
+- The tone of the text needs to be: {{tone_of_voice}}.
+- The product name must appear once either in the Title text or Body text.
+- Never abbreviate or shorten the name of the product in the text.
+- Compose the text without using the same adjective more than once.
+- Do not use exclamation marks or points at the end of sentences in the text.
+- Do not use exclamation marks or points in the text.
+- Avoid generic phrases like "Learn More", "Get Started" in the call-to-action text.
+10. Format the response as an array of valid, iterable RFC8259 compliant JSON. Always list the "AI Rationale" attribute last.
+```
+
+{{# -------------------------------------------------------------------------- }}
+{{# ADDTIONAL CONTEXT                                                          }}
+{{# Here you will Provide more background information or specific details to   }}
+{{# guide the creation of the content.                                         }}
+{{# -------------------------------------------------------------------------- }}
+Additional context: [[
+  {{additional_context}}
+]]
+
+{{# -------------------------------------------------------------------------- }}
+{{# METADATA                                                                   }}
+{{# -------------------------------------------------------------------------- }}
+{{@target_audience, 
+  label="Target Audience",
+  description="Choose the specific audience for which the content is tailored, as indicated in the audience spreadsheet",
+  spreadsheet=target-audiences,
+  default="Universal audience: This audience includes all people, spanning all backgrounds. While some members are heavy consumers of digital media and highly influenced by social media, other individuals may rely more on traditional media channels. They all place value on experiences and brand alignment in their purchasing decisions"
+}}
+
+{{@tone_of_voice, 
+  label="Tone of voice",
+  description="Indicate the desired tone of voice",
+  default="optimistic, smart, engaging, human, and creative",
+  type=text
+}}
+
+{{@number_of_variations,
+  label="Number of Variations",
+  description="Enter a number to generate the desired number of variations",
+  default=4,
+  type=number
+}}
+
+{{@additional_context,
+  label="Additional Context",
+  description="Provide more background information or specific details to guide the creation of the content", 
+  default="No additional context provided",
+  type=text
+}}

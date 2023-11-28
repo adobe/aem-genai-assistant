@@ -118,8 +118,8 @@ export function MainSidePanel(props) {
             <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.Favorites)}>Favorites</Link>
           </li>
           <li className={style.menuItem}>
-            <Image src={RecentsIcon} width={'20px'} alt={'Recent'}/>
-            <Text>Recent</Text>
+            <Image src={RecentsIcon} width={'20px'} alt={'Recents'}/>
+            <Text>Recents</Text>
           </li>
           { (sessions && sessions.length > 0) && sessions.map((session) => (
             // eslint-disable-next-line max-len

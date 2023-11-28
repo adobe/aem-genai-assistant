@@ -25,7 +25,7 @@ const FEEDBACK_ACTION = 'feedback';
 
 const PROMPTS_TEMPLATES_PARAM_NAME = 'prompts';
 
-const PROMPT_TEMPLATES_FILENAME = 'prompttemplates';
+const PROMPT_TEMPLATES_FILENAME = 'prompt-templates';
 
 function getWebsiteUrl() {
   const searchParams = new URLSearchParams(window.location.search);

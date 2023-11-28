@@ -1,21 +1,24 @@
-# AEM Generate Content Variations Sidekick Plugin
+# AEM Generate Variations Sidekick Plugin
 
-Follow these instructions to integrate this powerful tool into your website.
+## Configuring Adobe Experience Manager Generate Variations Sidekick Plugin
 
-## Getting Started
+This section lists down the steps to configure the Experience Manager Generate Variations Sidekick Plugin. With this plugin, you can generate variations of marketing copy while authoring documents in Microsoft Word or Google Docs.
 
-### Setting Up AEM Generate Content Variations
+### Add configuration to your AEM Sidekick
 
-To activate the AEM Generate Content Variations on your Edge Delivery Services website, it's necessary to include the following code into your Sidekick configuration at `tools/sidekick/config.json`:
+To enable the Content Variations Sidekick Plugin in your AEM Sidekick for website authors, please follow these steps in your project’s GitHub.
+
+1. The Sidekick configuration file is located at `tools/sidekick/config.json` in your AEM Edge Delivery Services site's GitHub repository. If it does not already exist, create it. For more details, please refer to this document on [extending AEM Sidekick]([https://www.hlx.live/docs/sidekick#customizing-the-sidekick](https://www.aem.live/developer/sidekick-customization)).
+2. The important part is the "generate-variations" plugin. You can either add the plugin definition to your existing configuration, or create a new configuration with the content below. Please note that you should provide a title for the plugin that website authors will understand (“Generate Variations” in the example below)
 ```json5
 {
-  // ...
+  "project": "your-project-name",
   "plugins": [
     // ...
     {
-      "id": "generate-content-variations",
-      "title": "Generate Content Variations",
-      "url": "<coming soon>",
+      "id": "generate-variations",
+      "title": "Generate Variations",
+      "url": "https://experience.adobe.com/aem/generate-variations",
       "passConfig": true,
       "environments": ["edit"],
       "includePaths": ["**.docx**"]
@@ -24,8 +27,12 @@ To activate the AEM Generate Content Variations on your Edge Delivery Services w
   ]
 }
 ```
+3. Make sure you replace “your-project-name” placeholder above with your own project’s name and to commit the above sidekick config in your project's Github repo.
+4. Open up the AEM sidekick in your Microsoft Word or Google Doc. You should see the "Generate Variations" button in it.
 
-### Creating Dynamic Prompt Templates
+![sidekick-example](https://github.com/adobe/aem-genai-assistant/assets/143527/ecc019cc-95c7-4f12-9578-7133dec43e24)
+
+## Creating Dynamic Prompt Templates
 
 Placeholders make prompt templates flexible and reusable. They are special spots in a template where users can input customized values. When a prompt with placeholders is run, these spots are filled with the user's specific inputs, making the prompt tailored for the situation.
 

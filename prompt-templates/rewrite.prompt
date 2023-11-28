@@ -1,0 +1,92 @@
+Original copy: `{{original_text}}`.
+
+{{# -------------------------------------------------------------------------- }}
+{{# INTENT                                                                     }}
+{{# State the intended user experience and the rationale behind crafting such  }}
+{{# an experience.                                                             }}
+{{# -------------------------------------------------------------------------- }}
+Our intent is to rewrite the original text to be {{explain_intent}}.
+
+{{# -------------------------------------------------------------------------- }}
+{{# TARGET AUDIENCE                                                            }}
+{{# Describe the audience you're targeting by specifying all relevant traits   }}
+{{# or behaviors.                                                              }}
+{{# -------------------------------------------------------------------------- }}
+Your assigned target audience is {{target_audience}}.
+
+{{# -------------------------------------------------------------------------- }}
+{{# TASK                                                                       }}
+{{# Describe the content to be generated. We suggest you modify the hypotheses }}
+{{# to fit your needs.                                                         }}
+{{# -------------------------------------------------------------------------- }}
+Your task is to compose {{number_of_variations}} distinct piece(s) of copy, targeted to our target audience by rewriting the original copy, provided in single backticks (`) above, to satisfy our intent. When rewriting, you may also use any available content provided in double-brackets ([[]]) below. 
+
+To accomplish your task, the text you compose must strictly comply with the following requirements listed in triple backticks (```) below:
+
+{{# -------------------------------------------------------------------------- }}
+{{# REQUIREMENTS                                                               }}
+{{# Specify any and all conditions your content must comply with to meet your  }}
+{{# brand writing guidelines.                                                  }}
+{{# -------------------------------------------------------------------------- }}
+Requirements: ```
+- The text must consist of any relevant parts present in the original copy and a "AI Rationale".
+- The text must be brief, such that:
+* In 20 words (100 characters) or less, compose the "AI Rationale" text first and use it to explain your reasoning for composing the copy, before composing the other parts.
+* Any remaining relevant parts must not exceed the original word and character counts, respectively.
+- The tone of the text needs to be: {{tone_of_voice}}.
+- Format the response as an array of valid, iterable RFC8259 compliant JSON. Always list the "AI Rationale" attribute last.
+```
+
+{{# -------------------------------------------------------------------------- }}
+{{# ADDTIONAL CONTEXT                                                          }}
+{{# Here you will Provide more background information or specific details to   }}
+{{# guide the creation of the content.                                         }}
+{{# -------------------------------------------------------------------------- }}
+Additional context: [[
+  {{additional_context}}
+]]
+
+{{# -------------------------------------------------------------------------- }}
+{{# METADATA                                                                   }}
+{{# -------------------------------------------------------------------------- }}
+{{@original_text, 
+  label="Text to rewrite", 
+  description="Provide the text or copy you want to rewrite", 
+  default="Amazing apps. Endless possibilities. Create something beautiful, boost productivity, and deliver engaging experiences with Adobe software. View all products", 
+  type=text
+}}
+
+{{@explain_intent, 
+  label="Rewrite the text to be...",
+  description="Specify the primary intention for rewriting the content",
+  default="written for social media instead of a webpage",
+  type=text
+}}
+
+{{@target_audience, 
+  label="Target Audience",
+  description="Choose the specific audience for which the content is tailored, as indicated in the audience spreadsheet",
+  spreadsheet=target-audiences,
+  default="Universal audience: This audience includes all people, spanning all backgrounds. While some members are heavy consumers of digital media and highly influenced by social media, other individuals may rely more on traditional media channels. They all place value on experiences and brand alignment in their purchasing decisions"
+}}
+
+{{@tone_of_voice, 
+  label="Tone of voice",
+  description="Indicate the desired tone of voice",
+  default="optimistic, smart, engaging, human, and creative",
+  type=text
+}}
+
+{{@number_of_variations,
+  label="Number of Variations",
+  description="Enter a number to generate the desired number of variations",
+  default=4,
+  type=number
+}}
+
+{{@additional_context,
+  label="Additional Context",
+  description="Provide more background information or specific details to guide the creation of the content", 
+  default="No additional context provided",
+  type=text
+}}

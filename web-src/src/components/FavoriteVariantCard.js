@@ -14,6 +14,7 @@ import {
 } from '@adobe/react-spectrum';
 import React from 'react';
 import { css } from '@emotion/css';
+import { ToastQueue } from '@react-spectrum/toast';
 import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
 import { motion } from 'framer-motion';
@@ -56,6 +57,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
                 onPress={() => {
                   sampleRUM('genai:prompt:copyfavorite', { source: 'FavoriteCard#onPress' });
                   navigator.clipboard.write(toClipboard(toHTML(variant.content)));
+                  ToastQueue.positive('Copied to clipboard', { timeout: 1000 });
                 }}>
                 <Copy />
               </ActionButton>

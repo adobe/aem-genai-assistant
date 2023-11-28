@@ -20,6 +20,7 @@ import { GenerateButton } from './GenerateButton.js';
 
 import GenerateIcon from '../assets/generate.svg';
 import ChevronLeft from '../assets/chevron-left.svg';
+import { SavePromptButton } from './SavePromptButton.js';
 import { ResetButton } from './ResetButton.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
@@ -92,7 +93,10 @@ export function PromptSessionSideView(props) {
       </Flex>
 
       <div className={styles.actions}>
-        <ResetButton/>
+        <Flex direction={'column'} alignItems={'flex-start'} justifyContent={'center'} flexShrink={0} gap={'4px'}>
+          <SavePromptButton/>
+          <ResetButton/>
+        </Flex>
         <GenerateButton/>
       </div>
 

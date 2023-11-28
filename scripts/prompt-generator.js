@@ -92,15 +92,6 @@ const createExcelFile = () => {
     column.alignment = { wrapText: true, vertical: 'top', horizontal: 'left' };
   });
 
-  samplePrompt = {
-    "label": "Short prompt name",
-    "description": "Short description of the prompt",
-    "template": "Write your prompt here"
-  };
-
-  // Add the prompt to the Excel file
-  worksheet.addRow(samplePrompt);
-
   console.log('\t* Writing the Excel File')
   workbook.xlsx.writeFile(PROMPT_TEMPLATES_EXCEL_FILE);
 };

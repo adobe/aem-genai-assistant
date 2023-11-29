@@ -139,7 +139,6 @@ export function PromptResultCard({ result, ...props }) {
 
   useEffect(() => {
     if (resultsEndRef.current) {
-      // resultsEndRef.current.scrollIntoView({ behavior: "smooth" });
       resultsEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
     }
   }, [setResults]);

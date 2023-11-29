@@ -12,7 +12,7 @@
 import { atom } from 'recoil';
 
 export const TEMPERATURE_MIN = 0.0;
-export const TEMPERATURE_MAX = 2.0;
+export const TEMPERATURE_MAX = 1.21;
 const DEFAULT_TEMPERATURE = 1.0;
 
 export const temperatureState = atom({

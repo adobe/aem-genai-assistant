@@ -20,7 +20,7 @@ import Delete from '@spectrum-icons/workflow/Delete';
 import { motion } from 'framer-motion';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { toClipboard, toHTML } from '../helpers/PromptExporter.js';
-import { sampleRUM } from '../rum.js';
+import { tracking } from '../helpers/Tracking.js';
 
 const styles = {
   card: css`
@@ -55,7 +55,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
                 isQuiet
                 UNSAFE_className="hover-cursor-pointer"
                 onPress={() => {
-                  sampleRUM('genai:prompt:copyfavorite', { source: 'FavoriteCard#onPress' });
+                  tracking('genai:prompt:copyfavorite', { source: 'FavoriteCard#onPress' });
                   navigator.clipboard.write(toClipboard(toHTML(variant.content)));
                   ToastQueue.positive('Copied to clipboard', { timeout: 1000 });
                 }}>

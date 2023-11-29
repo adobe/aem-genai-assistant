@@ -23,8 +23,8 @@ import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
-import { sampleRUM } from '../rum.js';
 import { toClipboard, toHTML } from '../helpers/PromptExporter.js';
+import { tracking } from '../helpers/Tracking.js';
 
 import RefreshIcon from '../icons/RefreshIcon.js';
 import FavoritesIcon from '../icons/FavoritesIcon.js';
@@ -206,7 +206,7 @@ export function PromptResultCard({ result, ...props }) {
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
               onPress={() => {
-                sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress' });
+                tracking('genai:prompt:copy', { source: 'ResultCard#onPress' });
                 navigator.clipboard.write(toClipboard(toHTML(selectedVariant.content)));
                 ToastQueue.positive('Copied to clipboard', { timeout: 1000 });
               }}>
@@ -219,7 +219,7 @@ export function PromptResultCard({ result, ...props }) {
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
               onPress={() => {
-                sampleRUM('genai:prompt:thumbsup', { source: 'ResultCard#onPress' });
+                tracking('genai:prompt:thumbsup', { source: 'ResultCard#onPress' });
                 sendFeedback(true);
               }}>
               <ThumbsUpOutlineIcon />
@@ -231,7 +231,7 @@ export function PromptResultCard({ result, ...props }) {
               isQuiet
               UNSAFE_className="hover-cursor-pointer"
               onPress={() => {
-                sampleRUM('genai:prompt:thumbsdown', { source: 'ResultCard#onPress' });
+                tracking('genai:prompt:thumbsdown', { source: 'ResultCard#onPress' });
                 sendFeedback(false);
               }}>
               <ThumbsDownOutlineIcon />

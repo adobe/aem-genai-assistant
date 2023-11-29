@@ -26,7 +26,7 @@ import { parametersState } from '../state/ParametersState.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { createVariants } from '../helpers/ResultsParser.js';
-import { sampleRUM } from '../rum.js';
+import { tracking } from '../helpers/Tracking.js';
 
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
@@ -52,7 +52,7 @@ export function GenerateButton() {
   }, [firefallService, prompt, parameters, temperature]);
 
   const handleGenerate = useCallback(() => {
-    sampleRUM('genai:prompt:generate', { source: 'GenerateButton#handleGenerate' });
+    tracking('genai:prompt:generate', { source: 'GenerateButton#handleGenerate' });
     setGenerationInProgress(true);
     generateResults()
       .catch((error) => {

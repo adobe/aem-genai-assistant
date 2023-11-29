@@ -21,7 +21,7 @@ import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
 import { promptTemplatesState } from '../state/PromptTemplatesState.js';
 import { WelcomeBanner } from './WelcomeBanner.js';
-import { sampleRUM } from '../rum.js';
+import { tracking } from '../helpers/Tracking.js';
 
 function PromptTemplatesView({ onSelect }) {
   const promptTemplates = useRecoilValue(promptTemplatesState);
@@ -52,9 +52,9 @@ export function PromptTemplateLibraryPanel({ props }) {
 
   const handleSelect = useCallback((selectedTemplate) => {
     if (selectedTemplate.isNew) {
-      sampleRUM('genai:prompt:new', { source: 'HomePanel#handleSelect' });
+      tracking('genai:prompt:new', { source: 'HomePanel#handleSelect' });
     } else {
-      sampleRUM(`genai:prompt:${selectedTemplate.isAdobe ? 'isadobeselected' : 'iscustomselected'}`, { source: 'HomePanel#handleSelect' });
+      tracking(`genai:prompt:${selectedTemplate.isAdobe ? 'isadobeselected' : 'iscustomselected'}`, { source: 'HomePanel#handleSelect' });
     }
     const timestamp = Date.now();
     const session = {

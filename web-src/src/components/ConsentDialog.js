@@ -20,8 +20,8 @@ import {
 import React, { useEffect } from 'react';
 import settingsApi, { SettingsLevel } from '@adobe/exc-app/settings';
 import { LegalTermsLink } from './LegalTermsLink.js';
-import { sampleRUM } from '../rum.js';
 import { NoAccessDialog } from './NoAccessDialog.js';
+import { tracking } from '../helpers/Tracking.js';
 
 export const CONSENT_KEY = 'genai-assistant-consent';
 
@@ -40,7 +40,7 @@ export function ConsentDialog() {
   }, [setOpen]);
 
   const handleAgree = () => {
-    sampleRUM('genai:consent:agree', { source: 'ConsentDialog#handleAgree' });
+    tracking('genai:consent:agree', { source: 'ConsentDialog#handleAgree' });
     settingsApi.set({
       groupId: 'test-aem-genai-assistant',
       level: SettingsLevel.USERORG,
@@ -52,7 +52,7 @@ export function ConsentDialog() {
   };
 
   const handleCancel = () => {
-    sampleRUM('genai:consent:cancel', { source: 'ConsentDialog#handleCancel' });
+    tracking('genai:consent:cancel', { source: 'ConsentDialog#handleCancel' });
     setOpen(false);
     setAccess(false);
   };

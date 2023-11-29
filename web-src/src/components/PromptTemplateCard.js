@@ -36,7 +36,7 @@ const styles = {
   `,
   description: css`
     overflow: hidden;
-    color: #999999;
+    color: #757575;
   `,
 };
 

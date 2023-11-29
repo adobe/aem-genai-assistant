@@ -74,6 +74,10 @@ function PromptEditor(props) {
 
   useEffect(() => {
     setPrompt(promptText);
+    const promptEditorTextArea = document.getElementById('promptEditorTextArea');
+    if (promptEditorTextArea) {
+      promptEditorTextArea.setAttribute('title', 'Prompt Editor');
+    }
   }, [promptText, setPrompt]);
 
   useEffect(() => {
@@ -102,6 +106,7 @@ function PromptEditor(props) {
         <SimpleEditor
           className={style.editor}
           textareaClassName={style.textarea}
+          textareaId={'promptEditorTextArea'}
           onFocus={() => setViewSource(true)}
           onBlur={() => setViewSource(false)}
           value={viewSource ? promptText : renderPrompt(promptText, parameters)}

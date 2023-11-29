@@ -59,7 +59,7 @@ function getView(viewType) {
 function NoAccessMessage() {
   return (
     <div className={styles.noAccessContainer}>
-      To use Generate Variations you must agree to the Generative AI User Guidelines.<br />
+      To use <strong>Generate Variations</strong> you must agree to the Generative AI User Guidelines.<br />
       Refresh this page to <strong>Agree</strong>.
     </div>
   );

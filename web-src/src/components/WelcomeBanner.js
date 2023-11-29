@@ -45,7 +45,7 @@ export function WelcomeBanner({
           Create high quality content quickly then measure it with experimentation or publish it to your site.
         </Text>
       </div>
-      <Image flex="1" src={NewSessionBanner} UNSAFE_className={styles.image} objectFit="cover" alt={''} />
+      <Image flex="1" src={NewSessionBanner} UNSAFE_className={styles.image} objectFit="cover" alt={'Generate Variations Poster'} />
     </Flex>
   );
 }

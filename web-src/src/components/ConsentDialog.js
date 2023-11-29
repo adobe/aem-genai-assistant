@@ -23,13 +23,14 @@ import { LegalTermsLink } from './LegalTermsLink.js';
 import { sampleRUM } from '../rum.js';
 
 export const CONSENT_KEY = 'genai-assistant-consent';
+const EXC_SHELL_GROUP_ID = 'aem-generate-variations';
 
 export function ConsentDialog({ onConsentChange }) {
   const [isOpen, setOpen] = React.useState(false);
 
   useEffect(() => {
     settingsApi.get({
-      groupId: 'test-aem-genai-assistant',
+      groupId: EXC_SHELL_GROUP_ID,
       level: SettingsLevel.USERORG,
       settings: { [CONSENT_KEY]: false },
     }).then(({ settings }) => {

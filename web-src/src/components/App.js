@@ -59,8 +59,8 @@ function getView(viewType) {
 function NoAccessMessage() {
   return (
     <div className={styles.noAccessContainer}>
-      Apologies, you need to agree to our Generative AI User Guidelines to use this product.<br />
-      You can refresh this page and click on <strong>Agree</strong>.
+      To use <strong>Generate Variations</strong> you must agree to the Generative AI User Guidelines.<br />
+      Refresh this page to <strong>Agree</strong>.
     </div>
   );
 }

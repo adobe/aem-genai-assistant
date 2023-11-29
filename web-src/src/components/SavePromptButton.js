@@ -25,8 +25,8 @@ function PromptTemplatesLink({ url }) {
 }
 
 export function SavePromptButton(props) {
-  const { websiteUrl } = useApplicationContext();
-  const fileUrl = `${websiteUrl}/prompttemplates.json`;
+  const { websiteUrl, promptTemplatesPath } = useApplicationContext();
+  const fileUrl = `${websiteUrl}/${promptTemplatesPath}.json`;
   const prompt = useRecoilValue(promptState);
 
   const handleSave = () => {

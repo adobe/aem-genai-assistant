@@ -44,7 +44,7 @@ export function PromptTemplateCard({
   template, onClick, ...props
 }) {
   return (
-    <a onClick={onClick}>
+    <a href="#" onClick={onClick}>
       <motion.div
         initial={{ opacity: 0.3, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}

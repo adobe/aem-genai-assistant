@@ -21,13 +21,11 @@ import React, { useEffect } from 'react';
 import settingsApi, { SettingsLevel } from '@adobe/exc-app/settings';
 import { LegalTermsLink } from './LegalTermsLink.js';
 import { sampleRUM } from '../rum.js';
-import { NoAccessDialog } from './NoAccessDialog.js';
 
 export const CONSENT_KEY = 'genai-assistant-consent';
 
-export function ConsentDialog() {
+export function ConsentDialog({ onConsentChange }) {
   const [isOpen, setOpen] = React.useState(false);
-  const [isAccess, setAccess] = React.useState(true);
 
   useEffect(() => {
     settingsApi.get({
@@ -47,38 +45,36 @@ export function ConsentDialog() {
       settings: { [CONSENT_KEY]: true },
     }).then(() => {
       setOpen(false);
-      setAccess(true);
+      onConsentChange(true);
     });
   };
 
   const handleCancel = () => {
     sampleRUM('genai:consent:cancel', { source: 'ConsentDialog#handleCancel' });
     setOpen(false);
-    setAccess(false);
+    onConsentChange(false);
   };
 
   return (
-    isAccess ? (
-      <DialogContainer onDismiss={handleCancel}>
-        {isOpen
-          && <Dialog onDismiss={handleCancel}>
-            <Heading>Generative AI in Adobe apps</Heading>
-            <Divider />
-            <Content>
-              <p>
-                You can create in new ways with generative AI technology.
-              </p>
-              <p>
-                By clicking &quot;Agree&quot;, you agree to our <LegalTermsLink />.
-              </p>
-            </Content>
-            <ButtonGroup>
-              <Button variant="secondary" onPress={handleCancel}>Cancel</Button>
-              <Button variant="accent" onPress={handleAgree}>Agree</Button>
-            </ButtonGroup>
-          </Dialog>
-        }
-      </DialogContainer>
-    ) : <NoAccessDialog />
+    <DialogContainer onDismiss={handleCancel}>
+      {isOpen
+        && <Dialog onDismiss={handleCancel}>
+          <Heading>Generative AI in Adobe apps</Heading>
+          <Divider />
+          <Content>
+            <p>
+              You can create in new ways with generative AI technology.
+            </p>
+            <p>
+              By clicking &quot;Agree&quot;, you agree to our <LegalTermsLink />.
+            </p>
+          </Content>
+          <ButtonGroup>
+            <Button variant="secondary" onPress={handleCancel}>Cancel</Button>
+            <Button variant="accent" onPress={handleAgree}>Agree</Button>
+          </ButtonGroup>
+        </Dialog>
+      }
+    </DialogContainer>
   );
 }

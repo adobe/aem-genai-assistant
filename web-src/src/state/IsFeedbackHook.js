@@ -9,13 +9,14 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom } from 'recoil';
+import { useRecoilValue } from 'recoil';
+import { useCallback } from 'react';
+import { feedbacksState } from './FeedbacksState.js';
 
-export const TEMPERATURE_MIN = 0.0;
-export const TEMPERATURE_MAX = 1.21;
-const DEFAULT_TEMPERATURE = 1.0;
+export function useIsFeedback() {
+  const feedbacks = useRecoilValue(feedbacksState);
 
-export const temperatureState = atom({
-  key: 'temperatureState',
-  default: DEFAULT_TEMPERATURE,
-});
+  return useCallback((variant) => {
+    return feedbacks.some((feedback) => feedback.id === variant.id);
+  }, [feedbacks]);
+}

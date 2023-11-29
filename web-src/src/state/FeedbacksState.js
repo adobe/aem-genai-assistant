@@ -10,12 +10,12 @@
  * governing permissions and limitations under the License.
  */
 import { atom } from 'recoil';
+import { createPersistentStorageEffect } from './PersistentStorageEffect.js';
 
-export const TEMPERATURE_MIN = 0.0;
-export const TEMPERATURE_MAX = 1.21;
-const DEFAULT_TEMPERATURE = 1.0;
+const STORAGE_KEY = 'feedbacks';
 
-export const temperatureState = atom({
-  key: 'temperatureState',
-  default: DEFAULT_TEMPERATURE,
+export const feedbacksState = atom({
+  key: 'feedbacksState',
+  default: [],
+  effects: [createPersistentStorageEffect(STORAGE_KEY)],
 });

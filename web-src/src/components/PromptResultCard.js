@@ -17,7 +17,9 @@ import { css } from '@emotion/css';
 import { ToastQueue } from '@react-spectrum/toast';
 import { useSetRecoilState } from 'recoil';
 import { useIsFavorite } from '../state/IsFavoriteHook.js';
+import { useIsFeedback } from '../state/IsFeedbackHook.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
+import { useSaveFeedback } from '../state/SaveFeedbackHook.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
@@ -33,6 +35,8 @@ import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';
 import DeleteOutlineIcon from '../icons/DeleteOutlineIcon.js';
 import ThumbsUpOutlineIcon from '../icons/ThumbsUpOutlineIcon.js';
 import ThumbsDownOutlineIcon from '../icons/ThumbsDownOutlineIcon.js';
+import ThumbsUpDisabledIcon from '../icons/ThumbsUpDisabledIcon.js';
+import ThumbsDownDisabledIcon from '../icons/ThumbsDownDisabledIcon.js';
 
 const styles = {
   card: css`
@@ -124,7 +128,9 @@ export function PromptResultCard({ result, ...props }) {
   const setParameters = useSetRecoilState(parametersState);
   const setResults = useSetRecoilState(resultsState);
   const isFavorite = useIsFavorite();
+  const isFeedback = useIsFeedback();
   const toggleFavorite = useToggleFavorite();
+  const saveFeedback = useSaveFeedback();
   const saveResults = useSaveResults();
 
   const sendFeedback = useCallback((sentiment) => {
@@ -217,24 +223,28 @@ export function PromptResultCard({ result, ...props }) {
           <TooltipTrigger delay={0}>
             <ActionButton
               isQuiet
+              isDisabled={isFeedback(selectedVariant)}
               UNSAFE_className="hover-cursor-pointer"
               onPress={() => {
                 tracking('genai:prompt:thumbsup', { source: 'ResultCard#onPress' });
                 sendFeedback(true);
+                saveFeedback(selectedVariant);
               }}>
-              <ThumbsUpOutlineIcon />
+              {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon /> : <ThumbsUpOutlineIcon />}
             </ActionButton>
             <Tooltip>Good</Tooltip>
           </TooltipTrigger>
           <TooltipTrigger delay={0}>
             <ActionButton
               isQuiet
+              isDisabled={isFeedback(selectedVariant)}
               UNSAFE_className="hover-cursor-pointer"
               onPress={() => {
                 tracking('genai:prompt:thumbsdown', { source: 'ResultCard#onPress' });
                 sendFeedback(false);
+                saveFeedback(selectedVariant);
               }}>
-              <ThumbsDownOutlineIcon />
+              {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon /> : <ThumbsDownOutlineIcon />}
             </ActionButton>
             <Tooltip>Poor</Tooltip>
           </TooltipTrigger>

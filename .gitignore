@@ -10,7 +10,7 @@ dist
 
 # Config
 config.json
-.env*
+.env
 .aio
 
 # Adobe I/O console config

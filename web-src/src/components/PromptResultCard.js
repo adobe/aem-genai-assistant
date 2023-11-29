@@ -12,8 +12,11 @@
 import {
   ActionButton, Tooltip, TooltipTrigger,
 } from '@adobe/react-spectrum';
-import React, { useCallback, useState } from 'react';
+import React, {
+  useCallback, useState, useEffect, useRef,
+} from 'react';
 import { css } from '@emotion/css';
+import { motion } from 'framer-motion';
 import { ToastQueue } from '@react-spectrum/toast';
 import { useSetRecoilState } from 'recoil';
 import { useIsFavorite } from '../state/IsFavoriteHook.js';
@@ -132,6 +135,14 @@ export function PromptResultCard({ result, ...props }) {
   const toggleFavorite = useToggleFavorite();
   const saveFeedback = useSaveFeedback();
   const saveResults = useSaveResults();
+  const resultsEndRef = useRef();
+
+  useEffect(() => {
+    if (resultsEndRef.current) {
+      // resultsEndRef.current.scrollIntoView({ behavior: "smooth" });
+      resultsEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+    }
+  }, [setResults]);
 
   const sendFeedback = useCallback((sentiment) => {
     firefallService.feedback(result.id, sentiment)
@@ -163,102 +174,107 @@ export function PromptResultCard({ result, ...props }) {
   }, [setResults]);
 
   return (
-    <div {...props} className={styles.card}>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ type: 'easeInOut', duration: 0.3 }}>
+      <div {...props} className={styles.card} ref={resultsEndRef}>
 
-      <div className={styles.promptSection}>
-        <div className={styles.promptContent}>{result.prompt}</div>
-        <div className={styles.promptActions}>
-          <TooltipTrigger delay={0}>
-            <ActionButton
-              isQuiet
-              UNSAFE_className="hover-cursor-pointer"
-              onPress={reusePrompt}>
-              <RefreshIcon />
-            </ActionButton>
-            <Tooltip>Re-use</Tooltip>
-          </TooltipTrigger>
+        <div className={styles.promptSection}>
+          <div className={styles.promptContent}>{result.prompt}</div>
+          <div className={styles.promptActions}>
+            <TooltipTrigger delay={0}>
+              <ActionButton
+                isQuiet
+                UNSAFE_className="hover-cursor-pointer"
+                onPress={reusePrompt}>
+                <RefreshIcon />
+              </ActionButton>
+              <Tooltip>Re-use</Tooltip>
+            </TooltipTrigger>
+          </div>
         </div>
-      </div>
-      <div className={styles.resultsSection}>
-        <div className={styles.variantsContainer}>
-          {
-            result.variants.map((variant) => {
-              return (
-                <a key={variant.id} onClick={() => setSelectedVariant(variant)}>
-                  <div className={css`
+        <div className={styles.resultsSection}>
+          <div className={styles.variantsContainer}>
+            {
+              result.variants.map((variant) => {
+                return (
+                  <a key={variant.id} onClick={() => setSelectedVariant(variant)}>
+                    <div className={css`
                     ${styles.variant};
                     ${variant.id === selectedVariant.id && styles.variantSelected};
                     ${isFavorite(variant) && styles.variantFavorite};
                   `}
-                    dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
-                </a>
-              );
-            })
-          }
-        </div>
-        <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariant.content) }} />
-        <div className={styles.resultActions}>
-          <TooltipTrigger delay={0}>
-            <ActionButton
-              isQuiet
-              UNSAFE_className="hover-cursor-pointer"
-              onPress={() => toggleFavorite(selectedVariant)}>
-              {isFavorite(selectedVariant) ? <FavoritesIcon /> : <FavoritesOutlineIcon />}
-            </ActionButton>
-            <Tooltip>Favorite</Tooltip>
-          </TooltipTrigger>
-          <TooltipTrigger delay={0}>
-            <ActionButton
-              isQuiet
-              UNSAFE_className="hover-cursor-pointer"
-              onPress={() => {
-                sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress' });
-                navigator.clipboard.write(toClipboard(toHTML(selectedVariant.content)));
-                ToastQueue.positive('Copied to clipboard', { timeout: 1000 });
-              }}>
-              <CopyOutlineIcon />
-            </ActionButton>
-            <Tooltip>Copy</Tooltip>
-          </TooltipTrigger>
-          <TooltipTrigger delay={0}>
-            <ActionButton
-              isQuiet
-              isDisabled={isFeedback(selectedVariant)}
-              UNSAFE_className="hover-cursor-pointer"
-              onPress={() => {
-                sampleRUM('genai:prompt:thumbsup', { source: 'ResultCard#onPress' });
-                sendFeedback(true);
-                saveFeedback(selectedVariant);
-              }}>
-              {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon /> : <ThumbsUpOutlineIcon />}
-            </ActionButton>
-            <Tooltip>Good</Tooltip>
-          </TooltipTrigger>
-          <TooltipTrigger delay={0}>
-            <ActionButton
-              isQuiet
-              isDisabled={isFeedback(selectedVariant)}
-              UNSAFE_className="hover-cursor-pointer"
-              onPress={() => {
-                sampleRUM('genai:prompt:thumbsdown', { source: 'ResultCard#onPress' });
-                sendFeedback(false);
-                saveFeedback(selectedVariant);
-              }}>
-              {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon /> : <ThumbsDownOutlineIcon />}
-            </ActionButton>
-            <Tooltip>Poor</Tooltip>
-          </TooltipTrigger>
-          <TooltipTrigger delay={0}>
-            <ActionButton
-              isQuiet
-              UNSAFE_className="hover-cursor-pointer"
-              onPress={() => deleteVariant(selectedVariant.id)}>
-              <DeleteOutlineIcon />
-            </ActionButton>
-            <Tooltip>Remove</Tooltip>
-          </TooltipTrigger>
+                      dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
+                  </a>
+                );
+              })
+            }
+          </div>
+          <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariant.content) }} />
+          <div className={styles.resultActions}>
+            <TooltipTrigger delay={0}>
+              <ActionButton
+                isQuiet
+                UNSAFE_className="hover-cursor-pointer"
+                onPress={() => toggleFavorite(selectedVariant)}>
+                {isFavorite(selectedVariant) ? <FavoritesIcon /> : <FavoritesOutlineIcon />}
+              </ActionButton>
+              <Tooltip>Favorite</Tooltip>
+            </TooltipTrigger>
+            <TooltipTrigger delay={0}>
+              <ActionButton
+                isQuiet
+                UNSAFE_className="hover-cursor-pointer"
+                onPress={() => {
+                  sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress' });
+                  navigator.clipboard.write(toClipboard(toHTML(selectedVariant.content)));
+                  ToastQueue.positive('Copied to clipboard', { timeout: 1000 });
+                }}>
+                <CopyOutlineIcon />
+              </ActionButton>
+              <Tooltip>Copy</Tooltip>
+            </TooltipTrigger>
+            <TooltipTrigger delay={0}>
+              <ActionButton
+                isQuiet
+                isDisabled={isFeedback(selectedVariant)}
+                UNSAFE_className="hover-cursor-pointer"
+                onPress={() => {
+                  sampleRUM('genai:prompt:thumbsup', { source: 'ResultCard#onPress' });
+                  sendFeedback(true);
+                  saveFeedback(selectedVariant);
+                }}>
+                {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon /> : <ThumbsUpOutlineIcon />}
+              </ActionButton>
+              <Tooltip>Good</Tooltip>
+            </TooltipTrigger>
+            <TooltipTrigger delay={0}>
+              <ActionButton
+                isQuiet
+                isDisabled={isFeedback(selectedVariant)}
+                UNSAFE_className="hover-cursor-pointer"
+                onPress={() => {
+                  sampleRUM('genai:prompt:thumbsdown', { source: 'ResultCard#onPress' });
+                  sendFeedback(false);
+                  saveFeedback(selectedVariant);
+                }}>
+                {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon /> : <ThumbsDownOutlineIcon />}
+              </ActionButton>
+              <Tooltip>Poor</Tooltip>
+            </TooltipTrigger>
+            <TooltipTrigger delay={0}>
+              <ActionButton
+                isQuiet
+                UNSAFE_className="hover-cursor-pointer"
+                onPress={() => deleteVariant(selectedVariant.id)}>
+                <DeleteOutlineIcon />
+              </ActionButton>
+              <Tooltip>Remove</Tooltip>
+            </TooltipTrigger>
+          </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }

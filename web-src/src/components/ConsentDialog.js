@@ -41,7 +41,7 @@ export function ConsentDialog({ onConsentChange }) {
   const handleAgree = () => {
     sampleRUM('genai:consent:agree', { source: 'ConsentDialog#handleAgree' });
     settingsApi.set({
-      groupId: 'test-aem-genai-assistant',
+      groupId: EXC_SHELL_GROUP_ID,
       level: SettingsLevel.USERORG,
       settings: { [CONSENT_KEY]: true },
     }).then(() => {

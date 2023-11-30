@@ -227,7 +227,16 @@ export function PromptResultCard({ result, ...props }) {
                 UNSAFE_className="hover-cursor-pointer"
                 onPress={() => {
                   sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress' });
-                  navigator.clipboard.write(toClipboard(toHTML(selectedVariant.content)));
+
+                  // Remove the reasoning field when copying to clipboard
+                  if (typeof selectedVariant.content === 'object' && selectedVariant?.isAdobePrompt) {
+                    const content = { ...selectedVariant.content };
+                    delete content['AI Rationale'];
+                    navigator.clipboard.write(toClipboard(toHTML(content)));
+                  } else {
+                    navigator.clipboard.write(toClipboard(toHTML(selectedVariant.content)));
+                  }
+
                   ToastQueue.positive('Copied to clipboard', { timeout: 1000 });
                 }}>
                 <CopyOutlineIcon />

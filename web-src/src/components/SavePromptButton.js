@@ -64,6 +64,9 @@ export function SavePromptButton(props) {
           <p>
             4. Give the new template a Name and Description.
           </p>
+          <p>
+            5. In Sidekick, Preview the file and Publish it.
+          </p>
         </Content>
       </Dialog>
     </DialogTrigger>

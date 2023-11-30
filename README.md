@@ -38,9 +38,37 @@ Placeholders make prompt templates flexible and reusable. They are special spots
 
 #### Placeholder Syntax
 
-A placeholder is an expression defined as a sequence enclosed in curly braces {}. It may optionally start with a modifier, followed by an identifier and optional parameters. 
+A placeholder is an expression defined as a sequence enclosed in double curly braces {{}}. It may optionally start with a modifier, followed by an identifier and optional parameters such as label, description, spreadsheet (if applicable), default value and type. 
 
-`{@placeholder, label="Placeholder"}`
+`{{@placeholder, label="Placeholder"}}`
+
+Here are the examples of three different input types: a dropdown list, a text input field, and a number input field:
+
+- For selecting a target audience, use the following placeholder structure. This allows the user to select an audience from predefined segments listed in a spreadsheet.:
+
+`{{@audience,
+  label="Target Audience",
+  description="Choose the specific audience for which the content is tailored, as indicated in the audience spreadsheet",
+  spreadsheet="segments"
+}}`
+
+- Here, the user can input a text describing the tone, with a default suggestion provided. To set the tone of voice for the content, use: 
+
+`{{@tone_of_voice,
+  label="Tone of voice",
+  description="Indicate the desired tone of voice",
+  default="optimistic, smart, engaging, human, and creative",
+  type="text"
+}}`
+
+- For determining the number of variations required, use the following structure. This placeholder allows users to specify a numeric value for how many variations they need, with a preset default of 4.
+
+`{{@number_of_variations,
+  label="Number of Variations",
+  description="Enter a number to generate the desired number of variations",
+  type="number"
+}}`
+
 
 #### Modifiers
 

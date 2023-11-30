@@ -56,15 +56,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
                 UNSAFE_className="hover-cursor-pointer"
                 onPress={() => {
                   sampleRUM('genai:prompt:copyfavorite', { source: 'FavoriteCard#onPress' });
-
-                  // Remove the reasoning field when copying to clipboard
-                  if (typeof variant.content === 'object' && variant?.isAdobePrompt) {
-                    const content = { ...variant.content };
-                    if (content['AI Rationale']) { delete content['AI Rationale']; }
-                    navigator.clipboard.writeText(toText(content));
-                  } else {
-                    navigator.clipboard.writeText(toText(variant.content));
-                  }
+                  navigator.clipboard.writeText(toText(variant.content));
                   ToastQueue.positive('Copied to clipboard', { timeout: 1000 });
                 }}>
                 <Copy />

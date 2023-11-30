@@ -63,7 +63,6 @@ export function PromptTemplateLibraryPanel({ props }) {
       description: selectedTemplate.description,
       timestamp,
       prompt: selectedTemplate.template,
-      isAdobePrompt: selectedTemplate.isBundled,
       parameters: {},
       results: [],
     };

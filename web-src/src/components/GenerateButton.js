@@ -20,7 +20,6 @@ import GenAIIcon from '../icons/GenAIIcon.js';
 import { renderPrompt } from '../helpers/PromptRenderer.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { promptState } from '../state/PromptState.js';
-import { sessionState } from '../state/SessionState.js';
 import { temperatureState } from '../state/TemperatureState.js';
 import { resultsState } from '../state/ResultsState.js';
 import { parametersState } from '../state/ParametersState.js';
@@ -32,7 +31,6 @@ import { sampleRUM } from '../rum.js';
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
   const prompt = useRecoilValue(promptState);
-  const currentSession = useRecoilValue(sessionState);
   const parameters = useRecoilValue(parametersState);
   const temperature = useRecoilValue(temperatureState);
   const setResults = useSetRecoilState(resultsState);
@@ -44,7 +42,7 @@ export function GenerateButton() {
     const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
     setResults((results) => [...results, {
       id: queryId,
-      variants: createVariants(uuid, currentSession.isAdobePrompt, response),
+      variants: createVariants(uuid, response),
       prompt: finalPrompt,
       promptTemplate: prompt,
       parameters,

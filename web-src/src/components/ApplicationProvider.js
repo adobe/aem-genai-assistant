@@ -58,10 +58,12 @@ export const ApplicationProvider = ({ children }) => {
     }
 
     const websiteUrl = getWebsiteUrl();
+    const promptTemplatesPath = getPromptTemplatesPath();
 
     setApplication({
       appVersion: APP_VERSION,
       websiteUrl,
+      promptTemplatesPath,
       firefallService: new FirefallService({
         completeEndpoint: actions[COMPLETE_ACTION],
         feedbackEndpoint: actions[FEEDBACK_ACTION],
@@ -70,7 +72,7 @@ export const ApplicationProvider = ({ children }) => {
       }),
     });
 
-    loadPromptTemplates(websiteUrl, getPromptTemplatesPath()).then((templates) => {
+    loadPromptTemplates(websiteUrl, promptTemplatesPath).then((templates) => {
       setPromptTemplates(templates);
     }).catch((e) => {
       console.error(`Failed to load prompt templates: ${e.message}`);

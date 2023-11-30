@@ -25,8 +25,8 @@ function PromptTemplatesLink({ url }) {
 }
 
 export function SavePromptButton(props) {
-  const { websiteUrl } = useApplicationContext();
-  const fileUrl = `${websiteUrl}/prompttemplates.json`;
+  const { websiteUrl, promptTemplatesPath } = useApplicationContext();
+  const fileUrl = `${websiteUrl}/${promptTemplatesPath}.json`;
   const prompt = useRecoilValue(promptState);
 
   const handleSave = () => {
@@ -63,6 +63,9 @@ export function SavePromptButton(props) {
           </p>
           <p>
             4. Give the new template a Name and Description.
+          </p>
+          <p>
+            5. In Sidekick, Preview the file and Publish it.
           </p>
         </Content>
       </Dialog>

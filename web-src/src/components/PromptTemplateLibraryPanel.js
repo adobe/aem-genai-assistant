@@ -63,6 +63,7 @@ export function PromptTemplateLibraryPanel({ props }) {
       description: selectedTemplate.description,
       timestamp,
       prompt: selectedTemplate.template,
+      isAdobePrompt: selectedTemplate.isBundled,
       parameters: {},
       results: [],
     };
@@ -80,15 +81,17 @@ export function PromptTemplateLibraryPanel({ props }) {
         padding: '25px 50px', overflow: 'auto',
       }}>
 
-      <WelcomeBanner />
+      <div tabIndex={0}>
+        <WelcomeBanner />
 
-      <Heading level={3} alignSelf={'start'}>Prompt Templates</Heading>
+        <Heading level={3} alignSelf={'start'}>Prompt Templates</Heading>
 
-      <ErrorBoundary fallback={<div>Something went wrong</div>}>
-        <Suspense fallback={<ProgressCircle isIndeterminate />}>
-          <PromptTemplatesView onSelect={handleSelect} />
-        </Suspense>
-      </ErrorBoundary>
+        <ErrorBoundary fallback={<div>Something went wrong</div>}>
+          <Suspense fallback={<ProgressCircle isIndeterminate />}>
+            <PromptTemplatesView onSelect={handleSelect} />
+          </Suspense>
+        </ErrorBoundary>
+      </div>
     </Grid>
   );
 }

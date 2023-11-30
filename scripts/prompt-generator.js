@@ -15,8 +15,6 @@ const PROMPT_TEMPLATES_EXCEL_FILE = path.join(EXAMPLES_DIR, `${PROMPT_TEMPLATES_
 const PROMPT_TEMPLATES_CSV_FILE = path.join(EXAMPLES_DIR, `${PROMPT_TEMPLATES_EXAMPLE_FILE_NAME}.csv`);
 const PROMPT_TEMPLATES_JSON_FILE = path.join(DATA_DIR, `${PROMPT_TEMPLATES_BUNDLED_FILE_NAME}.json`);
 
-let workbook = null;
-
 const startProgram = async () => {
   console.log('- Prompt Generator Starting...');
   try {
@@ -26,7 +24,7 @@ const startProgram = async () => {
     writePromptIndex(sortedPromptIndex);
 
     // Create the prompt templates target files
-    const worksheet = createExcelFile();
+    createExcelFile();
     const bundledPromptTemplates = createBundledPromptTemplates(sortedPromptIndex);
 
     // Add the prompt templates to the target files
@@ -39,9 +37,6 @@ const startProgram = async () => {
         prompt.template = promptTemplate;
         delete prompt.file;
 
-        // Add the prompt to the Excel file
-        worksheet.addRow(prompt);
-
         // Add the prompt to the bundled prompt templates file
         formatPromptKeys(prompt);
         bundledPromptTemplates.data.push(prompt);
@@ -52,7 +47,7 @@ const startProgram = async () => {
       }
     });
 
-    writePromptTemplatesToExcel(sortedPromptIndex);
+    // Write the prompt templates to the target files
     convertExcelToCsv();
     saveBundledPromptTemplates(bundledPromptTemplates);
 
@@ -97,7 +92,8 @@ const createExcelFile = () => {
     column.alignment = { wrapText: true, vertical: 'top', horizontal: 'left' };
   });
 
-  return worksheet;
+  console.log('\t* Writing the Excel File')
+  workbook.xlsx.writeFile(PROMPT_TEMPLATES_EXCEL_FILE);
 };
 
 const createBundledPromptTemplates = (promptIndex) => {
@@ -118,11 +114,6 @@ const createBundledPromptTemplates = (promptIndex) => {
 const saveBundledPromptTemplates = (bundledPromptTemplates) => {
   console.log('\t* Writing the Bundled Prompt Templates')
   fs.writeFileSync(PROMPT_TEMPLATES_JSON_FILE, JSON.stringify(bundledPromptTemplates, null, 4));
-};
-
-const writePromptTemplatesToExcel = (sortedPromptIndex) => {
-  console.log('\t* Writing the Excel File')
-  workbook.xlsx.writeFile(PROMPT_TEMPLATES_EXCEL_FILE);
 };
 
 const formatPromptKeys = (prompt) => {
@@ -156,7 +147,7 @@ const zipExampleDirectory = async () => {
     });
 
     archive.pipe(output);
-    
+
     // append files from a sub-directory, putting its contents at the root of archive but excluding .zip files
     archive.glob('examples/*', { ignore: ['**/*.zip'] });
 

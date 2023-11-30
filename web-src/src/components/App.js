@@ -31,6 +31,18 @@ const styles = {
     border: 2px #e0e0e0 solid;
     height: 100%;
   `,
+  noAccessContainer: css`
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 25px;
+    text-align: center;
+    font-size: 16px;
+  `,
 };
 
 function getView(viewType) {
@@ -44,25 +56,38 @@ function getView(viewType) {
   }
 }
 
+function NoAccessMessage() {
+  return (
+    <div className={styles.noAccessContainer}>
+      To use <strong>Generate Variations</strong> you must agree to the Generative AI User Guidelines.<br />
+      Refresh this page to <strong>Agree</strong>.
+    </div>
+  );
+}
+
 export function App() {
+  const [hasConsent, setConsent] = React.useState(true);
+
   const viewType = useRecoilValue(viewTypeState);
   return (
     <>
       <ToastContainer />
-      <ConsentDialog />
-      <Grid
-        columns={['330px', '1fr']}
-        rows={['100%']}
-        gap={'size-200'}
-        UNSAFE_style={{ padding: '25px 25px 0 25px' }}
-        width="100%" height="100%">
-        <MainSidePanel width="100%" height="100%" />
-        <div className={styles.container}>
-          <Suspense fallback={<ProgressCircle/>}>
-            { getView(viewType) }
-          </Suspense>
-        </div>
-      </Grid>
+      <ConsentDialog onConsentChange={setConsent} />
+      {hasConsent
+        ? <Grid
+          columns={['330px', '1fr']}
+          rows={['100%']}
+          gap={'size-200'}
+          UNSAFE_style={{ padding: '25px 25px 0 25px' }}
+          width="100%" height="100%">
+          <MainSidePanel width="100%" height="100%" />
+          <div className={styles.container}>
+            <Suspense fallback={<ProgressCircle />}>
+              {getView(viewType)}
+            </Suspense>
+          </div>
+        </Grid>
+        : <NoAccessMessage />}
     </>
   );
 }

@@ -29,7 +29,7 @@ import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { sampleRUM } from '../rum.js';
-import { toClipboard, toHTML } from '../helpers/PromptExporter.js';
+import { toHTML, toText } from '../helpers/PromptExporter.js';
 
 import RefreshIcon from '../icons/RefreshIcon.js';
 import FavoritesIcon from '../icons/FavoritesIcon.js';
@@ -231,10 +231,10 @@ export function PromptResultCard({ result, ...props }) {
                   // Remove the reasoning field when copying to clipboard
                   if (typeof selectedVariant.content === 'object' && selectedVariant?.isAdobePrompt) {
                     const content = { ...selectedVariant.content };
-                    delete content['AI Rationale'];
-                    navigator.clipboard.write(toClipboard(toHTML(content)));
+                    if (content['AI Rationale']) { delete content['AI Rationale']; }
+                    navigator.clipboard.writeText(toText(content));
                   } else {
-                    navigator.clipboard.write(toClipboard(toHTML(selectedVariant.content)));
+                    navigator.clipboard.writeText(toText(selectedVariant.content));
                   }
 
                   ToastQueue.positive('Copied to clipboard', { timeout: 1000 });

@@ -19,7 +19,7 @@ import Copy from '@spectrum-icons/workflow/Copy';
 import Delete from '@spectrum-icons/workflow/Delete';
 import { motion } from 'framer-motion';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
-import { toClipboard, toHTML } from '../helpers/PromptExporter.js';
+import { toHTML, toText } from '../helpers/PromptExporter.js';
 import { sampleRUM } from '../rum.js';
 
 const styles = {
@@ -60,10 +60,10 @@ export function FavoriteVariantCard({ variant, ...props }) {
                   // Remove the reasoning field when copying to clipboard
                   if (typeof variant.content === 'object' && variant?.isAdobePrompt) {
                     const content = { ...variant.content };
-                    delete content['AI Rationale'];
-                    navigator.clipboard.write(toClipboard(toHTML(content)));
+                    if (content['AI Rationale']) { delete content['AI Rationale']; }
+                    navigator.clipboard.writeText(toText(content));
                   } else {
-                    navigator.clipboard.write(toClipboard(toHTML(variant.content)));
+                    navigator.clipboard.writeText(toText(variant.content));
                   }
                   ToastQueue.positive('Copied to clipboard', { timeout: 1000 });
                 }}>

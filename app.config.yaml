@@ -19,7 +19,6 @@ application:
               IMS_SERVICE_CLIENT_SECRET: $IMS_SERVICE_CLIENT_SECRET
               IMS_SERVICE_PERM_AUTH_CODE: $IMS_SERVICE_PERM_AUTH_CODE
               IMS_PRODUCT_CONTEXT: $IMS_PRODUCT_CONTEXT
-              IMS_ENV: $IMS_ENV
             limits:
               timeout: 180000
           feedback:
@@ -36,6 +35,5 @@ application:
               IMS_SERVICE_CLIENT_SECRET: $IMS_SERVICE_CLIENT_SECRET
               IMS_SERVICE_PERM_AUTH_CODE: $IMS_SERVICE_PERM_AUTH_CODE
               IMS_PRODUCT_CONTEXT: $IMS_PRODUCT_CONTEXT
-              IMS_ENV: $IMS_ENV
             limits:
               timeout: 180000

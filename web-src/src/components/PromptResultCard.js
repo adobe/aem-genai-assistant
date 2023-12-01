@@ -161,11 +161,15 @@ export function PromptResultCard({ result, ...props }) {
   const deleteVariant = useCallback(async (variantId) => {
     console.debug('deleteVariant', variantId);
     setResults((results) => results.reduce((acc, r) => {
+      const prevVariantsLength = r.variants.length;
       const variants = r.variants.filter((v) => v.id !== variantId);
+      const newVariantsLength = variants.length;
       console.debug('variants', variants);
       if (variants.length > 0) {
         acc.push({ ...r, variants });
-        setSelectedVariant(variants[0]);
+        if (newVariantsLength < prevVariantsLength) {
+          setSelectedVariant(variants[0]);
+        }
         return acc;
       }
       return acc;

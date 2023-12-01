@@ -165,6 +165,7 @@ export function PromptResultCard({ result, ...props }) {
       console.debug('variants', variants);
       if (variants.length > 0) {
         acc.push({ ...r, variants });
+        setSelectedVariant(variants[0]);
         return acc;
       }
       return acc;

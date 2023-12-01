@@ -10,32 +10,51 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Grid, Heading, View, Text,
+  Flex, Grid, View, Text, Image, Link,
 } from '@adobe/react-spectrum';
 import React from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { css } from '@emotion/css';
 
 import { favoritesState } from '../state/FavoritesState.js';
 import { FavoriteVariantCard } from './FavoriteVariantCard.js';
+import { ViewType, viewTypeState } from '../state/ViewType.js';
+import ChevronLeft from '../assets/chevron-left.svg';
+
+const styles = {
+  breadcrumbsLink: css`
+    color: var(--alias-content-neutral-subdued-default, var(--alias-content-neutral-subdued-default, #464646));
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+  `,
+};
 
 export function FavoriteVariantListPanel(props) {
   const favorites = useRecoilValue(favoritesState);
+  const [viewType, setViewType] = useRecoilState(viewTypeState);
 
   return (
-    <View
-      padding={'size-400'}
-      height={'100%'}
-      overflow={'auto'}>
-      <Heading level={4} alignSelf={'start'}>Favorites</Heading>
-      <Grid
-        width={'100%'}
-        alignItems={'start'}
-        rows={'repeat(auto-fill, minmax(200px, 1fr))'}
-        columns={'repeat(auto-fill, minmax(350px, 1fr))'} gap={'size-200'}>
-        { favorites.length === 0
-          ? <Text>No favorites yet</Text>
-          : favorites.map((variant) => <FavoriteVariantCard key={variant.id} variant={variant} />) }
-      </Grid>
-    </View>
+    <>
+      <Flex UNSAFE_style={{ padding: '20px 20px 0px' }} direction={'row'} justifyContent={'left'} alignItems={'center'} gridArea={'breadcrumbs'}>
+        <Image src={ChevronLeft} alt={'Back'} width={'24px'} />
+        <Link href="#" onPress={() => setViewType(ViewType.NewSession)} UNSAFE_className={styles.breadcrumbsLink}>Favorites</Link>
+      </Flex>
+      <View
+        padding={'size-400'}
+        height={'100%'}
+        overflow={'auto'}>
+
+        <Grid
+          width={'100%'}
+          alignItems={'start'}
+          rows={'repeat(auto-fill, minmax(200px, 1fr))'}
+          columns={'repeat(auto-fill, minmax(350px, 1fr))'} gap={'size-200'}>
+          {favorites.length === 0
+            ? <Text>No favorites yet</Text>
+            : favorites.map((variant) => <FavoriteVariantCard key={variant.id} variant={variant} />)}
+        </Grid>
+      </View>
+    </>
   );
 }

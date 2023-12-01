@@ -42,10 +42,10 @@ export function FavoriteVariantCard({ variant, ...props }) {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ ease: 'easeIn', duration: 0.3 }}>
-    <View
-      {...props}
-      UNSAFE_className={styles.card}>
-      <div className={styles.variant} dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
+      <View
+        {...props}
+        UNSAFE_className={styles.card}>
+        <div className={styles.variant} dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
         <View
           borderRadius="regular"
           paddingRight="24px">
@@ -65,8 +65,8 @@ export function FavoriteVariantCard({ variant, ...props }) {
             </TooltipTrigger>
             <TooltipTrigger delay={0}>
               <ActionButton
-                isQuiet U
-                NSAFE_className="hover-cursor-pointer"
+                isQuiet
+                UNSAFE_className="hover-cursor-pointer"
                 onPress={() => toggleFavorite(variant)}>
                 <Delete />
               </ActionButton>

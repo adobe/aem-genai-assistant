@@ -12,7 +12,6 @@
 import { createVariants } from './ResultsParser.js';
 
 const uuid = () => 123;
-const isAdobePrompt = true;
 
 describe('createVariants', () => {
   test('response is a JSON string: an array of json objects', () => {

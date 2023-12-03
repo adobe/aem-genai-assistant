@@ -1,3 +1,15 @@
+/*
+ * Copyright 2023 Adobe. All rights reserved.
+ * This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+
 const fs = require('fs');
 const path = require('path');
 const Excel = require('exceljs');
@@ -23,8 +35,17 @@ const startProgram = async () => {
     const sortedPromptIndex = sortPromptIndex(promptIndex);
     writePromptIndex(sortedPromptIndex);
 
-    // Create the prompt templates target files
-    createExcelFile();
+    // Create the prompt templates target files if they don't exist
+    if (!fs.existsSync(PROMPT_TEMPLATES_EXCEL_FILE)) {
+      console.log(`\t* Creating Excel File @ ${PROMPT_TEMPLATES_EXCEL_FILE}`);
+      createExcelFile();
+      convertExcelToCsv();
+    } else {
+      console.log(`\t* Excel File Exists @ ${PROMPT_TEMPLATES_EXCEL_FILE}`);
+    }
+
+    // Create or update the bundled prompt templates file
+    console.log(`\t* Creating Bundled Prompt Templates File @ ${PROMPT_TEMPLATES_JSON_FILE}`);
     const bundledPromptTemplates = createBundledPromptTemplates(sortedPromptIndex);
 
     // Add the prompt templates to the target files
@@ -48,7 +69,6 @@ const startProgram = async () => {
     });
 
     // Write the prompt templates to the target files
-    convertExcelToCsv();
     saveBundledPromptTemplates(bundledPromptTemplates);
 
     // Zip the example directory
@@ -133,7 +153,7 @@ const zipExampleDirectory = async () => {
   return new Promise((resolve, reject) => {
     console.log('- Zipping Examples Directory');
     const archiver = require('archiver');
-    var output = fs.createWriteStream('examples/templates.zip');
+    var output = fs.createWriteStream('examples/Templates.zip');
     var archive = archiver('zip');
 
     output.on('close', function () {

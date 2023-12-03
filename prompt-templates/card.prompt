@@ -7,7 +7,7 @@ On our webpage, users are presented with a Card. block which has multiple Card e
 
 {{# -------------------------------------------------------------------------- }}
 {{# INTENT                                                                     }}
-{{# State the intended user experience and the rationale behind crafting such  }}
+{{# State the intended user experience sand the rationale behind crafting such  }}
 {{# an experience.                                                             }}
 {{# -------------------------------------------------------------------------- }}
 Our intent is to engage with users to click and {{explain_intent}}.

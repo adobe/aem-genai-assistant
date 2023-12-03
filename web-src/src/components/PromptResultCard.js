@@ -30,6 +30,7 @@ import { resultsState } from '../state/ResultsState.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { sampleRUM } from '../rum.js';
 import { toHTML, toText } from '../helpers/PromptExporter.js';
+import { getErrorResponse } from '../helpers/ErrorMap.js';
 
 import RefreshIcon from '../icons/RefreshIcon.js';
 import FavoritesIcon from '../icons/FavoritesIcon.js';
@@ -149,7 +150,8 @@ export function PromptResultCard({ result, ...props }) {
         ToastQueue.positive('Feedback sent', { timeout: 1000 });
       })
       .catch((error) => {
-        ToastQueue.negative('Failed to send feedback. Error code: IS-ERROR', { timeout: 1000 });
+        const errorResponse = getErrorResponse(error);
+        ToastQueue.negative(`Failed to send feedback. ${errorResponse}`, { timeout: 1000 });
       });
   }, [result, firefallService]);
 

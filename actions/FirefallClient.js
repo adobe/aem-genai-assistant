@@ -20,29 +20,34 @@ class FirefallClient {
   }
 
   async completion(prompt, temperature = 0.0, model = 'gpt-4') {
-    return wretchRetry(`${this.endpoint}/v1/completions`)
-      .headers({
-        'x-gw-ims-org-id': this.org,
-        'x-api-key': this.apiKey,
-        Authorization: `Bearer ${this.accessToken}`,
-        'Content-Type': 'application/json',
-      })
-      .post({
-        dialogue: {
-          question: prompt,
-        },
-        llm_metadata: {
-          llm_type: 'azure_chat_openai',
-          model_name: model,
-          temperature,
-          max_tokens: 4096,
-          top_p: 1,
-          frequency_penalty: 0,
-          presence_penalty: 0,
-          n: 1,
-        },
-      })
-      .json();
+    try {
+      return wretchRetry(`${this.endpoint}/v1/completions`)
+        .headers({
+          'x-gw-ims-org-id': this.org,
+          'x-api-key': this.apiKey,
+          Authorization: `Bearer ${this.accessToken}`,
+          'Content-Type': 'application/json',
+        })
+        .post({
+          dialogue: {
+            question: prompt,
+          },
+          llm_metadata: {
+            llm_type: 'azure_chat_openai',
+            model_name: model,
+            temperature,
+            max_tokens: 4096,
+            top_p: 1,
+            frequency_penalty: 0,
+            presence_penalty: 0,
+            n: 1,
+          },
+        })
+        .json();
+    } catch (error) {
+      error.json = { ...error.json, origin: 'FIREFALL' };
+      throw error;
+    }
   }
 
   async feedback(queryId, sentiment) {
@@ -63,6 +68,7 @@ class FirefallClient {
         .json();
     } catch (error) {
       console.error('Error sending feedback:', error);
+      error.json = { ...error.json, origin: 'FIREFALL' };
       throw error;
     }
   }

@@ -27,6 +27,7 @@ import { LegalTermsLink } from './LegalTermsLink.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { createVariants } from '../helpers/ResultsParser.js';
 import { sampleRUM } from '../rum.js';
+import { getErrorResponse } from '../helpers/ErrorMap.js';
 
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
@@ -56,13 +57,8 @@ export function GenerateButton() {
     setGenerationInProgress(true);
     generateResults()
       .catch((error) => {
-        switch (error.status) {
-          case 400:
-            ToastQueue.negative('The response was filtered due to the prompt triggering Generative AI\'s content management policy. Please modify your prompt and retry.', { timeout: 2000 });
-            break;
-          default:
-            ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
-        }
+        const errorResponse = getErrorResponse(error);
+        ToastQueue.negative(errorResponse, { timeout: 2000 });
       })
       .finally(() => {
         setGenerationInProgress(false);
@@ -78,7 +74,7 @@ export function GenerateButton() {
         style="fill"
         onPress={handleGenerate}
         isDisabled={generationInProgress}>
-        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'}/>}
+        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}
         Generate
       </Button>
       <ContextualHelp variant="info">

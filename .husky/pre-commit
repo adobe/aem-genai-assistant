@@ -1,14 +1,14 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# If *.prompt files have changed, run prompts
-if [ -n "$(git diff --cached --name-only | grep -E '.*\.prompt$')" ]; then
+# If *.prompt files or prompt-index.json file have changed, run prompts
+if [ -n "$(git diff --cached --name-only | grep -E 'examples/.*\.prompt$')" ] || [ -n "$(git diff --cached --name-only | grep -E 'examples/prompt-index.json$')" ]; then
   npm run prompts
 fi
 
 # If excel or csv files in the examples/ directory have changed, run the zip examples script
-#if [ -n "$(git diff --cached --name-only | grep -E 'examples/.*\.(csv|xlsx)$')" ]; then
-#  npm run zip-examples
-#fi
+if [ -n "$(git diff --cached --name-only | grep -E 'examples/.*\.(csv|xlsx)$')" ]; then
+ npm run examples
+fi
 
 npm test && npm run lint

@@ -2,7 +2,7 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 # If *.prompt files have changed, run prompts
-if [ -n "$(git diff --cached | grep -E '.*\.prompt$')" ]; then
+if [ -n "$(git diff --cached --name-only | grep -E '.*\.prompt$')" ]; then
   npm run prompts
 fi
 

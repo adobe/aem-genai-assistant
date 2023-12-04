@@ -10,8 +10,8 @@
  * governing permissions and limitations under the License.
  */
 const FormUrlAddon = require('wretch/addons/formUrl');
+const { AppError } = require('../web-src/src/helpers/ErrorMapper.js');
 const { wretchRetry } = require('./Network.js');
-// const FormDataAddon = require('wretch/addons/formData');
 
 class ImsClient {
   constructor(endpoint, clientId, clientSecret, permAuthCode) {
@@ -22,17 +22,21 @@ class ImsClient {
   }
 
   async getServiceToken() {
-    const json = await wretchRetry(`${this.endpoint}/ims/token/v1`)
-      .addon(FormUrlAddon).formUrl({
-        client_id: this.clientId,
-        client_secret: this.clientSecret,
-        code: this.permAuthCode,
-        grant_type: 'authorization_code',
-      })
-      .post()
-      .json();
+    try {
+      const json = await wretchRetry(`${this.endpoint}/ims/token/v1`)
+        .addon(FormUrlAddon).formUrl({
+          client_id: this.clientId,
+          client_secret: this.clientSecret,
+          code: this.permAuthCode,
+          grant_type: 'authorization_code',
+        })
+        .post()
+        .json();
 
-    return json.access_token;
+      return json.access_token;
+    } catch (error) {
+      throw new AppError(error, 'IMS');
+    }
   }
 }
 

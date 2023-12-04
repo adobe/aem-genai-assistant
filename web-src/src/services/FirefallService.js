@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import { wretchRetry } from '../helpers/NetworkHelper.js';
+import { AppError } from '../helpers/ErrorMapper.js';
 
 export class FirefallService {
   constructor({
@@ -28,33 +29,41 @@ export class FirefallService {
   }
 
   async complete(prompt, temperature) {
-    /* eslint-disable-next-line camelcase */
-    const { query_id, generations } = await wretchRetry(this.completeEndpoint)
-      .post({
-        prompt,
-        temperature,
-        imsOrg: this.imsOrg,
-        accessToken: this.accessToken,
-      })
-      .json();
-    return {
+    try {
       /* eslint-disable-next-line camelcase */
-      queryId: query_id,
-      response: generations[0][0].message.content,
-    };
+      const { query_id, generations } = await wretchRetry(this.completeEndpoint)
+        .post({
+          prompt,
+          temperature,
+          imsOrg: this.imsOrg,
+          accessToken: this.accessToken,
+        })
+        .json();
+      return {
+        /* eslint-disable-next-line camelcase */
+        queryId: query_id,
+        response: generations[0][0].message.content,
+      };
+    } catch (error) {
+      throw new AppError(error, 'AIO');
+    }
   }
 
   async feedback(queryId, sentiment) {
-    /* eslint-disable-next-line camelcase */
-    const { feedback_id } = await wretchRetry(this.feedbackEndpoint)
-      .post({
-        queryId,
-        sentiment,
-        imsOrg: this.imsOrg,
-        accessToken: this.accessToken,
-      })
-      .json();
-    /* eslint-disable-next-line camelcase */
-    return feedback_id;
+    try {
+      /* eslint-disable-next-line camelcase */
+      const { feedback_id } = await wretchRetry(this.feedbackEndpoint)
+        .post({
+          queryId,
+          sentiment,
+          imsOrg: this.imsOrg,
+          accessToken: this.accessToken,
+        })
+        .json();
+      /* eslint-disable-next-line camelcase */
+      return feedback_id;
+    } catch (error) {
+      throw new AppError(error, 'AIO');
+    }
   }
 }

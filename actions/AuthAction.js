@@ -11,66 +11,57 @@
  */
 const QueryStringAddon = require('wretch/addons/queryString');
 const { Core } = require('@adobe/aio-sdk');
-const { AppError } = require('../web-src/src/helpers/ErrorMapper.js');
 const { ImsClient } = require('./ImsClient.js');
 const { wretchRetry } = require('./Network.js');
 
 async function isValidToken(endpoint, clientId, token, logger) {
-  try {
-    return wretchRetry(`${endpoint}/ims/validate_token/v1`)
-      .addon(QueryStringAddon).query({
-        client_id: clientId,
-        type: 'access_token',
-      })
-      .headers({
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      })
-      .get()
-      .json()
-      .then((json) => {
-        return json.valid;
-      })
-      .catch((error) => {
-        logger.error(error);
-        return false;
-      });
-  } catch (error) {
-    throw new AppError(error, 'IMS');
-  }
+  return wretchRetry(`${endpoint}/ims/validate_token/v1`)
+    .addon(QueryStringAddon).query({
+      client_id: clientId,
+      type: 'access_token',
+    })
+    .headers({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    })
+    .get()
+    .json()
+    .then((json) => {
+      return json.valid;
+    })
+    .catch((error) => {
+      logger.error(error);
+      return false;
+    });
 }
 
 async function checkForProductContext(endpoint, clientId, org, token, productContext, logger) {
-  try {
-    return wretchRetry(`${endpoint}/ims/profile/v1`)
-      .addon(QueryStringAddon).query({
-        client_id: clientId,
-      })
-      .headers({
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      })
-      .get()
-      .json()
-      .then(async (json) => {
-        if (Array.isArray(json.projectedProductContext)) {
-          const filteredProductContext = json.projectedProductContext
-            .filter((obj) => obj.prodCtx.serviceCode === productContext);
+  return wretchRetry(`${endpoint}/ims/profile/v1`)
+    .addon(QueryStringAddon).query({
+      client_id: clientId,
+    })
+    .headers({
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    })
+    .get()
+    .json()
+    .then(async (json) => {
+      if (Array.isArray(json.projectedProductContext)) {
+        const filteredProductContext = json.projectedProductContext
+          .filter((obj) => obj.prodCtx.serviceCode === productContext);
 
-          // For each entry in filteredProductContext check that
-          // there is at least one entry where imsOrg matches the owningEntity property
-          // otherwise, if no match, the user is not authorized
-          return filteredProductContext.some((obj) => obj.prodCtx.owningEntity === org);
-        }
-        return false;
-      })
-      .catch((error) => {
-        logger.error(error);
-        return false;
-      });
-  } catch (error) {
-    throw new AppError(error, 'IMS');
-  }
+        // For each entry in filteredProductContext check that
+        // there is at least one entry where imsOrg matches the owningEntity property
+        // otherwise, if no match, the user is not authorized
+        return filteredProductContext.some((obj) => obj.prodCtx.owningEntity === org);
+      }
+      return false;
+    })
+    .catch((error) => {
+      logger.error(error);
+      return false;
+    });
 }
 
 function asAuthAction(action) {

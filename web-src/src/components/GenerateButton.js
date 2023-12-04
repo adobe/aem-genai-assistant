@@ -56,7 +56,13 @@ export function GenerateButton() {
     setGenerationInProgress(true);
     generateResults()
       .catch((error) => {
-        ToastQueue.negative(error.message, { timeout: 2000 });
+        switch (error.status) {
+          case 400:
+            ToastQueue.negative('The response was filtered due to the prompt triggering Generative AI\'s content management policy. Please modify your prompt and retry.', { timeout: 2000 });
+            break;
+          default:
+            ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
+        }
       })
       .finally(() => {
         setGenerationInProgress(false);
@@ -72,7 +78,7 @@ export function GenerateButton() {
         style="fill"
         onPress={handleGenerate}
         isDisabled={generationInProgress}>
-        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}
+        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'}/>}
         Generate
       </Button>
       <ContextualHelp variant="info">

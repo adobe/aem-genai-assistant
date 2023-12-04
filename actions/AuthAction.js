@@ -11,6 +11,7 @@
  */
 const QueryStringAddon = require('wretch/addons/queryString');
 const { Core } = require('@adobe/aio-sdk');
+const { AppError } = require('../web-src/src/helpers/ErrorMapper.js');
 const { ImsClient } = require('./ImsClient.js');
 const { wretchRetry } = require('./Network.js');
 
@@ -35,8 +36,7 @@ async function isValidToken(endpoint, clientId, token, logger) {
         return false;
       });
   } catch (error) {
-    error.json = { ...error.json, origin: 'AIO' };
-    throw error;
+    throw new AppError(error, 'IMS');
   }
 }
 
@@ -69,8 +69,7 @@ async function checkForProductContext(endpoint, clientId, org, token, productCon
         return false;
       });
   } catch (error) {
-    error.json = { ...error.json, origin: 'IMS' };
-    throw error;
+    throw new AppError(error, 'IMS');
   }
 }
 

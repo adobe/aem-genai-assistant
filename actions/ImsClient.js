@@ -10,8 +10,8 @@
  * governing permissions and limitations under the License.
  */
 const FormUrlAddon = require('wretch/addons/formUrl');
+const { AppError } = require('../web-src/src/helpers/ErrorMapper.js');
 const { wretchRetry } = require('./Network.js');
-// const FormDataAddon = require('wretch/addons/formData');
 
 class ImsClient {
   constructor(endpoint, clientId, clientSecret, permAuthCode) {
@@ -35,8 +35,7 @@ class ImsClient {
 
       return json.access_token;
     } catch (error) {
-      error.json = { ...error.json, origin: 'IMS' };
-      throw error;
+      throw new AppError(error, 'IMS');
     }
   }
 }

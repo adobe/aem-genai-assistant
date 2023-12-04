@@ -9,6 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+const { AppError } = require('../web-src/src/helpers/ErrorMapper.js');
 const { wretchRetry } = require('./Network.js');
 
 class FirefallClient {
@@ -45,8 +46,7 @@ class FirefallClient {
         })
         .json();
     } catch (error) {
-      error.json = { ...error.json, origin: 'FIREFALL' };
-      throw error;
+      throw new AppError(error, 'FIREFALL');
     }
   }
 
@@ -68,8 +68,7 @@ class FirefallClient {
         .json();
     } catch (error) {
       console.error('Error sending feedback:', error);
-      error.json = { ...error.json, origin: 'FIREFALL' };
-      throw error;
+      throw new AppError(error, 'FIREFALL');
     }
   }
 }

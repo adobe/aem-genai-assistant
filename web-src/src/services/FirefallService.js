@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import { wretchRetry } from '../helpers/NetworkHelper.js';
+import { AppError } from '../helpers/ErrorMapper.js';
 
 export class FirefallService {
   constructor({
@@ -44,8 +45,7 @@ export class FirefallService {
         response: generations[0][0].message.content,
       };
     } catch (error) {
-      error.json = { ...error.json, origin: 'AIO' };
-      throw error;
+      throw new AppError(error, 'AIO');
     }
   }
 
@@ -63,8 +63,7 @@ export class FirefallService {
       /* eslint-disable-next-line camelcase */
       return feedback_id;
     } catch (error) {
-      error.json = { ...error.json, origin: 'AIO' };
-      throw error;
+      throw new AppError(error, 'AIO');
     }
   }
 }

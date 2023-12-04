@@ -10,6 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
+const { WretchError } = require('wretch');
+
 const AIO_ERROR_CODES = {
   default: 'An error occurred while generating results',
 };
@@ -31,12 +33,25 @@ const IMS_ERROR_CODES = {
   invalid_scope: 'The client is not configured for the requested scope (403)',
 };
 
+// Define a custom error class that extends the WretchError type
+export class AppError extends WretchError {
+  constructor(error, origin) {
+    super();
+    this.status = error.status;
+    this.response = error.response;
+    this.url = error.url;
+    this.text = error.text;
+    this.json = error.json;
+    this.origin = origin;
+  }
+}
+
 function getErrorMessage(errorCode, errorMap) {
   return errorMap[String(errorCode)] || errorMap.default;
 }
 
 export function getErrorResponse(error) {
-  const errorOrigin = error.json.origin;
+  const errorOrigin = error.origin;
   let errorMessage = null;
 
   switch (errorOrigin) {

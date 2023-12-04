@@ -27,7 +27,7 @@ import { LegalTermsLink } from './LegalTermsLink.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { createVariants } from '../helpers/ResultsParser.js';
 import { sampleRUM } from '../rum.js';
-import { getErrorResponse } from '../helpers/ErrorMap.js';
+import { getErrorResponse } from '../helpers/ErrorMapper.js';
 
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();

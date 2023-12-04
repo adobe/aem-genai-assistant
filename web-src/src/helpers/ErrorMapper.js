@@ -37,34 +37,29 @@ const IMS_ERROR_CODES = {
 export class AppError extends WretchError {
   constructor(error, origin) {
     super();
-    this.status = error.status;
-    this.response = error.response;
-    this.url = error.url;
-    this.text = error.text;
-    this.json = error.json;
-    this.origin = origin;
+    this.message = this.getErrorResponse(error, origin);
   }
-}
 
-function getErrorMessage(errorCode, errorMap) {
-  return errorMap[String(errorCode)] || errorMap.default;
-}
+  static getErrorMessage(errorCode, errorMap) {
+    return errorMap[String(errorCode)] || errorMap.default;
+  }
 
-export function getErrorResponse(error) {
-  const errorOrigin = error.origin;
-  let errorMessage = null;
+  getErrorResponse(error, origin) {
+    const errorOrigin = origin;
+    let errorMessage = null;
 
-  switch (errorOrigin) {
-    case 'AIO':
-      errorMessage = getErrorMessage(error.status, AIO_ERROR_CODES);
-      return `AIO-Error: ${errorMessage} (${error.status}).`;
-    case 'FIREFALL':
-      errorMessage = getErrorMessage(error.status, FIREFALL_ERROR_CODES);
-      return `IS-Error: ${errorMessage} (${error.status}).`;
-    case 'IMS':
-      errorMessage = getErrorMessage(error.json.error, IMS_ERROR_CODES);
-      return `IMS-Error: ${errorMessage}.`;
-    default:
-      return 'AEM-Error: An unknown error ocurred.';
+    switch (errorOrigin) {
+      case 'AIO':
+        errorMessage = this.getErrorMessage(error.status, AIO_ERROR_CODES);
+        return `AIO-Error: ${errorMessage} (${error.status}).`;
+      case 'FIREFALL':
+        errorMessage = this.getErrorMessage(error.status, FIREFALL_ERROR_CODES);
+        return `IS-Error: ${errorMessage} (${error.status}).`;
+      case 'IMS':
+        errorMessage = this.getErrorMessage(error.json.error, IMS_ERROR_CODES);
+        return `IMS-Error: ${errorMessage}.`;
+      default:
+        return 'AEM-Error: An unknown error ocurred.';
+    }
   }
 }

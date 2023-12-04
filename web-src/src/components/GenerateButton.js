@@ -27,7 +27,6 @@ import { LegalTermsLink } from './LegalTermsLink.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { createVariants } from '../helpers/ResultsParser.js';
 import { sampleRUM } from '../rum.js';
-import { getErrorResponse } from '../helpers/ErrorMapper.js';
 
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
@@ -57,8 +56,7 @@ export function GenerateButton() {
     setGenerationInProgress(true);
     generateResults()
       .catch((error) => {
-        const errorResponse = getErrorResponse(error);
-        ToastQueue.negative(errorResponse, { timeout: 2000 });
+        ToastQueue.negative(error.message, { timeout: 2000 });
       })
       .finally(() => {
         setGenerationInProgress(false);

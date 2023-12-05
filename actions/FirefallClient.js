@@ -9,7 +9,6 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-const { AppError } = require('../web-src/src/helpers/ErrorMapper.js');
 const { wretchRetry } = require('./Network.js');
 
 class FirefallClient {
@@ -21,33 +20,29 @@ class FirefallClient {
   }
 
   async completion(prompt, temperature = 0.0, model = 'gpt-4') {
-    try {
-      return wretchRetry(`${this.endpoint}/v1/completions`)
-        .headers({
-          'x-gw-ims-org-id': this.org,
-          'x-api-key': this.apiKey,
-          Authorization: `Bearer ${this.accessToken}`,
-          'Content-Type': 'application/json',
-        })
-        .post({
-          dialogue: {
-            question: prompt,
-          },
-          llm_metadata: {
-            llm_type: 'azure_chat_openai',
-            model_name: model,
-            temperature,
-            max_tokens: 4096,
-            top_p: 1,
-            frequency_penalty: 0,
-            presence_penalty: 0,
-            n: 1,
-          },
-        })
-        .json();
-    } catch (error) {
-      throw new AppError(error, 'FIREFALL');
-    }
+    return wretchRetry(`${this.endpoint}/v1/completions`)
+      .headers({
+        'x-gw-ims-org-id': this.org,
+        'x-api-key': this.apiKey,
+        Authorization: `Bearer ${this.accessToken}`,
+        'Content-Type': 'application/json',
+      })
+      .post({
+        dialogue: {
+          question: prompt,
+        },
+        llm_metadata: {
+          llm_type: 'azure_chat_openai',
+          model_name: model,
+          temperature,
+          max_tokens: 4096,
+          top_p: 1,
+          frequency_penalty: 0,
+          presence_penalty: 0,
+          n: 1,
+        },
+      })
+      .json();
   }
 
   async feedback(queryId, sentiment) {
@@ -68,7 +63,7 @@ class FirefallClient {
         .json();
     } catch (error) {
       console.error('Error sending feedback:', error);
-      throw new AppError(error, 'FIREFALL');
+      throw error;
     }
   }
 }

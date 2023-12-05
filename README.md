@@ -14,7 +14,6 @@ To enable the Content Variations Sidekick Plugin in your AEM Sidekick for websit
 {
   "project": "your-project-name",
   "plugins": [
-    // ...
     {
       "id": "generate-variations",
       "title": "Generate Variations",
@@ -23,7 +22,6 @@ To enable the Content Variations Sidekick Plugin in your AEM Sidekick for websit
       "environments": ["edit"],
       "includePaths": ["**.docx**"]
     }
-    // ...
   ]
 }
 ```

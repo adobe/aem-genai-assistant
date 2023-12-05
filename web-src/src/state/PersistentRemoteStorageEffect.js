@@ -10,29 +10,29 @@
  * governing permissions and limitations under the License.
  */
 
-import { useApplicationContext } from "../components/ApplicationProvider";
+import { useApplicationContext } from '../components/ApplicationProvider.js';
 
-export const createRemotePersistenceEffect = key => ({ onSet }) => {
-    const { remoteFavoritesService } = useApplicationContext();
-    onSet(newValue => {
-        // if newValue's array length is 0, then do return
-        if (newValue.length === 0) {
-            return;
-        }
+export const createRemotePersistenceEffect = (key) => ({ onSet }) => {
+  const { remoteFavoritesService } = useApplicationContext();
+  onSet((newValue) => {
+    // if newValue's array length is 0, then do return
+    if (newValue.length === 0) {
+      return;
+    }
 
-        console.log('Favorites to be stored:', newValue);
-        remoteFavoritesService.save_favorite(newValue)
-            //   fetch('https://hook.app.workfrontfusion.com/cytq82vrakjn5p8xtaashn6gm2qc3jif', {
-            //     method: 'POST',
-            //     headers: {
-            //       'Content-Type': 'application/json',
-            //     },
-            //     body: {
-            //         data: data
-            //     },
-            //  })
-            .then(response => response)
-            .then(data => console.log('Favorites updated in API:', data))
-            .catch(error => console.error('Error updating favorites:', error));
-    });
+    console.log('Favorites to be stored:', newValue);
+    remoteFavoritesService.save_favorite(newValue)
+    //   fetch('https://hook.app.workfrontfusion.com/cytq82vrakjn5p8xtaashn6gm2qc3jif', {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: {
+    //         data: data
+    //     },
+    //  })
+      .then((response) => response)
+      .then((data) => console.log('Favorites updated in API:', data))
+      .catch((error) => console.error('Error updating favorites:', error));
+  });
 };

@@ -11,6 +11,13 @@
  */
 const { wretchRetry } = require('./Network.js');
 
+const FIREFALL_ERROR_CODES = {
+  defaultCompletion: 'An error occurred while generating results',
+  defaultFeedback: 'An error occurred while sending feedback',
+  400: "The response was filtered due to the prompt triggering Azure OpenAI's content management policy. Please modify your prompt and retry. To learn more about our content filtering policies please read Azure's documentation: https://go.microsoft.com/fwlink/?linkid=2198766",
+  429: 'OpenAI Rate limit exceeded. Please wait one minute and try again.',
+};
+
 class FirefallClient {
   constructor(endpoint, apiKey, org, accessToken) {
     this.endpoint = endpoint;
@@ -20,6 +27,7 @@ class FirefallClient {
   }
 
   async completion(prompt, temperature = 0.0, model = 'gpt-4') {
+    try {
     return wretchRetry(`${this.endpoint}/v1/completions`)
       .headers({
         'x-gw-ims-org-id': this.org,
@@ -42,7 +50,10 @@ class FirefallClient {
           n: 1,
         },
       })
-      .json();
+      .json();} catch (error) {
+        console.error('Error generating completion:', error);
+        throw new Error(FIREFALL_ERROR_CODES[error.status] ?? FIREFALL_ERROR_CODES.defaultCompletion);
+      }
   }
 
   async feedback(queryId, sentiment) {
@@ -63,7 +74,7 @@ class FirefallClient {
         .json();
     } catch (error) {
       console.error('Error sending feedback:', error);
-      throw error;
+      throw new Error(FIREFALL_ERROR_CODES[error.status] ?? FIREFALL_ERROR_CODES.defaultFeedback);
     }
   }
 }

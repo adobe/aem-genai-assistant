@@ -22,15 +22,6 @@ export const createRemotePersistenceEffect = (key) => ({ onSet }) => {
 
     console.log('Favorites to be stored:', newValue);
     remoteFavoritesService.save_favorite(newValue)
-    //   fetch('https://hook.app.workfrontfusion.com/cytq82vrakjn5p8xtaashn6gm2qc3jif', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: {
-    //         data: data
-    //     },
-    //  })
       .then((response) => response)
       .then((data) => console.log('Favorites updated in API:', data))
       .catch((error) => console.error('Error updating favorites:', error));

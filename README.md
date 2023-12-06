@@ -31,9 +31,10 @@ To enable the Content Variations Sidekick Plugin in your AEM Sidekick for websit
 ![sidekick-example](https://github.com/adobe/aem-genai-assistant/assets/143527/ecc019cc-95c7-4f12-9578-7133dec43e24)
 
 ### Install Adobe Prompt and Target Audience Templates
+
 Adobe supplies templates to help you to create your own prompts and target audience segments. To use these you need to download Excel files and put them in the root folder of your SharePoint or Google Drive content authoring project.
 
-You can download a zip file containing both files from GitHub [here] (https://github.com/adobe/aem-genai-assistant/raw/main/examples/Templates.zip). After downloading, unzip, and save both files in the root folder of your project on SharePoint or Google Drive. Open the target-audience file and in Sidekick, preview and publish the file.
+You can download a zip file containing both files from GitHub [here](https://github.com/adobe/aem-genai-assistant/raw/main/examples/Templates.zip). After downloading, unzip, and save both files in the root folder of your project on SharePoint or Google Drive. Open the target-audience file and in Sidekick, preview and publish the file.
 
 For Google Drive users:
 

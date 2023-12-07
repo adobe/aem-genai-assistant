@@ -19,7 +19,7 @@ export const favoritesState = atom({
   key: 'favoritesState',
   default: [],
   effects: [
-    createPersistentStorageEffect(STORAGE_KEY),
     createRemotePersistenceEffect(STORAGE_KEY),
+    createPersistentStorageEffect(STORAGE_KEY),
   ],
 });

@@ -76,6 +76,7 @@ export const ApplicationProvider = ({ children }) => {
         favoritesEndpoint: actions[FAVORITE_ACTION],
         imsOrg: user.imsOrg,
         accessToken: user.imsToken,
+        websiteUrl,
       }),
     });
 

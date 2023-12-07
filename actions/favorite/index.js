@@ -13,7 +13,8 @@ const { asGenericAction } = require('../GenericAction.js');
 const { asAuthAction } = require('../AuthAction.js');
 
 const { AppError } = require('../../web-src/src/helpers/ErrorMapper.js');
-const { wretchRetry } = require('../Network.js');
+
+const wretch = require('wretch');
 
 async function main(params) {
     const { data } = params;
@@ -23,12 +24,12 @@ async function main(params) {
         // https://hook.app.workfrontfusion.com/cytq82vrakjn5p8xtaashn6gm2qc3jif
         // with the data object as the body
         // return the response from the API
-        console.log('Favorites to be stored:', data);
         results = []
 
+        console.log('saving new variations ...');
+
         for (const variant of data) {
-            console.log('Variant to be stored:', variant);
-            r = await wretchRetry(`https://hook.app.workfrontfusion.com/cytq82vrakjn5p8xtaashn6gm2qc3jif`)
+            let r = await wretch(`https://hook.app.workfrontfusion.com/cytq82vrakjn5p8xtaashn6gm2qc3jif`)
                 .headers({
                     'Content-Type': 'application/json',
                 })

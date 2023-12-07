@@ -17,12 +17,18 @@ export class RemoteFavoritesService {
     favoritesEndpoint,
     imsOrg,
     accessToken,
+    websiteUrl,
   }) {
     this.favoritesEndpoint = favoritesEndpoint;
     this.imsOrg = imsOrg;
     this.accessToken = accessToken;
+    this.websiteUrl = websiteUrl;
 
     console.debug(`Favorites Endpoint: ${this.favoritesEndpoint}`);
+  }
+
+  async get_favorites() {
+    return wretchRetry(`${this.websiteUrl}/generated-copy.json`).get().json();
   }
 
   async save_favorite(data) {

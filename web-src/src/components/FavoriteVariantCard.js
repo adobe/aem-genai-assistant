@@ -15,12 +15,13 @@ import {
 import React from 'react';
 import { css } from '@emotion/css';
 import { ToastQueue } from '@react-spectrum/toast';
-import Copy from '@spectrum-icons/workflow/Copy';
-import Delete from '@spectrum-icons/workflow/Delete';
 import { motion } from 'framer-motion';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { toHTML, toText } from '../helpers/PromptExporter.js';
 import { sampleRUM } from '../rum.js';
+
+import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';
+import DeleteOutlineIcon from '../icons/DeleteOutlineIcon.js';
 
 const styles = {
   card: css`
@@ -59,7 +60,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
                   navigator.clipboard.writeText(toText(variant.content));
                   ToastQueue.positive('Copied to clipboard', { timeout: 1000 });
                 }}>
-                <Copy />
+                <CopyOutlineIcon />
               </ActionButton>
               <Tooltip>Copy</Tooltip>
             </TooltipTrigger>
@@ -68,7 +69,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
                 isQuiet
                 UNSAFE_className="hover-cursor-pointer"
                 onPress={() => toggleFavorite(variant)}>
-                <Delete />
+                <DeleteOutlineIcon />
               </ActionButton>
               <Tooltip>Remove</Tooltip>
             </TooltipTrigger>

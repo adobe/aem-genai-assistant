@@ -16,6 +16,6 @@ export const USER_GUIDELINES_URL = 'https://www.adobe.com/legal/licenses-terms/a
 
 export function LegalTermsLink() {
   return (
-    <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_style={{ textDecoration: 'underline', color: 'blue' }}>Generative AI User Guidelines</Link>
+    <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_style={{ textDecoration: 'underline', color: 'blue' }}>Adobe Experience Cloud Generative AI User Guidelines</Link>
   );
 }

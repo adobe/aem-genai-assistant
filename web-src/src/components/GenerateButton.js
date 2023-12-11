@@ -78,18 +78,27 @@ export function GenerateButton() {
         style="fill"
         onPress={handleGenerate}
         isDisabled={generationInProgress}>
-        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'}/>}
+        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}
         Generate
       </Button>
       <ContextualHelp variant="info">
         <Heading>Terms of use</Heading>
         <Content>
           <p>
-            Your inputs to the service should be tied to a context. This context can be your branding
-            materials, website content, data, schemas for such data, templates, or other trusted documents.
-            You should evaluate the accuracy of any output as appropriate to your use case.
+            Access to this feature is subject to your agreement to the <LegalTermsLink />, and the following:
           </p>
-          <LegalTermsLink />
+          <ul>
+            <li>
+              Any prompts, context, or supplemental information, or other input you provide to this feature (a) must be
+              tied to specific context, which can include your branding materials, website content, data, schemas for
+              such data, templates, or other trusted documents, and (b) must not contain any personal information
+              (personal information includes anything that can be linked back to a specific individual).
+            </li>
+            <li>
+              You should review any output from this feature for accuracy and ensure that it is appropriate for your
+              use case.
+            </li>
+          </ul>
         </Content>
       </ContextualHelp>
     </Flex>

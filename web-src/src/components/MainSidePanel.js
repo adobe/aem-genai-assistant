@@ -29,10 +29,31 @@ import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 
 export function MainSidePanel(props) {
-  const { appVersion } = useApplicationContext();
+  const { appVersion, expressSDKService } = useApplicationContext();
   const sessions = useRecoilValue(sessionHistoryState);
   const [currentSession, setCurrentSession] = useRecoilState(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
+
+  let ccEverywhereInstance = null;
+
+  const createDesign = async () => {
+    if (ccEverywhereInstance == null) {
+      ccEverywhereInstance = await expressSDKService.initExpressEditor();
+    }
+    ccEverywhereInstance.createDesign(
+      // CreateDesignParams
+      {
+        outputParams: {
+          outputType: 'base64',
+        },
+        inputParams: {
+          templateType: 'brochure',
+          // You can also load an image into the project
+          // asset : "..."
+        },
+      },
+    );
+  };
 
   const style = {
     headerText: css`
@@ -109,34 +130,38 @@ export function MainSidePanel(props) {
 
       <Flex direction={'column'} gridArea={'menu'} gap={'size-100'}>
         <ul className={style.menu}>
+          <li className={viewType === ViewType.CurrentSession ? derivedStyle.clickedMenuItem : style.menuItem}>
+            <Image src={PromptsIcon} width={'20px'} alt={'*New - Adobe Express'} />
+            <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => createDesign()}>*New - Adobe Express</Link>
+          </li>
           <li className={viewType === ViewType.NewSession ? derivedStyle.clickedMenuItem : style.menuItem}>
-            <Image src={PromptsIcon} width={'20px'} alt={'New prompt template'}/>
+            <Image src={PromptsIcon} width={'20px'} alt={'New prompt template'} />
             <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>Prompt Templates</Link>
           </li>
           <li className={viewType === ViewType.Favorites ? derivedStyle.clickedMenuItem : style.menuItem}>
-            <Image src={FavoritesIcon} width={'20px'} alt={'Favorites'}/>
+            <Image src={FavoritesIcon} width={'20px'} alt={'Favorites'} />
             <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.Favorites)}>Favorites</Link>
           </li>
           <li className={style.menuItem}>
-            <Image src={RecentsIcon} width={'20px'} alt={'Recents'}/>
+            <Image src={RecentsIcon} width={'20px'} alt={'Recents'} />
             <Text>Recents</Text>
           </li>
-          { (sessions && sessions.length > 0) && sessions.map((session) => (
+          {(sessions && sessions.length > 0) && sessions.map((session) => (
             // eslint-disable-next-line max-len
             <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyle.clickedSubMenuItem : style.subMenuItem} key={session.id}>
               <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => handleRecent(session)}>{session.name}</Link>
             </li>
-          )) }
+          ))}
         </ul>
       </Flex>
 
       <Flex direction={'column'} gridArea={'footer'} gap={'16px'}>
         <Flex direction={'row'} justifyContent={'start'} alignItems={'center'} gap={'12px'}>
-          <Image src={HelpIcon} width={'20px'} alt={'Help'}/>
+          <Image src={HelpIcon} width={'20px'} alt={'Help'} />
           <Link href="https://www.aem.live/docs/sidekick-generate-variations" target="_blank" UNSAFE_className={style.menu}>Help & FAQ</Link>
         </Flex>
         <Flex direction={'row'} justifyContent={'start'} alignItems={'center'} gap={'12px'}>
-          <Image src={FileTxt} width={'20px'} alt={'Guidelines'}/>
+          <Image src={FileTxt} width={'20px'} alt={'Guidelines'} />
           <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={style.menu}>User Guidelines</Link>
         </Flex>
         <Text UNSAFE_className={style.copyright}>Copyright © 2023 Adobe. All rights reserved</Text>

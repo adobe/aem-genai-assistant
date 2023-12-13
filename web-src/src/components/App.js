@@ -33,9 +33,8 @@ const styles = {
     background: white;
     margin: 0 20px 0 14px;
     border-radius: 20px 20px 0 0;
-    border: 2px #e0e0e0 solid;
     height: 100%;
-    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.12), 0px 3px 8px 0px rgba(0, 0, 0, 0.04), 0px 4px 16px 0px rgba(0, 0, 0, 0.08);;
   `,
   noAccessContainer: css`
     display: block;

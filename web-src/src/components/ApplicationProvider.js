@@ -14,6 +14,7 @@ import React, {
 } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { FirefallService } from '../services/FirefallService.js';
+import { ExpressSDKService } from '../services/ExpressSDKService.js';
 import actions from '../config.json';
 import { useShellContext } from './ShellProvider.js';
 import { loadPromptTemplates, promptTemplatesState } from '../state/PromptTemplatesState.js';
@@ -59,6 +60,11 @@ export const ApplicationProvider = ({ children }) => {
 
     const websiteUrl = getWebsiteUrl();
     const promptTemplatesPath = getPromptTemplatesPath();
+    const expressSDKService = new ExpressSDKService({
+      // TODO: replace with our own client ID
+      clientId: 'aem-genai-assistant',
+      appName: 'Partner Days Embed SDK Demo',
+    });
 
     setApplication({
       appVersion: APP_VERSION,
@@ -70,6 +76,7 @@ export const ApplicationProvider = ({ children }) => {
         imsOrg: user.imsOrg,
         accessToken: user.imsToken,
       }),
+      expressSDKService,
     });
 
     loadPromptTemplates(websiteUrl, promptTemplatesPath).then((templates) => {
@@ -82,7 +89,7 @@ export const ApplicationProvider = ({ children }) => {
   }, [user, done, setApplication]);
 
   if (!application) {
-    return <Fragment/>;
+    return <Fragment />;
   }
 
   return (

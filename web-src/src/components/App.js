@@ -35,6 +35,7 @@ const styles = {
     border-radius: 20px 20px 0 0;
     border: 2px #e0e0e0 solid;
     height: 100%;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
   `,
   noAccessContainer: css`
     display: block;

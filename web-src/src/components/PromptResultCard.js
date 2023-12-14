@@ -100,6 +100,9 @@ const styles = {
     padding: 10px;
   `,
   variant: css`
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
     width: 300px;
     height: 100px;
     padding: 8px;

@@ -18,7 +18,7 @@ import PromptEditor from './PromptEditor.js';
 export function PromptSessionPanel() {
   return (
     <Grid
-      columns={['330px', '1fr']}
+      columns={['1fr', '2fr']}
       rows={['100%']}
       justifyContent={'stretch'}
       alignItems={'stretch'}

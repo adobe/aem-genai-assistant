@@ -14,22 +14,27 @@ import { ToastContainer } from '@react-spectrum/toast';
 import {
   Grid, ProgressCircle,
 } from '@adobe/react-spectrum';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { css } from '@emotion/css';
 import { ConsentDialog } from './ConsentDialog.js';
 import { MainSidePanel } from './MainSidePanel.js';
 import { PromptSessionPanel } from './PromptSessionPanel.js';
 import { PromptTemplateLibraryPanel } from './PromptTemplateLibraryPanel.js';
 import { viewTypeState, ViewType } from '../state/ViewType.js';
+import { mainSidePanelState, MainSidePanelType } from '../state/MainSidePanelState.js';
 import { FavoriteVariantListPanel } from './FavoriteVariantListPanel.js';
+
+const MAIN_SIDE_PANEL_EXPAND_WIDTH = '330px';
+const MAIN_SIDE_PANEL_COLLAPSE_WIDTH = '40px';
+const MAIN_SIDE_PANEL_COLLAPSE_WIDTH_THRESHOLD = 1600;
 
 const styles = {
   container: css`
     background: white;
-    margin: 0 20px 0 20px;
+    margin: 0 20px 0 14px;
     border-radius: 20px 20px 0 0;
-    border: 2px #e0e0e0 solid;
     height: 100%;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.12), 0px 3px 8px 0px rgba(0, 0, 0, 0.04), 0px 4px 16px 0px rgba(0, 0, 0, 0.08);;
   `,
   noAccessContainer: css`
     display: block;
@@ -67,18 +72,41 @@ function NoAccessMessage() {
 
 export function App() {
   const [hasConsent, setConsent] = React.useState(true);
+  const [mainSidePanelWidth, setMainSidePanelWidth] = React.useState();
 
   const viewType = useRecoilValue(viewTypeState);
+  const [mainSidePanel, setMainSidePanelState] = useRecoilState(mainSidePanelState);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setMainSidePanelState(window.innerWidth <= MAIN_SIDE_PANEL_COLLAPSE_WIDTH_THRESHOLD
+        ? MainSidePanelType.Collapsed
+        : MainSidePanelType.Expanded);
+    };
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  React.useEffect(() => {
+    setMainSidePanelWidth(mainSidePanel === MainSidePanelType.Expanded
+      ? MAIN_SIDE_PANEL_EXPAND_WIDTH
+      : MAIN_SIDE_PANEL_COLLAPSE_WIDTH);
+  }, [mainSidePanel, setMainSidePanelState]);
+
   return (
     <>
       <ToastContainer />
       <ConsentDialog onConsentChange={setConsent} />
       {hasConsent
         ? <Grid
-          columns={['330px', '1fr']}
+          columns={[mainSidePanelWidth, '1fr']}
           rows={['100%']}
           gap={'size-200'}
-          UNSAFE_style={{ padding: '25px 25px 0 25px' }}
+          UNSAFE_style={{ padding: '25px 10px 0' }}
           width="100%" height="100%">
           <MainSidePanel width="100%" height="100%" />
           <div className={styles.container}>

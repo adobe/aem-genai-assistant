@@ -29,6 +29,7 @@ import { sessionHistoryState } from '../state/SessionHistoryState.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { MainSidePanelType, mainSidePanelState } from '../state/MainSidePanelState.js';
+import { ClickableImage } from './ClickableImage.js';
 
 export const HELP_AND_FAQ_URL = 'https://www.aem.live/docs/sidekick-generate-variations';
 
@@ -101,19 +102,13 @@ export function MainSidePanel(props) {
     setViewType(ViewType.CurrentSession);
   }, [setCurrentSession, setViewType]);
 
-  const toggleMainSidePanelState = () => {
+  const toggleMainSidePanelState = useCallback(() => {
     if (mainSidePanel === MainSidePanelType.Expanded) {
       setMainSidePanelState(MainSidePanelType.Collapsed);
     } else {
       setMainSidePanelState(MainSidePanelType.Expanded);
     }
-  };
-
-  const ClickableImage = ({
-    src, title, alt, width, onClick,
-  }) => (
-    <img src={src} title={title} alt={alt} width={width} onClick={onClick} className="hover-cursor-pointer" />
-  );
+  }, [mainSidePanel]);
 
   return (
     <Grid {...props}

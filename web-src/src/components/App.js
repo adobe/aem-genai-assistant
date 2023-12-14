@@ -72,7 +72,7 @@ function NoAccessMessage() {
 
 export function App() {
   const [hasConsent, setConsent] = React.useState(true);
-  const [mainSidePanelWidth, setMainSidePanelWidth] = React.useState(MAIN_SIDE_PANEL_EXPAND_WIDTH);
+  const [mainSidePanelWidth, setMainSidePanelWidth] = React.useState();
 
   const viewType = useRecoilValue(viewTypeState);
   const [mainSidePanel, setMainSidePanelState] = useRecoilState(mainSidePanelState);
@@ -82,9 +82,6 @@ export function App() {
       setMainSidePanelState(window.innerWidth <= MAIN_SIDE_PANEL_COLLAPSE_WIDTH_THRESHOLD
         ? MainSidePanelType.Collapsed
         : MainSidePanelType.Expanded);
-      setMainSidePanelWidth(window.innerWidth <= MAIN_SIDE_PANEL_COLLAPSE_WIDTH_THRESHOLD
-        ? MAIN_SIDE_PANEL_COLLAPSE_WIDTH
-        : MAIN_SIDE_PANEL_EXPAND_WIDTH);
     };
     window.addEventListener('resize', handleResize);
     handleResize();

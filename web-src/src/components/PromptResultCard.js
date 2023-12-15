@@ -107,16 +107,18 @@ const styles = {
     height: 100px;
     padding: 8px;
     border-radius: 8px;
-    border: 1px solid var(--palette-gray-300, #D5D5D5);
+    border: 1px solid var(--palette-gray-300, #D9D9D9);
     background: var(--palette-gray-50, #FFF);
     user-select: none;
     overflow: hidden;
     &:hover {
-      border-color: var(--alias-content-semantic-accent-default, #0265DC);
+      border-color: var(--alias-content-semantic-accent-default, #929292);
     }
     `,
   variantSelected: css`
+    border-width: 2px;
     border-bottom-width: 5px;
+    border-color: #0265DC;
     `,
   variantFavorite: css`
     background-color: #fffff0;

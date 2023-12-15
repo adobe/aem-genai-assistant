@@ -13,14 +13,16 @@ import {
   Button,
   ButtonGroup,
   Content,
-  Dialog, DialogContainer,
-  Divider,
+  Dialog,
+  DialogContainer,
+  Image,
   Heading,
 } from '@adobe/react-spectrum';
 import React, { useEffect } from 'react';
 import settingsApi, { SettingsLevel } from '@adobe/exc-app/settings';
 import { LegalTermsLink } from './LegalTermsLink.js';
 import { sampleRUM } from '../rum.js';
+import ConsentHero from '../assets/consent-hero.png';
 
 export const CONSENT_KEY = 'genai-assistant-consent';
 const EXC_SHELL_GROUP_ID = 'aem-generate-variations';
@@ -60,8 +62,8 @@ export function ConsentDialog({ onConsentChange }) {
     <DialogContainer onDismiss={handleCancel}>
       {isOpen
         && <Dialog onDismiss={handleCancel}>
+          <Image src={ConsentHero} slot="hero" objectFit="cover" height="200px" alt="Consent Hero" />
           <Heading>Generative AI in Adobe apps</Heading>
-          <Divider />
           <Content>
             <p>
               You can create in new ways with generative AI technology.

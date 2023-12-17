@@ -11,6 +11,18 @@
  */
 const { wretchRetry } = require('./Network.js');
 
+const FIREFALL_ERROR_CODES = {
+  defaultCompletion: 'An error occurred while generating results',
+  defaultFeedback: 'An error occurred while sending feedback',
+  400: "The response was filtered due to the prompt triggering Azure OpenAI's content management policy. Please modify your prompt and retry. To learn more about our content filtering policies please read Azure's documentation: https://go.microsoft.com/fwlink/?linkid=2198766",
+  429: 'OpenAI Rate limit exceeded. Please wait one minute and try again',
+};
+
+function firefallErrorMessage(defaultMessage, errorStatus) {
+  const errorString = FIREFALL_ERROR_CODES[errorStatus] ?? defaultMessage;
+  return `IS-ERROR: ${errorString} (${errorStatus}).`;
+}
+
 class FirefallClient {
   constructor(endpoint, apiKey, org, accessToken) {
     this.endpoint = endpoint;
@@ -42,29 +54,32 @@ class FirefallClient {
           n: 1,
         },
       })
-      .json();
+      .json()
+      .catch((error) => {
+        // console.error('Error generating completion:', error);
+        throw new Error(firefallErrorMessage(FIREFALL_ERROR_CODES.defaultCompletion, error.status));
+      });
   }
 
   async feedback(queryId, sentiment) {
-    try {
-      return await wretchRetry(`${this.endpoint}/v1/feedback`)
-        .headers({
-          Authorization: `Bearer ${this.accessToken}`,
-          'x-api-key': this.apiKey,
-          'x-gw-ims-org-id': this.org,
-          'Content-Type': 'application/json',
-        })
-        .post({
-          query_id: queryId,
-          feedback: {
-            overall: sentiment ? 'thumbs_up' : 'thumbs_down',
-          },
-        })
-        .json();
-    } catch (error) {
-      console.error('Error sending feedback:', error);
-      throw error;
-    }
+    return wretchRetry(`${this.endpoint}/v1/feedback`)
+      .headers({
+        Authorization: `Bearer ${this.accessToken}`,
+        'x-api-key': this.apiKey,
+        'x-gw-ims-org-id': this.org,
+        'Content-Type': 'application/json',
+      })
+      .post({
+        query_id: queryId,
+        feedback: {
+          overall: sentiment ? 'thumbs_up' : 'thumbs_down',
+        },
+      })
+      .json()
+      .catch((error) => {
+        // console.error('Error generating completion:', error);
+        throw new Error(firefallErrorMessage(FIREFALL_ERROR_CODES.defaultFeedback, error.status));
+      });
   }
 }
 

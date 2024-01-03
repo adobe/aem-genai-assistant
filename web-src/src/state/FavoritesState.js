@@ -11,11 +11,15 @@
  */
 import { atom } from 'recoil';
 import { createPersistentStorageEffect } from './PersistentStorageEffect.js';
+import { createRemotePersistenceEffect } from './PersistentRemoteStorageEffect.js';
 
 const STORAGE_KEY = 'favorites';
 
 export const favoritesState = atom({
   key: 'favoritesState',
   default: [],
-  effects: [createPersistentStorageEffect(STORAGE_KEY)],
+  effects: [
+    createRemotePersistenceEffect(STORAGE_KEY),
+    createPersistentStorageEffect(STORAGE_KEY),
+  ],
 });

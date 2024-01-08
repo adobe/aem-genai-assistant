@@ -41,6 +41,7 @@ export const ShellProvider = ({ children, runtime }) => {
       user: {
         imsToken,
         imsOrg,
+        imsProfile,
       },
       isUserAuthorized: isAuthorized(imsProfile, imsOrg),
       done: page.done,

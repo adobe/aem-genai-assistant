@@ -64,6 +64,7 @@ export const ApplicationProvider = ({ children }) => {
       // TODO: replace with our own client ID
       clientId: 'aem-genai-assistant',
       appName: 'Partner Days Embed SDK Demo',
+      user: user
     });
 
     setApplication({

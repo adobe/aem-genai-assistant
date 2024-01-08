@@ -10,14 +10,17 @@
  * governing permissions and limitations under the License.
  */
 export class ExpressSDKService {
-  CDN_URL = 'https://sdk.cc-embed.adobe.com/v3/CCEverywhere.js';
+  CDN_URL = 'https://sdk-1p.cc-embed.adobe.com/v3/CCEverywhere.js';
+  //'https://sdk.cc-embed.adobe.com/v3/CCEverywhere.js';
 
   constructor({
     clientId,
     appName,
+    user, // ShellProvider user
   }) {
     this.clientId = clientId;
     this.appName = appName;
+    this.user = user;
   }
 
   async initExpressEditor() {
@@ -31,10 +34,29 @@ export class ExpressSDKService {
             return;
           }
           try {
+            // https://docs.cc-embed.adobe.com/v3/release/1p/interfaces/shared_src_types_Authentication_types.UserProfile.html
+            const userInfo = {
+              profile: {
+                userId: this.user.imsProfile.userId,
+                serviceCode: null,
+                serviceLevel: null,
+              },
+              serviceCode: null,
+              serviceLevel: null,
+            }
+            const authInfo = {
+              accessToken: this.user.imsToken,
+              useJumpUrl: false,
+              forceJumpCheck: false,
+            }
             const ccEverywhere = await window.CCEverywhere.initialize({
               clientId: this.clientId,
               appName: this.appName,
-            });
+            },
+              {}, //config
+              userInfo,
+              authInfo
+            );
             resolve(ccEverywhere);
           } catch (error) {
             reject(error);

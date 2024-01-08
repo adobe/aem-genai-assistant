@@ -66,7 +66,7 @@ async function checkForProductContext(endpoint, clientId, org, token, productCon
 
 function asAuthAction(action) {
   return async (params) => {
-    const logger = Core.Logger('main', { level: params.LOG_LEVEL || 'info' });
+    const logger = Core.Logger('AuthAction', { level: params.LOG_LEVEL || 'info' });
     const imsEndpoint = params.IMS_ENDPOINT;
     const clientId = params.IMS_CLIENT_ID;
     const serviceClientId = params.IMS_SERVICE_CLIENT_ID;

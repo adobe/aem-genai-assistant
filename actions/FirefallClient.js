@@ -12,13 +12,14 @@
 const { Core } = require('@adobe/aio-sdk');
 const { wretchRetry } = require('./Network.js');
 
+const logger = Core.Logger('FirefallClient', { level: 'info' });
+
 class FirefallClient {
   constructor(endpoint, apiKey, org, accessToken) {
     this.endpoint = endpoint;
     this.apiKey = apiKey;
     this.org = org;
     this.accessToken = accessToken;
-    this.logger = Core.Logger('FirefallClient', { level: 'info' });
   }
 
   async completion(prompt, temperature = 0.0, model = 'gpt-4') {
@@ -51,11 +52,11 @@ class FirefallClient {
 
       const endTime = Date.now();
       const requestTime = ((endTime - startTime) / 1000).toFixed(2);
-      this.logger.info(`Generate request completed in ${requestTime} s`);
+      logger.info(`Generate request completed in ${requestTime} s`);
 
       return response;
     } catch (error) {
-      this.logger.error('Failed generate request:', error);
+      logger.error('Failed generate request:', error);
       throw error;
     }
   }
@@ -81,11 +82,11 @@ class FirefallClient {
 
       const endTime = Date.now();
       const requestTime = ((endTime - startTime) / 1000).toFixed(2);
-      this.logger.info(`Feedback request completed in ${requestTime} s`);
+      logger.info(`Feedback request completed in ${requestTime} s`);
 
       return response;
     } catch (error) {
-      this.logger.error('Failed feedback request:', error);
+      logger.error('Failed feedback request:', error);
       throw error;
     }
   }

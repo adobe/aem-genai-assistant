@@ -10,11 +10,13 @@
  * governing permissions and limitations under the License.
  */
 const QueryStringAddon = require('wretch/addons/queryString');
-const { Core } = require('@adobe/aio-sdk');
 const { ImsClient } = require('./ImsClient.js');
 const { wretchRetry } = require('./Network.js');
+const { getLogger } = require('./utils.js');
 
-async function isValidToken(endpoint, clientId, token, logger) {
+let logger;
+
+async function isValidToken(endpoint, clientId, token) {
   return wretchRetry(`${endpoint}/ims/validate_token/v1`)
     .addon(QueryStringAddon).query({
       client_id: clientId,
@@ -35,7 +37,7 @@ async function isValidToken(endpoint, clientId, token, logger) {
     });
 }
 
-async function checkForProductContext(endpoint, clientId, org, token, productContext, logger) {
+async function checkForProductContext(endpoint, clientId, org, token, productContext) {
   return wretchRetry(`${endpoint}/ims/profile/v1`)
     .addon(QueryStringAddon).query({
       client_id: clientId,
@@ -66,7 +68,8 @@ async function checkForProductContext(endpoint, clientId, org, token, productCon
 
 function asAuthAction(action) {
   return async (params) => {
-    const logger = Core.Logger('AuthAction', { level: params.LOG_LEVEL || 'info' });
+    logger = getLogger('AuthAction', params.AIO_LOG_LEVEL);
+
     const imsEndpoint = params.IMS_ENDPOINT;
     const clientId = params.IMS_CLIENT_ID;
     const serviceClientId = params.IMS_SERVICE_CLIENT_ID;
@@ -78,12 +81,12 @@ function asAuthAction(action) {
     const { imsOrg, accessToken } = params;
 
     // Validate the access token
-    if (!await isValidToken(imsEndpoint, clientId, accessToken, logger)) {
+    if (!await isValidToken(imsEndpoint, clientId, accessToken)) {
       throw new Error('Access token is invalid');
     }
 
     // Check that the profile has the expected product context
-    if (!await checkForProductContext(imsEndpoint, clientId, imsOrg, accessToken, productContext, logger)) {
+    if (!await checkForProductContext(imsEndpoint, clientId, imsOrg, accessToken, productContext)) {
       throw new Error('Profile does not have the required product context');
     }
 

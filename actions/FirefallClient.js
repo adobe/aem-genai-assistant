@@ -9,17 +9,18 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-const { Core } = require('@adobe/aio-sdk');
 const { wretchRetry } = require('./Network.js');
 
-const logger = Core.Logger('FirefallClient', { level: 'info' });
+let logger;
 
 class FirefallClient {
-  constructor(endpoint, apiKey, org, accessToken) {
+  constructor(endpoint, apiKey, org, accessToken, firefallLogger) {
     this.endpoint = endpoint;
     this.apiKey = apiKey;
     this.org = org;
     this.accessToken = accessToken;
+
+    logger = firefallLogger;
   }
 
   async completion(prompt, temperature = 0.0, model = 'gpt-4') {

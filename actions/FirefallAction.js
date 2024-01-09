@@ -10,15 +10,17 @@
  * governing permissions and limitations under the License.
  */
 const { FirefallClient } = require('./FirefallClient.js');
+const { getLogger } = require('./utils.js');
 
 function asFirefallAction(action) {
   return (params) => {
+    const logger = getLogger('FirefallAction', params.LOG_LEVEL);
     const { imsOrg, serviceToken } = params;
 
     const firefallEndpoint = params.FIREFALL_ENDPOINT;
     const apiKey = params.FIREFALL_API_KEY;
 
-    const firefallClient = new FirefallClient(firefallEndpoint, apiKey, imsOrg, serviceToken);
+    const firefallClient = new FirefallClient(firefallEndpoint, apiKey, imsOrg, serviceToken, logger);
 
     return action({ ...params, firefallClient });
   };

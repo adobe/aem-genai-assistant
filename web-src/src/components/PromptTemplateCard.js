@@ -31,7 +31,6 @@ const styles = {
   `,
   title: css`
     text-overflow: ellipsis;
-    white-space: nowrap;
     overflow: hidden;
   `,
   description: css`
@@ -62,7 +61,7 @@ export function PromptTemplateCard({
           ]}
           columns={['min-content', 'auto', 'min-content']}
           rows={['min-content', 'min-content']}>
-          <Image src={GenerateIcon} width="24px" alt={''} gridArea={'icon'}/>
+          <Image src={GenerateIcon} width="24px" alt={''} gridArea={'icon'} alignSelf={'start'}/>
           <Text UNSAFE_className={styles.title} gridArea={'title'}>{template.label}</Text>
           { (template.isBundled) ? <Image src={SmallLogo} width={'18px'} alt={''} gridArea={'logo'}/> : <Fragment/> }
           <Text UNSAFE_className={styles.description} gridArea={'description'}>{template.description}</Text>

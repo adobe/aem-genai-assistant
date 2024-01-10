@@ -17,6 +17,7 @@ import {
 } from '../state/TemperatureState.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
 
+const TEMPERATURE_LABEL = 'Temperature';
 const TEMPERATURE_DESC = 'A higher temperature strays from the prompt and leads to more randomness and creativity';
 
 export function TemperatureSlider() {
@@ -24,7 +25,7 @@ export function TemperatureSlider() {
   return (
     <Slider
       label="Temperature"
-      contextualHelp={<DescriptionLabel description={TEMPERATURE_DESC}/>}
+      contextualHelp={<DescriptionLabel label={TEMPERATURE_LABEL} description={TEMPERATURE_DESC}/>}
       minValue={TEMPERATURE_MIN}
       maxValue={TEMPERATURE_MAX}
       isFilled={true}

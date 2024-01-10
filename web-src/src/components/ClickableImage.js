@@ -9,13 +9,12 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { Link } from '@adobe/react-spectrum';
 import React from 'react';
 
-export const USER_GUIDELINES_URL = 'https://www.adobe.com/legal/licenses-terms/adobe-dx-gen-ai-user-guidelines.html';
-
-export function LegalTermsLink() {
+export function ClickableImage({
+  src, title, alt, width, onClick,
+}) {
   return (
-    <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_style={{ textDecoration: 'underline', color: 'blue' }}>Adobe Experience Cloud Generative AI User Guidelines</Link>
+    <img src={src} title={title} alt={alt} width={width} onClick={onClick} className="hover-cursor-pointer" />
   );
 }

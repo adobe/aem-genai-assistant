@@ -19,10 +19,16 @@ jest.mock('./Network.js');
 const firefall = new FirefallClient('endpoint', 'apiKey', 'org', 'accessToken');
 let error;
 
+function createWretchError(status) {
+  const wretchError = new WretchError('Internal Server Error');
+  wretchError.status = status;
+  return wretchError;
+}
+
 beforeEach(() => {
   jest.clearAllMocks();
 
-  error = new WretchError('Internal Server Error');
+  error = createWretchError(500);
   wretchRetry.mockImplementation(() => ({
     headers: jest.fn().mockReturnThis(),
     post: jest.fn().mockReturnThis(),
@@ -33,12 +39,12 @@ beforeEach(() => {
 describe('FirefallClient', () => {
   test('handles 400 http status in completion method', async () => {
     error.status = 400;
-    await expect(firefall.completion('prompt')).rejects.toThrow("IS-ERROR: The response was filtered due to the prompt triggering Azure OpenAI's content management policy. Please modify your prompt and retry. To learn more about our content filtering policies please read Azure's documentation: https://go.microsoft.com/fwlink/?linkid=2198766 (400).");
+    await expect(firefall.completion('prompt')).rejects.toThrow("IS-ERROR: The response was filtered due to the prompt triggering Generative AI's content management policy. Please modify your prompt and retry. (400).");
   });
 
   test('handles 429 http status in completion method', async () => {
     error.status = 429;
-    await expect(firefall.completion('prompt')).rejects.toThrow('IS-ERROR: OpenAI Rate limit exceeded. Please wait one minute and try again (429).');
+    await expect(firefall.completion('prompt')).rejects.toThrow("IS-ERROR: Generative AI's Rate limit exceeded. Please wait one minute and try again. (429).");
   });
 
   test('handless any http status in the feedback method', async () => {

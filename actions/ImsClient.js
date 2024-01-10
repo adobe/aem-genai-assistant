@@ -11,7 +11,6 @@
  */
 const FormUrlAddon = require('wretch/addons/formUrl');
 const { wretchRetry } = require('./Network.js');
-// const FormDataAddon = require('wretch/addons/formData');
 
 class ImsClient {
   constructor(endpoint, clientId, clientSecret, permAuthCode) {

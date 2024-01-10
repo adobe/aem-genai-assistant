@@ -27,12 +27,14 @@ import FileTxt from '../assets/file-txt.svg';
 import { sessionHistoryState } from '../state/SessionHistoryState.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
+import { useShellContext } from './ShellProvider.js';
 
 export function MainSidePanel(props) {
   const { appVersion, expressSDKService } = useApplicationContext();
   const sessions = useRecoilValue(sessionHistoryState);
   const [currentSession, setCurrentSession] = useRecoilState(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
+  const { user } = useShellContext();
 
   let ccEverywhereInstance = null;
 
@@ -40,6 +42,23 @@ export function MainSidePanel(props) {
     if (ccEverywhereInstance == null) {
       ccEverywhereInstance = await expressSDKService.initExpressEditor();
     }
+    const userInfo = {
+      profile: {
+        userId: user.imsProfile.userId,
+        serviceCode: null,
+        serviceLevel: null,
+      },
+      serviceCode: null,
+      serviceLevel: null,
+    };
+    const authInfo = {
+      accessToken: user.imsToken,
+      useJumpUrl: false,
+      forceJumpCheck: false,
+    };
+
+    // eslint-disable-next-line max-len
+    // https://docs.cc-embed.adobe.com/v3/release/1p/classes/sdk_src_1p_CCEverywhere.CCEverywhere.html#createDesign
     ccEverywhereInstance.createDesign(
       // CreateDesignParams
       {
@@ -52,6 +71,8 @@ export function MainSidePanel(props) {
           // asset : "..."
         },
       },
+      userInfo,
+      authInfo,
     );
   };
 

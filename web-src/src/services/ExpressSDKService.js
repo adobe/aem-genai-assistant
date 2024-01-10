@@ -11,7 +11,7 @@
  */
 export class ExpressSDKService {
   CDN_URL = 'https://sdk-1p.cc-embed.adobe.com/v3/CCEverywhere.js';
-  //'https://sdk.cc-embed.adobe.com/v3/CCEverywhere.js';
+  // 'https://sdk.cc-embed.adobe.com/v3/CCEverywhere.js';
 
   constructor({
     clientId,
@@ -34,6 +34,7 @@ export class ExpressSDKService {
             return;
           }
           try {
+            // eslint-disable-next-line max-len
             // https://docs.cc-embed.adobe.com/v3/release/1p/interfaces/shared_src_types_Authentication_types.UserProfile.html
             const userInfo = {
               profile: {
@@ -43,19 +44,20 @@ export class ExpressSDKService {
               },
               serviceCode: null,
               serviceLevel: null,
-            }
+            };
             const authInfo = {
               accessToken: this.user.imsToken,
               useJumpUrl: false,
               forceJumpCheck: false,
-            }
-            const ccEverywhere = await window.CCEverywhere.initialize({
-              clientId: this.clientId,
-              appName: this.appName,
-            },
-              {}, //config
+            };
+            const ccEverywhere = await window.CCEverywhere.initialize(
+              {
+                clientId: this.clientId,
+                appName: this.appName,
+              },
+              {}, // config
               userInfo,
-              authInfo
+              authInfo,
             );
             resolve(ccEverywhere);
           } catch (error) {

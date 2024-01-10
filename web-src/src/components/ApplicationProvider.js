@@ -63,8 +63,8 @@ export const ApplicationProvider = ({ children }) => {
     const expressSDKService = new ExpressSDKService({
       // TODO: replace with our own client ID
       clientId: 'aem-genai-assistant',
-      appName: 'Partner Days Embed SDK Demo',
-      user: user
+      appName: 'AEM Sites GenAI Assistant',
+      user,
     });
 
     setApplication({

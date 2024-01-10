@@ -9,12 +9,12 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+const { Core } = require('@adobe/aio-sdk');
 const QueryStringAddon = require('wretch/addons/queryString');
 const { ImsClient } = require('./ImsClient.js');
 const { wretchRetry } = require('./Network.js');
-const { getLogger } = require('./utils.js');
 
-let logger;
+const logger = Core.Logger('AuthAction');
 
 async function isValidToken(endpoint, clientId, token) {
   return wretchRetry(`${endpoint}/ims/validate_token/v1`)
@@ -68,8 +68,6 @@ async function checkForProductContext(endpoint, clientId, org, token, productCon
 
 function asAuthAction(action) {
   return async (params) => {
-    logger = getLogger('AuthAction', params.AIO_LOG_LEVEL);
-
     const imsEndpoint = params.IMS_ENDPOINT;
     const clientId = params.IMS_CLIENT_ID;
     const serviceClientId = params.IMS_SERVICE_CLIENT_ID;

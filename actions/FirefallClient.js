@@ -14,6 +14,18 @@ const { wretchRetry } = require('./Network.js');
 
 const logger = Core.Logger('FirefallAction');
 
+const FIREFALL_ERROR_CODES = {
+  defaultCompletion: 'An error occurred while generating results',
+  defaultFeedback: 'An error occurred while sending feedback',
+  400: "The response was filtered due to the prompt triggering Generative AI's content management policy. Please modify your prompt and retry.",
+  429: "Generative AI's Rate limit exceeded. Please wait one minute and try again.",
+};
+
+function firefallErrorMessage(defaultMessage, errorStatus) {
+  const errorString = FIREFALL_ERROR_CODES[errorStatus] ?? defaultMessage;
+  return `IS-ERROR: ${errorString} (${errorStatus}).`;
+}
+
 class FirefallClient {
   constructor(endpoint, apiKey, org, accessToken) {
     this.endpoint = endpoint;
@@ -57,7 +69,7 @@ class FirefallClient {
       return response;
     } catch (error) {
       logger.error('Failed generate request:', error);
-      throw error;
+      throw new Error(firefallErrorMessage(FIREFALL_ERROR_CODES.defaultCompletion, error.status));
     }
   }
 
@@ -87,7 +99,7 @@ class FirefallClient {
       return response;
     } catch (error) {
       logger.error('Failed feedback request:', error);
-      throw error;
+      throw new Error(firefallErrorMessage(FIREFALL_ERROR_CODES.defaultFeedback, error.status));
     }
   }
 }

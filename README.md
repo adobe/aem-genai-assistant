@@ -137,6 +137,9 @@ AIO_runtime_auth=
 AIO_runtime_namespace=
 AIO_runtime_apihost=
 
+# AIO Logging environment variables
+AIO_LOG_LEVEL=info
+
 ## Firefall environment variables
 FIREFALL_API_KEY=aem-genai-assistant
 FIREFALL_ENDPOINT=https://firefall.adobe.io # or https://firefall-stage.adobe.io
@@ -148,4 +151,7 @@ IMS_CLIENT_ID=aem-genai-assistant # This is the IMSS client ID for validating se
 IMS_SERVICE_CLIENT_ID=aem-sidekick-genai-assistant # This is the IMSS client ID for generating a service token. This ID is associated with the FIREFALL_API_KEY.
 IMS_SERVICE_CLIENT_SECRET=
 IMS_SERVICE_PERM_AUTH_CODE=
+
+## Splunk environment variables
+SPLUNK_HEC__HEC_TOKEN=
 ```

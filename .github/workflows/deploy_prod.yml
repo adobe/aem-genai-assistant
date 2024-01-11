@@ -28,6 +28,7 @@ jobs:
           IMS_SERVICE_CLIENT_SECRET: ${{ secrets.IMS_SERVICE_CLIENT_SECRET }}
           IMS_SERVICE_PERM_AUTH_CODE: ${{ secrets.IMS_SERVICE_PERM_AUTH_CODE }}
           IMS_PRODUCT_CONTEXT: dma_aem_cloud
+          SPLUNK_HEC__HEC_TOKEN: ${{ secrets.SPLUNK_HEC__HEC_TOKEN }}
           AIO_LOG_LEVEL: info
       run: |
         npm install

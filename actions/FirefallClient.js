@@ -9,7 +9,10 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+const { Core } = require('@adobe/aio-sdk');
 const { wretchRetry } = require('./Network.js');
+
+const logger = Core.Logger('FirefallAction');
 
 class FirefallClient {
   constructor(endpoint, apiKey, org, accessToken) {
@@ -20,34 +23,49 @@ class FirefallClient {
   }
 
   async completion(prompt, temperature = 0.0, model = 'gpt-4') {
-    return wretchRetry(`${this.endpoint}/v1/completions`)
-      .headers({
-        'x-gw-ims-org-id': this.org,
-        'x-api-key': this.apiKey,
-        Authorization: `Bearer ${this.accessToken}`,
-        'Content-Type': 'application/json',
-      })
-      .post({
-        dialogue: {
-          question: prompt,
-        },
-        llm_metadata: {
-          llm_type: 'azure_chat_openai',
-          model_name: model,
-          temperature,
-          max_tokens: 4096,
-          top_p: 1,
-          frequency_penalty: 0,
-          presence_penalty: 0,
-          n: 1,
-        },
-      })
-      .json();
+    const startTime = Date.now();
+
+    try {
+      const response = await wretchRetry(`${this.endpoint}/v1/completions`)
+        .headers({
+          'x-gw-ims-org-id': this.org,
+          'x-api-key': this.apiKey,
+          Authorization: `Bearer ${this.accessToken}`,
+          'Content-Type': 'application/json',
+        })
+        .post({
+          dialogue: {
+            question: prompt,
+          },
+          llm_metadata: {
+            llm_type: 'azure_chat_openai',
+            model_name: model,
+            temperature,
+            max_tokens: 4096,
+            top_p: 1,
+            frequency_penalty: 0,
+            presence_penalty: 0,
+            n: 1,
+          },
+        })
+        .json();
+
+      const endTime = Date.now();
+      const requestTime = ((endTime - startTime) / 1000).toFixed(2);
+      logger.info(`Generate request completed in ${requestTime} s`);
+
+      return response;
+    } catch (error) {
+      logger.error('Failed generate request:', error);
+      throw error;
+    }
   }
 
   async feedback(queryId, sentiment) {
+    const startTime = Date.now();
+
     try {
-      return await wretchRetry(`${this.endpoint}/v1/feedback`)
+      const response = await wretchRetry(`${this.endpoint}/v1/feedback`)
         .headers({
           Authorization: `Bearer ${this.accessToken}`,
           'x-api-key': this.apiKey,
@@ -61,8 +79,14 @@ class FirefallClient {
           },
         })
         .json();
+
+      const endTime = Date.now();
+      const requestTime = ((endTime - startTime) / 1000).toFixed(2);
+      logger.info(`Feedback request completed in ${requestTime} s`);
+
+      return response;
     } catch (error) {
-      console.error('Error sending feedback:', error);
+      logger.error('Failed feedback request:', error);
       throw error;
     }
   }

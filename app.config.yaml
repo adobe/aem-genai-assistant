@@ -10,7 +10,6 @@ application:
             web: true
             runtime: nodejs:18
             inputs:
-              LOG_LEVEL: debug
               FIREFALL_ENDPOINT: $FIREFALL_ENDPOINT
               FIREFALL_API_KEY: $FIREFALL_API_KEY
               IMS_ENDPOINT: $IMS_ENDPOINT
@@ -26,7 +25,6 @@ application:
             web: true
             runtime: nodejs:18
             inputs:
-              LOG_LEVEL: debug
               FIREFALL_ENDPOINT: $FIREFALL_ENDPOINT
               FIREFALL_API_KEY: $FIREFALL_API_KEY
               IMS_ENDPOINT: $IMS_ENDPOINT

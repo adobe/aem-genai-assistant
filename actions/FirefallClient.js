@@ -14,8 +14,8 @@ const { wretchRetry } = require('./Network.js');
 const FIREFALL_ERROR_CODES = {
   defaultCompletion: 'An error occurred while generating results',
   defaultFeedback: 'An error occurred while sending feedback',
-  400: "The response was filtered due to the prompt triggering Azure OpenAI's content management policy. Please modify your prompt and retry. To learn more about our content filtering policies please read Azure's documentation: https://go.microsoft.com/fwlink/?linkid=2198766",
-  429: 'OpenAI Rate limit exceeded. Please wait one minute and try again',
+  400: "The response was filtered due to the prompt triggering Generative AI's content management policy. Please modify your prompt and retry.",
+  429: "Generative AI's Rate limit exceeded. Please wait one minute and try again.",
 };
 
 function firefallErrorMessage(defaultMessage, errorStatus) {
@@ -24,11 +24,12 @@ function firefallErrorMessage(defaultMessage, errorStatus) {
 }
 
 class FirefallClient {
-  constructor(endpoint, apiKey, org, accessToken) {
+  constructor(endpoint, apiKey, org, accessToken, logger) {
     this.endpoint = endpoint;
     this.apiKey = apiKey;
     this.org = org;
     this.accessToken = accessToken;
+    this.logger = logger;
   }
 
   async completion(prompt, temperature = 0.0, model = 'gpt-4') {
@@ -56,7 +57,7 @@ class FirefallClient {
       })
       .json()
       .catch((error) => {
-        // console.error('Error generating completion:', error);
+        // this.logger.error('Error generating completion:', error);
         throw new Error(firefallErrorMessage(FIREFALL_ERROR_CODES.defaultCompletion, error.status));
       });
   }
@@ -77,7 +78,7 @@ class FirefallClient {
       })
       .json()
       .catch((error) => {
-        // console.error('Error generating completion:', error);
+        // this.logger.error('Error submitting feedback:', error);
         throw new Error(firefallErrorMessage(FIREFALL_ERROR_CODES.defaultFeedback, error.status));
       });
   }

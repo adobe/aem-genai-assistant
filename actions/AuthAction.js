@@ -78,7 +78,7 @@ function asAuthAction(action) {
     const { imsOrg, accessToken } = params;
 
     // Validate the access token
-    if (!await isValidToken(imsEndpoint, clientId, accessToken, logger)) {
+    if (!await isValidToken(imsEndpoint, clientId, accessToken)) {
       throw new Error('Access token is invalid');
     }
 

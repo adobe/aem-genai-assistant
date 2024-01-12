@@ -154,7 +154,7 @@ export function PromptResultCard({ result, ...props }) {
         ToastQueue.positive('Feedback sent', { timeout: 1000 });
       })
       .catch((error) => {
-        ToastQueue.negative('Failed to send feedback. Error code: IS-ERROR', { timeout: 1000 });
+        ToastQueue.negative(error.message, { timeout: 1000 });
       });
   }, [result, firefallService]);
 

@@ -68,7 +68,7 @@ class FirefallClient {
 
       return response;
     } catch (error) {
-      logger.error('Failed generate request:', error);
+      logger.error('Failed generating results:', error);
       throw new Error(firefallErrorMessage(FIREFALL_ERROR_CODES.defaultCompletion, error.status));
     }
   }
@@ -98,7 +98,7 @@ class FirefallClient {
 
       return response;
     } catch (error) {
-      logger.error('Failed feedback request:', error);
+      logger.error('Failed sending feedback:', error);
       throw new Error(firefallErrorMessage(FIREFALL_ERROR_CODES.defaultFeedback, error.status));
     }
   }

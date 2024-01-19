@@ -20,6 +20,7 @@ import { NO_VALUE_STRING, renderPrompt } from '../helpers/PromptRenderer.js';
 
 import { parametersState } from '../state/ParametersState.js';
 import { promptState } from '../state/PromptState.js';
+import { contentFragmentModelState } from '../state/ContentFragmentModelState.js';
 
 languages.custom = {
   function: /{{[^@#]([^{}]+)}}/,
@@ -71,6 +72,7 @@ function PromptEditor(props) {
   const [promptText, setPromptText] = useState(prompt);
   const [viewSource, setViewSource] = useState(false);
   const parameters = useRecoilValue(parametersState);
+  const contentFragmentModel = useRecoilValue(contentFragmentModelState);
 
   useEffect(() => {
     setPrompt(promptText);
@@ -109,7 +111,7 @@ function PromptEditor(props) {
           textareaId={'promptEditorTextArea'}
           onFocus={() => setViewSource(true)}
           onBlur={() => setViewSource(false)}
-          value={viewSource ? promptText : renderPrompt(promptText, parameters)}
+          value={viewSource ? promptText : renderPrompt(promptText, parameters, contentFragmentModel)}
           onValueChange={setPromptText}
           highlight={(code) => highlight(code, languages.custom, 'custom')}
           style={{ minHeight: '100%' }}

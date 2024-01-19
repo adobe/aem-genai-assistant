@@ -12,13 +12,15 @@
 import {
   ActionButton, Tooltip, TooltipTrigger,
 } from '@adobe/react-spectrum';
+import CreateVariationIcon from '@spectrum-icons/workflow/BoxExport';
 import React, {
   useCallback, useState, useEffect, useRef,
 } from 'react';
+import { v4 as uuid } from 'uuid';
 import { css } from '@emotion/css';
 import { motion } from 'framer-motion';
 import { ToastQueue } from '@react-spectrum/toast';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useIsFavorite } from '../state/IsFavoriteHook.js';
 import { useIsFeedback } from '../state/IsFeedbackHook.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
@@ -29,17 +31,17 @@ import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { sampleRUM } from '../rum.js';
-import { toHTML, toText } from '../helpers/PromptExporter.js';
+import { toHTML } from '../helpers/PromptExporter.js';
 
 import RefreshIcon from '../icons/RefreshIcon.js';
 import FavoritesIcon from '../icons/FavoritesIcon.js';
 import FavoritesOutlineIcon from '../icons/FavoritesOutlineIcon.js';
-import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';
 import DeleteOutlineIcon from '../icons/DeleteOutlineIcon.js';
 import ThumbsUpOutlineIcon from '../icons/ThumbsUpOutlineIcon.js';
 import ThumbsDownOutlineIcon from '../icons/ThumbsDownOutlineIcon.js';
 import ThumbsUpDisabledIcon from '../icons/ThumbsUpDisabledIcon.js';
 import ThumbsDownDisabledIcon from '../icons/ThumbsDownDisabledIcon.js';
+import { contentFragmentState } from '../state/ContentFragmentState.js';
 
 const styles = {
   card: css`
@@ -126,12 +128,17 @@ const styles = {
   resultContent: css`
   `,
   resultActions: css`
+    & div {
+      font-size: 12px;
+      color: var(--alias-content-semantic-neutral-subdued-default, #929292);
+    }
   `,
 };
 
 export function PromptResultCard({ result, ...props }) {
-  const { firefallService } = useApplicationContext();
+  const { aemService, firefallService } = useApplicationContext();
   const [selectedVariant, setSelectedVariant] = useState(result.variants[0]);
+  const contentFragment = useRecoilValue(contentFragmentState);
   const setPrompt = useSetRecoilState(promptState);
   const setParameters = useSetRecoilState(parametersState);
   const setResults = useSetRecoilState(resultsState);
@@ -227,7 +234,7 @@ export function PromptResultCard({ result, ...props }) {
                 isQuiet
                 UNSAFE_className="hover-cursor-pointer"
                 onPress={() => toggleFavorite(selectedVariant)}>
-                {isFavorite(selectedVariant) ? <FavoritesIcon /> : <FavoritesOutlineIcon />}
+                {isFavorite(selectedVariant) ? <FavoritesIcon/> : <FavoritesOutlineIcon/>}
               </ActionButton>
               <Tooltip>Favorite</Tooltip>
             </TooltipTrigger>
@@ -236,13 +243,19 @@ export function PromptResultCard({ result, ...props }) {
                 isQuiet
                 UNSAFE_className="hover-cursor-pointer"
                 onPress={() => {
-                  sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress' });
-                  navigator.clipboard.writeText(toText(selectedVariant.content));
-                  ToastQueue.positive('Copied to clipboard', { timeout: 1000 });
+                  console.debug(JSON.stringify(contentFragment, null, 2));
+                  aemService.createVariation(contentFragment.id, `var-${uuid()}`, selectedVariant.content)
+                    .then((variation) => {
+                      ToastQueue.positive('Variation created', { timeout: 1000 });
+                      console.debug('variation', variation);
+                    })
+                    .catch((error) => {
+                      ToastQueue.negative(error.message, { timeout: 1000 });
+                    });
                 }}>
-                <CopyOutlineIcon />
+                <CreateVariationIcon/>
               </ActionButton>
-              <Tooltip>Copy</Tooltip>
+              <Tooltip>Create variation</Tooltip>
             </TooltipTrigger>
             <TooltipTrigger delay={0}>
               <ActionButton
@@ -254,7 +267,7 @@ export function PromptResultCard({ result, ...props }) {
                   sendFeedback(true);
                   saveFeedback(selectedVariant);
                 }}>
-                {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon /> : <ThumbsUpOutlineIcon />}
+                {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon/> : <ThumbsUpOutlineIcon/>}
               </ActionButton>
               <Tooltip>Good</Tooltip>
             </TooltipTrigger>
@@ -268,7 +281,7 @@ export function PromptResultCard({ result, ...props }) {
                   sendFeedback(false);
                   saveFeedback(selectedVariant);
                 }}>
-                {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon /> : <ThumbsDownOutlineIcon />}
+                {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon/> : <ThumbsDownOutlineIcon/>}
               </ActionButton>
               <Tooltip>Poor</Tooltip>
             </TooltipTrigger>
@@ -277,10 +290,11 @@ export function PromptResultCard({ result, ...props }) {
                 isQuiet
                 UNSAFE_className="hover-cursor-pointer"
                 onPress={() => deleteVariant(selectedVariant.id)}>
-                <DeleteOutlineIcon />
+                <DeleteOutlineIcon/>
               </ActionButton>
               <Tooltip>Remove</Tooltip>
             </TooltipTrigger>
+            <div>Variations will be saved to &nbsp;<b>{contentFragment.title}</b></div>
           </div>
         </div>
       </div>

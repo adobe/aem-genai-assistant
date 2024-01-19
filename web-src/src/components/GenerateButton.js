@@ -27,18 +27,20 @@ import { LegalTermsLink } from './LegalTermsLink.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { createVariants } from '../helpers/ResultsParser.js';
 import { sampleRUM } from '../rum.js';
+import { contentFragmentModelState } from '../state/ContentFragmentModelState.js';
 
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
+  const contentFragmentModel = useRecoilValue(contentFragmentModelState);
   const temperature = useRecoilValue(temperatureState);
   const setResults = useSetRecoilState(resultsState);
   const [generationInProgress, setGenerationInProgress] = useState(false);
   const saveResults = useSaveResults();
 
   const generateResults = useCallback(async () => {
-    const finalPrompt = renderPrompt(prompt, parameters);
+    const finalPrompt = renderPrompt(prompt, parameters, contentFragmentModel);
     const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
     setResults((results) => [...results, {
       id: queryId,

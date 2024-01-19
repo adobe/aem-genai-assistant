@@ -24,6 +24,7 @@ import { SavePromptButton } from './SavePromptButton.js';
 import { ResetButton } from './ResetButton.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
+import { useApplicationContext } from './ApplicationProvider.js';
 
 const styles = {
   promptPropertiesPanel: css`
@@ -59,6 +60,7 @@ const styles = {
 export function PromptSessionSideView(props) {
   const currentSession = useRecoilValue(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
+  const { aemService } = useApplicationContext();
 
   return (
     <Grid

@@ -10,65 +10,78 @@
  * governing permissions and limitations under the License.
  */
 import {
-  ActionButton, Image, Text, DialogTrigger, Dialog, Content, Link, Heading, Divider,
+  ActionButton, Image, Text, DialogTrigger, Dialog, Content, Heading, Divider, ButtonGroup, Button, Picker, Item,
 } from '@adobe/react-spectrum';
 import React from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { ToastQueue } from '@react-spectrum/toast';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { promptState } from '../state/PromptState.js';
 import SaveIcon from '../assets/save.svg';
-
-function PromptTemplatesLink({ url }) {
-  return (
-    <Link target="_blank" href={url} UNSAFE_style={{ textDecoration: 'underline', color: 'blue' }}>here</Link>
-  );
-}
+import { promptTemplatesState } from '../state/PromptTemplatesState.js';
 
 export function SavePromptButton(props) {
-  const { websiteUrl, promptTemplatesPath } = useApplicationContext();
-  const fileUrl = `${websiteUrl}/${promptTemplatesPath}.json`;
+  const { savePromptTemplates } = useApplicationContext();
+  const [promptTemplates, setPromptTemplates] = useRecoilState(promptTemplatesState);
+  const [selection, setSelection] = React.useState(null);
   const prompt = useRecoilValue(promptState);
 
-  const handleSave = () => {
-    navigator.clipboard.writeText(prompt);
+  const handleSave = (close) => {
+    console.log(`Saving prompt as ${selection}`);
+    console.log(prompt);
+    const newPromptTemplates = promptTemplates.map((template) => {
+      console.log(template);
+      if (template.label === selection) {
+        return {
+          ...template,
+          template: prompt,
+        };
+      }
+      return template;
+    });
+    console.log(newPromptTemplates);
+    setPromptTemplates(newPromptTemplates);
+    savePromptTemplates(newPromptTemplates).then((response) => {
+      ToastQueue.positive('Prompt template saved', 1000);
+      close();
+    }).catch((error) => {
+      ToastQueue.negative('Error saving prompt template', 1000);
+      console.error(error);
+    });
   };
 
   return (
-    <DialogTrigger isDismissable type='modal'>
+    <DialogTrigger>
       <ActionButton
         {...props}
+        onPress={() => setSelection(null)}
         UNSAFE_className="hover-cursor-pointer"
-        isQuiet
-        onPress={handleSave}
-        variant={''}>
+        isQuiet>
         <Image src={SaveIcon} alt={'Save'} marginEnd={'8px'} />
         <Text>Save Prompt</Text>
       </ActionButton>
-      <Dialog>
-        <Heading>Save Prompt</Heading>
-        <Divider />
-        <Content>
-          <strong>Follow the steps below to save your prompt as a Prompt Template for future use across your
-            Organization:</strong>
-          <p>
-            1. Click <PromptTemplatesLink url={fileUrl} /> to open the prompt that you want to save. It will open in a
-            new tab.
-          </p>
-          <p>
-            2. In the new tab, select <strong>Edit</strong> in Sidekick. This will open the prompt library template.
-          </p>
-          <p>
-            3. Your prompt has been automatically copied to your clipboard. Paste it into a new row in the Template
-            column.
-          </p>
-          <p>
-            4. Give the new template a Name and Description.
-          </p>
-          <p>
-            5. In Sidekick, Preview the file and Publish it.
-          </p>
-        </Content>
-      </Dialog>
+      {(close) => (
+        <Dialog>
+          <Heading>Save Prompt</Heading>
+          <Divider />
+          <Content>
+            <Picker label={'Save as'} width={'300px'} selectedKey={selection} onSelectionChange={setSelection}>
+              {promptTemplates
+                .filter((template) => !template.isBundled)
+                .map((template) => (
+                  <Item key={template.label}>
+                    {template.label}
+                  </Item>
+                ))
+              }
+            </Picker>
+          </Content>
+          <ButtonGroup>
+            <Button variant={'cta'} isDisabled={!selection} onPress={() => handleSave(close)}>Save</Button>
+            <Button variant={'secondary'} onPress={close}>Cancel</Button>
+          </ButtonGroup>
+        </Dialog>
+      )}
     </DialogTrigger>
   );
 }

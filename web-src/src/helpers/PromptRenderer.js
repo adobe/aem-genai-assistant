@@ -39,6 +39,16 @@ function removeEmptyLines(text) {
   return text.replace(/\n\s*\n/g, '\n\n').trim();
 }
 
-export function renderPrompt(prompt, placeholders) {
-  return removeEmptyLines(resolvePlaceholders(prompt, placeholders));
+function createContentModelPrompt(contentFragmentModel) {
+  return contentFragmentModel.fields.reduce((acc, field) => {
+    if (field.type === 'text') {
+      return `${acc}\n- ${field.name}: ${field.description ?? field.label ?? ''}`;
+    }
+    return acc;
+  }, '\n\nThe reply MUST be formatted as an array, each element of which is an object that includes the specified fields:');
+}
+
+export function renderPrompt(prompt, placeholders, contentFragmentModel) {
+  const extraPrompt = contentFragmentModel ? createContentModelPrompt(contentFragmentModel) : '';
+  return removeEmptyLines(resolvePlaceholders(prompt, placeholders)) + extraPrompt;
 }

@@ -16,33 +16,26 @@ import { useSetRecoilState } from 'recoil';
 import { FirefallService } from '../services/FirefallService.js';
 import actions from '../config.json';
 import { useShellContext } from './ShellProvider.js';
-import { loadPromptTemplates, promptTemplatesState } from '../state/PromptTemplatesState.js';
+import { loadPromptTemplates, promptTemplatesState, savePromptTemplates } from '../state/PromptTemplatesState.js';
+import { AemService } from '../services/AemService.js';
+import { contentFragmentModelState } from '../state/ContentFragmentModelState.js';
+import { contentFragmentState } from '../state/ContentFragmentState.js';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 
 const COMPLETE_ACTION = 'complete';
 const FEEDBACK_ACTION = 'feedback';
+const CF_ACTION = 'cf';
 
-const PROMPTS_TEMPLATES_PARAM_NAME = 'prompts';
+const DEFAULT_PROMPT_TEMPLATES_PATH = '/content/dam/generate-variations/promptTemplates.csv';
 
-const PROMPT_TEMPLATES_FILENAME = 'prompt-templates';
-
-function getWebsiteUrl() {
+function parseUrlParameters() {
   const searchParams = new URLSearchParams(window.location.search);
-  const ref = searchParams.get('ref');
-  const repo = searchParams.get('repo');
-  const owner = searchParams.get('owner');
-
-  if (!ref || !repo || !owner) {
-    throw Error('It seems we\'re missing the ref, repo or owner search parameter in your application.');
-  }
-
-  return `https://${ref}--${repo}--${owner}.hlx.page`;
-}
-
-function getPromptTemplatesPath() {
-  const searchParams = new URLSearchParams(window.location.search);
-  return searchParams.get(PROMPTS_TEMPLATES_PARAM_NAME) || PROMPT_TEMPLATES_FILENAME;
+  return {
+    aemHost: `https://${searchParams.get('aemHost')}`,
+    fragmentId: searchParams.get('fragmentId'),
+    promptTemplatesPath: searchParams.get('prompts') || DEFAULT_PROMPT_TEMPLATES_PATH,
+  };
 }
 
 export const ApplicationContext = React.createContext(undefined);
@@ -50,6 +43,8 @@ export const ApplicationContext = React.createContext(undefined);
 export const ApplicationProvider = ({ children }) => {
   const { user, done } = useShellContext();
   const setPromptTemplates = useSetRecoilState(promptTemplatesState);
+  const setContentFragment = useSetRecoilState(contentFragmentState);
+  const setContentFragmentModel = useSetRecoilState(contentFragmentModelState);
   const [application, setApplication] = useState(undefined);
 
   useEffect(() => {
@@ -57,28 +52,60 @@ export const ApplicationProvider = ({ children }) => {
       return;
     }
 
-    const websiteUrl = getWebsiteUrl();
-    const promptTemplatesPath = getPromptTemplatesPath();
+    const {
+      aemHost, fragmentId, promptTemplatesPath,
+    } = parseUrlParameters();
 
-    setApplication({
-      appVersion: APP_VERSION,
-      websiteUrl,
-      promptTemplatesPath,
-      firefallService: new FirefallService({
-        completeEndpoint: actions[COMPLETE_ACTION],
-        feedbackEndpoint: actions[FEEDBACK_ACTION],
-        imsOrg: user.imsOrg,
-        accessToken: user.imsToken,
-      }),
+    console.log(`AEM Host: ${aemHost}`);
+    console.log(`Fragment ID: ${fragmentId}`);
+    console.log(`Prompt Templates Path: ${promptTemplatesPath}`);
+
+    const aemService = new AemService({
+      aemHost,
+      cfEndpoint: actions[CF_ACTION],
+      accessToken: user.imsToken,
     });
 
-    loadPromptTemplates(websiteUrl, promptTemplatesPath).then((templates) => {
-      setPromptTemplates(templates);
+    aemService.getFragment(fragmentId).then((fragment) => {
+      console.log(`Fragment: ${fragment}`);
+
+      setContentFragment(fragment);
+
+      aemService.getModel(fragment.model.id).then((model) => {
+        console.log(`Model: ${model}`);
+
+        setContentFragmentModel(model);
+
+        setApplication({
+          appVersion: APP_VERSION,
+          fragment,
+          model,
+          promptTemplatesPath,
+          firefallService: new FirefallService({
+            completeEndpoint: actions[COMPLETE_ACTION],
+            feedbackEndpoint: actions[FEEDBACK_ACTION],
+            imsOrg: user.imsOrg,
+            accessToken: user.imsToken,
+          }),
+          aemService,
+          savePromptTemplates: (templates) => {
+            return savePromptTemplates(aemHost, promptTemplatesPath, templates, actions[CF_ACTION], user.imsToken);
+          },
+        });
+
+        loadPromptTemplates(aemHost, promptTemplatesPath, actions[CF_ACTION], user.imsToken).then((templates) => {
+          setPromptTemplates(templates);
+        }).catch((e) => {
+          console.error(`Failed to load prompt templates: ${e.message}`);
+        });
+
+        done();
+      }).catch((e) => {
+        console.error(`Failed to get model: ${e.message}`);
+      });
     }).catch((e) => {
-      console.error(`Failed to load prompt templates: ${e.message}`);
+      console.error(`Failed to get fragment: ${e.message}`);
     });
-
-    done();
   }, [user, done, setApplication]);
 
   if (!application) {

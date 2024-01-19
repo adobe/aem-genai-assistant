@@ -18,7 +18,7 @@ export const newPromptTemplate = {
   label: 'New prompt',
   description: 'To start a new prompt use this and then add it to your prompt templates for future use.',
   template: '',
-  isBundled: false,
+  isBundled: true,
 };
 
 function parsePromptTemplates(data, isBundled) {
@@ -34,23 +34,60 @@ function parsePromptTemplates(data, isBundled) {
   });
 }
 
-async function fetchUserPromptTemplates(websiteUrl, promptTemplatesPath) {
+async function fetchUserPromptTemplates(aemHost, promptTemplatesPath, endpoint, accessToken) {
   try {
-    const url = `${websiteUrl}/${promptTemplatesPath.toLowerCase()}.json`;
-    console.debug('Fetching prompt templates from', url);
-    const { data: promptTemplates } = await wretchRetry(url).get().json();
-    return parsePromptTemplates(promptTemplates, false);
+    console.debug('Fetching prompt templates from', endpoint);
+    const json = await wretchRetry(endpoint)
+      .post({
+        command: 'getPromptTemplates',
+        aemHost,
+        promptTemplatesPath,
+        accessToken,
+      })
+      .json();
+    return parsePromptTemplates(json.map((entry) => {
+      return {
+        Label: entry[0],
+        Description: entry[1],
+        Template: entry[2],
+      };
+    }, false));
   } catch (e) {
     return [];
   }
 }
 
-export async function loadPromptTemplates(websiteUrl, promptTemplatesPath) {
+export async function loadPromptTemplates(aemHost, promptTemplatesPath, endpoint, accessToken) {
   return [
     ...(parsePromptTemplates(bundledPromptTemplates, true)),
-    ...(await fetchUserPromptTemplates(websiteUrl, promptTemplatesPath)),
+    ...(await fetchUserPromptTemplates(aemHost, promptTemplatesPath, endpoint, accessToken)),
     newPromptTemplate,
   ];
+}
+
+export async function savePromptTemplates(aemHost, promptTemplatesPath, promptTemplates, endpoint, accessToken) {
+  const userPromptTemplates = Array.from(promptTemplates).filter((template) => !template.isBundled);
+  try {
+    console.debug('Saving prompt templates to', endpoint);
+    console.debug('Prompt templates', userPromptTemplates.map(({ label, description, template }) => {
+      return [label, description, template];
+    }));
+    await wretchRetry(endpoint)
+      .post({
+        command: 'savePromptTemplates',
+        aemHost,
+        promptTemplatesPath,
+        accessToken,
+        promptTemplates: userPromptTemplates.map(({
+          label, description, template,
+        }) => {
+          return [label, description, template];
+        }),
+      })
+      .res();
+  } catch (e) {
+    console.error('Failed to save prompt templates', e);
+  }
 }
 
 export const promptTemplatesState = atom({

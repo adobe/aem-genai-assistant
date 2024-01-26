@@ -41,31 +41,25 @@ export function GenerateButton() {
       const finalPrompt = renderPrompt(prompt, parameters);
       const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
       const variants = createVariants(uuid, response);
-      const generatedVariants = {
+      setResults((results) => [...results, {
         id: queryId,
         variants,
         prompt: finalPrompt,
         promptTemplate: prompt,
         parameters,
         temperature,
-      };
-      setResults((results) => [...results, generatedVariants]);
+      }]);
       await saveResults();
-      return generatedVariants;
+      sampleRUM('genai:prompt:generate', { source: 'GenerateButton#handleGenerate', target: variants.length });
     } catch (error) {
       console.error(error);
       throw error;
     }
-  }, [firefallService, prompt, parameters, temperature, uuid]);
+  }, [firefallService, prompt, parameters, temperature]);
 
   const handleGenerate = useCallback(() => {
     setGenerationInProgress(true);
-
     generateResults()
-      .then((result) => {
-        const lenVariants = result.variants.length;
-        sampleRUM('genai:prompt:generate', { source: 'GenerateButton#handleGenerate', target: lenVariants });
-      })
       .catch((error) => {
         ToastQueue.negative(error.message, { timeout: 2000 });
       })

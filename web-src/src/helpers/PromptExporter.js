@@ -28,3 +28,70 @@ export function toHTML(input) {
     }).join('<br/>');
   }
 }
+
+export function base64ToBlob(base64, contentType) {
+  const binary = atob(base64.split(',')[1]);
+  const array = [];
+  for (let i = 0; i < binary.length; i += 1) {
+    array.push(binary.charCodeAt(i));
+  }
+  return new Blob([new Uint8Array(array)], { type: contentType });
+}
+
+export async function copyImageToClipboard(base64, contentType) {
+  const blob = base64ToBlob(base64, contentType);
+  await navigator.clipboard.write([
+    new ClipboardItem({
+      [blob.type]: blob,
+    }),
+  ]);
+}
+
+export async function copyImagesToClipboard(images) {
+  const clipboardItems = [];
+  for (const image of images) {
+    const blob = base64ToBlob(image, 'image/png');
+    clipboardItems.push(new ClipboardItem({ [blob.type]: blob }));
+  }
+  await navigator.clipboard.write(clipboardItems);
+}
+
+export async function copyTextImageToClipboard(text, base64, contentType) {
+  const blob = base64ToBlob(base64, contentType);
+  await navigator.clipboard.write([
+    new ClipboardItem({
+      'text/plain': new Blob([text], { type: 'text/plain' }),
+      [blob.type]: blob,
+    }),
+  ]);
+}
+
+export async function copyTextToClipboard(text) {
+  await navigator.clipboard.write([
+    new ClipboardItem({ 'text/plain': new Blob([text], { type: 'text/plain' }) }),
+  ]);
+}
+
+export function copyImageToClipboardLegacy(base64ImageData) {
+  // Create an image element and set its source to the data URL
+  const imageVariant = document.createElement('img');
+  imageVariant.src = base64ImageData;
+
+  // Create a contenteditable div
+  const contentEditableDiv = document.createElement('div');
+  contentEditableDiv.contentEditable = true;
+  contentEditableDiv.appendChild(imageVariant);
+
+  // Append the contenteditable div to the document
+  document.body.appendChild(contentEditableDiv);
+
+  // Select and copy the content
+  const range = document.createRange();
+  range.selectNode(contentEditableDiv);
+  window.getSelection().removeAllRanges();
+  window.getSelection().addRange(range);
+  document.execCommand('copy');
+
+  // Remove the contenteditable div from the DOM
+  document.body.removeChild(contentEditableDiv);
+}

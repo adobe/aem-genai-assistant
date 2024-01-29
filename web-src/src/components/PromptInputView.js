@@ -20,6 +20,7 @@ import { TemperatureSlider } from './TemperatureSlider.js';
 import { SpreadSheetPicker } from './SpreadSheetPicker.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
 import { formatIdentifier } from '../helpers/FormatHelper.js';
+import { ContentFetchField } from './ContentFetchField.js';
 
 function comparePlaceholders([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
@@ -87,6 +88,17 @@ function createInputComponent(type, name, label, params, value, onChange) {
   switch (type) {
     case 'select':
       return createSelectComponent(name, label, params, value, onChange);
+    case 'content':
+      return (
+        <ContentFetchField
+          key={name}
+          name={name}
+          label={label}
+          description={params.description}
+          prompt={params.prompt}
+          onChange={(newValue) => onChange(name, newValue)}
+        />
+      );
     case 'number':
       return createNumberComponent(name, label, params, value, onChange);
     case 'text':

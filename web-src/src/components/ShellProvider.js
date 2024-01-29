@@ -31,6 +31,19 @@ const isAuthorized = (imsProfile, imsOrg) => {
   return false;
 };
 
+const expressAuthorized = (imsProfile, imsOrg) => {
+  if (Array.isArray(imsProfile.projectedProductContext)) {
+    const filteredProductContext = imsProfile.projectedProductContext
+      .filter((obj) => obj.prodCtx.serviceCode === process.env.EXPRESS_PRODUCT_CONTEXT);
+
+    // For each entry in filteredProductContext check that
+    // there is at least one entry where user.imsOrg matches the owningEntity property
+    // otherwise, if no match, the user is not authorized
+    return filteredProductContext.some((obj) => obj.prodCtx.owningEntity === imsOrg);
+  }
+  return false;
+};
+
 export const ShellProvider = ({ children, runtime }) => {
   const [shellContext, setShellContext] = useState();
 
@@ -41,8 +54,10 @@ export const ShellProvider = ({ children, runtime }) => {
       user: {
         imsToken,
         imsOrg,
+        imsProfile,
       },
       isUserAuthorized: isAuthorized(imsProfile, imsOrg),
+      isExpressAuthorized: expressAuthorized(imsProfile, imsOrg),
       done: page.done,
     });
   }, [setShellContext]);

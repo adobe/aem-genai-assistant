@@ -1,0 +1,25 @@
+name: Frontend
+
+on:
+  pull_request:
+    branches:
+      - "main"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+    - name: Run npm scripts
+      env:
+        CI: true
+      run: |
+        npm install
+        npm run grammar
+        npm run build
+        npm run lint
+        npm run test

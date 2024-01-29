@@ -12,7 +12,7 @@
 import nearley from 'nearley';
 import grammar from './Parser.generated.js';
 
-export const EXPRESSION_REGEX = /{([@#]?)([^,}]+)[^{}]*}/g;
+export const EXPRESSION_REGEX = /{{([@#]?)([^,}]+)[^{}]*}}/g;
 
 export function parseExpression(expression) {
   return new nearley.Parser(nearley.Grammar.fromCompiled(grammar))
@@ -24,15 +24,25 @@ export function parseExpressions(text) {
   let order = 0;
   return Array.from(text.matchAll(EXPRESSION_REGEX)).reduce((expressions, [match]) => {
     try {
-      const { modifier, identifier, parameters } = parseExpression(match);
-      /* eslint-disable-next-line no-param-reassign */
-      expressions[identifier] = {
-        ...expressions[identifier],
-        ...Array.from(parameters).reduce((params, { key, value }) => ({ ...params, [key]: value }), {}),
-        definition: modifier === '@',
-        comment: modifier === '#',
-        /* eslint-disable-next-line no-plusplus */
-        ...(modifier === '@' ? { order: order++ } : {}),
+      const expression = parseExpression(match);
+
+      if (!expression) {
+        return expressions;
+      }
+
+      const { modifier, identifier, parameters } = expression;
+
+      return {
+        ...expressions,
+        [identifier]: {
+          ...(expressions[identifier] || {}),
+          identifier,
+          definition: modifier === '@',
+          comment: modifier === '#',
+          /* eslint-disable-next-line no-plusplus */
+          ...(modifier === '@' ? { order: order++ } : {}),
+          ...Array.from(parameters).reduce((params, { key, value }) => ({ ...params, [key]: value }), {}),
+        },
       };
     } catch (e) {
       console.error(`Could not parse expression: ${match}`);

@@ -9,9 +9,28 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom } from 'recoil';
+import { selector } from 'recoil';
+import { placeholdersState } from './PlaceholdersState.js';
+import { sessionState } from './SessionState.js';
 
-export const parametersState = atom({
+export const parametersState = selector({
   key: 'parametersState',
-  default: [],
+  default: {},
+  get: ({ get }) => {
+    const { parameters } = get(sessionState);
+    const placeholders = get(placeholdersState);
+    const newParameters = { ...parameters };
+    Object.entries(placeholders).forEach(([name, params]) => {
+      if (newParameters[name] === undefined && params.default !== undefined) {
+        newParameters[name] = params.default;
+      }
+    });
+    return newParameters;
+  },
+  set: ({ set, get }, newValue) => {
+    set(sessionState, {
+      ...get(sessionState),
+      parameters: newValue,
+    });
+  },
 });

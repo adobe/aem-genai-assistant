@@ -9,53 +9,87 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, { useContext } from 'react';
-import { Content, Heading, InlineAlert } from '@adobe/react-spectrum';
-import { CompletionService } from '../services/CompletionService.js';
+import React, {
+  Fragment, useContext, useEffect, useState,
+} from 'react';
+import { useSetRecoilState } from 'recoil';
+import { FirefallService } from '../services/FirefallService.js';
+import actions from '../config.json';
+import { useShellContext } from './ShellProvider.js';
+import { loadPromptTemplates, promptTemplatesState } from '../state/PromptTemplatesState.js';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
-console.log(`Version: ${APP_VERSION}`);
 
-const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
-console.log(`API_ENDPOINT: ${API_ENDPOINT}`);
+const COMPLETE_ACTION = 'complete';
+const FEEDBACK_ACTION = 'feedback';
 
-function getWebsiteUrlFromReferrer() {
-  /* eslint-disable-next-line no-undef */
+const PROMPTS_TEMPLATES_PARAM_NAME = 'prompts';
+
+const PROMPT_TEMPLATES_FILENAME = 'prompt-templates';
+
+function getWebsiteUrl() {
   const searchParams = new URLSearchParams(window.location.search);
-  if (!searchParams.has('referrer')) {
-    throw Error('It seems we\'re missing the referrer search parameter in your application.');
+  const ref = searchParams.get('ref');
+  const repo = searchParams.get('repo');
+  const owner = searchParams.get('owner');
+
+  if (!ref || !repo || !owner) {
+    throw Error('It seems we\'re missing the ref, repo or owner search parameter in your application.');
   }
-  const referrer = searchParams.get('referrer');
-  const url = new URL(referrer);
-  return `${url.protocol}//${url.host}`;
+
+  return `https://${ref}--${repo}--${owner}.hlx.page`;
 }
 
-function createApplication() {
-  return {
-    appVersion: APP_VERSION,
-    websiteUrl: getWebsiteUrlFromReferrer(),
-    completionService: new CompletionService(API_ENDPOINT),
-  };
+function getPromptTemplatesPath() {
+  const searchParams = new URLSearchParams(window.location.search);
+  return searchParams.get(PROMPTS_TEMPLATES_PARAM_NAME) || PROMPT_TEMPLATES_FILENAME;
 }
 
 export const ApplicationContext = React.createContext(undefined);
 
 export const ApplicationProvider = ({ children }) => {
-  try {
-    const application = createApplication();
-    return (
-      <ApplicationContext.Provider value={application}>
-        {children}
-      </ApplicationContext.Provider>
-    );
-  } catch (e) {
-    return (
-      <InlineAlert margin={'50px'}>
-        <Heading>Oops! It looks like we ran into a small snag</Heading>
-        <Content>{e.message}</Content>
-      </InlineAlert>
-    );
+  const { user, done } = useShellContext();
+  const setPromptTemplates = useSetRecoilState(promptTemplatesState);
+  const [application, setApplication] = useState(undefined);
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    const websiteUrl = getWebsiteUrl();
+    const promptTemplatesPath = getPromptTemplatesPath();
+
+    setApplication({
+      appVersion: APP_VERSION,
+      websiteUrl,
+      promptTemplatesPath,
+      firefallService: new FirefallService({
+        completeEndpoint: actions[COMPLETE_ACTION],
+        feedbackEndpoint: actions[FEEDBACK_ACTION],
+        imsOrg: user.imsOrg,
+        accessToken: user.imsToken,
+      }),
+    });
+
+    loadPromptTemplates(websiteUrl, promptTemplatesPath).then((templates) => {
+      setPromptTemplates(templates);
+    }).catch((e) => {
+      console.error(`Failed to load prompt templates: ${e.message}`);
+    });
+
+    done();
+  }, [user, done, setApplication]);
+
+  if (!application) {
+    return <Fragment/>;
   }
+
+  return (
+    <ApplicationContext.Provider value={application}>
+      {children}
+    </ApplicationContext.Provider>
+  );
 };
 
 export const useApplicationContext = () => {

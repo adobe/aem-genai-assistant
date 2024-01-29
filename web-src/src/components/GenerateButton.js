@@ -10,88 +10,94 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Button, Content, ContextualHelp, Flex, Heading, Link, ProgressCircle, Text,
+  Button, Content, ContextualHelp, Flex, Heading, ProgressCircle,
 } from '@adobe/react-spectrum';
-import React, { useCallback } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import React, { useCallback, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { ToastQueue } from '@react-spectrum/toast';
-import SenseiGenAIIcon from '../icons/SenseiGenAIIcon.js';
-import { renderExpressions } from '../helpers/ExpressionRenderer.js';
+import { v4 as uuid } from 'uuid';
+import GenAIIcon from '../icons/GenAIIcon.js';
+import { renderPrompt } from '../helpers/PromptRenderer.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { temperatureState } from '../state/TemperatureState.js';
-import { generationResultsState } from '../state/GenerationResultsState.js';
-import { generationInProgressState } from '../state/GenerationInProgressState.js';
+import { resultsState } from '../state/ResultsState.js';
 import { parametersState } from '../state/ParametersState.js';
-import { UserGuidelinesLink } from './UserGuidelinesLink.js';
-
-function objectToString(obj) {
-  return String(obj).replace(/<\/?[^>]+(>|$)/g, '');
-}
-
-function jsonToString(json) {
-  if (json === null || typeof json !== 'object') {
-    return objectToString(json);
-  }
-  return Object.entries(json).map(([key, value]) => {
-    return `<b>${key}</b>: ${objectToString(value)}`;
-  }).join('<br/>');
-}
+import { LegalTermsLink } from './LegalTermsLink.js';
+import { useSaveResults } from '../state/SaveResultsHook.js';
+import { createVariants } from '../helpers/ResultsParser.js';
+import { sampleRUM } from '../rum.js';
 
 export function GenerateButton() {
-  const { completionService } = useApplicationContext();
+  const { firefallService } = useApplicationContext();
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
   const temperature = useRecoilValue(temperatureState);
-  const setGenerationResults = useSetRecoilState(generationResultsState);
-  const [generationInProgress, setGenerationInProgress] = useRecoilState(generationInProgressState);
+  const setResults = useSetRecoilState(resultsState);
+  const [generationInProgress, setGenerationInProgress] = useState(false);
+  const saveResults = useSaveResults();
+  const generateResults = useCallback(async () => {
+    try {
+      const finalPrompt = renderPrompt(prompt, parameters);
+      const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
+      const variants = createVariants(uuid, response);
+      setResults((results) => [...results, {
+        id: queryId,
+        variants,
+        prompt: finalPrompt,
+        promptTemplate: prompt,
+        parameters,
+        temperature,
+      }]);
+      await saveResults();
+      sampleRUM('genai:prompt:generate', { source: 'GenerateButton#handleGenerate', target: variants.length });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }, [firefallService, prompt, parameters, temperature]);
 
-  const generateHandler = useCallback(() => {
+  const handleGenerate = useCallback(() => {
     setGenerationInProgress(true);
-    const finalPrompt = renderExpressions(prompt, parameters);
-    completionService.complete(finalPrompt, temperature)
-      .then((result) => {
-        try {
-          const json = JSON.parse(result);
-          if (Array.isArray(json)) {
-            setGenerationResults(json.map((item) => jsonToString(item)));
-          } else {
-            setGenerationResults([result]);
-          }
-        } catch (error) {
-          setGenerationResults([result]);
-        }
-      })
+    generateResults()
       .catch((error) => {
-        console.log(error);
-        ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
+        ToastQueue.negative(error.message, { timeout: 2000 });
       })
       .finally(() => {
         setGenerationInProgress(false);
       });
-  }, [completionService, prompt, temperature, parameters]);
+  }, [generateResults, setGenerationInProgress]);
 
   return (
-    <Flex direction="row" gap="size-100">
+    <Flex direction="row" gap="size-100" alignItems={'center'}>
       <Button
         UNSAFE_className="hover-cursor-pointer"
         width="size-1700"
-        variant="primary"
+        variant="cta"
         style="fill"
-        onPress={generateHandler}
+        onPress={handleGenerate}
         isDisabled={generationInProgress}>
-        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="10px"/> : <SenseiGenAIIcon />}
+        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}
         Generate
       </Button>
       <ContextualHelp variant="info">
         <Heading>Terms of use</Heading>
         <Content>
           <p>
-            Your inputs to the service should be tied to a context.This context can be your branding
-            materials, website content, data, schemas for such data, templates, or other trusted documents.
-            You should evaluate the accuracy of any output as appropriate to your use case.
+            Access to this feature is subject to your agreement to the <LegalTermsLink />, and the following:
           </p>
-          <UserGuidelinesLink />
+          <ul>
+            <li>
+              Any prompts, context, or supplemental information, or other input you provide to this feature (a) must be
+              tied to specific context, which can include your branding materials, website content, data, schemas for
+              such data, templates, or other trusted documents, and (b) must not contain any personal information
+              (personal information includes anything that can be linked back to a specific individual).
+            </li>
+            <li>
+              You should review any output from this feature for accuracy and ensure that it is appropriate for your
+              use case.
+            </li>
+          </ul>
         </Content>
       </ContextualHelp>
     </Flex>

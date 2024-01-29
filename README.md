@@ -1,64 +1,8 @@
-# AEM GenAI Assistant Sidekick Plugin
+# AEM Generate Variations App
 
-Welcome to the AEM GenAI Assistant GitHub repository!
-Follow these instructions to integrate this powerful tool into your website.
+## Documentation
 
-## Getting Started
-
-### Setting Up AEM GenAI Assistant
-
-To activate the AEM GenAI Assistant Sidekick Plugin on your Edge Delivery Services website, it's necessary to include the following code into your Sidekick configuration at `tools/sidekick/config.json`:
-```json5
-{
-  // ...
-  "plugins": [
-    // ...
-    {
-      "id": "aem-genai-assistant",
-      "title": "Assistant",
-      "url": "<coming soon>",
-      "passReferrer": true,
-      "environments": ["edit"],
-      "includePaths": ["**.docx**"]
-    }
-    // ...
-  ]
-}
-```
-
-### Creating Dynamic Prompt Templates
-
-Placeholders make prompt templates flexible and reusable. They are special spots in a template where users can input customized values. When a prompt with placeholders is run, these spots are filled with the user's specific inputs, making the prompt tailored for the situation.
-
-#### Placeholder Syntax
-
-A placeholder is an expression defined as a sequence enclosed in curly braces {}. It may optionally start with a modifier, followed by an identifier and optional parameters. 
-
-`{@placeholder, label="Placeholder"}`
-
-#### Modifiers
-
-A modifier is a single character, either # or @, used to modify the behavior of the expression.
-- `#` is used for comments that the language model does not see.
-- `@` transforms an expression into a definition that remains hidden from LLM. Definitions organize parameters outside the template, making prompts cleaner and easier to manage.
-
-#### Parameters
-
-Parameters are a list of key-value pairs, providing additional information or configuration for the expression.
-
-Each parameter is defined as a key-value pair, separated by an equals sign `=`. Parameters themselves are separated from each other by commas `,`.
-The value in a key-value pair can be either a simple string or a quoted string.
-
-The list of supported parameters:
-- `label` - The label to display for the placeholder. If not provided, the placeholder will be displayed as the identifier transformed into a user-friendly format.
-- `description` - The description to display for the placeholder.
-- `type` - The type of input to expect from the user. If not provided, the placeholder will be displayed as a text input.
-- `spreadsheet` - The name of the spreadsheet to use for the placeholder. If not provided, the placeholder will be displayed as a text input. This parameter sets the type to `spreadsheet`.
-
-The list of supported types:
-- `string` - A multi-line text input (default).
-- `number` - A number.
-- `spreadsheet` - A drop-down list of values from a spreadsheet.
+See: http://aem.live/docs/sidekick-generate-variations
 
 ## Development Guidelines
 
@@ -74,7 +18,7 @@ The list of supported types:
 
 ### Testing
 
-- Run `npm test` to run unit tests for ui and actions
+- Run `npm run lint && npm test` to run lint and unit tests for ui and actions
 
 ### Deployment
 
@@ -84,17 +28,29 @@ The list of supported types:
 
 ### `.env`
 
-You can generate this file using the command `aio app use`. 
+Make a copy of `.env.template` and rename it to `.env`. Fill in the values as shown below. To fill in the values for AIO Runtime, run `aio app use` on the CLI and select the correct values for your project. When asked, select `merge` to merge the values with the existing `.env` file.
 
 ```bash
-## React app
-REACT_APP_API_ENDPOINT=...
+# AIO Runtime environment variables (run `aio app use` on the CLI to set these)
+AIO_runtime_auth=
+AIO_runtime_namespace=
+AIO_runtime_apihost=
 
-## Runtime action
-FIREFALL_ENDPOINT=...
-FIREFALL_API_KEY=...
-FIREFALL_IMS_ORG=...
-IMS_ENDPOINT=...
-IMS_CLIENT_ID=...
-IMS_CLIENT_SECRET=...
+# AIO Logging environment variables
+AIO_LOG_LEVEL=info
+
+## Firefall environment variables
+FIREFALL_API_KEY=aem-genai-assistant
+FIREFALL_ENDPOINT=https://firefall.adobe.io # or https://firefall-stage.adobe.io
+
+## IMS environment variables
+IMS_ENDPOINT=https://ims-na1.adobelogin.com # or https://ims-na1-stg1.adobelogin.com
+IMS_PRODUCT_CONTEXT=dma_aem_cloud
+IMS_CLIENT_ID=aem-genai-assistant # This is the IMSS client ID for validating service tokens and checking the product context
+IMS_SERVICE_CLIENT_ID=aem-sidekick-genai-assistant # This is the IMSS client ID for generating a service token. This ID is associated with the FIREFALL_API_KEY.
+IMS_SERVICE_CLIENT_SECRET=
+IMS_SERVICE_PERM_AUTH_CODE=
+
+## Splunk environment variables
+SPLUNK_HEC__HEC_TOKEN=
 ```

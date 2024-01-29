@@ -1,0 +1,41 @@
+name: Deploy to QA
+
+on:
+  pull_request:
+    branches: 
+      - main
+    types: [closed]
+
+jobs:
+  deploy:
+    if: ${{ github.event.pull_request.merged }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+    - name: Run npm scripts
+      env:
+          CI: true
+          AIO_RUNTIME_AUTH: ${{ secrets.AIO_RUNTIME_AUTH_QA }}
+          AIO_RUNTIME_NAMESPACE: 245265-879aquaant-qa
+          AIO_RUNTIME_APIHOST: 'https://adobeioruntime.net'
+          FIREFALL_ENDPOINT: 'https://firefall.adobe.io'
+          FIREFALL_API_KEY: aem-sidekick-genai-assistant
+          IMS_ENDPOINT: 'https://ims-na1.adobelogin.com'
+          IMS_CLIENT_ID: aem-genai-assistant
+          IMS_SERVICE_CLIENT_ID: aem-sidekick-genai-assistant
+          IMS_SERVICE_CLIENT_SECRET: ${{ secrets.IMS_SERVICE_CLIENT_SECRET }}
+          IMS_SERVICE_PERM_AUTH_CODE: ${{ secrets.IMS_SERVICE_PERM_AUTH_CODE }}
+          IMS_PRODUCT_CONTEXT: dma_aem_cloud
+          SPLUNK_HEC__HEC_TOKEN: ${{ secrets.SPLUNK_HEC__HEC_TOKEN }}
+          AIO_LOG_LEVEL: info
+      run: |
+        npm install
+        npm run grammar
+        npm run build
+        npm run lint
+        npm run test
+        npm run deploy

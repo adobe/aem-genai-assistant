@@ -9,43 +9,51 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import {Item, Picker, TextField} from '@adobe/react-spectrum';
-import React, {useCallback, useEffect, useState} from 'react';
-import {debounce} from 'lodash';
+import { TextField } from '@adobe/react-spectrum';
+import React, { useCallback, useEffect, useState } from 'react';
+import { debounce } from 'lodash';
 import wretch from 'wretch';
+import { useApplicationContext } from './ApplicationProvider.js';
 
 const domParser = new DOMParser();
 
 function isValidUrl(url) {
   try {
     return Boolean(new URL(url));
-  }
-  catch(e){
+  } catch (e) {
     return false;
   }
 }
 
 const fetchContent = async function (url) {
-  const html = await wretch(url).get().text()
-  const text = Array.from(domParser.parseFromString(html, 'text/html').querySelectorAll('div')).map(node => {
+  const html = await wretch(url).get().text();
+  const text = Array.from(domParser.parseFromString(html, 'text/html').querySelectorAll('div')).map((node) => {
     return node.textContent.replace(/\s+/g, ' ');
   }).join('\n');
   console.log(`Text: ${text}`);
   return text;
-}
+};
 
-export function ContentFetchField({ onChange, ...props }) {
+export function ContentFetchField({ onChange, prompt, ...props }) {
   const [url, setUrl] = useState('');
   const [pending, setPending] = useState(false);
+  const { firefallService } = useApplicationContext();
 
-  const debouncedFetchContent = useCallback(debounce((url) => {
+  const debouncedFetchContent = useCallback(debounce((fetchFromUrl) => {
     setPending(true);
-    fetchContent(url)
-      .then(text => {
-        onChange(text);
+    fetchContent(fetchFromUrl)
+      .then(async (text) => {
+        console.debug(`Fetched content: ${text}`);
+        if (prompt) {
+          const { response: processedText } = await firefallService.complete(`${prompt}:\n\n${text}`, 0);
+          console.debug(`Processed content: ${processedText}`);
+          onChange(processedText);
+        } else {
+          onChange(text);
+        }
         setPending(false);
       })
-      .catch(e => {
+      .catch((e) => {
         console.error(e);
         onChange('');
         setPending(false);
@@ -64,6 +72,7 @@ export function ContentFetchField({ onChange, ...props }) {
   return (
     <TextField
       value={url}
+      width="100%"
       validationState={isValidUrl(url) ? 'valid' : 'invalid'}
       isRequired
       isDisabled={pending}

@@ -17,12 +17,20 @@ module.exports = {
     "eslint:recommended",
     "plugin:react/recommended"
   ],
+  plugins: [
+    "react-hooks",
+    "unused-imports"
+  ],
   rules: {
     'no-console': 'off',
     'no-unused-vars': 'off',
+    'no-nested-ternary': 'off',
     'arrow-body-style': 'off',
     'react/prop-types': 'off',
-    'no-nested-ternary': 'off',
+    'max-statements-per-line': 'off',
+    'import/no-extraneous-dependencies': 'off',
+    'unused-imports/no-unused-imports': 'error',
+    'react-hooks/rules-of-hooks': 'error',
     'max-len': [ 'error', {
       'ignoreTemplateLiterals': true,
       'ignoreStrings': true,

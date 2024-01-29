@@ -9,27 +9,30 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import ReactDOM from 'react-dom'
+import { createRoot } from 'react-dom/client';
 
-import {
-  RecoilRoot,
-  atom,
-  selector,
-  useRecoilState,
-  useRecoilValue,
-} from 'recoil';
-import App from './components/App'
-import {defaultTheme, Provider} from '@adobe/react-spectrum';
-import {ApplicationProvider} from './components/ApplicationProvider.js';
-import './index.css'
+import { RecoilRoot } from 'recoil';
+import { defaultTheme, Provider } from '@adobe/react-spectrum';
+import { init } from '@adobe/exc-app';
+import React from 'react';
+import { App } from './components/App.js';
+import { ApplicationProvider } from './components/ApplicationProvider.js';
+import { ShellProvider } from './components/ShellProvider.js';
+import './index.css';
+import { AccessBoundary } from './components/AccessBoundary.js';
 
-ReactDOM.render(
-  <RecoilRoot>
-    <Provider theme={defaultTheme} width="100%" height="100%">
-      <ApplicationProvider>
-        <App />
-      </ApplicationProvider>
-    </Provider>,
-  </RecoilRoot>,
-  document.getElementById('root')
-)
+init((runtime) => {
+  createRoot(document.getElementById('root')).render(
+    <RecoilRoot>
+      <ShellProvider runtime={runtime}>
+        <AccessBoundary>
+          <ApplicationProvider>
+            <Provider colorScheme="light" theme={defaultTheme} width="100%" height="100%">
+              <App />
+            </Provider>
+          </ApplicationProvider>
+        </AccessBoundary>
+      </ShellProvider>
+    </RecoilRoot>,
+  );
+});

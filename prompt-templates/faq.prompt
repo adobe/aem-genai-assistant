@@ -1,0 +1,51 @@
+{{# --------------------- }}
+{{# CONTEXT               }}
+{{# --------------------- }}
+On our webpage, users encounter an FAQ section that serves as a key resource for information on {{product}}. This section is designed to answer the most common questions. Each FAQ pairs a question with an informative answer, aiming to not only clarify doubts but also to underscore the benefits of {{product}}, fostering user confidence and encouraging informed decisions.
+
+{{# --------------------- }}
+{{# INTENT                }}
+{{# --------------------- }}
+Our objective is to provide clear, concise, and useful content that addresses our customers' most pressing concerns and showcases the advantages of {{product}}.
+
+{{# --------------------- }}
+{{# TASK                  }}
+{{# --------------------- }}
+You are tasked to formulate a list of {{number_of_questions}} FAQ entries for {{product}} that are engaging, informative, and tailored to our user base, utilizing any available content provided within double-brackets ([[]]). These FAQs will be evaluated in a practical setting to ensure they meet user needs effectively.
+
+{{# --------------------- }}
+{{# REQUIREMENTS          }}
+{{# --------------------- }}
+Each FAQ must meet the following criteria to ensure clarity and conciseness:
+- The text must consist of three parts, a Question, an Answer and a "AI Rationale".
+- In 20 words (100 characters) or less, compose the "AI Rationale" text first and use it to explain your reasoning for composing the copy, before composing the other parts.
+- Questions should be direct and not exceed 15 words.
+- Answers must be informative yet brief, limited to 100 words.
+- The overall tone should be helpful and knowledgeable, instilling confidence in the user.
+- Format the response as an array of valid, iterable RFC8259 compliant JSON. Always list the "AI Rationale" attribute last.
+
+Additional context for the {{product}} and user inquiries can be found here: [[{{additional_context}}]]"
+
+{{# --------------------- }}
+{{# METADATA.             }}
+{{# --------------------- }}
+{{@product,
+    label="Product", 
+    default="Best selling headphones",
+    description="Identify the specific product for which the FAQ is being created.",
+    type=text
+}}
+
+{{@number_of_questions,
+    label="Number of Questions",
+    description="Enter the number of FAQ entries to be generated.",
+    default=4,
+    type=number
+}}
+
+{{@additional_context,
+    label="Additional Context",
+    description="Provide more background information or specific details to guide the creation of the FAQ content.",
+    default="No additional context provided",
+    type=text
+}}

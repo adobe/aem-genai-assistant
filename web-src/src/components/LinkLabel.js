@@ -16,7 +16,7 @@ import React from 'react';
 export function LinkLabel({ label, url }) {
   return (
     <>
-      {label}&nbsp;<Link target="_blank" href={url}><OpenIcon size="XS"/></Link>
+      {label}&nbsp;<Link target="_blank" aria-label={label} href={url}><OpenIcon size="XS"/></Link>
     </>
   );
 }

@@ -9,14 +9,21 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, { useEffect, useState } from 'react';
+import {
+  ActionButton, Flex, Text,
+} from '@adobe/react-spectrum';
+import React, { useEffect, useState, useCallback } from 'react';
 /* eslint-disable-next-line import/no-named-default */
 import { default as SimpleEditor } from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { css, injectGlobal } from '@emotion/css';
 import { Global } from '@emotion/react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+import Close from '@spectrum-icons/workflow/Close';
 import { NO_VALUE_STRING, renderPrompt } from '../helpers/PromptRenderer.js';
+import PreviewIcon from '../icons/PreviewIcon.js';
 
 import { parametersState } from '../state/ParametersState.js';
 import { promptState } from '../state/PromptState.js';
@@ -32,26 +39,37 @@ const style = {
   frame: css`
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 150px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
+    width: 90%;
+    height: 100%;
+    border-right: 1px solid var(--spectrum-gray-200);
     padding: 10px;
+    padding-right: 34px;
+    padding-bottom: 34px;
+    overflow: 'auto';
+    position: absolute;
+    background-color: white;
+    box-shadow: 2px 0px 3px 0px rgba(0, 0, 0, 0.12);
+    &:focus {
+      outline: none;
+    }
   `,
   title: css`
-    font-size: 13px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 15px;
     margin-bottom: 15px;
   `,
   editable: css`
     background-color: white;
-    height: 500px;
-    border: 2px solid #ccc;
   `,
   container: css`
     width: 100%;
     height: 100%;
     position: relative; 
     overflow: auto;
+    border: 1px solid var(--spectrum-gray-500);
+    border-radius: 4px;
+    padding: 12px;
   `,
   editor: css`
     font-family: Monospaced, monospace;
@@ -66,7 +84,7 @@ const style = {
   `,
 };
 
-function PromptEditor(props) {
+function PromptEditor({ isOpen, onClose, ...props }) {
   const [prompt, setPrompt] = useRecoilState(promptState);
   const [promptText, setPromptText] = useState(prompt);
   const [viewSource, setViewSource] = useState(false);
@@ -84,9 +102,31 @@ function PromptEditor(props) {
     setPromptText(prompt);
   }, [prompt, setPromptText]);
 
+  useEffect(() => {
+    if (viewSource) {
+      const textarea = document.getElementById('promptEditorTextArea');
+      textarea.setSelectionRange(0, 0);
+    }
+  }, [viewSource]);
+
+  const handleKeyDown = useCallback((event) => {
+    console.log('handleKeyDown');
+    if (event.key === 'Escape') {
+      onClose();
+    }
+  }, [onClose]);
+
   return (
-    <div {...props} className={[style.frame, viewSource && style.editable].join(' ')}>
-      <Global styles={injectGlobal`
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div {...props}
+          className={[style.frame, viewSource && style.editable].join(' ')}
+          onKeyDown={handleKeyDown}
+          tabIndex={-1}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0, transition: { type: 'easeInOut', duration: 0.2 } }}
+          exit={{ opacity: 0, x: -20, transition: { type: 'easeOut', duration: 0.1 } }}>
+          <Global styles={injectGlobal`
         .token.regex {
           font-weight: bold !important;
           color: #0095ff !important;
@@ -100,23 +140,43 @@ function PromptEditor(props) {
         .token.comment {
           color: #8a8a8a !important;
         }
-      `}/>
-      <div className={style.title}>Prompt</div>
-      <div className={style.container}>
-        <SimpleEditor
-          className={style.editor}
-          textareaClassName={style.textarea}
-          textareaId={'promptEditorTextArea'}
-          onFocus={() => setViewSource(true)}
-          onBlur={() => setViewSource(false)}
-          value={viewSource ? promptText : renderPrompt(promptText, parameters)}
-          onValueChange={setPromptText}
-          highlight={(code) => highlight(code, languages.custom, 'custom')}
-          style={{ minHeight: '100%' }}
-          readOnly={!viewSource}
-        />
-      </div>
-    </div>
+      `} />
+          <Flex direction="row" justifyContent="space-between" alignItems="center">
+            <div className={style.title}>Prompt</div>
+            <Flex direction="row" gap="size-100">
+              <ActionButton
+                isQuiet
+                UNSAFE_className="hover-cursor-pointer"
+                onPress={() => setViewSource(!viewSource)}
+                UNSAFE_style={!viewSource ? { background: 'var(--spectrum-gray-200)' } : undefined}
+              >
+                <PreviewIcon />
+                <Text>Preview</Text>
+              </ActionButton>
+              <ActionButton isQuiet onPress={onClose}>
+                <Close />
+              </ActionButton>
+            </Flex>
+          </Flex>
+
+          <div className={style.container}>
+            <SimpleEditor
+              className={style.editor}
+              textareaClassName={style.textarea}
+              textareaId={'promptEditorTextArea'}
+              onFocus={() => setViewSource(true)}
+              onKeyDown={handleKeyDown}
+              autoFocus={true}
+              value={viewSource ? promptText : renderPrompt(promptText, parameters)}
+              onValueChange={setPromptText}
+              highlight={(code) => highlight(code, languages.custom, 'custom')}
+              style={{ minHeight: '100%' }}
+              readOnly={!viewSource}
+            />
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }
 

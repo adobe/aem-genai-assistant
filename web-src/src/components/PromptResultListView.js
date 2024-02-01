@@ -31,16 +31,17 @@ export function PromptResultListView(props) {
   };
 
   return (
-    <Flex
-      {...props}
-      direction={'column'}
-      position={'absolute'}
-      gap={'size-200'}
-      width={'100%'}>
-      { results.length === 0
-        ? <Image src={EmptyResults} width={'600px'} UNSAFE_className={style.emptyResults} alt={'Empty'}></Image>
-        : results.map((result) => <PromptResultCard key={result.id} result={result} />)
-      }
-    </Flex>
+    <div {...props}>
+      <Flex
+        direction={'column'}
+        position={'absolute'}
+        gap={'size-200'}
+        width={'100%'}>
+        {results.length === 0
+          ? <Image src={EmptyResults} width={'600px'} UNSAFE_className={style.emptyResults} alt={'Empty'}></Image>
+          : results.map((result) => <PromptResultCard key={result.id} result={result} />)
+        }
+      </Flex>
+    </div>
   );
 }

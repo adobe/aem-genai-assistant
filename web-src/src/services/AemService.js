@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
+import { v4 as uuid } from 'uuid';
 import { wretchRetry } from '../helpers/NetworkHelper.js';
 
 export class AemService {
@@ -79,7 +80,8 @@ export class AemService {
     }));
   }
 
-  async createVariation(fragmentId, variationName, content) {
+  async createVariation(fragmentId, content) {
+    const variationName = content.variationName ?? `var-${uuid()}`;
     console.debug(`Creating variation ${variationName} for fragment ${fragmentId}`);
     console.debug(`Content: ${JSON.stringify(content)}`);
     const variation = await wretchRetry(this.cfEndpoint)

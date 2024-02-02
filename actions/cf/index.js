@@ -18,6 +18,8 @@ function wretchRetry(url) {
   return wretch(url)
     .middlewares([retry({
       retryOnNetworkError: true,
+      maxAttempts: 3,
+      resolveWithLatestResponse: true,
       until: (response) => response && response.ok,
     })]);
 }
@@ -27,7 +29,7 @@ async function getPromptTemplates(params) {
   try {
     const url = `${aemHost}/${promptTemplatesPath}`;
     console.debug('Fetching prompt templates from', url);
-    const csvData = await wretchRetry(url)
+    const csvData = await wretch(url)
       .headers({
         Accept: 'text/csv',
         Authorization: `Bearer ${accessToken}`,
@@ -47,7 +49,7 @@ async function savePromptTemplates(params) {
   try {
     const url = `${aemHost}/${promptTemplatesPath}`;
     console.debug('Saving prompt templates to', url);
-    return await wretchRetry(url)
+    return await wretch(url)
       .headers({
         'Content-Type': 'text/csv',
         Authorization: `Bearer ${accessToken}`,
@@ -64,7 +66,7 @@ async function getFragment(params) {
   try {
     const url = `${aemHost}/adobe/sites/cf/fragments/${fragmentId}`;
     console.debug('Fetching fragment from', url);
-    return await wretchRetry(url)
+    return await wretch(url)
       .headers({
         'X-Adobe-Accept-Unsupported-API': '1',
         Authorization: `Bearer ${accessToken}`,
@@ -81,7 +83,7 @@ async function getModel(params) {
   try {
     const url = `${aemHost}/adobe/sites/cf/models/${modelId}`;
     console.debug('Fetching model from', url);
-    return await wretchRetry(url)
+    return await wretch(url)
       .headers({
         'X-Adobe-Accept-Unsupported-API': '1',
         Authorization: `Bearer ${accessToken}`,
@@ -96,7 +98,7 @@ async function getModel(params) {
 async function getAllModels(params) {
   const { aemHost, accessToken } = params;
   try {
-    return await wretchRetry(`${aemHost}/adobe/sites/cf/models`)
+    return await wretch(`${aemHost}/adobe/sites/cf/models`)
       .headers({
         'X-Adobe-Accept-Unsupported-API': '1',
         'Content-Type': 'application/json',
@@ -126,7 +128,7 @@ async function createVariation(params) {
       .res();
     const eTag = createVariationResponse.headers.get('ETag');
     const variation = await createVariationResponse.json();
-    const editVariationUrl = `${aemHost}/adobe/sites/cf/fragments/${fragmentId}/variations/${variationName}`;
+    const editVariationUrl = `${aemHost}/adobe/sites/cf/fragments/${fragmentId}/variations/${variation.name}`;
     console.debug('Editing variation at', editVariationUrl);
     const patchPayload = variation.fields.map((field, index) => ({
       op: 'replace',

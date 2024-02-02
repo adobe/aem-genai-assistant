@@ -14,8 +14,12 @@ import { retry } from 'wretch/middlewares/retry';
 
 export function wretchRetry(url) {
   return wretch(url)
+    .headers({
+      'X-OW-EXTRA-LOGGING': 'on', // enable logging for all activations
+    })
     .middlewares([retry({
       retryOnNetworkError: true,
+      resolveWithLatestResponse: true,
       until: (response) => response && (response.ok || (response.status >= 400 && response.status < 500)),
     })]);
 }

@@ -16,7 +16,6 @@ import CreateVariationIcon from '@spectrum-icons/workflow/BoxExport';
 import React, {
   useCallback, useState, useEffect, useRef,
 } from 'react';
-import { v4 as uuid } from 'uuid';
 import { css } from '@emotion/css';
 import { motion } from 'framer-motion';
 import { ToastQueue } from '@react-spectrum/toast';
@@ -244,7 +243,7 @@ export function PromptResultCard({ result, ...props }) {
                 UNSAFE_className="hover-cursor-pointer"
                 onPress={() => {
                   console.debug(JSON.stringify(contentFragment, null, 2));
-                  aemService.createVariation(contentFragment.id, `var-${uuid()}`, selectedVariant.content)
+                  aemService.createVariation(contentFragment.id, selectedVariant.content)
                     .then((variation) => {
                       ToastQueue.positive('Variation created', { timeout: 1000 });
                       console.debug('variation', variation);

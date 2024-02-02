@@ -18,6 +18,7 @@ function asGenericAction(action) {
         body: await action(params),
       };
     } catch (e) {
+      console.error('Error:', e);
       return {
         headers: { 'Content-Type': 'application/json' },
         statusCode: e.status ?? 500,

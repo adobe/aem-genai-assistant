@@ -14,6 +14,7 @@ import React, {
 } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { FirefallService } from '../services/FirefallService.js';
+import { RemoteFavoritesService } from '../services/RemoteFavoritesService.js';
 import actions from '../config.json';
 import { useShellContext } from './ShellProvider.js';
 import { loadPromptTemplates, promptTemplatesState } from '../state/PromptTemplatesState.js';
@@ -22,6 +23,7 @@ const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 
 const COMPLETE_ACTION = 'complete';
 const FEEDBACK_ACTION = 'feedback';
+const FAVORITE_ACTION = 'favorite';
 
 const PROMPTS_TEMPLATES_PARAM_NAME = 'prompts';
 
@@ -69,6 +71,12 @@ export const ApplicationProvider = ({ children }) => {
         feedbackEndpoint: actions[FEEDBACK_ACTION],
         imsOrg: user.imsOrg,
         accessToken: user.imsToken,
+      }),
+      remoteFavoritesService: new RemoteFavoritesService({
+        favoritesEndpoint: actions[FAVORITE_ACTION],
+        imsOrg: user.imsOrg,
+        accessToken: user.imsToken,
+        websiteUrl,
       }),
     });
 

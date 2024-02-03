@@ -110,7 +110,6 @@ function PromptEditor({ isOpen, onClose, ...props }) {
   }, [viewSource]);
 
   const handleKeyDown = useCallback((event) => {
-    console.log('handleKeyDown');
     if (event.key === 'Escape') {
       onClose();
     }

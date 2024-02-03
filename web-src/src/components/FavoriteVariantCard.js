@@ -183,8 +183,6 @@ export function FavoriteVariantCard({ variant, ...props }) {
   const handleEditGenerateImage = async (index) => {
     const callbacks = {
       onPublish: (publishParams) => {
-        console.log('onPublish: ', publishParams.asset[0].data);
-
         replaceImageFromVariant(variant.id, index, publishParams.asset[0].data);
       },
     };
@@ -213,7 +211,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
         },
         inputParams: {
           asset: {
-            data: variantImages[variant.id][imageIndex],
+            data: variantImages[variant.id][index],
             type: 'image',
             dataType: 'base64',
           },
@@ -272,7 +270,6 @@ export function FavoriteVariantCard({ variant, ...props }) {
                         UNSAFE_className={'variant-image-button hover-cursor-pointer'}
                         onPress={() => {
                           if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-                            console.log('Firefox detected');
                             copyImageToClipboardLegacy(base64Image);
                           } else {
                             copyImageToClipboard(base64Image, 'image/png');

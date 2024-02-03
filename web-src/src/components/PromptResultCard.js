@@ -213,7 +213,6 @@ export function PromptResultCard({ result, ...props }) {
   }, [setResults]);
 
   const addImageToVariant = (variantId, base64Image) => {
-    console.log('Add image to variantId: ', variantId);
     setVariantImages((imagesByVariant) => ({
       ...imagesByVariant,
       [variantId]: [...(imagesByVariant[variantId] || []), base64Image],
@@ -350,7 +349,7 @@ export function PromptResultCard({ result, ...props }) {
         },
         inputParams: {
           asset: {
-            data: variantImages[selectedVariant.id][imageIndex],
+            data: variantImages[selectedVariant.id][index],
             type: 'image',
             dataType: 'base64',
           },
@@ -363,7 +362,6 @@ export function PromptResultCard({ result, ...props }) {
   }, [expressSDKService, user, selectedVariant, variantImages]);
 
   const handleImageViewerOpen = (index) => {
-    console.log('handleImageViewerOpen: ', index);
     setImageIndex(index);
     setIsImageViewerOpen(true);
   };

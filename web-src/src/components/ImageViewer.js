@@ -82,7 +82,6 @@ export function ImageViewer({
 
   // Handle keyboard navigation
   const handleKeyDown = (event) => {
-    console.log('handleKeyDown');
     if (event.key === 'ArrowRight') {
       handleNextImage();
     } else if (event.key === 'ArrowLeft') {

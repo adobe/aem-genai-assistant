@@ -35,7 +35,7 @@ const styles = {
     z-index: 9999;
   `,
   imageWrapper: css`
-    width: 90vh;
+    max-width: 90vh;
   `,
   imagePreview: css`
     max-width: 100%;
@@ -159,11 +159,12 @@ export function ImageViewer({
             </Button>
             <Button
               variant='secondary'
-              style='fill'
+              staticColor='white'
               position='absolute'
               top='-15px'
-              right='-15px'
+              right='-40px'
               UNSAFE_className={'hover-cursor-pointer'}
+              UNSAFE_style={{ borderColor: 'transparent' }}
               onPress={onClose}>
               <Close />
             </Button>

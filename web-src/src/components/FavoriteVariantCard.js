@@ -317,7 +317,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
           </div>
         }
         <View marginTop={'10px'}>
-          <Flex direction="row" gap="size-100" justifyContent="left">
+          <Flex direction="row" justifyContent="left">
             <TooltipTrigger delay={0}>
               <ActionButton
                 isQuiet
@@ -340,7 +340,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
               </ActionButton>
               <Tooltip>Remove</Tooltip>
             </TooltipTrigger>
-            <Divider size="S" orientation="vertical" />
+            <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'}/>
             <Flex direction="row" gap="size-100" alignItems={'center'}>
               <Button
                 UNSAFE_className="hover-cursor-pointer"

@@ -544,7 +544,7 @@ export function PromptResultCard({ result, ...props }) {
                 </ActionButton>
                 <Tooltip>Remove</Tooltip>
               </TooltipTrigger>
-              <Divider size='S' orientation="vertical" />
+              <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'}/>
               <Flex direction="row" gap="size-100" alignItems={'center'}>
                 <Button
                   UNSAFE_className="hover-cursor-pointer"

@@ -15,6 +15,7 @@ import React, {
 } from 'react';
 
 import page from '@adobe/exc-app/page';
+import settings, { SettingsLevel } from '@adobe/exc-app/settings';
 
 export const ShellContext = createContext();
 
@@ -36,6 +37,19 @@ export const ShellProvider = ({ children, runtime }) => {
 
   const shellEventsHandler = useCallback((shellConfig) => {
     const { imsProfile, imsToken, imsOrg } = shellConfig;
+
+    settings.set({
+      groupId: 'img',
+      level: SettingsLevel.USERORG,
+      settings: { value: 1 },
+    }).then(() => {
+      console.log('Settings Value set');
+      return settings.get({
+        groupId: 'img',
+        level: SettingsLevel.USERORG,
+        settings: { value: 0 },
+      }).then(({ settings: value }) => console.log(`Settings Value get: ${JSON.stringify(value)}`)).catch((err) => console.log(err));
+    }).catch((err) => console.log(err));
 
     setShellContext({
       user: {

@@ -13,10 +13,12 @@ import React, {
   Fragment, useContext, useEffect, useState,
 } from 'react';
 import { useSetRecoilState } from 'recoil';
+import { v4 as uuid } from 'uuid';
 import { FirefallService } from '../services/FirefallService.js';
 import actions from '../config.json';
 import { useShellContext } from './ShellProvider.js';
-import { loadPromptTemplates, promptTemplatesState } from '../state/PromptTemplatesState.js';
+import { loadPromptTemplates, NEW_PROMPT_TEMPLATE_ID, promptTemplatesState } from '../state/PromptTemplatesState.js';
+import { readData, writeData } from '../helpers/SettingsManager.js';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 
@@ -70,12 +72,58 @@ export const ApplicationProvider = ({ children }) => {
         imsOrg: user.imsOrg,
         accessToken: user.imsToken,
       }),
+      savePromptTemplates: (templates) => {
+        const data = {
+          promptTemplates: templates
+            .filter((template) => !template.isBundled)
+            .filter((template) => template.id !== NEW_PROMPT_TEMPLATE_ID)
+            .map((template) => ({
+              id: template.id,
+              label: template.label,
+              description: template.description,
+              template: template.template,
+            })),
+        };
+        return writeData('promptTemplates', data).then(() => {
+          console.log(`Saved prompt templates: ${JSON.stringify(data)}`);
+        }).catch((e) => {
+          console.error(`Failed to clear settings: ${e.message}`);
+        });
+      },
     });
 
-    loadPromptTemplates(websiteUrl, promptTemplatesPath).then((templates) => {
-      setPromptTemplates(templates);
+    const customPromptTemplates = {
+      promptTemplates: [
+        {
+          id: uuid(),
+          label: 'Custom 1',
+          description: 'Custom prompt template',
+          template: 'Custom prompt template',
+        },
+        {
+          id: uuid(),
+          label: 'Custom 2',
+          description: 'Custom prompt template',
+          template: 'Custom prompt template',
+        },
+      ],
+    };
+
+    // writeData('promptTemplates', customPromptTemplates).then(() => {
+    //   console.log(`Saved prompt templates: ${JSON.stringify(customPromptTemplates)}`);
+    // }).catch((e) => {
+    //   console.error(`Failed to clear settings: ${e.message}`);
+    // });
+
+    readData('promptTemplates', { promptTemplates: [] }).then(({ promptTemplates }) => {
+      console.log(`Loaded prompt templates: ${JSON.stringify(promptTemplates)}`);
+      loadPromptTemplates(promptTemplates).then((templates) => {
+        setPromptTemplates(templates);
+      }).catch((e) => {
+        console.error(`Failed to load prompt templates: ${e.message}`);
+      });
     }).catch((e) => {
-      console.error(`Failed to load prompt templates: ${e.message}`);
+      console.error(`Failed to load settings: ${e.message}`);
     });
 
     done();

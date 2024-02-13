@@ -14,14 +14,17 @@ import { atom } from 'recoil';
 import { data as bundledPromptTemplates } from '../../../data/bundledPromptTemplates.json';
 import { wretchRetry } from '../helpers/NetworkHelper.js';
 
+export const NEW_PROMPT_TEMPLATE_ID = 'new-prompt';
+
 export const newPromptTemplate = {
+  id: NEW_PROMPT_TEMPLATE_ID,
   label: 'New prompt',
   description: 'To start a new prompt use this and then add it to your prompt templates for future use.',
   template: '',
   isBundled: false,
 };
 
-function parsePromptTemplates(data, isBundled) {
+function parseOldPromptTemplates(data, isBundled) {
   return data.map(({
     Label, Description, Template,
   }) => {
@@ -39,16 +42,30 @@ async function fetchUserPromptTemplates(websiteUrl, promptTemplatesPath) {
     const url = `${websiteUrl}/${promptTemplatesPath.toLowerCase()}.json`;
     console.debug('Fetching prompt templates from', url);
     const { data: promptTemplates } = await wretchRetry(url).get().json();
-    return parsePromptTemplates(promptTemplates, false);
+    return parseOldPromptTemplates(promptTemplates, false);
   } catch (e) {
     return [];
   }
 }
 
-export async function loadPromptTemplates(websiteUrl, promptTemplatesPath) {
+function parsePromptTemplates(data, isBundled) {
+  return data.map(({
+    id, label, description, template,
+  }) => {
+    return {
+      id,
+      label,
+      description,
+      template,
+      isBundled,
+    };
+  });
+}
+
+export async function loadPromptTemplates(promptTemplates) {
   return [
-    ...(parsePromptTemplates(bundledPromptTemplates, true)),
-    ...(await fetchUserPromptTemplates(websiteUrl, promptTemplatesPath)),
+    ...(parseOldPromptTemplates(bundledPromptTemplates, true)),
+    ...(await parsePromptTemplates(promptTemplates, false)),
     newPromptTemplate,
   ];
 }

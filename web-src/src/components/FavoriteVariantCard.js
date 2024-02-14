@@ -11,7 +11,7 @@
  */
 import {
   Button, ActionButton, Flex, Tooltip, TooltipTrigger, View, ContextualHelp, Heading, Content, Image, ProgressCircle,
-  DialogTrigger, AlertDialog, Divider,
+  MenuTrigger, Menu, Item, Text, DialogContainer, AlertDialog, Divider,
 } from '@adobe/react-spectrum';
 import React, {
   useCallback, useState,
@@ -34,6 +34,8 @@ import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';
 import EditIcon from '../icons/EditIcon.js';
 import DeleteOutlineIcon from '../icons/DeleteOutlineIcon.js';
 import GenAIIcon from '../icons/GenAIIcon.js';
+import DownloadIcon from '../icons/DownloadIcon.js';
+import MoreIcon from '../icons/MoreIcon.js';
 
 const styles = {
   card: css`
@@ -69,7 +71,10 @@ export function FavoriteVariantCard({ variant, ...props }) {
   const [variantImages, setVariantImages] = useRecoilState(variantImagesState);
   const [imagePromptProgress, setImagePromptProgress] = useState(false);
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
-  const [imageIndex, setImageIndex] = useState(0);
+  const [imageViewerIndex, setImageViewerIndex] = useState(0);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
   let ccEverywhereInstance = null;
 
@@ -126,6 +131,24 @@ export function FavoriteVariantCard({ variant, ...props }) {
     const { queryId, response } = await firefallService.complete(variantToImagePrompt, 0);
     return response;
   }, [firefallService]);
+
+  const handleDownloadImage = useCallback((base64Image) => {
+    const link = document.createElement('a');
+    link.href = base64Image;
+    link.download = 'image.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }, []);
+
+  const handleCopyImage = useCallback((base64Image) => {
+    if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+      copyImageToClipboardLegacy(base64Image);
+    } else {
+      copyImageToClipboard(base64Image, 'image/png');
+    }
+    ToastQueue.positive('Copied image to clipboard', { timeout: 1000 });
+  }, []);
 
   const handleGenerateImage = async (imagePrompt) => {
     const callbacks = {
@@ -224,7 +247,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
   };
 
   const handleImageViewerOpen = (index) => {
-    setImageIndex(index);
+    setImageViewerIndex(index);
     setIsImageViewerOpen(true);
   };
 
@@ -233,13 +256,13 @@ export function FavoriteVariantCard({ variant, ...props }) {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ ease: 'easeIn', duration: 0.3 }}>
-      <View
-        {...props}
-        UNSAFE_className={styles.card}>
+      <div {...props}
+        className={styles.card}
+        onClick={() => setSelectedImageIndex(null)}>
         <ImageViewer
           images={variantImages[variant.id]}
-          index={imageIndex}
-          onIndexChange={setImageIndex}
+          index={imageViewerIndex}
+          onIndexChange={setImageViewerIndex}
           open={isImageViewerOpen}
           onClose={() => setIsImageViewerOpen(false)}
           onEdit={(index) => {
@@ -247,68 +270,91 @@ export function FavoriteVariantCard({ variant, ...props }) {
             handleEditGenerateImage(index);
           }}
           onCopy={(index) => {
-            if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-              copyImageToClipboardLegacy(variantImages[variant.id][index]);
-            } else {
-              copyImageToClipboard(variantImages[variant.id][index], 'image/png');
-            }
-            ToastQueue.positive('Copied image to clipboard', { timeout: 1000 });
+            handleCopyImage(variantImages[variant.id][index]);
           }}
+          onDownload={(index) => handleDownloadImage(variantImages[variant.id][index])}
         />
+        <DialogContainer onDismiss={() => setIsDeleteDialogOpen(false)}>
+          {isDeleteDialogOpen && (
+            <AlertDialog
+              variant="destructive"
+              title="Delete Image"
+              primaryActionLabel="Delete"
+              cancelLabel="Cancel"
+              onPrimaryAction={() => {
+                deleteImageFromVariant(variant.id, selectedImageIndex);
+                setIsDeleteDialogOpen(false);
+              }}
+              onCancelAction={() => {
+                console.log("You've canceled the delete action");
+                setIsDeleteDialogOpen(false);
+              }}>
+              This will permanently delete the image. Continue?
+            </AlertDialog>
+          )}
+        </DialogContainer>
         <div className={styles.variant} dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
         {variantImages[variant.id]
           && <div className={styles.variantThumbImages}>
             {variantImages[variant.id].map((base64Image, index) => {
               return (
-                <div key={index} className={'variant-image-wrapper'} onClick={() => handleImageViewerOpen(index)}>
-                  <Image src={base64Image} objectFit={'cover'} UNSAFE_className={`${styles.variantThumbImage} variant-thumb-image hover-cursor-pointer`} />
+                <div key={index} className={'variant-image-wrapper'}>
+                  <div onClick={() => handleImageViewerOpen(index)}>
+                    <Image src={base64Image}
+                      objectFit={'cover'}
+                      UNSAFE_className={`${styles.variantThumbImage} ${(!isMoreMenuOpen || selectedImageIndex !== index) ? 'variant-thumb-image' : 'variant-thumb-image-selected'} hover-cursor-pointer`}
+                    />
+                  </div>
                   <Flex direction={'row'} width={'100%'} gap={'size-100'} position={'absolute'} bottom={'size-100'} justifyContent={'center'}>
                     <TooltipTrigger delay={0}>
                       <Button
                         variant='secondary'
                         style='fill'
-                        UNSAFE_className={'variant-image-button hover-cursor-pointer'}
-                        onPress={() => {
-                          if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-                            copyImageToClipboardLegacy(base64Image);
-                          } else {
-                            copyImageToClipboard(base64Image, 'image/png');
-                          }
-                          ToastQueue.positive('Copied image to clipboard', { timeout: 1000 });
-                        }}>
-                        <CopyOutlineIcon />
+                        UNSAFE_className={`${(!isMoreMenuOpen || selectedImageIndex !== index) && 'variant-image-button'} hover-cursor-pointer`}
+                        onPress={() => handleDownloadImage(base64Image)}>
+                        <DownloadIcon />
                       </Button>
-                      <Tooltip>Copy</Tooltip>
+                      <Tooltip>Download</Tooltip>
                     </TooltipTrigger>
                     <TooltipTrigger delay={0}>
                       <Button
                         variant='secondary'
                         style='fill'
-                        UNSAFE_className={'variant-image-button hover-cursor-pointer'}
+                        UNSAFE_className={`${(!isMoreMenuOpen || selectedImageIndex !== index) && 'variant-image-button'} hover-cursor-pointer`}
                         onPress={() => handleEditGenerateImage(index)}>
                         <EditIcon />
                       </Button>
                       <Tooltip>Edit</Tooltip>
                     </TooltipTrigger>
                     <TooltipTrigger delay={0}>
-                      <DialogTrigger>
+                      <MenuTrigger onOpenChange={(isOpen) => {
+                        setIsMoreMenuOpen(isOpen);
+                        setSelectedImageIndex(index);
+                      }}>
                         <Button
                           variant='secondary'
                           style='fill'
-                          UNSAFE_className={'variant-image-button hover-cursor-pointer'}
-                        >
-                          <DeleteOutlineIcon />
+                          UNSAFE_className={`${(!isMoreMenuOpen || selectedImageIndex !== index) && 'variant-image-button'} hover-cursor-pointer`}>
+                          <MoreIcon />
                         </Button>
-                        <AlertDialog
-                          variant="destructive"
-                          title="Delete image"
-                          primaryActionLabel="Delete"
-                          cancelLabel="Cancel"
-                          onPrimaryAction={() => deleteImageFromVariant(variant.id, index)}>
-                          This will permanently delete the image. Continue?
-                        </AlertDialog>
-                      </DialogTrigger>
-                      <Tooltip>Delete</Tooltip>
+                        <Menu width="size-1700" onAction={(key) => {
+                          if (key === 'copy') {
+                            handleCopyImage(base64Image);
+                          } else if (key === 'delete') {
+                            setIsDeleteDialogOpen(true);
+                          }
+                        }}>
+                          <Item key="copy">
+                            <CopyOutlineIcon UNSAFE_style={{ boxSizing: 'content-box' }} />
+                            <Text>Copy Image</Text>
+                          </Item>
+                          <Item key="delete">
+                            <DeleteOutlineIcon UNSAFE_style={{ boxSizing: 'content-box' }} />
+                            <Text>Delete</Text>
+                          </Item>
+                        </Menu>
+                      </MenuTrigger>
+                      <Tooltip>More</Tooltip>
                     </TooltipTrigger>
                   </Flex>
                 </div>
@@ -340,7 +386,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
               </ActionButton>
               <Tooltip>Remove</Tooltip>
             </TooltipTrigger>
-            <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'}/>
+            <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'} />
             <Flex direction="row" gap="size-100" alignItems={'center'}>
               <Button
                 UNSAFE_className="hover-cursor-pointer"
@@ -365,7 +411,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
             </Flex>
           </Flex>
         </View>
-      </View>
+      </div>
     </motion.div>
   );
 }

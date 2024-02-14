@@ -121,6 +121,11 @@ body {
   outline-offset: 0;
 }
 
+.variant-thumb-image-selected {
+  outline: 2px solid #929292;
+  outline-offset: -2px;
+}
+
 .variant-image-wrapper:hover .variant-image-button {
   opacity: 1;
 }

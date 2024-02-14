@@ -11,7 +11,7 @@
  */
 import {
   Button, ActionButton, Tooltip, TooltipTrigger, ContextualHelp, Heading, Content, Flex, Image, ProgressCircle,
-  DialogTrigger, AlertDialog, Divider,
+  MenuTrigger, Menu, Item, Text, DialogContainer, AlertDialog, Divider,
 } from '@adobe/react-spectrum';
 import React, {
   useCallback, useState, useEffect, useRef,
@@ -48,6 +48,8 @@ import ThumbsUpDisabledIcon from '../icons/ThumbsUpDisabledIcon.js';
 import ThumbsDownDisabledIcon from '../icons/ThumbsDownDisabledIcon.js';
 import EditIcon from '../icons/EditIcon.js';
 import GenAIIcon from '../icons/GenAIIcon.js';
+import DownloadIcon from '../icons/DownloadIcon.js';
+import MoreIcon from '../icons/MoreIcon.js';
 
 const styles = {
   card: css`
@@ -168,7 +170,10 @@ export function PromptResultCard({ result, ...props }) {
   const [variantImages, setVariantImages] = useRecoilState(variantImagesState);
   const [imagePromptProgress, setImagePromptProgress] = useState(false);
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
-  const [imageIndex, setImageIndex] = useState(0);
+  const [imageViewerIndex, setImageViewerIndex] = useState(0);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
   let ccEverywhereInstance = null;
 
@@ -265,6 +270,24 @@ export function PromptResultCard({ result, ...props }) {
     return response;
   }, [firefallService]);
 
+  const handleDownloadImage = useCallback((base64Image) => {
+    const link = document.createElement('a');
+    link.href = base64Image;
+    link.download = 'image.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }, []);
+
+  const handleCopyImage = useCallback((base64Image) => {
+    if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+      copyImageToClipboardLegacy(base64Image);
+    } else {
+      copyImageToClipboard(base64Image, 'image/png');
+    }
+    ToastQueue.positive('Copied image to clipboard', { timeout: 1000 });
+  }, []);
+
   const handleGenerateImage = useCallback(async (imagePrompt, variantId) => {
     const callbacks = {
       onPublish: (publishParams) => {
@@ -308,7 +331,7 @@ export function PromptResultCard({ result, ...props }) {
     setImagePromptProgress(true);
     generateImagePrompt()
       .then((imagePrompt) => {
-        handleGenerateImage(imagePrompt, variantId);
+        handleGenerateImage('', variantId);
       })
       .catch((error) => {
         ToastQueue.negative(error.message, { timeout: 2000 });
@@ -362,7 +385,7 @@ export function PromptResultCard({ result, ...props }) {
   }, [expressSDKService, user, selectedVariant, variantImages]);
 
   const handleImageViewerOpen = (index) => {
-    setImageIndex(index);
+    setImageViewerIndex(index);
     setIsImageViewerOpen(true);
   };
 
@@ -371,11 +394,11 @@ export function PromptResultCard({ result, ...props }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'easeInOut', duration: 0.3 }}>
-      <div {...props} className={styles.card} ref={resultsEndRef}>
+      <div {...props} className={styles.card} ref={resultsEndRef} onClick={() => setSelectedImageIndex(null)}>
         <ImageViewer
           images={variantImages[selectedVariant.id]}
-          index={imageIndex}
-          onIndexChange={setImageIndex}
+          index={imageViewerIndex}
+          onIndexChange={setImageViewerIndex}
           open={isImageViewerOpen}
           onClose={() => setIsImageViewerOpen(false)}
           onEdit={(index) => {
@@ -383,14 +406,29 @@ export function PromptResultCard({ result, ...props }) {
             handleEditGenerateImage(index);
           }}
           onCopy={(index) => {
-            if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-              copyImageToClipboardLegacy(variantImages[selectedVariant.id][index]);
-            } else {
-              copyImageToClipboard(variantImages[selectedVariant.id][index], 'image/png');
-            }
-            ToastQueue.positive('Copied image to clipboard', { timeout: 1000 });
+            handleCopyImage(variantImages[selectedVariant.id][index]);
           }}
+          onDownload={(index) => handleDownloadImage(variantImages[selectedVariant.id][index])}
         />
+        <DialogContainer onDismiss={() => setIsDeleteDialogOpen(false)}>
+          {isDeleteDialogOpen && (
+            <AlertDialog
+              variant="destructive"
+              title="Delete Image"
+              primaryActionLabel="Delete"
+              cancelLabel="Cancel"
+              onPrimaryAction={() => {
+                deleteImageFromVariant(selectedVariant.id, selectedImageIndex);
+                setIsDeleteDialogOpen(false);
+              }}
+              onCancelAction={() => {
+                console.log("You've canceled the delete action");
+                setIsDeleteDialogOpen(false);
+              }}>
+              This will permanently delete the image. Continue?
+            </AlertDialog>
+          )}
+        </DialogContainer>
         <div className={styles.promptSection}>
           <div className={styles.promptContent}>{result.prompt}</div>
           <div className={styles.promptActions}>
@@ -427,55 +465,63 @@ export function PromptResultCard({ result, ...props }) {
             && <div className={styles.variantThumbImages}>
               {variantImages[selectedVariant.id].map((base64Image, index) => {
                 return (
-                  <div key={index} className={'variant-image-wrapper'} onClick={() => handleImageViewerOpen(index)}>
-                    <Image src={base64Image} objectFit={'cover'} UNSAFE_className={`${styles.variantThumbImage} variant-thumb-image hover-cursor-pointer`} />
+                  <div key={index} className={'variant-image-wrapper'}>
+                    <div onClick={() => handleImageViewerOpen(index)}>
+                      <Image src={base64Image}
+                        objectFit={'cover'}
+                        UNSAFE_className={`${styles.variantThumbImage} ${(!isMoreMenuOpen || selectedImageIndex !== index) ? 'variant-thumb-image' : 'variant-thumb-image-selected'} hover-cursor-pointer`}
+                      />
+                    </div>
                     <Flex direction={'row'} width={'100%'} gap={'size-100'} position={'absolute'} bottom={'size-100'} justifyContent={'center'}>
                       <TooltipTrigger delay={0}>
                         <Button
                           variant='secondary'
                           style='fill'
-                          UNSAFE_className={'variant-image-button hover-cursor-pointer'}
-                          onPress={() => {
-                            if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-                              copyImageToClipboardLegacy(base64Image);
-                            } else {
-                              copyImageToClipboard(base64Image, 'image/png');
-                            }
-                            ToastQueue.positive('Copied image to clipboard', { timeout: 1000 });
-                          }}>
-                          <CopyOutlineIcon />
+                          UNSAFE_className={`${(!isMoreMenuOpen || selectedImageIndex !== index) && 'variant-image-button'} hover-cursor-pointer`}
+                          onPress={() => handleDownloadImage(base64Image)}>
+                          <DownloadIcon />
                         </Button>
-                        <Tooltip>Copy</Tooltip>
+                        <Tooltip>Download</Tooltip>
                       </TooltipTrigger>
                       <TooltipTrigger delay={0}>
                         <Button
                           variant='secondary'
                           style='fill'
-                          UNSAFE_className={'variant-image-button hover-cursor-pointer'}
+                          UNSAFE_className={`${(!isMoreMenuOpen || selectedImageIndex !== index) && 'variant-image-button'} hover-cursor-pointer`}
                           onPress={() => handleEditGenerateImage(index)}>
                           <EditIcon />
                         </Button>
                         <Tooltip>Edit</Tooltip>
                       </TooltipTrigger>
                       <TooltipTrigger delay={0}>
-                        <DialogTrigger>
+                        <MenuTrigger onOpenChange={(isOpen) => {
+                          setIsMoreMenuOpen(isOpen);
+                          setSelectedImageIndex(index);
+                        }}>
                           <Button
                             variant='secondary'
                             style='fill'
-                            UNSAFE_className={'variant-image-button hover-cursor-pointer'}
-                          >
-                            <DeleteOutlineIcon />
+                            UNSAFE_className={`${(!isMoreMenuOpen || selectedImageIndex !== index) && 'variant-image-button'} hover-cursor-pointer`}>
+                            <MoreIcon />
                           </Button>
-                          <AlertDialog
-                            variant="destructive"
-                            title="Delete image"
-                            primaryActionLabel="Delete"
-                            cancelLabel="Cancel"
-                            onPrimaryAction={() => deleteImageFromVariant(selectedVariant.id, index)}>
-                            This will permanently delete the image. Continue?
-                          </AlertDialog>
-                        </DialogTrigger>
-                        <Tooltip>Delete</Tooltip>
+                          <Menu width="size-1700" onAction={(key) => {
+                            if (key === 'copy') {
+                              handleCopyImage(base64Image);
+                            } else if (key === 'delete') {
+                              setIsDeleteDialogOpen(true);
+                            }
+                          }}>
+                            <Item key="copy">
+                              <CopyOutlineIcon UNSAFE_style={{ boxSizing: 'content-box' }} />
+                              <Text>Copy Image</Text>
+                            </Item>
+                            <Item key="delete">
+                              <DeleteOutlineIcon UNSAFE_style={{ boxSizing: 'content-box' }} />
+                              <Text>Delete</Text>
+                            </Item>
+                          </Menu>
+                        </MenuTrigger>
+                        <Tooltip>More</Tooltip>
                       </TooltipTrigger>
                     </Flex>
                   </div>
@@ -544,7 +590,7 @@ export function PromptResultCard({ result, ...props }) {
                 </ActionButton>
                 <Tooltip>Remove</Tooltip>
               </TooltipTrigger>
-              <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'}/>
+              <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'} />
               <Flex direction="row" gap="size-100" alignItems={'center'}>
                 <Button
                   UNSAFE_className="hover-cursor-pointer"

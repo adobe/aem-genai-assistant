@@ -10,9 +10,11 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Image, Button,
+  Image, Button, MenuTrigger, Menu, Item, Text, Tooltip, TooltipTrigger, Flex,
 } from '@adobe/react-spectrum';
-import React, { useEffect, useCallback, useRef } from 'react';
+import React, {
+  useEffect, useState, useCallback, useRef,
+} from 'react';
 import { css } from '@emotion/css';
 
 import Close from '@spectrum-icons/workflow/Close';
@@ -20,6 +22,8 @@ import ChevronLeft from '@spectrum-icons/workflow/ChevronLeft';
 import ChevronRight from '@spectrum-icons/workflow/ChevronRight';
 import EditIcon from '../icons/EditIcon.js';
 import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';
+import DownloadIcon from '../icons/DownloadIcon.js';
+import MoreIcon from '../icons/MoreIcon.js';
 
 const styles = {
   overlay: css`
@@ -70,8 +74,10 @@ const derivedStyles = {
 };
 
 export function ImageViewer({
-  images, index, onIndexChange, open, onClose, onEdit, onCopy, ...props
+  images, index, onIndexChange, open, onClose, onEdit, onCopy, onDownload, ...props
 }) {
+  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
+
   const handleNextImage = useCallback(() => {
     onIndexChange((prevIndex) => (prevIndex + 1) % images.length);
   }, [images?.length]);
@@ -132,30 +138,50 @@ export function ImageViewer({
                 </>
               )}
             </div>
-            <Button
-              variant='secondary'
-              style='fill'
-              width='size-1000'
-              position='absolute'
-              top='size-200'
-              left='size-200'
-              UNSAFE_className={'variant-image-button hover-cursor-pointer'}
-              onPress={() => onEdit(index)}>
-              <EditIcon marginEnd={'8px'} />
-              Edit
-            </Button>
-            <Button
-              variant='secondary'
-              style='fill'
-              width='size-1000'
-              position='absolute'
-              top='size-200'
-              right='size-200'
-              UNSAFE_className={'variant-image-button hover-cursor-pointer'}
-              onPress={() => onCopy(index)}>
-              <CopyOutlineIcon marginEnd={'8px'} />
-              Copy
-            </Button>
+            <Flex direction="row" alignItems="center" gap="size-100" position="absolute" top="size-200" left="size-200">
+              <Button
+                variant='secondary'
+                style='fill'
+                width='118px'
+                UNSAFE_className={`${!isMoreMenuOpen && 'variant-image-button'} hover-cursor-pointer`}
+                onPress={() => onDownload(index)}>
+                <DownloadIcon marginEnd={'8px'} />
+                Download
+              </Button>
+              <Button
+                variant='secondary'
+                style='fill'
+                width='size-1000'
+                UNSAFE_className={`${!isMoreMenuOpen && 'variant-image-button'} hover-cursor-pointer`}
+                onPress={() => onEdit(index)}>
+                <EditIcon marginEnd={'8px'} />
+                Edit
+              </Button>
+            </Flex>
+            <TooltipTrigger delay={0}>
+              <MenuTrigger onOpenChange={setIsMoreMenuOpen}>
+                <Button
+                  variant='secondary'
+                  style='fill'
+                  position='absolute'
+                  top='size-200'
+                  right='size-200'
+                  UNSAFE_className={`${!isMoreMenuOpen && 'variant-image-button'} hover-cursor-pointer`}>
+                  <MoreIcon />
+                </Button>
+                <Menu width="size-1700" onAction={(key) => {
+                  if (key === 'copy') {
+                    onCopy(index);
+                  }
+                }}>
+                  <Item key="copy">
+                    <CopyOutlineIcon UNSAFE_style={{ boxSizing: 'content-box' }}/>
+                    <Text>Copy Image</Text>
+                  </Item>
+                </Menu>
+              </MenuTrigger>
+              <Tooltip>More</Tooltip>
+            </TooltipTrigger>
             <Button
               variant='secondary'
               staticColor='white'

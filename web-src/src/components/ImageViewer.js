@@ -142,11 +142,11 @@ export function ImageViewer({
               <Button
                 variant='secondary'
                 style='fill'
-                width='118px'
+                width='size-1000'
                 UNSAFE_className={`${!isMoreMenuOpen && 'variant-image-button'} hover-cursor-pointer`}
-                onPress={() => onDownload(index)}>
-                <DownloadIcon marginEnd={'8px'} />
-                Download
+                onPress={() => onCopy(index)}>
+                <CopyOutlineIcon marginEnd={'8px'} />
+                Copy
               </Button>
               <Button
                 variant='secondary'
@@ -170,13 +170,13 @@ export function ImageViewer({
                   <MoreIcon />
                 </Button>
                 <Menu width="size-1700" onAction={(key) => {
-                  if (key === 'copy') {
-                    onCopy(index);
+                  if (key === 'download') {
+                    onDownload(index);
                   }
                 }}>
-                  <Item key="copy">
-                    <CopyOutlineIcon UNSAFE_style={{ boxSizing: 'content-box' }}/>
-                    <Text>Copy Image</Text>
+                  <Item key="download">
+                    <DownloadIcon UNSAFE_style={{ boxSizing: 'content-box' }}/>
+                    <Text>Download</Text>
                   </Item>
                 </Menu>
               </MenuTrigger>

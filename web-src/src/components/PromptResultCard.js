@@ -478,10 +478,10 @@ export function PromptResultCard({ result, ...props }) {
                           variant='secondary'
                           style='fill'
                           UNSAFE_className={`${(!isMoreMenuOpen || selectedImageIndex !== index) && 'variant-image-button'} hover-cursor-pointer`}
-                          onPress={() => handleDownloadImage(base64Image)}>
-                          <DownloadIcon />
+                          onPress={() => handleCopyImage(base64Image)}>
+                          <CopyOutlineIcon />
                         </Button>
-                        <Tooltip>Download</Tooltip>
+                        <Tooltip>Copy Image</Tooltip>
                       </TooltipTrigger>
                       <TooltipTrigger delay={0}>
                         <Button
@@ -505,15 +505,15 @@ export function PromptResultCard({ result, ...props }) {
                             <MoreIcon />
                           </Button>
                           <Menu width="size-1700" onAction={(key) => {
-                            if (key === 'copy') {
-                              handleCopyImage(base64Image);
+                            if (key === 'download') {
+                              handleDownloadImage(base64Image);
                             } else if (key === 'delete') {
                               setIsDeleteDialogOpen(true);
                             }
                           }}>
-                            <Item key="copy">
-                              <CopyOutlineIcon UNSAFE_style={{ boxSizing: 'content-box' }} />
-                              <Text>Copy Image</Text>
+                            <Item key="download">
+                              <DownloadIcon UNSAFE_style={{ boxSizing: 'content-box' }} />
+                              <Text>Download</Text>
                             </Item>
                             <Item key="delete">
                               <DeleteOutlineIcon UNSAFE_style={{ boxSizing: 'content-box' }} />

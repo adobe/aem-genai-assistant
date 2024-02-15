@@ -9,22 +9,31 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom } from 'recoil';
+import { atom, selector } from 'recoil';
 
-import { data as bundledPromptTemplates } from '../../../data/bundledPromptTemplates.json';
-import { wretchRetry } from '../helpers/NetworkHelper.js';
+import { data as bundledPromptTemplatesJson } from '../../../data/bundledPromptTemplates.json';
+import { readValueFromSettings, writeValueToSettings } from '../helpers/SettingsHelper.js';
 
 export const NEW_PROMPT_TEMPLATE_ID = 'new-prompt';
+
+export const PROMPT_TEMPLATE_STORAGE_KEY = 'promptTemplates';
 
 export const newPromptTemplate = {
   id: NEW_PROMPT_TEMPLATE_ID,
   label: 'New prompt',
   description: 'To start a new prompt use this and then add it to your prompt templates for future use.',
   template: '',
+  isPrivate: false,
   isBundled: false,
 };
 
-function parseOldPromptTemplates(data, isBundled) {
+function newPromptTemplatesWrapper(templates) {
+  return {
+    promptTemplates: templates,
+  };
+}
+
+function parseBundledPromptTemplates(data) {
   return data.map(({
     Label, Description, Template,
   }) => {
@@ -32,24 +41,14 @@ function parseOldPromptTemplates(data, isBundled) {
       label: Label,
       description: Description,
       template: Template || '',
-      isBundled,
+      isPrivate: false,
+      isBundled: true,
     };
   });
 }
 
-async function fetchUserPromptTemplates(websiteUrl, promptTemplatesPath) {
-  try {
-    const url = `${websiteUrl}/${promptTemplatesPath.toLowerCase()}.json`;
-    console.debug('Fetching prompt templates from', url);
-    const { data: promptTemplates } = await wretchRetry(url).get().json();
-    return parseOldPromptTemplates(promptTemplates, false);
-  } catch (e) {
-    return [];
-  }
-}
-
-function parsePromptTemplates(data, isBundled) {
-  return data.map(({
+function settingsToPromptTemplates(settings, isPrivate) {
+  return settings.promptTemplates.map(({
     id, label, description, template,
   }) => {
     return {
@@ -57,20 +56,67 @@ function parsePromptTemplates(data, isBundled) {
       label,
       description,
       template,
-      isBundled,
+      isPrivate,
+      isBundled: false,
     };
   });
 }
 
-export async function loadPromptTemplates(promptTemplates) {
+function promptTemplatesToSettings(promptTemplates, isPrivate) {
+  const settings = promptTemplates
+    .filter(({
+      isPrivate: isPrivateTemplate,
+    }) => isPrivateTemplate === isPrivate)
+    .map(({
+      id, label, description, template,
+    }) => {
+      return {
+        id,
+        label,
+        description,
+        template,
+      };
+    });
+  return newPromptTemplatesWrapper(settings);
+}
+
+export async function readCustomPromptTemplates() {
+  const publicSettings = await readValueFromSettings(PROMPT_TEMPLATE_STORAGE_KEY, newPromptTemplatesWrapper([]), false);
+  const publicPromptTemplates = settingsToPromptTemplates(publicSettings, false);
+  const privateSettings = await readValueFromSettings(PROMPT_TEMPLATE_STORAGE_KEY, newPromptTemplatesWrapper([]), true);
+  const privatePromptTemplates = settingsToPromptTemplates(privateSettings, true);
   return [
-    ...(parseOldPromptTemplates(bundledPromptTemplates, true)),
-    ...(await parsePromptTemplates(promptTemplates, false)),
-    newPromptTemplate,
+    ...publicPromptTemplates,
+    ...privatePromptTemplates,
   ];
 }
 
-export const promptTemplatesState = atom({
-  key: 'promptTemplatesState',
+export async function writeCustomPromptTemplates(promptTemplates) {
+  const publicSettings = promptTemplatesToSettings(promptTemplates, false);
+  await writeValueToSettings(PROMPT_TEMPLATE_STORAGE_KEY, publicSettings, false);
+  const privateSettings = promptTemplatesToSettings(promptTemplates, true);
+  await writeValueToSettings(PROMPT_TEMPLATE_STORAGE_KEY, privateSettings, true);
+}
+
+const bundledPromptTemplatesState = selector({
+  key: 'bundledPromptTemplatesState',
+  get: () => parseBundledPromptTemplates(bundledPromptTemplatesJson),
+});
+
+export const customPromptTemplatesState = atom({
+  key: 'customPromptTemplatesState',
   default: [],
+});
+
+export const promptTemplatesState = selector({
+  key: 'promptTemplatesState',
+  get: async ({ get }) => {
+    const bundledPromptTemplates = get(bundledPromptTemplatesState);
+    const customPromptTemplates = await get(customPromptTemplatesState);
+    return [
+      ...bundledPromptTemplates.slice().sort((a, b) => a.label.localeCompare(b.label)),
+      ...customPromptTemplates.slice().sort((a, b) => a.label.localeCompare(b.label)),
+      newPromptTemplate,
+    ];
+  },
 });

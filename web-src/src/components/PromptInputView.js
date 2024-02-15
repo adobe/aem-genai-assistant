@@ -14,12 +14,15 @@ import {
 } from '@adobe/react-spectrum';
 import React, { useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import QueryStringAddon from 'wretch/addons/queryString';
 import { placeholdersState } from '../state/PlaceholdersState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { TemperatureSlider } from './TemperatureSlider.js';
 import { SpreadSheetPicker } from './SpreadSheetPicker.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
 import { formatIdentifier } from '../helpers/FormatHelper.js';
+import { wretchRetry } from '../../../actions/Network.js';
+import { useApplicationContext } from './ApplicationProvider.js';
 
 function comparePlaceholders([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
@@ -68,25 +71,95 @@ function createNumberComponent(name, label, params, value, onChange) {
   );
 }
 
-function createSelectComponent(name, label, params, value, onChange) {
+function useDataProvider() {
+  const {
+    websiteUrl, accessToken, imsTenant, targetEndpoint, csvParserEndpoint,
+  } = useApplicationContext();
+  return useCallback((params) => {
+    if (params.spreadsheet) {
+      return async () => {
+        const filename = params.spreadsheet;
+        const fileUrl = `${websiteUrl}/${filename || ''}.json`;
+        const { data } = await wretchRetry(fileUrl).get().json();
+        return Array.from(data).map((row) => {
+          return {
+            key: row.Key,
+            value: row.Value,
+          };
+        });
+      };
+    } else if (params.csv) {
+      return async () => {
+        const url = params.csv;
+        const json = await wretchRetry(csvParserEndpoint)
+          .addon(QueryStringAddon)
+          .query({ csv: url })
+          .get()
+          .json();
+        console.log(`CSV data: ${JSON.stringify(json)}`);
+        return Array.from(json).map(([key, value]) => {
+          return {
+            key,
+            value,
+          };
+        });
+      };
+    } else if (params.target) {
+      return async () => {
+        const url = `${targetEndpoint}?org=${params.target === 'default' ? imsTenant : params.target}`;
+        const audiences = await wretchRetry(url)
+          .auth(`Bearer ${accessToken}`)
+          .accept('application/json')
+          .get()
+          .json();
+        console.log(audiences);
+        return audiences.map((audience) => {
+          return {
+            key: audience.name.trim(),
+            value: audience.description.trim(),
+          };
+        });
+      };
+    } else if (params.keys && params.values) {
+      const keys = params.keys.split(',').map((key) => key.trim());
+      const values = params.values.split(',').map((value) => value.trim());
+      return () => Promise.resolve(keys.map((key, index) => {
+        return {
+          key,
+          value: values[index],
+        };
+      }));
+    } else if (params.values) {
+      return () => Promise.resolve(params.values.split(',').map((value) => value.trim()).map((value) => {
+        return {
+          key: value,
+          value,
+        };
+      }));
+    }
+    return () => Promise.resolve([]);
+  }, [websiteUrl]);
+}
+
+function createSelectComponent(name, label, params, value, onChange, dataProvider) {
   return (
     <SpreadSheetPicker
       key={name}
       name={name}
       label={label}
       description={params.description}
-      spreadsheet={params.spreadsheet}
       fallback={createTextComponent(name, label, params, value, onChange)}
       value={value}
+      dataProvider={dataProvider(params)}
       onChange={(newValue) => onChange(name, newValue)}
     />
   );
 }
 
-function createInputComponent(type, name, label, params, value, onChange) {
+function createInputComponent(type, name, label, params, value, onChange, dataProvider) {
   switch (type) {
     case 'select':
-      return createSelectComponent(name, label, params, value, onChange);
+      return createSelectComponent(name, label, params, value, onChange, dataProvider);
     case 'number':
       return createNumberComponent(name, label, params, value, onChange);
     case 'text':
@@ -96,6 +169,8 @@ function createInputComponent(type, name, label, params, value, onChange) {
 }
 
 export function PromptInputView({ gridColumn }) {
+  const { websiteUrl } = useApplicationContext();
+  const dataProvider = useDataProvider();
   const placeholders = useRecoilValue(placeholdersState);
   const [parameters, setParameters] = useRecoilState(parametersState);
 
@@ -122,7 +197,7 @@ export function PromptInputView({ gridColumn }) {
           const type = getComponentType(params);
           const value = parameters[name] ?? '';
 
-          return createInputComponent(type, name, label, params, value, onChange);
+          return createInputComponent(type, name, label, params, value, onChange, dataProvider);
         })
       }
       <h3 style={{ alignSelf: 'start', marginBottom: '10px' }}>Advanced</h3>

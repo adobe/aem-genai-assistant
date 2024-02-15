@@ -31,6 +31,7 @@
     "framer-motion": "10.16.5",
     "localforage": "1.10.0",
     "nearley": "2.20.1",
+    "papaparse": "^5.4.1",
     "prismjs": "1.29.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",

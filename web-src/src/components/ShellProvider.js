@@ -35,12 +35,17 @@ export const ShellProvider = ({ children, runtime }) => {
   const [shellContext, setShellContext] = useState();
 
   const shellEventsHandler = useCallback((shellConfig) => {
-    const { imsProfile, imsToken, imsOrg } = shellConfig;
+    const {
+      imsProfile, imsToken, imsOrg, imsInfo: { tenant },
+    } = shellConfig;
+
+    console.log('shellConfig', shellConfig);
 
     setShellContext({
       user: {
         imsToken,
         imsOrg,
+        imsTenant: tenant,
       },
       isUserAuthorized: isAuthorized(imsProfile, imsOrg),
       done: page.done,

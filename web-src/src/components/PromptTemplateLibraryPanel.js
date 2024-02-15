@@ -12,19 +12,37 @@
 import { Grid, Heading, ProgressCircle } from '@adobe/react-spectrum';
 
 import React, { Suspense, useCallback } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { v4 as uuid } from 'uuid';
 import { ErrorBoundary } from 'react-error-boundary';
+import { ToastQueue } from '@react-spectrum/toast';
 import { PromptTemplateCard } from './PromptTemplateCard.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
-import { promptTemplatesState } from '../state/PromptTemplatesState.js';
+import {
+  customPromptTemplatesState,
+  promptTemplatesState, writeCustomPromptTemplates,
+} from '../state/PromptTemplatesState.js';
 import { WelcomeBanner } from './WelcomeBanner.js';
 import { sampleRUM } from '../rum.js';
 
 function PromptTemplatesView({ onSelect }) {
   const promptTemplates = useRecoilValue(promptTemplatesState);
+  const [customPromptTemplates, setCustomPromptTemplates] = useRecoilState(customPromptTemplatesState);
+
+  const handleDelete = useCallback((selectedTemplate) => {
+    const newCustomPromptTemplates = customPromptTemplates
+      .filter((template) => template.label !== selectedTemplate.label);
+    setCustomPromptTemplates([...newCustomPromptTemplates]);
+    writeCustomPromptTemplates(newCustomPromptTemplates).then(() => {
+      ToastQueue.positive('Prompt template deleted', 1000);
+    }).catch((error) => {
+      ToastQueue.negative('Failed to delete prompt template', 1000);
+      console.error(error);
+    });
+  }, [customPromptTemplates, setCustomPromptTemplates]);
+
   return (
     <Grid
       data-testid={'prompt-templates-view'}
@@ -39,7 +57,8 @@ function PromptTemplatesView({ onSelect }) {
             <PromptTemplateCard
               key={index}
               template={template}
-              onClick={() => onSelect(promptTemplates[index])} />
+              onClick={() => onSelect(promptTemplates[index])}
+              onDelete={handleDelete} />
           ))
       }
     </Grid>
@@ -87,7 +106,7 @@ export function PromptTemplateLibraryPanel({ props }) {
 
         <ErrorBoundary fallback={<div>Something went wrong</div>}>
           <Suspense fallback={<ProgressCircle isIndeterminate />}>
-            <PromptTemplatesView onSelect={handleSelect} />
+            <PromptTemplatesView onSelect={handleSelect}/>
           </Suspense>
         </ErrorBoundary>
       </div>

@@ -11,8 +11,6 @@
  */
 import React, { useCallback, useEffect } from 'react';
 import { Item, Picker } from '@adobe/react-spectrum';
-import { useApplicationContext } from './ApplicationProvider.js';
-import { wretchRetry } from '../../../actions/Network.js';
 import { LinkLabel } from './LinkLabel.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
 
@@ -21,31 +19,22 @@ function getIndexByValue(items, value) {
 }
 
 export function SpreadSheetPicker({
-  name, label, description, spreadsheet, fallback, value, onChange,
+  name, label, description, dataProvider, fallback, value, onChange,
 }) {
-  const { websiteUrl } = useApplicationContext();
   const [items, setItems] = React.useState([]);
   const [url, setUrl] = React.useState('');
 
   useEffect(() => {
-    const [filename] = spreadsheet.split(':');
-    const fileUrl = `${websiteUrl}/${filename || ''}.json`;
-
-    wretchRetry(fileUrl).get().json()
-      .then(({ data }) => {
-        setItems(data.map(({ Key, Value }) => {
-          return {
-            key: Key,
-            value: Value,
-          };
-        }));
-        setUrl(fileUrl);
+    dataProvider()
+      .then((data) => {
+        setItems(data);
+        console.log(`Loaded data for ${name}: ${data}`);
       })
       .catch((error) => {
         setItems([]);
-        console.warn(`Could not load spreadsheet ${spreadsheet} and no fallback value provided`);
+        console.warn(`Could not load data for ${name}: ${error}`);
       });
-  }, [spreadsheet]);
+  }, [dataProvider]);
 
   const selectionHandler = useCallback((selected) => {
     onChange(items[selected].value);

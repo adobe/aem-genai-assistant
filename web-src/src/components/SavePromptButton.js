@@ -21,79 +21,79 @@ import {
   ButtonGroup,
   Button,
   Item,
-  TextArea, ComboBox,
+  TextArea, ComboBox, Checkbox,
 } from '@adobe/react-spectrum';
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { ToastQueue } from '@react-spectrum/toast';
 import { v4 as uuid } from 'uuid';
-import { useApplicationContext } from './ApplicationProvider.js';
+import { ToastQueue } from '@react-spectrum/toast';
 import { promptState } from '../state/PromptState.js';
 import SaveIcon from '../assets/save.svg';
-import { NEW_PROMPT_TEMPLATE_ID, promptTemplatesState } from '../state/PromptTemplatesState.js';
+import {
+  customPromptTemplatesState,
+  writeCustomPromptTemplates,
+} from '../state/PromptTemplatesState.js';
+
+function saveTemplates(customPromptTemplates) {
+  return writeCustomPromptTemplates(customPromptTemplates).then(() => {
+    ToastQueue.positive('Prompt template saved', 1000);
+  }).catch((error) => {
+    ToastQueue.negative('Error saving prompt template', 1000);
+    console.error(error);
+  });
+}
 
 export function SavePromptButton(props) {
-  const { savePromptTemplates } = useApplicationContext();
-  const [promptTemplates, setPromptTemplates] = useRecoilState(promptTemplatesState);
+  const [customPromptTemplates, setCustomPromptTemplates] = useRecoilState(customPromptTemplatesState);
   const [selection, setSelection] = React.useState(null);
   const [label, setLabel] = React.useState('');
   const [description, setDescription] = React.useState('');
+  const [isPrivate, setIsPrivate] = React.useState(false);
   const prompt = useRecoilValue(promptState);
 
   useEffect(() => {
     if (selection) {
-      console.log(`Selection: ${selection}`);
-      const template = promptTemplates.find((t) => t.id === selection);
-      console.log(template);
-      setDescription(template?.description);
+      const selectedTemplate = customPromptTemplates.find((template) => template.id === selection);
+      setDescription(selectedTemplate?.description ?? '');
+      setIsPrivate(selectedTemplate?.isPrivate);
     } else {
       setDescription('');
     }
-  }, [selection]);
+  }, [selection, customPromptTemplates, setDescription]);
 
-  const handleSave = (close) => {
-    console.log('Saving prompt...');
-    console.log(`Selection: ${selection}`);
-    console.log(`Label: ${label}`);
-    console.log(`Description: ${description}`);
-    console.log(prompt);
+  const handleSave = useCallback((close) => {
+    console.log('Saving prompt template as', isPrivate ? 'private' : 'public');
 
-    const newPromptTemplates = promptTemplates.map((template) => {
-      console.log(template);
-      if (template.id === selection) {
-        return {
-          ...template,
-          description,
-          template: prompt,
-        };
-      }
-      return template;
-    });
-
-    if (!selection) {
-      const newId = uuid();
-      newPromptTemplates.splice(newPromptTemplates.length - 1, 0, {
-        id: newId,
+    if (selection) {
+      const selectedTemplate = customPromptTemplates.find((template) => template.id === selection);
+      const updatedTemplate = {
+        ...selectedTemplate,
+        description,
+        template: prompt,
+        isPrivate,
+      };
+      const newCustomPromptTemplates = [
+        ...customPromptTemplates.filter((template) => template.id !== selection),
+        updatedTemplate,
+      ];
+      setCustomPromptTemplates(newCustomPromptTemplates);
+      saveTemplates(newCustomPromptTemplates).then(close);
+    } else {
+      const newTemplate = {
+        id: uuid(),
         label,
         description,
         template: prompt,
-        isBundled: false,
+        isPrivate,
+      };
+      const newCustomPromptTemplates = [...customPromptTemplates, newTemplate];
+      setCustomPromptTemplates(newCustomPromptTemplates);
+      saveTemplates(newCustomPromptTemplates).then(() => {
+        setSelection(newTemplate.id);
+        close();
       });
-      setSelection(newId);
     }
-
-    console.log(newPromptTemplates);
-
-    setPromptTemplates(newPromptTemplates);
-
-    savePromptTemplates(newPromptTemplates).then(() => {
-      ToastQueue.positive('Prompt template saved', 1000);
-      close();
-    }).catch((error) => {
-      ToastQueue.negative('Error saving prompt template', 1000);
-      console.error(error);
-    });
-  };
+  }, [customPromptTemplates, description, isPrivate, label, prompt, selection, setCustomPromptTemplates]);
 
   return (
     <DialogTrigger type='modal'>
@@ -111,19 +111,20 @@ export function SavePromptButton(props) {
           <Heading>Save Prompt</Heading>
           <Divider />
           <Content>
+            <Text>
+              Enter a new name to create a new prompt, or select an existing one from the list to update it.
+            </Text>
             <ComboBox
-              label={'Save as'}
+              label={'Prompt Name'}
               width={'100%'}
+              isRequired={true}
               allowsCustomValue={true}
               selectedKey={selection}
               onInputChange={setLabel}
               onSelectionChange={setSelection}>
-              {promptTemplates
-                .filter((template) => !template.isBundled && template.id !== NEW_PROMPT_TEMPLATE_ID)
-                .map((template) => (
-                  <Item key={template.id}>
-                    {template.label}
-                  </Item>
+              {
+                customPromptTemplates.slice().sort((a, b) => a.label.localeCompare(b.label)).map((template) => (
+                  <Item key={template.id}>{ template.label }</Item>
                 ))
               }
             </ComboBox>
@@ -134,10 +135,15 @@ export function SavePromptButton(props) {
               value={description}
               onChange={setDescription}>
             </TextArea>
+            <Checkbox
+              isSelected={isPrivate}
+              onChange={setIsPrivate}>
+              Save As Private
+            </Checkbox>
           </Content>
           <ButtonGroup>
-            <Button variant={'cta'} isDisabled={!label || !description} onPress={() => handleSave(close)}>Save</Button>
             <Button variant={'secondary'} onPress={close}>Cancel</Button>
+            <Button variant={'cta'} isDisabled={!label || !description} onPress={() => handleSave(close)}>Save</Button>
           </ButtonGroup>
         </Dialog>
       )}

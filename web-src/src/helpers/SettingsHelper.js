@@ -12,29 +12,31 @@
 
 import settings, { SettingsLevel } from '@adobe/exc-app/settings';
 
-export async function readData(groupId, defaultValue) {
+export async function readValueFromSettings(groupId, defaultValue, isPrivate) {
   try {
+    console.log(`Reading data from ${groupId} with default value`, defaultValue);
     const data = await settings.get({
       groupId,
-      level: SettingsLevel.USERORG,
+      level: isPrivate ? SettingsLevel.USER : SettingsLevel.ORG,
       settings: defaultValue,
     });
-    console.log(`Value for ${groupId} is ${JSON.stringify(data)}`);
     return data.settings;
   } catch (err) {
-    console.log(err);
-    throw new Error('Error reading data', err);
+    console.error(`Error reading data from ${groupId}`, err);
+    throw new Error('Error reading data from settings', err);
   }
 }
 
-export async function writeData(groupId, value) {
+export async function writeValueToSettings(groupId, value, isPrivate) {
   try {
+    console.log(`Writing data to ${groupId}`, value);
     await settings.set({
       groupId,
-      level: SettingsLevel.USERORG,
+      level: isPrivate ? SettingsLevel.USER : SettingsLevel.ORG,
       settings: value,
     });
   } catch (err) {
-    console.log(err);
+    console.error(`Error writing data to ${groupId}`, err);
+    throw new Error('Error writing data to settings', err);
   }
 }

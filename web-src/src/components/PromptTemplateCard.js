@@ -9,13 +9,16 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { Grid, Text, Image } from '@adobe/react-spectrum';
+import {
+  Grid, Text, Image, ActionButton,
+} from '@adobe/react-spectrum';
 import React, { Fragment } from 'react';
 
 import { css } from '@emotion/css';
 import { motion } from 'framer-motion';
 import GenerateIcon from '../assets/generate.svg';
 import SmallLogo from '../assets/logo_small.svg';
+import { NEW_PROMPT_TEMPLATE_ID } from '../state/PromptTemplatesState.js';
 
 const styles = {
   card: css`
@@ -37,10 +40,14 @@ const styles = {
     overflow: hidden;
     color: #757575;
   `,
+  actions: css`
+    grid-area: actions;
+    align-self: end;
+  `,
 };
 
 export function PromptTemplateCard({
-  template, onClick, ...props
+  template, onClick, onDelete, ...props
 }) {
   return (
     <a href="#" onClick={onClick}>
@@ -58,13 +65,23 @@ export function PromptTemplateCard({
           areas={[
             'icon title logo',
             'description description description',
+            'actions actions actions',
           ]}
           columns={['min-content', 'auto', 'min-content']}
-          rows={['min-content', 'min-content']}>
+          rows={['min-content', 'auto', 'min-content']}>
           <Image src={GenerateIcon} width="24px" alt={''} gridArea={'icon'} alignSelf={'start'}/>
           <Text UNSAFE_className={styles.title} gridArea={'title'}>{template.label}</Text>
           { (template.isBundled) ? <Image src={SmallLogo} width={'18px'} alt={''} gridArea={'logo'}/> : <Fragment/> }
+          { (!template.isBundled && template.id !== NEW_PROMPT_TEMPLATE_ID)
+            && <Text>{template.isPrivate ? 'Private' : 'Public'}</Text> }
           <Text UNSAFE_className={styles.description} gridArea={'description'}>{template.description}</Text>
+          {
+            (!template.isBundled && template.id !== NEW_PROMPT_TEMPLATE_ID)
+              ? <div className={styles.actions}>
+                  <ActionButton isQuiet onPress={() => onDelete(template)}>Delete</ActionButton>
+                </div>
+              : <Fragment/>
+          }
         </Grid>
       </motion.div>
     </a>

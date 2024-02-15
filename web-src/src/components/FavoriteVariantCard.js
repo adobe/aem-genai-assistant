@@ -17,7 +17,7 @@ import { css } from '@emotion/css';
 import { ToastQueue } from '@react-spectrum/toast';
 import { motion } from 'framer-motion';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
-import { toText, toHTML } from '../helpers/PromptExporter.js';
+import { toHTML, toText } from '../helpers/PromptExporter.js';
 import { tracking } from '../helpers/Tracking.js';
 
 import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';

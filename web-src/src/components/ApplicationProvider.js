@@ -78,10 +78,6 @@ export const ApplicationProvider = ({ children }) => {
       console.error(`Failed to load prompt templates: ${e.message}`);
     });
 
-    const script = document.createElement('script');
-    script.src = 'https://assets.adobedtm.com/launch-EN30eb7ffa064444f1b8b0368ef38fd3a9.min.js';
-    document.head.appendChild(script);
-
     done();
   }, [user, done, setApplication]);
 

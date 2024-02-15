@@ -20,7 +20,7 @@ export function tracking(checkpoint, data = {}) {
   }
   if (!data.source) {
     // eslint-disable-next-line no-console
-    console.error('tracking: Missind source in data object', data);
+    console.error('tracking: Missing source in data object', data);
     return;
   }
 

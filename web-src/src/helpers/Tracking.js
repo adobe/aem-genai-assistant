@@ -9,6 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+import metrics from '@adobe/exc-app/metrics';
 import { sampleRUM } from '../rum.js';
 
 export function tracking(checkpoint, data = {}) {
@@ -25,14 +26,6 @@ export function tracking(checkpoint, data = {}) {
   }
 
   sampleRUM(checkpoint, data);
-
-  // eslint-disable-next-line no-underscore-dangle
-  const { _satellite } = window;
-  if (!_satellite) return;
-  _satellite.track('event', {
-    element: data.source,
-    feature: 'generatevariations',
-    widget: { name: checkpoints[1] },
-    attributes: { checkpoint: `aem:${checkpoint}` },
-  });
+  const excMetrics = metrics.create('com.adobe.aem.generatevariations');
+  excMetrics.log(checkpoint, data.source, data.target);
 }

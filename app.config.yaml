@@ -10,7 +10,6 @@ application:
             web: true
             runtime: nodejs:18
             inputs:
-              LOG_LEVEL: debug
               FIREFALL_ENDPOINT: $FIREFALL_ENDPOINT
               FIREFALL_API_KEY: $FIREFALL_API_KEY
               IMS_ENDPOINT: $IMS_ENDPOINT
@@ -19,7 +18,6 @@ application:
               IMS_SERVICE_CLIENT_SECRET: $IMS_SERVICE_CLIENT_SECRET
               IMS_SERVICE_PERM_AUTH_CODE: $IMS_SERVICE_PERM_AUTH_CODE
               IMS_PRODUCT_CONTEXT: $IMS_PRODUCT_CONTEXT
-              IMS_ENV: $IMS_ENV
             limits:
               timeout: 180000
           feedback:
@@ -27,7 +25,6 @@ application:
             web: true
             runtime: nodejs:18
             inputs:
-              LOG_LEVEL: debug
               FIREFALL_ENDPOINT: $FIREFALL_ENDPOINT
               FIREFALL_API_KEY: $FIREFALL_API_KEY
               IMS_ENDPOINT: $IMS_ENDPOINT
@@ -36,6 +33,5 @@ application:
               IMS_SERVICE_CLIENT_SECRET: $IMS_SERVICE_CLIENT_SECRET
               IMS_SERVICE_PERM_AUTH_CODE: $IMS_SERVICE_PERM_AUTH_CODE
               IMS_PRODUCT_CONTEXT: $IMS_PRODUCT_CONTEXT
-              IMS_ENV: $IMS_ENV
             limits:
               timeout: 180000

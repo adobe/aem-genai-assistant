@@ -36,19 +36,25 @@ export function GenerateButton() {
   const setResults = useSetRecoilState(resultsState);
   const [generationInProgress, setGenerationInProgress] = useState(false);
   const saveResults = useSaveResults();
-
   const generateResults = useCallback(async () => {
-    const finalPrompt = renderPrompt(prompt, parameters);
-    const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
-    setResults((results) => [...results, {
-      id: queryId,
-      variants: createVariants(uuid, response),
-      prompt: finalPrompt,
-      promptTemplate: prompt,
-      parameters,
-      temperature,
-    }]);
-    await saveResults();
+    try {
+      const finalPrompt = renderPrompt(prompt, parameters);
+      const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
+      const variants = createVariants(uuid, response);
+      setResults((results) => [...results, {
+        id: queryId,
+        variants,
+        prompt: finalPrompt,
+        promptTemplate: prompt,
+        parameters,
+        temperature,
+      }]);
+      await saveResults();
+      tracking('genai:prompt:generatedvariations', { source: 'GenerateButton#generateResults', target: variants.length });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }, [firefallService, prompt, parameters, temperature]);
 
   const handleGenerate = useCallback(() => {
@@ -56,13 +62,7 @@ export function GenerateButton() {
     setGenerationInProgress(true);
     generateResults()
       .catch((error) => {
-        switch (error.status) {
-          case 400:
-            ToastQueue.negative('The response was filtered due to the prompt triggering Generative AI\'s content management policy. Please modify your prompt and retry.', { timeout: 2000 });
-            break;
-          default:
-            ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
-        }
+        ToastQueue.negative(error.message, { timeout: 2000 });
       })
       .finally(() => {
         setGenerationInProgress(false);
@@ -78,18 +78,27 @@ export function GenerateButton() {
         style="fill"
         onPress={handleGenerate}
         isDisabled={generationInProgress}>
-        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'}/>}
+        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}
         Generate
       </Button>
       <ContextualHelp variant="info">
         <Heading>Terms of use</Heading>
         <Content>
           <p>
-            Your inputs to the service should be tied to a context. This context can be your branding
-            materials, website content, data, schemas for such data, templates, or other trusted documents.
-            You should evaluate the accuracy of any output as appropriate to your use case.
+            Access to this feature is subject to your agreement to the <LegalTermsLink />, and the following:
           </p>
-          <LegalTermsLink />
+          <ul>
+            <li>
+              Any prompts, context, or supplemental information, or other input you provide to this feature (a) must be
+              tied to specific context, which can include your branding materials, website content, data, schemas for
+              such data, templates, or other trusted documents, and (b) must not contain any personal information
+              (personal information includes anything that can be linked back to a specific individual).
+            </li>
+            <li>
+              You should review any output from this feature for accuracy and ensure that it is appropriate for your
+              use case.
+            </li>
+          </ul>
         </Content>
       </ContextualHelp>
     </Flex>

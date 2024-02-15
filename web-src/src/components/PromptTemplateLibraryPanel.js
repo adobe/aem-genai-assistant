@@ -54,7 +54,7 @@ export function PromptTemplateLibraryPanel({ props }) {
     if (selectedTemplate.isNew) {
       tracking('genai:prompt:new', { source: 'HomePanel#handleSelect' });
     } else {
-      tracking(`genai:prompt:${selectedTemplate.isAdobe ? 'isadobeselected' : 'iscustomselected'}`, { source: 'HomePanel#handleSelect' });
+      tracking(`genai:prompt:${selectedTemplate.isBundled ? 'isadobeselected' : 'iscustomselected'}`, { source: 'HomePanel#handleSelect' });
     }
     const timestamp = Date.now();
     const session = {
@@ -80,15 +80,17 @@ export function PromptTemplateLibraryPanel({ props }) {
         padding: '25px 50px', overflow: 'auto',
       }}>
 
-      <WelcomeBanner />
+      <div tabIndex={0}>
+        <WelcomeBanner />
 
-      <Heading level={3} alignSelf={'start'}>Prompt Templates</Heading>
+        <Heading level={3} alignSelf={'start'}>Prompt Templates</Heading>
 
-      <ErrorBoundary fallback={<div>Something went wrong</div>}>
-        <Suspense fallback={<ProgressCircle isIndeterminate />}>
-          <PromptTemplatesView onSelect={handleSelect} />
-        </Suspense>
-      </ErrorBoundary>
+        <ErrorBoundary fallback={<div>Something went wrong</div>}>
+          <Suspense fallback={<ProgressCircle isIndeterminate />}>
+            <PromptTemplatesView onSelect={handleSelect} />
+          </Suspense>
+        </ErrorBoundary>
+      </div>
     </Grid>
   );
 }

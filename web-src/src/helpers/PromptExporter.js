@@ -9,11 +9,14 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-export function toClipboard(html) {
-  const span = document.createElement('span');
-  span.innerHTML = html;
-  const blob = new Blob([span.outerHTML], { type: 'text/html' });
-  return [new ClipboardItem({ [blob.type]: blob })];
+export function toText(input) {
+  if (typeof input === 'string') {
+    return input;
+  } else {
+    return Object.entries(input).map(([key, value]) => {
+      return `${key}: ${value}`;
+    }).join('\n');
+  }
 }
 
 export function toHTML(input) {

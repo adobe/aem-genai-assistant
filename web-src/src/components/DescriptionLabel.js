@@ -9,15 +9,18 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { ContextualHelp, Content } from '@adobe/react-spectrum';
+import { ContextualHelp, Heading, Content } from '@adobe/react-spectrum';
 import React from 'react';
 
-export function DescriptionLabel({ description }) {
+export function DescriptionLabel({ label, description }) {
   if (!description) {
     return <></>;
   }
   return (
     <ContextualHelp variant="info">
+      <Heading>
+        {label}
+      </Heading>
       <Content>
         {description}
       </Content>

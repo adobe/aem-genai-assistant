@@ -1,14 +1,12 @@
-name: Deploy to QA
+name: Deploy to Prod
 
 on:
-  pull_request:
-    branches: 
-      - main
-    types: [closed]
+  release:
+    types: [created]
 
 jobs:
   deploy:
-    if: ${{ github.event.pull_request.merged }}
+    if: github.repository_owner == 'adobe'
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -19,8 +17,8 @@ jobs:
     - name: Run npm scripts
       env:
           CI: true
-          AIO_RUNTIME_AUTH: ${{ secrets.AIO_RUNTIME_AUTH_QA }}
-          AIO_RUNTIME_NAMESPACE: 245265-879aquaant-qa
+          AIO_RUNTIME_AUTH: ${{ secrets.AIO_RUNTIME_AUTH_PROD }}
+          AIO_RUNTIME_NAMESPACE: 245265-879aquaant
           AIO_RUNTIME_APIHOST: 'https://adobeioruntime.net'
           FIREFALL_ENDPOINT: 'https://firefall.adobe.io'
           FIREFALL_API_KEY: aem-sidekick-genai-assistant

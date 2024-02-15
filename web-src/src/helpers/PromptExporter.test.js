@@ -9,7 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { toHTML } from './PromptExporter.js';
+import { toText, toHTML } from './PromptExporter.js';
 
 describe('toHTML', () => {
   test('returns html: prompt result is an key/value pair', () => {
@@ -19,5 +19,16 @@ describe('toHTML', () => {
   test('returns html: prompt result is a string', () => {
     const promptResponse = 'hello';
     expect(toHTML(promptResponse)).toEqual('hello');
+  });
+});
+
+describe('toText', () => {
+  test('returns text: prompt result is an key/value pair', () => {
+    const promptResponse = { key1: 'value1', key2: 'value2' };
+    expect(toText(promptResponse)).toEqual('key1: value1\nkey2: value2');
+  });
+  test('returns text: prompt result is a string', () => {
+    const promptResponse = 'hello';
+    expect(toText(promptResponse)).toEqual('hello');
   });
 });

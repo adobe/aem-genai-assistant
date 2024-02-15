@@ -10,9 +10,10 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Grid, Image, Link, Text,
+  Flex, Grid, Image, Link, Text, ActionButton, TooltipTrigger, Tooltip,
 } from '@adobe/react-spectrum';
 import React, { useCallback } from 'react';
+import ShowMenu from '@spectrum-icons/workflow/ShowMenu';
 import { css } from '@emotion/css';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useApplicationContext } from './ApplicationProvider.js';
@@ -27,12 +28,17 @@ import FileTxt from '../assets/file-txt.svg';
 import { sessionHistoryState } from '../state/SessionHistoryState.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
+import { MainSidePanelType, mainSidePanelState } from '../state/MainSidePanelState.js';
+import { ClickableImage } from './ClickableImage.js';
+
+export const HELP_AND_FAQ_URL = 'https://www.aem.live/docs/sidekick-generate-variations';
 
 export function MainSidePanel(props) {
   const { appVersion } = useApplicationContext();
   const sessions = useRecoilValue(sessionHistoryState);
   const [currentSession, setCurrentSession] = useRecoilState(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
+  const [mainSidePanel, setMainSidePanelState] = useRecoilState(mainSidePanelState);
 
   const style = {
     headerText: css`
@@ -76,6 +82,7 @@ export function MainSidePanel(props) {
       font-style: normal;
       font-weight: 400;
       line-height: 18px; /* 180% */
+      padding-left: 10px;
     `,
   };
 
@@ -95,6 +102,14 @@ export function MainSidePanel(props) {
     setViewType(ViewType.CurrentSession);
   }, [setCurrentSession, setViewType]);
 
+  const toggleMainSidePanelState = useCallback(() => {
+    if (mainSidePanel === MainSidePanelType.Expanded) {
+      setMainSidePanelState(MainSidePanelType.Collapsed);
+    } else {
+      setMainSidePanelState(MainSidePanelType.Expanded);
+    }
+  }, [mainSidePanel]);
+
   return (
     <Grid {...props}
       UNSAFE_style={{ padding: '10px' }}
@@ -103,42 +118,66 @@ export function MainSidePanel(props) {
       rows={['min-content', '1fr', 'min-content']}
       gap={'size-400'}>
       <Flex gap={'12px'} direction={'row'} justifyContent={'space-between'} alignItems={'center'} gridArea={'header'}>
-        <Text UNSAFE_className={style.headerText}>Generate Variations</Text>
-        <Text UNSAFE_className={style.versionTag} justifySelf={'end'}>v{appVersion}</Text>
+        <Flex UNSAFE_style={{ paddingLeft: '4px' }} gap={'6px'} direction={'row'} alignItems={'center'}>
+          <TooltipTrigger delay={0}>
+            <ActionButton
+              isQuiet
+              UNSAFE_className="hover-cursor-pointer"
+              onPress={toggleMainSidePanelState}>
+              <ShowMenu size='S' />
+            </ActionButton>
+            <Tooltip>
+              {mainSidePanel === MainSidePanelType.Collapsed ? <Text>Expand</Text> : <Text>Collapse</Text>} Side Panel
+            </Tooltip>
+          </TooltipTrigger>
+          {mainSidePanel === MainSidePanelType.Expanded
+            && <Text UNSAFE_className={style.headerText}>Generate Variations</Text>}
+        </Flex>
+        {mainSidePanel === MainSidePanelType.Expanded
+          && <Text UNSAFE_className={style.versionTag}>v{appVersion}</Text>}
       </Flex>
 
       <Flex direction={'column'} gridArea={'menu'} gap={'size-100'}>
         <ul className={style.menu}>
           <li className={viewType === ViewType.NewSession ? derivedStyle.clickedMenuItem : style.menuItem}>
-            <Image src={PromptsIcon} width={'20px'} alt={'New prompt template'}/>
-            <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>Prompt Templates</Link>
+            <ClickableImage src={PromptsIcon} width={'20px'} title={'Prompt Templates'} alt={'New prompt template'} onClick={() => setViewType(ViewType.NewSession)} />
+            {mainSidePanel === MainSidePanelType.Expanded && <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>Prompt Templates</Link>}
           </li>
           <li className={viewType === ViewType.Favorites ? derivedStyle.clickedMenuItem : style.menuItem}>
-            <Image src={FavoritesIcon} width={'20px'} alt={'Favorites'}/>
-            <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.Favorites)}>Favorites</Link>
+            <ClickableImage src={FavoritesIcon} width={'20px'} title={'Favorites'} alt={'Favorites'} onClick={() => setViewType(ViewType.Favorites)} />
+            {mainSidePanel === MainSidePanelType.Expanded && <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.Favorites)}>Favorites</Link>}
           </li>
           <li className={style.menuItem}>
-            <Image src={RecentsIcon} width={'20px'} alt={'Recents'}/>
-            <Text>Recents</Text>
+            {mainSidePanel === MainSidePanelType.Expanded
+              ? <Image src={RecentsIcon} width={'20px'} alt={'Recents'} />
+              : <ClickableImage src={RecentsIcon} width={'20px'} title={'Recents'} alt={'Recents'} onClick={() => (sessions?.length > 0) && setMainSidePanelState(MainSidePanelType.Expanded)} />
+            }
+            {mainSidePanel === MainSidePanelType.Expanded && <Text>Recents</Text>}
           </li>
-          { (sessions && sessions.length > 0) && sessions.map((session) => (
-            // eslint-disable-next-line max-len
-            <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyle.clickedSubMenuItem : style.subMenuItem} key={session.id}>
-              <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => handleRecent(session)}>{session.name}</Link>
-            </li>
-          )) }
+          {(mainSidePanel === MainSidePanelType.Expanded && sessions && sessions.length > 0)
+            && sessions.map((session) => (
+              // eslint-disable-next-line max-len
+              <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyle.clickedSubMenuItem : style.subMenuItem} key={session.id}>
+                <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => handleRecent(session)}>{session.name}</Link>
+              </li>
+            ))}
         </ul>
       </Flex>
 
       <Flex direction={'column'} gridArea={'footer'} gap={'16px'}>
-        <Flex direction={'row'} justifyContent={'start'} alignItems={'center'} gap={'12px'}>
-          <Image src={HelpIcon} width={'20px'}/>
-          <Link href="https://www.aem.live/docs/sidekick-generate-variations" target="_blank" UNSAFE_className={style.menu} alt={'Help'}>Help & FAQ</Link>
-        </Flex>
-        <Flex direction={'row'} justifyContent={'start'} alignItems={'center'} gap={'12px'}>
-          <Image src={FileTxt} width={'20px'}/><Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={style.menu} alt={'Guidelines'}>User Guidelines</Link>
-        </Flex>
-        <Text UNSAFE_className={style.copyright}>Copyright © 2023 Adobe. All rights reserved</Text>
+        <ul className={style.menu}>
+          <li className={style.menuItem}>
+            <ClickableImage src={HelpIcon} width={'20px'} title={'Help & FAQ'} alt={'Help'} onClick={() => window.open(HELP_AND_FAQ_URL, '_blank')} />
+            {mainSidePanel === MainSidePanelType.Expanded && <Link href={HELP_AND_FAQ_URL} target="_blank" UNSAFE_className={style.menu}>Help & FAQ</Link>}
+          </li>
+          <li className={style.menuItem}>
+            <ClickableImage src={FileTxt} width={'20px'} title={'User Guidelines'} alt={'Guidelines'} onClick={() => window.open(USER_GUIDELINES_URL, '_blank')} />
+            {mainSidePanel === MainSidePanelType.Expanded && <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={style.menu}>User Guidelines</Link>}
+          </li>
+          {mainSidePanel === MainSidePanelType.Expanded
+            ? <Text UNSAFE_className={style.copyright}>Copyright © 2023 Adobe. All rights reserved</Text>
+            : <Text />}
+        </ul>
       </Flex>
     </Grid>
   );

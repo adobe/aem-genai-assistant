@@ -273,7 +273,7 @@ export function PromptResultCard({ result, ...props }) {
   const handleDownloadImage = useCallback((base64Image) => {
     const link = document.createElement('a');
     link.href = base64Image;
-    link.download = 'image.png';
+    link.download = 'image';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

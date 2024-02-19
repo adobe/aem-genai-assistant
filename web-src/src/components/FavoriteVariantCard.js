@@ -57,7 +57,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
                 isQuiet
                 UNSAFE_className="hover-cursor-pointer"
                 onPress={() => {
-                  log('prompt:copyfavorite', { text: toText(variant.content) });
+                  log('prompt:copyfavorite');
                   sampleRUM('genai:prompt:copyfavorite', { source: 'FavoriteCard#onPress' });
                   navigator.clipboard.writeText(toText(variant.content));
                   ToastQueue.positive('Copied to clipboard', { timeout: 1000 });

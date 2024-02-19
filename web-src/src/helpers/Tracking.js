@@ -9,23 +9,25 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import metrics from '@adobe/exc-app/metrics';
-import { sampleRUM } from '../rum.js';
+import excMetrics from '@adobe/exc-app/metrics';
 
-export function tracking(checkpoint, data = {}) {
-  const checkpoints = checkpoint.split(':');
-  if (checkpoints.length !== 3) {
-    // eslint-disable-next-line no-console
-    console.error('tracking: invalid checkpoint length < 3', checkpoints);
-    return;
-  }
-  if (!data.source) {
-    // eslint-disable-next-line no-console
-    console.error('tracking: Missing source in data object', data);
-    return;
-  }
+let excMetricsInstance;
 
-  sampleRUM(checkpoint, data);
-  const excMetrics = metrics.create('com.adobe.aem.generatevariations');
-  excMetrics.log(checkpoint, data.source, data.target);
+const getMetrics = () => {
+  if (excMetricsInstance) {
+    return excMetricsInstance;
+  } else {
+    excMetricsInstance = excMetrics.create('com.adobe.aem.generatevariations');
+    return excMetricsInstance;
+  }
+};
+
+export function log(id, data = {}) {
+  const metrics = getMetrics();
+  metrics.log(id, data);
+}
+
+export function error(id, data = {}) {
+  const metrics = getMetrics();
+  metrics.error(id, data);
 }

@@ -21,7 +21,8 @@ import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
 import { promptTemplatesState } from '../state/PromptTemplatesState.js';
 import { WelcomeBanner } from './WelcomeBanner.js';
-import { tracking } from '../helpers/Tracking.js';
+import { sampleRUM } from '../rum.js';
+import { log } from '../helpers/Tracking.js';
 
 function PromptTemplatesView({ onSelect }) {
   const promptTemplates = useRecoilValue(promptTemplatesState);
@@ -51,11 +52,12 @@ export function PromptTemplateLibraryPanel({ props }) {
   const setViewType = useSetRecoilState(viewTypeState);
 
   const handleSelect = useCallback((selectedTemplate) => {
-    if (selectedTemplate.isNew) {
-      tracking('genai:prompt:new', { source: 'HomePanel#handleSelect' });
-    } else {
-      tracking(`genai:prompt:${selectedTemplate.isBundled ? 'isadobeselected' : 'iscustomselected'}`, { source: 'HomePanel#handleSelect' });
-    }
+    log('prompt:selected', {
+      isBundled: selectedTemplate.isBundled,
+      description: selectedTemplate.description,
+      label: selectedTemplate.label,
+    });
+    sampleRUM(`genai:prompt:${selectedTemplate.isBundled ? 'isadobeselected' : 'iscustomselected'}`, { source: 'HomePanel#handleSelect' });
     const timestamp = Date.now();
     const session = {
       id: uuid(),

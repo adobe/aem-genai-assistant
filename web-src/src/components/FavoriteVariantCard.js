@@ -18,10 +18,11 @@ import { ToastQueue } from '@react-spectrum/toast';
 import { motion } from 'framer-motion';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { toHTML, toText } from '../helpers/PromptExporter.js';
-import { tracking } from '../helpers/Tracking.js';
+import { log } from '../helpers/Tracking.js';
 
 import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';
 import DeleteOutlineIcon from '../icons/DeleteOutlineIcon.js';
+import { sampleRUM } from '../rum.js';
 
 const styles = {
   card: css`
@@ -56,7 +57,8 @@ export function FavoriteVariantCard({ variant, ...props }) {
                 isQuiet
                 UNSAFE_className="hover-cursor-pointer"
                 onPress={() => {
-                  tracking('genai:prompt:copyfavorite', { source: 'FavoriteCard#onPress' });
+                  log('prompt:copyfavorite', { text: toText(variant.content) });
+                  sampleRUM('genai:prompt:copyfavorite', { source: 'FavoriteCard#onPress' });
                   navigator.clipboard.writeText(toText(variant.content));
                   ToastQueue.positive('Copied to clipboard', { timeout: 1000 });
                 }}>

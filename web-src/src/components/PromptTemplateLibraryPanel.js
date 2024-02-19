@@ -22,6 +22,7 @@ import { formatTimestamp } from '../helpers/FormatHelper.js';
 import { promptTemplatesState } from '../state/PromptTemplatesState.js';
 import { WelcomeBanner } from './WelcomeBanner.js';
 import { sampleRUM } from '../rum.js';
+import { log } from '../helpers/Tracking.js';
 
 function PromptTemplatesView({ onSelect }) {
   const promptTemplates = useRecoilValue(promptTemplatesState);
@@ -51,6 +52,11 @@ export function PromptTemplateLibraryPanel({ props }) {
   const setViewType = useSetRecoilState(viewTypeState);
 
   const handleSelect = useCallback((selectedTemplate) => {
+    log('prompt:selected', {
+      isBundled: selectedTemplate.isBundled,
+      description: selectedTemplate.description,
+      label: selectedTemplate.label,
+    });
     if (selectedTemplate.isNew) {
       sampleRUM('genai:prompt:new', { source: 'HomePanel#handleSelect' });
     } else {

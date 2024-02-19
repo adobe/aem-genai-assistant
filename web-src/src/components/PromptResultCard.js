@@ -28,6 +28,7 @@ import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
+import { sampleRUM } from '../rum.js';
 import { log } from '../helpers/Tracking.js';
 import { toHTML, toText } from '../helpers/PromptExporter.js';
 
@@ -40,7 +41,6 @@ import ThumbsUpOutlineIcon from '../icons/ThumbsUpOutlineIcon.js';
 import ThumbsDownOutlineIcon from '../icons/ThumbsDownOutlineIcon.js';
 import ThumbsUpDisabledIcon from '../icons/ThumbsUpDisabledIcon.js';
 import ThumbsDownDisabledIcon from '../icons/ThumbsDownDisabledIcon.js';
-import { sampleRUM } from '../rum.js';
 
 const styles = {
   card: css`

@@ -18,11 +18,11 @@ import { ToastQueue } from '@react-spectrum/toast';
 import { motion } from 'framer-motion';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { toHTML, toText } from '../helpers/PromptExporter.js';
+import { sampleRUM } from '../rum.js';
 import { log } from '../helpers/Tracking.js';
 
 import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';
 import DeleteOutlineIcon from '../icons/DeleteOutlineIcon.js';
-import { sampleRUM } from '../rum.js';
 
 const styles = {
   card: css`

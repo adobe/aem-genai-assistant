@@ -21,9 +21,9 @@ import {
 import React, { useEffect } from 'react';
 import settingsApi, { SettingsLevel } from '@adobe/exc-app/settings';
 import { LegalTermsLink } from './LegalTermsLink.js';
+import { sampleRUM } from '../rum.js';
 import { log } from '../helpers/Tracking.js';
 import ConsentHero from '../assets/consent-hero.png';
-import { sampleRUM } from '../rum.js';
 
 export const CONSENT_KEY = 'genai-assistant-consent';
 const EXC_SHELL_GROUP_ID = 'aem-generate-variations';

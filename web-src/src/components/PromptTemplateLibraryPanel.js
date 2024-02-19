@@ -57,7 +57,11 @@ export function PromptTemplateLibraryPanel({ props }) {
       description: selectedTemplate.description,
       label: selectedTemplate.label,
     });
-    sampleRUM(`genai:prompt:${selectedTemplate.isBundled ? 'isadobeselected' : 'iscustomselected'}`, { source: 'HomePanel#handleSelect' });
+    if (selectedTemplate.isNew) {
+      sampleRUM('genai:prompt:new', { source: 'HomePanel#handleSelect' });
+    } else {
+      sampleRUM(`genai:prompt:${selectedTemplate.isBundled ? 'isadobeselected' : 'iscustomselected'}`, { source: 'HomePanel#handleSelect' });
+    }
     const timestamp = Date.now();
     const session = {
       id: uuid(),

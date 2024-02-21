@@ -33,8 +33,11 @@ import { variantImagesState } from '../state/VariantImagesState.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { sampleRUM } from '../rum.js';
 import {
-  copyImageToClipboard, copyImageToClipboardLegacy, toHTML, toText,
+  toHTML, toText,
 } from '../helpers/PromptExporter.js';
+import {
+  generateImagePrompt, copyImageToClipboard, copyImageToClipboardLegacy, downloadImage as handleDownloadImage,
+} from '../helpers/ImageHelper.js';
 import { ImageViewer } from './ImageViewer.js';
 
 import RefreshIcon from '../icons/RefreshIcon.js';
@@ -175,8 +178,6 @@ export function PromptResultCard({ result, ...props }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
-  let ccEverywhereInstance = null;
-
   useEffect(() => {
     if (resultsEndRef.current) {
       resultsEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
@@ -217,66 +218,35 @@ export function PromptResultCard({ result, ...props }) {
     await saveResults();
   }, [setResults]);
 
-  const addImageToVariant = (variantId, base64Image) => {
+  const addImageToVariant = useCallback((variantId, base64Image) => {
     setVariantImages((imagesByVariant) => ({
       ...imagesByVariant,
       [variantId]: [...(imagesByVariant[variantId] || []), base64Image],
     }));
-  };
+  }, []);
 
-  const replaceImageFromVariant = (variantId, index, base64Image) => {
+  const replaceImageFromVariant = useCallback((variantId, index, base64Image) => {
     setVariantImages((imagesByVariant) => {
-      // Copy the existing array for the variant
       const copyImages = [...imagesByVariant[variantId]];
-      // Replace the image at the specified index
       copyImages[index] = base64Image;
-      // Return the updated imagesByVariant object
+
       return {
         ...imagesByVariant,
         [variantId]: copyImages,
       };
     });
-  };
+  }, []);
 
-  const deleteImageFromVariant = (variantId, index) => {
+  const deleteImageFromVariant = useCallback((variantId, index) => {
     setVariantImages((imagesByVariant) => {
-      // Copy the existing array for the variant
       const copyImages = [...imagesByVariant[variantId]];
-      // Remove the image at the specified index
-      copyImages.splice(index, 1);
-      // Return the updated imagesByVariant object
+      copyImages.splice(index, 1); // Remove the image at the specified index
+
       return {
         ...imagesByVariant,
         [variantId]: copyImages,
       };
     });
-  };
-
-  const generateImagePrompt = useCallback(async () => {
-    const variantToImagePrompt = `I want to create images using a text-to-image model. For this, I need a concise, one-sentence image prompt created by following these steps:
-    - Read and understand the subject or theme from the given JSON context below.
-    - Specify key elements such as individuals, actions, and emotions within this context, ensuring they align with the theme.
-    - Formulate a single-sentence prompt which includes these elements, and also focusing on realism and the activity.
-    - The prompt should be clear and direct, highlighting the main components as concrete as possible: a subject (e.g., a concrete object related to the topic or a person), action (e.g., using headphones, knowledge transfer), and the emotional tone(e.g. happy, persuasive, serious, etc.).
-    - An example to the generated image prompt from a given context:
-    Context: {
-      "Title": "Discover Perfect Sound",
-      "Body": "Explore our bestselling wireless headphones."
-    }
-    Generated Prompt:
-    "A happy, confident person enjoying music in an urban park, using high-quality wireless headphones, with the city skyline in the background."
-    Here is the JSON context: ${JSON.stringify(selectedVariant.content)}`;
-    const { queryId, response } = await firefallService.complete(variantToImagePrompt, 0);
-    return response;
-  }, [firefallService]);
-
-  const handleDownloadImage = useCallback((base64Image) => {
-    const link = document.createElement('a');
-    link.href = base64Image;
-    link.download = 'image';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   }, []);
 
   const handleCopyImage = useCallback((base64Image) => {
@@ -289,30 +259,12 @@ export function PromptResultCard({ result, ...props }) {
   }, []);
 
   const handleGenerateImage = useCallback(async (imagePrompt, variantId) => {
-    const callbacks = {
-      onPublish: (publishParams) => {
-        addImageToVariant(variantId, publishParams.asset[0].data);
-      },
+    const onPublish = (publishParams) => {
+      addImageToVariant(variantId, publishParams.asset[0].data);
     };
 
-    const userInfo = {
-      profile: {
-        userId: user.imsProfile.userId,
-        serviceCode: null,
-        serviceLevel: null,
-      },
-    };
-
-    const authInfo = {
-      accessToken: user.imsToken,
-      useJumpUrl: false,
-      forceJumpCheck: false,
-    };
-
-    if (ccEverywhereInstance == null) {
-      ccEverywhereInstance = await expressSDKService.initExpressEditor();
-    }
-    ccEverywhereInstance.miniEditor.createImageFromText(
+    await expressSDKService.handleImageOperation(
+      'generateImage',
       {
         outputParams: {
           outputType: 'base64',
@@ -320,18 +272,50 @@ export function PromptResultCard({ result, ...props }) {
         inputParams: {
           promptText: imagePrompt,
         },
-        callbacks,
+        callbacks: {
+          onPublish,
+        },
       },
-      userInfo,
-      authInfo,
     );
   }, [expressSDKService, user, selectedVariant]);
 
+  const handleEditGenerateImage = useCallback(async (index) => {
+    const onPublish = (publishParams) => {
+      replaceImageFromVariant(selectedVariant.id, index, publishParams.asset[0].data);
+    };
+
+    const assetData = variantImages[selectedVariant.id][index];
+
+    await expressSDKService.handleImageOperation(
+      'editImage',
+      {
+        outputParams: {
+          outputType: 'base64',
+        },
+        inputParams: {
+          asset: {
+            data: assetData,
+            type: 'image',
+            dataType: 'base64',
+          },
+        },
+        callbacks: {
+          onPublish,
+        },
+      },
+    );
+  }, [expressSDKService, user, selectedVariant, variantImages]);
+
+  const handleImageViewerOpen = useCallback((index) => {
+    setImageViewerIndex(index);
+    setIsImageViewerOpen(true);
+  }, []);
+
   const handleGenerateImagePrompt = useCallback((variantId) => {
     setImagePromptProgress(true);
-    generateImagePrompt()
+    generateImagePrompt(firefallService, selectedVariant)
       .then((imagePrompt) => {
-        handleGenerateImage('', variantId);
+        handleGenerateImage(imagePrompt, variantId);
       })
       .catch((error) => {
         ToastQueue.negative(error.message, { timeout: 2000 });
@@ -340,54 +324,6 @@ export function PromptResultCard({ result, ...props }) {
         setImagePromptProgress(false);
       });
   }, [generateImagePrompt, setImagePromptProgress]);
-
-  const handleEditGenerateImage = useCallback(async (index) => {
-    const callbacks = {
-      onPublish: (publishParams) => {
-        replaceImageFromVariant(selectedVariant.id, index, publishParams.asset[0].data);
-      },
-    };
-
-    const userInfo = {
-      profile: {
-        userId: user.imsProfile.userId,
-        serviceCode: null,
-        serviceLevel: null,
-      },
-    };
-
-    const authInfo = {
-      accessToken: user.imsToken,
-      useJumpUrl: false,
-      forceJumpCheck: false,
-    };
-
-    if (ccEverywhereInstance == null) {
-      ccEverywhereInstance = await expressSDKService.initExpressEditor();
-    }
-    ccEverywhereInstance.miniEditor.editImage(
-      {
-        outputParams: {
-          outputType: 'base64',
-        },
-        inputParams: {
-          asset: {
-            data: variantImages[selectedVariant.id][index],
-            type: 'image',
-            dataType: 'base64',
-          },
-        },
-        callbacks,
-      },
-      userInfo,
-      authInfo,
-    );
-  }, [expressSDKService, user, selectedVariant, variantImages]);
-
-  const handleImageViewerOpen = (index) => {
-    setImageViewerIndex(index);
-    setIsImageViewerOpen(true);
-  };
 
   return (
     <motion.div
@@ -598,7 +534,7 @@ export function PromptResultCard({ result, ...props }) {
                   width="size-2000"
                   variant="secondary"
                   style="fill"
-                  onPress={() => handleGenerateImagePrompt(selectedVariant.id)}
+                  onPress={() => handleGenerateImage('', selectedVariant.id)}
                   isDisabled={!isExpressAuthorized}>
                   {imagePromptProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}
                   Generate Image

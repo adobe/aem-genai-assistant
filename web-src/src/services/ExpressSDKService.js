@@ -20,6 +20,7 @@ export class ExpressSDKService {
     this.clientId = clientId;
     this.appName = appName;
     this.user = user;
+    this.ccEverywhereInstance = null;
   }
 
   async initExpressEditor() {
@@ -67,5 +68,31 @@ export class ExpressSDKService {
     };
 
     return loadExpressSDK(document, this.CDN_URL);
+  }
+
+  async handleImageOperation(operation, operationParams) {
+    const userInfo = {
+      profile: {
+        userId: this.user.imsProfile.userId,
+        serviceCode: null,
+        serviceLevel: null,
+      },
+    };
+
+    const authInfo = {
+      accessToken: this.user.imsToken,
+      useJumpUrl: false,
+      forceJumpCheck: false,
+    };
+
+    if (this.ccEverywhereInstance == null) {
+      this.ccEverywhereInstance = await this.initExpressEditor();
+    }
+
+    if (operation === 'generateImage') {
+      this.ccEverywhereInstance.miniEditor.createImageFromText(operationParams, userInfo, authInfo);
+    } else if (operation === 'editImage') {
+      this.ccEverywhereInstance.miniEditor.editImage(operationParams, userInfo, authInfo);
+    }
   }
 }

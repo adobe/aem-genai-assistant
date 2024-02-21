@@ -19,7 +19,7 @@ import React, {
 import { css } from '@emotion/css';
 import { motion } from 'framer-motion';
 import { ToastQueue } from '@react-spectrum/toast';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { useIsFavorite } from '../state/IsFavoriteHook.js';
 import { useIsFeedback } from '../state/IsFeedbackHook.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
@@ -29,8 +29,8 @@ import { useShellContext } from './ShellProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
-import { variantImagesState } from '../state/VariantImagesState.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
+import { useVariantImages } from '../state/VariantImagesHook.js';
 import { sampleRUM } from '../rum.js';
 import {
   toHTML, toText,
@@ -168,9 +168,11 @@ export function PromptResultCard({ result, ...props }) {
   const toggleFavorite = useToggleFavorite();
   const saveFeedback = useSaveFeedback();
   const saveResults = useSaveResults();
+  const {
+    variantImages, addImageToVariant, replaceImageFromVariant, deleteImageFromVariant,
+  } = useVariantImages();
   const resultsEndRef = useRef();
 
-  const [variantImages, setVariantImages] = useRecoilState(variantImagesState);
   const [imagePromptProgress, setImagePromptProgress] = useState(false);
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
   const [imageViewerIndex, setImageViewerIndex] = useState(0);
@@ -218,37 +220,6 @@ export function PromptResultCard({ result, ...props }) {
     await saveResults();
   }, [setResults]);
 
-  const addImageToVariant = useCallback((variantId, base64Image) => {
-    setVariantImages((imagesByVariant) => ({
-      ...imagesByVariant,
-      [variantId]: [...(imagesByVariant[variantId] || []), base64Image],
-    }));
-  }, []);
-
-  const replaceImageFromVariant = useCallback((variantId, index, base64Image) => {
-    setVariantImages((imagesByVariant) => {
-      const copyImages = [...imagesByVariant[variantId]];
-      copyImages[index] = base64Image;
-
-      return {
-        ...imagesByVariant,
-        [variantId]: copyImages,
-      };
-    });
-  }, []);
-
-  const deleteImageFromVariant = useCallback((variantId, index) => {
-    setVariantImages((imagesByVariant) => {
-      const copyImages = [...imagesByVariant[variantId]];
-      copyImages.splice(index, 1); // Remove the image at the specified index
-
-      return {
-        ...imagesByVariant,
-        [variantId]: copyImages,
-      };
-    });
-  }, []);
-
   const handleCopyImage = useCallback((base64Image) => {
     if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       copyImageToClipboardLegacy(base64Image);
@@ -283,7 +254,6 @@ export function PromptResultCard({ result, ...props }) {
     const onPublish = (publishParams) => {
       replaceImageFromVariant(selectedVariant.id, index, publishParams.asset[0].data);
     };
-
     const assetData = variantImages[selectedVariant.id][index];
 
     await expressSDKService.handleImageOperation(

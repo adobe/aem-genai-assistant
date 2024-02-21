@@ -18,10 +18,9 @@ import React, {
 } from 'react';
 import { css } from '@emotion/css';
 import { ToastQueue } from '@react-spectrum/toast';
-import { useRecoilState } from 'recoil';
 import { motion } from 'framer-motion';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
-import { variantImagesState } from '../state/VariantImagesState.js';
+import { useVariantImages } from '../state/VariantImagesHook.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { useShellContext } from './ShellProvider.js';
 import {
@@ -70,45 +69,16 @@ export function FavoriteVariantCard({ variant, ...props }) {
   const { firefallService, expressSDKService } = useApplicationContext();
   const { user, isExpressAuthorized } = useShellContext();
   const toggleFavorite = useToggleFavorite();
+  const {
+    variantImages, addImageToVariant, replaceImageFromVariant, deleteImageFromVariant,
+  } = useVariantImages();
 
-  const [variantImages, setVariantImages] = useRecoilState(variantImagesState);
   const [imagePromptProgress, setImagePromptProgress] = useState(false);
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
   const [imageViewerIndex, setImageViewerIndex] = useState(0);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
-
-  const addImageToVariant = useCallback((variantId, base64Image) => {
-    setVariantImages((imagesByVariant) => ({
-      ...imagesByVariant,
-      [variantId]: [...(imagesByVariant[variantId] || []), base64Image],
-    }));
-  }, [setVariantImages]);
-
-  const replaceImageFromVariant = useCallback((variantId, index, base64Image) => {
-    setVariantImages((imagesByVariant) => {
-      const copyImages = [...imagesByVariant[variantId]];
-      copyImages[index] = base64Image;
-
-      return {
-        ...imagesByVariant,
-        [variantId]: copyImages,
-      };
-    });
-  }, [setVariantImages]);
-
-  const deleteImageFromVariant = useCallback((variantId, index) => {
-    setVariantImages((imagesByVariant) => {
-      const copyImages = [...imagesByVariant[variantId]];
-      copyImages.splice(index, 1); // Remove the image at the specified index
-
-      return {
-        ...imagesByVariant,
-        [variantId]: copyImages,
-      };
-    });
-  }, [setVariantImages]);
 
   const handleCopyImage = useCallback((base64Image) => {
     if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
@@ -144,7 +114,6 @@ export function FavoriteVariantCard({ variant, ...props }) {
     const onPublish = (publishParams) => {
       replaceImageFromVariant(variant.id, index, publishParams.asset[0].data);
     };
-
     const assetData = variantImages[variant.id][index];
 
     await expressSDKService.handleImageOperation(

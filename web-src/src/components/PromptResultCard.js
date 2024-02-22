@@ -10,8 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Button, ActionButton, Tooltip, TooltipTrigger, ContextualHelp, Heading, Content, Flex, Image, ProgressCircle,
-  MenuTrigger, Menu, Item, Text, DialogContainer, AlertDialog, Divider,
+  Button, ActionButton, Tooltip, TooltipTrigger, ContextualHelp, Heading, Content, Flex, ProgressCircle, Divider,
 } from '@adobe/react-spectrum';
 import React, {
   useCallback, useState, useEffect, useRef,
@@ -32,13 +31,9 @@ import { resultsState } from '../state/ResultsState.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
 import { sampleRUM } from '../rum.js';
-import {
-  toHTML, toText,
-} from '../helpers/PromptExporter.js';
-import {
-  generateImagePrompt, copyImageToClipboard, copyImageToClipboardLegacy, downloadImage as handleDownloadImage,
-} from '../helpers/ImageHelper.js';
-import { ImageViewer } from './ImageViewer.js';
+import { toHTML, toText } from '../helpers/PromptExporter.js';
+import { generateImagePrompt } from '../helpers/ImageHelper.js';
+import { VariantImagesView } from './VariantImagesView.js';
 
 import RefreshIcon from '../icons/RefreshIcon.js';
 import FavoritesIcon from '../icons/FavoritesIcon.js';
@@ -49,10 +44,7 @@ import ThumbsUpOutlineIcon from '../icons/ThumbsUpOutlineIcon.js';
 import ThumbsDownOutlineIcon from '../icons/ThumbsDownOutlineIcon.js';
 import ThumbsUpDisabledIcon from '../icons/ThumbsUpDisabledIcon.js';
 import ThumbsDownDisabledIcon from '../icons/ThumbsDownDisabledIcon.js';
-import EditIcon from '../icons/EditIcon.js';
 import GenAIIcon from '../icons/GenAIIcon.js';
-import DownloadIcon from '../icons/DownloadIcon.js';
-import MoreIcon from '../icons/MoreIcon.js';
 
 const styles = {
   card: css`
@@ -140,20 +132,6 @@ const styles = {
   `,
   resultActions: css`
   `,
-  variantThumbImages: css`
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    justify-content: left;
-    align-items: end;
-    width: 100%;
-    overflow: auto;
-  `,
-  variantThumbImage: css`
-    width: 144px;
-    height: 144px;
-    border-radius: 8px;
-  `,
 };
 
 export function PromptResultCard({ result, ...props }) {
@@ -168,17 +146,10 @@ export function PromptResultCard({ result, ...props }) {
   const toggleFavorite = useToggleFavorite();
   const saveFeedback = useSaveFeedback();
   const saveResults = useSaveResults();
-  const {
-    variantImages, addImageToVariant, replaceImageFromVariant, deleteImageFromVariant,
-  } = useVariantImages();
+  const { addImageToVariant } = useVariantImages();
   const resultsEndRef = useRef();
 
   const [imagePromptProgress, setImagePromptProgress] = useState(false);
-  const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
-  const [imageViewerIndex, setImageViewerIndex] = useState(0);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
-  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
   useEffect(() => {
     if (resultsEndRef.current) {
@@ -220,15 +191,6 @@ export function PromptResultCard({ result, ...props }) {
     await saveResults();
   }, [setResults]);
 
-  const handleCopyImage = useCallback((base64Image) => {
-    if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-      copyImageToClipboardLegacy(base64Image);
-    } else {
-      copyImageToClipboard(base64Image, 'image/png');
-    }
-    ToastQueue.positive('Copied image to clipboard', { timeout: 1000 });
-  }, []);
-
   const handleGenerateImage = useCallback(async (imagePrompt, variantId) => {
     const onPublish = (publishParams) => {
       addImageToVariant(variantId, publishParams.asset[0].data);
@@ -250,37 +212,6 @@ export function PromptResultCard({ result, ...props }) {
     );
   }, [expressSDKService, user, selectedVariant]);
 
-  const handleEditGenerateImage = useCallback(async (index) => {
-    const onPublish = (publishParams) => {
-      replaceImageFromVariant(selectedVariant.id, index, publishParams.asset[0].data);
-    };
-    const assetData = variantImages[selectedVariant.id][index];
-
-    await expressSDKService.handleImageOperation(
-      'editImage',
-      {
-        outputParams: {
-          outputType: 'base64',
-        },
-        inputParams: {
-          asset: {
-            data: assetData,
-            type: 'image',
-            dataType: 'base64',
-          },
-        },
-        callbacks: {
-          onPublish,
-        },
-      },
-    );
-  }, [expressSDKService, user, selectedVariant, variantImages]);
-
-  const handleImageViewerOpen = useCallback((index) => {
-    setImageViewerIndex(index);
-    setIsImageViewerOpen(true);
-  }, []);
-
   const handleGenerateImagePrompt = useCallback((variantId) => {
     setImagePromptProgress(true);
     generateImagePrompt(firefallService, selectedVariant)
@@ -300,41 +231,7 @@ export function PromptResultCard({ result, ...props }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'easeInOut', duration: 0.3 }}>
-      <div {...props} className={styles.card} ref={resultsEndRef} onClick={() => setSelectedImageIndex(null)}>
-        <ImageViewer
-          images={variantImages[selectedVariant.id]}
-          index={imageViewerIndex}
-          onIndexChange={setImageViewerIndex}
-          open={isImageViewerOpen}
-          onClose={() => setIsImageViewerOpen(false)}
-          onEdit={(index) => {
-            setIsImageViewerOpen(false);
-            handleEditGenerateImage(index);
-          }}
-          onCopy={(index) => {
-            handleCopyImage(variantImages[selectedVariant.id][index]);
-          }}
-          onDownload={(index) => handleDownloadImage(variantImages[selectedVariant.id][index])}
-        />
-        <DialogContainer onDismiss={() => setIsDeleteDialogOpen(false)}>
-          {isDeleteDialogOpen && (
-            <AlertDialog
-              variant="destructive"
-              title="Delete Image"
-              primaryActionLabel="Delete"
-              cancelLabel="Cancel"
-              onPrimaryAction={() => {
-                deleteImageFromVariant(selectedVariant.id, selectedImageIndex);
-                setIsDeleteDialogOpen(false);
-              }}
-              onCancelAction={() => {
-                console.log("You've canceled the delete action");
-                setIsDeleteDialogOpen(false);
-              }}>
-              This will permanently delete the image. Continue?
-            </AlertDialog>
-          )}
-        </DialogContainer>
+      <div {...props} className={styles.card} ref={resultsEndRef}>
         <div className={styles.promptSection}>
           <div className={styles.promptContent}>{result.prompt}</div>
           <div className={styles.promptActions}>
@@ -367,74 +264,7 @@ export function PromptResultCard({ result, ...props }) {
             }
           </div>
           <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariant.content) }} />
-          {variantImages[selectedVariant.id]
-            && <div className={styles.variantThumbImages}>
-              {variantImages[selectedVariant.id].map((base64Image, index) => {
-                return (
-                  <div key={index} className={'variant-image-wrapper'}>
-                    <div onClick={() => handleImageViewerOpen(index)}>
-                      <Image src={base64Image}
-                        objectFit={'cover'}
-                        UNSAFE_className={`${styles.variantThumbImage} ${(!isMoreMenuOpen || selectedImageIndex !== index) ? 'variant-thumb-image' : 'variant-thumb-image-selected'} hover-cursor-pointer`}
-                      />
-                    </div>
-                    <Flex direction={'row'} width={'100%'} gap={'size-100'} position={'absolute'} bottom={'size-100'} justifyContent={'center'}>
-                      <TooltipTrigger delay={0}>
-                        <Button
-                          variant='secondary'
-                          style='fill'
-                          UNSAFE_className={`${(!isMoreMenuOpen || selectedImageIndex !== index) && 'variant-image-button'} hover-cursor-pointer`}
-                          onPress={() => handleCopyImage(base64Image)}>
-                          <CopyOutlineIcon />
-                        </Button>
-                        <Tooltip>Copy Image</Tooltip>
-                      </TooltipTrigger>
-                      <TooltipTrigger delay={0}>
-                        <Button
-                          variant='secondary'
-                          style='fill'
-                          UNSAFE_className={`${(!isMoreMenuOpen || selectedImageIndex !== index) && 'variant-image-button'} hover-cursor-pointer`}
-                          onPress={() => handleEditGenerateImage(index)}>
-                          <EditIcon />
-                        </Button>
-                        <Tooltip>Edit</Tooltip>
-                      </TooltipTrigger>
-                      <TooltipTrigger delay={0}>
-                        <MenuTrigger onOpenChange={(isOpen) => {
-                          setIsMoreMenuOpen(isOpen);
-                          setSelectedImageIndex(index);
-                        }}>
-                          <Button
-                            variant='secondary'
-                            style='fill'
-                            UNSAFE_className={`${(!isMoreMenuOpen || selectedImageIndex !== index) && 'variant-image-button'} hover-cursor-pointer`}>
-                            <MoreIcon />
-                          </Button>
-                          <Menu width="size-1700" onAction={(key) => {
-                            if (key === 'download') {
-                              handleDownloadImage(base64Image);
-                            } else if (key === 'delete') {
-                              setIsDeleteDialogOpen(true);
-                            }
-                          }}>
-                            <Item key="download">
-                              <DownloadIcon UNSAFE_style={{ boxSizing: 'content-box' }} />
-                              <Text>Download</Text>
-                            </Item>
-                            <Item key="delete">
-                              <DeleteOutlineIcon UNSAFE_style={{ boxSizing: 'content-box' }} />
-                              <Text>Delete</Text>
-                            </Item>
-                          </Menu>
-                        </MenuTrigger>
-                        <Tooltip>More</Tooltip>
-                      </TooltipTrigger>
-                    </Flex>
-                  </div>
-                );
-              })}
-            </div>
-          }
+          <VariantImagesView variant={selectedVariant} />
           <div className={styles.resultActions}>
             <Flex direction="row">
               <TooltipTrigger delay={0}>

@@ -89,12 +89,3 @@ export function copyImageToClipboardLegacy(base64ImageData) {
   // Remove the contenteditable div from the DOM
   document.body.removeChild(contentEditableDiv);
 }
-
-export function downloadImage(base64Image) {
-  const link = document.createElement('a');
-  link.href = base64Image;
-  link.download = 'image';
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}

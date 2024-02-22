@@ -27,6 +27,7 @@ import { promptEditorState } from '../state/PromptEditorState.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { createVariants } from '../helpers/ResultsParser.js';
+import { log } from '../helpers/Tracking.js';
 import { sampleRUM } from '../rum.js';
 
 export function GenerateButton() {
@@ -38,22 +39,30 @@ export function GenerateButton() {
   const setIsOpenPromptEditor = useSetRecoilState(promptEditorState);
   const [generationInProgress, setGenerationInProgress] = useState(false);
   const saveResults = useSaveResults();
-
   const generateResults = useCallback(async () => {
-    const finalPrompt = renderPrompt(prompt, parameters);
-    const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
-    setResults((results) => [...results, {
-      id: queryId,
-      variants: createVariants(uuid, response),
-      prompt: finalPrompt,
-      promptTemplate: prompt,
-      parameters,
-      temperature,
-    }]);
-    await saveResults();
+    try {
+      const finalPrompt = renderPrompt(prompt, parameters);
+      const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
+      const variants = createVariants(uuid, response);
+      setResults((results) => [...results, {
+        id: queryId,
+        variants,
+        prompt: finalPrompt,
+        promptTemplate: prompt,
+        parameters,
+        temperature,
+      }]);
+      await saveResults();
+      log('prompt:generatedvariations', { count: variants.length, queryId });
+      sampleRUM('genai:prompt:generatedvariations', { source: 'GenerateButton#generateResults', target: variants.length });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }, [firefallService, prompt, parameters, temperature]);
 
   const handleGenerate = useCallback(() => {
+    log('prompt:generate');
     sampleRUM('genai:prompt:generate', { source: 'GenerateButton#handleGenerate' });
     setGenerationInProgress(true);
     setIsOpenPromptEditor(false);

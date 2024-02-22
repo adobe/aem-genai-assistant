@@ -20,6 +20,8 @@ export class ExpressSDKService {
     this.clientId = clientId;
     this.appName = appName;
     this.user = user;
+    this.userInfo = null;
+    this.authInfo = null;
     this.ccEverywhereInstance = null;
   }
 
@@ -34,7 +36,7 @@ export class ExpressSDKService {
             return;
           }
           try {
-            const userInfo = {
+            this.userInfo = {
               profile: {
                 userId: this.user.imsProfile.userId,
                 serviceCode: null,
@@ -43,7 +45,7 @@ export class ExpressSDKService {
               serviceCode: null,
               serviceLevel: null,
             };
-            const authInfo = {
+            this.authInfo = {
               accessToken: this.user.imsToken,
               useJumpUrl: false,
               forceJumpCheck: false,
@@ -54,8 +56,8 @@ export class ExpressSDKService {
                 appName: this.appName,
               },
               {},
-              userInfo,
-              authInfo,
+              this.userInfo,
+              this.authInfo,
             );
             resolve(ccEverywhere);
           } catch (error) {
@@ -71,28 +73,14 @@ export class ExpressSDKService {
   }
 
   async handleImageOperation(operation, operationParams) {
-    const userInfo = {
-      profile: {
-        userId: this.user.imsProfile.userId,
-        serviceCode: null,
-        serviceLevel: null,
-      },
-    };
-
-    const authInfo = {
-      accessToken: this.user.imsToken,
-      useJumpUrl: false,
-      forceJumpCheck: false,
-    };
-
     if (this.ccEverywhereInstance == null) {
       this.ccEverywhereInstance = await this.initExpressEditor();
     }
 
     if (operation === 'generateImage') {
-      this.ccEverywhereInstance.miniEditor.createImageFromText(operationParams, userInfo, authInfo);
+      this.ccEverywhereInstance.miniEditor.createImageFromText(operationParams, this.userInfo, this.authInfo);
     } else if (operation === 'editImage') {
-      this.ccEverywhereInstance.miniEditor.editImage(operationParams, userInfo, authInfo);
+      this.ccEverywhereInstance.miniEditor.editImage(operationParams, this.userInfo, this.authInfo);
     }
   }
 }

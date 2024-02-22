@@ -20,10 +20,8 @@ import { ToastQueue } from '@react-spectrum/toast';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { useShellContext } from './ShellProvider.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
-
-import {
-  copyImageToClipboard, copyImageToClipboardLegacy, downloadImage as handleDownloadImage,
-} from '../helpers/ImageHelper.js';
+import { log } from '../helpers/Tracking.js';
+import { copyImageToClipboard, copyImageToClipboardLegacy } from '../helpers/ImageHelper.js';
 import { ImageViewer } from './ImageViewer.js';
 
 import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';
@@ -69,6 +67,12 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
   const handleCopyImage = useCallback((base64Image) => {
+    if (isFavorite) {
+      log('express:favorite:copyimage', { variant: variant.id });
+    } else {
+      log('express:copyimage', { variant: variant.id });
+    }
+
     if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
       copyImageToClipboardLegacy(base64Image);
     } else {
@@ -78,6 +82,11 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
   }, []);
 
   const handleEditGenerateImage = useCallback(async (index, variantId) => {
+    if (isFavorite) {
+      log('express:favorite:editimage', { variant: variantId });
+    } else {
+      log('express:editimage', { variant: variantId });
+    }
     const onPublish = (publishParams) => {
       replaceImageFromVariant(variantId, index, publishParams.asset[0].data);
     };
@@ -104,8 +113,27 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
   }, [expressSDKService, user, variantImages]);
 
   const handleImageViewerOpen = useCallback((index) => {
+    if (isFavorite) {
+      log('express:favorite:viewimage', { variant: variant.id });
+    } else {
+      log('express:viewimage', { variant: variant.id });
+    }
     setImageViewerIndex(index);
     setIsImageViewerOpen(true);
+  }, []);
+
+  const handleDownloadImage = useCallback((base64Image) => {
+    if (isFavorite) {
+      log('express:favorite:downloadimage', { variant: variant.id });
+    } else {
+      log('express:downloadimage', { variant: variant.id });
+    }
+    const link = document.createElement('a');
+    link.href = base64Image;
+    link.download = 'image';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }, []);
 
   return (
@@ -133,11 +161,20 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
             primaryActionLabel="Delete"
             cancelLabel="Cancel"
             onPrimaryAction={() => {
+              if (isFavorite) {
+                log('express:favorite:deleteimage', { variant: variant.id });
+              } else {
+                log('express:deleteimage', { variant: variant.id });
+              }
               deleteImageFromVariant(variant.id, selectedImageIndex);
               setIsDeleteDialogOpen(false);
             }}
             onCancelAction={() => {
-              console.log("You've canceled the delete action");
+              if (isFavorite) {
+                log('express:favorite:canceldeleteimage', { variant: variant.id });
+              } else {
+                log('express:canceldeleteimage', { variant: variant.id });
+              }
               setIsDeleteDialogOpen(false);
             }}>
             This will permanently delete the image. Continue?

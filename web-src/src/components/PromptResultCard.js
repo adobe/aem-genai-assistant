@@ -10,8 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Button, ActionButton, Tooltip, TooltipTrigger, ContextualHelp, Heading, Content, Flex, Image, ProgressCircle,
-  MenuTrigger, Menu, Item, Text, DialogContainer, AlertDialog, Divider,
+  Button, ActionButton, Tooltip, TooltipTrigger, ContextualHelp, Heading, Content, Flex, ProgressCircle, Divider,
 } from '@adobe/react-spectrum';
 import React, {
   useCallback, useState, useEffect, useRef,
@@ -19,7 +18,7 @@ import React, {
 import { css } from '@emotion/css';
 import { motion } from 'framer-motion';
 import { ToastQueue } from '@react-spectrum/toast';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { useIsFavorite } from '../state/IsFavoriteHook.js';
 import { useIsFeedback } from '../state/IsFeedbackHook.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
@@ -29,13 +28,12 @@ import { useShellContext } from './ShellProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
-import { variantImagesState } from '../state/VariantImagesState.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
+import { useVariantImages } from '../state/VariantImagesHook.js';
 import { sampleRUM } from '../rum.js';
-import {
-  copyImageToClipboard, copyImageToClipboardLegacy, toHTML, toText,
-} from '../helpers/PromptExporter.js';
-import { ImageViewer } from './ImageViewer.js';
+import { toHTML, toText } from '../helpers/PromptExporter.js';
+import { generateImagePrompt } from '../helpers/ImageHelper.js';
+import { VariantImagesView } from './VariantImagesView.js';
 
 import RefreshIcon from '../icons/RefreshIcon.js';
 import FavoritesIcon from '../icons/FavoritesIcon.js';
@@ -46,10 +44,7 @@ import ThumbsUpOutlineIcon from '../icons/ThumbsUpOutlineIcon.js';
 import ThumbsDownOutlineIcon from '../icons/ThumbsDownOutlineIcon.js';
 import ThumbsUpDisabledIcon from '../icons/ThumbsUpDisabledIcon.js';
 import ThumbsDownDisabledIcon from '../icons/ThumbsDownDisabledIcon.js';
-import EditIcon from '../icons/EditIcon.js';
 import GenAIIcon from '../icons/GenAIIcon.js';
-import DownloadIcon from '../icons/DownloadIcon.js';
-import MoreIcon from '../icons/MoreIcon.js';
 
 const styles = {
   card: css`
@@ -137,20 +132,6 @@ const styles = {
   `,
   resultActions: css`
   `,
-  variantThumbImages: css`
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    justify-content: left;
-    align-items: end;
-    width: 100%;
-    overflow: auto;
-  `,
-  variantThumbImage: css`
-    width: 144px;
-    height: 144px;
-    border-radius: 8px;
-  `,
 };
 
 export function PromptResultCard({ result, ...props }) {
@@ -165,17 +146,10 @@ export function PromptResultCard({ result, ...props }) {
   const toggleFavorite = useToggleFavorite();
   const saveFeedback = useSaveFeedback();
   const saveResults = useSaveResults();
+  const { addImageToVariant } = useVariantImages();
   const resultsEndRef = useRef();
 
-  const [variantImages, setVariantImages] = useRecoilState(variantImagesState);
   const [imagePromptProgress, setImagePromptProgress] = useState(false);
-  const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
-  const [imageViewerIndex, setImageViewerIndex] = useState(0);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
-  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
-  const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
-
-  let ccEverywhereInstance = null;
 
   useEffect(() => {
     if (resultsEndRef.current) {
@@ -217,102 +191,13 @@ export function PromptResultCard({ result, ...props }) {
     await saveResults();
   }, [setResults]);
 
-  const addImageToVariant = (variantId, base64Image) => {
-    setVariantImages((imagesByVariant) => ({
-      ...imagesByVariant,
-      [variantId]: [...(imagesByVariant[variantId] || []), base64Image],
-    }));
-  };
-
-  const replaceImageFromVariant = (variantId, index, base64Image) => {
-    setVariantImages((imagesByVariant) => {
-      // Copy the existing array for the variant
-      const copyImages = [...imagesByVariant[variantId]];
-      // Replace the image at the specified index
-      copyImages[index] = base64Image;
-      // Return the updated imagesByVariant object
-      return {
-        ...imagesByVariant,
-        [variantId]: copyImages,
-      };
-    });
-  };
-
-  const deleteImageFromVariant = (variantId, index) => {
-    setVariantImages((imagesByVariant) => {
-      // Copy the existing array for the variant
-      const copyImages = [...imagesByVariant[variantId]];
-      // Remove the image at the specified index
-      copyImages.splice(index, 1);
-      // Return the updated imagesByVariant object
-      return {
-        ...imagesByVariant,
-        [variantId]: copyImages,
-      };
-    });
-  };
-
-  const generateImagePrompt = useCallback(async () => {
-    const variantToImagePrompt = `I want to create images using a text-to-image model. For this, I need a concise, one-sentence image prompt created by following these steps:
-    - Read and understand the subject or theme from the given JSON context below.
-    - Specify key elements such as individuals, actions, and emotions within this context, ensuring they align with the theme.
-    - Formulate a single-sentence prompt which includes these elements, and also focusing on realism and the activity.
-    - The prompt should be clear and direct, highlighting the main components as concrete as possible: a subject (e.g., a concrete object related to the topic or a person), action (e.g., using headphones, knowledge transfer), and the emotional tone(e.g. happy, persuasive, serious, etc.).
-    - An example to the generated image prompt from a given context:
-    Context: {
-      "Title": "Discover Perfect Sound",
-      "Body": "Explore our bestselling wireless headphones."
-    }
-    Generated Prompt:
-    "A happy, confident person enjoying music in an urban park, using high-quality wireless headphones, with the city skyline in the background."
-    Here is the JSON context: ${JSON.stringify(selectedVariant.content)}`;
-    const { queryId, response } = await firefallService.complete(variantToImagePrompt, 0);
-    return response;
-  }, [firefallService]);
-
-  const handleDownloadImage = useCallback((base64Image) => {
-    const link = document.createElement('a');
-    link.href = base64Image;
-    link.download = 'image';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }, []);
-
-  const handleCopyImage = useCallback((base64Image) => {
-    if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
-      copyImageToClipboardLegacy(base64Image);
-    } else {
-      copyImageToClipboard(base64Image, 'image/png');
-    }
-    ToastQueue.positive('Copied image to clipboard', { timeout: 1000 });
-  }, []);
-
   const handleGenerateImage = useCallback(async (imagePrompt, variantId) => {
-    const callbacks = {
-      onPublish: (publishParams) => {
-        addImageToVariant(variantId, publishParams.asset[0].data);
-      },
+    const onPublish = (publishParams) => {
+      addImageToVariant(variantId, publishParams.asset[0].data);
     };
 
-    const userInfo = {
-      profile: {
-        userId: user.imsProfile.userId,
-        serviceCode: null,
-        serviceLevel: null,
-      },
-    };
-
-    const authInfo = {
-      accessToken: user.imsToken,
-      useJumpUrl: false,
-      forceJumpCheck: false,
-    };
-
-    if (ccEverywhereInstance == null) {
-      ccEverywhereInstance = await expressSDKService.initExpressEditor();
-    }
-    ccEverywhereInstance.miniEditor.createImageFromText(
+    await expressSDKService.handleImageOperation(
+      'generateImage',
       {
         outputParams: {
           outputType: 'base64',
@@ -320,18 +205,18 @@ export function PromptResultCard({ result, ...props }) {
         inputParams: {
           promptText: imagePrompt,
         },
-        callbacks,
+        callbacks: {
+          onPublish,
+        },
       },
-      userInfo,
-      authInfo,
     );
   }, [expressSDKService, user, selectedVariant]);
 
   const handleGenerateImagePrompt = useCallback((variantId) => {
     setImagePromptProgress(true);
-    generateImagePrompt()
+    generateImagePrompt(firefallService, selectedVariant)
       .then((imagePrompt) => {
-        handleGenerateImage('', variantId);
+        handleGenerateImage(imagePrompt, variantId);
       })
       .catch((error) => {
         ToastQueue.negative(error.message, { timeout: 2000 });
@@ -341,94 +226,12 @@ export function PromptResultCard({ result, ...props }) {
       });
   }, [generateImagePrompt, setImagePromptProgress]);
 
-  const handleEditGenerateImage = useCallback(async (index) => {
-    const callbacks = {
-      onPublish: (publishParams) => {
-        replaceImageFromVariant(selectedVariant.id, index, publishParams.asset[0].data);
-      },
-    };
-
-    const userInfo = {
-      profile: {
-        userId: user.imsProfile.userId,
-        serviceCode: null,
-        serviceLevel: null,
-      },
-    };
-
-    const authInfo = {
-      accessToken: user.imsToken,
-      useJumpUrl: false,
-      forceJumpCheck: false,
-    };
-
-    if (ccEverywhereInstance == null) {
-      ccEverywhereInstance = await expressSDKService.initExpressEditor();
-    }
-    ccEverywhereInstance.miniEditor.editImage(
-      {
-        outputParams: {
-          outputType: 'base64',
-        },
-        inputParams: {
-          asset: {
-            data: variantImages[selectedVariant.id][index],
-            type: 'image',
-            dataType: 'base64',
-          },
-        },
-        callbacks,
-      },
-      userInfo,
-      authInfo,
-    );
-  }, [expressSDKService, user, selectedVariant, variantImages]);
-
-  const handleImageViewerOpen = (index) => {
-    setImageViewerIndex(index);
-    setIsImageViewerOpen(true);
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'easeInOut', duration: 0.3 }}>
-      <div {...props} className={styles.card} ref={resultsEndRef} onClick={() => setSelectedImageIndex(null)}>
-        <ImageViewer
-          images={variantImages[selectedVariant.id]}
-          index={imageViewerIndex}
-          onIndexChange={setImageViewerIndex}
-          open={isImageViewerOpen}
-          onClose={() => setIsImageViewerOpen(false)}
-          onEdit={(index) => {
-            setIsImageViewerOpen(false);
-            handleEditGenerateImage(index);
-          }}
-          onCopy={(index) => {
-            handleCopyImage(variantImages[selectedVariant.id][index]);
-          }}
-          onDownload={(index) => handleDownloadImage(variantImages[selectedVariant.id][index])}
-        />
-        <DialogContainer onDismiss={() => setIsDeleteDialogOpen(false)}>
-          {isDeleteDialogOpen && (
-            <AlertDialog
-              variant="destructive"
-              title="Delete Image"
-              primaryActionLabel="Delete"
-              cancelLabel="Cancel"
-              onPrimaryAction={() => {
-                deleteImageFromVariant(selectedVariant.id, selectedImageIndex);
-                setIsDeleteDialogOpen(false);
-              }}
-              onCancelAction={() => {
-                console.log("You've canceled the delete action");
-                setIsDeleteDialogOpen(false);
-              }}>
-              This will permanently delete the image. Continue?
-            </AlertDialog>
-          )}
-        </DialogContainer>
+      <div {...props} className={styles.card} ref={resultsEndRef}>
         <div className={styles.promptSection}>
           <div className={styles.promptContent}>{result.prompt}</div>
           <div className={styles.promptActions}>
@@ -461,74 +264,7 @@ export function PromptResultCard({ result, ...props }) {
             }
           </div>
           <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariant.content) }} />
-          {variantImages[selectedVariant.id]
-            && <div className={styles.variantThumbImages}>
-              {variantImages[selectedVariant.id].map((base64Image, index) => {
-                return (
-                  <div key={index} className={'variant-image-wrapper'}>
-                    <div onClick={() => handleImageViewerOpen(index)}>
-                      <Image src={base64Image}
-                        objectFit={'cover'}
-                        UNSAFE_className={`${styles.variantThumbImage} ${(!isMoreMenuOpen || selectedImageIndex !== index) ? 'variant-thumb-image' : 'variant-thumb-image-selected'} hover-cursor-pointer`}
-                      />
-                    </div>
-                    <Flex direction={'row'} width={'100%'} gap={'size-100'} position={'absolute'} bottom={'size-100'} justifyContent={'center'}>
-                      <TooltipTrigger delay={0}>
-                        <Button
-                          variant='secondary'
-                          style='fill'
-                          UNSAFE_className={`${(!isMoreMenuOpen || selectedImageIndex !== index) && 'variant-image-button'} hover-cursor-pointer`}
-                          onPress={() => handleCopyImage(base64Image)}>
-                          <CopyOutlineIcon />
-                        </Button>
-                        <Tooltip>Copy Image</Tooltip>
-                      </TooltipTrigger>
-                      <TooltipTrigger delay={0}>
-                        <Button
-                          variant='secondary'
-                          style='fill'
-                          UNSAFE_className={`${(!isMoreMenuOpen || selectedImageIndex !== index) && 'variant-image-button'} hover-cursor-pointer`}
-                          onPress={() => handleEditGenerateImage(index)}>
-                          <EditIcon />
-                        </Button>
-                        <Tooltip>Edit</Tooltip>
-                      </TooltipTrigger>
-                      <TooltipTrigger delay={0}>
-                        <MenuTrigger onOpenChange={(isOpen) => {
-                          setIsMoreMenuOpen(isOpen);
-                          setSelectedImageIndex(index);
-                        }}>
-                          <Button
-                            variant='secondary'
-                            style='fill'
-                            UNSAFE_className={`${(!isMoreMenuOpen || selectedImageIndex !== index) && 'variant-image-button'} hover-cursor-pointer`}>
-                            <MoreIcon />
-                          </Button>
-                          <Menu width="size-1700" onAction={(key) => {
-                            if (key === 'download') {
-                              handleDownloadImage(base64Image);
-                            } else if (key === 'delete') {
-                              setIsDeleteDialogOpen(true);
-                            }
-                          }}>
-                            <Item key="download">
-                              <DownloadIcon UNSAFE_style={{ boxSizing: 'content-box' }} />
-                              <Text>Download</Text>
-                            </Item>
-                            <Item key="delete">
-                              <DeleteOutlineIcon UNSAFE_style={{ boxSizing: 'content-box' }} />
-                              <Text>Delete</Text>
-                            </Item>
-                          </Menu>
-                        </MenuTrigger>
-                        <Tooltip>More</Tooltip>
-                      </TooltipTrigger>
-                    </Flex>
-                  </div>
-                );
-              })}
-            </div>
-          }
+          <VariantImagesView variant={selectedVariant} />
           <div className={styles.resultActions}>
             <Flex direction="row">
               <TooltipTrigger delay={0}>
@@ -598,7 +334,7 @@ export function PromptResultCard({ result, ...props }) {
                   width="size-2000"
                   variant="secondary"
                   style="fill"
-                  onPress={() => handleGenerateImagePrompt(selectedVariant.id)}
+                  onPress={() => handleGenerateImage('', selectedVariant.id)}
                   isDisabled={!isExpressAuthorized}>
                   {imagePromptProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}
                   Generate Image

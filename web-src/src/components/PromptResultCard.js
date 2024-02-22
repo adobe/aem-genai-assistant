@@ -137,7 +137,7 @@ const styles = {
 
 export function PromptResultCard({ result, ...props }) {
   const { firefallService, expressSDKService } = useApplicationContext();
-  const { user, isExpressAuthorized } = useShellContext();
+  const { isExpressAuthorized } = useShellContext();
   const [selectedVariant, setSelectedVariant] = useState(result.variants[0]);
   const setPrompt = useSetRecoilState(promptState);
   const setParameters = useSetRecoilState(parametersState);
@@ -212,7 +212,7 @@ export function PromptResultCard({ result, ...props }) {
         },
       },
     );
-  }, [expressSDKService, user, selectedVariant]);
+  }, [expressSDKService]);
 
   const handleGenerateImagePrompt = useCallback((variantId) => {
     setImagePromptProgress(true);
@@ -226,7 +226,7 @@ export function PromptResultCard({ result, ...props }) {
       .finally(() => {
         setImagePromptProgress(false);
       });
-  }, [generateImagePrompt, setImagePromptProgress]);
+  }, []);
 
   return (
     <motion.div

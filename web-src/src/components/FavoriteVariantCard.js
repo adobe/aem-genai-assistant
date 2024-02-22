@@ -46,7 +46,7 @@ const styles = {
 
 export function FavoriteVariantCard({ variant, ...props }) {
   const { firefallService, expressSDKService } = useApplicationContext();
-  const { user, isExpressAuthorized } = useShellContext();
+  const { isExpressAuthorized } = useShellContext();
   const toggleFavorite = useToggleFavorite();
   const { addImageToVariant } = useVariantImages();
 
@@ -72,7 +72,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
         },
       },
     );
-  }, [expressSDKService, user, variant]);
+  }, [expressSDKService, variant]);
 
   const handleGenerateImagePrompt = useCallback(() => {
     setImagePromptProgress(true);
@@ -86,7 +86,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
       .finally(() => {
         setImagePromptProgress(false);
       });
-  }, [generateImagePrompt, setImagePromptProgress]);
+  }, []);
 
   return (
     <motion.div

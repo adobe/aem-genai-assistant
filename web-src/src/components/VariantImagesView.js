@@ -18,7 +18,6 @@ import React, {
 import { css } from '@emotion/css';
 import { ToastQueue } from '@react-spectrum/toast';
 import { useApplicationContext } from './ApplicationProvider.js';
-import { useShellContext } from './ShellProvider.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
 import { log } from '../helpers/Tracking.js';
 import { copyImageToClipboard, copyImageToClipboardLegacy } from '../helpers/ImageHelper.js';
@@ -58,7 +57,6 @@ const styles = {
 
 export function VariantImagesView({ variant, isFavorite, ...props }) {
   const { expressSDKService } = useApplicationContext();
-  const { user } = useShellContext();
   const { variantImages, replaceImageFromVariant, deleteImageFromVariant } = useVariantImages();
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
   const [imageViewerIndex, setImageViewerIndex] = useState(0);
@@ -110,7 +108,7 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
         },
       },
     );
-  }, [expressSDKService, user, variantImages]);
+  }, [expressSDKService, variantImages]);
 
   const handleImageViewerOpen = useCallback((index) => {
     if (isFavorite) {

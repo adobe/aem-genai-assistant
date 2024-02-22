@@ -46,6 +46,7 @@ const styles = {
     justify-content: left;
     width: 100%;
     flex-wrap: wrap;
+    margin-top: 6px;
     padding: 10px;
   `,
   variantThumbImage: css`

@@ -267,7 +267,6 @@ export function PromptResultCard({ result, ...props }) {
             }
           </div>
           <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariant.content) }} />
-          <VariantImagesView variant={selectedVariant} />
           <div className={styles.resultActions}>
             <Flex direction="row">
               <TooltipTrigger delay={0}>
@@ -349,6 +348,7 @@ export function PromptResultCard({ result, ...props }) {
               </Flex>
             </Flex>
           </div>
+          <VariantImagesView variant={selectedVariant} />
         </div>
       </div>
     </motion.div>

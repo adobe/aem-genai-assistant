@@ -96,7 +96,6 @@ export function FavoriteVariantCard({ variant, ...props }) {
       transition={{ ease: 'easeIn', duration: 0.3 }}>
       <div {...props} className={styles.card}>
         <div className={styles.variant} dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
-        <VariantImagesView variant={variant} isFavorite={true} />
         <View marginTop={'10px'}>
           <Flex direction="row" justifyContent="left">
             <TooltipTrigger delay={0}>
@@ -139,6 +138,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
             </Flex>
           </Flex>
         </View>
+        <VariantImagesView variant={variant} isFavorite={true} />
       </div>
     </motion.div>
   );

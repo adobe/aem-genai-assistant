@@ -174,7 +174,7 @@ export function PromptResultCard({ result, ...props }) {
   }, [result, setPrompt, setParameters]);
 
   const deleteVariant = useCallback(async (variantId) => {
-    console.debug('deleteVariant', variantId);
+    log('prompt:delete', { variant: variantId });
     setResults((results) => results.reduce((acc, r) => {
       const prevVariantsLength = r.variants.length;
       const variants = r.variants.filter((v) => v.id !== variantId);
@@ -193,6 +193,7 @@ export function PromptResultCard({ result, ...props }) {
   }, [setResults]);
 
   const handleGenerateImage = useCallback(async (imagePrompt, variantId) => {
+    log('express:generateimage', { variantId });
     const onPublish = (publishParams) => {
       addImageToVariant(variantId, publishParams.asset[0].data);
     };

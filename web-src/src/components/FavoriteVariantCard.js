@@ -53,6 +53,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
   const [imagePromptProgress, setImagePromptProgress] = useState(false);
 
   const handleGenerateImage = useCallback(async (imagePrompt) => {
+    log('express:favorite:generateimage', { variantId: variant.id });
     const onPublish = (publishParams) => {
       addImageToVariant(variant.id, publishParams.asset[0].data);
     };

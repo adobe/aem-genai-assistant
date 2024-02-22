@@ -10,8 +10,6 @@
  * governing permissions and limitations under the License.
  */
 export class ExpressSDKService {
-  CDN_URL = 'https://cc-embed.adobe.com/sdk/1p/v4/CCEverywhere.js';
-
   constructor({
     clientId,
     appName,
@@ -69,7 +67,7 @@ export class ExpressSDKService {
       });
     };
 
-    return loadExpressSDK(document, this.CDN_URL);
+    return loadExpressSDK(document, process.env.CDN_URL);
   }
 
   async handleImageOperation(operation, operationParams) {

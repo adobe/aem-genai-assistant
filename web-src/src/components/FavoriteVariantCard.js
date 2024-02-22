@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Button, ActionButton, Flex, Tooltip, TooltipTrigger, View, ContextualHelp, Heading, Content, ProgressCircle, Divider,
+  Button, ActionButton, Flex, Tooltip, TooltipTrigger, View, ProgressCircle, Divider,
 } from '@adobe/react-spectrum';
 import React, {
   useCallback, useState,
@@ -27,6 +27,7 @@ import { generateImagePrompt } from '../helpers/ImageHelper.js';
 import { sampleRUM } from '../rum.js';
 import { VariantImagesView } from './VariantImagesView.js';
 import { log } from '../helpers/Tracking.js';
+import ExpressNoAccessInfo from './ExpressNoAccessInfo.js';
 
 import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';
 import DeleteOutlineIcon from '../icons/DeleteOutlineIcon.js';
@@ -134,15 +135,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
                 {imagePromptProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}
                 Generate Image
               </Button>
-              {!isExpressAuthorized
-                && <ContextualHelp variant="info">
-                  <Heading>You don&apos;t have access to Adobe Express</Heading>
-                  <Content>
-                    To gain access, submit a request to your IT administrator or sign in with an eligible Adobe ID.
-                    If you are an administrator, buy licenses for Adobe Express here.
-                  </Content>
-                </ContextualHelp>
-              }
+              {!isExpressAuthorized && <ExpressNoAccessInfo />}
             </Flex>
           </Flex>
         </View>

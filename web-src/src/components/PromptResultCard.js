@@ -31,6 +31,7 @@ import { resultsState } from '../state/ResultsState.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
 import { sampleRUM } from '../rum.js';
+import { log } from '../helpers/Tracking.js';
 import { toHTML, toText } from '../helpers/PromptExporter.js';
 import { generateImagePrompt } from '../helpers/ImageHelper.js';
 import { VariantImagesView } from './VariantImagesView.js';
@@ -281,6 +282,7 @@ export function PromptResultCard({ result, ...props }) {
                   isQuiet
                   UNSAFE_className="hover-cursor-pointer"
                   onPress={() => {
+                    log('prompt:copy', { variant: selectedVariant.id });
                     sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress' });
                     navigator.clipboard.writeText(toText(selectedVariant.content));
                     ToastQueue.positive('Copied text to clipboard', { timeout: 1000 });
@@ -295,6 +297,7 @@ export function PromptResultCard({ result, ...props }) {
                   isDisabled={isFeedback(selectedVariant)}
                   UNSAFE_className="hover-cursor-pointer"
                   onPress={() => {
+                    log('prompt:thumbsup', { variant: selectedVariant.id });
                     sampleRUM('genai:prompt:thumbsup', { source: 'ResultCard#onPress' });
                     sendFeedback(true);
                     saveFeedback(selectedVariant);
@@ -309,6 +312,7 @@ export function PromptResultCard({ result, ...props }) {
                   isDisabled={isFeedback(selectedVariant)}
                   UNSAFE_className="hover-cursor-pointer"
                   onPress={() => {
+                    log('prompt:thumbsdown', { variant: selectedVariant.id });
                     sampleRUM('genai:prompt:thumbsdown', { source: 'ResultCard#onPress' });
                     sendFeedback(false);
                     saveFeedback(selectedVariant);

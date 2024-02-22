@@ -36,23 +36,28 @@ export function GenerateButton() {
   const setResults = useSetRecoilState(resultsState);
   const [generationInProgress, setGenerationInProgress] = useState(false);
   const saveResults = useSaveResults();
-
   const generateResults = useCallback(async () => {
-    const finalPrompt = renderPrompt(prompt, parameters);
-    const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
-    setResults((results) => [...results, {
-      id: queryId,
-      variants: createVariants(uuid, response),
-      prompt: finalPrompt,
-      promptTemplate: prompt,
-      parameters,
-      temperature,
-    }]);
-    await saveResults();
+    try {
+      const finalPrompt = renderPrompt(prompt, parameters);
+      const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
+      const variants = createVariants(uuid, response);
+      setResults((results) => [...results, {
+        id: queryId,
+        variants,
+        prompt: finalPrompt,
+        promptTemplate: prompt,
+        parameters,
+        temperature,
+      }]);
+      await saveResults();
+      sampleRUM('genai:prompt:generate', { source: 'GenerateButton#handleGenerate', target: variants.length });
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   }, [firefallService, prompt, parameters, temperature]);
 
   const handleGenerate = useCallback(() => {
-    sampleRUM('genai:prompt:generate', { source: 'GenerateButton#handleGenerate' });
     setGenerationInProgress(true);
     generateResults()
       .catch((error) => {

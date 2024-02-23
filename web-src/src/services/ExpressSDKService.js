@@ -77,7 +77,7 @@ export class ExpressSDKService {
           this.ccEverywhereInstance = ccEverywhereInstance;
         })
         .catch((error) => {
-          console.error('Failed to initialize Express Editor:', error);
+          console.error('Error:', error);
           return false;
         });
     }

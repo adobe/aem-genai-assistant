@@ -46,7 +46,6 @@ const styles = {
     justify-content: left;
     width: 100%;
     flex-wrap: wrap;
-    margin-top: 6px;
     padding: 10px;
   `,
   variantThumbImage: css`
@@ -180,7 +179,7 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
           </AlertDialog>
         )}
       </DialogContainer>
-      {variantImages[variant.id]
+      {variantImages[variant.id]?.length > 0
         && <div className={isFavorite ? styles.favoriteVariantThumbImages : styles.variantThumbImages}>
           {variantImages[variant.id].map((base64Image, index) => {
             return (

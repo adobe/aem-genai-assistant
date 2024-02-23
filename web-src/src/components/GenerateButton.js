@@ -23,6 +23,7 @@ import { promptState } from '../state/PromptState.js';
 import { temperatureState } from '../state/TemperatureState.js';
 import { resultsState } from '../state/ResultsState.js';
 import { parametersState } from '../state/ParametersState.js';
+import { promptEditorState } from '../state/PromptEditorState.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { createVariants } from '../helpers/ResultsParser.js';
@@ -35,6 +36,7 @@ export function GenerateButton() {
   const parameters = useRecoilValue(parametersState);
   const temperature = useRecoilValue(temperatureState);
   const setResults = useSetRecoilState(resultsState);
+  const setIsOpenPromptEditor = useSetRecoilState(promptEditorState);
   const [generationInProgress, setGenerationInProgress] = useState(false);
   const saveResults = useSaveResults();
   const generateResults = useCallback(async () => {
@@ -63,6 +65,7 @@ export function GenerateButton() {
     log('prompt:generate');
     sampleRUM('genai:prompt:generate', { source: 'GenerateButton#handleGenerate' });
     setGenerationInProgress(true);
+    setIsOpenPromptEditor(false);
     generateResults()
       .catch((error) => {
         ToastQueue.negative(error.message, { timeout: 2000 });

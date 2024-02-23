@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  ActionButton, Tooltip, TooltipTrigger,
+  Button, ActionButton, Tooltip, TooltipTrigger, Flex, ProgressCircle, Divider,
 } from '@adobe/react-spectrum';
 import React, {
   useCallback, useState, useEffect, useRef,
@@ -24,13 +24,18 @@ import { useIsFeedback } from '../state/IsFeedbackHook.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { useSaveFeedback } from '../state/SaveFeedbackHook.js';
 import { useApplicationContext } from './ApplicationProvider.js';
+import { useShellContext } from './ShellProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
+import { useVariantImages } from '../state/VariantImagesHook.js';
 import { sampleRUM } from '../rum.js';
 import { log } from '../helpers/Tracking.js';
 import { toHTML, toText } from '../helpers/PromptExporter.js';
+import { generateImagePrompt } from '../helpers/ImageHelper.js';
+import { VariantImagesView } from './VariantImagesView.js';
+import ExpressNoAccessInfo from './ExpressNoAccessInfo.js';
 
 import RefreshIcon from '../icons/RefreshIcon.js';
 import FavoritesIcon from '../icons/FavoritesIcon.js';
@@ -41,6 +46,7 @@ import ThumbsUpOutlineIcon from '../icons/ThumbsUpOutlineIcon.js';
 import ThumbsDownOutlineIcon from '../icons/ThumbsDownOutlineIcon.js';
 import ThumbsUpDisabledIcon from '../icons/ThumbsUpDisabledIcon.js';
 import ThumbsDownDisabledIcon from '../icons/ThumbsDownDisabledIcon.js';
+import GenAIIcon from '../icons/GenAIIcon.js';
 
 const styles = {
   card: css`
@@ -131,7 +137,8 @@ const styles = {
 };
 
 export function PromptResultCard({ result, ...props }) {
-  const { firefallService } = useApplicationContext();
+  const { firefallService, expressSDKService } = useApplicationContext();
+  const { isExpressAuthorized } = useShellContext();
   const [selectedVariant, setSelectedVariant] = useState(result.variants[0]);
   const setPrompt = useSetRecoilState(promptState);
   const setParameters = useSetRecoilState(parametersState);
@@ -141,7 +148,10 @@ export function PromptResultCard({ result, ...props }) {
   const toggleFavorite = useToggleFavorite();
   const saveFeedback = useSaveFeedback();
   const saveResults = useSaveResults();
+  const { addImageToVariant } = useVariantImages();
   const resultsEndRef = useRef();
+
+  const [imagePromptProgress, setImagePromptProgress] = useState(false);
 
   useEffect(() => {
     if (resultsEndRef.current) {
@@ -165,7 +175,7 @@ export function PromptResultCard({ result, ...props }) {
   }, [result, setPrompt, setParameters]);
 
   const deleteVariant = useCallback(async (variantId) => {
-    console.debug('deleteVariant', variantId);
+    log('prompt:delete', { variant: variantId });
     setResults((results) => results.reduce((acc, r) => {
       const prevVariantsLength = r.variants.length;
       const variants = r.variants.filter((v) => v.id !== variantId);
@@ -183,13 +193,48 @@ export function PromptResultCard({ result, ...props }) {
     await saveResults();
   }, [setResults]);
 
+  const handleGenerateImage = useCallback(async (imagePrompt, variantId) => {
+    log('express:generateimage', { variantId });
+    const onPublish = (publishParams) => {
+      addImageToVariant(variantId, publishParams.asset[0].data);
+    };
+
+    await expressSDKService.handleImageOperation(
+      'generateImage',
+      {
+        outputParams: {
+          outputType: 'base64',
+        },
+        inputParams: {
+          promptText: imagePrompt,
+        },
+        callbacks: {
+          onPublish,
+        },
+      },
+    );
+  }, [expressSDKService]);
+
+  const handleGenerateImagePrompt = useCallback((variantId) => {
+    setImagePromptProgress(true);
+    generateImagePrompt(firefallService, selectedVariant)
+      .then((imagePrompt) => {
+        handleGenerateImage(imagePrompt, variantId);
+      })
+      .catch((error) => {
+        ToastQueue.negative(error.message, { timeout: 2000 });
+      })
+      .finally(() => {
+        setImagePromptProgress(false);
+      });
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'easeInOut', duration: 0.3 }}>
       <div {...props} className={styles.card} ref={resultsEndRef}>
-
         <div className={styles.promptSection}>
           <div className={styles.promptContent}>{result.prompt}</div>
           <div className={styles.promptActions}>
@@ -223,69 +268,87 @@ export function PromptResultCard({ result, ...props }) {
           </div>
           <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariant.content) }} />
           <div className={styles.resultActions}>
-            <TooltipTrigger delay={0}>
-              <ActionButton
-                isQuiet
-                UNSAFE_className="hover-cursor-pointer"
-                onPress={() => toggleFavorite(selectedVariant)}>
-                {isFavorite(selectedVariant) ? <FavoritesIcon /> : <FavoritesOutlineIcon />}
-              </ActionButton>
-              <Tooltip>Favorite</Tooltip>
-            </TooltipTrigger>
-            <TooltipTrigger delay={0}>
-              <ActionButton
-                isQuiet
-                UNSAFE_className="hover-cursor-pointer"
-                onPress={() => {
-                  log('prompt:copy', { variant: selectedVariant.id });
-                  sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress' });
-                  navigator.clipboard.writeText(toText(selectedVariant.content));
-                  ToastQueue.positive('Copied to clipboard', { timeout: 1000 });
-                }}>
-                <CopyOutlineIcon />
-              </ActionButton>
-              <Tooltip>Copy</Tooltip>
-            </TooltipTrigger>
-            <TooltipTrigger delay={0}>
-              <ActionButton
-                isQuiet
-                isDisabled={isFeedback(selectedVariant)}
-                UNSAFE_className="hover-cursor-pointer"
-                onPress={() => {
-                  log('prompt:thumbsup', { variant: selectedVariant.id });
-                  sampleRUM('genai:prompt:thumbsup', { source: 'ResultCard#onPress' });
-                  sendFeedback(true);
-                  saveFeedback(selectedVariant);
-                }}>
-                {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon /> : <ThumbsUpOutlineIcon />}
-              </ActionButton>
-              <Tooltip>Good</Tooltip>
-            </TooltipTrigger>
-            <TooltipTrigger delay={0}>
-              <ActionButton
-                isQuiet
-                isDisabled={isFeedback(selectedVariant)}
-                UNSAFE_className="hover-cursor-pointer"
-                onPress={() => {
-                  log('prompt:thumbsdown', { variant: selectedVariant.id });
-                  sampleRUM('genai:prompt:thumbsdown', { source: 'ResultCard#onPress' });
-                  sendFeedback(false);
-                  saveFeedback(selectedVariant);
-                }}>
-                {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon /> : <ThumbsDownOutlineIcon />}
-              </ActionButton>
-              <Tooltip>Poor</Tooltip>
-            </TooltipTrigger>
-            <TooltipTrigger delay={0}>
-              <ActionButton
-                isQuiet
-                UNSAFE_className="hover-cursor-pointer"
-                onPress={() => deleteVariant(selectedVariant.id)}>
-                <DeleteOutlineIcon />
-              </ActionButton>
-              <Tooltip>Remove</Tooltip>
-            </TooltipTrigger>
+            <Flex direction="row">
+              <TooltipTrigger delay={0}>
+                <ActionButton
+                  isQuiet
+                  UNSAFE_className="hover-cursor-pointer"
+                  onPress={() => toggleFavorite(selectedVariant)}>
+                  {isFavorite(selectedVariant) ? <FavoritesIcon /> : <FavoritesOutlineIcon />}
+                </ActionButton>
+                <Tooltip>Favorite</Tooltip>
+              </TooltipTrigger>
+              <TooltipTrigger delay={0}>
+                <ActionButton
+                  isQuiet
+                  UNSAFE_className="hover-cursor-pointer"
+                  onPress={() => {
+                    log('prompt:copy', { variant: selectedVariant.id });
+                    sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress' });
+                    navigator.clipboard.writeText(toText(selectedVariant.content));
+                    ToastQueue.positive('Copied text to clipboard', { timeout: 1000 });
+                  }}>
+                  <CopyOutlineIcon />
+                </ActionButton>
+                <Tooltip>Copy</Tooltip>
+              </TooltipTrigger>
+              <TooltipTrigger delay={0}>
+                <ActionButton
+                  isQuiet
+                  isDisabled={isFeedback(selectedVariant)}
+                  UNSAFE_className="hover-cursor-pointer"
+                  onPress={() => {
+                    log('prompt:thumbsup', { variant: selectedVariant.id });
+                    sampleRUM('genai:prompt:thumbsup', { source: 'ResultCard#onPress' });
+                    sendFeedback(true);
+                    saveFeedback(selectedVariant);
+                  }}>
+                  {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon /> : <ThumbsUpOutlineIcon />}
+                </ActionButton>
+                <Tooltip>Good</Tooltip>
+              </TooltipTrigger>
+              <TooltipTrigger delay={0}>
+                <ActionButton
+                  isQuiet
+                  isDisabled={isFeedback(selectedVariant)}
+                  UNSAFE_className="hover-cursor-pointer"
+                  onPress={() => {
+                    log('prompt:thumbsdown', { variant: selectedVariant.id });
+                    sampleRUM('genai:prompt:thumbsdown', { source: 'ResultCard#onPress' });
+                    sendFeedback(false);
+                    saveFeedback(selectedVariant);
+                  }}>
+                  {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon /> : <ThumbsDownOutlineIcon />}
+                </ActionButton>
+                <Tooltip>Poor</Tooltip>
+              </TooltipTrigger>
+              <TooltipTrigger delay={0}>
+                <ActionButton
+                  isQuiet
+                  UNSAFE_className="hover-cursor-pointer"
+                  onPress={() => deleteVariant(selectedVariant.id)}>
+                  <DeleteOutlineIcon />
+                </ActionButton>
+                <Tooltip>Remove</Tooltip>
+              </TooltipTrigger>
+              <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'} />
+              <Flex direction="row" gap="size-100" alignItems={'center'}>
+                <Button
+                  UNSAFE_className="hover-cursor-pointer"
+                  marginStart={'size-100'}
+                  width="size-2000"
+                  variant="secondary"
+                  style="fill"
+                  onPress={() => handleGenerateImage('', selectedVariant.id)}
+                  isDisabled={!isExpressAuthorized}>
+                  {imagePromptProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}
+                  Generate Image
+                </Button>
+                {!isExpressAuthorized && <ExpressNoAccessInfo />}
+              </Flex>
+            </Flex>
           </div>
+          <VariantImagesView variant={selectedVariant} />
         </div>
       </div>
     </motion.div>

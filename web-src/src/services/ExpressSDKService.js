@@ -72,7 +72,14 @@ export class ExpressSDKService {
 
   async handleImageOperation(operation, operationParams) {
     if (this.ccEverywhereInstance == null) {
-      this.ccEverywhereInstance = await this.initExpressEditor();
+      await this.initExpressEditor()
+        .then((ccEverywhereInstance) => {
+          this.ccEverywhereInstance = ccEverywhereInstance;
+        })
+        .catch((error) => {
+          console.error('Failed to initialize Express Editor:', error);
+          return false;
+        });
     }
 
     if (operation === 'generateImage') {
@@ -80,5 +87,6 @@ export class ExpressSDKService {
     } else if (operation === 'editImage') {
       this.ccEverywhereInstance.miniEditor.editImage(operationParams, this.userInfo, this.authInfo);
     }
+    return true;
   }
 }

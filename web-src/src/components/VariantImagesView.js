@@ -90,7 +90,7 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
     };
     const assetData = variantImages[variant.id][index];
 
-    await expressSDKService.handleImageOperation(
+    const success = await expressSDKService.handleImageOperation(
       'editImage',
       {
         outputParams: {
@@ -108,6 +108,10 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
         },
       },
     );
+
+    if (!success) {
+      ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
+    }
   }, [expressSDKService, variantImages]);
 
   const handleImageViewerOpen = useCallback((index) => {

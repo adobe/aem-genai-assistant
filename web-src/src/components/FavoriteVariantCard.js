@@ -59,7 +59,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
       addImageToVariant(variant.id, publishParams.asset[0].data);
     };
 
-    await expressSDKService.handleImageOperation(
+    const success = await expressSDKService.handleImageOperation(
       'generateImage',
       {
         outputParams: {
@@ -73,6 +73,10 @@ export function FavoriteVariantCard({ variant, ...props }) {
         },
       },
     );
+
+    if (!success) {
+      ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
+    }
   }, [expressSDKService, variant]);
 
   const handleGenerateImagePrompt = useCallback(() => {
@@ -106,7 +110,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
                   log('prompt:copyfavorite');
                   sampleRUM('genai:prompt:copyfavorite', { source: 'FavoriteCard#onPress' });
                   navigator.clipboard.writeText(toText(variant.content));
-                  ToastQueue.positive('Copied to clipboard', { timeout: 1000 });
+                  ToastQueue.positive('Copied text to clipboard', { timeout: 1000 });
                 }}>
                 <CopyOutlineIcon />
               </ActionButton>

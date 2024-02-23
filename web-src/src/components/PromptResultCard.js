@@ -199,7 +199,7 @@ export function PromptResultCard({ result, ...props }) {
       addImageToVariant(variantId, publishParams.asset[0].data);
     };
 
-    await expressSDKService.handleImageOperation(
+    const success = await expressSDKService.handleImageOperation(
       'generateImage',
       {
         outputParams: {
@@ -213,6 +213,10 @@ export function PromptResultCard({ result, ...props }) {
         },
       },
     );
+
+    if (!success) {
+      ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
+    }
   }, [expressSDKService]);
 
   const handleGenerateImagePrompt = useCallback((variantId) => {

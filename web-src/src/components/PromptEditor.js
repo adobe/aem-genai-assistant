@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  ActionButton, Flex, Text,
+  ActionButton, Flex, Text, Content, ContextualHelp,
 } from '@adobe/react-spectrum';
 import React, { useEffect, useState, useCallback } from 'react';
 /* eslint-disable-next-line import/no-named-default */
@@ -56,8 +56,6 @@ const style = {
   title: css`
     font-size: 14px;
     font-weight: 700;
-    margin-top: 15px;
-    margin-bottom: 15px;
   `,
   editable: css`
     background-color: white;
@@ -140,8 +138,16 @@ function PromptEditor({ isOpen, onClose, ...props }) {
           color: #8a8a8a !important;
         }
       `} />
-          <Flex direction="row" justifyContent="space-between" alignItems="center">
-            <div className={style.title}>Prompt</div>
+          <Flex direction="row" justifyContent="space-between" alignItems="center" marginTop="15px" marginBottom="15px">
+            <Flex direction="row" gap="size-100">
+              <Text UNSAFE_className={style.title}>Prompt and Trusted Source Documents</Text>
+              <ContextualHelp variant="info">
+                <Content>
+                  When editing the prompt directly, include specific context, which can include your branding materials,
+                  website content, data schemas for such data, templates, and other trusted documents.
+                </Content>
+              </ContextualHelp>
+            </Flex>
             <Flex direction="row" gap="size-100">
               <ActionButton
                 isQuiet

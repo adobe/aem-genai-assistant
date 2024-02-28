@@ -14,6 +14,7 @@ import React, {
 } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { FirefallService } from '../services/FirefallService.js';
+import { ExpressSDKService } from '../services/ExpressSDKService.js';
 import actions from '../config.json';
 import { useShellContext } from './ShellProvider.js';
 import {
@@ -55,6 +56,12 @@ export const ApplicationProvider = ({ children }) => {
 
     const websiteUrl = getWebsiteUrl();
 
+    const expressSDKService = new ExpressSDKService({
+      clientId: 'aem-genai-assistant',
+      appName: 'AEM Generate Variations',
+      user,
+    });
+
     setApplication({
       appVersion: APP_VERSION,
       websiteUrl,
@@ -70,6 +77,7 @@ export const ApplicationProvider = ({ children }) => {
         imsOrg: user.imsOrg,
         accessToken: user.imsToken,
       }),
+      expressSDKService,
     });
 
     readCustomPromptTemplates().then((templates) => {
@@ -80,7 +88,7 @@ export const ApplicationProvider = ({ children }) => {
   }, [user, done, setApplication]);
 
   if (!application) {
-    return <Fragment/>;
+    return <Fragment />;
   }
 
   return (

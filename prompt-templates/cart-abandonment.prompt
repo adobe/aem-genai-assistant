@@ -88,7 +88,7 @@ Additional context: [[
 
 {{@additional_context,
   label="Additional Context and Trusted Source Documents",
-  description="Provide more background information or specific details to guide the creation of the content. For Trusted Source Documents, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents. Include additional prompting (e.g. 'use the following source document as a reference in generation to match brand voice' to ensure accurate use.)", 
+  description="Provide more background information or specific details to guide the creation of the content. For Trusted Source Documents, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents. Include additional prompting E.g. 'use the following source document as a reference in generation to match brand voice' to ensure accurate use.", 
   default="No additional context provided",
   type=text
 }}

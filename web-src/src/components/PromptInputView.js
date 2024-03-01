@@ -10,19 +10,35 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, NumberField, TextArea,
+  Flex, Item, NumberField, Picker, TextArea, ToggleButton, LabeledValue,
 } from '@adobe/react-spectrum';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import QueryStringAddon from 'wretch/addons/queryString';
+import { css } from '@emotion/css';
+import { ToastQueue } from '@react-spectrum/toast';
 import { placeholdersState } from '../state/PlaceholdersState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { TemperatureSlider } from './TemperatureSlider.js';
-import { SpreadSheetPicker } from './SpreadSheetPicker.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
 import { formatIdentifier } from '../helpers/FormatHelper.js';
 import { wretchRetry } from '../../../actions/Network.js';
 import { useApplicationContext } from './ApplicationProvider.js';
+
+const DATA_SOURCES = {
+  CSV: 'csv',
+  TARGET: 'target',
+};
+
+const styles = {
+  toggleButtons: css`
+    display: grid;
+    grid-auto-columns: 1fr 1fr;
+    justify-items: stretch;
+    column-gap: 10px;
+    width: 100%;
+  `,
+};
 
 function comparePlaceholders([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
@@ -38,7 +54,7 @@ function getComponentLabel(name, label) {
 }
 
 function getComponentType(params) {
-  if (params.spreadsheet) {
+  if (params.target || params.csv) {
     return 'select';
   }
   return params.type || 'text';
@@ -71,95 +87,132 @@ function createNumberComponent(name, label, params, value, onChange) {
   );
 }
 
-function useDataProvider() {
-  const {
-    websiteUrl, accessToken, imsTenant, targetEndpoint, csvParserEndpoint,
-  } = useApplicationContext();
-  return useCallback((params) => {
-    if (params.spreadsheet) {
-      return async () => {
-        const filename = params.spreadsheet;
-        const fileUrl = `${websiteUrl}/${filename || ''}.json`;
-        const { data } = await wretchRetry(fileUrl).get().json();
-        return Array.from(data).map((row) => {
-          return {
-            key: row.Key,
-            value: row.Value,
-          };
-        });
+function useParseCsv() {
+  const { csvParserEndpoint } = useApplicationContext();
+  return useCallback(async (csv) => {
+    const json = await wretchRetry(csvParserEndpoint)
+      .addon(QueryStringAddon)
+      .query({ csv })
+      .get()
+      .json();
+    return Array.from(json).map(([key, value]) => {
+      return {
+        key,
+        value,
       };
-    } else if (params.csv) {
-      return async () => {
-        const url = params.csv;
-        const json = await wretchRetry(csvParserEndpoint)
-          .addon(QueryStringAddon)
-          .query({ csv: url })
-          .get()
-          .json();
-        console.log(`CSV data: ${JSON.stringify(json)}`);
-        return Array.from(json).map(([key, value]) => {
-          return {
-            key,
-            value,
-          };
-        });
-      };
-    } else if (params.target) {
-      return async () => {
-        const url = `${targetEndpoint}?org=${params.target === 'default' ? imsTenant : params.target}`;
-        const audiences = await wretchRetry(url)
-          .auth(`Bearer ${accessToken}`)
-          .accept('application/json')
-          .get()
-          .json();
-        console.log(audiences);
-        return audiences.map((audience) => {
-          return {
-            key: audience.name.trim(),
-            value: audience.description.trim(),
-          };
-        });
-      };
-    } else if (params.keys && params.values) {
-      const keys = params.keys.split(',').map((key) => key.trim());
-      const values = params.values.split(',').map((value) => value.trim());
-      return () => Promise.resolve(keys.map((key, index) => {
-        return {
-          key,
-          value: values[index],
-        };
-      }));
-    } else if (params.values) {
-      return () => Promise.resolve(params.values.split(',').map((value) => value.trim()).map((value) => {
-        return {
-          key: value,
-          value,
-        };
-      }));
-    }
-    return () => Promise.resolve([]);
-  }, [websiteUrl]);
+    });
+  }, [csvParserEndpoint]);
 }
 
-function createSelectComponent(name, label, params, value, onChange, dataProvider) {
+function useGetTargetAudiences() {
+  const { accessToken, imsTenant, targetEndpoint } = useApplicationContext();
+  return useCallback(async (target) => {
+    const url = `${targetEndpoint}?org=${target === 'default' ? imsTenant : target}`;
+    const audiences = await wretchRetry(url)
+      .auth(`Bearer ${accessToken}`)
+      .accept('application/json')
+      .get()
+      .json();
+    return audiences.map((audience) => {
+      return {
+        key: audience.name.trim(),
+        value: audience.description.trim(),
+      };
+    });
+  }, [accessToken, imsTenant, targetEndpoint]);
+}
+
+function DataSourceSelector({ label, dataSource, setDataSource }) {
   return (
-    <SpreadSheetPicker
-      key={name}
+    <div className={styles.toggleButtons}>
+      <LabeledValue label={`${label} Source`} value={''} gridColumnStart={1} gridColumnEnd={3} />
+      <ToggleButton
+        isSelected={dataSource === DATA_SOURCES.TARGET}
+        onChange={() => setDataSource(DATA_SOURCES.TARGET)}>Adobe Target</ToggleButton>
+      <ToggleButton
+        isSelected={dataSource === DATA_SOURCES.CSV}
+        onChange={() => setDataSource(DATA_SOURCES.CSV)}>CSV file</ToggleButton>
+    </div>
+  );
+}
+
+function SelectComponent({
+  name, label, params: { description, csv, target }, value, onChange,
+}) {
+  const getTargetAudiences = useGetTargetAudiences();
+  const parseCsv = useParseCsv();
+  const [dataSource, setDataSource] = useState();
+  const [items, setItems] = React.useState([]);
+
+  useEffect(() => {
+    setItems([]);
+    if (target && !csv) {
+      setDataSource(DATA_SOURCES.TARGET);
+    } else if (csv && !target) {
+      setDataSource(DATA_SOURCES.CSV);
+    }
+    if (dataSource === DATA_SOURCES.CSV) {
+      parseCsv(csv)
+        .then(setItems)
+        .catch((err) => {
+          console.error(err);
+          ToastQueue.negative(`Failed to parse CSV ${csv}`, { timeout: 1000 });
+          setItems([]);
+        });
+    } else if (dataSource === DATA_SOURCES.TARGET) {
+      getTargetAudiences(target)
+        .then(setItems)
+        .catch((err) => {
+          console.error(err);
+          ToastQueue.negative(`Failed to load from Adobe Target ${target}`, { timeout: 1000 });
+          setItems([]);
+        });
+    }
+  }, [target, csv, dataSource, setDataSource, setItems, getTargetAudiences, parseCsv]);
+
+  const getSelectedKey = useCallback((selectedValue) => {
+    return String(items.findIndex((item) => item.value === selectedValue));
+  }, [items, value]);
+
+  const selectionHandler = useCallback((selected) => {
+    onChange(name, items[selected].value);
+  }, [name, items, onChange]);
+
+  return (
+    <>
+      { (target && csv) && <DataSourceSelector label={label} dataSource={dataSource} setDataSource={setDataSource} /> }
+      <Picker
+        key={name}
+        label={label}
+        contextualHelp={<DescriptionLabel label={label} description={description} />}
+        width="100%"
+        placeholder={'Select a value'}
+        items={items}
+        isDisabled={!items.length}
+        selectedKey={getSelectedKey(value)}
+        onSelectionChange={selectionHandler}>
+        {items ? items.map((item, index) => <Item key={index}>{item.key}</Item>) : []}
+      </Picker>
+    </>
+  );
+}
+
+function createSelectComponent(name, label, params, value, onChange) {
+  return (
+    <SelectComponent
       name={name}
       label={label}
-      description={params.description}
-      fallback={createTextComponent(name, label, params, value, onChange)}
+      params={params}
       value={value}
-      dataProvider={dataProvider(params)}
-      onChange={(newValue) => onChange(name, newValue)}
+      onChange={onChange}
     />
   );
 }
 
-function createInputComponent(type, name, label, params, value, onChange, dataProvider) {
+function createInputComponent(type, name, label, params, value, onChange) {
   switch (type) {
     case 'select':
-      return createSelectComponent(name, label, params, value, onChange, dataProvider);
+      return createSelectComponent(name, label, params, value, onChange);
     case 'number':
       return createNumberComponent(name, label, params, value, onChange);
     case 'text':
@@ -169,8 +222,6 @@ function createInputComponent(type, name, label, params, value, onChange, dataPr
 }
 
 export function PromptInputView({ gridColumn }) {
-  const { websiteUrl } = useApplicationContext();
-  const dataProvider = useDataProvider();
   const placeholders = useRecoilValue(placeholdersState);
   const [parameters, setParameters] = useRecoilState(parametersState);
 
@@ -197,7 +248,7 @@ export function PromptInputView({ gridColumn }) {
           const type = getComponentType(params);
           const value = parameters[name] ?? '';
 
-          return createInputComponent(type, name, label, params, value, onChange, dataProvider);
+          return createInputComponent(type, name, label, params, value, onChange);
         })
       }
       <h3 style={{ alignSelf: 'start', marginBottom: '10px' }}>Advanced</h3>

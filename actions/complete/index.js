@@ -20,4 +20,4 @@ async function main(params) {
   return firefallClient.completion(prompt ?? 'Who are you?', temperature ?? 0.0, model ?? 'gpt-4');
 }
 
-exports.main = asAuthAction(asFirefallAction(asGenericAction(main)));
+exports.main = asGenericAction(asAuthAction(asFirefallAction(main)));

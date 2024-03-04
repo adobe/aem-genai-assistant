@@ -10,35 +10,16 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Item, NumberField, Picker, TextArea, ToggleButton, LabeledValue,
+  Flex, NumberField, TextArea,
 } from '@adobe/react-spectrum';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import QueryStringAddon from 'wretch/addons/queryString';
-import { css } from '@emotion/css';
-import { ToastQueue } from '@react-spectrum/toast';
 import { placeholdersState } from '../state/PlaceholdersState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { TemperatureSlider } from './TemperatureSlider.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
 import { formatIdentifier } from '../helpers/FormatHelper.js';
-import { wretchRetry } from '../../../actions/Network.js';
-import { useApplicationContext } from './ApplicationProvider.js';
-
-const DATA_SOURCES = {
-  CSV: 'csv',
-  TARGET: 'target',
-};
-
-const styles = {
-  toggleButtons: css`
-    display: grid;
-    grid-auto-columns: 1fr 1fr;
-    justify-items: stretch;
-    column-gap: 10px;
-    width: 100%;
-  `,
-};
+import { SelectComponent } from './SelectComponent.js';
 
 function comparePlaceholders([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
@@ -87,119 +68,10 @@ function createNumberComponent(name, label, params, value, onChange) {
   );
 }
 
-function useParseCsv() {
-  const { csvParserEndpoint } = useApplicationContext();
-  return useCallback(async (csv) => {
-    const json = await wretchRetry(csvParserEndpoint)
-      .addon(QueryStringAddon)
-      .query({ csv })
-      .get()
-      .json();
-    return Array.from(json).map(([key, value]) => {
-      return {
-        key,
-        value,
-      };
-    });
-  }, [csvParserEndpoint]);
-}
-
-function useGetTargetAudiences() {
-  const { accessToken, imsTenant, targetEndpoint } = useApplicationContext();
-  return useCallback(async (target) => {
-    const url = `${targetEndpoint}?org=${target === 'default' ? imsTenant : target}`;
-    const audiences = await wretchRetry(url)
-      .auth(`Bearer ${accessToken}`)
-      .accept('application/json')
-      .get()
-      .json();
-    return audiences.map((audience) => {
-      return {
-        key: audience.name.trim(),
-        value: audience.description.trim(),
-      };
-    });
-  }, [accessToken, imsTenant, targetEndpoint]);
-}
-
-function DataSourceSelector({ label, dataSource, setDataSource }) {
-  return (
-    <div className={styles.toggleButtons}>
-      <LabeledValue label={`${label} Source`} value={''} gridColumnStart={1} gridColumnEnd={3} />
-      <ToggleButton
-        isSelected={dataSource === DATA_SOURCES.TARGET}
-        onChange={() => setDataSource(DATA_SOURCES.TARGET)}>Adobe Target</ToggleButton>
-      <ToggleButton
-        isSelected={dataSource === DATA_SOURCES.CSV}
-        onChange={() => setDataSource(DATA_SOURCES.CSV)}>CSV file</ToggleButton>
-    </div>
-  );
-}
-
-function SelectComponent({
-  name, label, params: { description, csv, target }, value, onChange,
-}) {
-  const getTargetAudiences = useGetTargetAudiences();
-  const parseCsv = useParseCsv();
-  const [dataSource, setDataSource] = useState();
-  const [items, setItems] = React.useState([]);
-
-  useEffect(() => {
-    setItems([]);
-    if (target && !csv) {
-      setDataSource(DATA_SOURCES.TARGET);
-    } else if (csv && !target) {
-      setDataSource(DATA_SOURCES.CSV);
-    }
-    if (dataSource === DATA_SOURCES.CSV) {
-      parseCsv(csv)
-        .then(setItems)
-        .catch((err) => {
-          console.error(err);
-          ToastQueue.negative(`Failed to parse CSV ${csv}`, { timeout: 1000 });
-          setItems([]);
-        });
-    } else if (dataSource === DATA_SOURCES.TARGET) {
-      getTargetAudiences(target)
-        .then(setItems)
-        .catch((err) => {
-          console.error(err);
-          ToastQueue.negative(`Failed to load from Adobe Target ${target}`, { timeout: 1000 });
-          setItems([]);
-        });
-    }
-  }, [target, csv, dataSource, setDataSource, setItems, getTargetAudiences, parseCsv]);
-
-  const getSelectedKey = useCallback((selectedValue) => {
-    return String(items.findIndex((item) => item.value === selectedValue));
-  }, [items, value]);
-
-  const selectionHandler = useCallback((selected) => {
-    onChange(name, items[selected].value);
-  }, [name, items, onChange]);
-
-  return (
-    <>
-      { (target && csv) && <DataSourceSelector label={label} dataSource={dataSource} setDataSource={setDataSource} /> }
-      <Picker
-        key={name}
-        label={label}
-        contextualHelp={<DescriptionLabel label={label} description={description} />}
-        width="100%"
-        placeholder={'Select a value'}
-        items={items}
-        isDisabled={!items.length}
-        selectedKey={getSelectedKey(value)}
-        onSelectionChange={selectionHandler}>
-        {items ? items.map((item, index) => <Item key={index}>{item.key}</Item>) : []}
-      </Picker>
-    </>
-  );
-}
-
 function createSelectComponent(name, label, params, value, onChange) {
   return (
     <SelectComponent
+      key={name}
       name={name}
       label={label}
       params={params}

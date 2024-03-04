@@ -32,8 +32,8 @@ export function ResetButton(props) {
       isQuiet
       onPress={handleReset}
       variant={''}>
-      <Image src={ResetIcon} alt={'Resent Inputs'} marginEnd={'8px'}/>
-      <Text>Resent Inputs</Text>
+      <Image src={ResetIcon} alt={'Reset Inputs'} marginEnd={'8px'}/>
+      <Text>Reset Inputs</Text>
     </ActionButton>
   );
 }

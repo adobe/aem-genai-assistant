@@ -9,14 +9,27 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-const wretch = require('wretch');
-const Papa = require('papaparse');
-const { asGenericAction } = require('../GenericAction.js');
+import { wretchRetry } from '../../../actions/Network.js';
 
-async function main({ url }) {
-  const text = await wretch(url).get().text();
-  const { data } = Papa.parse(text, {});
-  return data;
+export class TargetService {
+  constructor({
+    targetEndpoint,
+    imsTenant,
+    accessToken,
+  }) {
+    this.targetEndpoint = targetEndpoint;
+    this.imsTenant = imsTenant;
+    this.accessToken = accessToken;
+
+    console.debug(`Target: ${this.targetEndpoint}`);
+  }
+
+  async getAudiences(tenant) {
+    const url = `${this.targetEndpoint}?org=${tenant === 'default' ? this.imsTenant : tenant}`;
+    return wretchRetry(url)
+      .auth(`Bearer ${this.accessToken}`)
+      .accept('application/json')
+      .get()
+      .json();
+  }
 }
-
-exports.main = asGenericAction(main);

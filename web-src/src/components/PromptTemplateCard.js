@@ -73,7 +73,7 @@ export function PromptTemplateCard({
           <Text UNSAFE_className={styles.title} gridArea={'title'}>{template.label}</Text>
           { (template.isBundled) ? <Image src={SmallLogo} width={'18px'} alt={''} gridArea={'logo'}/> : <Fragment/> }
           { (!template.isBundled && template.id !== NEW_PROMPT_TEMPLATE_ID)
-            && <Text>{template.isPrivate ? 'Private' : 'Public'}</Text> }
+            && <Text>{template.isPublic ? 'Public' : 'Private'}</Text> }
           <Text UNSAFE_className={styles.description} gridArea={'description'}>{template.description}</Text>
           {
             (!template.isBundled && template.id !== NEW_PROMPT_TEMPLATE_ID)

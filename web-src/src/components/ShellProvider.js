@@ -54,10 +54,11 @@ export const ShellProvider = ({ children, runtime }) => {
 
     setShellContext({
       user: {
+        id: imsProfile.userId,
+        name: imsProfile.name,
+        imsTenant: tenant,
         imsToken,
         imsOrg,
-        imsProfile,
-        imsTenant: tenant,
       },
       isUserAuthorized: isAuthorized(imsProfile, imsOrg),
       isExpressAuthorized: expressAuthorized(imsProfile, imsOrg),

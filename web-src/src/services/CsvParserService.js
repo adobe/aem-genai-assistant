@@ -9,14 +9,29 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-const wretch = require('wretch');
-const Papa = require('papaparse');
-const { asGenericAction } = require('../GenericAction.js');
+import QueryStringAddon from 'wretch/addons/queryString';
+import { wretchRetry } from '../../../actions/Network.js';
 
-async function main({ url }) {
-  const text = await wretch(url).get().text();
-  const { data } = Papa.parse(text, {});
-  return data;
+export class CsvParserService {
+  constructor({
+    csvParserEndpoint,
+  }) {
+    this.csvParserEndpoint = csvParserEndpoint;
+
+    console.log('csvParserEndpoint', csvParserEndpoint);
+  }
+
+  async getData(url) {
+    const json = await wretchRetry(this.csvParserEndpoint)
+      .addon(QueryStringAddon)
+      .query({ url })
+      .get()
+      .json();
+    return Array.from(json).map(([key, value]) => {
+      return {
+        key,
+        value,
+      };
+    });
+  }
 }
-
-exports.main = asGenericAction(main);

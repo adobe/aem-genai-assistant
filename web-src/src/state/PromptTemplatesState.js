@@ -23,11 +23,11 @@ export const newPromptTemplate = {
   label: 'New prompt',
   description: 'To start a new prompt use this and then add it to your prompt templates for future use.',
   template: '',
-  isPrivate: false,
+  isPublic: true,
   isBundled: false,
 };
 
-function newPromptTemplatesWrapper(templates) {
+function createPromptTemplatesEnvelope(templates) {
   return {
     promptTemplates: templates,
   };
@@ -41,61 +41,79 @@ function parseBundledPromptTemplates(data) {
       label: Label,
       description: Description,
       template: Template || '',
-      isPrivate: false,
+      isPublic: true,
       isBundled: true,
+      created: null,
+      lastModified: null,
+      createdBy: null,
+      lastModifiedBy: null,
     };
   });
 }
 
-function settingsToPromptTemplates(settings, isPrivate) {
+function settingsToPromptTemplates(settings, isPublic) {
   return settings.promptTemplates.map(({
-    id, label, description, template,
+    id, label, description, template, created, lastModified, createdBy, lastModifiedBy,
   }) => {
     return {
       id,
       label,
       description,
       template,
-      isPrivate,
+      isPublic,
       isBundled: false,
+      created: created ?? new Date().getTime(),
+      lastModified: lastModified ?? new Date().getTime(),
+      createdBy,
+      lastModifiedBy,
     };
   });
 }
 
-function promptTemplatesToSettings(promptTemplates, isPrivate) {
+function promptTemplatesToSettings(promptTemplates, isPublicTemplate) {
   const settings = promptTemplates
-    .filter(({
-      isPrivate: isPrivateTemplate,
-    }) => isPrivateTemplate === isPrivate)
+    .filter(({ isPublic }) => isPublicTemplate === isPublic)
     .map(({
-      id, label, description, template,
+      id, label, description, template, created, lastModified, createdBy, lastModifiedBy,
     }) => {
       return {
         id,
         label,
         description,
         template,
+        created,
+        lastModified,
+        createdBy,
+        lastModifiedBy,
       };
     });
-  return newPromptTemplatesWrapper(settings);
+  return createPromptTemplatesEnvelope(settings);
 }
 
 export async function readCustomPromptTemplates() {
-  const publicSettings = await readValueFromSettings(PROMPT_TEMPLATE_STORAGE_KEY, newPromptTemplatesWrapper([]), false);
-  const publicPromptTemplates = settingsToPromptTemplates(publicSettings, false);
-  const privateSettings = await readValueFromSettings(PROMPT_TEMPLATE_STORAGE_KEY, newPromptTemplatesWrapper([]), true);
-  const privatePromptTemplates = settingsToPromptTemplates(privateSettings, true);
+  const privateSettings = await readValueFromSettings(
+    PROMPT_TEMPLATE_STORAGE_KEY,
+    createPromptTemplatesEnvelope([]),
+    true,
+  );
+  const publicSettings = await readValueFromSettings(
+    PROMPT_TEMPLATE_STORAGE_KEY,
+    createPromptTemplatesEnvelope([]),
+    false,
+  );
+  const privatePromptTemplates = settingsToPromptTemplates(privateSettings, false);
+  const publicPromptTemplates = settingsToPromptTemplates(publicSettings, true);
   return [
-    ...publicPromptTemplates,
     ...privatePromptTemplates,
+    ...publicPromptTemplates,
   ];
 }
 
 export async function writeCustomPromptTemplates(promptTemplates) {
-  const publicSettings = promptTemplatesToSettings(promptTemplates, false);
-  await writeValueToSettings(PROMPT_TEMPLATE_STORAGE_KEY, publicSettings, false);
-  const privateSettings = promptTemplatesToSettings(promptTemplates, true);
-  await writeValueToSettings(PROMPT_TEMPLATE_STORAGE_KEY, privateSettings, true);
+  const publicSettings = promptTemplatesToSettings(promptTemplates, true);
+  await writeValueToSettings(PROMPT_TEMPLATE_STORAGE_KEY, publicSettings, true);
+  const privateSettings = promptTemplatesToSettings(promptTemplates, false);
+  await writeValueToSettings(PROMPT_TEMPLATE_STORAGE_KEY, privateSettings, false);
 }
 
 const bundledPromptTemplatesState = selector({

@@ -12,6 +12,8 @@
 const wretch = require('wretch');
 const { asGenericAction } = require('../GenericAction.js');
 
+const MIN_DESCRIPTION_LENGTH = 5;
+
 async function main({ __ow_headers: headers, org, TARGET_API_KEY }) {
   const { authorization } = headers;
   const accessToken = authorization.split(' ')[1];
@@ -30,11 +32,11 @@ async function main({ __ow_headers: headers, org, TARGET_API_KEY }) {
   }
 
   return json.audiences
-    .filter((audience) => audience.name && audience.description && audience.type === 'reusable')
+    .filter((audience) => audience.name && audience.type === 'reusable')
     .map((audience) => ({
       id: audience.id,
-      name: audience.name,
-      description: audience.description,
+      name: audience.name.trim(),
+      description: audience.description?.length > MIN_DESCRIPTION_LENGTH ? audience.description.trim() : null,
     }));
 }
 

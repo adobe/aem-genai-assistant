@@ -14,13 +14,15 @@ import React, {
 } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { FirefallService } from '../services/FirefallService.js';
-import { ExpressSDKService } from '../services/ExpressSDKService.js';
+import { ExpressSdkService } from '../services/ExpressSdkService.js';
 import actions from '../config.json';
 import { useShellContext } from './ShellProvider.js';
 import {
   customPromptTemplatesState,
   readCustomPromptTemplates,
 } from '../state/PromptTemplatesState.js';
+import { TargetService } from '../services/TargetService.js';
+import { CsvParserService } from '../services/CsvParserService.js';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 
@@ -28,19 +30,6 @@ const COMPLETE_ACTION = 'complete';
 const FEEDBACK_ACTION = 'feedback';
 const TARGET_ACTION = 'target';
 const CSV_PARSER_ACTION = 'csv';
-
-const PROMPTS_TEMPLATES_PARAM_NAME = 'prompts';
-
-const PROMPT_TEMPLATES_FILENAME = 'prompt-templates';
-
-function getWebsiteUrl() {
-  const searchParams = new URLSearchParams(window.location.search);
-  const ref = searchParams.get('ref');
-  const repo = searchParams.get('repo');
-  const owner = searchParams.get('owner');
-
-  return `https://${ref}--${repo}--${owner}.hlx.page`;
-}
 
 export const ApplicationContext = React.createContext(undefined);
 
@@ -54,22 +43,8 @@ export const ApplicationProvider = ({ children }) => {
       return;
     }
 
-    const websiteUrl = getWebsiteUrl();
-
-    const expressSDKService = new ExpressSDKService({
-      clientId: 'aem-genai-assistant',
-      appName: 'AEM Generate Variations',
-      user,
-    });
-
     setApplication({
       appVersion: APP_VERSION,
-      websiteUrl,
-
-      imsTenant: user.imsTenant,
-      accessToken: user.imsToken,
-      targetEndpoint: actions[TARGET_ACTION],
-      csvParserEndpoint: actions[CSV_PARSER_ACTION],
 
       firefallService: new FirefallService({
         completeEndpoint: actions[COMPLETE_ACTION],
@@ -77,7 +52,23 @@ export const ApplicationProvider = ({ children }) => {
         imsOrg: user.imsOrg,
         accessToken: user.imsToken,
       }),
-      expressSDKService,
+
+      csvParserService: new CsvParserService({
+        csvParserEndpoint: actions[CSV_PARSER_ACTION],
+      }),
+
+      targetService: new TargetService({
+        targetEndpoint: actions[TARGET_ACTION],
+        imsTenant: user.imsTenant,
+        accessToken: user.imsToken,
+      }),
+
+      expressSdkService: new ExpressSdkService({
+        clientId: 'aem-genai-assistant',
+        appName: 'AEM Generate Variations',
+        userId: user.id,
+        accessToken: user.imsToken,
+      }),
     });
 
     readCustomPromptTemplates().then((templates) => {

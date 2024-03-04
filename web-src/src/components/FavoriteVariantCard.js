@@ -46,7 +46,7 @@ const styles = {
 };
 
 export function FavoriteVariantCard({ variant, ...props }) {
-  const { firefallService, expressSDKService } = useApplicationContext();
+  const { firefallService, expressSdkService } = useApplicationContext();
   const { isExpressAuthorized } = useShellContext();
   const toggleFavorite = useToggleFavorite();
   const { addImageToVariant } = useVariantImages();
@@ -59,7 +59,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
       addImageToVariant(variant.id, publishParams.asset[0].data);
     };
 
-    const success = await expressSDKService.handleImageOperation(
+    const success = await expressSdkService.handleImageOperation(
       'generateImage',
       {
         outputParams: {
@@ -77,7 +77,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
     if (!success) {
       ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
     }
-  }, [expressSDKService, variant]);
+  }, [expressSdkService, variant]);
 
   const handleGenerateImagePrompt = useCallback(() => {
     setImagePromptProgress(true);

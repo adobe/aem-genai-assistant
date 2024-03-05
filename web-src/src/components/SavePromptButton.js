@@ -21,13 +21,13 @@ import {
   ButtonGroup,
   Button,
   Item,
-  TextArea, ComboBox, Switch, Well,
+  TextArea, ComboBox, Switch, Well, Form,
 } from '@adobe/react-spectrum';
 import React, { useCallback, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { v4 as uuid } from 'uuid';
 import { ToastQueue } from '@react-spectrum/toast';
-import { css } from '@emotion/css';
+import SharedIcon from '@spectrum-icons/workflow/UserGroup';
 import { promptState } from '../state/PromptState.js';
 import SaveIcon from '../assets/save.svg';
 import {
@@ -35,12 +35,7 @@ import {
   writeCustomPromptTemplates,
 } from '../state/PromptTemplatesState.js';
 import { useShellContext } from './ShellProvider.js';
-
-const styles = {
-  instructions: css`
-    margin-bottom: var(--spectrum-global-dimension-size-200);
-  `,
-};
+import { lastUsedPromptTemplateIdState } from '../state/LastUsedPromptTemplateIdState.js';
 
 function saveTemplates(customPromptTemplates) {
   return writeCustomPromptTemplates(customPromptTemplates).then(() => {
@@ -53,41 +48,30 @@ function saveTemplates(customPromptTemplates) {
 
 export function SavePromptButton(props) {
   const { user: { name } } = useShellContext();
+
   const [customPromptTemplates, setCustomPromptTemplates] = useRecoilState(customPromptTemplatesState);
+  const [lastUsedPromptTemplateId, setLastUsedPromptTemplateId] = useRecoilState(lastUsedPromptTemplateIdState);
+  const prompt = useRecoilValue(promptState);
+
   const [selectedTemplate, setSelectedTemplate] = React.useState(null);
   const [label, setLabel] = React.useState('');
   const [description, setDescription] = React.useState('');
   const [isPublic, setIsPublic] = React.useState(false);
-  const prompt = useRecoilValue(promptState);
+
+  const [isSaving, setIsSaving] = React.useState(false);
 
   useEffect(() => {
     if (selectedTemplate) {
+      setLabel(selectedTemplate.label);
       setDescription(selectedTemplate?.description ?? selectedTemplate?.label);
       setIsPublic(selectedTemplate?.isPublic);
     } else {
       setDescription('');
     }
-  }, [selectedTemplate, customPromptTemplates, setDescription], setIsPublic);
-
-  const saveSelectedTemplate = useCallback((closeDialog) => {
-    const updatedTemplate = {
-      ...selectedTemplate,
-      description: description ?? label,
-      template: prompt,
-      isPublic,
-      lastModified: new Date().getTime(),
-      lastModifiedBy: name,
-    };
-    const newCustomPromptTemplates = [
-      ...customPromptTemplates.filter((template) => template.id !== selectedTemplate.id),
-      updatedTemplate,
-    ];
-    setCustomPromptTemplates(newCustomPromptTemplates);
-    saveTemplates(newCustomPromptTemplates).then(closeDialog);
-    setSelectedTemplate(updatedTemplate);
-  }, [label, description, isPublic, prompt, selectedTemplate, customPromptTemplates, setCustomPromptTemplates]);
+  }, [selectedTemplate]);
 
   const saveNewTemplate = useCallback((closeDialog) => {
+    setIsSaving(true);
     const newTemplate = {
       id: uuid(),
       label,
@@ -100,16 +84,44 @@ export function SavePromptButton(props) {
       lastModifiedBy: name,
     };
     const newCustomPromptTemplates = [...customPromptTemplates, newTemplate];
-    setCustomPromptTemplates(newCustomPromptTemplates);
     saveTemplates(newCustomPromptTemplates).then(() => {
+      setCustomPromptTemplates(newCustomPromptTemplates);
+      setLastUsedPromptTemplateId(newTemplate.id);
       setSelectedTemplate(newTemplate);
+      setIsSaving(false);
       closeDialog();
     });
-  }, [label, description, isPublic, prompt, customPromptTemplates, setCustomPromptTemplates]);
+  }, [label, description, isPublic, prompt, customPromptTemplates]);
+
+  const saveSelectedTemplate = useCallback((closeDialog) => {
+    setIsSaving(true);
+    const updatedTemplate = {
+      ...selectedTemplate,
+      description: description ?? label,
+      template: prompt,
+      isPublic,
+      lastModified: new Date().getTime(),
+      lastModifiedBy: name,
+    };
+    const newCustomPromptTemplates = [
+      ...customPromptTemplates.filter((template) => template.id !== selectedTemplate.id),
+      updatedTemplate,
+    ];
+    saveTemplates(newCustomPromptTemplates).then(() => {
+      setCustomPromptTemplates(newCustomPromptTemplates);
+      setLastUsedPromptTemplateId(updatedTemplate.id);
+      setSelectedTemplate(updatedTemplate);
+      setIsSaving(false);
+      closeDialog();
+    });
+  }, [label, description, isPublic, prompt, selectedTemplate, customPromptTemplates]);
 
   const renderTemplates = useCallback(() => {
     return customPromptTemplates.slice().sort((a, b) => a.label.localeCompare(b.label)).map((template) => (
-      <Item key={template.id}>{ template.label }</Item>
+      <Item key={template.id} textValue={template.label}>
+        { template.isPublic && <SharedIcon/> }
+        <Text>{ template.label }</Text>
+      </Item>
     ));
   }, [customPromptTemplates]);
 
@@ -129,14 +141,20 @@ export function SavePromptButton(props) {
     );
   }, [selectedTemplate, label]);
 
+  const handleDialogOpening = useCallback(() => {
+    if (lastUsedPromptTemplateId) {
+      setSelectedTemplate(customPromptTemplates.find((t) => t.id === lastUsedPromptTemplateId));
+    } else {
+      setSelectedTemplate(null);
+    }
+  }, [lastUsedPromptTemplateId, customPromptTemplates]);
+
   const handleLabelChange = useCallback((value) => {
-    console.log('Label change', value);
     setLabel(value);
     setSelectedTemplate(customPromptTemplates.find((t) => t.label === value));
-  }, [setLabel, selectedTemplate, setSelectedTemplate]);
+  }, [selectedTemplate]);
 
   const handleSelectionChange = useCallback((selection) => {
-    console.log('Selection', selection);
     const template = customPromptTemplates.find((t) => t.id === selection);
     if (!template) {
       return;
@@ -144,23 +162,21 @@ export function SavePromptButton(props) {
     setSelectedTemplate(template);
     setLabel(template.label);
     setDescription(template.description);
-    console.log('Selecting template', template);
-  }, [customPromptTemplates, setSelectedTemplate, setLabel, setDescription]);
+  }, [customPromptTemplates]);
 
   const handleSave = useCallback((closeDialog) => {
-    console.log('Saving prompt template as', isPublic ? 'private' : 'public');
     if (selectedTemplate) {
       saveSelectedTemplate(closeDialog);
     } else {
       saveNewTemplate(closeDialog);
     }
-  }, [label, description, isPublic, prompt, selectedTemplate, customPromptTemplates, setCustomPromptTemplates]);
+  }, [label, description, isPublic, prompt, selectedTemplate, customPromptTemplates]);
 
   return (
     <DialogTrigger type='modal'>
       <ActionButton
         {...props}
-        onPress={() => setSelectedTemplate(null)}
+        onPress={handleDialogOpening}
         UNSAFE_className="hover-cursor-pointer"
         isQuiet
         variant={''}>
@@ -168,39 +184,42 @@ export function SavePromptButton(props) {
         <Text>Save Prompt</Text>
       </ActionButton>
       {(close) => (
-        <Dialog width={'450px'}>
+        <Dialog width={'480px'}>
           <Heading>Save Prompt</Heading>
           <Divider />
           <Content>
-            <div className={styles.instructions}>
-              Enter a new name to create a new prompt, or select an existing one from the list to update it.
-            </div>
-            <ComboBox
-              label={'Prompt Name'}
-              width={'100%'}
-              isRequired={true}
-              allowsCustomValue={true}
-              selectedKey={selectedTemplate?.id}
-              onInputChange={handleLabelChange}
-              onSelectionChange={handleSelectionChange}>
-              {renderTemplates()}
-            </ComboBox>
-            <TextArea
-              label={'Description'}
-              width={'100%'}
-              value={description}
-              onChange={setDescription}>
-            </TextArea>
-            <Switch
-              isSelected={isPublic}
-              onChange={setIsPublic}>
-              Shared across organization
-            </Switch>
-            { renderWarning() }
+            <Form>
+              <Text marginBottom={10}>
+                Enter a new name to create a new prompt, or select an existing one from the list to update it.
+              </Text>
+              <ComboBox
+                label={'Prompt Name'}
+                width={'100%'}
+                isRequired={true}
+                allowsCustomValue={true}
+                selectedKey={selectedTemplate?.id}
+                autoFocus={true}
+                onInputChange={handleLabelChange}
+                onSelectionChange={handleSelectionChange}>
+                {renderTemplates()}
+              </ComboBox>
+              <TextArea
+                label={'Description'}
+                width={'100%'}
+                value={description}
+                onChange={setDescription}>
+              </TextArea>
+              <Switch
+                isSelected={isPublic}
+                onChange={setIsPublic}>
+                Shared across organization
+              </Switch>
+              { renderWarning() }
+            </Form>
           </Content>
           <ButtonGroup>
             <Button variant={'secondary'} onPress={close}>Cancel</Button>
-            <Button variant={'cta'} isDisabled={!label} onPress={() => handleSave(close)}>Save</Button>
+            <Button variant={'cta'} isDisabled={!label || isSaving} onPress={() => handleSave(close)}>Save</Button>
           </ButtonGroup>
         </Dialog>
       )}

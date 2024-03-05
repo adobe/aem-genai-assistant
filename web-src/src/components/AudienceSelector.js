@@ -76,7 +76,7 @@ function DataSourceSelector({ label, dataSource, setDataSource }) {
   );
 }
 
-export function SelectComponent({
+export function AudienceSelector({
   name, label, params: { description, csv, target }, value, onChange,
 }) {
   const getItemsFromTarget = useGetItemsFromTarget();

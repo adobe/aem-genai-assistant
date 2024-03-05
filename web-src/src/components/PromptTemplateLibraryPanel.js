@@ -27,6 +27,7 @@ import {
 import { WelcomeBanner } from './WelcomeBanner.js';
 import { sampleRUM } from '../rum.js';
 import { log } from '../helpers/Tracking.js';
+import { lastUsedPromptTemplateIdState } from '../state/LastUsedPromptTemplateIdState.js';
 
 function PromptTemplatesView({ onSelect }) {
   const promptTemplates = useRecoilValue(promptTemplatesState);
@@ -69,6 +70,7 @@ function PromptTemplatesView({ onSelect }) {
 export function PromptTemplateLibraryPanel({ props }) {
   const setCurrentSession = useSetRecoilState(sessionState);
   const setViewType = useSetRecoilState(viewTypeState);
+  const setLastUsedPromptTemplateId = useSetRecoilState(lastUsedPromptTemplateIdState);
 
   const handleSelect = useCallback((selectedTemplate) => {
     log('prompt:selected', {
@@ -93,6 +95,7 @@ export function PromptTemplateLibraryPanel({ props }) {
     };
     setCurrentSession(session);
     setViewType(ViewType.CurrentSession);
+    setLastUsedPromptTemplateId(selectedTemplate.id);
   }, [setCurrentSession, setViewType]);
 
   return (

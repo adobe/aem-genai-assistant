@@ -19,7 +19,7 @@ import { parametersState } from '../state/ParametersState.js';
 import { TemperatureSlider } from './TemperatureSlider.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
 import { formatIdentifier } from '../helpers/FormatHelper.js';
-import { SelectComponent } from './SelectComponent.js';
+import { AudienceSelector } from './AudienceSelector.js';
 
 function comparePlaceholders([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
@@ -35,9 +35,6 @@ function getComponentLabel(name, label) {
 }
 
 function getComponentType(params) {
-  if (params.target || params.csv) {
-    return 'select';
-  }
   return params.type || 'text';
 }
 
@@ -68,9 +65,9 @@ function createNumberComponent(name, label, params, value, onChange) {
   );
 }
 
-function createSelectComponent(name, label, params, value, onChange) {
+function createAudienceSelectComponent(name, label, params, value, onChange) {
   return (
-    <SelectComponent
+    <AudienceSelector
       key={name}
       name={name}
       label={label}
@@ -83,8 +80,8 @@ function createSelectComponent(name, label, params, value, onChange) {
 
 function createInputComponent(type, name, label, params, value, onChange) {
   switch (type) {
-    case 'select':
-      return createSelectComponent(name, label, params, value, onChange);
+    case 'audience':
+      return createAudienceSelectComponent(name, label, params, value, onChange);
     case 'number':
       return createNumberComponent(name, label, params, value, onChange);
     case 'text':

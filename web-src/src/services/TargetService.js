@@ -24,8 +24,8 @@ export class TargetService {
     console.debug(`Target: ${this.targetEndpoint}`);
   }
 
-  async getAudiences(tenant) {
-    const url = `${this.targetEndpoint}?org=${tenant === 'default' ? this.imsTenant : tenant}`;
+  async getAudiences() {
+    const url = `${this.targetEndpoint}?org=${this.imsTenant}`;
     return wretchRetry(url)
       .auth(`Bearer ${this.accessToken}`)
       .accept('application/json')

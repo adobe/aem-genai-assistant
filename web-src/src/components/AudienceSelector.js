@@ -35,8 +35,8 @@ const styles = {
 
 function useGetItemsFromTarget() {
   const { targetService } = useApplicationContext();
-  return useCallback(async (tenant) => {
-    const audiences = await targetService.getAudiences(tenant);
+  return useCallback(async () => {
+    const audiences = await targetService.getAudiences();
     return audiences
       .sort((a, b) => {
         if (a.description && !b.description) {
@@ -62,10 +62,10 @@ function useGetItemsFromCsvFile() {
   }, [csvParserService]);
 }
 
-function DataSourceSelector({ label, dataSource, setDataSource }) {
+function DataSourceSelector({ dataSource, setDataSource }) {
   return (
     <div className={styles.toggleButtons}>
-      <LabeledValue label={`${label} Source`} value={''} gridColumnStart={1} gridColumnEnd={3} />
+      <LabeledValue label={'Audiences Source'} value={''} gridColumnStart={1} gridColumnEnd={3} />
       <ToggleButton
         isSelected={dataSource === DATA_SOURCES.TARGET}
         onChange={() => setDataSource(DATA_SOURCES.TARGET)}>Adobe Target</ToggleButton>
@@ -77,7 +77,7 @@ function DataSourceSelector({ label, dataSource, setDataSource }) {
 }
 
 export function AudienceSelector({
-  name, label, params: { description, csv, target }, value, onChange,
+  name, label, params: { description, csv, adobeTarget }, value, onChange,
 }) {
   const getItemsFromTarget = useGetItemsFromTarget();
   const getItemsFromCsvFile = useGetItemsFromCsvFile();
@@ -87,9 +87,9 @@ export function AudienceSelector({
 
   useEffect(() => {
     setItems([]);
-    if (target && !csv) {
+    if (adobeTarget && !csv) {
       setDataSource(DATA_SOURCES.TARGET);
-    } else if (csv && !target) {
+    } else if (csv && !adobeTarget) {
       setDataSource(DATA_SOURCES.CSV);
     }
     if (dataSource === DATA_SOURCES.CSV) {
@@ -101,16 +101,16 @@ export function AudienceSelector({
           setItems([]);
         });
     } else if (dataSource === DATA_SOURCES.TARGET) {
-      getItemsFromTarget(target)
+      getItemsFromTarget()
         .then(setItems)
         .catch((err) => {
           console.error(err);
-          ToastQueue.negative(`Failed to load from Adobe Target ${target}`, { timeout: 1000 });
+          ToastQueue.negative('Failed to load from Adobe Target', { timeout: 1000 });
           setItems([]);
         });
     }
     onChange(name, null);
-  }, [target, csv, dataSource, setDataSource, setItems, getItemsFromCsvFile, getItemsFromTarget]);
+  }, [adobeTarget, csv, dataSource, setDataSource, setItems, getItemsFromCsvFile, getItemsFromTarget]);
 
   useEffect(() => {
     setDisabledKeys(items.reduce((acc, item, index) => {
@@ -146,7 +146,7 @@ export function AudienceSelector({
 
   return (
     <>
-      { (target && csv)
+      { (adobeTarget && csv)
         && <DataSourceSelector
           label={label}
           dataSource={dataSource}

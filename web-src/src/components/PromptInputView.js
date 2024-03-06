@@ -21,6 +21,22 @@ import { DescriptionLabel } from './DescriptionLabel.js';
 import { formatIdentifier } from '../helpers/FormatHelper.js';
 import { AudienceSelector } from './AudienceSelector.js';
 
+function toCamelCaseKeys(obj) {
+  const camelCaseKey = (key) => {
+    return key.replace(/([-_][a-z])/ig, ($1) => {
+      return $1.toUpperCase()
+        .replace('-', '')
+        .replace('_', '');
+    });
+  };
+  const newObj = {};
+  Object.keys(obj).forEach((key) => {
+    const camelCaseKeyString = camelCaseKey(key);
+    newObj[camelCaseKeyString] = obj[key];
+  });
+  return newObj;
+}
+
 function comparePlaceholders([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
     return -1;
@@ -110,14 +126,15 @@ export function PromptInputView({ gridColumn }) {
       width={'100%'}>
       {
         Object.entries(placeholders).sort(comparePlaceholders).map(([name, params]) => {
-          if (params.comment) {
+          const { comment, label } = params;
+          if (comment) {
             return null;
           }
-          const label = getComponentLabel(name, params.label);
+          const formattedLabel = getComponentLabel(name, label);
           const type = getComponentType(params);
           const value = parameters[name] ?? '';
 
-          return createInputComponent(type, name, label, params, value, onChange);
+          return createInputComponent(type, name, formattedLabel, toCamelCaseKeys(params), value, onChange);
         })
       }
       <h3 style={{ alignSelf: 'start', marginBottom: '10px' }}>Advanced</h3>

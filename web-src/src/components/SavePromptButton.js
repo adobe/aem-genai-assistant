@@ -26,22 +26,36 @@ import {
 import React, { useCallback, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { v4 as uuid } from 'uuid';
+import SharedTemplateIcon from '@spectrum-icons/workflow/UserGroup';
+import PrivateTemplateIcon from '@spectrum-icons/workflow/LockClosed';
 import { ToastQueue } from '@react-spectrum/toast';
-import SharedIcon from '@spectrum-icons/workflow/UserGroup';
+import { motion } from 'framer-motion';
 import { promptState } from '../state/PromptState.js';
 import SaveIcon from '../assets/save.svg';
 import {
-  customPromptTemplatesState,
-  writeCustomPromptTemplates,
+  customPromptTemplatesState, writeCustomPromptTemplates,
 } from '../state/PromptTemplatesState.js';
 import { useShellContext } from './ShellProvider.js';
 import { lastUsedPromptTemplateIdState } from '../state/LastUsedPromptTemplateIdState.js';
 
+const DEBOUNCE_DELAY = 800;
+
+function debounce(callback, wait) {
+  let timeoutId = null;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      clearTimeout(timeoutId);
+      callback(...args);
+    }, wait);
+  };
+}
+
 function saveTemplates(customPromptTemplates) {
   return writeCustomPromptTemplates(customPromptTemplates).then(() => {
-    ToastQueue.positive('Prompt template saved', 1000);
+    ToastQueue.positive('Prompt template saved', { timeout: 1000 });
   }).catch((error) => {
-    ToastQueue.negative('Error saving prompt template', 1000);
+    ToastQueue.negative('Error saving prompt template', { timeout: 1000 });
     console.error(error);
   });
 }
@@ -62,7 +76,9 @@ export function SavePromptButton(props) {
 
   useEffect(() => {
     if (selectedTemplate) {
-      setLabel(selectedTemplate.label);
+      if (label !== selectedTemplate.label) {
+        setLabel(selectedTemplate.label);
+      }
       setDescription(selectedTemplate?.description ?? selectedTemplate?.label);
       setIsPublic(selectedTemplate?.isPublic);
     } else {
@@ -119,7 +135,9 @@ export function SavePromptButton(props) {
   const renderTemplates = useCallback(() => {
     return customPromptTemplates.slice().sort((a, b) => a.label.localeCompare(b.label)).map((template) => (
       <Item key={template.id} textValue={template.label}>
-        { template.isPublic && <SharedIcon/> }
+        { template.isPublic
+          ? <SharedTemplateIcon UNSAFE_style={{ boxSizing: 'content-box' }}/>
+          : <PrivateTemplateIcon UNSAFE_style={{ boxSizing: 'content-box' }}/> }
         <Text>{ template.label }</Text>
       </Item>
     ));
@@ -131,13 +149,18 @@ export function SavePromptButton(props) {
     }
     const lastModified = new Date(selectedTemplate.lastModified).toLocaleDateString();
     return (
-      <Well>
+      <motion.div
+        initial={{ opacity: 0.1, scaleY: 0.1 }}
+        animate={{ opacity: 1, scaleY: 1 }}
+        transition={{ ease: 'easeInOut', duration: 0.3 }}>
+        <Well>
         <Text>
           You are about to update <b>{label}</b>,
           last modified on <b>{lastModified}</b> by <b>{selectedTemplate.lastModifiedBy}</b>.
           Any changes made will overwrite the current content.
         </Text>
       </Well>
+      </motion.div>
     );
   }, [selectedTemplate, label]);
 
@@ -149,10 +172,15 @@ export function SavePromptButton(props) {
     }
   }, [lastUsedPromptTemplateId, customPromptTemplates]);
 
-  const handleLabelChange = useCallback((value) => {
-    setLabel(value);
-    setSelectedTemplate(customPromptTemplates.find((t) => t.label === value));
-  }, [selectedTemplate]);
+  const handleLabelChange = useCallback(debounce((value) => {
+    const template = customPromptTemplates.find((t) => t.label === value);
+    if (template) {
+      setSelectedTemplate(template);
+    } else {
+      setLabel(value);
+      setSelectedTemplate(null);
+    }
+  }, DEBOUNCE_DELAY), [selectedTemplate, customPromptTemplates]);
 
   const handleSelectionChange = useCallback((selection) => {
     const template = customPromptTemplates.find((t) => t.id === selection);
@@ -173,7 +201,7 @@ export function SavePromptButton(props) {
   }, [label, description, isPublic, prompt, selectedTemplate, customPromptTemplates]);
 
   return (
-    <DialogTrigger type='modal'>
+    <DialogTrigger type='modal' placement={'top'} crossOffset={'200px'}>
       <ActionButton
         {...props}
         onPress={handleDialogOpening}
@@ -188,7 +216,7 @@ export function SavePromptButton(props) {
           <Heading>Save Prompt</Heading>
           <Divider />
           <Content>
-            <Form>
+            <Form onSubmit={(e) => e.preventDefault()}>
               <Text marginBottom={10}>
                 Enter a new name to create a new prompt, or select an existing one from the list to update it.
               </Text>

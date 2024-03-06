@@ -133,7 +133,6 @@ export function FavoriteVariantCard({ variant, ...props }) {
                 width="size-2000"
                 variant="secondary"
                 style="fill"
-                // onPress={() => handleGenerateImage('')}
                 onPress={() => handleGenerateImagePrompt()}
                 isDisabled={!isExpressAuthorized}>
                 {imagePromptProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}

@@ -65,14 +65,15 @@ Additional context: [[
 {{# -------------------------------------------------------------------------- }}
 {{# METADATA                                                                   }}
 {{# -------------------------------------------------------------------------- }}
-{{@target_audience, 
+{{@target_audience,
   label="Target Audience",
   description="Choose the specific audience for which the content is tailored, as indicated in the audience spreadsheet",
-  spreadsheet=target-audiences,
-  default="Universal audience: This audience includes all people, spanning all backgrounds. While some members are heavy consumers of digital media and highly influenced by social media, other individuals may rely more on traditional media channels. They all place value on experiences and brand alignment in their purchasing decisions"
+  csv="https://raw.githubusercontent.com/adobe/aem-genai-assistant/settings/data/target-audiences.csv",
+  adobe_target=true,
+  type=audience
 }}
 
-{{@tone_of_voice, 
+{{@tone_of_voice,
   label="Tone of voice",
   description="Indicate the desired tone of voice",
   default="optimistic, smart, engaging, human, and creative",
@@ -88,7 +89,7 @@ Additional context: [[
 
 {{@additional_context,
   label="Additional Context and Trusted Source Documents",
-  description="Provide more background information or specific details to guide the creation of the content. For Trusted Source Documents, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents. Include additional prompting E.g. 'use the following source document as a reference in generation to match brand voice' to ensure accurate use.", 
+  description="Provide more background information or specific details to guide the creation of the content. For Trusted Source Documents, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents. Include additional prompting E.g. 'use the following source document as a reference in generation to match brand voice' to ensure accurate use.",
   default="No additional context provided",
   type=text
 }}

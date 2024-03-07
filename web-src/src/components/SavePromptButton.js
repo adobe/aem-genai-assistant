@@ -70,8 +70,9 @@ export function SavePromptButton(props) {
   const [selectedTemplate, setSelectedTemplate] = React.useState(null);
   const [label, setLabel] = React.useState('');
   const [description, setDescription] = React.useState('');
-  const [isPublic, setIsPublic] = React.useState(false);
+  const [isShared, setIsShared] = React.useState(false);
 
+  const [isUpdating, setIsUpdating] = React.useState(false);
   const [isSaving, setIsSaving] = React.useState(false);
 
   useEffect(() => {
@@ -80,20 +81,31 @@ export function SavePromptButton(props) {
         setLabel(selectedTemplate.label);
       }
       setDescription(selectedTemplate?.description ?? selectedTemplate?.label);
-      setIsPublic(selectedTemplate?.isPublic);
+      setIsShared(selectedTemplate?.isShared);
     } else {
       setDescription('');
     }
   }, [selectedTemplate]);
+
+  const updateLabel = useCallback(debounce((value) => {
+    const template = customPromptTemplates.find((t) => t.label === value);
+    if (template) {
+      setSelectedTemplate(template);
+    } else {
+      setLabel(value);
+      setSelectedTemplate(null);
+    }
+    setIsUpdating(false);
+  }, DEBOUNCE_DELAY), [selectedTemplate, customPromptTemplates]);
 
   const saveNewTemplate = useCallback((closeDialog) => {
     setIsSaving(true);
     const newTemplate = {
       id: uuid(),
       label,
-      description: description ?? label,
+      description: description || label,
       template: prompt,
-      isPublic,
+      isShared,
       created: new Date().getTime(),
       lastModified: new Date().getTime(),
       createdBy: name,
@@ -107,15 +119,15 @@ export function SavePromptButton(props) {
       setIsSaving(false);
       closeDialog();
     });
-  }, [label, description, isPublic, prompt, customPromptTemplates]);
+  }, [label, description, isShared, prompt, customPromptTemplates]);
 
   const saveSelectedTemplate = useCallback((closeDialog) => {
     setIsSaving(true);
     const updatedTemplate = {
       ...selectedTemplate,
-      description: description ?? label,
+      description: description || label,
       template: prompt,
-      isPublic,
+      isShared,
       lastModified: new Date().getTime(),
       lastModifiedBy: name,
     };
@@ -130,12 +142,12 @@ export function SavePromptButton(props) {
       setIsSaving(false);
       closeDialog();
     });
-  }, [label, description, isPublic, prompt, selectedTemplate, customPromptTemplates]);
+  }, [label, description, isShared, prompt, selectedTemplate, customPromptTemplates]);
 
   const renderTemplates = useCallback(() => {
     return customPromptTemplates.slice().sort((a, b) => a.label.localeCompare(b.label)).map((template) => (
       <Item key={template.id} textValue={template.label}>
-        { template.isPublic
+        { template.isShared
           ? <SharedTemplateIcon UNSAFE_style={{ boxSizing: 'content-box' }}/>
           : <PrivateTemplateIcon UNSAFE_style={{ boxSizing: 'content-box' }}/> }
         <Text>{ template.label }</Text>
@@ -172,15 +184,10 @@ export function SavePromptButton(props) {
     }
   }, [lastUsedPromptTemplateId, customPromptTemplates]);
 
-  const handleLabelChange = useCallback(debounce((value) => {
-    const template = customPromptTemplates.find((t) => t.label === value);
-    if (template) {
-      setSelectedTemplate(template);
-    } else {
-      setLabel(value);
-      setSelectedTemplate(null);
-    }
-  }, DEBOUNCE_DELAY), [selectedTemplate, customPromptTemplates]);
+  const handleLabelChange = useCallback((value) => {
+    setIsUpdating(true);
+    updateLabel(value);
+  }, [customPromptTemplates]);
 
   const handleSelectionChange = useCallback((selection) => {
     const template = customPromptTemplates.find((t) => t.id === selection);
@@ -198,10 +205,10 @@ export function SavePromptButton(props) {
     } else {
       saveNewTemplate(closeDialog);
     }
-  }, [label, description, isPublic, prompt, selectedTemplate, customPromptTemplates]);
+  }, [label, description, isShared, prompt, selectedTemplate, customPromptTemplates]);
 
   return (
-    <DialogTrigger type='modal' placement={'top'} crossOffset={'200px'}>
+    <DialogTrigger type='modal'>
       <ActionButton
         {...props}
         onPress={handleDialogOpening}
@@ -238,8 +245,8 @@ export function SavePromptButton(props) {
                 onChange={setDescription}>
               </TextArea>
               <Switch
-                isSelected={isPublic}
-                onChange={setIsPublic}>
+                isSelected={isShared}
+                onChange={setIsShared}>
                 Shared across organization
               </Switch>
               { renderWarning() }
@@ -247,7 +254,7 @@ export function SavePromptButton(props) {
           </Content>
           <ButtonGroup>
             <Button variant={'secondary'} onPress={close}>Cancel</Button>
-            <Button variant={'cta'} isDisabled={!label || isSaving} onPress={() => handleSave(close)}>Save</Button>
+            <Button variant={'cta'} isDisabled={!label || isUpdating || isSaving} onPress={() => handleSave(close)}>Save</Button>
           </ButtonGroup>
         </Dialog>
       )}

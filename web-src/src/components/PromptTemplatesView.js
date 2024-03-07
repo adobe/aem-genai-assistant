@@ -9,22 +9,65 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { useRecoilState, useRecoilValue } from 'recoil';
-import React, { useCallback } from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import React, { Fragment, useCallback } from 'react';
 import { ToastQueue } from '@react-spectrum/toast';
 import { AlertDialog, DialogContainer, Grid } from '@adobe/react-spectrum';
+import { v4 as uuid } from 'uuid';
 import {
-  customPromptTemplatesState,
+  customPromptTemplatesState, NEW_PROMPT_TEMPLATE_ID,
   promptTemplatesState,
   writeCustomPromptTemplates,
 } from '../state/PromptTemplatesState.js';
 import { PromptTemplateCard } from './PromptTemplateCard.js';
+import { sessionState } from '../state/SessionState.js';
+import { ViewType, viewTypeState } from '../state/ViewType.js';
+import { lastUsedPromptTemplateIdState } from '../state/LastUsedPromptTemplateIdState.js';
+import { log } from '../helpers/Tracking.js';
+import { sampleRUM } from '../rum.js';
+import { formatTimestamp } from '../helpers/FormatHelper.js';
 
-export function PromptTemplatesView({ onSelect }) {
+function createNewSession(label, description, prompt) {
+  const timestamp = Date.now();
+  return {
+    id: uuid(),
+    name: `${label} ${formatTimestamp(timestamp)}`,
+    description,
+    timestamp,
+    prompt,
+    parameters: {},
+    results: [],
+  };
+}
+
+export function PromptTemplatesView() {
   const promptTemplates = useRecoilValue(promptTemplatesState);
-  const [customPromptTemplates, setCustomPromptTemplates] = useRecoilState(customPromptTemplatesState);
 
+  const setCurrentSession = useSetRecoilState(sessionState);
+  const setViewType = useSetRecoilState(viewTypeState);
+  const setLastUsedPromptTemplateId = useSetRecoilState(lastUsedPromptTemplateIdState);
+
+  const [customPromptTemplates, setCustomPromptTemplates] = useRecoilState(customPromptTemplatesState);
   const [templateToDelete, setTemplateToDelete] = React.useState(null);
+
+  const handleSelect = useCallback(({
+    id, label, description, template, isBundled,
+  }) => {
+    log('prompt:selected', {
+      isBundled,
+      description,
+      label,
+    });
+    if (id === NEW_PROMPT_TEMPLATE_ID) {
+      sampleRUM('genai:prompt:new', { source: 'HomePanel#handleSelect' });
+    } else {
+      const promptType = isBundled ? 'isadobeselected' : 'iscustomselected';
+      sampleRUM(`genai:prompt:${promptType}`, { source: 'HomePanel#handleSelect' });
+    }
+    setCurrentSession(createNewSession(label, description, template));
+    setViewType(ViewType.CurrentSession);
+    setLastUsedPromptTemplateId(id);
+  }, [setCurrentSession, setViewType]);
 
   const handleDelete = useCallback(() => {
     const newCustomPromptTemplates = customPromptTemplates
@@ -51,18 +94,18 @@ export function PromptTemplatesView({ onSelect }) {
         {
           promptTemplates
           && promptTemplates
-            .map((template, index) => (
+            .map((template) => (
               <PromptTemplateCard
-                key={index}
+                key={template.id}
                 template={template}
-                onClick={onSelect}
+                onClick={handleSelect}
                 onDelete={setTemplateToDelete}/>
             ))
         }
       </Grid>
-      <DialogContainer onDismiss={() => setTemplateToDelete(null)}>
+      <DialogContainer onDismiss={() => {}}>
         { templateToDelete
-          && <AlertDialog
+          && (<AlertDialog
             title="Delete"
             variant="destructive"
             primaryActionLabel="Delete"
@@ -70,7 +113,7 @@ export function PromptTemplatesView({ onSelect }) {
             onPrimaryAction={handleDelete}
             onSecondaryAction={() => setTemplateToDelete(null)}>
             Are you sure you want to delete this prompt?
-          </AlertDialog>
+          </AlertDialog>)
         }
       </DialogContainer>
     </>

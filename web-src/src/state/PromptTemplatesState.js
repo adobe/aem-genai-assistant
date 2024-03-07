@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import { atom, selector } from 'recoil';
+import { v4 as uuid } from 'uuid';
 
 import { data as bundledPromptTemplatesJson } from '../../../data/bundledPromptTemplates.json';
 import { readValueFromSettings, writeValueToSettings } from '../helpers/SettingsHelper.js';
@@ -23,7 +24,7 @@ export const newPromptTemplate = {
   label: 'New prompt',
   description: 'To start a new prompt use this and then add it to your prompt templates for future use.',
   template: '',
-  isPublic: true,
+  isShared: true,
   isBundled: false,
 };
 
@@ -38,10 +39,11 @@ function parseBundledPromptTemplates(data) {
     Label, Description, Template,
   }) => {
     return {
+      id: uuid(),
       label: Label,
       description: Description,
       template: Template || '',
-      isPublic: true,
+      isShared: true,
       isBundled: true,
       created: null,
       lastModified: null,
@@ -51,7 +53,7 @@ function parseBundledPromptTemplates(data) {
   });
 }
 
-function settingsToPromptTemplates(settings, isPublic) {
+function settingsToPromptTemplates(settings, isShared) {
   return settings.promptTemplates.map(({
     id, label, description, template, created, lastModified, createdBy, lastModifiedBy,
   }) => {
@@ -60,7 +62,7 @@ function settingsToPromptTemplates(settings, isPublic) {
       label,
       description,
       template,
-      isPublic,
+      isShared,
       isBundled: false,
       created: created ?? new Date().getTime(),
       lastModified: lastModified ?? new Date().getTime(),
@@ -72,7 +74,7 @@ function settingsToPromptTemplates(settings, isPublic) {
 
 function promptTemplatesToSettings(promptTemplates, isPublicTemplate) {
   const settings = promptTemplates
-    .filter(({ isPublic }) => isPublicTemplate === isPublic)
+    .filter(({ isShared }) => isPublicTemplate === isShared)
     .map(({
       id, label, description, template, created, lastModified, createdBy, lastModifiedBy,
     }) => {

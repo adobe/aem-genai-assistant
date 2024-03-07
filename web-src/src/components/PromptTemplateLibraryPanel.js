@@ -11,53 +11,13 @@
  */
 import { Grid, Heading, ProgressCircle } from '@adobe/react-spectrum';
 
-import React, { Suspense, useCallback } from 'react';
-import { useSetRecoilState } from 'recoil';
-import { v4 as uuid } from 'uuid';
+import React, { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { sessionState } from '../state/SessionState.js';
-import { ViewType, viewTypeState } from '../state/ViewType.js';
-import { formatTimestamp } from '../helpers/FormatHelper.js';
 
 import { WelcomeBanner } from './WelcomeBanner.js';
-import { sampleRUM } from '../rum.js';
-import { log } from '../helpers/Tracking.js';
-import { lastUsedPromptTemplateIdState } from '../state/LastUsedPromptTemplateIdState.js';
 import { PromptTemplatesView } from './PromptTemplatesView.js';
 
 export function PromptTemplateLibraryPanel({ props }) {
-  const setCurrentSession = useSetRecoilState(sessionState);
-  const setViewType = useSetRecoilState(viewTypeState);
-  const setLastUsedPromptTemplateId = useSetRecoilState(lastUsedPromptTemplateIdState);
-
-  const handleSelect = useCallback((selectedTemplate) => {
-    log('prompt:selected', {
-      isBundled: selectedTemplate.isBundled,
-      description: selectedTemplate.description,
-      label: selectedTemplate.label,
-    });
-    if (selectedTemplate.isNew) {
-      sampleRUM('genai:prompt:new', { source: 'HomePanel#handleSelect' });
-    } else {
-      sampleRUM(`genai:prompt:${selectedTemplate.isBundled
-        ? 'isadobeselected'
-        : 'iscustomselected'}`, { source: 'HomePanel#handleSelect' });
-    }
-    const timestamp = Date.now();
-    const session = {
-      id: uuid(),
-      name: `${selectedTemplate.label} ${formatTimestamp(timestamp)}`,
-      description: selectedTemplate.description,
-      timestamp,
-      prompt: selectedTemplate.template,
-      parameters: {},
-      results: [],
-    };
-    setCurrentSession(session);
-    setViewType(ViewType.CurrentSession);
-    setLastUsedPromptTemplateId(selectedTemplate.id);
-  }, [setCurrentSession, setViewType]);
-
   return (
     <Grid
       {...props}
@@ -75,7 +35,7 @@ export function PromptTemplateLibraryPanel({ props }) {
 
         <ErrorBoundary fallback={<div>Something went wrong</div>}>
           <Suspense fallback={<ProgressCircle isIndeterminate />}>
-            <PromptTemplatesView onSelect={handleSelect}/>
+            <PromptTemplatesView/>
           </Suspense>
         </ErrorBoundary>
       </div>

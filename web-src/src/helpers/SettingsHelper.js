@@ -12,12 +12,11 @@
 
 import settings, { SettingsLevel } from '@adobe/exc-app/settings';
 
-export async function readValueFromSettings(groupId, defaultValue, isPublic) {
+export async function readValueFromSettings(groupId, defaultValue, isShared) {
   try {
-    console.log(`Reading data from ${groupId} with default value`, defaultValue);
     const data = await settings.get({
       groupId,
-      level: isPublic ? SettingsLevel.ORG : SettingsLevel.USER,
+      level: isShared ? SettingsLevel.ORG : SettingsLevel.USER,
       settings: defaultValue,
     });
     return data.settings;
@@ -27,12 +26,11 @@ export async function readValueFromSettings(groupId, defaultValue, isPublic) {
   }
 }
 
-export async function writeValueToSettings(groupId, value, isPublic) {
+export async function writeValueToSettings(groupId, value, isShared) {
   try {
-    console.log(`Writing data to ${groupId}`, value);
     await settings.set({
       groupId,
-      level: isPublic ? SettingsLevel.ORG : SettingsLevel.USER,
+      level: isShared ? SettingsLevel.ORG : SettingsLevel.USER,
       settings: value,
     });
   } catch (err) {

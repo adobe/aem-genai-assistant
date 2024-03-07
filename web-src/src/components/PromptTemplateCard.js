@@ -127,7 +127,7 @@ export function PromptTemplateCard({
           <Text UNSAFE_className={styles.title} gridArea={'title'}>{template.label}</Text>
           {(template.isBundled) ? <Image src={SmallLogo} width={'18px'} alt={''} gridArea={'logo'}/> : <Fragment/>}
           <Text UNSAFE_className={styles.description} gridArea={'description'}>{template.description}</Text>
-          {(!isSystemTemplate(template) && template.isPublic)
+          {(!isSystemTemplate(template) && template.isShared)
             && <SharedTemplateIcon size={'S'} gridArea={'status'} UNSAFE_className={styles.status}/>}
           {renderActions()}
         </Grid>

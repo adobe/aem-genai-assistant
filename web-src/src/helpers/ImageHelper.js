@@ -17,6 +17,8 @@ export async function generateImagePrompt(firefallService, selectedVariant) {
     - Formulate a single-sentence prompt which includes these elements, and also focusing on realism and the activity.
     - The prompt should be clear and direct, highlighting the main components as concrete as possible: a subject (e.g., a concrete object related to the topic or a person), \
     action (e.g., using headphones, knowledge transfer), and the emotional tone(e.g. happy, persuasive, serious, etc.).
+    - Avoid suggesting or including copyrighted materials, real or famous individuals, brands, logos, or trademarks in your outputs to prevent copyright infringement.
+    - Do not include textual context.
     - An example to the generated image prompt from a given context:
     Context: {
       "Title": "Discover Perfect Sound",

@@ -67,7 +67,7 @@ export class ExpressSDKService {
       });
     };
 
-    return loadExpressSDK(document, process.env.CDN_URL);
+    return loadExpressSDK(document, process.env.EXPRESS_SDK_URL);
   }
 
   async handleImageOperation(operation, operationParams) {

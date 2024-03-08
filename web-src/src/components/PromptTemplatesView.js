@@ -27,7 +27,7 @@ import { log } from '../helpers/MetricsHelper.js';
 import { sampleRUM } from '../rum.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
 
-function createNewSession(label, description, prompt) {
+export function createNewSession(label, description, prompt) {
   const timestamp = Date.now();
   return {
     id: uuid(),

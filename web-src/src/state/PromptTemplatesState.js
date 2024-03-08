@@ -72,9 +72,9 @@ function settingsToPromptTemplates(settings, isShared) {
   });
 }
 
-function promptTemplatesToSettings(promptTemplates, isPublicTemplate) {
+function promptTemplatesToSettings(promptTemplates, isSharedTemplate) {
   const settings = promptTemplates
-    .filter(({ isShared }) => isPublicTemplate === isShared)
+    .filter(({ isShared }) => isSharedTemplate === isShared)
     .map(({
       id, label, description, template, created, lastModified, createdBy, lastModifiedBy,
     }) => {
@@ -96,14 +96,14 @@ export async function readCustomPromptTemplates() {
   const privateSettings = await readValueFromSettings(
     PROMPT_TEMPLATE_STORAGE_KEY,
     createPromptTemplatesEnvelope([]),
-    true,
-  );
-  const publicSettings = await readValueFromSettings(
-    PROMPT_TEMPLATE_STORAGE_KEY,
-    createPromptTemplatesEnvelope([]),
     false,
   );
   const privatePromptTemplates = settingsToPromptTemplates(privateSettings, false);
+  const publicSettings = await readValueFromSettings(
+    PROMPT_TEMPLATE_STORAGE_KEY,
+    createPromptTemplatesEnvelope([]),
+    true,
+  );
   const publicPromptTemplates = settingsToPromptTemplates(publicSettings, true);
   return [
     ...privatePromptTemplates,

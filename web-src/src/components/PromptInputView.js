@@ -21,13 +21,15 @@ import { DescriptionLabel } from './DescriptionLabel.js';
 import { formatIdentifier } from '../helpers/FormatHelper.js';
 import { AudienceSelector } from './AudienceSelector.js';
 
-function toCamelCaseKeys(obj) {
+export function toCamelCaseKeys(obj) {
   const camelCaseKey = (key) => {
-    return key.replace(/([-_][a-z])/ig, ($1) => {
+    let result = key.replace(/([-_][a-z])/ig, ($1) => {
       return $1.toUpperCase()
         .replace('-', '')
         .replace('_', '');
     });
+    result = result.charAt(0).toLowerCase() + result.slice(1);
+    return result;
   };
   const newObj = {};
   Object.keys(obj).forEach((key) => {

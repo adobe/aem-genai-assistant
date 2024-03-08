@@ -54,11 +54,11 @@ const styles = {
   `,
 };
 
-function isSystemTemplate(template) {
+export function isSystemTemplate(template) {
   return template.isBundled || template.id === NEW_PROMPT_TEMPLATE_ID;
 }
 
-function isParentNode(node, parent) {
+export function isParentNode(node, parent) {
   let currentNode = node;
   while (currentNode !== null) {
     if (currentNode === parent) {

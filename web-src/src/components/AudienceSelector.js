@@ -34,7 +34,7 @@ const styles = {
   `,
 };
 
-function useGetItemsFromTarget() {
+export function useGetItemsFromTarget() {
   const { targetService } = useApplicationContext();
   return useCallback(async () => {
     const audiences = await targetService.getAudiences();

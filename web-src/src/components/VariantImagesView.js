@@ -19,7 +19,7 @@ import { css } from '@emotion/css';
 import { ToastQueue } from '@react-spectrum/toast';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
-import { log } from '../helpers/Tracking.js';
+import { log } from '../helpers/MetricsHelper.js';
 import { copyImageToClipboard, copyImageToClipboardLegacy } from '../helpers/ImageHelper.js';
 import { ImageViewer } from './ImageViewer.js';
 

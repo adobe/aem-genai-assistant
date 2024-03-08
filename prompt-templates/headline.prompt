@@ -41,7 +41,7 @@ To ensure the Headlines are effective and meet our objectives, adhere to the fol
 
 {{@target_audience,
   label="Target Audience",
-  description="Choose the specific audience for which the content is tailored, as indicated in the audience spreadsheet",
+  description="Choose your audience. For Target, audiences with no description will be unavailable. For CSV, Adobe provides audiences to get you started. To modify audiences publish a CSV file and update the URL in the prompt.",
   csv="https://raw.githubusercontent.com/adobe/aem-genai-assistant/settings/data/target-audiences.csv",
   adobe_target=true,
   type=audience

@@ -17,6 +17,7 @@ import { ToastQueue } from '@react-spectrum/toast';
 import { css } from '@emotion/css';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
+import { log } from '../helpers/MetricsHelper.js';
 
 const DATA_SOURCES = {
   CSV: 'csv',
@@ -63,15 +64,20 @@ function useGetItemsFromCsvFile() {
 }
 
 function DataSourceSelector({ dataSource, setDataSource }) {
+  const handleDataSourceChange = useCallback((newDataSource) => {
+    log('prompt:inputs:audienceSelector:datasource:changed', { dataSource: newDataSource });
+    setDataSource(newDataSource);
+  }, []);
+
   return (
     <div className={styles.toggleButtons}>
       <LabeledValue label={'Audiences Source'} value={''} gridColumnStart={1} gridColumnEnd={3} />
       <ToggleButton
         isSelected={dataSource === DATA_SOURCES.TARGET}
-        onChange={() => setDataSource(DATA_SOURCES.TARGET)}>Adobe Target</ToggleButton>
+        onChange={() => handleDataSourceChange(DATA_SOURCES.TARGET)}>Adobe Target</ToggleButton>
       <ToggleButton
         isSelected={dataSource === DATA_SOURCES.CSV}
-        onChange={() => setDataSource(DATA_SOURCES.CSV)}>CSV file</ToggleButton>
+        onChange={() => handleDataSourceChange(DATA_SOURCES.CSV)}>CSV file</ToggleButton>
     </div>
   );
 }

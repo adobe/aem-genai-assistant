@@ -23,7 +23,7 @@ import { PromptTemplateCard } from './PromptTemplateCard.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { lastUsedPromptTemplateIdState } from '../state/LastUsedPromptTemplateIdState.js';
-import { log } from '../helpers/Tracking.js';
+import { log } from '../helpers/MetricsHelper.js';
 import { sampleRUM } from '../rum.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
 

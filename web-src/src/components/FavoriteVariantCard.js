@@ -26,7 +26,7 @@ import { toHTML, toText } from '../helpers/PromptExporter.js';
 import { generateImagePrompt } from '../helpers/ImageHelper.js';
 import { sampleRUM } from '../rum.js';
 import { VariantImagesView } from './VariantImagesView.js';
-import { log } from '../helpers/Tracking.js';
+import { log } from '../helpers/MetricsHelper.js';
 import ExpressNoAccessInfo from './ExpressNoAccessInfo.js';
 
 import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';

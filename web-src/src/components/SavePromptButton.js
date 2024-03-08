@@ -37,6 +37,7 @@ import {
 } from '../state/PromptTemplatesState.js';
 import { useShellContext } from './ShellProvider.js';
 import { lastUsedPromptTemplateIdState } from '../state/LastUsedPromptTemplateIdState.js';
+import { log } from '../helpers/MetricsHelper.js';
 
 const DEBOUNCE_DELAY = 800;
 
@@ -113,6 +114,14 @@ export function SavePromptButton(props) {
     };
     const newCustomPromptTemplates = [...customPromptTemplates, newTemplate];
     saveTemplates(newCustomPromptTemplates).then(() => {
+      log('prompt:save:create', {
+        id: newTemplate.id,
+        label: newTemplate.label,
+        description: newTemplate.description,
+        isShared: newTemplate.isShared,
+        lastModified: newTemplate.lastModified,
+        lastModifiedBy: newTemplate.lastModifiedBy,
+      });
       setCustomPromptTemplates(newCustomPromptTemplates);
       setLastUsedPromptTemplateId(newTemplate.id);
       setSelectedTemplate(newTemplate);
@@ -136,6 +145,14 @@ export function SavePromptButton(props) {
       updatedTemplate,
     ];
     saveTemplates(newCustomPromptTemplates).then(() => {
+      log('prompt:save:update', {
+        id: updatedTemplate.id,
+        label: updatedTemplate.label,
+        description: updatedTemplate.description,
+        isShared: updatedTemplate.isShared,
+        lastModified: updatedTemplate.lastModified,
+        lastModifiedBy: updatedTemplate.lastModifiedBy,
+      });
       setCustomPromptTemplates(newCustomPromptTemplates);
       setLastUsedPromptTemplateId(updatedTemplate.id);
       setSelectedTemplate(updatedTemplate);

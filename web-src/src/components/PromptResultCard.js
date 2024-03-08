@@ -31,7 +31,7 @@ import { resultsState } from '../state/ResultsState.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
 import { sampleRUM } from '../rum.js';
-import { log } from '../helpers/Tracking.js';
+import { log } from '../helpers/MetricsHelper.js';
 import { toHTML, toText } from '../helpers/PromptExporter.js';
 import { generateImagePrompt } from '../helpers/ImageHelper.js';
 import { VariantImagesView } from './VariantImagesView.js';

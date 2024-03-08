@@ -27,7 +27,7 @@ import { promptEditorState } from '../state/PromptEditorState.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { createVariants } from '../helpers/ResultsParser.js';
-import { log } from '../helpers/Tracking.js';
+import { log } from '../helpers/MetricsHelper.js';
 import { sampleRUM } from '../rum.js';
 
 export function GenerateButton() {
@@ -53,7 +53,7 @@ export function GenerateButton() {
         temperature,
       }]);
       await saveResults();
-      log('prompt:generatedvariations', { count: variants.length, queryId });
+      log('prompt:generate:variations:generated', { variations: variants.length, queryId });
       sampleRUM('genai:prompt:generatedvariations', { source: 'GenerateButton#generateResults', target: variants.length });
     } catch (error) {
       console.error(error);

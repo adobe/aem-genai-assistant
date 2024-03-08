@@ -12,7 +12,7 @@
 import { atom, selector } from 'recoil';
 import { v4 as uuid } from 'uuid';
 
-import { data as bundledPromptTemplatesJson } from '../../../data/bundledPromptTemplates.json';
+import { data as bundledPromptTemplatesJson } from '../../../data/bundled-prompt-templates.json';
 import { readValueFromSettings, writeValueToSettings } from '../helpers/SettingsHelper.js';
 
 export const NEW_PROMPT_TEMPLATE_ID = 'new-prompt';

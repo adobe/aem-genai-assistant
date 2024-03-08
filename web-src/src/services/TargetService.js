@@ -9,15 +9,27 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-const { asGenericAction } = require('../GenericAction.js');
-const { asAuthAction } = require('../AuthAction.js');
-const { asFirefallAction } = require('../FirefallAction.js');
+import { wretchRetry } from '../../../actions/Network.js';
 
-async function main(params) {
-  const {
-    prompt, temperature, model, firefallClient,
-  } = params;
-  return firefallClient.completion(prompt ?? 'Who are you?', temperature ?? 0.0, model ?? 'gpt-4');
+export class TargetService {
+  constructor({
+    targetEndpoint,
+    imsTenant,
+    accessToken,
+  }) {
+    this.targetEndpoint = targetEndpoint;
+    this.imsTenant = imsTenant;
+    this.accessToken = accessToken;
+
+    console.debug(`Target: ${this.targetEndpoint}`);
+  }
+
+  async getAudiences() {
+    const url = `${this.targetEndpoint}?org=${this.imsTenant}`;
+    return wretchRetry(url)
+      .auth(`Bearer ${this.accessToken}`)
+      .accept('application/json')
+      .get()
+      .json();
+  }
 }
-
-exports.main = asGenericAction(asAuthAction(asFirefallAction(main)));

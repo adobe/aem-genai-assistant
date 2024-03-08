@@ -22,7 +22,7 @@ import React, { useEffect } from 'react';
 import settingsApi, { SettingsLevel } from '@adobe/exc-app/settings';
 import { LegalTermsLink } from './LegalTermsLink.js';
 import { sampleRUM } from '../rum.js';
-import { log } from '../helpers/Tracking.js';
+import { log } from '../helpers/MetricsHelper.js';
 import ConsentHero from '../assets/consent-hero.png';
 
 export const CONSENT_KEY = 'genai-assistant-consent';

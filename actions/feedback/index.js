@@ -18,4 +18,4 @@ async function main(params) {
   return firefallClient.feedback(queryId, sentiment);
 }
 
-exports.main = asAuthAction(asFirefallAction(asGenericAction(main)));
+exports.main = asGenericAction(asAuthAction(asFirefallAction(main)));

@@ -14,43 +14,28 @@ import React, {
 } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { FirefallService } from '../services/FirefallService.js';
-import { ExpressSDKService } from '../services/ExpressSDKService.js';
+import { ExpressSdkService } from '../services/ExpressSdkService.js';
 import actions from '../config.json';
 import { useShellContext } from './ShellProvider.js';
-import { loadPromptTemplates, promptTemplatesState } from '../state/PromptTemplatesState.js';
+import {
+  customPromptTemplatesState,
+  readCustomPromptTemplates,
+} from '../state/PromptTemplatesState.js';
+import { TargetService } from '../services/TargetService.js';
+import { CsvParserService } from '../services/CsvParserService.js';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 
 const COMPLETE_ACTION = 'complete';
 const FEEDBACK_ACTION = 'feedback';
-
-const PROMPTS_TEMPLATES_PARAM_NAME = 'prompts';
-
-const PROMPT_TEMPLATES_FILENAME = 'prompt-templates';
-
-function getWebsiteUrl() {
-  const searchParams = new URLSearchParams(window.location.search);
-  const ref = searchParams.get('ref');
-  const repo = searchParams.get('repo');
-  const owner = searchParams.get('owner');
-
-  if (!ref || !repo || !owner) {
-    throw Error('It seems we\'re missing the ref, repo or owner search parameter in your application.');
-  }
-
-  return `https://${ref}--${repo}--${owner}.hlx.page`;
-}
-
-function getPromptTemplatesPath() {
-  const searchParams = new URLSearchParams(window.location.search);
-  return searchParams.get(PROMPTS_TEMPLATES_PARAM_NAME) || PROMPT_TEMPLATES_FILENAME;
-}
+const TARGET_ACTION = 'target';
+const CSV_PARSER_ACTION = 'csv';
 
 export const ApplicationContext = React.createContext(undefined);
 
 export const ApplicationProvider = ({ children }) => {
   const { user, done } = useShellContext();
-  const setPromptTemplates = useSetRecoilState(promptTemplatesState);
+  const setCustomPromptTemplates = useSetRecoilState(customPromptTemplatesState);
   const [application, setApplication] = useState(undefined);
 
   useEffect(() => {
@@ -58,31 +43,36 @@ export const ApplicationProvider = ({ children }) => {
       return;
     }
 
-    const websiteUrl = getWebsiteUrl();
-    const promptTemplatesPath = getPromptTemplatesPath();
-    const expressSDKService = new ExpressSDKService({
-      clientId: 'aem-genai-assistant',
-      appName: 'AEM Generate Variations',
-      user,
-    });
-
     setApplication({
       appVersion: APP_VERSION,
-      websiteUrl,
-      promptTemplatesPath,
+
       firefallService: new FirefallService({
         completeEndpoint: actions[COMPLETE_ACTION],
         feedbackEndpoint: actions[FEEDBACK_ACTION],
         imsOrg: user.imsOrg,
         accessToken: user.imsToken,
       }),
-      expressSDKService,
+
+      csvParserService: new CsvParserService({
+        csvParserEndpoint: actions[CSV_PARSER_ACTION],
+      }),
+
+      targetService: new TargetService({
+        targetEndpoint: actions[TARGET_ACTION],
+        imsTenant: user.imsTenant,
+        accessToken: user.imsToken,
+      }),
+
+      expressSdkService: new ExpressSdkService({
+        clientId: 'aem-genai-assistant',
+        appName: 'AEM Generate Variations',
+        userId: user.id,
+        accessToken: user.imsToken,
+      }),
     });
 
-    loadPromptTemplates(websiteUrl, promptTemplatesPath).then((templates) => {
-      setPromptTemplates(templates);
-    }).catch((e) => {
-      console.error(`Failed to load prompt templates: ${e.message}`);
+    readCustomPromptTemplates().then((templates) => {
+      setCustomPromptTemplates(templates);
     });
 
     done();

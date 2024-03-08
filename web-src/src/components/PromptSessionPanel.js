@@ -10,15 +10,22 @@
  * governing permissions and limitations under the License.
  */
 import { Flex, Grid } from '@adobe/react-spectrum';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import { PromptSessionSideView } from './PromptSessionSideView.js';
 import { PromptResultListView } from './PromptResultListView.js';
 import PromptEditor from './PromptEditor.js';
 import { promptEditorState } from '../state/PromptEditorState.js';
+import { log } from '../helpers/Tracking.js';
 
 export function PromptSessionPanel() {
   const [isOpenPromptEditor, setIsOpenPromptEditor] = useRecoilState(promptEditorState);
+
+  useEffect(() => {
+    if (isOpenPromptEditor) {
+      log('prompt:editor:opened');
+    }
+  }, [isOpenPromptEditor]);
 
   return (
     <Grid

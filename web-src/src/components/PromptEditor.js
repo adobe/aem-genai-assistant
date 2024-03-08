@@ -20,13 +20,14 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { css, injectGlobal } from '@emotion/css';
 import { Global } from '@emotion/react';
 import { motion, AnimatePresence } from 'framer-motion';
-
 import Close from '@spectrum-icons/workflow/Close';
-import { NO_VALUE_STRING, renderPrompt } from '../helpers/PromptRenderer.js';
-import PreviewIcon from '../icons/PreviewIcon.js';
 
 import { parametersState } from '../state/ParametersState.js';
 import { promptState } from '../state/PromptState.js';
+import { NO_VALUE_STRING, renderPrompt } from '../helpers/PromptRenderer.js';
+import { log } from '../helpers/Tracking.js';
+
+import PreviewIcon from '../icons/PreviewIcon.js';
 
 languages.custom = {
   function: /{{[^@#]([^{}]+)}}/,
@@ -104,6 +105,12 @@ function PromptEditor({ isOpen, onClose, ...props }) {
     if (viewSource) {
       const textarea = document.getElementById('promptEditorTextArea');
       textarea.setSelectionRange(0, 0);
+    }
+  }, [viewSource]);
+
+  useEffect(() => {
+    if (!viewSource) {
+      log('prompt:editor:previewed');
     }
   }, [viewSource]);
 

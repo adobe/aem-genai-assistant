@@ -12,6 +12,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { exec } = require('child_process');
 
 const DATA_DIR = path.join(__dirname, '../data');
 const PROMPT_TEMPLATES_DIR = path.join(__dirname, '../prompt-templates');
@@ -64,6 +65,18 @@ const createBundledPromptTemplates = (promptIndex) => {
   return bundledPromptTemplates;
 };
 
+const getGitBranchName = async () => {
+  return new Promise((resolve) => {
+    exec('git branch --show-current', (err, stdout, stderr) => {
+      if (err) {
+        console.error(`Error: ${err}`);
+        return 'main';
+      }
+      resolve(stdout.replace(/(\r\n|\n|\r)/gm, ''));
+    });
+  });
+};
+
 const startProgram = async () => {
   console.log('- Prompt Generator Starting...');
   try {
@@ -77,13 +90,14 @@ const startProgram = async () => {
     const bundledPromptTemplates = createBundledPromptTemplates(sortedPromptIndex);
 
     // Add the prompt templates to the target files
-    promptIndex.forEach((prompt) => {
+    for await (const prompt of promptIndex) {
       console.log(`\t\t* Adding ${prompt.label}`);
       // Try to read the prompt template file
       // If it fails, log the error and continue
       try {
         const promptTemplate = fs.readFileSync(path.join(PROMPT_TEMPLATES_DIR, prompt.file), 'utf8');
-        prompt.template = promptTemplate;
+        const branchName = await getGitBranchName();
+        prompt.template = promptTemplate.replace(/GIT_BRANCH/g, branchName);
         delete prompt.file;
 
         // Add the prompt to the bundled prompt templates file
@@ -93,7 +107,7 @@ const startProgram = async () => {
         console.log(`\t\t\t! Error: ${err}`);
         console.log(`\t\t\t! Skipping ${prompt.label}`);
       }
-    });
+    }
 
     // Write the prompt templates to the target files
     saveBundledPromptTemplates(bundledPromptTemplates);

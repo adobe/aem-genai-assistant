@@ -80,7 +80,7 @@ Additional context: [[
 {{@target_audience,
   label="Target Audience",
   description="Choose your audience. For Target, audiences with no description will be unavailable. For CSV, Adobe provides audiences to get you started. To modify audiences publish a CSV file and update the URL in the prompt.",
-  csv="https://raw.githubusercontent.com/adobe/aem-genai-assistant/settings/data/target-audiences.csv",
+  csv="https://raw.githubusercontent.com/adobe/aem-genai-assistant/GIT_BRANCH/data/target-audiences.csv",
   adobe_target=true,
   type=audience
 }}

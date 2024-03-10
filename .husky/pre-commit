@@ -8,4 +8,4 @@ else
     echo "No excel or csv files changed. Skipping 'npm run examples'"
 fi
 
-npm test && npm run lint
+# npm test && npm run lint

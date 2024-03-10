@@ -41,5 +41,5 @@ coverage
 logs
 
 # generated prompt templates
-./data/bundled-prompt-templates.json
+/data/bundled-prompt-templates.json
 

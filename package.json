@@ -12,7 +12,7 @@
     "build": "REACT_APP_VERSION=$npm_package_version aio app build",
     "deploy:app": "npm run grammar && REACT_APP_VERSION=$npm_package_version aio app deploy --no-actions",
     "deploy:actions": "aio app deploy --no-web-assets",
-    "deploy": "npm run grammar && REACT_APP_VERSION=$npm_package_version aio app deploy",
+    "deploy": "npm run grammar && npm run prompts && REACT_APP_VERSION=$npm_package_version aio app deploy",
     "lint": "eslint --quiet 'web-src/src/**/*.js' 'actions/*.js'",
     "fix": "eslint --fix --quiet 'web-src/src/**/*.js' 'actions/*.js'",
     "test": "jest --collectCoverageFrom='[\"web-src/src/**/*.js\",\"actions/**/*.js\"]' --coverage --passWithNoTests ./actions ./web-src/src ./e2e"

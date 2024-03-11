@@ -13,7 +13,7 @@ Your assigned target audience is {{target_audience}}.
 {{# --------------------- }}
 {{# TASK                  }}
 {{# --------------------- }}
-Your task is to create {{number_of_variations}} unique headline(s), targeted to our target audience, that are impactful, and aligned with the users' interests and preferences. Each headline should embody our intent to {{explain_intent}} and incorporate any relevant information provided in [[{{additional_context}}]]. Keep in mind the specific traits of our target audience.
+Your task is to create {{number_of_variations}} unique headline(s), targeted to our target audience, that are impactful, and aligned with the users' interests and preferences. Each headline should embody our intent to {{explain_intent}} and incorporate any relevant information provided in [[{{domain_knowledge_and_trusted_source_documents}}]]. Keep in mind the specific traits of our target audience.
 
 {{# --------------------- }}
 {{# REQUIREMENTS          }}
@@ -61,9 +61,9 @@ To ensure the Headlines are effective and meet our objectives, adhere to the fol
   type=number
 }}
 
-{{@additional_context,
-  label="Additional Context and Trusted Source Documents",
+{{@domain_knowledge_and_trusted_source_documents,
+  label="Domain Knowledge and Trusted Source Documents",
   description="Provide more background information or specific details to guide the creation of the content. For Trusted Source Documents, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents. Include additional prompting E.g. 'use the following source document as a reference in generation to match brand voice' to ensure accurate use.",
-  default="No additional context provided",
+  default="No domain knowledge or trusted source documents provided",
   type=text
 }}

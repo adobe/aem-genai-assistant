@@ -11,9 +11,57 @@
  */
 import { renderHook, waitFor } from '@testing-library/react';
 import { useApplicationContext } from './ApplicationProvider.js';
-import { useGetItemsFromTarget } from './AudienceSelector.js';
+import { isTargetEnabled, useGetItemsFromTarget } from './AudienceSelector.js';
 
 jest.mock('./ApplicationProvider.js');
+
+describe('isTargetEnabled', () => {
+  test('returns true for "true" (case insensitive) with or without spaces', () => {
+    expect(isTargetEnabled('true')).toBe(true);
+    expect(isTargetEnabled(' TRUE ')).toBe(true);
+  });
+
+  test('returns true for "1" with or without spaces', () => {
+    expect(isTargetEnabled('1')).toBe(true);
+    expect(isTargetEnabled(' 1 ')).toBe(true);
+  });
+
+  test('returns true for "yes" (case insensitive) with or without spaces', () => {
+    expect(isTargetEnabled('yes')).toBe(true);
+    expect(isTargetEnabled(' YES ')).toBe(true);
+  });
+
+  test('returns false for "false"', () => {
+    expect(isTargetEnabled('false')).toBe(false);
+  });
+
+  test('returns false for "0"', () => {
+    expect(isTargetEnabled('0')).toBe(false);
+  });
+
+  test('returns false for "no"', () => {
+    expect(isTargetEnabled('no')).toBe(false);
+  });
+
+  test('returns false for undefined', () => {
+    expect(isTargetEnabled(undefined)).toBe(false);
+  });
+
+  test('returns false for null', () => {
+    expect(isTargetEnabled(null)).toBe(false);
+  });
+
+  test('returns false for non-string values', () => {
+    expect(isTargetEnabled(123)).toBe(false);
+    expect(isTargetEnabled({})).toBe(false);
+    expect(isTargetEnabled([])).toBe(false);
+  });
+
+  test('returns false for string values that do not match "true", "1", or "yes" exactly, even without spaces', () => {
+    expect(isTargetEnabled('_True')).toBe(false);
+    expect(isTargetEnabled('Yes.')).toBe(false);
+  });
+});
 
 describe('useGetItemsFromTarget', () => {
   it('should return audiences sorted by description and mapped correctly', async () => {

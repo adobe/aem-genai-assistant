@@ -72,7 +72,9 @@ const getGitBranchName = async () => {
         console.error(`Error: ${err}`);
         return 'main';
       }
-      resolve(stdout.replace(/(\r\n|\n|\r)/gm, ''));
+      const branchName = stdout.replace(/(\r\n|\n|\r)/gm, '').trim() || 'main';
+      console.log(`Using branch to replace GIT_BRANCH: ${branchName}`);
+      resolve(branchName);
     });
   });
 };

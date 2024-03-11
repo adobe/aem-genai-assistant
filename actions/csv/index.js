@@ -15,7 +15,7 @@ const { asGenericAction } = require('../GenericAction.js');
 
 async function main({ url }) {
   const text = await wretch(url).get().text();
-  const { data } = Papa.parse(text, {});
+  const { data } = Papa.parse(text, { skipEmptyLines: true });
   return data;
 }
 

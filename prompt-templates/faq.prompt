@@ -24,7 +24,7 @@ Each FAQ must meet the following criteria to ensure clarity and conciseness:
 - The overall tone should be helpful and knowledgeable, instilling confidence in the user.
 - Format the response as an array of valid, iterable RFC8259 compliant JSON. Always list the "AI Rationale" attribute last.
 
-Domain Knowledge and Trusted Source Documents for the {{product}} and user inquiries can be found here: [[{{domain_knowledge_and_trusted_source_documents}}]]"
+Additional Context for the {{product}} and user inquiries can be found here: [[{{domain_knowledge_and_trusted_source_documents}}]]"
 
 {{# --------------------- }}
 {{# METADATA.             }}

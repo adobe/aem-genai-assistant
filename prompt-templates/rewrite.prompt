@@ -42,7 +42,7 @@ Requirements: ```
 {{# Here you will Provide more background information or specific details to   }}
 {{# guide the creation of the content.                                         }}
 {{# -------------------------------------------------------------------------- }}
-Domain Knowledge and Trusted Source Documents: [[
+Additional Context: [[
   {{domain_knowledge_and_trusted_source_documents}}
 ]]
 

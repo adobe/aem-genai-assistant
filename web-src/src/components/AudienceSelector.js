@@ -34,6 +34,10 @@ const styles = {
   `,
 };
 
+export function isTargetEnabled(adobeTarget) {
+  return /^(true|1|yes)$/i.test(adobeTarget?.toString().trim());
+}
+
 export function useGetItemsFromTarget() {
   const { targetService } = useApplicationContext();
   return useCallback(async () => {
@@ -93,9 +97,9 @@ export function AudienceSelector({
 
   useEffect(() => {
     setItems([]);
-    if (adobeTarget && !csv) {
+    if (isTargetEnabled(adobeTarget) && !csv) {
       setDataSource(DATA_SOURCES.TARGET);
-    } else if (csv && !adobeTarget) {
+    } else if (csv && !isTargetEnabled(adobeTarget)) {
       setDataSource(DATA_SOURCES.CSV);
     }
     if (dataSource === DATA_SOURCES.CSV) {

@@ -1,7 +1,7 @@
 {{# -------------------------------------------------------------------------- }}
 {{# CONTEXT                                                                    }}
 {{# Describe the context of where content will be displayed, detailing the     }}
-{{# intented user experience or expected interaction.                          }}
+{{# intended user experience or expected interaction.                          }}
 {{# -------------------------------------------------------------------------- }}
 On our webpage, users are presented with a web banner reminding them that they have an on-going purchase ready in their shopping cart. Upon interacting with the web banner, the user will navigate to a page where they can complete the checkout process or, alternatively, compare and choose a different product for purchase.
 
@@ -27,9 +27,9 @@ Your assigned target audience is {{target_audience}}.
 Your task is to compose {{number_of_variations}} distinct piece(s) of copy for a web banner targeted to our target audience that is specific to the Additional Context provided in double-brackets ([[]]) below. The text you compose will be used to test the hypotheses below in a live experiment. Keep in mind the specific traits of our target audience, considering that users will typically only read the title.
 
 To accomplish your task, the text you compose must strictly comply with the following requirements numbered in triple backticks (```) below and address the following hypotheses:
-- Customers will be more likely complete a purchase if there's a sense of urgency
-- Customers will be more likely complete a purchase if it is easy for them to complete the purchase
-- Customers will be more likely complete a purchase if the offer is relevant to their needs
+- Customers will be more likely to complete a purchase if there's a sense of urgency
+- Customers will be more likely to complete a purchase if it is easy for them to complete the purchase
+- Customers will be more likely to complete a purchase if the offer is relevant to their needs
 
 {{# -------------------------------------------------------------------------- }}
 {{# REQUIREMENTS                                                               }}
@@ -37,7 +37,7 @@ To accomplish your task, the text you compose must strictly comply with the foll
 {{# brand writing guidelines.                                                  }}
 {{# -------------------------------------------------------------------------- }}
 Requirements: ```
-- The text must consist of four parts, a Title, a Body, a Call-to-Action and a "AI Rationale".
+- The text must consist of four parts: a Title, a Body, a Call-to-Action and an "AI Rationale".
 - The text must be brief, such that:
 * In 20 words (100 characters) or less, compose the "AI Rationale" text first and use it to explain your reasoning for composing the copy, before composing the other parts.
 * The Title text must not exceed 7 words or 35 characters, including spaces.

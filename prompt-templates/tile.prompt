@@ -1,7 +1,7 @@
 {{# -------------------------------------------------------------------------- }}
 {{# CONTEXT                                                                    }}
 {{# Describe the context of where content will be displayed, detailing the     }}
-{{# intented user experience or expected interaction.                          }}
+{{# intended user experience or expected interaction.                          }}
 {{# -------------------------------------------------------------------------- }}
 On our webpage, users are presented with a Tile. A Tile is a rectangular or square-shaped interface element that serves as a container for specific content. Tiles are primarily used as clickable elements that lead users to other parts of the website, or to perform certain actions. They are designed to simplify user interactions and provide a visually appealing way to navigate and access information. Upon interacting with the Tile, {{explain_interaction}}.
 
@@ -37,7 +37,7 @@ To accomplish your task, the text you compose must strictly comply with the foll
 {{# brand writing guidelines.                                                  }}
 {{# -------------------------------------------------------------------------- }}
 Requirements: ```
-- The text must consist of three parts, a Title, a Body and a "AI Rationale".
+- The text must consist of three parts: a Title, a Body and an "AI Rationale".
 - The text must be brief, such that:
 * In 20 words (100 characters) or less, compose the "AI Rationale" text first and use it to explain your reasoning for composing the copy, before composing the other parts.
 * The Title text must not exceed 10 words or 50 characters, including spaces.

@@ -1,7 +1,7 @@
 {{# -------------------------------------------------------------------------- }}
 {{# CONTEXT                                                                    }}
 {{# Describe the context of where content will be displayed, detailing the     }}
-{{# intented user experience or expected interaction.                          }}
+{{# intended user experience or expected interaction.                          }}
 {{# -------------------------------------------------------------------------- }}
 On our webpage, users are presented with a Hero banner. A Hero banner is an interface element which creates an immediate impact with its visually striking image on the right and compelling text on the left, including a title, body, and call-to-action button. It effectively communicates the website's core message, capturing users' attention and guiding them towards the desired action. Upon interacting with the Hero banner, {{explain_interaction}}.
 
@@ -10,7 +10,7 @@ On our webpage, users are presented with a Hero banner. A Hero banner is an inte
 {{# State the intended user experience and the rationale behind crafting such  }}
 {{# an experience.                                                             }}
 {{# -------------------------------------------------------------------------- }}
-Our intent is to engage with users to click and {{explain_intent}}.
+Our intent is to engage users, encouraging them to click and {{explain_intent}}.
 
 {{# -------------------------------------------------------------------------- }}
 {{# TARGET AUDIENCE                                                            }}
@@ -37,7 +37,7 @@ To accomplish your task, the text you compose must strictly comply with the foll
 {{# brand writing guidelines.                                                  }}
 {{# -------------------------------------------------------------------------- }}
 Requirements: ```
-- The text must consist of four parts, a Title, a Body, a Call-to-Action and a "AI Rationale".
+- The text must consist of four parts: a Title, a Body, a Call-to-Action and an "AI Rationale".
 - The text must be brief, such that:
 * In 20 words (100 characters) or less, compose the "AI Rationale" text first and use it to explain your reasoning for composing the copy, before composing the other parts.
 * The Title text must not exceed 7 words or 35 characters, including spaces.
@@ -53,12 +53,12 @@ Requirements: ```
 ```
 
 {{# -------------------------------------------------------------------------- }}
-{{# ADDTIONAL CONTEXT                                                          }}
+{{# DOMAIN KNOWLEDGE AND TRUSTED SOURCE DOCUMENTS                              }}
 {{# Here you will Provide more background information or specific details to   }}
 {{# guide the creation of the content.                                         }}
 {{# -------------------------------------------------------------------------- }}
-Additional context: [[
-  {{additional_context}}
+Additional Context: [[
+  {{domain_knowledge_and_trusted_source_documents}}
 ]]
 
 {{# -------------------------------------------------------------------------- }}
@@ -100,9 +100,9 @@ Additional context: [[
   type=number
 }}
 
-{{@additional_context,
-  label="Additional Context and Trusted Source Documents",
+{{@domain_knowledge_and_trusted_source_documents,
+  label="Domain Knowledge and Trusted Source Documents",
   description="Provide more background information or specific details to guide the creation of the content. For Trusted Source Documents, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents. Include additional prompting E.g. 'use the following source document as a reference in generation to match brand voice' to ensure accurate use.",
-  default="No additional context provided",
+  default="No domain knowledge or trusted source documents provided",
   type=text
 }}

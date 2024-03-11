@@ -1,7 +1,7 @@
 {{# -------------------------------------------------------------------------- }}
 {{# CONTEXT                                                                    }}
 {{# Describe the context of where content will be displayed, detailing the     }}
-{{# intented user experience or expected interaction.                          }}
+{{# intended user experience or expected interaction.                          }}
 {{# -------------------------------------------------------------------------- }}
 On our webpage, users are presented with a Card. block which has multiple Card elements. A Card contains summary content and actions about a single subject and linking to its details. They can be used by themselves or within a list. Cards are interactive, and the entire Card container needs to be clickable. Each Card has its own title and description text which should not be presenting detailed information or multiple concepts. Upon interacting with the Card element, {{explain_interaction}}.
 
@@ -24,7 +24,7 @@ Your assigned target audience is {{target_audience}}.
 {{# Describe the content to be generated. We suggest you modify the hypotheses }}
 {{# to fit your needs.                                                         }}
 {{# -------------------------------------------------------------------------- }}
-Your task is to compose {{number_of_variations}} distinct piece(s) of copy for a Card targeted to our target audience that is concise, engaging and persuasive to the user by selecting any available content provided in double-brackets ([[]]) below. The text you compose will be used to test the hypotheses below in a live experiment. Keep in mind the specific traits of our target audience, considering that users will typically only read the title.
+Your task is to compose {{number_of_variations}} distinct piece(s) of copy for a Card targeted to our target audience that is concise, engaging and persuading the user by selecting any available content provided in double-brackets ([[]]) below. The text you compose will be used to test the hypotheses below in a live experiment. Keep in mind the specific traits of our target audience, considering that users will typically only read the title.
 
 To accomplish your task, the text you compose must strictly comply with the following requirements listed in triple backticks (```) below and address the following hypotheses:
 - Users will be more likely to engage with the Card if it is personalized to their interests.
@@ -36,7 +36,7 @@ To accomplish your task, the text you compose must strictly comply with the foll
 {{# brand writing guidelines.                                                  }}
 {{# -------------------------------------------------------------------------- }}
 Requirements: ```
-- The text must consist of three parts, a Title, a Body and a "AI Rationale".
+- The text must consist of three parts: a Title, a Body and an "AI Rationale".
 - The text must be brief, such that:
 * In 20 words (100 characters) or less, compose the "AI Rationale" text first and use it to explain your reasoning for composing the copy, before composing the other parts.
 * The Title text must not exceed 6 words or 30 characters, including spaces.
@@ -51,12 +51,12 @@ Requirements: ```
 ```
 
 {{# -------------------------------------------------------------------------- }}
-{{# ADDTIONAL CONTEXT                                                          }}
+{{# DOMAIN KNOWLEDGE AND TRUSTED SOURCE DOCUMENTS                              }}
 {{# Here you will Provide more background information or specific details to   }}
 {{# guide the creation of the content.                                         }}
 {{# -------------------------------------------------------------------------- }}
-Additional context: [[
-  {{additional_context}}
+Additional Context: [[
+  {{domain_knowledge_and_trusted_source_documents}}
 ]]
 
 {{# -------------------------------------------------------------------------- }}
@@ -98,9 +98,9 @@ Additional context: [[
   type=number
 }}
 
-{{@additional_context,
-  label="Additional Context and Trusted Source Documents",
+{{@domain_knowledge_and_trusted_source_documents,
+  label="Domain Knowledge and Trusted Source Documents",
   description="Provide more background information or specific details to guide the creation of the content. For Trusted Source Documents, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents. Include additional prompting E.g. 'use the following source document as a reference in generation to match brand voice' to ensure accurate use.",
-  default="No additional context provided",
+  default="No domain knowledge or trusted source documents provided",
   type=text
 }}

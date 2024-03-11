@@ -156,7 +156,7 @@ export function AudienceSelector({
 
   return (
     <>
-      { (adobeTarget && csv)
+      { (isTargetEnabled(adobeTarget) && csv)
         && <DataSourceSelector
           label={label}
           dataSource={dataSource}

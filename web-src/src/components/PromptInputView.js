@@ -17,9 +17,27 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { placeholdersState } from '../state/PlaceholdersState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { TemperatureSlider } from './TemperatureSlider.js';
-import { SpreadSheetPicker } from './SpreadSheetPicker.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
 import { formatIdentifier } from '../helpers/FormatHelper.js';
+import { AudienceSelector } from './AudienceSelector.js';
+
+export function toCamelCaseKeys(obj) {
+  const camelCaseKey = (key) => {
+    let result = key.replace(/([-_][a-z])/ig, ($1) => {
+      return $1.toUpperCase()
+        .replace('-', '')
+        .replace('_', '');
+    });
+    result = result.charAt(0).toLowerCase() + result.slice(1);
+    return result;
+  };
+  const newObj = {};
+  Object.keys(obj).forEach((key) => {
+    const camelCaseKeyString = camelCaseKey(key);
+    newObj[camelCaseKeyString] = obj[key];
+  });
+  return newObj;
+}
 
 function comparePlaceholders([a, { order: aorder }], [b, { order: border }]) {
   if (aorder < border) {
@@ -35,9 +53,6 @@ function getComponentLabel(name, label) {
 }
 
 function getComponentType(params) {
-  if (params.spreadsheet) {
-    return 'select';
-  }
   return params.type || 'text';
 }
 
@@ -68,25 +83,23 @@ function createNumberComponent(name, label, params, value, onChange) {
   );
 }
 
-function createSelectComponent(name, label, params, value, onChange) {
+function createAudienceSelectComponent(name, label, params, value, onChange) {
   return (
-    <SpreadSheetPicker
+    <AudienceSelector
       key={name}
       name={name}
       label={label}
-      description={params.description}
-      spreadsheet={params.spreadsheet}
-      fallback={createTextComponent(name, label, params, value, onChange)}
+      params={params}
       value={value}
-      onChange={(newValue) => onChange(name, newValue)}
+      onChange={onChange}
     />
   );
 }
 
 function createInputComponent(type, name, label, params, value, onChange) {
   switch (type) {
-    case 'select':
-      return createSelectComponent(name, label, params, value, onChange);
+    case 'audience':
+      return createAudienceSelectComponent(name, label, params, value, onChange);
     case 'number':
       return createNumberComponent(name, label, params, value, onChange);
     case 'text':
@@ -115,14 +128,15 @@ export function PromptInputView({ gridColumn }) {
       width={'100%'}>
       {
         Object.entries(placeholders).sort(comparePlaceholders).map(([name, params]) => {
-          if (params.comment) {
+          const { comment, label } = params;
+          if (comment) {
             return null;
           }
-          const label = getComponentLabel(name, params.label);
+          const formattedLabel = getComponentLabel(name, label);
           const type = getComponentType(params);
           const value = parameters[name] ?? '';
 
-          return createInputComponent(type, name, label, params, value, onChange);
+          return createInputComponent(type, name, formattedLabel, toCamelCaseKeys(params), value, onChange);
         })
       }
       <h3 style={{ alignSelf: 'start', marginBottom: '10px' }}>Advanced</h3>

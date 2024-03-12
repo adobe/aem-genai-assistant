@@ -19,17 +19,28 @@ import { defaultTheme, Provider } from '@adobe/react-spectrum';
 import { ApplicationProvider } from '../web-src/src/components/ApplicationProvider.js';
 import { App } from '../web-src/src/components/App.js';
 import { CONSENT_KEY } from '../web-src/src/components/ConsentDialog.js';
+import { PROMPT_TEMPLATE_STORAGE_KEY } from '../web-src/src/state/PromptTemplatesState.js';
 
 const CONFIG_URL = 'https://localhost:9080/index.html?ref=ref&repo=repo&owner=owner';
 
 const mockConsentKey = CONSENT_KEY;
+const mockPromptTemplateStorageKey = PROMPT_TEMPLATE_STORAGE_KEY;
 
 jest.mock('@adobe/exc-app/settings', () => ({
-  get: jest.fn().mockImplementation(() => Promise.resolve({
-    settings: {
-      [mockConsentKey]: true,
-    },
-  })),
+  get: jest.fn().mockImplementation(({ groupId, level, defaultValue }) => {
+    if (groupId === mockPromptTemplateStorageKey) {
+      return Promise.resolve({
+        settings: {
+          promptTemplates: [],
+        },
+      });
+    }
+    return Promise.resolve({
+      settings: {
+        [mockConsentKey]: true,
+      },
+    });
+  }),
   SettingsLevel: jest.fn(),
 }));
 

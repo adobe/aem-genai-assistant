@@ -9,15 +9,14 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+const wretch = require('wretch');
+const Papa = require('papaparse');
 const { asGenericAction } = require('../GenericAction.js');
-const { asAuthAction } = require('../AuthAction.js');
-const { asFirefallAction } = require('../FirefallAction.js');
 
-async function main(params) {
-  const {
-    prompt, temperature, model, firefallClient,
-  } = params;
-  return firefallClient.completion(prompt ?? 'Who are you?', temperature ?? 0.0, model ?? 'gpt-4');
+async function main({ url }) {
+  const text = await wretch(url).get().text();
+  const { data } = Papa.parse(text, { skipEmptyLines: true });
+  return data;
 }
 
-exports.main = asGenericAction(asAuthAction(asFirefallAction(main)));
+exports.main = asGenericAction(main);

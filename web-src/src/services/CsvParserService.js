@@ -9,15 +9,29 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-const { asGenericAction } = require('../GenericAction.js');
-const { asAuthAction } = require('../AuthAction.js');
-const { asFirefallAction } = require('../FirefallAction.js');
+import QueryStringAddon from 'wretch/addons/queryString';
+import { wretchRetry } from '../../../actions/Network.js';
 
-async function main(params) {
-  const {
-    prompt, temperature, model, firefallClient,
-  } = params;
-  return firefallClient.completion(prompt ?? 'Who are you?', temperature ?? 0.0, model ?? 'gpt-4');
+export class CsvParserService {
+  constructor({
+    csvParserEndpoint,
+  }) {
+    this.csvParserEndpoint = csvParserEndpoint;
+
+    console.log('csvParserEndpoint', csvParserEndpoint);
+  }
+
+  async getData(url) {
+    const json = await wretchRetry(this.csvParserEndpoint)
+      .addon(QueryStringAddon)
+      .query({ url })
+      .get()
+      .json();
+    return Array.from(json).map(([key, value]) => {
+      return {
+        key,
+        value,
+      };
+    });
+  }
 }
-
-exports.main = asGenericAction(asAuthAction(asFirefallAction(main)));

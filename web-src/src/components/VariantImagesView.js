@@ -19,7 +19,7 @@ import { css } from '@emotion/css';
 import { ToastQueue } from '@react-spectrum/toast';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
-import { log } from '../helpers/Tracking.js';
+import { log } from '../helpers/MetricsHelper.js';
 import { copyImageToClipboard, copyImageToClipboardLegacy } from '../helpers/ImageHelper.js';
 import { ImageViewer } from './ImageViewer.js';
 
@@ -56,7 +56,7 @@ const styles = {
 };
 
 export function VariantImagesView({ variant, isFavorite, ...props }) {
-  const { expressSDKService } = useApplicationContext();
+  const { expressSdkService } = useApplicationContext();
   const { variantImages, replaceImageFromVariant, deleteImageFromVariant } = useVariantImages();
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
   const [imageViewerIndex, setImageViewerIndex] = useState(0);
@@ -90,7 +90,7 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
     };
     const assetData = variantImages[variant.id][index];
 
-    const success = await expressSDKService.handleImageOperation(
+    const success = await expressSdkService.handleImageOperation(
       'editImage',
       {
         outputParams: {
@@ -112,7 +112,7 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
     if (!success) {
       ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
     }
-  }, [expressSDKService, variantImages]);
+  }, [expressSdkService, variantImages]);
 
   const handleImageViewerOpen = useCallback((index) => {
     if (isFavorite) {

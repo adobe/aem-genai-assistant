@@ -9,15 +9,17 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-export class ExpressSDKService {
+export class ExpressSdkService {
   constructor({
     clientId,
     appName,
-    user,
+    userId,
+    accessToken,
   }) {
     this.clientId = clientId;
     this.appName = appName;
-    this.user = user;
+    this.userId = userId;
+    this.accessToken = accessToken;
     this.userInfo = null;
     this.authInfo = null;
     this.ccEverywhereInstance = null;
@@ -36,7 +38,7 @@ export class ExpressSDKService {
           try {
             this.userInfo = {
               profile: {
-                userId: this.user.imsProfile.userId,
+                userId: this.userId,
                 serviceCode: null,
                 serviceLevel: null,
               },
@@ -44,7 +46,7 @@ export class ExpressSDKService {
               serviceLevel: null,
             };
             this.authInfo = {
-              accessToken: this.user.imsToken,
+              accessToken: this.accessToken,
               useJumpUrl: false,
               forceJumpCheck: false,
             };

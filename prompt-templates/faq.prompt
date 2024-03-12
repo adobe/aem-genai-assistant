@@ -24,7 +24,7 @@ Each FAQ must meet the following criteria to ensure clarity and conciseness:
 - The overall tone should be helpful and knowledgeable, instilling confidence in the user.
 - Format the response as an array of valid, iterable RFC8259 compliant JSON. Always list the "AI Rationale" attribute last.
 
-Additional context for the {{product}} and user inquiries can be found here: [[{{additional_context}}]]"
+Additional Context for the {{product}} and user inquiries can be found here: [[{{domain_knowledge_and_trusted_source_documents}}]]"
 
 {{# --------------------- }}
 {{# METADATA.             }}
@@ -43,9 +43,9 @@ Additional context for the {{product}} and user inquiries can be found here: [[{
     type=number
 }}
 
-{{@additional_context,
-    label="Additional Context and Trusted Source Documents",
+{{@domain_knowledge_and_trusted_source_documents,
+    label="Domain Knowledge and Trusted Source Documents",
     description="Provide more background information or specific details to guide the creation of the content. For Trusted Source Documents, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents. Include additional prompting E.g. 'use the following source document as a reference in generation to match brand voice' to ensure accurate use.",
-    default="No additional context provided",
+    default="No domain knowledge or trusted source documents provided",
     type=text
 }}

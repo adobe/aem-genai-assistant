@@ -31,7 +31,7 @@ import { resultsState } from '../state/ResultsState.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
 import { sampleRUM } from '../rum.js';
-import { log } from '../helpers/Tracking.js';
+import { log } from '../helpers/MetricsHelper.js';
 import { toHTML, toText } from '../helpers/PromptExporter.js';
 import { generateImagePrompt } from '../helpers/ImageHelper.js';
 import { VariantImagesView } from './VariantImagesView.js';
@@ -137,7 +137,7 @@ const styles = {
 };
 
 export function PromptResultCard({ result, ...props }) {
-  const { firefallService, expressSDKService } = useApplicationContext();
+  const { firefallService, expressSdkService } = useApplicationContext();
   const { isExpressAuthorized } = useShellContext();
   const [selectedVariant, setSelectedVariant] = useState(result.variants[0]);
   const setPrompt = useSetRecoilState(promptState);
@@ -199,7 +199,7 @@ export function PromptResultCard({ result, ...props }) {
       addImageToVariant(variantId, publishParams.asset[0].data);
     };
 
-    const success = await expressSDKService.handleImageOperation(
+    const success = await expressSdkService.handleImageOperation(
       'generateImage',
       {
         outputParams: {
@@ -217,7 +217,7 @@ export function PromptResultCard({ result, ...props }) {
     if (!success) {
       ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
     }
-  }, [expressSDKService]);
+  }, [expressSdkService]);
 
   const handleGenerateImagePrompt = useCallback((variantId) => {
     setImagePromptProgress(true);

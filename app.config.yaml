@@ -35,3 +35,13 @@ application:
               IMS_PRODUCT_CONTEXT: $IMS_PRODUCT_CONTEXT
             limits:
               timeout: 180000
+          target:
+            function: actions/target/index.js
+            web: true
+            runtime: nodejs:18
+            inputs:
+              TARGET_API_KEY: $TARGET_API_KEY
+          csv:
+            function: actions/csv/index.js
+            web: true
+            runtime: nodejs:18

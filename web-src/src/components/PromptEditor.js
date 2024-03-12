@@ -25,7 +25,7 @@ import Close from '@spectrum-icons/workflow/Close';
 import { parametersState } from '../state/ParametersState.js';
 import { promptState } from '../state/PromptState.js';
 import { NO_VALUE_STRING, renderPrompt } from '../helpers/PromptRenderer.js';
-import { log } from '../helpers/Tracking.js';
+import { log } from '../helpers/MetricsHelper.js';
 
 import PreviewIcon from '../icons/PreviewIcon.js';
 

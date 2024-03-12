@@ -16,7 +16,7 @@ import { PromptSessionSideView } from './PromptSessionSideView.js';
 import { PromptResultListView } from './PromptResultListView.js';
 import PromptEditor from './PromptEditor.js';
 import { promptEditorState } from '../state/PromptEditorState.js';
-import { log } from '../helpers/Tracking.js';
+import { log } from '../helpers/MetricsHelper.js';
 
 export function PromptSessionPanel() {
   const [isOpenPromptEditor, setIsOpenPromptEditor] = useRecoilState(promptEditorState);

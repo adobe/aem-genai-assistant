@@ -9,9 +9,8 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { WretchError } from 'wretch';
 import { FirefallClient } from './FirefallClient.js';
-import { wretchRetry } from './Network.js';
+import { NetworkError, wretch } from './Network.js';
 
 // Mock the 'Network.js' module
 jest.mock('./Network.js');
@@ -30,21 +29,18 @@ let firefall;
 let error;
 
 function createFirefallClient() {
-  const client = new FirefallClient('endpoint', 'apiKey', 'org', 'accessToken');
-  return client;
+  return new FirefallClient('endpoint', 'apiKey', 'org', 'accessToken');
 }
 
-function createWretchError(status) {
-  const wretchError = new WretchError('Internal Server Error');
-  wretchError.status = status;
-  return wretchError;
+function createNetworkError(status) {
+  return new NetworkError(status, 'Internal Server Error');
 }
 
 beforeEach(() => {
   jest.clearAllMocks();
   firefall = createFirefallClient();
-  error = createWretchError(500);
-  wretchRetry.mockImplementation(() => ({
+  error = createNetworkError(500);
+  wretch.mockImplementation(() => ({
     headers: jest.fn().mockReturnThis(),
     post: jest.fn().mockReturnThis(),
     json: jest.fn().mockRejectedValue(error),

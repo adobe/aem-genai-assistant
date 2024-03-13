@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import QueryStringAddon from 'wretch/addons/queryString';
-import { wretchRetry } from '../../../actions/Network.js';
+import { wretch } from '../helpers/NetworkHelper.js';
 
 export class CsvParserService {
   constructor({
@@ -22,7 +22,7 @@ export class CsvParserService {
   }
 
   async getData(url) {
-    const json = await wretchRetry(this.csvParserEndpoint)
+    const json = await wretch(this.csvParserEndpoint)
       .addon(QueryStringAddon)
       .query({ url })
       .get()

@@ -9,15 +9,32 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-const wretch = require('wretch');
-const { retry } = require('wretch/middlewares/retry');
+const AbortAddon = require('wretch/addons/abort');
 
-function wretchRetry(url) {
-  return wretch(url)
-    .middlewares([retry({
-      retryOnNetworkError: true,
-      until: (response) => response && (response.ok || (response.status >= 400 && response.status < 500)),
-    })]);
+const wretch = require('wretch');
+
+const REQUEST_TIMEOUT = 5 * 1000;
+
+class NetworkError extends Error {
+  constructor(status, message) {
+    super(message);
+    this.name = 'NetworkError';
+    this.status = status;
+  }
 }
 
-module.exports = { wretchRetry };
+function wretchWithOptions(url) {
+  return wretch(url)
+    .addon(AbortAddon())
+    .resolve((_) => _.setTimeout(REQUEST_TIMEOUT))
+    .resolve((_) => {
+      return _.fetchError((error) => {
+        if (error.name === 'AbortError') {
+          throw new NetworkError(408, 'Request timed out');
+        }
+        throw new NetworkError(500, 'Network error');
+      });
+    });
+}
+
+module.exports = { wretch: wretchWithOptions, NetworkError };

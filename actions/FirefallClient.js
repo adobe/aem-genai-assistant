@@ -10,20 +10,21 @@
  * governing permissions and limitations under the License.
  */
 const { Core } = require('@adobe/aio-sdk');
-const { wretchRetry } = require('./Network.js');
+const { wretch, NetworkError } = require('./Network.js');
 
 const logger = Core.Logger('FirefallAction');
 
-const FIREFALL_ERROR_CODES = {
+const ERROR_CODES = {
   defaultCompletion: 'An error occurred while generating results',
   defaultFeedback: 'An error occurred while sending feedback',
   400: "The response was filtered due to the prompt triggering Generative AI's content management policy. Please modify your prompt and retry.",
+  408: "Generative AI's request timed out. Please try again.",
   429: "Generative AI's Rate limit exceeded. Please wait one minute and try again.",
 };
 
-function firefallErrorMessage(defaultMessage, errorStatus) {
-  const errorString = FIREFALL_ERROR_CODES[errorStatus] ?? defaultMessage;
-  return `IS-ERROR: ${errorString} (${errorStatus}).`;
+function handleError(error, defaultMessage) {
+  const errorMessage = ERROR_CODES[error.status] ?? defaultMessage;
+  return new NetworkError(400, `IS-ERROR: ${errorMessage} (${error.status}).`);
 }
 
 class FirefallClient {
@@ -38,7 +39,7 @@ class FirefallClient {
     const startTime = Date.now();
 
     try {
-      const response = await wretchRetry(`${this.endpoint}/v1/completions`)
+      const response = await wretch(`${this.endpoint}/v1/completions`)
         .headers({
           'x-gw-ims-org-id': this.org,
           'x-api-key': this.apiKey,
@@ -69,7 +70,7 @@ class FirefallClient {
       return response;
     } catch (error) {
       logger.error('Failed generating results:', error);
-      throw new Error(firefallErrorMessage(FIREFALL_ERROR_CODES.defaultCompletion, error.status));
+      throw handleError(error, ERROR_CODES.defaultCompletion);
     }
   }
 
@@ -77,7 +78,7 @@ class FirefallClient {
     const startTime = Date.now();
 
     try {
-      const response = await wretchRetry(`${this.endpoint}/v1/feedback`)
+      const response = await wretch(`${this.endpoint}/v1/feedback`)
         .headers({
           Authorization: `Bearer ${this.accessToken}`,
           'x-api-key': this.apiKey,
@@ -99,7 +100,7 @@ class FirefallClient {
       return response;
     } catch (error) {
       logger.error('Failed sending feedback:', error);
-      throw new Error(firefallErrorMessage(FIREFALL_ERROR_CODES.defaultFeedback, error.status));
+      throw handleError(error, ERROR_CODES.defaultFeedback);
     }
   }
 }

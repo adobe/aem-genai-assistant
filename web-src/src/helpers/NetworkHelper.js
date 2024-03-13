@@ -10,12 +10,28 @@
  * governing permissions and limitations under the License.
  */
 import wretch from 'wretch';
-import { retry } from 'wretch/middlewares/retry';
 
-export function wretchRetry(url) {
-  return wretch(url)
-    .middlewares([retry({
-      retryOnNetworkError: true,
-      until: (response) => response && (response.ok || (response.status >= 400 && response.status < 500)),
-    })]);
+function unwrapError(error) {
+  if (error.json?.error) {
+    throw new Error(error.json.error);
+  }
+  console.error(`Unexpected network error: ${error}`);
+  throw new Error('Unknown error. Try again later.');
 }
+
+function wretchWithOptions(url) {
+  return wretch(url)
+    .headers({ 'X-OW-EXTRA-LOGGING': 'on' })
+    .resolve((_) => {
+      return _
+        .badRequest((err) => unwrapError(err))
+        .unauthorized((err) => unwrapError(err))
+        .forbidden((err) => unwrapError(err))
+        .notFound((err) => unwrapError(err))
+        .timeout((err) => unwrapError(err))
+        .internalError((err) => unwrapError(err))
+        .fetchError((err) => unwrapError(err));
+    });
+}
+
+export { wretchWithOptions as wretch };

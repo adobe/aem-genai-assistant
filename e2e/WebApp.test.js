@@ -45,7 +45,7 @@ jest.mock('@adobe/exc-app/settings', () => ({
 }));
 
 jest.mock('../web-src/src/helpers/NetworkHelper.js', () => ({
-  wretchRetry: jest.fn().mockImplementation(() => ({
+  wretch: jest.fn().mockImplementation(() => ({
     get: jest.fn().mockImplementation(() => ({
       json: jest.fn().mockRejectedValue(new Error('error')),
     })),

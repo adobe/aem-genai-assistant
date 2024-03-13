@@ -13,7 +13,7 @@ const AbortAddon = require('wretch/addons/abort');
 
 const wretch = require('wretch');
 
-const REQUEST_TIMEOUT = 5 * 1000;
+const REQUEST_TIMEOUT = 55 * 1000;
 
 class NetworkError extends Error {
   constructor(status, message) {

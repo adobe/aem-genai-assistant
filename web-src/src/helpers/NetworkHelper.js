@@ -15,8 +15,8 @@ function unwrapError(error) {
   if (error.json?.error) {
     throw new Error(error.json.error);
   }
-  console.error(`Unexpected network error: ${error}`);
-  throw new Error('Unknown error. Try again later.');
+  console.error(`Unexpected error: ${error}`);
+  throw new Error('Oops! We\'ve encountered an unexpected error. Please try again later.');
 }
 
 function wretchWithOptions(url) {

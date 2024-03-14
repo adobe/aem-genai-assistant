@@ -12,8 +12,11 @@
 const AbortAddon = require('wretch/addons/abort');
 
 const wretch = require('wretch');
+const { Core } = require('@adobe/aio-sdk');
 
 const REQUEST_TIMEOUT = 55 * 1000;
+
+const logger = Core.Logger('FirefallAction');
 
 class NetworkError extends Error {
   constructor(status, message) {
@@ -30,8 +33,10 @@ function wretchWithOptions(url) {
     .resolve((_) => {
       return _.fetchError((error) => {
         if (error.name === 'AbortError') {
+          logger.error('Request aborted', error);
           throw new NetworkError(408, 'Request timed out');
         }
+        logger.error('Network error', error);
         throw new NetworkError(500, 'Network error');
       });
     });

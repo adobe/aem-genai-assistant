@@ -29,8 +29,7 @@ async function isValidToken(endpoint, clientId, token) {
       })
       .get()
       .json();
-    const { valid } = response;
-    return valid;
+    return response.valid;
   } catch (error) {
     logger.error(error);
     return false;

@@ -22,7 +22,7 @@ const ERROR_CODES = {
   429: "Generative AI's Rate limit exceeded. Please wait one minute and try again.",
 };
 
-function handleError(error, defaultMessage) {
+function toFirefallError(error, defaultMessage) {
   const errorMessage = ERROR_CODES[error.status] ?? defaultMessage;
   return new NetworkError(400, `IS-ERROR: ${errorMessage} (${error.status}).`);
 }
@@ -70,7 +70,7 @@ class FirefallClient {
       return response;
     } catch (error) {
       logger.error('Failed generating results:', error);
-      throw handleError(error, ERROR_CODES.defaultCompletion);
+      throw toFirefallError(error, ERROR_CODES.defaultCompletion);
     }
   }
 
@@ -100,7 +100,7 @@ class FirefallClient {
       return response;
     } catch (error) {
       logger.error('Failed sending feedback:', error);
-      throw handleError(error, ERROR_CODES.defaultFeedback);
+      throw toFirefallError(error, ERROR_CODES.defaultFeedback);
     }
   }
 }

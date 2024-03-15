@@ -10,7 +10,8 @@
  * governing permissions and limitations under the License.
  */
 const { Core } = require('@adobe/aio-sdk');
-const { wretch, NetworkError } = require('./Network.js');
+const wretch = require('./Network.js');
+const InternalError = require('./InternalError.js');
 
 const logger = Core.Logger('FirefallAction');
 
@@ -24,7 +25,7 @@ const ERROR_CODES = {
 
 function toFirefallError(error, defaultMessage) {
   const errorMessage = ERROR_CODES[error.status] ?? defaultMessage;
-  return new NetworkError(400, `IS-ERROR: ${errorMessage} (${error.status}).`);
+  return new InternalError(400, `IS-ERROR: ${errorMessage} (${error.status}).`);
 }
 
 class FirefallClient {

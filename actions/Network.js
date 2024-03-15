@@ -11,19 +11,18 @@
  */
 const AbortAddon = require('wretch/addons/abort');
 
-const wretch = require('wretch');
+const { wretch, WretchError } = require('wretch');
 const { Core } = require('@adobe/aio-sdk');
-
-const REQUEST_TIMEOUT = 55 * 1000;
 
 const logger = Core.Logger('FirefallAction');
 
-class NetworkError extends Error {
-  constructor(status, message) {
-    super(message);
-    this.name = 'NetworkError';
-    this.status = status;
-  }
+const REQUEST_TIMEOUT = 55 * 1000;
+
+function createWretchError(status, message) {
+  const error = new WretchError();
+  error.status = status;
+  error.message = message;
+  return error;
 }
 
 function wretchWithOptions(url) {
@@ -34,12 +33,12 @@ function wretchWithOptions(url) {
       return _.fetchError((error) => {
         if (error.name === 'AbortError') {
           logger.error('Request aborted', error);
-          throw new NetworkError(408, 'Request timed out');
+          throw createWretchError(408, 'Request timed out');
         }
         logger.error('Network error', error);
-        throw new NetworkError(500, 'Network error');
+        throw createWretchError(500, 'Network error');
       });
     });
 }
 
-module.exports = { wretch: wretchWithOptions, NetworkError };
+module.exports.wretch = wretchWithOptions;

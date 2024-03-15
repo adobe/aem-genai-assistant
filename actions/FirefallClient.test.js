@@ -10,12 +10,8 @@
  * governing permissions and limitations under the License.
  */
 import { FirefallClient } from './FirefallClient.js';
-import { NetworkError, wretch } from './Network.js';
+import wretch from './Network.js';
 
-// Mock the 'Network.js' module
-jest.mock('./Network.js');
-
-// Mock the '@adobe/aio-sdk' module
 jest.mock('@adobe/aio-sdk', () => ({
   Core: {
     Logger: jest.fn().mockReturnValue({
@@ -25,41 +21,34 @@ jest.mock('@adobe/aio-sdk', () => ({
   },
 }));
 
-let firefall;
-let error;
-
-function createFirefallClient() {
-  return new FirefallClient('endpoint', 'apiKey', 'org', 'accessToken');
-}
-
-function createNetworkError(status) {
-  return new NetworkError(status, 'Internal Server Error');
-}
-
-beforeEach(() => {
-  jest.clearAllMocks();
-  firefall = createFirefallClient();
-  error = createNetworkError(500);
-  wretch.mockImplementation(() => ({
+jest.mock('./Network.js', () => {
+  const wretchMock = {
     headers: jest.fn().mockReturnThis(),
     post: jest.fn().mockReturnThis(),
-    json: jest.fn().mockRejectedValue(error),
-  }));
+    json: jest.fn().mockResolvedValue({}),
+  };
+  return jest.fn().mockImplementation(() => wretchMock);
 });
 
 describe('FirefallClient', () => {
+  const sut = new FirefallClient('endpoint', 'apiKey', 'org', 'accessToken');
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   test('handles 400 http status in completion method', async () => {
-    error.status = 400;
-    await expect(firefall.completion('prompt')).rejects.toThrow("IS-ERROR: The response was filtered due to the prompt triggering Generative AI's content management policy. Please modify your prompt and retry. (400).");
+    wretch().json.mockRejectedValue({ status: 400 });
+    await expect(sut.completion('prompt')).rejects.toThrow("IS-ERROR: The response was filtered due to the prompt triggering Generative AI's content management policy. Please modify your prompt and retry. (400).");
   });
 
   test('handles 429 http status in completion method', async () => {
-    error.status = 429;
-    await expect(firefall.completion('prompt')).rejects.toThrow("IS-ERROR: Generative AI's Rate limit exceeded. Please wait one minute and try again. (429).");
+    wretch().json.mockRejectedValue({ status: 429 });
+    await expect(sut.completion('prompt')).rejects.toThrow("IS-ERROR: Generative AI's Rate limit exceeded. Please wait one minute and try again. (429).");
   });
 
   test('handless any http status in the feedback method', async () => {
-    error.status = 500;
-    await expect(firefall.feedback('queryId', 'sentiment')).rejects.toThrow('An error occurred while sending feedback');
+    wretch().json.mockRejectedValue({ status: 500 });
+    await expect(sut.feedback('queryId', 'sentiment')).rejects.toThrow('An error occurred while sending feedback');
   });
 });

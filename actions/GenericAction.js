@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-const { NetworkError } = require('./Network.js');
+const InternalError = require('./InternalError.js');
 
 function createResponse(status, body) {
   return {
@@ -33,11 +33,11 @@ function asGenericAction(action) {
     try {
       return createSuccessResponse(await action(params));
     } catch (e) {
-      if (e instanceof NetworkError) {
-        console.error(`Network error: ${e.message} (${e.status})`);
+      if (e instanceof InternalError) {
+        console.error(`Internal error: ${e.message} (${e.status})`);
         return createErrorResponse(e.status, e.message);
       }
-      console.error(`Internal error: ${e.message}`);
+      console.error(`Unexpected error: ${e.message}`);
       return createErrorResponse(500, e.message ?? 'Internal Server Error');
     }
   };

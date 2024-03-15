@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 const FormUrlAddon = require('wretch/addons/formUrl');
-const { wretch } = require('./Network.js');
+const wretch = require('./Network.js');
 
 class ImsClient {
   constructor(endpoint, clientId, clientSecret, permAuthCode) {

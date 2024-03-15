@@ -92,7 +92,6 @@ export function PromptSessionSideView({ isOpenPromptEditor, onTogglePrompt, ...p
           <ActionButton
             isQuiet
             UNSAFE_className="hover-cursor-pointer"
-            // width={'size-1500'}
             onPress={onTogglePrompt}
             UNSAFE_style={isOpenPromptEditor ? { background: 'var(--spectrum-gray-200)' } : undefined}
           >

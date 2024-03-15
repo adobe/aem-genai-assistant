@@ -30,6 +30,7 @@ function wretchWithOptions(url) {
         .notFound((err) => unwrapError(err))
         .timeout((err) => unwrapError(err))
         .internalError((err) => unwrapError(err))
+        .error(503, (err) => unwrapError(err))
         .fetchError((err) => unwrapError(err));
     });
 }

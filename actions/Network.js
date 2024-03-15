@@ -28,9 +28,9 @@ function createWretchError(status, message) {
 function wretchWithOptions(url) {
   return wretch(url)
     .addon(AbortAddon())
-    .resolve((_) => _.setTimeout(REQUEST_TIMEOUT))
-    .resolve((_) => {
-      return _.fetchError((error) => {
+    .resolve((resolver) => resolver.setTimeout(REQUEST_TIMEOUT))
+    .resolve((resolver) => {
+      return resolver.fetchError((error) => {
         if (error.name === 'AbortError') {
           logger.error('Request aborted', error);
           throw createWretchError(408, 'Request timed out');

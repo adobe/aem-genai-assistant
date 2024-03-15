@@ -22,8 +22,8 @@ function unwrapError(error) {
 function wretchWithOptions(url) {
   return wretch(url)
     .headers({ 'X-OW-EXTRA-LOGGING': 'on' })
-    .resolve((_) => {
-      return _
+    .resolve((resolver) => {
+      return resolver
         .badRequest((err) => unwrapError(err))
         .unauthorized((err) => unwrapError(err))
         .forbidden((err) => unwrapError(err))

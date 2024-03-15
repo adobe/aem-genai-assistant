@@ -11,7 +11,8 @@
  */
 const AbortAddon = require('wretch/addons/abort');
 
-const { wretch, WretchError } = require('wretch');
+const { WretchError } = require('wretch');
+const wretch = require('wretch');
 const { Core } = require('@adobe/aio-sdk');
 
 const logger = Core.Logger('FirefallAction');
@@ -41,4 +42,4 @@ function wretchWithOptions(url) {
     });
 }
 
-module.exports.wretch = wretchWithOptions;
+module.exports = wretchWithOptions;

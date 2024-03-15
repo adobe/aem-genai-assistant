@@ -12,7 +12,7 @@
 const { Core } = require('@adobe/aio-sdk');
 const QueryStringAddon = require('wretch/addons/queryString');
 const { ImsClient } = require('./ImsClient.js');
-const { wretch } = require('./Network.js');
+const wretch = require('./Network.js');
 
 const logger = Core.Logger('AuthAction');
 

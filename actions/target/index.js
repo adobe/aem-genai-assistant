@@ -9,7 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-const wretch = require('wretch');
+const wretch = require('../Network.js');
 const { asGenericAction } = require('../GenericAction.js');
 
 const MIN_DESCRIPTION_LENGTH = 5;
@@ -18,7 +18,7 @@ async function main({ __ow_headers: headers, org, TARGET_API_KEY }) {
   const { authorization } = headers;
   const accessToken = authorization.split(' ')[1];
 
-  const json = await wretch(`https://mc.adobe.io/${org}/target/audiences`)
+  const response = await wretch(`https://mc.adobe.io/${org}/target/audiences`)
     .headers({
       'x-api-key': TARGET_API_KEY,
     })
@@ -27,11 +27,11 @@ async function main({ __ow_headers: headers, org, TARGET_API_KEY }) {
     .get()
     .json();
 
-  if (!json.audiences) {
+  if (!response.audiences) {
     throw new Error('Failed to fetch audiences');
   }
 
-  return json.audiences
+  return response.audiences
     .filter((audience) => audience.name && audience.type === 'reusable')
     .map((audience) => ({
       id: audience.id,

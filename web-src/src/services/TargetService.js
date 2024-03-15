@@ -9,7 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { wretchRetry } from '../../../actions/Network.js';
+import { wretch } from '../helpers/NetworkHelper.js';
 
 export class TargetService {
   constructor({
@@ -26,7 +26,7 @@ export class TargetService {
 
   async getAudiences() {
     const url = `${this.targetEndpoint}?org=${this.imsTenant}`;
-    return wretchRetry(url)
+    return wretch(url)
       .auth(`Bearer ${this.accessToken}`)
       .accept('application/json')
       .get()

@@ -39,6 +39,7 @@ export function GenerateButton() {
   const setIsOpenPromptEditor = useSetRecoilState(promptEditorState);
   const [generationInProgress, setGenerationInProgress] = useState(false);
   const saveResults = useSaveResults();
+
   const generateResults = useCallback(async () => {
     try {
       const finalPrompt = renderPrompt(prompt, parameters);

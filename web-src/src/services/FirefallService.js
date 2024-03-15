@@ -9,7 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { wretchRetry } from '../helpers/NetworkHelper.js';
+import { wretch } from '../helpers/NetworkHelper.js';
 
 export class FirefallService {
   constructor({
@@ -29,7 +29,7 @@ export class FirefallService {
 
   async complete(prompt, temperature) {
     /* eslint-disable-next-line camelcase */
-    const { query_id, generations } = await wretchRetry(this.completeEndpoint)
+    const { query_id, generations } = await wretch(this.completeEndpoint)
       .post({
         prompt,
         temperature,
@@ -46,14 +46,13 @@ export class FirefallService {
 
   async feedback(queryId, sentiment) {
     /* eslint-disable-next-line camelcase */
-    const { feedback_id } = await wretchRetry(this.feedbackEndpoint)
+    const { feedback_id } = await wretch(this.feedbackEndpoint)
       .post({
         queryId,
         sentiment,
         imsOrg: this.imsOrg,
         accessToken: this.accessToken,
-      })
-      .json();
+      });
     /* eslint-disable-next-line camelcase */
     return feedback_id;
   }

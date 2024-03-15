@@ -9,14 +9,12 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-const Papa = require('papaparse');
-const wretch = require('../Network.js');
-const { asGenericAction } = require('../GenericAction.js');
-
-async function main({ url }) {
-  const text = await wretch(url).get().text();
-  const { data } = Papa.parse(text, { skipEmptyLines: true });
-  return data;
+class InternalError extends Error {
+  constructor(status, message) {
+    super(message);
+    this.name = 'InternalError';
+    this.status = status;
+  }
 }
 
-exports.main = asGenericAction(main);
+module.exports = InternalError;

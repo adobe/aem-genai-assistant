@@ -83,7 +83,7 @@ Additional Context: [[
 {{@number_of_variations,
   label="Number of Variations",
   description="Enter a number to generate the desired number of variations",
-  default=4,
+  default=3,
   type=number
 }}
 

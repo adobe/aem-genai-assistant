@@ -57,7 +57,7 @@ To ensure the Headlines are effective and meet our objectives, adhere to the fol
 {{@number_of_variations,
   label="Number of Variations",
   description="Enter a number to generate the desired number of variations",
-  default=4,
+  default=3,
   type=number
 }}
 

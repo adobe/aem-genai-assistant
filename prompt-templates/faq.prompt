@@ -39,7 +39,7 @@ Additional Context for the {{product}} and user inquiries can be found here: [[{
 {{@number_of_questions,
     label="Number of Questions",
     description="Enter the number of FAQ entries to be generated.",
-    default=4,
+    default=3,
     type=number
 }}
 

@@ -17,7 +17,7 @@ const { Core } = require('@adobe/aio-sdk');
 
 const logger = Core.Logger('FirefallAction');
 
-const REQUEST_TIMEOUT = 25 * 1000;
+const REQUEST_TIMEOUT = 55 * 1000;
 
 function createWretchError(status, message) {
   const error = new WretchError();

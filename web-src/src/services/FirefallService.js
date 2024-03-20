@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import { wretch } from '../helpers/NetworkHelper.js';
+import { replaceRuntimeDomainInUrl } from '../helpers/UrlHelper.js';
 
 export class FirefallService {
   constructor({
@@ -18,8 +19,8 @@ export class FirefallService {
     imsOrg,
     accessToken,
   }) {
-    this.completeEndpoint = completeEndpoint;
-    this.feedbackEndpoint = feedbackEndpoint;
+    this.completeEndpoint = replaceRuntimeDomainInUrl(completeEndpoint);
+    this.feedbackEndpoint = replaceRuntimeDomainInUrl(feedbackEndpoint);
     this.imsOrg = imsOrg;
     this.accessToken = accessToken;
 

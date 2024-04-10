@@ -88,6 +88,10 @@ function NoAccessMessage() {
 }
 
 function getAllMessages(locale) {
+  if (typeof locale !== 'string') {
+    return {};
+  }
+
   const normalizedLocale = locale.replace(/-/g, '_');
   return {
     ...messages1[normalizedLocale],

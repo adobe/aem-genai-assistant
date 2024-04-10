@@ -48,8 +48,6 @@
     "wretch": "2.7.0"
   },
   "devDependencies": {
-    "@adobe/adobe-intl-aladdin": "^4.3.12",
-    "@adobe/adobe-intl-harvester": "^3.2.8",
     "@adobe/aio-cli": "10.0.0",
     "@adobe/eslint-config-helix": "2.0.2",
     "@babel/core": "7.18.6",

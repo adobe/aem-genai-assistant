@@ -1,0 +1,12 @@
+{
+  "favoritesView.copyTextSuccessToast": "Text in die Zwischenablage kopiert!",
+  "favoritesView.generateImageFailedToast": "Ein Fehler ist aufgetreten. Versuchen Sie es erneut!",
+  "promptResultCard.copyButtonTooltip": "Kopieren",
+  "promptResultCard.favoriteButtonTooltip": "Favorit",
+  "promptResultCard.goodButtonTooltip": "Gut",
+  "promptResultCard.poorButtonTooltip": "Arm",
+  "promptResultCard.removeButtonTooltip": "Entfernen",
+  "promptResultCard.reuseButtonTooltip": "Wiederverwenden",
+  "promptResultCard.sendFeedbackSuccessToast": "Feedback gesendet!",
+  "promptSessionSideView.generateImageButtonLabel": "Bild generieren"
+}

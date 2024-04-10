@@ -1,0 +1,23 @@
+{
+  "promptSessionSideView.audienceSelectorLoadCsvFailedToast": "剖析CSV失敗",
+  "promptSessionSideView.audienceSelectorLoadTargetFailedToast": "無法從Adobe Target",
+  "promptSessionSideView.cancelActionLabel": "取消",
+  "promptSessionSideView.deleteActionLabel": "刪除",
+  "promptSessionSideView.editPromptButtonLabel": "編輯提示",
+  "promptSessionSideView.generateButtonContextualHelpHeading": "使用條款",
+  "promptSessionSideView.generateButtonLabel": "產生",
+  "promptSessionSideView.inputsLabel": "輸入",
+  "promptSessionSideView.legalTermsLinkName": "Adobe Experience Cloud Generated AI使用者指引",
+  "promptSessionSideView.navigationLabel": "提示範本",
+  "promptSessionSideView.previewButtonLabel": "預覽",
+  "promptSessionSideView.promptEditorViewTitle": "提示與信任的來原始檔",
+  "promptSessionSideView.resetInputsButtonLabel": "重設輸入",
+  "promptSessionSideView.saveActionLabel": "儲存",
+  "promptSessionSideView.savePromptButtonLabel": "儲存提示",
+  "promptSessionSideView.savePromptDescriptionLabel": "說明",
+  "promptSessionSideView.savePromptFailureToast": "儲存提示範本時發生錯誤",
+  "promptSessionSideView.savePromptInstructionsLabel": "輸入新名稱以建立新提示，或從清單中選取現有名稱以更新。",
+  "promptSessionSideView.savePromptNameLabel": "提示名稱",
+  "promptSessionSideView.savePromptSharedLabel": "在組織間共用",
+  "promptSessionSideView.savePromptSuccessToast": "提示範本已儲存"
+}

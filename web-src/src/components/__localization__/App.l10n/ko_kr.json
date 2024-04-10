@@ -1,0 +1,16 @@
+{
+  "app.cancelActionLabel": "취소",
+  "app.consentDialogAgreeButtonLabel": "동의",
+  "app.consentDialogCancelButtonLabel": "취소",
+  "app.consentDialogHeading": "Adobe 앱의 생성 AI",
+  "app.deleteActionLabel": "삭제",
+  "app.deleteActionTitle": "삭제",
+  "app.deletePromptTemplateButtonLabel": "삭제",
+  "app.deletePromptTemplateFailedToast": "프롬프트 템플릿을 삭제하지 못했습니다.",
+  "app.deletePromptTemplateQuestion": "이 메시지를 삭제하시겠습니까?",
+  "app.description": "고품질 콘텐츠를 빠르게 만든 다음 실험으로 측정하거나 사이트에 게시합니다.",
+  "app.name": "변형 생성",
+  "app.noAccessDialogContent": "이 제품에 대한 액세스 권한이 없습니다.",
+  "app.noAccessDialogHeading": "액세스 거부됨",
+  "app.promptTemplateLibraryPanelLabel": "프롬프트 템플릿"
+}

@@ -1,0 +1,38 @@
+{
+  "imageViewer.cancelButtonLabel": {
+    "__value__": "Cancel"
+  },
+  "imageViewer.copyButtonLabel": {
+    "__value__": "Copy"
+  },
+  "imageViewer.copyImageButtonTooltip": {
+    "__value__": "Copy Image"
+  },
+  "imageViewer.copyImageSuccessToast": {
+    "__value__": "Copied image to clipboard!"
+  },
+  "imageViewer.deleteButtonLabel": {
+    "__value__": "Delete"
+  },
+  "imageViewer.deleteImageAlertTitle": {
+    "__value__": "Delete Image"
+  },
+  "imageViewer.deleteImageDialogQuestion": {
+    "__value__": "This will permanently delete the image. Continue?"
+  },
+  "imageViewer.downloadButtonLabel": {
+    "__value__": "Download"
+  },
+  "imageViewer.editButtonLabel": {
+    "__value__": "Edit"
+  },
+  "imageViewer.editButtonTooltip": {
+    "__value__": "Edit"
+  },
+  "imageViewer.editImageFailedToast": {
+    "__value__": "Something went wrong. Please try again!"
+  },
+  "imageViewer.moreButtonTooltip": {
+    "__value__": "More"
+  }
+}

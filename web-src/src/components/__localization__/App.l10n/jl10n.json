@@ -1,0 +1,44 @@
+{
+  "app.cancelActionLabel": {
+    "__value__": "Cancel"
+  },
+  "app.consentDialogAgreeButtonLabel": {
+    "__value__": "Agree"
+  },
+  "app.consentDialogCancelButtonLabel": {
+    "__value__": "Cancel"
+  },
+  "app.consentDialogHeading": {
+    "__value__": "Generative AI in Adobe apps"
+  },
+  "app.deleteActionLabel": {
+    "__value__": "Delete"
+  },
+  "app.deleteActionTitle": {
+    "__value__": "Delete"
+  },
+  "app.deletePromptTemplateButtonLabel": {
+    "__value__": "Delete"
+  },
+  "app.deletePromptTemplateFailedToast": {
+    "__value__": "Failed to delete prompt template"
+  },
+  "app.deletePromptTemplateQuestion": {
+    "__value__": "Are you sure you want to delete this prompt?"
+  },
+  "app.description": {
+    "__value__": "Create high quality content quickly then measure it with experimentation or publish it to your site."
+  },
+  "app.name": {
+    "__value__": "Generate Variations"
+  },
+  "app.noAccessDialogContent": {
+    "__value__": "You have no access to this product"
+  },
+  "app.noAccessDialogHeading": {
+    "__value__": "Access Denied"
+  },
+  "app.promptTemplateLibraryPanelLabel": {
+    "__value__": "Prompt Templates"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "app.cancelActionLabel": "キャンセル",
+  "app.consentDialogAgreeButtonLabel": "同意する",
+  "app.consentDialogCancelButtonLabel": "キャンセル",
+  "app.consentDialogHeading": "生成 AI(Adobeアプリ )",
+  "app.deleteActionLabel": "削除",
+  "app.deleteActionTitle": "削除",
+  "app.deletePromptTemplateButtonLabel": "削除",
+  "app.deletePromptTemplateFailedToast": "プロンプトテンプレートを削除できませんでした",
+  "app.deletePromptTemplateQuestion": "このプロンプトを削除してもよろしいですか？",
+  "app.description": "高品質のコンテンツをすばやく作成して実験で測定したり、サイトに公開したりします。",
+  "app.name": "バリエーションを生成",
+  "app.noAccessDialogContent": "この製品へのアクセス権がありません",
+  "app.noAccessDialogHeading": "アクセス拒否",
+  "app.promptTemplateLibraryPanelLabel": "プロンプトテンプレート"
+}

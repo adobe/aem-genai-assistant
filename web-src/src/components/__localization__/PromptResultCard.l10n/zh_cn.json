@@ -1,0 +1,12 @@
+{
+  "favoritesView.copyTextSuccessToast": "已将文本复制到剪贴板！",
+  "favoritesView.generateImageFailedToast": "发生错误。请重试！",
+  "promptResultCard.copyButtonTooltip": "复制",
+  "promptResultCard.favoriteButtonTooltip": "收藏",
+  "promptResultCard.goodButtonTooltip": "良好",
+  "promptResultCard.poorButtonTooltip": "差",
+  "promptResultCard.removeButtonTooltip": "删除",
+  "promptResultCard.reuseButtonTooltip": "重复使用",
+  "promptResultCard.sendFeedbackSuccessToast": "反馈已发送！",
+  "promptSessionSideView.generateImageButtonLabel": "生成图像"
+}

@@ -1,0 +1,23 @@
+{
+  "promptSessionSideView.audienceSelectorLoadCsvFailedToast": "分析CSV失败",
+  "promptSessionSideView.audienceSelectorLoadTargetFailedToast": "无法从Adobe Target加载",
+  "promptSessionSideView.cancelActionLabel": "取消",
+  "promptSessionSideView.deleteActionLabel": "删除",
+  "promptSessionSideView.editPromptButtonLabel": "编辑提示",
+  "promptSessionSideView.generateButtonContextualHelpHeading": "使用条款",
+  "promptSessionSideView.generateButtonLabel": "生成",
+  "promptSessionSideView.inputsLabel": "输入",
+  "promptSessionSideView.legalTermsLinkName": "Adobe Experience Cloud Generated AI用户准则",
+  "promptSessionSideView.navigationLabel": "提示模板",
+  "promptSessionSideView.previewButtonLabel": "预览",
+  "promptSessionSideView.promptEditorViewTitle": "提示和可信源文档",
+  "promptSessionSideView.resetInputsButtonLabel": "重置输入",
+  "promptSessionSideView.saveActionLabel": "保存",
+  "promptSessionSideView.savePromptButtonLabel": "保存提示",
+  "promptSessionSideView.savePromptDescriptionLabel": "描述",
+  "promptSessionSideView.savePromptFailureToast": "保存提示模板时出错",
+  "promptSessionSideView.savePromptInstructionsLabel": "输入新名称以创建新提示，或从列表中选择现有提示以对其进行更新。",
+  "promptSessionSideView.savePromptNameLabel": "提示名称",
+  "promptSessionSideView.savePromptSharedLabel": "在组织之间共享",
+  "promptSessionSideView.savePromptSuccessToast": "提示模板已保存"
+}

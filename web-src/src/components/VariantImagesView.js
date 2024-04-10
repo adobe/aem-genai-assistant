@@ -17,6 +17,9 @@ import React, {
 } from 'react';
 import { css } from '@emotion/css';
 import { ToastQueue } from '@react-spectrum/toast';
+import { useIntl } from 'react-intl';
+
+import { intlMessages } from './ImageViewer.l10n.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
 import { log } from '../helpers/MetricsHelper.js';
@@ -64,6 +67,8 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
 
+  const { formatMessage } = useIntl();
+
   const handleCopyImage = useCallback((base64Image) => {
     if (isFavorite) {
       log('express:favorite:copyimage', { variant: variant.id });
@@ -76,7 +81,7 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
     } else {
       copyImageToClipboard(base64Image, 'image/png');
     }
-    ToastQueue.positive('Copied image to clipboard', { timeout: 1000 });
+    ToastQueue.positive(formatMessage(intlMessages.imageViewer.copyImageSuccessToast), { timeout: 1000 });
   }, []);
 
   const handleEditGenerateImage = useCallback(async (index, variantId) => {
@@ -110,7 +115,7 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
     );
 
     if (!success) {
-      ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
+      ToastQueue.negative(formatMessage(intlMessages.imageViewer.editImageFailedToast), { timeout: 2000 });
     }
   }, [expressSdkService, variantImages]);
 
@@ -159,9 +164,9 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
         {isDeleteDialogOpen && (
           <AlertDialog
             variant="destructive"
-            title="Delete Image"
-            primaryActionLabel="Delete"
-            cancelLabel="Cancel"
+            title={formatMessage(intlMessages.imageViewer.deleteImageAlertTitle)}
+            primaryActionLabel={formatMessage(intlMessages.imageViewer.deleteButtonLabel)}
+            cancelLabel={formatMessage(intlMessages.imageViewer.cancelButtonLabel)}
             onPrimaryAction={() => {
               if (isFavorite) {
                 log('express:favorite:deleteimage', { variant: variant.id });
@@ -179,7 +184,7 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
               }
               setIsDeleteDialogOpen(false);
             }}>
-            This will permanently delete the image. Continue?
+            {formatMessage(intlMessages.imageViewer.deleteImageDialogQuestion)}
           </AlertDialog>
         )}
       </DialogContainer>
@@ -203,7 +208,7 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
                       onPress={() => handleCopyImage(base64Image)}>
                       <CopyOutlineIcon />
                     </Button>
-                    <Tooltip>Copy Image</Tooltip>
+                    <Tooltip>{formatMessage(intlMessages.imageViewer.copyImageButtonTooltip)}</Tooltip>
                   </TooltipTrigger>
                   <TooltipTrigger delay={0}>
                     <Button
@@ -213,7 +218,7 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
                       onPress={() => handleEditGenerateImage(index, variant.id)}>
                       <EditIcon />
                     </Button>
-                    <Tooltip>Edit</Tooltip>
+                    <Tooltip>{formatMessage(intlMessages.imageViewer.editButtonTooltip)}</Tooltip>
                   </TooltipTrigger>
                   <TooltipTrigger delay={0}>
                     <MenuTrigger onOpenChange={(isOpen) => {
@@ -235,15 +240,15 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
                       }}>
                         <Item key="download">
                           <DownloadIcon UNSAFE_style={{ boxSizing: 'content-box' }} />
-                          <Text>Download</Text>
+                          <Text>{formatMessage(intlMessages.imageViewer.downloadButtonLabel)}</Text>
                         </Item>
                         <Item key="delete">
                           <DeleteOutlineIcon UNSAFE_style={{ boxSizing: 'content-box' }} />
-                          <Text>Delete</Text>
+                          <Text>{formatMessage(intlMessages.imageViewer.deleteButtonLabel)}</Text>
                         </Item>
                       </Menu>
                     </MenuTrigger>
-                    <Tooltip>More</Tooltip>
+                    <Tooltip>{formatMessage(intlMessages.imageViewer.moreButtonTooltip)}</Tooltip>
                   </TooltipTrigger>
                 </Flex>
               </div>

@@ -1,0 +1,23 @@
+{
+  "promptSessionSideView.audienceSelectorLoadCsvFailedToast": "Error al analizar el CSV",
+  "promptSessionSideView.audienceSelectorLoadTargetFailedToast": "Error al cargar desde Adobe Target",
+  "promptSessionSideView.cancelActionLabel": "Cancelar",
+  "promptSessionSideView.deleteActionLabel": "Eliminar",
+  "promptSessionSideView.editPromptButtonLabel": "Editar mensaje",
+  "promptSessionSideView.generateButtonContextualHelpHeading": "Condiciones de uso",
+  "promptSessionSideView.generateButtonLabel": "Generar",
+  "promptSessionSideView.inputsLabel": "Entradas",
+  "promptSessionSideView.legalTermsLinkName": "Directrices de usuario generativas de Adobe Experience Cloud AI",
+  "promptSessionSideView.navigationLabel": "Plantillas de mensaje",
+  "promptSessionSideView.previewButtonLabel": "Previsualizar",
+  "promptSessionSideView.promptEditorViewTitle": "Preguntar y documentos de origen de confianza",
+  "promptSessionSideView.resetInputsButtonLabel": "Restablecer entradas",
+  "promptSessionSideView.saveActionLabel": "Guardar",
+  "promptSessionSideView.savePromptButtonLabel": "Guardar mensaje",
+  "promptSessionSideView.savePromptDescriptionLabel": "Descripción",
+  "promptSessionSideView.savePromptFailureToast": "Error al guardar la plantilla de solicitud",
+  "promptSessionSideView.savePromptInstructionsLabel": "Introduzca un nombre nuevo para crear una nueva solicitud o seleccione uno existente de la lista para actualizarlo.",
+  "promptSessionSideView.savePromptNameLabel": "Nombre del mensaje",
+  "promptSessionSideView.savePromptSharedLabel": "Compartido entre organizaciones",
+  "promptSessionSideView.savePromptSuccessToast": "Plantilla de mensaje guardada"
+}

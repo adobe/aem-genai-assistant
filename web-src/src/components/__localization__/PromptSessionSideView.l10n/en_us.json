@@ -1,0 +1,23 @@
+{
+  "promptSessionSideView.audienceSelectorLoadCsvFailedToast": "Failed to parse CSV",
+  "promptSessionSideView.audienceSelectorLoadTargetFailedToast": "Failed to load from Adobe Target",
+  "promptSessionSideView.cancelActionLabel": "Cancel",
+  "promptSessionSideView.deleteActionLabel": "Delete",
+  "promptSessionSideView.editPromptButtonLabel": "Edit Prompt",
+  "promptSessionSideView.generateButtonContextualHelpHeading": "Terms of use",
+  "promptSessionSideView.generateButtonLabel": "Generate",
+  "promptSessionSideView.inputsLabel": "Inputs",
+  "promptSessionSideView.legalTermsLinkName": "Adobe Experience Cloud Generative AI User Guidelines",
+  "promptSessionSideView.navigationLabel": "Prompt Templates",
+  "promptSessionSideView.previewButtonLabel": "Preview",
+  "promptSessionSideView.promptEditorViewTitle": "Prompt and Trusted Source Documents",
+  "promptSessionSideView.resetInputsButtonLabel": "Reset Inputs",
+  "promptSessionSideView.saveActionLabel": "Save",
+  "promptSessionSideView.savePromptButtonLabel": "Save Prompt",
+  "promptSessionSideView.savePromptDescriptionLabel": "Description",
+  "promptSessionSideView.savePromptFailureToast": "Error saving prompt template",
+  "promptSessionSideView.savePromptInstructionsLabel": "Enter a new name to create a new prompt, or select an existing one from the list to update it.",
+  "promptSessionSideView.savePromptNameLabel": "Prompt Name",
+  "promptSessionSideView.savePromptSharedLabel": "Shared across organization",
+  "promptSessionSideView.savePromptSuccessToast": "Prompt template saved"
+}

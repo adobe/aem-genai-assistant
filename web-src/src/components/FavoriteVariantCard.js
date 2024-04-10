@@ -18,6 +18,9 @@ import React, {
 import { css } from '@emotion/css';
 import { ToastQueue } from '@react-spectrum/toast';
 import { motion } from 'framer-motion';
+import { useIntl } from 'react-intl';
+
+import { intlMessages } from './Favorites.l10n.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
 import { useApplicationContext } from './ApplicationProvider.js';
@@ -50,6 +53,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
   const { isExpressAuthorized } = useShellContext();
   const toggleFavorite = useToggleFavorite();
   const { addImageToVariant } = useVariantImages();
+  const { formatMessage } = useIntl();
 
   const [imagePromptProgress, setImagePromptProgress] = useState(false);
 
@@ -75,7 +79,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
     );
 
     if (!success) {
-      ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
+      ToastQueue.negative(formatMessage(intlMessages.favoritesView.generateImageFailedToast), { timeout: 2000 });
     }
   }, [expressSdkService, variant]);
 
@@ -110,11 +114,14 @@ export function FavoriteVariantCard({ variant, ...props }) {
                   log('prompt:copyfavorite');
                   sampleRUM('genai:prompt:copyfavorite', { source: 'FavoriteCard#onPress' });
                   navigator.clipboard.writeText(toText(variant.content));
-                  ToastQueue.positive('Copied text to clipboard', { timeout: 1000 });
+                  ToastQueue.positive(
+                    formatMessage(intlMessages.favoritesView.copyTextSuccessToast),
+                    { timeout: 1000 },
+                  );
                 }}>
                 <CopyOutlineIcon />
               </ActionButton>
-              <Tooltip>Copy</Tooltip>
+              <Tooltip>{formatMessage(intlMessages.favoritesView.copyButtonTooltip)}</Tooltip>
             </TooltipTrigger>
             <TooltipTrigger delay={0}>
               <ActionButton
@@ -123,7 +130,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
                 onPress={() => toggleFavorite(variant)}>
                 <DeleteOutlineIcon />
               </ActionButton>
-              <Tooltip>Remove</Tooltip>
+              <Tooltip>{formatMessage(intlMessages.favoritesView.removeButtonTooltip)}</Tooltip>
             </TooltipTrigger>
             <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'} />
             <Flex direction="row" gap="size-100" alignItems={'center'}>
@@ -136,7 +143,7 @@ export function FavoriteVariantCard({ variant, ...props }) {
                 onPress={() => handleGenerateImagePrompt()}
                 isDisabled={!isExpressAuthorized}>
                 {imagePromptProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}
-                Generate Image
+                {formatMessage(intlMessages.favoritesView.generateImageButtonLabel)}
               </Button>
               {!isExpressAuthorized && <ExpressNoAccessInfo />}
             </Flex>

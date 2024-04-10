@@ -1,0 +1,29 @@
+{
+  "mainSidePanel.collapseMenuType": {
+    "__value__": "Collapse Side Panel"
+  },
+  "mainSidePanel.copyrightLabel": {
+    "__value__": "Copyright © 2024 Adobe. All rights reserved"
+  },
+  "mainSidePanel.expandMenuType": {
+    "__value__": "Expand Side Panel"
+  },
+  "mainSidePanel.favoritesMenuItem": {
+    "__value__": "Favorites"
+  },
+  "mainSidePanel.helpAndFaqsMenuItem": {
+    "__value__": "Help & FAQ"
+  },
+  "mainSidePanel.promptTemplatesMenuItem": {
+    "__value__": "Prompt Templates"
+  },
+  "mainSidePanel.recentsMenuItem": {
+    "__value__": "Recents"
+  },
+  "mainSidePanel.title": {
+    "__value__": "Generate Variations"
+  },
+  "mainSidePanel.userGuidelinesMenuItem": {
+    "__value__": "User Guidelines"
+  }
+}

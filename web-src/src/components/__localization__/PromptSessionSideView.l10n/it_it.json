@@ -1,0 +1,23 @@
+{
+  "promptSessionSideView.audienceSelectorLoadCsvFailedToast": "Impossibile analizzare il file CSV",
+  "promptSessionSideView.audienceSelectorLoadTargetFailedToast": "Impossibile caricare da Adobe Target",
+  "promptSessionSideView.cancelActionLabel": "Annulla",
+  "promptSessionSideView.deleteActionLabel": "Elimina",
+  "promptSessionSideView.editPromptButtonLabel": "Modifica richiesta",
+  "promptSessionSideView.generateButtonContextualHelpHeading": "Condizioni d'uso",
+  "promptSessionSideView.generateButtonLabel": "Genera",
+  "promptSessionSideView.inputsLabel": "Input",
+  "promptSessionSideView.legalTermsLinkName": "Linee guida utente di Adobe Experience Cloud Generative AI",
+  "promptSessionSideView.navigationLabel": "Richiedi modelli",
+  "promptSessionSideView.previewButtonLabel": "Anteprima",
+  "promptSessionSideView.promptEditorViewTitle": "Documenti di origine richiesti e attendibili",
+  "promptSessionSideView.resetInputsButtonLabel": "Ripristina input",
+  "promptSessionSideView.saveActionLabel": "Salva",
+  "promptSessionSideView.savePromptButtonLabel": "Avviso salvataggio",
+  "promptSessionSideView.savePromptDescriptionLabel": "Descrizione",
+  "promptSessionSideView.savePromptFailureToast": "Errore durante il salvataggio del modello del prompt",
+  "promptSessionSideView.savePromptInstructionsLabel": "Immettere un nuovo nome per creare un nuovo prompt oppure selezionarne uno esistente dall'elenco per aggiornarlo.",
+  "promptSessionSideView.savePromptNameLabel": "Nome richiesta",
+  "promptSessionSideView.savePromptSharedLabel": "Condiviso tra organizzazioni",
+  "promptSessionSideView.savePromptSuccessToast": "Modello di richiesta salvato"
+}

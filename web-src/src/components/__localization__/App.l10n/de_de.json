@@ -1,0 +1,16 @@
+{
+  "app.cancelActionLabel": "Abbrechen",
+  "app.consentDialogAgreeButtonLabel": "Zustimmen",
+  "app.consentDialogCancelButtonLabel": "Abbrechen",
+  "app.consentDialogHeading": "Generative KI in Adobe-Apps",
+  "app.deleteActionLabel": "Löschen",
+  "app.deleteActionTitle": "Löschen",
+  "app.deletePromptTemplateButtonLabel": "Löschen",
+  "app.deletePromptTemplateFailedToast": "Prompt-Vorlage konnte nicht gelöscht werden",
+  "app.deletePromptTemplateQuestion": "Möchten Sie diese Eingabeaufforderung wirklich löschen?",
+  "app.description": "Erstellen Sie schnell hochwertige Inhalte und messen Sie diese dann mit Experimenten oder veröffentlichen Sie sie auf Ihrer Website.",
+  "app.name": "Varianten generieren",
+  "app.noAccessDialogContent": "Sie haben keinen Zugriff auf dieses Produkt",
+  "app.noAccessDialogHeading": "Zugriff verweigert",
+  "app.promptTemplateLibraryPanelLabel": "Vorlagen für Eingabeaufforderungen"
+}

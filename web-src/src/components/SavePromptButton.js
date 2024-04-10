@@ -30,6 +30,9 @@ import SharedTemplateIcon from '@spectrum-icons/workflow/UserGroup';
 import PrivateTemplateIcon from '@spectrum-icons/workflow/LockClosed';
 import { ToastQueue } from '@react-spectrum/toast';
 import { motion } from 'framer-motion';
+import { useIntl } from 'react-intl';
+
+import { intlMessages } from './PromptSessionSideView.l10n.js';
 import { promptState } from '../state/PromptState.js';
 import SaveIcon from '../assets/save.svg';
 import {
@@ -52,11 +55,11 @@ function debounce(callback, wait) {
   };
 }
 
-function saveTemplates(customPromptTemplates) {
+function saveTemplates(customPromptTemplates, formatMessage) {
   return writeCustomPromptTemplates(customPromptTemplates).then(() => {
-    ToastQueue.positive('Prompt template saved', { timeout: 1000 });
+    ToastQueue.positive(formatMessage(intlMessages.promptSessionSideView.savePromptSuccessToast), { timeout: 1000 });
   }).catch((error) => {
-    ToastQueue.negative('Error saving prompt template', { timeout: 1000 });
+    ToastQueue.negative(formatMessage(intlMessages.promptSessionSideView.savePromptFailureToast), { timeout: 1000 });
     console.error(error);
   });
 }
@@ -75,6 +78,8 @@ export function SavePromptButton(props) {
 
   const [isUpdating, setIsUpdating] = React.useState(false);
   const [isSaving, setIsSaving] = React.useState(false);
+
+  const { formatMessage } = useIntl();
 
   useEffect(() => {
     if (selectedTemplate) {
@@ -113,7 +118,7 @@ export function SavePromptButton(props) {
       lastModifiedBy: name,
     };
     const newCustomPromptTemplates = [...customPromptTemplates, newTemplate];
-    saveTemplates(newCustomPromptTemplates).then(() => {
+    saveTemplates(newCustomPromptTemplates, formatMessage).then(() => {
       log('prompt:save:create', {
         id: newTemplate.id,
         label: newTemplate.label,
@@ -233,19 +238,19 @@ export function SavePromptButton(props) {
         isQuiet
         variant={''}>
         <Image src={SaveIcon} alt={'Save'} marginEnd={'8px'} />
-        <Text>Save Prompt</Text>
+        <Text>{formatMessage(intlMessages.promptSessionSideView.savePromptButtonLabel)}</Text>
       </ActionButton>
       {(close) => (
         <Dialog width={'480px'}>
-          <Heading>Save Prompt</Heading>
+          <Heading>{formatMessage(intlMessages.promptSessionSideView.savePromptButtonLabel)}</Heading>
           <Divider />
           <Content>
             <Form onSubmit={(e) => e.preventDefault()}>
               <Text marginBottom={10}>
-                Enter a new name to create a new prompt, or select an existing one from the list to update it.
+                {formatMessage(intlMessages.promptSessionSideView.savePromptInstructionsLabel)}
               </Text>
               <ComboBox
-                label={'Prompt Name'}
+                label={formatMessage(intlMessages.promptSessionSideView.savePromptNameLabel)}
                 width={'100%'}
                 isRequired={true}
                 allowsCustomValue={true}
@@ -256,7 +261,7 @@ export function SavePromptButton(props) {
                 {renderTemplates()}
               </ComboBox>
               <TextArea
-                label={'Description'}
+                label={formatMessage(intlMessages.promptSessionSideView.savePromptDescriptionLabel)}
                 width={'100%'}
                 value={description}
                 onChange={setDescription}>
@@ -264,14 +269,14 @@ export function SavePromptButton(props) {
               <Switch
                 isSelected={isShared}
                 onChange={setIsShared}>
-                Shared across organization
+                {formatMessage(intlMessages.promptSessionSideView.savePromptSharedLabel)}
               </Switch>
               { renderWarning() }
             </Form>
           </Content>
           <ButtonGroup>
-            <Button variant={'secondary'} onPress={close}>Cancel</Button>
-            <Button variant={'cta'} isDisabled={!label || isUpdating || isSaving} onPress={() => handleSave(close)}>Save</Button>
+            <Button variant={'secondary'} onPress={close}>{formatMessage(intlMessages.promptSessionSideView.cancelActionLabel)}</Button>
+            <Button variant={'cta'} isDisabled={!label || isUpdating || isSaving} onPress={() => handleSave(close)}>{formatMessage(intlMessages.promptSessionSideView.saveActionLabel)}</Button>
           </ButtonGroup>
         </Dialog>
       )}

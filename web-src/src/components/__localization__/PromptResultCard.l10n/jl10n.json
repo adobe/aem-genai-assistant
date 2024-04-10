@@ -1,0 +1,32 @@
+{
+  "favoritesView.copyTextSuccessToast": {
+    "__value__": "Copied text to clipboard!"
+  },
+  "favoritesView.generateImageFailedToast": {
+    "__value__": "Something went wrong. Please try again!"
+  },
+  "promptResultCard.copyButtonTooltip": {
+    "__value__": "Copy"
+  },
+  "promptResultCard.favoriteButtonTooltip": {
+    "__value__": "Favorite"
+  },
+  "promptResultCard.goodButtonTooltip": {
+    "__value__": "Good"
+  },
+  "promptResultCard.poorButtonTooltip": {
+    "__value__": "Poor"
+  },
+  "promptResultCard.removeButtonTooltip": {
+    "__value__": "Remove"
+  },
+  "promptResultCard.reuseButtonTooltip": {
+    "__value__": "Re-use"
+  },
+  "promptResultCard.sendFeedbackSuccessToast": {
+    "__value__": "Feedback sent!"
+  },
+  "promptSessionSideView.generateImageButtonLabel": {
+    "__value__": "Generate Image"
+  }
+}

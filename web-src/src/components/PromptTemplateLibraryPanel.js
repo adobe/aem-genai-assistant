@@ -13,11 +13,15 @@ import { Grid, Heading, ProgressCircle } from '@adobe/react-spectrum';
 
 import React, { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { useIntl } from 'react-intl';
 
+import { intlMessages } from './App.l10n.js';
 import { WelcomeBanner } from './WelcomeBanner.js';
 import { PromptTemplatesView } from './PromptTemplatesView.js';
 
 export function PromptTemplateLibraryPanel({ props }) {
+  const { formatMessage } = useIntl();
+
   return (
     <Grid
       {...props}
@@ -31,7 +35,7 @@ export function PromptTemplateLibraryPanel({ props }) {
       <div tabIndex={0}>
         <WelcomeBanner />
 
-        <Heading level={3} alignSelf={'start'}>Prompt Templates</Heading>
+        <Heading level={3} alignSelf={'start'}>{formatMessage(intlMessages.app.promptTemplateLibraryPanelLabel)}</Heading>
 
         <ErrorBoundary fallback={<div>Something went wrong</div>}>
           <Suspense fallback={<ProgressCircle isIndeterminate />}>

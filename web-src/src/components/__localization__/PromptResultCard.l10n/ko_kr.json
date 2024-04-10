@@ -1,0 +1,12 @@
+{
+  "favoritesView.copyTextSuccessToast": "텍스트를 클립보드에 복사했습니다.",
+  "favoritesView.generateImageFailedToast": "문제가 발생했습니다. 다시 시도하십시오.",
+  "promptResultCard.copyButtonTooltip": "복사",
+  "promptResultCard.favoriteButtonTooltip": "즐겨찾기",
+  "promptResultCard.goodButtonTooltip": "양호",
+  "promptResultCard.poorButtonTooltip": "가난해",
+  "promptResultCard.removeButtonTooltip": "제거",
+  "promptResultCard.reuseButtonTooltip": "재사용",
+  "promptResultCard.sendFeedbackSuccessToast": "피드백이 전송되었습니다!",
+  "promptSessionSideView.generateImageButtonLabel": "이미지 생성"
+}

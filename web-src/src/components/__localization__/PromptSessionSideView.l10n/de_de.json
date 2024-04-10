@@ -1,0 +1,23 @@
+{
+  "promptSessionSideView.audienceSelectorLoadCsvFailedToast": "CSV konnte nicht analysiert werden.",
+  "promptSessionSideView.audienceSelectorLoadTargetFailedToast": "Laden aus Adobe Target fehlgeschlagen",
+  "promptSessionSideView.cancelActionLabel": "Abbrechen",
+  "promptSessionSideView.deleteActionLabel": "Löschen",
+  "promptSessionSideView.editPromptButtonLabel": "Eingabeaufforderung bearbeiten",
+  "promptSessionSideView.generateButtonContextualHelpHeading": "Nutzungsbedingungen",
+  "promptSessionSideView.generateButtonLabel": "Erzeugen",
+  "promptSessionSideView.inputsLabel": "Eingaben",
+  "promptSessionSideView.legalTermsLinkName": "Benutzerhandbücher für Adobe Experience Cloud Generative AI",
+  "promptSessionSideView.navigationLabel": "Vorlagen für Eingabeaufforderungen",
+  "promptSessionSideView.previewButtonLabel": "Vorschau",
+  "promptSessionSideView.promptEditorViewTitle": "Anfordern und vertrauenswürdige Quelldokumente",
+  "promptSessionSideView.resetInputsButtonLabel": "Eingänge zurücksetzen",
+  "promptSessionSideView.saveActionLabel": "Speichern",
+  "promptSessionSideView.savePromptButtonLabel": "Speicheraufforderung",
+  "promptSessionSideView.savePromptDescriptionLabel": "Beschreibung",
+  "promptSessionSideView.savePromptFailureToast": "Fehler beim Speichern der Eingabeaufforderungsvorlage",
+  "promptSessionSideView.savePromptInstructionsLabel": "Geben Sie einen neuen Namen ein, um eine neue Eingabeaufforderung zu erstellen, oder wählen Sie eine vorhandene aus der Liste aus, um sie zu aktualisieren.",
+  "promptSessionSideView.savePromptNameLabel": "Anforderungsname",
+  "promptSessionSideView.savePromptSharedLabel": "Im gesamten Unternehmen freigegeben",
+  "promptSessionSideView.savePromptSuccessToast": "Anforderungsvorlage gespeichert"
+}

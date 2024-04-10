@@ -1,0 +1,12 @@
+{
+  "favoritesView.copyTextSuccessToast": "クリップボードにテキストをコピーしました。",
+  "favoritesView.generateImageFailedToast": "エラーが発生しました。再度お試しください！",
+  "promptResultCard.copyButtonTooltip": "コピー",
+  "promptResultCard.favoriteButtonTooltip": "お気に入り",
+  "promptResultCard.goodButtonTooltip": "良い",
+  "promptResultCard.poorButtonTooltip": "悪い",
+  "promptResultCard.removeButtonTooltip": "削除",
+  "promptResultCard.reuseButtonTooltip": "再利用",
+  "promptResultCard.sendFeedbackSuccessToast": "フィードバックを送信しました。",
+  "promptSessionSideView.generateImageButtonLabel": "画像を生成"
+}

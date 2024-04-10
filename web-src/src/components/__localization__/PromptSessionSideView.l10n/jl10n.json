@@ -1,0 +1,65 @@
+{
+  "promptSessionSideView.audienceSelectorLoadCsvFailedToast": {
+    "__value__": "Failed to parse CSV"
+  },
+  "promptSessionSideView.audienceSelectorLoadTargetFailedToast": {
+    "__value__": "Failed to load from Adobe Target"
+  },
+  "promptSessionSideView.cancelActionLabel": {
+    "__value__": "Cancel"
+  },
+  "promptSessionSideView.deleteActionLabel": {
+    "__value__": "Delete"
+  },
+  "promptSessionSideView.editPromptButtonLabel": {
+    "__value__": "Edit Prompt"
+  },
+  "promptSessionSideView.generateButtonContextualHelpHeading": {
+    "__value__": "Terms of use"
+  },
+  "promptSessionSideView.generateButtonLabel": {
+    "__value__": "Generate"
+  },
+  "promptSessionSideView.inputsLabel": {
+    "__value__": "Inputs"
+  },
+  "promptSessionSideView.legalTermsLinkName": {
+    "__value__": "Adobe Experience Cloud Generative AI User Guidelines"
+  },
+  "promptSessionSideView.navigationLabel": {
+    "__value__": "Prompt Templates"
+  },
+  "promptSessionSideView.previewButtonLabel": {
+    "__value__": "Preview"
+  },
+  "promptSessionSideView.promptEditorViewTitle": {
+    "__value__": "Prompt and Trusted Source Documents"
+  },
+  "promptSessionSideView.resetInputsButtonLabel": {
+    "__value__": "Reset Inputs"
+  },
+  "promptSessionSideView.saveActionLabel": {
+    "__value__": "Save"
+  },
+  "promptSessionSideView.savePromptButtonLabel": {
+    "__value__": "Save Prompt"
+  },
+  "promptSessionSideView.savePromptDescriptionLabel": {
+    "__value__": "Description"
+  },
+  "promptSessionSideView.savePromptFailureToast": {
+    "__value__": "Error saving prompt template"
+  },
+  "promptSessionSideView.savePromptInstructionsLabel": {
+    "__value__": "Enter a new name to create a new prompt, or select an existing one from the list to update it."
+  },
+  "promptSessionSideView.savePromptNameLabel": {
+    "__value__": "Prompt Name"
+  },
+  "promptSessionSideView.savePromptSharedLabel": {
+    "__value__": "Shared across organization"
+  },
+  "promptSessionSideView.savePromptSuccessToast": {
+    "__value__": "Prompt template saved"
+  }
+}

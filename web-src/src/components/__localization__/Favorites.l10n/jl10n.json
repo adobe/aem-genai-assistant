@@ -1,0 +1,23 @@
+{
+  "favoritesView.copyButtonTooltip": {
+    "__value__": "Copy"
+  },
+  "favoritesView.copyTextSuccessToast": {
+    "__value__": "Copied text to clipboard!"
+  },
+  "favoritesView.generateImageButtonLabel": {
+    "__value__": "Generate Image"
+  },
+  "favoritesView.generateImageFailedToast": {
+    "__value__": "Something went wrong. Please try again!"
+  },
+  "favoritesView.navigationLabel": {
+    "__value__": "Prompt Templates"
+  },
+  "favoritesView.noFavoritesMessage": {
+    "__value__": "No favorites yet"
+  },
+  "favoritesView.removeButtonTooltip": {
+    "__value__": "Delete"
+  }
+}

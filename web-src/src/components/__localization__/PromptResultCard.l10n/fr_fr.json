@@ -1,0 +1,12 @@
+{
+  "favoritesView.copyTextSuccessToast": "Texte copié dans le Presse-papiers !",
+  "favoritesView.generateImageFailedToast": "Une erreur est survenue. Veuillez réessayer !",
+  "promptResultCard.copyButtonTooltip": "Copier",
+  "promptResultCard.favoriteButtonTooltip": "Favori",
+  "promptResultCard.goodButtonTooltip": "Bon",
+  "promptResultCard.poorButtonTooltip": "Médiocre",
+  "promptResultCard.removeButtonTooltip": "Supprimer",
+  "promptResultCard.reuseButtonTooltip": "Réutiliser la ressource",
+  "promptResultCard.sendFeedbackSuccessToast": "Commentaires envoyés !",
+  "promptSessionSideView.generateImageButtonLabel": "Générer une image"
+}

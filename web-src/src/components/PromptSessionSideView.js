@@ -15,6 +15,9 @@ import {
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { css } from '@emotion/css';
+import { useIntl } from 'react-intl';
+
+import { intlMessages } from './PromptSessionSideView.l10n.js';
 import { PromptInputView } from './PromptInputView.js';
 import { GenerateButton } from './GenerateButton.js';
 
@@ -61,6 +64,8 @@ export function PromptSessionSideView({ isOpenPromptEditor, onTogglePrompt, ...p
   const currentSession = useRecoilValue(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
 
+  const { formatMessage } = useIntl();
+
   return (
     <Grid
       {...props}
@@ -72,7 +77,7 @@ export function PromptSessionSideView({ isOpenPromptEditor, onTogglePrompt, ...p
 
       <Flex UNSAFE_className={styles.promptFlexItems} UNSAFE_style={{ paddingTop: '0', paddingBottom: '0' }} direction={'row'} justifyContent={'left'} alignItems={'center'} gridArea={'breadcrumbs'}>
         <Image src={ChevronLeft} alt={'Back'} width={'24px'} />
-        <Link href="#" onPress={() => setViewType(ViewType.NewSession)} UNSAFE_className={styles.breadcrumbsLink}>Prompt Templates</Link>
+        <Link href="#" onPress={() => setViewType(ViewType.NewSession)} UNSAFE_className={styles.breadcrumbsLink}>{formatMessage(intlMessages.promptSessionSideView.navigationLabel)}</Link>
       </Flex>
 
       {currentSession
@@ -88,7 +93,7 @@ export function PromptSessionSideView({ isOpenPromptEditor, onTogglePrompt, ...p
 
       <Flex direction={'column'} UNSAFE_className={styles.promptFlexItems}>
         <Flex direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
-          <h3>Inputs</h3>
+          <h3>{formatMessage(intlMessages.promptSessionSideView.inputsLabel)}</h3>
           <ActionButton
             isQuiet
             UNSAFE_className="hover-cursor-pointer"
@@ -96,7 +101,7 @@ export function PromptSessionSideView({ isOpenPromptEditor, onTogglePrompt, ...p
             UNSAFE_style={isOpenPromptEditor ? { background: 'var(--spectrum-gray-200)' } : undefined}
           >
             <PromptIcon />
-            <Text>Edit Prompt</Text>
+            <Text>{formatMessage(intlMessages.promptSessionSideView.editPromptButtonLabel)}</Text>
           </ActionButton>
         </Flex>
         <Flex direction={'column'} UNSAFE_style={{ position: 'relative', height: '100%' }}>

@@ -1,0 +1,16 @@
+{
+  "app.cancelActionLabel": "取消",
+  "app.consentDialogAgreeButtonLabel": "同意",
+  "app.consentDialogCancelButtonLabel": "取消",
+  "app.consentDialogHeading": "Adobe應用程式中的創成AI",
+  "app.deleteActionLabel": "刪除",
+  "app.deleteActionTitle": "刪除",
+  "app.deletePromptTemplateButtonLabel": "刪除",
+  "app.deletePromptTemplateFailedToast": "無法刪除提示範本",
+  "app.deletePromptTemplateQuestion": "您確定要刪除此提示？",
+  "app.description": "快速建立高品質內容，然後利用實驗加以測量，或將它發佈至您的網站。",
+  "app.name": "產生變數",
+  "app.noAccessDialogContent": "您沒有此產品的存取權",
+  "app.noAccessDialogHeading": "存取被拒絕",
+  "app.promptTemplateLibraryPanelLabel": "提示範本"
+}

@@ -1,0 +1,23 @@
+{
+  "promptSessionSideView.audienceSelectorLoadCsvFailedToast": "CSV를 구문 분석하지 못함",
+  "promptSessionSideView.audienceSelectorLoadTargetFailedToast": "Adobe Target에서 로드하지 못했습니다.",
+  "promptSessionSideView.cancelActionLabel": "취소",
+  "promptSessionSideView.deleteActionLabel": "삭제",
+  "promptSessionSideView.editPromptButtonLabel": "프롬프트 편집",
+  "promptSessionSideView.generateButtonContextualHelpHeading": "사용 약관",
+  "promptSessionSideView.generateButtonLabel": "생성",
+  "promptSessionSideView.inputsLabel": "입력",
+  "promptSessionSideView.legalTermsLinkName": "Adobe Experience Cloud 생성 AI 사용자 지침",
+  "promptSessionSideView.navigationLabel": "프롬프트 템플릿",
+  "promptSessionSideView.previewButtonLabel": "미리 보기",
+  "promptSessionSideView.promptEditorViewTitle": "프롬프트 및 신뢰할 수 있는 소스 문서",
+  "promptSessionSideView.resetInputsButtonLabel": "입력 재설정",
+  "promptSessionSideView.saveActionLabel": "저장",
+  "promptSessionSideView.savePromptButtonLabel": "저장 프롬프트",
+  "promptSessionSideView.savePromptDescriptionLabel": "설명",
+  "promptSessionSideView.savePromptFailureToast": "프롬프트 템플릿을 저장하는 중 오류",
+  "promptSessionSideView.savePromptInstructionsLabel": "새 이름을 입력하여 새 프롬프트를 만들거나 목록에서 기존 프롬프트를 선택하여 업데이트합니다.",
+  "promptSessionSideView.savePromptNameLabel": "프롬프트 이름",
+  "promptSessionSideView.savePromptSharedLabel": "조직 간에 공유",
+  "promptSessionSideView.savePromptSuccessToast": "프롬프트 템플릿 저장됨"
+}

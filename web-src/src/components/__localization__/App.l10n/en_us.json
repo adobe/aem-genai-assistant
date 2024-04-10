@@ -1,0 +1,16 @@
+{
+  "app.cancelActionLabel": "Cancel",
+  "app.consentDialogAgreeButtonLabel": "Agree",
+  "app.consentDialogCancelButtonLabel": "Cancel",
+  "app.consentDialogHeading": "Generative AI in Adobe apps",
+  "app.deleteActionLabel": "Delete",
+  "app.deleteActionTitle": "Delete",
+  "app.deletePromptTemplateButtonLabel": "Delete",
+  "app.deletePromptTemplateFailedToast": "Failed to delete prompt template",
+  "app.deletePromptTemplateQuestion": "Are you sure you want to delete this prompt?",
+  "app.description": "Create high quality content quickly then measure it with experimentation or publish it to your site.",
+  "app.name": "Generate Variations",
+  "app.noAccessDialogContent": "You have no access to this product",
+  "app.noAccessDialogHeading": "Access Denied",
+  "app.promptTemplateLibraryPanelLabel": "Prompt Templates"
+}

@@ -1,0 +1,16 @@
+{
+  "app.cancelActionLabel": "Annuler",
+  "app.consentDialogAgreeButtonLabel": "Accepter",
+  "app.consentDialogCancelButtonLabel": "Annuler",
+  "app.consentDialogHeading": "IA générative dans les applications d’Adobe",
+  "app.deleteActionLabel": "Supprimer",
+  "app.deleteActionTitle": "Supprimer",
+  "app.deletePromptTemplateButtonLabel": "Supprimer",
+  "app.deletePromptTemplateFailedToast": "Échec de suppression du modèle d'invite",
+  "app.deletePromptTemplateQuestion": "Voulez-vous vraiment supprimer cette invite ?",
+  "app.description": "Créez rapidement du contenu de haute qualité, puis mesurez-le par l’expérimentation ou publiez-le sur votre site.",
+  "app.name": "Générer des variations",
+  "app.noAccessDialogContent": "Vous n’avez pas accès à ce produit",
+  "app.noAccessDialogHeading": "Accès refusé",
+  "app.promptTemplateLibraryPanelLabel": "Demander les modèles"
+}

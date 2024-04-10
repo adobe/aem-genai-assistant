@@ -20,6 +20,9 @@ import {
 } from '@adobe/react-spectrum';
 import React, { useEffect } from 'react';
 import settingsApi, { SettingsLevel } from '@adobe/exc-app/settings';
+import { useIntl } from 'react-intl';
+
+import { intlMessages } from './App.l10n.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
 import { sampleRUM } from '../rum.js';
 import { log } from '../helpers/MetricsHelper.js';
@@ -30,6 +33,8 @@ const EXC_SHELL_GROUP_ID = 'aem-generate-variations';
 
 export function ConsentDialog({ onConsentChange }) {
   const [isOpen, setOpen] = React.useState(false);
+
+  const { formatMessage } = useIntl();
 
   useEffect(() => {
     settingsApi.get({
@@ -66,30 +71,18 @@ export function ConsentDialog({ onConsentChange }) {
       {isOpen
         && <Dialog onDismiss={handleCancel}>
           <Image src={ConsentHero} slot="hero" objectFit="cover" height="200px" alt="Consent Hero" />
-          <Heading>Generative AI in Adobe apps</Heading>
+          <Heading>{formatMessage(intlMessages.app.consentDialogHeading)}</Heading>
           <Content>
-            <p>
-              You can create in new ways with generative AI technology.
-            </p>
-            <p>
-              By clicking &quot;Agree&quot;, you agree to <LegalTermsLink />, and the following:
-            </p>
-            <ul>
-              <li>
-                Any prompts, context, or supplemental information, or other input you provide to this feature (a) must
-                be tied to specific context, which can include your branding materials, website content, data, schemas
-                for such data, templates, or other trusted documents, and (b) must not contain any personal information
-                (personal information includes anything that can be linked back to a specific individual).
-              </li>
-              <li>
-                You should review any output from this feature for accuracy and ensure that it is appropriate for your
-                use case.
-              </li>
-            </ul>
+            {formatMessage(intlMessages.app.consentDialogContent, {
+              p: (chunks) => <p>{chunks}</p>,
+              ul: (chunks) => <ul>{chunks}</ul>,
+              li: (chunks) => <li>{chunks}</li>,
+              legalTermsLink: <LegalTermsLink />,
+            })}
           </Content>
           <ButtonGroup>
-            <Button variant="secondary" onPress={handleCancel}>Cancel</Button>
-            <Button variant="accent" onPress={handleAgree}>Agree</Button>
+            <Button variant="secondary" onPress={handleCancel}>{formatMessage(intlMessages.app.consentDialogCancelButtonLabel)}</Button>
+            <Button variant="accent" onPress={handleAgree}>{formatMessage(intlMessages.app.consentDialogAgreeButtonLabel)}</Button>
           </ButtonGroup>
         </Dialog>
       }

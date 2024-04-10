@@ -21,6 +21,9 @@ import { css, injectGlobal } from '@emotion/css';
 import { Global } from '@emotion/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Close from '@spectrum-icons/workflow/Close';
+import { useIntl } from 'react-intl';
+
+import { intlMessages } from './PromptSessionSideView.l10n.js';
 
 import { parametersState } from '../state/ParametersState.js';
 import { promptState } from '../state/PromptState.js';
@@ -89,6 +92,8 @@ function PromptEditor({ isOpen, onClose, ...props }) {
   const [viewSource, setViewSource] = useState(false);
   const parameters = useRecoilValue(parametersState);
 
+  const { formatMessage } = useIntl();
+
   useEffect(() => {
     setPrompt(promptText);
     const promptEditorTextArea = document.getElementById('promptEditorTextArea');
@@ -147,11 +152,12 @@ function PromptEditor({ isOpen, onClose, ...props }) {
       `} />
           <Flex direction="row" justifyContent="space-between" alignItems="center" marginTop="15px" marginBottom="15px">
             <Flex direction="row" gap="size-100">
-              <Text UNSAFE_className={style.title}>Prompt and Trusted Source Documents</Text>
+              <Text UNSAFE_className={style.title}>
+                {formatMessage(intlMessages.promptSessionSideView.promptEditorViewTitle)}
+              </Text>
               <ContextualHelp variant="info">
                 <Content>
-                  When editing the prompt directly, include specific context, which can include your branding materials,
-                  website content, data schemas for such data, templates, and other trusted documents.
+                  {formatMessage(intlMessages.promptSessionSideView.promptEditorContextualHelpContent)}
                 </Content>
               </ContextualHelp>
             </Flex>
@@ -163,7 +169,7 @@ function PromptEditor({ isOpen, onClose, ...props }) {
                 UNSAFE_style={!viewSource ? { background: 'var(--spectrum-gray-200)' } : undefined}
               >
                 <PreviewIcon />
-                <Text>Preview</Text>
+                <Text>{formatMessage(intlMessages.promptSessionSideView.previewButtonLabel)}</Text>
               </ActionButton>
               <ActionButton isQuiet onPress={onClose}>
                 <Close />

@@ -1,0 +1,23 @@
+{
+  "promptSessionSideView.audienceSelectorLoadCsvFailedToast": "Échec de l’analyse CSV",
+  "promptSessionSideView.audienceSelectorLoadTargetFailedToast": "Échec du chargement depuis Adobe Target",
+  "promptSessionSideView.cancelActionLabel": "Annuler",
+  "promptSessionSideView.deleteActionLabel": "Supprimer",
+  "promptSessionSideView.editPromptButtonLabel": "Modifier l'invite",
+  "promptSessionSideView.generateButtonContextualHelpHeading": "Conditions d’utilisation",
+  "promptSessionSideView.generateButtonLabel": "Générer",
+  "promptSessionSideView.inputsLabel": "Entrées",
+  "promptSessionSideView.legalTermsLinkName": "Instructions d’utilisation de Adobe Experience Cloud Generative AI",
+  "promptSessionSideView.navigationLabel": "Demander les modèles",
+  "promptSessionSideView.previewButtonLabel": "Aperçu",
+  "promptSessionSideView.promptEditorViewTitle": "Demander et approuver les documents source",
+  "promptSessionSideView.resetInputsButtonLabel": "Réinitialiser les entrées",
+  "promptSessionSideView.saveActionLabel": "Enregistrer",
+  "promptSessionSideView.savePromptButtonLabel": "Enregistrer l'invite",
+  "promptSessionSideView.savePromptDescriptionLabel": "Description",
+  "promptSessionSideView.savePromptFailureToast": "Erreur d’enregistrement du modèle de message",
+  "promptSessionSideView.savePromptInstructionsLabel": "Entrez un nouveau nom pour créer une invite ou sélectionnez-en un existant dans la liste pour le mettre à jour.",
+  "promptSessionSideView.savePromptNameLabel": "Demander le nom",
+  "promptSessionSideView.savePromptSharedLabel": "Partagé dans l’entreprise",
+  "promptSessionSideView.savePromptSuccessToast": "Modèle d'invite enregistré"
+}

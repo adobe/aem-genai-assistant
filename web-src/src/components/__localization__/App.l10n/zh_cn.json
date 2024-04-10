@@ -1,0 +1,16 @@
+{
+  "app.cancelActionLabel": "取消",
+  "app.consentDialogAgreeButtonLabel": "同意",
+  "app.consentDialogCancelButtonLabel": "取消",
+  "app.consentDialogHeading": "生成AI(在Adobe应用程序中)",
+  "app.deleteActionLabel": "删除",
+  "app.deleteActionTitle": "删除",
+  "app.deletePromptTemplateButtonLabel": "删除",
+  "app.deletePromptTemplateFailedToast": "无法删除提示模板",
+  "app.deletePromptTemplateQuestion": "是否确实要删除此提示？",
+  "app.description": "快速创建高质量内容，然后进行试验性衡量或将其发布到您的网站。",
+  "app.name": "生成变量",
+  "app.noAccessDialogContent": "您无权访问本产品",
+  "app.noAccessDialogHeading": "访问被拒绝",
+  "app.promptTemplateLibraryPanelLabel": "提示模板"
+}

@@ -19,6 +19,9 @@ import { css } from '@emotion/css';
 import { motion } from 'framer-motion';
 import { ToastQueue } from '@react-spectrum/toast';
 import { useSetRecoilState } from 'recoil';
+import { useIntl } from 'react-intl';
+
+import { intlMessages } from './PromptResultCard.l10n.js';
 import { useIsFavorite } from '../state/IsFavoriteHook.js';
 import { useIsFeedback } from '../state/IsFeedbackHook.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
@@ -150,6 +153,7 @@ export function PromptResultCard({ result, ...props }) {
   const saveResults = useSaveResults();
   const { addImageToVariant } = useVariantImages();
   const resultsEndRef = useRef();
+  const { formatMessage } = useIntl();
 
   const [imagePromptProgress, setImagePromptProgress] = useState(false);
 
@@ -162,7 +166,7 @@ export function PromptResultCard({ result, ...props }) {
   const sendFeedback = useCallback((sentiment) => {
     firefallService.feedback(result.id, sentiment)
       .then((id) => {
-        ToastQueue.positive('Feedback sent', { timeout: 1000 });
+        ToastQueue.positive(formatMessage(intlMessages.promptResultCard.sendFeedbackSuccessToast), { timeout: 1000 });
       })
       .catch((error) => {
         ToastQueue.negative(error.message, { timeout: 1000 });
@@ -215,7 +219,7 @@ export function PromptResultCard({ result, ...props }) {
     );
 
     if (!success) {
-      ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
+      ToastQueue.negative(formatMessage(intlMessages.promptResultCard.generateImageFailedToast), { timeout: 2000 });
     }
   }, [expressSdkService]);
 
@@ -249,7 +253,7 @@ export function PromptResultCard({ result, ...props }) {
                 onPress={reusePrompt}>
                 <RefreshIcon />
               </ActionButton>
-              <Tooltip>Re-use</Tooltip>
+              <Tooltip>{formatMessage(intlMessages.promptResultCard.reuseButtonTooltip)}</Tooltip>
             </TooltipTrigger>
           </div>
         </div>
@@ -280,7 +284,7 @@ export function PromptResultCard({ result, ...props }) {
                   onPress={() => toggleFavorite(selectedVariant)}>
                   {isFavorite(selectedVariant) ? <FavoritesIcon /> : <FavoritesOutlineIcon />}
                 </ActionButton>
-                <Tooltip>Favorite</Tooltip>
+                <Tooltip>{formatMessage(intlMessages.promptResultCard.favoriteButtonTooltip)}</Tooltip>
               </TooltipTrigger>
               <TooltipTrigger delay={0}>
                 <ActionButton
@@ -290,11 +294,14 @@ export function PromptResultCard({ result, ...props }) {
                     log('prompt:copy', { variant: selectedVariant.id });
                     sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress' });
                     navigator.clipboard.writeText(toText(selectedVariant.content));
-                    ToastQueue.positive('Copied text to clipboard', { timeout: 1000 });
+                    ToastQueue.positive(
+                      formatMessage(intlMessages.promptResultCard.copyTextSuccessToast),
+                      { timeout: 1000 },
+                    );
                   }}>
                   <CopyOutlineIcon />
                 </ActionButton>
-                <Tooltip>Copy</Tooltip>
+                <Tooltip>{formatMessage(intlMessages.promptResultCard.copyButtonTooltip)}</Tooltip>
               </TooltipTrigger>
               <TooltipTrigger delay={0}>
                 <ActionButton
@@ -309,7 +316,7 @@ export function PromptResultCard({ result, ...props }) {
                   }}>
                   {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon /> : <ThumbsUpOutlineIcon />}
                 </ActionButton>
-                <Tooltip>Good</Tooltip>
+                <Tooltip>{formatMessage(intlMessages.promptResultCard.goodButtonTooltip)}</Tooltip>
               </TooltipTrigger>
               <TooltipTrigger delay={0}>
                 <ActionButton
@@ -324,7 +331,7 @@ export function PromptResultCard({ result, ...props }) {
                   }}>
                   {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon /> : <ThumbsDownOutlineIcon />}
                 </ActionButton>
-                <Tooltip>Poor</Tooltip>
+                <Tooltip>{formatMessage(intlMessages.promptResultCard.poorButtonTooltip)}</Tooltip>
               </TooltipTrigger>
               <TooltipTrigger delay={0}>
                 <ActionButton
@@ -333,7 +340,7 @@ export function PromptResultCard({ result, ...props }) {
                   onPress={() => deleteVariant(selectedVariant.id)}>
                   <DeleteOutlineIcon />
                 </ActionButton>
-                <Tooltip>Remove</Tooltip>
+                <Tooltip>{formatMessage(intlMessages.promptResultCard.removeButtonTooltip)}</Tooltip>
               </TooltipTrigger>
               <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'} />
               <Flex direction="row" gap="size-100" alignItems={'center'}>
@@ -346,7 +353,7 @@ export function PromptResultCard({ result, ...props }) {
                   onPress={() => handleGenerateImagePrompt(selectedVariant.id)}
                   isDisabled={!isExpressAuthorized}>
                   {imagePromptProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}
-                  Generate Image
+                  {formatMessage(intlMessages.promptResultCard.generateImageButtonLabel)}
                 </Button>
                 {!isExpressAuthorized && <ExpressNoAccessInfo />}
               </Flex>

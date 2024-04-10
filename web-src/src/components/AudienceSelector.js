@@ -15,6 +15,9 @@ import {
 } from '@adobe/react-spectrum';
 import { ToastQueue } from '@react-spectrum/toast';
 import { css } from '@emotion/css';
+import { useIntl } from 'react-intl';
+
+import { intlMessages } from './PromptSessionSideView.l10n.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
 import { log } from '../helpers/MetricsHelper.js';
@@ -95,6 +98,8 @@ export function AudienceSelector({
   const [items, setItems] = React.useState([]);
   const [disabledKeys, setDisabledKeys] = React.useState([]);
 
+  const { formatMessage } = useIntl();
+
   useEffect(() => {
     setItems([]);
     if (isTargetEnabled(adobeTarget) && !csv) {
@@ -107,7 +112,10 @@ export function AudienceSelector({
         .then(setItems)
         .catch((err) => {
           console.error(err);
-          ToastQueue.negative(`Failed to parse CSV ${csv}`, { timeout: 1000 });
+          ToastQueue.negative(
+            `${formatMessage(intlMessages.promptSessionSideView.audienceSelectorLoadCsvFailedToast)} ${csv}`,
+            { timeout: 1000 },
+          );
           setItems([]);
         });
     } else if (dataSource === DATA_SOURCES.TARGET) {
@@ -115,7 +123,10 @@ export function AudienceSelector({
         .then(setItems)
         .catch((err) => {
           console.error(err);
-          ToastQueue.negative('Failed to load from Adobe Target', { timeout: 1000 });
+          ToastQueue.negative(
+            formatMessage(intlMessages.promptSessionSideView.audienceSelectorLoadTargetFailedToast),
+            { timeout: 1000 },
+          );
           setItems([]);
         });
     }
@@ -156,7 +167,7 @@ export function AudienceSelector({
 
   return (
     <>
-      { (isTargetEnabled(adobeTarget) && csv)
+      {(isTargetEnabled(adobeTarget) && csv)
         && <DataSourceSelector
           label={label}
           dataSource={dataSource}

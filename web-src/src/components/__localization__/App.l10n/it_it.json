@@ -1,0 +1,16 @@
+{
+  "app.cancelActionLabel": "Annulla",
+  "app.consentDialogAgreeButtonLabel": "Accetto",
+  "app.consentDialogCancelButtonLabel": "Annulla",
+  "app.consentDialogHeading": "IA generativa nelle app di Adobe",
+  "app.deleteActionLabel": "Elimina",
+  "app.deleteActionTitle": "Elimina",
+  "app.deletePromptTemplateButtonLabel": "Elimina",
+  "app.deletePromptTemplateFailedToast": "Impossibile eliminare il modello del prompt",
+  "app.deletePromptTemplateQuestion": "Eliminare questo prompt?",
+  "app.description": "Crea rapidamente contenuti di alta qualità, quindi misurali con la sperimentazione o pubblicali sul tuo sito.",
+  "app.name": "Genera varianti",
+  "app.noAccessDialogContent": "Non hai accesso a questo prodotto",
+  "app.noAccessDialogHeading": "Accesso negato",
+  "app.promptTemplateLibraryPanelLabel": "Richiedi modelli"
+}

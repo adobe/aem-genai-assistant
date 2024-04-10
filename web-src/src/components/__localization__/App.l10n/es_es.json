@@ -1,0 +1,16 @@
+{
+  "app.cancelActionLabel": "Cancelar",
+  "app.consentDialogAgreeButtonLabel": "Aceptar",
+  "app.consentDialogCancelButtonLabel": "Cancelar",
+  "app.consentDialogHeading": "IA generativa en aplicaciones de Adobe",
+  "app.deleteActionLabel": "Eliminar",
+  "app.deleteActionTitle": "Eliminar",
+  "app.deletePromptTemplateButtonLabel": "Eliminar",
+  "app.deletePromptTemplateFailedToast": "No se pudo eliminar la plantilla del mensaje",
+  "app.deletePromptTemplateQuestion": "¿Seguro que desea eliminar este mensaje?",
+  "app.description": "Cree contenido de alta calidad rápidamente y luego mídalo con experimentación o publíquelo en su sitio.",
+  "app.name": "Generar variaciones",
+  "app.noAccessDialogContent": "No tiene acceso a este producto",
+  "app.noAccessDialogHeading": "Acceso denegado",
+  "app.promptTemplateLibraryPanelLabel": "Plantillas de mensaje"
+}

@@ -36,13 +36,14 @@ export function FavoriteVariantListPanel(props) {
 
   return (
     <>
-      <Flex UNSAFE_style={{ padding: '20px 20px 0px' }} direction={'row'} justifyContent={'left'} alignItems={'center'} gridArea={'breadcrumbs'}>
+      <Flex UNSAFE_style={{ padding: '20px 20px 20px' }} direction={'row'} justifyContent={'left'} alignItems={'center'} gridArea={'breadcrumbs'}>
         <Image src={ChevronLeft} alt={'Back'} width={'24px'} />
         <Link href="#" onPress={() => setViewType(ViewType.NewSession)} UNSAFE_className={styles.breadcrumbsLink}>Favorites</Link>
       </Flex>
       <View
-        padding={'size-400'}
-        height={'100%'}
+        paddingStart={'size-400'}
+        paddingEnd={'size-400'}
+        height={'calc(100% - 90px)'}
         overflow={'auto'}>
 
         <Grid

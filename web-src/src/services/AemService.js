@@ -11,7 +11,7 @@
  */
 
 import { v4 as uuid } from 'uuid';
-import { wretchRetry } from '../helpers/NetworkHelper.js';
+import { wretch } from '../helpers/NetworkHelper.js';
 
 export class AemService {
   constructor({
@@ -29,7 +29,7 @@ export class AemService {
 
   async getFragment(fragmentId) {
     console.debug('Getting fragment');
-    const fragment = await wretchRetry(this.cfEndpoint)
+    const fragment = await wretch(this.cfEndpoint)
       .post({
         command: 'getFragment',
         aemHost: this.aemHost,
@@ -43,7 +43,7 @@ export class AemService {
 
   async getModel(modelId) {
     console.debug('Getting model');
-    const model = await wretchRetry(this.cfEndpoint)
+    const model = await wretch(this.cfEndpoint)
       .post({
         command: 'getModel',
         aemHost: this.aemHost,
@@ -57,7 +57,7 @@ export class AemService {
 
   async getAllModels() {
     console.debug('Getting models');
-    const { items } = await wretchRetry(this.cfEndpoint)
+    const { items } = await wretch(this.cfEndpoint)
       .post({
         command: 'getAllModels',
         aemHost: this.aemHost,
@@ -84,7 +84,7 @@ export class AemService {
     const variationName = content.variationName ?? `var-${uuid()}`;
     console.debug(`Creating variation ${variationName} for fragment ${fragmentId}`);
     console.debug(`Content: ${JSON.stringify(content)}`);
-    const variation = await wretchRetry(this.cfEndpoint)
+    const variation = await wretch(this.cfEndpoint)
       .post({
         command: 'createVariation',
         aemHost: this.aemHost,

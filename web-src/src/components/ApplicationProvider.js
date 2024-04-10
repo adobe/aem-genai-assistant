@@ -14,9 +14,15 @@ import React, {
 } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { FirefallService } from '../services/FirefallService.js';
+import { ExpressSdkService } from '../services/ExpressSdkService.js';
 import actions from '../config.json';
 import { useShellContext } from './ShellProvider.js';
-import { loadPromptTemplates, promptTemplatesState, savePromptTemplates } from '../state/PromptTemplatesState.js';
+import {
+  customPromptTemplatesState,
+  readCustomPromptTemplates,
+} from '../state/PromptTemplatesState.js';
+import { TargetService } from '../services/TargetService.js';
+import { CsvParserService } from '../services/CsvParserService.js';
 import { AemService } from '../services/AemService.js';
 import { contentFragmentModelState } from '../state/ContentFragmentModelState.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
@@ -25,16 +31,15 @@ const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 
 const COMPLETE_ACTION = 'complete';
 const FEEDBACK_ACTION = 'feedback';
+const TARGET_ACTION = 'target';
+const CSV_PARSER_ACTION = 'csv';
 const CF_ACTION = 'cf';
-
-const DEFAULT_PROMPT_TEMPLATES_PATH = '/content/dam/generate-variations/promptTemplates.csv';
 
 function parseUrlParameters() {
   const searchParams = new URLSearchParams(window.location.search);
   return {
     aemHost: `https://${searchParams.get('aemHost')}`,
     fragmentId: searchParams.get('fragmentId'),
-    promptTemplatesPath: searchParams.get('prompts') || DEFAULT_PROMPT_TEMPLATES_PATH,
   };
 }
 
@@ -42,10 +47,10 @@ export const ApplicationContext = React.createContext(undefined);
 
 export const ApplicationProvider = ({ children }) => {
   const { user, done } = useShellContext();
-  const setPromptTemplates = useSetRecoilState(promptTemplatesState);
+  const setCustomPromptTemplates = useSetRecoilState(customPromptTemplatesState);
+  const [application, setApplication] = useState(undefined);
   const setContentFragment = useSetRecoilState(contentFragmentState);
   const setContentFragmentModel = useSetRecoilState(contentFragmentModelState);
-  const [application, setApplication] = useState(undefined);
 
   useEffect(() => {
     if (!user) {
@@ -53,12 +58,11 @@ export const ApplicationProvider = ({ children }) => {
     }
 
     const {
-      aemHost, fragmentId, promptTemplatesPath,
+      aemHost, fragmentId,
     } = parseUrlParameters();
 
     console.log(`AEM Host: ${aemHost}`);
     console.log(`Fragment ID: ${fragmentId}`);
-    console.log(`Prompt Templates Path: ${promptTemplatesPath}`);
 
     const aemService = new AemService({
       aemHost,
@@ -78,25 +82,34 @@ export const ApplicationProvider = ({ children }) => {
 
         setApplication({
           appVersion: APP_VERSION,
-          fragment,
-          model,
-          promptTemplatesPath,
+
           firefallService: new FirefallService({
             completeEndpoint: actions[COMPLETE_ACTION],
             feedbackEndpoint: actions[FEEDBACK_ACTION],
             imsOrg: user.imsOrg,
             accessToken: user.imsToken,
           }),
-          aemService,
-          savePromptTemplates: (templates) => {
-            return savePromptTemplates(aemHost, promptTemplatesPath, templates, actions[CF_ACTION], user.imsToken);
-          },
+
+          csvParserService: new CsvParserService({
+            csvParserEndpoint: actions[CSV_PARSER_ACTION],
+          }),
+
+          targetService: new TargetService({
+            targetEndpoint: actions[TARGET_ACTION],
+            imsTenant: user.imsTenant,
+            accessToken: user.imsToken,
+          }),
+
+          expressSdkService: new ExpressSdkService({
+            clientId: 'aem-genai-assistant',
+            appName: 'AEM Generate Variations',
+            userId: user.id,
+            accessToken: user.imsToken,
+          }),
         });
 
-        loadPromptTemplates(aemHost, promptTemplatesPath, actions[CF_ACTION], user.imsToken).then((templates) => {
-          setPromptTemplates(templates);
-        }).catch((e) => {
-          console.error(`Failed to load prompt templates: ${e.message}`);
+        readCustomPromptTemplates().then((templates) => {
+          setCustomPromptTemplates(templates);
         });
 
         done();

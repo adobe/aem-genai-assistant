@@ -1,6 +1,6 @@
 {
   "name": "aem-genai-assistant",
-  "version": "1.0.4",
+  "version": "2.0.4",
   "private": true,
   "scripts": {
     "prepare": "husky install",
@@ -8,13 +8,14 @@
     "preview": "REACT_APP_VERSION=$npm_package_version aio app run",
     "grammar": "nearleyc web-src/src/helpers/expressions.ne -o web-src/src/helpers/Parser.generated.js",
     "prompts": "node scripts/prompt-generator.js",
-    "examples": "node scripts/zip-examples.js",
+    "prebuild": "npm run prompts && npm run grammar",
     "build": "REACT_APP_VERSION=$npm_package_version aio app build",
-    "deploy:app": "npm run grammar && REACT_APP_VERSION=$npm_package_version aio app deploy --no-actions",
-    "deploy:actions": "aio app deploy --no-web-assets",
-    "deploy": "npm run grammar && REACT_APP_VERSION=$npm_package_version aio app deploy",
+    "deploy:app": "npm run build && REACT_APP_VERSION=$npm_package_version aio app deploy --no-actions --no-build",
+    "deploy:actions": "npm run build && aio app deploy --no-web-assets --no-build",
+    "deploy": "REACT_APP_VERSION=$npm_package_version aio app deploy",
     "lint": "eslint --quiet 'web-src/src/**/*.js' 'actions/*.js'",
     "fix": "eslint --fix --quiet 'web-src/src/**/*.js' 'actions/*.js'",
+    "pretest": "npm run prompts && npm run grammar",
     "test": "jest --collectCoverageFrom='[\"web-src/src/**/*.js\",\"actions/**/*.js\"]' --coverage --passWithNoTests ./actions ./web-src/src ./e2e"
   },
   "dependencies": {
@@ -31,7 +32,6 @@
     "framer-motion": "10.16.5",
     "localforage": "1.10.0",
     "nearley": "2.20.1",
-    "papaparse": "5.4.1",
     "prismjs": "1.29.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",

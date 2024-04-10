@@ -1,7 +1,7 @@
 {{# -------------------------------------------------------------------------- }}
 {{# CONTEXT                                                                    }}
 {{# Describe the context of where content will be displayed, detailing the     }}
-{{# intented user experience or expected interaction.                          }}
+{{# intended user experience or expected interaction.                          }}
 {{# -------------------------------------------------------------------------- }}
 On our webpage, users are presented with a Tile. A Tile is a rectangular or square-shaped interface element that serves as a container for specific content. Tiles are primarily used as clickable elements that lead users to other parts of the website, or to perform certain actions. They are designed to simplify user interactions and provide a visually appealing way to navigate and access information. Upon interacting with the Tile, {{explain_interaction}}.
 
@@ -37,7 +37,7 @@ To accomplish your task, the text you compose must strictly comply with the foll
 {{# brand writing guidelines.                                                  }}
 {{# -------------------------------------------------------------------------- }}
 Requirements: ```
-- The text must consist of three parts, a Title, a Body and a "AI Rationale".
+- The text must consist of three parts: a Title, a Body and an "AI Rationale".
 - The text must be brief, such that:
 * In 20 words (100 characters) or less, compose the "AI Rationale" text first and use it to explain your reasoning for composing the copy, before composing the other parts.
 * The Title text must not exceed 10 words or 50 characters, including spaces.
@@ -52,39 +52,40 @@ Requirements: ```
 ```
 
 {{# -------------------------------------------------------------------------- }}
-{{# ADDTIONAL CONTEXT                                                          }}
+{{# DOMAIN KNOWLEDGE AND TRUSTED SOURCE DOCUMENTS                              }}
 {{# Here you will Provide more background information or specific details to   }}
 {{# guide the creation of the content.                                         }}
 {{# -------------------------------------------------------------------------- }}
-Additional context: [[
-  {{additional_context}}
+Additional Context: [[
+  {{domain_knowledge_and_trusted_source_documents}}
 ]]
 
 {{# -------------------------------------------------------------------------- }}
 {{# METADATA                                                                   }}
 {{# -------------------------------------------------------------------------- }}
-{{@explain_interaction, 
-  label="Explain user interaction", 
-  description="Elaborate on the user's interaction with the element, emphasizing the results and impacts of the interaction", 
-  default="the user is taken to a product page displaying a detailed view of our bestselling wireless headphones. Here, they can read product specifications, customer reviews, and make a purchase if they so choose", 
+{{@explain_interaction,
+  label="Explain user interaction",
+  description="Elaborate on the user's interaction with the element, emphasizing the results and impacts of the interaction",
+  default="the user is taken to a product page displaying a detailed view of our bestselling wireless headphones. Here, they can read product specifications, customer reviews, and make a purchase if they so choose",
   type=text
 }}
 
-{{@explain_intent, 
+{{@explain_intent,
   label="Explain interaction intent",
   description="Specify the primary objectives and purposes of the content presented within the web element",
   default="interact more with our website content so they can make an informed purchase decision",
   type=text
 }}
 
-{{@target_audience, 
+{{@target_audience,
   label="Target Audience",
-  description="Choose the specific audience for which the content is tailored, as indicated in the audience spreadsheet",
-  spreadsheet=target-audiences,
-  default="Universal audience: This audience includes all people, spanning all backgrounds. While some members are heavy consumers of digital media and highly influenced by social media, other individuals may rely more on traditional media channels. They all place value on experiences and brand alignment in their purchasing decisions"
+  description="Choose your audience. For Target, audiences with no description will be unavailable. For CSV, Adobe provides audiences to get you started. To modify audiences publish a CSV file and update the URL in the prompt.",
+  csv="https://raw.githubusercontent.com/adobe/aem-genai-assistant/GIT_BRANCH/data/target-audiences.csv",
+  adobe_target=true,
+  type=audience
 }}
 
-{{@tone_of_voice, 
+{{@tone_of_voice,
   label="Tone of voice",
   description="Indicate the desired tone of voice",
   default="optimistic, smart, engaging, human, and creative",
@@ -94,13 +95,13 @@ Additional context: [[
 {{@number_of_variations,
   label="Number of Variations",
   description="Enter a number to generate the desired number of variations",
-  default=4,
+  default=3,
   type=number
 }}
 
-{{@additional_context,
-  label="Additional Context",
-  description="Provide more background information or specific details to guide the creation of the content", 
-  default="No additional context provided",
+{{@domain_knowledge_and_trusted_source_documents,
+  label="Domain Knowledge and Trusted Source Documents",
+  description="Provide more background information or specific details to guide the creation of the content. For Trusted Source Documents, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents. Include additional prompting E.g. 'use the following source document as a reference in generation to match brand voice' to ensure accurate use.",
+  default="No domain knowledge or trusted source documents provided",
   type=text
 }}

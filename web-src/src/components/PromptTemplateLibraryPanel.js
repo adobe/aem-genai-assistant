@@ -11,65 +11,13 @@
  */
 import { Grid, Heading, ProgressCircle } from '@adobe/react-spectrum';
 
-import React, { Suspense, useCallback } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { v4 as uuid } from 'uuid';
+import React, { Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { PromptTemplateCard } from './PromptTemplateCard.js';
-import { sessionState } from '../state/SessionState.js';
-import { ViewType, viewTypeState } from '../state/ViewType.js';
-import { formatTimestamp } from '../helpers/FormatHelper.js';
-import { promptTemplatesState } from '../state/PromptTemplatesState.js';
-import { WelcomeBanner } from './WelcomeBanner.js';
-import { sampleRUM } from '../rum.js';
 
-function PromptTemplatesView({ onSelect }) {
-  const promptTemplates = useRecoilValue(promptTemplatesState);
-  return (
-    <Grid
-      data-testid={'prompt-templates-view'}
-      width={'100%'}
-      alignItems={'center'}
-      columns={'repeat(auto-fill, minmax(250px, 1fr))'}
-      gap={'size-200'}>
-      {
-        promptTemplates
-        && promptTemplates
-          .map((template, index) => (
-            <PromptTemplateCard
-              key={index}
-              template={template}
-              onClick={() => onSelect(promptTemplates[index])} />
-          ))
-      }
-    </Grid>
-  );
-}
+import { WelcomeBanner } from './WelcomeBanner.js';
+import { PromptTemplatesView } from './PromptTemplatesView.js';
 
 export function PromptTemplateLibraryPanel({ props }) {
-  const setCurrentSession = useSetRecoilState(sessionState);
-  const setViewType = useSetRecoilState(viewTypeState);
-
-  const handleSelect = useCallback((selectedTemplate) => {
-    if (selectedTemplate.isNew) {
-      sampleRUM('genai:prompt:new', { source: 'HomePanel#handleSelect' });
-    } else {
-      sampleRUM(`genai:prompt:${selectedTemplate.isBundled ? 'isadobeselected' : 'iscustomselected'}`, { source: 'HomePanel#handleSelect' });
-    }
-    const timestamp = Date.now();
-    const session = {
-      id: uuid(),
-      name: `${selectedTemplate.label} ${formatTimestamp(timestamp)}`,
-      description: selectedTemplate.description,
-      timestamp,
-      prompt: selectedTemplate.template,
-      parameters: {},
-      results: [],
-    };
-    setCurrentSession(session);
-    setViewType(ViewType.CurrentSession);
-  }, [setCurrentSession, setViewType]);
-
   return (
     <Grid
       {...props}
@@ -87,7 +35,7 @@ export function PromptTemplateLibraryPanel({ props }) {
 
         <ErrorBoundary fallback={<div>Something went wrong</div>}>
           <Suspense fallback={<ProgressCircle isIndeterminate />}>
-            <PromptTemplatesView onSelect={handleSelect} />
+            <PromptTemplatesView/>
           </Suspense>
         </ErrorBoundary>
       </div>

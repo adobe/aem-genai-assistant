@@ -23,9 +23,11 @@ import { promptState } from '../state/PromptState.js';
 import { temperatureState } from '../state/TemperatureState.js';
 import { resultsState } from '../state/ResultsState.js';
 import { parametersState } from '../state/ParametersState.js';
+import { promptEditorState } from '../state/PromptEditorState.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { createVariants } from '../helpers/ResultsParser.js';
+import { log } from '../helpers/MetricsHelper.js';
 import { sampleRUM } from '../rum.js';
 import { contentFragmentModelState } from '../state/ContentFragmentModelState.js';
 
@@ -36,6 +38,7 @@ export function GenerateButton() {
   const contentFragmentModel = useRecoilValue(contentFragmentModelState);
   const temperature = useRecoilValue(temperatureState);
   const setResults = useSetRecoilState(resultsState);
+  const setIsOpenPromptEditor = useSetRecoilState(promptEditorState);
   const [generationInProgress, setGenerationInProgress] = useState(false);
   const saveResults = useSaveResults();
 
@@ -61,8 +64,10 @@ export function GenerateButton() {
   }, [firefallService, prompt, parameters, temperature]);
 
   const handleGenerate = useCallback(() => {
+    log('prompt:generate');
     sampleRUM('genai:prompt:generate', { source: 'GenerateButton#handleGenerate' });
     setGenerationInProgress(true);
+    setIsOpenPromptEditor(false);
     generateResults()
       .catch((error) => {
         ToastQueue.negative(error.message, { timeout: 2000 });

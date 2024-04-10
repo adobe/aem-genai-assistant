@@ -10,12 +10,23 @@
  * governing permissions and limitations under the License.
  */
 import { Flex, Grid } from '@adobe/react-spectrum';
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 import { PromptSessionSideView } from './PromptSessionSideView.js';
 import { PromptResultListView } from './PromptResultListView.js';
 import PromptEditor from './PromptEditor.js';
+import { promptEditorState } from '../state/PromptEditorState.js';
+import { log } from '../helpers/MetricsHelper.js';
 
 export function PromptSessionPanel() {
+  const [isOpenPromptEditor, setIsOpenPromptEditor] = useRecoilState(promptEditorState);
+
+  useEffect(() => {
+    if (isOpenPromptEditor) {
+      log('prompt:editor:opened');
+    }
+  }, [isOpenPromptEditor]);
+
   return (
     <Grid
       columns={['1fr', '2fr']}
@@ -24,15 +35,25 @@ export function PromptSessionPanel() {
       alignItems={'stretch'}
       gap={'size-300'}
       height={'100%'}>
-      <PromptSessionSideView />
-      <Grid UNSAFE_style={{ padding: '20px 20px 20px 0' }} columns={'1fr'} rows={['1fr', 'min-content']} alignItems={'center'} justifyContent={'center'} gap={25}>
+
+      <PromptSessionSideView isOpenPromptEditor={isOpenPromptEditor}
+        onTogglePrompt={() => setIsOpenPromptEditor(!isOpenPromptEditor)} />
+
+      <Grid UNSAFE_style={{ padding: '20px 20px 0 0' }}
+        columns={'1fr'}
+        rows={['1fr', 'min-content']}
+        alignItems={'center'}
+        justifyContent={'center'}
+        gap={25}
+        position='relative'>
         <Flex direction={'column'} UNSAFE_style={{
           overflow: 'auto', position: 'relative', width: '100%', height: '100%',
         }}>
-          <PromptResultListView />
+          <PromptResultListView style={{ height: '100%' }} onClick={() => setIsOpenPromptEditor(false)} />
         </Flex>
-        <PromptEditor />
+        <PromptEditor isOpen={isOpenPromptEditor} onClose={() => setIsOpenPromptEditor(false)} />
       </Grid>
+
     </Grid>
   );
 }

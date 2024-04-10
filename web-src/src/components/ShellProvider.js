@@ -15,7 +15,6 @@ import React, {
 } from 'react';
 
 import page from '@adobe/exc-app/page';
-import settings, { SettingsLevel } from '@adobe/exc-app/settings';
 
 export const ShellContext = createContext();
 
@@ -32,31 +31,37 @@ const isAuthorized = (imsProfile, imsOrg) => {
   return false;
 };
 
+const expressAuthorized = (imsProfile, imsOrg) => {
+  if (Array.isArray(imsProfile.projectedProductContext)) {
+    const filteredProductContext = imsProfile.projectedProductContext
+      .filter((obj) => obj.prodCtx.serviceCode === process.env.EXPRESS_PRODUCT_CONTEXT);
+
+    // For each entry in filteredProductContext check that
+    // there is at least one entry where user.imsOrg matches the owningEntity property
+    // otherwise, if no match, the user is not authorized
+    return filteredProductContext.some((obj) => obj.prodCtx.owningEntity === imsOrg);
+  }
+  return false;
+};
+
 export const ShellProvider = ({ children, runtime }) => {
   const [shellContext, setShellContext] = useState();
 
   const shellEventsHandler = useCallback((shellConfig) => {
-    const { imsProfile, imsToken, imsOrg } = shellConfig;
-
-    settings.set({
-      groupId: 'img',
-      level: SettingsLevel.USERORG,
-      settings: { value: 1 },
-    }).then(() => {
-      console.log('Settings Value set');
-      return settings.get({
-        groupId: 'img',
-        level: SettingsLevel.USERORG,
-        settings: { value: 0 },
-      }).then(({ settings: value }) => console.log(`Settings Value get: ${JSON.stringify(value)}`)).catch((err) => console.log(err));
-    }).catch((err) => console.log(err));
+    const {
+      imsProfile, imsToken, imsOrg, imsInfo: { tenant },
+    } = shellConfig;
 
     setShellContext({
       user: {
+        id: imsProfile.userId,
+        name: imsProfile.name,
+        imsTenant: tenant,
         imsToken,
         imsOrg,
       },
       isUserAuthorized: isAuthorized(imsProfile, imsOrg),
+      isExpressAuthorized: expressAuthorized(imsProfile, imsOrg),
       done: page.done,
     });
   }, [setShellContext]);

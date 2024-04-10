@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Grid, Image, Link, Text,
+  Flex, Grid, Image, Link, Text, ActionButton,
 } from '@adobe/react-spectrum';
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -19,12 +19,12 @@ import { PromptInputView } from './PromptInputView.js';
 import { GenerateButton } from './GenerateButton.js';
 
 import GenerateIcon from '../assets/generate.svg';
+import PromptIcon from '../icons/PromptIcon.js';
 import ChevronLeft from '../assets/chevron-left.svg';
 import { SavePromptButton } from './SavePromptButton.js';
 import { ResetButton } from './ResetButton.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
-import { useApplicationContext } from './ApplicationProvider.js';
 
 const styles = {
   promptPropertiesPanel: css`
@@ -57,10 +57,9 @@ const styles = {
   `,
 };
 
-export function PromptSessionSideView(props) {
+export function PromptSessionSideView({ isOpenPromptEditor, onTogglePrompt, ...props }) {
   const currentSession = useRecoilValue(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
-  const { aemService } = useApplicationContext();
 
   return (
     <Grid
@@ -72,34 +71,45 @@ export function PromptSessionSideView(props) {
       gap={'size-100'}>
 
       <Flex UNSAFE_className={styles.promptFlexItems} UNSAFE_style={{ paddingTop: '0', paddingBottom: '0' }} direction={'row'} justifyContent={'left'} alignItems={'center'} gridArea={'breadcrumbs'}>
-        <Image src={ChevronLeft} alt={'Back'} width={'24px'}/>
+        <Image src={ChevronLeft} alt={'Back'} width={'24px'} />
         <Link href="#" onPress={() => setViewType(ViewType.NewSession)} UNSAFE_className={styles.breadcrumbsLink}>Prompt Templates</Link>
       </Flex>
 
-      { currentSession
+      {currentSession
         ? <Flex UNSAFE_className={styles.promptFlexItems} UNSAFE_style={{ borderBottom: '1px solid rgb(224, 224, 224)' }} direction={'column'} justifyContent={'stretch'} alignItems={'stretch'} gridArea={'info'}>
           <Flex UNSAFE_style={{ borderRadius: '8px', background: '#E0F2FF', padding: '10px' }} gap={'size-100'} alignItems={'center'}>
-            <Image src={GenerateIcon} alt={''} width={'24px'}/>
-            <Text UNSAFE_className={styles.promptName}>{ currentSession.name ?? 'Empty' }</Text>
+            <Image src={GenerateIcon} alt={''} width={'24px'} />
+            <Text UNSAFE_className={styles.promptName}>{currentSession.name ?? 'Empty'}</Text>
           </Flex>
-          <Text UNSAFE_style={{ padding: '10px' }}>{ currentSession.description ?? 'Empty' }</Text>
+          <Text UNSAFE_style={{ padding: '10px' }}>{currentSession.description ?? 'Empty'}</Text>
         </Flex>
         : <div></div>
       }
 
       <Flex direction={'column'} UNSAFE_className={styles.promptFlexItems}>
-        <h3>Inputs</h3>
+        <Flex direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
+          <h3>Inputs</h3>
+          <ActionButton
+            isQuiet
+            UNSAFE_className="hover-cursor-pointer"
+            onPress={onTogglePrompt}
+            UNSAFE_style={isOpenPromptEditor ? { background: 'var(--spectrum-gray-200)' } : undefined}
+          >
+            <PromptIcon />
+            <Text>Edit Prompt</Text>
+          </ActionButton>
+        </Flex>
         <Flex direction={'column'} UNSAFE_style={{ position: 'relative', height: '100%' }}>
-          <PromptInputView/>
+          <PromptInputView />
         </Flex>
       </Flex>
 
       <div className={styles.actions}>
         <Flex direction={'column'} alignItems={'flex-start'} justifyContent={'center'} flexShrink={0} gap={'4px'}>
-          <SavePromptButton/>
-          <ResetButton/>
+          <SavePromptButton />
+          <ResetButton />
         </Flex>
-        <GenerateButton/>
+        <GenerateButton />
       </div>
 
     </Grid>

@@ -17,7 +17,7 @@ async function main(params) {
   const {
     prompt, temperature, model, firefallClient,
   } = params;
-  return firefallClient.completion(prompt ?? 'Who are you?', temperature ?? 0.0, model ?? 'gpt-4-1106-preview');
+  return firefallClient.completion(prompt ?? 'Who are you?', temperature ?? 0.0, model ?? 'gpt-4-turbo');
 }
 
 exports.main = asGenericAction(asAuthAction(asFirefallAction(main)));

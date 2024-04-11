@@ -1,4 +1,5 @@
 {
+  "promptSessionSideView.advancedLabel": "고급",
   "promptSessionSideView.audienceSelectorLoadCsvFailedToast": "CSV를 구문 분석하지 못함",
   "promptSessionSideView.audienceSelectorLoadTargetFailedToast": "Adobe Target에서 로드하지 못했습니다.",
   "promptSessionSideView.cancelActionLabel": "취소",
@@ -19,5 +20,7 @@
   "promptSessionSideView.savePromptInstructionsLabel": "새 이름을 입력하여 새 프롬프트를 만들거나 목록에서 기존 프롬프트를 선택하여 업데이트합니다.",
   "promptSessionSideView.savePromptNameLabel": "프롬프트 이름",
   "promptSessionSideView.savePromptSharedLabel": "조직 간에 공유",
-  "promptSessionSideView.savePromptSuccessToast": "프롬프트 템플릿 저장됨"
+  "promptSessionSideView.savePromptSuccessToast": "프롬프트 템플릿 저장됨",
+  "promptSessionSideView.temperatureDescription": "높은 온도는 즉각적에서 벗어나 더 임의성과 창의성으로 이어집니다",
+  "promptSessionSideView.temperatureLabel": "온도"
 }

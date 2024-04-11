@@ -14,6 +14,9 @@ import {
 } from '@adobe/react-spectrum';
 import React, { useCallback } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { useIntl } from 'react-intl';
+
+import { intlMessages } from './PromptSessionSideView.l10n.js';
 import { placeholdersState } from '../state/PlaceholdersState.js';
 import { parametersState } from '../state/ParametersState.js';
 import { TemperatureSlider } from './TemperatureSlider.js';
@@ -112,6 +115,8 @@ export function PromptInputView({ gridColumn }) {
   const placeholders = useRecoilValue(placeholdersState);
   const [parameters, setParameters] = useRecoilState(parametersState);
 
+  const { formatMessage } = useIntl();
+
   const onChange = useCallback((name, value) => {
     setParameters({ ...parameters, [name]: value });
   }, [parameters, setParameters]);
@@ -139,7 +144,7 @@ export function PromptInputView({ gridColumn }) {
           return createInputComponent(type, name, formattedLabel, toCamelCaseKeys(params), value, onChange);
         })
       }
-      <h3 style={{ alignSelf: 'start', marginBottom: '10px' }}>Advanced</h3>
+      <h3 style={{ alignSelf: 'start', marginBottom: '10px' }}>{formatMessage(intlMessages.promptSessionSideView.advancedLabel)}</h3>
       <TemperatureSlider/>
     </Flex>
   );

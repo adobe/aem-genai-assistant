@@ -1,4 +1,5 @@
 {
+  "promptSessionSideView.advancedLabel": "Avancé",
   "promptSessionSideView.audienceSelectorLoadCsvFailedToast": "Échec de l’analyse CSV",
   "promptSessionSideView.audienceSelectorLoadTargetFailedToast": "Échec du chargement depuis Adobe Target",
   "promptSessionSideView.cancelActionLabel": "Annuler",
@@ -19,5 +20,7 @@
   "promptSessionSideView.savePromptInstructionsLabel": "Entrez un nouveau nom pour créer une invite ou sélectionnez-en un existant dans la liste pour le mettre à jour.",
   "promptSessionSideView.savePromptNameLabel": "Demander le nom",
   "promptSessionSideView.savePromptSharedLabel": "Partagé dans l’entreprise",
-  "promptSessionSideView.savePromptSuccessToast": "Modèle d'invite enregistré"
+  "promptSessionSideView.savePromptSuccessToast": "Modèle d'invite enregistré",
+  "promptSessionSideView.temperatureDescription": "Une température plus élevée s'écarte de l'invite et conduit à plus d'aléatoire et de créativité",
+  "promptSessionSideView.temperatureLabel": "Température"
 }

@@ -1,4 +1,5 @@
 {
+  "promptSessionSideView.advancedLabel": "進階",
   "promptSessionSideView.audienceSelectorLoadCsvFailedToast": "剖析CSV失敗",
   "promptSessionSideView.audienceSelectorLoadTargetFailedToast": "無法從Adobe Target",
   "promptSessionSideView.cancelActionLabel": "取消",
@@ -19,5 +20,7 @@
   "promptSessionSideView.savePromptInstructionsLabel": "輸入新名稱以建立新提示，或從清單中選取現有名稱以更新。",
   "promptSessionSideView.savePromptNameLabel": "提示名稱",
   "promptSessionSideView.savePromptSharedLabel": "在組織間共用",
-  "promptSessionSideView.savePromptSuccessToast": "提示範本已儲存"
+  "promptSessionSideView.savePromptSuccessToast": "提示範本已儲存",
+  "promptSessionSideView.temperatureDescription": "溫度越高，提示越少，隨機性和創造力就越大",
+  "promptSessionSideView.temperatureLabel": "溫度"
 }

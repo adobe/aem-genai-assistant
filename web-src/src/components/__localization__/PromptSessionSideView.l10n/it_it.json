@@ -1,4 +1,5 @@
 {
+  "promptSessionSideView.advancedLabel": "Avanzate",
   "promptSessionSideView.audienceSelectorLoadCsvFailedToast": "Impossibile analizzare il file CSV",
   "promptSessionSideView.audienceSelectorLoadTargetFailedToast": "Impossibile caricare da Adobe Target",
   "promptSessionSideView.cancelActionLabel": "Annulla",
@@ -19,5 +20,7 @@
   "promptSessionSideView.savePromptInstructionsLabel": "Immettere un nuovo nome per creare un nuovo prompt oppure selezionarne uno esistente dall'elenco per aggiornarlo.",
   "promptSessionSideView.savePromptNameLabel": "Nome richiesta",
   "promptSessionSideView.savePromptSharedLabel": "Condiviso tra organizzazioni",
-  "promptSessionSideView.savePromptSuccessToast": "Modello di richiesta salvato"
+  "promptSessionSideView.savePromptSuccessToast": "Modello di richiesta salvato",
+  "promptSessionSideView.temperatureDescription": "Una temperatura più elevata si allontana dal suggerimento e porta a più casualità e creatività",
+  "promptSessionSideView.temperatureLabel": "Temperatura"
 }

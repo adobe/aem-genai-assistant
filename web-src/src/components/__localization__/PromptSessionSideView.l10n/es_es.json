@@ -1,4 +1,5 @@
 {
+  "promptSessionSideView.advancedLabel": "Avanzado",
   "promptSessionSideView.audienceSelectorLoadCsvFailedToast": "Error al analizar el CSV",
   "promptSessionSideView.audienceSelectorLoadTargetFailedToast": "Error al cargar desde Adobe Target",
   "promptSessionSideView.cancelActionLabel": "Cancelar",
@@ -19,5 +20,7 @@
   "promptSessionSideView.savePromptInstructionsLabel": "Introduzca un nombre nuevo para crear una nueva solicitud o seleccione uno existente de la lista para actualizarlo.",
   "promptSessionSideView.savePromptNameLabel": "Nombre del mensaje",
   "promptSessionSideView.savePromptSharedLabel": "Compartido entre organizaciones",
-  "promptSessionSideView.savePromptSuccessToast": "Plantilla de mensaje guardada"
+  "promptSessionSideView.savePromptSuccessToast": "Plantilla de mensaje guardada",
+  "promptSessionSideView.temperatureDescription": "Una temperatura más alta se aleja del indicador y conduce a más aleatoriedad y creatividad",
+  "promptSessionSideView.temperatureLabel": "Temperatura"
 }

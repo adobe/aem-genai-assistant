@@ -1,4 +1,5 @@
 {
+  "promptSessionSideView.advancedLabel": "高级",
   "promptSessionSideView.audienceSelectorLoadCsvFailedToast": "分析CSV失败",
   "promptSessionSideView.audienceSelectorLoadTargetFailedToast": "无法从Adobe Target加载",
   "promptSessionSideView.cancelActionLabel": "取消",
@@ -19,5 +20,7 @@
   "promptSessionSideView.savePromptInstructionsLabel": "输入新名称以创建新提示，或从列表中选择现有提示以对其进行更新。",
   "promptSessionSideView.savePromptNameLabel": "提示名称",
   "promptSessionSideView.savePromptSharedLabel": "在组织之间共享",
-  "promptSessionSideView.savePromptSuccessToast": "提示模板已保存"
+  "promptSessionSideView.savePromptSuccessToast": "提示模板已保存",
+  "promptSessionSideView.temperatureDescription": "温度升高会偏离提示，导致更多随机性和创造性",
+  "promptSessionSideView.temperatureLabel": "温度"
 }

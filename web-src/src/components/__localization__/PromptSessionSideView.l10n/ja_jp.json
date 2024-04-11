@@ -1,4 +1,5 @@
 {
+  "promptSessionSideView.advancedLabel": "詳細",
   "promptSessionSideView.audienceSelectorLoadCsvFailedToast": "CSV の解析に失敗しました",
   "promptSessionSideView.audienceSelectorLoadTargetFailedToast": "Adobe Targetから読み込めませんでした",
   "promptSessionSideView.cancelActionLabel": "キャンセル",
@@ -19,5 +20,7 @@
   "promptSessionSideView.savePromptInstructionsLabel": "新しい名前を入力して新しいプロンプトを作成するか、リストから既存のプロンプトを選択して更新します。",
   "promptSessionSideView.savePromptNameLabel": "プロンプト名",
   "promptSessionSideView.savePromptSharedLabel": "組織全体で共有",
-  "promptSessionSideView.savePromptSuccessToast": "保存されたプロンプトテンプレート"
+  "promptSessionSideView.savePromptSuccessToast": "保存されたプロンプトテンプレート",
+  "promptSessionSideView.temperatureDescription": "高い温度はプロンプトから歪み、よりランダム性と創造性につながります",
+  "promptSessionSideView.temperatureLabel": "温度"
 }

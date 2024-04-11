@@ -20,6 +20,18 @@ export const intlMessages = {
       defaultMessage: 'Inputs',
       id: 'promptSessionSideView.inputsLabel',
     },
+    advancedLabel: {
+      defaultMessage: 'Advanced',
+      id: 'promptSessionSideView.advancedLabel',
+    },
+    temperatureLabel: {
+      defaultMessage: 'Temperature',
+      id: 'promptSessionSideView.temperatureLabel',
+    },
+    temperatureDescription: {
+      defaultMessage: 'A higher temperature strays from the prompt and leads to more randomness and creativity',
+      id: 'promptSessionSideView.temperatureDescription',
+    },
     editPromptButtonLabel: {
       defaultMessage: 'Edit Prompt',
       id: 'promptSessionSideView.editPromptButtonLabel',

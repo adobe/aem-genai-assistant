@@ -145,7 +145,7 @@ export function ImageViewer({
               <Button
                 variant='secondary'
                 style='fill'
-                width='size-1000'
+                minWidth='size-1000'
                 UNSAFE_className={`${!isMoreMenuOpen && 'variant-image-button'} hover-cursor-pointer`}
                 onPress={() => onCopy(index)}>
                 <CopyOutlineIcon marginEnd={'8px'} />
@@ -154,7 +154,7 @@ export function ImageViewer({
               <Button
                 variant='secondary'
                 style='fill'
-                width='size-1000'
+                minWidth='size-1000'
                 UNSAFE_className={`${!isMoreMenuOpen && 'variant-image-button'} hover-cursor-pointer`}
                 onPress={() => onEdit(index)}>
                 <EditIcon marginEnd={'8px'} />

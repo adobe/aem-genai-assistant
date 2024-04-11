@@ -1,4 +1,7 @@
 {
+  "promptSessionSideView.advancedLabel": {
+    "__value__": "Advanced"
+  },
   "promptSessionSideView.audienceSelectorLoadCsvFailedToast": {
     "__value__": "Failed to parse CSV"
   },
@@ -61,5 +64,11 @@
   },
   "promptSessionSideView.savePromptSuccessToast": {
     "__value__": "Prompt template saved"
+  },
+  "promptSessionSideView.temperatureDescription": {
+    "__value__": "A higher temperature strays from the prompt and leads to more randomness and creativity"
+  },
+  "promptSessionSideView.temperatureLabel": {
+    "__value__": "Temperature"
   }
 }

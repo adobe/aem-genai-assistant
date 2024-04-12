@@ -75,7 +75,7 @@ function DataSourceSelector({ dataSource, setDataSource }) {
 
   return (
     <div className={styles.toggleButtons}>
-      <LabeledValue label={'Audiences Source'} value={''} gridColumnStart={1} gridColumnEnd={3} />
+      <LabeledValue label={'Audiences source'} value={''} gridColumnStart={1} gridColumnEnd={3} />
       <ToggleButton
         isSelected={dataSource === DATA_SOURCES.TARGET}
         onChange={() => handleDataSourceChange(DATA_SOURCES.TARGET)}>Adobe Target</ToggleButton>

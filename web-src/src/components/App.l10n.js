@@ -61,31 +61,11 @@ export const intlMessages = {
       id: 'app.consentDialogHeading',
     },
     consentDialogContent: {
-      defaultMessage:
-        `<p>
-          You can create in new ways with generative AI technology.
-        </p>
-        <p>
-          By clicking "Agree", you agree to {legalTermsLink}, and the following:
-        </p>
-        <ul>
-          <li>
-            Any prompts, context, or supplemental information, or other input you provide to this feature (a) must
-            be tied to specific context, which can include your branding materials, website content, data, schemas
-            for such data, templates, or other trusted documents, and (b) must not contain any personal information
-            (personal information includes anything that can be linked back to a specific individual).
-          </li>
-          <li>
-            You should review any output from this feature for accuracy and ensure that it is appropriate for your
-            use case.
-          </li>
-        </ul>`,
-      id: 'promptSessionSideView.consentDialogContent',
+      defaultMessage: '<p>You can create in new ways with generative AI technology.</p><p>By clicking "Agree", you agree to {legalTermsLink}, and the following:</p><ul><li>Any prompts, context, or supplemental information, or other input you provide to this feature (a) must be tied to specific context, which can include your branding materials, website content, data, schemas for such data, templates, or other trusted documents, and (b) must not contain any personal information (personal information includes anything that can be linked back to a specific individual).</li><li>You should review any output from this feature for accuracy and ensure that it is appropriate for your use case.</li></ul>',
+      id: 'app.consentDialogContent',
     },
     noAccessMessage: {
-      defaultMessage:
-      `To use <strong>Generate Variations</strong> you must agree to the Generative AI User Guidelines.{newLine}
-      Refresh this page to <strong>Agree</strong>.`,
+      defaultMessage: 'To use <strong>Generate Variations</strong> you must agree to the Generative AI User Guidelines.{newLine}Refresh this page to <strong>Agree</strong>.',
       id: 'app.noAccessMessage',
     },
     consentDialogAgreeButtonLabel: {

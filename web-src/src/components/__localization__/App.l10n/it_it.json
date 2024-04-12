@@ -2,6 +2,7 @@
   "app.cancelActionLabel": "Annulla",
   "app.consentDialogAgreeButtonLabel": "Accetto",
   "app.consentDialogCancelButtonLabel": "Annulla",
+  "app.consentDialogContent": "<p>Puoi creare in nuovi modi con la tecnologia di intelligenza artificiale generativa.</p><p>Facendo clic su Accetto accettate {legalTermsLink}e i seguenti:</p><ul><li>Eventuali richieste, informazioni di contesto o informazioni supplementari o qualsiasi altro input fornito a questa funzione (a) devono essere legate a un contesto specifico, che può includere il materiale di branding, il contenuto del sito web, i dati, gli schemi per tali dati, modelli o altri documenti attendibili, e (b) non devono contenere informazioni personali (le informazioni personali includono qualsiasi elemento che possa essere collegato a un individuo specifico).</li><li>Per garantire la precisione, controlla tutti gli output di questa funzione e assicurati che siano appropriati per il tuo caso d’uso.</li></ul>",
   "app.consentDialogHeading": "IA generativa nelle app di Adobe",
   "app.deleteActionLabel": "Elimina",
   "app.deleteActionTitle": "Elimina",
@@ -12,5 +13,6 @@
   "app.name": "Genera varianti",
   "app.noAccessDialogContent": "Non hai accesso a questo prodotto",
   "app.noAccessDialogHeading": "Accesso negato",
+  "app.noAccessMessage": "Per utilizzare <strong>Genera varianti</strong> devi accettare le linee guida per gli utenti di Generative AI.{newLine}Aggiorna questa pagina per <strong>confermare</strong>.",
   "app.promptTemplateLibraryPanelLabel": "Richiedi modelli"
 }

@@ -2,6 +2,7 @@
   "app.cancelActionLabel": "キャンセル",
   "app.consentDialogAgreeButtonLabel": "同意する",
   "app.consentDialogCancelButtonLabel": "キャンセル",
+  "app.consentDialogContent": "<p>ジェネレーティブ AI テクノロジーを使用すると、新しい方法で作成できます。</p><p>「同意する」をクリックすることで、同意したことになります {legalTermsLink}、および次の操作をおこないます。</p><ul><li>プロンプト、コンテキスト、補足情報、またはこの機能に対して提供するその他の入力は、(a) ブランディング資料、Web サイトのコンテンツ、データ、このようなデータのスキーマ、テンプレート、またはその他の信頼できるドキュメントを含む特定のコンテキストに結び付けられており、(b) 個人情報（個人情報には、特定の個人にリンクできる内容が含まれています）が含まれていてはなりません。</li><li>この機能からの出力が正確であることを確認し、使用事例に適していることを確認する必要があります。</li></ul>",
   "app.consentDialogHeading": "生成 AI(Adobeアプリ )",
   "app.deleteActionLabel": "削除",
   "app.deleteActionTitle": "削除",
@@ -12,5 +13,6 @@
   "app.name": "バリエーションを生成",
   "app.noAccessDialogContent": "この製品へのアクセス権がありません",
   "app.noAccessDialogHeading": "アクセス拒否",
+  "app.noAccessMessage": "「バリエーション<strong>を生成」を使用</strong>するには、生成 AI のユーザーガイドラインに同意する必要があります。{newLine}このページを再読み込みして<strong>同意しま</strong>す。",
   "app.promptTemplateLibraryPanelLabel": "プロンプトテンプレート"
 }

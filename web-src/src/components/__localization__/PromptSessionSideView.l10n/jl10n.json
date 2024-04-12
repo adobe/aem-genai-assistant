@@ -17,6 +17,9 @@
   "promptSessionSideView.editPromptButtonLabel": {
     "__value__": "Edit Prompt"
   },
+  "promptSessionSideView.generateButtonContextualHelpContent": {
+    "__value__": "<p>Access to this feature is subject to your agreement to the {legalTermsLink}, and the following:</p><ul><li>Any prompts, context, or supplemental information, or other input you provide to this feature (a) must be tied to specific context, which can include your branding materials, website content, data, schemas for such data, templates, or other trusted documents, and (b) must not contain any personal information (personal information includes anything that can be linked back to a specific individual).</li><li>You should review any output from this feature for accuracy and ensure that it is appropriate for youruse case.</li></ul>"
+  },
   "promptSessionSideView.generateButtonContextualHelpHeading": {
     "__value__": "Terms of use"
   },
@@ -34,6 +37,9 @@
   },
   "promptSessionSideView.previewButtonLabel": {
     "__value__": "Preview"
+  },
+  "promptSessionSideView.promptEditorContextualHelpContent": {
+    "__value__": "When editing the prompt directly, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents."
   },
   "promptSessionSideView.promptEditorViewTitle": {
     "__value__": "Prompt and Trusted Source Documents"

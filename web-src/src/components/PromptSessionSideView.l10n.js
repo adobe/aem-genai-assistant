@@ -65,22 +65,7 @@ export const intlMessages = {
       id: 'promptSessionSideView.generateButtonContextualHelpHeading',
     },
     generateButtonContextualHelpContent: {
-      defaultMessage:
-        `<p>
-          Access to this feature is subject to your agreement to the {legalTermsLink}, and the following:
-        </p>
-        <ul>
-          <li>
-            Any prompts, context, or supplemental information, or other input you provide to this feature (a) must be
-            tied to specific context, which can include your branding materials, website content, data, schemas for
-            such data, templates, or other trusted documents, and (b) must not contain any personal information
-            (personal information includes anything that can be linked back to a specific individual).
-          </li>
-          <li>
-            You should review any output from this feature for accuracy and ensure that it is appropriate for your
-            use case.
-          </li>
-        </ul>`,
+      defaultMessage: '<p>Access to this feature is subject to your agreement to the {legalTermsLink}, and the following:</p><ul><li>Any prompts, context, or supplemental information, or other input you provide to this feature (a) must be tied to specific context, which can include your branding materials, website content, data, schemas for such data, templates, or other trusted documents, and (b) must not contain any personal information (personal information includes anything that can be linked back to a specific individual).</li><li>You should review any output from this feature for accuracy and ensure that it is appropriate for youruse case.</li></ul>',
       id: 'promptSessionSideView.generateButtonContextualHelpContent',
     },
     legalTermsLinkName: {
@@ -112,8 +97,7 @@ export const intlMessages = {
       id: 'promptSessionSideView.savePromptFailureToast',
     },
     promptEditorContextualHelpContent: {
-      defaultMessage: `When editing the prompt directly, include specific context, which can include your branding materials,
-      website content, data schemas for such data, templates, and other trusted documents.`,
+      defaultMessage: 'When editing the prompt directly, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents.',
       id: 'promptSessionSideView.promptEditorContextualHelpContent',
     },
     previewButtonLabel: {

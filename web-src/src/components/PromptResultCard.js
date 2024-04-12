@@ -298,15 +298,17 @@ export function PromptResultCard({ result, ...props }) {
           <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariant.content) }} />
           <div className={styles.resultActions}>
             <Flex direction="row">
-              <TooltipTrigger delay={0}>
-                <ActionButton
-                  isQuiet
-                  UNSAFE_className="hover-cursor-pointer"
-                  onPress={() => toggleFavorite(selectedVariant)}>
-                  {isFavorite(selectedVariant) ? <FavoritesIcon/> : <FavoritesOutlineIcon/>}
-                </ActionButton>
-                <Tooltip>Favorite</Tooltip>
-              </TooltipTrigger>
+              { runMode !== RUN_MODE_CF
+                && <TooltipTrigger delay={0}>
+                  <ActionButton
+                    isQuiet
+                    UNSAFE_className="hover-cursor-pointer"
+                    onPress={() => toggleFavorite(selectedVariant)}>
+                    {isFavorite(selectedVariant) ? <FavoritesIcon/> : <FavoritesOutlineIcon/>}
+                  </ActionButton>
+                  <Tooltip>Favorite</Tooltip>
+                </TooltipTrigger>
+              }
               <TooltipTrigger delay={0}>
                 <ActionButton
                   isQuiet

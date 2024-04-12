@@ -9,9 +9,16 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { atom } from 'recoil';
+const { AemClient } = require('./AemClient.js');
 
-export const contentFragmentModelState = atom({
-  key: 'contentFragmentModelState',
-  default: null,
-});
+function asAemAction(action) {
+  return (params) => {
+    const { aemHost, accessToken } = params;
+
+    const aemClient = new AemClient(aemHost, accessToken);
+
+    return action({ ...params, aemClient });
+  };
+}
+
+module.exports = { asAemAction };

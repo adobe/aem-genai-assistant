@@ -38,6 +38,7 @@ import {
 import { useShellContext } from './ShellProvider.js';
 import { lastUsedPromptTemplateIdState } from '../state/LastUsedPromptTemplateIdState.js';
 import { log } from '../helpers/MetricsHelper.js';
+import { useApplicationContext } from './ApplicationProvider.js';
 
 const DEBOUNCE_DELAY = 800;
 
@@ -52,8 +53,8 @@ function debounce(callback, wait) {
   };
 }
 
-function saveTemplates(customPromptTemplates) {
-  return writeCustomPromptTemplates(customPromptTemplates).then(() => {
+function saveTemplates(customPromptTemplates, runMode) {
+  return writeCustomPromptTemplates(customPromptTemplates, runMode).then(() => {
     ToastQueue.positive('Prompt template saved', { timeout: 1000 });
   }).catch((error) => {
     ToastQueue.negative('Error saving prompt template', { timeout: 1000 });
@@ -62,6 +63,7 @@ function saveTemplates(customPromptTemplates) {
 }
 
 export function SavePromptButton(props) {
+  const { runMode } = useApplicationContext();
   const { user: { name } } = useShellContext();
 
   const [customPromptTemplates, setCustomPromptTemplates] = useRecoilState(customPromptTemplatesState);
@@ -144,7 +146,7 @@ export function SavePromptButton(props) {
       ...customPromptTemplates.filter((template) => template.id !== selectedTemplate.id),
       updatedTemplate,
     ];
-    saveTemplates(newCustomPromptTemplates).then(() => {
+    saveTemplates(newCustomPromptTemplates, runMode).then(() => {
       log('prompt:save:update', {
         id: updatedTemplate.id,
         label: updatedTemplate.label,

@@ -40,15 +40,21 @@ function removeEmptyLines(text) {
 }
 
 function createContentModelPrompt(contentFragmentModel) {
-  const initialPrompt = '\n\nThe reply MUST be formatted as a JSON array, '
-      + 'each element of which MUST be a JSON object that includes the following fields:'
-      + '\n- variationName: The name of the variation to be created.';
-  return contentFragmentModel.fields.reduce((acc, field) => {
-    if (field.type === 'text') {
-      return `${acc}\n- ${field.name}: ${field.description ?? field.label ?? ''}`;
-    }
-    return acc;
-  }, initialPrompt);
+  const fields = contentFragmentModel.fields
+    .map((field) => {
+      if (field.type !== 'text') {
+        return null;
+      }
+      return `\n- ${field.name}: ${field.description ?? field.label ?? ''}`;
+    })
+    .filter((field) => field !== null);
+
+  fields.push('\n- variationName: The name of the variation to be created.');
+
+  return '\n\nAdditional requirements: ```'
+    + '\nThe response MUST be formatted as a JSON array.'
+    + `\nEach element of MUST be a JSON object that includes the following fields: ${fields}`
+    + '\n```';
 }
 
 export function renderPrompt(prompt, placeholders, contentFragmentModel) {

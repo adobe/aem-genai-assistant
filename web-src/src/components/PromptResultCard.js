@@ -12,7 +12,6 @@
 import {
   Button, ActionButton, Tooltip, TooltipTrigger, Flex, ProgressCircle, Divider,
 } from '@adobe/react-spectrum';
-import CreateVariationIcon from '@spectrum-icons/workflow/BoxExport';
 import React, {
   useCallback, useState, useEffect, useRef,
 } from 'react';
@@ -20,11 +19,12 @@ import { css } from '@emotion/css';
 import { motion } from 'framer-motion';
 import { ToastQueue } from '@react-spectrum/toast';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
+import CreateVariationIcon from '@spectrum-icons/workflow/BoxExport';
 import { useIsFavorite } from '../state/IsFavoriteHook.js';
 import { useIsFeedback } from '../state/IsFeedbackHook.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { useSaveFeedback } from '../state/SaveFeedbackHook.js';
-import { useApplicationContext } from './ApplicationProvider.js';
+import { RUN_MODE_CF, useApplicationContext } from './ApplicationProvider.js';
 import { useShellContext } from './ShellProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
@@ -143,8 +143,12 @@ const styles = {
 };
 
 export function PromptResultCard({ result, ...props }) {
-  const { aemService, firefallService, expressSdkService } = useApplicationContext();
+  const {
+    runMode, aemService, firefallService, expressSdkService,
+  } = useApplicationContext();
+
   const { isExpressAuthorized } = useShellContext();
+
   const [selectedVariant, setSelectedVariant] = useState(result.variants[0]);
   const contentFragment = useRecoilValue(contentFragmentState);
   const setPrompt = useSetRecoilState(promptState);
@@ -156,6 +160,7 @@ export function PromptResultCard({ result, ...props }) {
   const saveFeedback = useSaveFeedback();
   const saveResults = useSaveResults();
   const { addImageToVariant } = useVariantImages();
+
   const resultsEndRef = useRef();
 
   const [imagePromptProgress, setImagePromptProgress] = useState(false);
@@ -225,6 +230,19 @@ export function PromptResultCard({ result, ...props }) {
       ToastQueue.negative('Something went wrong. Please try again!', { timeout: 2000 });
     }
   }, [expressSdkService]);
+
+  const handleExportVariation = useCallback(() => {
+    log('prompt:export', { variant: selectedVariant.id, as: 'contentFragmentVariation' });
+    sampleRUM('genai:prompt:export', { source: 'ResultCard#ExportAsVariation#onPress' });
+    aemService.createFragmentVariation(contentFragment.fragment.id, selectedVariant.content)
+      .then((variation) => {
+        ToastQueue.positive('Variation created', { timeout: 1000 });
+        console.debug('variation', variation);
+      })
+      .catch((error) => {
+        ToastQueue.negative(error.message, { timeout: 1000 });
+      });
+  }, [selectedVariant, aemService]);
 
   const handleGenerateImagePrompt = useCallback((variantId) => {
     setImagePromptProgress(true);
@@ -306,25 +324,6 @@ export function PromptResultCard({ result, ...props }) {
               <TooltipTrigger delay={0}>
                 <ActionButton
                   isQuiet
-                  UNSAFE_className="hover-cursor-pointer"
-                  onPress={() => {
-                    console.debug(JSON.stringify(contentFragment, null, 2));
-                    aemService.createVariation(contentFragment.id, selectedVariant.content)
-                      .then((variation) => {
-                        ToastQueue.positive('Variation created', { timeout: 1000 });
-                        console.debug('variation', variation);
-                      })
-                      .catch((error) => {
-                        ToastQueue.negative(error.message, { timeout: 1000 });
-                      });
-                  }}>
-                  <CreateVariationIcon/>
-                </ActionButton>
-                <Tooltip>Create variation</Tooltip>
-              </TooltipTrigger>
-              <TooltipTrigger delay={0}>
-                <ActionButton
-                  isQuiet
                   isDisabled={isFeedback(selectedVariant)}
                   UNSAFE_className="hover-cursor-pointer"
                   onPress={() => {
@@ -361,7 +360,22 @@ export function PromptResultCard({ result, ...props }) {
                 </ActionButton>
                 <Tooltip>Remove</Tooltip>
               </TooltipTrigger>
-              <div>Variations will be saved to &nbsp;<b>{contentFragment.title}</b></div>
+              <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'}/>
+              { runMode === RUN_MODE_CF
+                && <Flex direction="row" gap="size-100" alignItems={'center'}>
+                  <Button
+                    UNSAFE_className="hover-cursor-pointer"
+                    marginStart={'size-100'}
+                    marginEnd={'size-100'}
+                    width="size-2400"
+                    variant="secondary"
+                    style="fill"
+                    onPress={handleExportVariation}>
+                    <CreateVariationIcon marginEnd={'8px'} />
+                    Export CF Variation
+                  </Button>
+                </Flex>
+              }
               <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'}/>
               <Flex direction="row" gap="size-100" alignItems={'center'}>
                 <Button

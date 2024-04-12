@@ -24,11 +24,11 @@ import Close from '@spectrum-icons/workflow/Close';
 
 import { parametersState } from '../state/ParametersState.js';
 import { promptState } from '../state/PromptState.js';
-import { contentFragmentModelState } from '../state/ContentFragmentModelState.js';
 import { NO_VALUE_STRING, renderPrompt } from '../helpers/PromptRenderer.js';
 import { log } from '../helpers/MetricsHelper.js';
 
 import PreviewIcon from '../icons/PreviewIcon.js';
+import { contentFragmentState } from '../state/ContentFragmentState.js';
 
 languages.custom = {
   function: /{{[^@#]([^{}]+)}}/,
@@ -91,7 +91,7 @@ function PromptEditor({ isOpen, onClose, ...props }) {
   const [promptText, setPromptText] = useState(prompt);
   const [viewSource, setViewSource] = useState(false);
   const parameters = useRecoilValue(parametersState);
-  const contentFragmentModel = useRecoilValue(contentFragmentModelState);
+  const contentFragment = useRecoilValue(contentFragmentState);
 
   useEffect(() => {
     setPrompt(promptText);
@@ -183,7 +183,7 @@ function PromptEditor({ isOpen, onClose, ...props }) {
               onFocus={() => setViewSource(true)}
               onKeyDown={handleKeyDown}
               autoFocus={true}
-              value={viewSource ? promptText : renderPrompt(promptText, parameters)}
+              value={viewSource ? promptText : renderPrompt(promptText, parameters, contentFragment.model)}
               onValueChange={setPromptText}
               highlight={(code) => highlight(code, languages.custom, 'custom')}
               style={{ minHeight: '100%' }}

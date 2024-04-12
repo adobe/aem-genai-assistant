@@ -27,8 +27,12 @@ export class AemService {
     console.debug(`CF Endpoint: ${this.cfEndpoint}`);
   }
 
+  getHost() {
+    return this.aemHost;
+  }
+
   async getFragment(fragmentId) {
-    console.debug('Getting fragment');
+    console.debug(`Getting fragment ${fragmentId}`);
     const fragment = await wretch(this.cfEndpoint)
       .post({
         command: 'getFragment',
@@ -41,11 +45,11 @@ export class AemService {
     return fragment;
   }
 
-  async getModel(modelId) {
-    console.debug('Getting model');
+  async getFragmentModel(modelId) {
+    console.debug(`Getting model ${modelId}`);
     const model = await wretch(this.cfEndpoint)
       .post({
-        command: 'getModel',
+        command: 'getFragmentModel',
         aemHost: this.aemHost,
         modelId,
         accessToken: this.accessToken,
@@ -55,38 +59,13 @@ export class AemService {
     return model;
   }
 
-  async getAllModels() {
-    console.debug('Getting models');
-    const { items } = await wretch(this.cfEndpoint)
-      .post({
-        command: 'getAllModels',
-        aemHost: this.aemHost,
-        accessToken: this.accessToken,
-      })
-      .json();
-
-    for (const item of items) {
-      console.debug(JSON.stringify(item, null, 2));
-    }
-
-    return items.map((item) => ({
-      name: item.name,
-      path: item.path,
-      fields: item.fields.map((field) => ({
-        name: field.name,
-        type: field.type,
-        label: field.label,
-      })),
-    }));
-  }
-
-  async createVariation(fragmentId, content) {
+  async createFragmentVariation(fragmentId, content) {
     const variationName = content.variationName ?? `var-${uuid()}`;
     console.debug(`Creating variation ${variationName} for fragment ${fragmentId}`);
     console.debug(`Content: ${JSON.stringify(content)}`);
     const variation = await wretch(this.cfEndpoint)
       .post({
-        command: 'createVariation',
+        command: 'createFragmentVariation',
         aemHost: this.aemHost,
         fragmentId,
         variationName,

@@ -2,36 +2,65 @@
     {
         "label": "Cards",
         "description": "Generate crisp, audience-centric copy for your website's card elements - title and body included.",
-        "file": "card.prompt"
+        "file": "card.prompt",
+        "modes": [
+            "default"
+        ]
+    },
+    {
+        "label": "Cards",
+        "description": "Generate crisp, audience-centric copy for your website's card elements - title and body included.",
+        "file": "card.cf.prompt",
+        "modes": [
+            "cf"
+        ]
     },
     {
         "label": "Cart abandonment",
         "description": "With a mix of charm and strategy, this prompt delivers diligent web text to prompt customers on their pending orders.",
-        "file": "cart-abandonment.prompt"
+        "file": "cart-abandonment.prompt",
+        "modes": [
+            "default"
+        ]
     },
     {
         "label": "FAQ Section",
         "description": "Breathe life into a FAQ section, carefully curated with a fixed number of question-answer pairs.",
-        "file": "faq.prompt"
+        "file": "faq.prompt",
+        "modes": [
+            "default"
+        ]
     },
     {
         "label": "Headline",
         "description": "Discover a distinctive headline copy for your website, attentively crafted to engage your target market.",
-        "file": "headline.prompt"
+        "file": "headline.prompt",
+        "modes": [
+            "default"
+        ]
     },
     {
         "label": "Hero Banner",
         "description": "Design a compelling hero banner for your website, featuring a captivating title, body, and call-to-action button.",
-        "file": "hero.prompt"
+        "file": "hero.prompt",
+        "modes": [
+            "default"
+        ]
     },
     {
         "label": "Rewrite",
         "description": "Rewrite. Reuse. Repurpose.",
-        "file": "rewrite.prompt"
+        "file": "rewrite.prompt",
+        "modes": [
+            "default"
+        ]
     },
     {
         "label": "Tile",
         "description": "Craft engaging website Tile content, tailored to your target audience, with a succinct title and body.",
-        "file": "tile.prompt"
+        "file": "tile.prompt",
+        "modes": [
+            "default"
+        ]
     }
 ]

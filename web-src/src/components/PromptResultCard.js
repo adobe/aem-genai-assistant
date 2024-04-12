@@ -353,15 +353,17 @@ export function PromptResultCard({ result, ...props }) {
                 </ActionButton>
                 <Tooltip>Poor</Tooltip>
               </TooltipTrigger>
-              <TooltipTrigger delay={0}>
-                <ActionButton
-                  isQuiet
-                  UNSAFE_className="hover-cursor-pointer"
-                  onPress={() => deleteVariant(selectedVariant.id)}>
-                  <DeleteOutlineIcon/>
-                </ActionButton>
-                <Tooltip>Remove</Tooltip>
-              </TooltipTrigger>
+              { runMode !== RUN_MODE_CF
+                && <TooltipTrigger delay={0}>
+                  <ActionButton
+                    isQuiet
+                    UNSAFE_className="hover-cursor-pointer"
+                    onPress={() => deleteVariant(selectedVariant.id)}>
+                    <DeleteOutlineIcon/>
+                  </ActionButton>
+                  <Tooltip>Remove</Tooltip>
+                </TooltipTrigger>
+              }
               { runMode === RUN_MODE_CF
                 && <>
                   <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'}/>

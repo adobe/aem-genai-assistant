@@ -33,7 +33,6 @@ const EXC_SHELL_GROUP_ID = 'aem-generate-variations';
 
 export function ConsentDialog({ onConsentChange }) {
   const [isOpen, setOpen] = React.useState(false);
-
   const { formatMessage } = useIntl();
 
   useEffect(() => {

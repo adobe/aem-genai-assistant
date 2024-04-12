@@ -35,12 +35,15 @@ import { sampleRUM } from '../rum.js';
 
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
+
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
   const temperature = useRecoilValue(temperatureState);
+
   const setResults = useSetRecoilState(resultsState);
   const setIsOpenPromptEditor = useSetRecoilState(promptEditorState);
   const [generationInProgress, setGenerationInProgress] = useState(false);
+
   const saveResults = useSaveResults();
   const { formatMessage } = useIntl();
 

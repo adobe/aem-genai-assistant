@@ -61,6 +61,7 @@ const styles = {
 export function VariantImagesView({ variant, isFavorite, ...props }) {
   const { expressSdkService } = useApplicationContext();
   const { variantImages, replaceImageFromVariant, deleteImageFromVariant } = useVariantImages();
+
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
   const [imageViewerIndex, setImageViewerIndex] = useState(0);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);

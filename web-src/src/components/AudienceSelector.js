@@ -94,10 +94,11 @@ export function AudienceSelector({
 }) {
   const getItemsFromTarget = useGetItemsFromTarget();
   const getItemsFromCsvFile = useGetItemsFromCsvFile();
+
   const [dataSource, setDataSource] = useState();
   const [items, setItems] = React.useState([]);
-  const [disabledKeys, setDisabledKeys] = React.useState([]);
 
+  const [disabledKeys, setDisabledKeys] = React.useState([]);
   const { formatMessage } = useIntl();
 
   useEffect(() => {

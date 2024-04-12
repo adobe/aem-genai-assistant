@@ -19,6 +19,7 @@ export const USER_GUIDELINES_URL = 'https://www.adobe.com/legal/licenses-terms/a
 
 export function LegalTermsLink() {
   const { formatMessage } = useIntl();
+
   return (
     <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_style={{ textDecoration: 'underline', color: 'blue' }}>{formatMessage(intlMessages.promptSessionSideView.legalTermsLinkName)}</Link>
   );

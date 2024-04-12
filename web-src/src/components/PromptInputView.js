@@ -114,7 +114,6 @@ function createInputComponent(type, name, label, params, value, onChange) {
 export function PromptInputView({ gridColumn }) {
   const placeholders = useRecoilValue(placeholdersState);
   const [parameters, setParameters] = useRecoilState(parametersState);
-
   const { formatMessage } = useIntl();
 
   const onChange = useCallback((name, value) => {

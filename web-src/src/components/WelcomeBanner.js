@@ -40,6 +40,7 @@ export function WelcomeBanner({
   template, onClick, ...props
 }) {
   const { formatMessage } = useIntl();
+
   return (
     <Flex direction="row" alignItems="center" justifyContent="space-between" flexWrap="nowrap" {...props} UNSAFE_className={styles.banner}>
       <div className={styles.container}>

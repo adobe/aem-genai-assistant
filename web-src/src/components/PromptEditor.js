@@ -90,6 +90,7 @@ function PromptEditor({ isOpen, onClose, ...props }) {
   const [prompt, setPrompt] = useRecoilState(promptState);
   const [promptText, setPromptText] = useState(prompt);
   const [viewSource, setViewSource] = useState(false);
+
   const parameters = useRecoilValue(parametersState);
 
   const { formatMessage } = useIntl();

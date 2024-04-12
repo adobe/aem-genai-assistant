@@ -39,6 +39,7 @@ export const HELP_AND_FAQ_URL = 'https://www.aem.live/docs/sidekick-generate-var
 export function MainSidePanel(props) {
   const { appVersion } = useApplicationContext();
   const sessions = useRecoilValue(sessionHistoryState);
+
   const [currentSession, setCurrentSession] = useRecoilState(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
   const [mainSidePanel, setMainSidePanelState] = useRecoilState(mainSidePanelState);

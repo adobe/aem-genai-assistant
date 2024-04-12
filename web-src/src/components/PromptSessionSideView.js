@@ -63,7 +63,6 @@ const styles = {
 export function PromptSessionSideView({ isOpenPromptEditor, onTogglePrompt, ...props }) {
   const currentSession = useRecoilValue(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
-
   const { formatMessage } = useIntl();
 
   return (

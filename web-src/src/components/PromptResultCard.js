@@ -142,10 +142,13 @@ const styles = {
 export function PromptResultCard({ result, ...props }) {
   const { firefallService, expressSdkService } = useApplicationContext();
   const { isExpressAuthorized } = useShellContext();
+
   const [selectedVariant, setSelectedVariant] = useState(result.variants[0]);
+  const [imagePromptProgress, setImagePromptProgress] = useState(false);
   const setPrompt = useSetRecoilState(promptState);
   const setParameters = useSetRecoilState(parametersState);
   const setResults = useSetRecoilState(resultsState);
+
   const isFavorite = useIsFavorite();
   const isFeedback = useIsFeedback();
   const toggleFavorite = useToggleFavorite();
@@ -154,8 +157,6 @@ export function PromptResultCard({ result, ...props }) {
   const { addImageToVariant } = useVariantImages();
   const resultsEndRef = useRef();
   const { formatMessage } = useIntl();
-
-  const [imagePromptProgress, setImagePromptProgress] = useState(false);
 
   useEffect(() => {
     if (resultsEndRef.current) {

@@ -9,6 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+const { retry } = require('wretch/middlewares/retry');
 const wretch = require('./Network.js');
 
 class AemClient {
@@ -77,6 +78,7 @@ class AemClient {
       }));
 
       await wretch(updateVariationUrl)
+        .middlewares([retry()])
         .headers({
           'X-Adobe-Accept-Unsupported-API': '1',
           'If-Match': eTag,

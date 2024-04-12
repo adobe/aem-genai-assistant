@@ -360,21 +360,23 @@ export function PromptResultCard({ result, ...props }) {
                 </ActionButton>
                 <Tooltip>Remove</Tooltip>
               </TooltipTrigger>
-              <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'}/>
               { runMode === RUN_MODE_CF
-                && <Flex direction="row" gap="size-100" alignItems={'center'}>
-                  <Button
-                    UNSAFE_className="hover-cursor-pointer"
-                    marginStart={'size-100'}
-                    marginEnd={'size-100'}
-                    width="size-2400"
-                    variant="secondary"
-                    style="fill"
-                    onPress={handleExportVariation}>
-                    <CreateVariationIcon marginEnd={'8px'} />
-                    Export CF Variation
-                  </Button>
-                </Flex>
+                && <>
+                  <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'}/>
+                  <Flex direction="row" gap="size-100" alignItems={'center'}>
+                    <Button
+                      UNSAFE_className="hover-cursor-pointer"
+                      marginStart={'size-100'}
+                      marginEnd={'size-100'}
+                      width="size-2400"
+                      variant="secondary"
+                      style="fill"
+                      onPress={handleExportVariation}>
+                      <CreateVariationIcon marginEnd={'8px'} />
+                      Export CF Variation
+                    </Button>
+                  </Flex>
+                </>
               }
               <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'}/>
               <Flex direction="row" gap="size-100" alignItems={'center'}>

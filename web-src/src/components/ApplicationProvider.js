@@ -76,10 +76,10 @@ export const ApplicationProvider = ({ children }) => {
 
     const aemService = aemHost ? createAemService(aemHost, user.imsToken) : undefined;
 
-    const startupPromise = Promise.resolve();
+    let startupPromise = Promise.resolve();
 
     if (aemService && fragmentId) {
-      startupPromise.then(async () => {
+      startupPromise = startupPromise.then(async () => {
         try {
           const fragment = await aemService.getFragment(fragmentId);
           console.debug(`Fragment: ${fragment}`);

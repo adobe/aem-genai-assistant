@@ -115,7 +115,7 @@ export function SavePromptButton(props) {
       lastModifiedBy: name,
     };
     const newCustomPromptTemplates = [...customPromptTemplates, newTemplate];
-    saveTemplates(newCustomPromptTemplates).then(() => {
+    saveTemplates(newCustomPromptTemplates, runMode).then(() => {
       log('prompt:save:create', {
         id: newTemplate.id,
         label: newTemplate.label,

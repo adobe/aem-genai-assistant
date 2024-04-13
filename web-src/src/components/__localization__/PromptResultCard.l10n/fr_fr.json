@@ -1,4 +1,6 @@
 {
+  "expressNoAccessInfoContextualInfoContent": "Pour obtenir l’accès, envoyez une demande à votre administrateur informatique ou connectez-vous avec un Adobe ID éligible.",
+  "expressNoAccessInfoContextualInfoHeading": "Vous n'avez pas accès à l'Adobe Express",
   "favoritesView.copyTextSuccessToast": "Texte copié dans le Presse-papiers !",
   "favoritesView.generateImageFailedToast": "Une erreur est survenue. Veuillez réessayer !",
   "promptResultCard.copyButtonTooltip": "Copier",

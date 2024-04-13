@@ -11,13 +11,18 @@
  */
 import { ContextualHelp, Heading, Content } from '@adobe/react-spectrum';
 import React from 'react';
+import { useIntl } from 'react-intl';
+
+import { intlMessages } from './PromptResultCard.l10n.js';
 
 export default function ExpressNoAccessInfo() {
+  const { formatMessage } = useIntl();
+
   return (
     <ContextualHelp variant="info">
-      <Heading>You don&apos;t have access to Adobe Express</Heading>
+      <Heading>{formatMessage(intlMessages.promptResultCard.expressNoAccessInfoContextualInfoHeading)}</Heading>
       <Content>
-        To gain access, submit a request to your IT administrator or sign in with an elgible Adobe ID.
+        {formatMessage(intlMessages.promptResultCard.expressNoAccessInfoContextualInfoContent)}
       </Content>
     </ContextualHelp>
   );

@@ -52,5 +52,13 @@ export const intlMessages = {
       defaultMessage: 'Copied text to clipboard!',
       id: 'favoritesView.copyTextSuccessToast',
     },
+    expressNoAccessInfoContextualInfoHeading: {
+      defaultMessage: "You don't have access to Adobe Express",
+      id: 'expressNoAccessInfoContextualInfoHeading',
+    },
+    expressNoAccessInfoContextualInfoContent: {
+      defaultMessage: 'To gain access, submit a request to your IT administrator or sign in with an elgible Adobe ID.',
+      id: 'expressNoAccessInfoContextualInfoContent',
+    },
   },
 };

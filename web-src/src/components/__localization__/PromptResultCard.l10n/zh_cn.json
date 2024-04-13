@@ -1,4 +1,6 @@
 {
+  "expressNoAccessInfoContextualInfoContent": "要获取访问权限，请向IT管理员提交请求，或使用合法的Adobe ID登录。",
+  "expressNoAccessInfoContextualInfoHeading": "您无权访问Adobe Express",
   "favoritesView.copyTextSuccessToast": "已将文本复制到剪贴板！",
   "favoritesView.generateImageFailedToast": "发生错误。请重试！",
   "promptResultCard.copyButtonTooltip": "复制",

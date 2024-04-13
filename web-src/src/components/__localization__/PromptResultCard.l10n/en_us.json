@@ -1,4 +1,6 @@
 {
+  "expressNoAccessInfoContextualInfoContent": "To gain access, submit a request to your IT administrator or sign in with an elgible Adobe ID.",
+  "expressNoAccessInfoContextualInfoHeading": "You don't have access to Adobe Express",
   "favoritesView.copyTextSuccessToast": "Copied text to clipboard!",
   "favoritesView.generateImageFailedToast": "Something went wrong. Please try again!",
   "promptResultCard.copyButtonTooltip": "Copy",

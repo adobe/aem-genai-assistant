@@ -1,4 +1,6 @@
 {
+  "expressNoAccessInfoContextualInfoContent": "アクセス権を取得するには、IT 管理者にリクエストを送信するか、有効なAdobe IDを使用してサインインします。",
+  "expressNoAccessInfoContextualInfoHeading": "Adobe Expressへのアクセス権がありません",
   "favoritesView.copyTextSuccessToast": "クリップボードにテキストをコピーしました。",
   "favoritesView.generateImageFailedToast": "エラーが発生しました。再度お試しください！",
   "promptResultCard.copyButtonTooltip": "コピー",

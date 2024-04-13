@@ -1,4 +1,10 @@
 {
+  "expressNoAccessInfoContextualInfoContent": {
+    "__value__": "To gain access, submit a request to your IT administrator or sign in with an elgible Adobe ID."
+  },
+  "expressNoAccessInfoContextualInfoHeading": {
+    "__value__": "You don't have access to Adobe Express"
+  },
   "favoritesView.copyTextSuccessToast": {
     "__value__": "Copied text to clipboard!"
   },

@@ -1,4 +1,6 @@
 {
+  "expressNoAccessInfoContextualInfoContent": "액세스 권한을 얻으려면 IT 관리자에게 요청을 제출하거나 읽기 쉬운 Adobe ID으로 로그인하십시오.",
+  "expressNoAccessInfoContextualInfoHeading": "Adobe Express에 대한 액세스 권한이 없습니다.",
   "favoritesView.copyTextSuccessToast": "텍스트를 클립보드에 복사했습니다.",
   "favoritesView.generateImageFailedToast": "문제가 발생했습니다. 다시 시도하십시오.",
   "promptResultCard.copyButtonTooltip": "복사",

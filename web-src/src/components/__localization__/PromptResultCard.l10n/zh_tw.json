@@ -1,4 +1,6 @@
 {
+  "expressNoAccessInfoContextualInfoContent": "若要取得存取權，請向您的IT管理員提交請求，或使用正確的Adobe ID登入。",
+  "expressNoAccessInfoContextualInfoHeading": "您無權存取Adobe Express",
   "favoritesView.copyTextSuccessToast": "已將文字複製到剪貼簿！",
   "favoritesView.generateImageFailedToast": "發生錯誤。請再試一次！",
   "promptResultCard.copyButtonTooltip": "複製",

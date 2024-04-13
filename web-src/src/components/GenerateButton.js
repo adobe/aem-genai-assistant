@@ -96,9 +96,9 @@ export function GenerateButton() {
         {formatMessage(intlMessages.promptSessionSideView.generateButtonLabel)}
       </Button>
       <ContextualHelp variant="info">
-        <Heading>{formatMessage(intlMessages.promptSessionSideView.generateButtonContextualHelpHeading)}</Heading>
+        <Heading>{formatMessage(intlMessages.promptSessionSideView.generateButtonContextualInfoHeading)}</Heading>
         <Content>
-          {formatMessage(intlMessages.promptSessionSideView.generateButtonContextualHelpContent, {
+          {formatMessage(intlMessages.promptSessionSideView.generateButtonContextualInfoContent, {
             p: (chunks) => <p>{chunks}</p>,
             ul: (chunks) => <ul>{chunks}</ul>,
             li: (chunks) => <li>{chunks}</li>,

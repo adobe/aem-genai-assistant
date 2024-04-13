@@ -12,6 +12,46 @@
 
 export const intlMessages = {
   promptResultCard: {
+    createPromptTitle: {
+      defaultMessage: 'Create a Prompt',
+      id: 'promptResultCard.createPromptTitle',
+    },
+    createPromptDescription: {
+      defaultMessage: 'Open "Edit Prompt" and write your prompt or paste sections of other prompts.',
+      id: 'promptResultCard.createPromptDescription',
+    },
+    fillFormGenerateContentTitle: {
+      defaultMessage: 'Fill the Form and Generate Content',
+      id: 'promptResultCard.fillFormGenerateContentTitle',
+    },
+    fillFormGenerateContentDescription: {
+      defaultMessage: 'Begin by filling out the prompt template inputs using natural language. Once you filled in the prompt template, select the "Generate" button.',
+      id: 'promptResultCard.fillFormGenerateContentDescription',
+    },
+    generateContentTitle: {
+      defaultMessage: 'Generate Content',
+      id: 'promptResultCard.generateContentTitle',
+    },
+    generateContentDescription: {
+      defaultMessage: 'If you\'ve created input fields fill them in and select "Generate". Adobe\'s generative AI will process your input and generate unique content based on your specifications.',
+      id: 'promptResultCard.generateContentDescription',
+    },
+    refineContentTitle: {
+      defaultMessage: 'Refine and use Content',
+      id: 'promptResultCard.refineContentTitle',
+    },
+    refineContentDescription: {
+      defaultMessage: 'After content is generated if you want to refine it further, update the prompt and / or input fields. Once you are happy with the content leverage in your AEM authoring experience.',
+      id: 'promptResultCard.refineContentDescription',
+    },
+    savePromptTitle: {
+      defaultMessage: 'Save',
+      id: 'promptResultCard.savePromptTitle',
+    },
+    savePromptDescription: {
+      defaultMessage: 'If you want to reuse the prompt created select "Save".  This allows you to store the prompt for future use. You can save it at the user or organization level.',
+      id: 'promptResultCard.savePromptDescription',
+    },
     reuseButtonTooltip: {
       defaultMessage: 'Re-use',
       id: 'promptResultCard.reuseButtonTooltip',

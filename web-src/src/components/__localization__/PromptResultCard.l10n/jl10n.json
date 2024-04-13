@@ -14,8 +14,26 @@
   "promptResultCard.copyButtonTooltip": {
     "__value__": "Copy"
   },
+  "promptResultCard.createPromptDescription": {
+    "__value__": "Open \"Edit Prompt\" and write your prompt or paste sections of other prompts."
+  },
+  "promptResultCard.createPromptTitle": {
+    "__value__": "Create a Prompt"
+  },
   "promptResultCard.favoriteButtonTooltip": {
     "__value__": "Favorite"
+  },
+  "promptResultCard.fillFormGenerateContentDescription": {
+    "__value__": "Begin by filling out the prompt template inputs using natural language. Once you filled in the prompt template, select the \"Generate\" button."
+  },
+  "promptResultCard.fillFormGenerateContentTitle": {
+    "__value__": "Fill the Form and Generate Content"
+  },
+  "promptResultCard.generateContentDescription": {
+    "__value__": "If you've created input fields fill them in and select \"Generate\". Adobe's generative AI will process your input and generate unique content based on your specifications."
+  },
+  "promptResultCard.generateContentTitle": {
+    "__value__": "Generate Content"
   },
   "promptResultCard.goodButtonTooltip": {
     "__value__": "Good"
@@ -23,11 +41,23 @@
   "promptResultCard.poorButtonTooltip": {
     "__value__": "Poor"
   },
+  "promptResultCard.refineContentDescription": {
+    "__value__": "After content is generated if you want to refine it further, update the prompt and / or input fields. Once you are happy with the content leverage in your AEM authoring experience."
+  },
+  "promptResultCard.refineContentTitle": {
+    "__value__": "Refine and use Content"
+  },
   "promptResultCard.removeButtonTooltip": {
     "__value__": "Remove"
   },
   "promptResultCard.reuseButtonTooltip": {
     "__value__": "Re-use"
+  },
+  "promptResultCard.savePromptDescription": {
+    "__value__": "If you want to reuse the prompt created select \"Save\".  This allows you to store the prompt for future use. You can save it at the user or organization level."
+  },
+  "promptResultCard.savePromptTitle": {
+    "__value__": "Save"
   },
   "promptResultCard.sendFeedbackSuccessToast": {
     "__value__": "Feedback sent!"

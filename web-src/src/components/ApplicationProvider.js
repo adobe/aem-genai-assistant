@@ -29,7 +29,7 @@ import { contentFragmentState } from '../state/ContentFragmentState.js';
 export const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 
 export const RUN_MODE_DEFAULT = 'default';
-export const RUN_MODE_CF = 'cf';
+export const RUN_MODE_CF = 'content-fragments';
 
 const COMPLETE_ACTION = 'complete';
 const FEEDBACK_ACTION = 'feedback';

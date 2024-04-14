@@ -12,7 +12,7 @@
         "description": "Generate crisp, audience-centric copy for your website's card elements - title and body included.",
         "file": "card.cf.prompt",
         "modes": [
-            "cf"
+            "content-fragments"
         ]
     },
     {

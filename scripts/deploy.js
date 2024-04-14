@@ -94,11 +94,11 @@ function getDeploymentUrl(workspaceName) {
 
 async function deployApp(workspaceName) {
   try {
-    console.log('Deploying app...');
+    console.log('Deploying application...');
     await execCommand('aio', ['app', 'deploy']);
-    console.log('App deployed successfully.');
+    console.log('Application deployed successfully.');
     if (workspaceName) {
-      console.log(`\n${getDeploymentUrl(workspaceName)}\n`);
+      console.log(`${getDeploymentUrl(workspaceName)}\n`);
     }
   } catch (error) {
     console.error(`Failed to deploy app: ${error.message}`);

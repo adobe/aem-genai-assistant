@@ -43,11 +43,7 @@ function execCommand(command, args) {
 }
 
 function convertToWorkspaceName(branchName) {
-  const workspaceName = branchName.replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, '');
-  const words = workspaceName.split(/[^a-zA-Z0-9]+/);
-  return words.map((word) => {
-    return word.charAt(0) + word.slice(1).toLowerCase();
-  }).join('');
+  return branchName.replace(/[^a-zA-Z0-9]/g, '');
 }
 
 async function getCurrentGitBranch() {

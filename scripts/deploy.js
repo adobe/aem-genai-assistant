@@ -43,11 +43,7 @@ function execCommand(command, args) {
 }
 
 function convertToWorkspaceName(branchName) {
-  const workspaceName = branchName.replace(/^[^a-zA-Z0-9]+|[^a-zA-Z0-9]+$/g, '');
-  const words = workspaceName.split(/[^a-zA-Z0-9]+/);
-  return words.map((word) => {
-    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-  }).join('');
+  return branchName.replace(/[^a-zA-Z0-9]/g, '');
 }
 
 async function getCurrentGitBranch() {
@@ -98,7 +94,8 @@ async function deployApp(workspaceName) {
     await execCommand('aio', ['app', 'deploy']);
     console.log('Application deployed successfully.');
     if (workspaceName) {
-      console.log(`${getDeploymentUrl(workspaceName)}\n`);
+      console.log('To you your deployment, visit:');
+      console.log(`-> ${getDeploymentUrl(workspaceName)}`);
     }
   } catch (error) {
     throw new Error(`Failed to deploy application: ${error.message}`);

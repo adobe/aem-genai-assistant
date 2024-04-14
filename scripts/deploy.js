@@ -125,7 +125,7 @@ async function deploy() {
       const deployToMatchingWorkspace = await inquirer.default.prompt({
         type: 'confirm',
         name: 'answer',
-        message: `Would you like to deploy to the workspace matching the current Git branch (${matchingWorkspace.name})?`,
+        message: `Would you like to deploy to the workspace matching the current Git branch (${workspaceName})?`,
         default: true,
       });
       if (deployToMatchingWorkspace.answer) {
@@ -137,11 +137,10 @@ async function deploy() {
       const shouldCreateWorkspace = await inquirer.default.prompt({
         type: 'confirm',
         name: 'answer',
-        message: `Would you like to create a new workspace for the current Git branch (${currentBranch})?`,
+        message: `Would you like to create a new workspace for the current Git branch (${workspaceName})?`,
         default: true,
       });
       if (shouldCreateWorkspace.answer) {
-        console.log(`Creating new workspace for Git branch: ${currentBranch}...`);
         await createWorkspace(workspaceName);
         await deployApp(workspaceName);
         return;

@@ -14,5 +14,5 @@
   "app.noAccessDialogContent": "您无权访问本产品",
   "app.noAccessDialogHeading": "访问被拒绝",
   "app.noAccessMessage": "要使用<strong>生成变</strong>量，您必须同意创成AI用户准则。{newLine}刷新此页面以<strong>同意</strong>。",
-  "app.promptTemplateLibraryPanelLabel": "提示模板"
+  "app.promptTemplatesLibraryPanelLabel": "提示模板"
 }

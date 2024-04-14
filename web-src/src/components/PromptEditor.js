@@ -158,7 +158,7 @@ function PromptEditor({ isOpen, onClose, ...props }) {
               </Text>
               <ContextualHelp variant="info">
                 <Content>
-                  {formatMessage(intlMessages.promptSessionSideView.promptEditorContextualHelpContent)}
+                  {formatMessage(intlMessages.promptSessionSideView.promptEditorContextualInfoContent)}
                 </Content>
               </ContextualHelp>
             </Flex>

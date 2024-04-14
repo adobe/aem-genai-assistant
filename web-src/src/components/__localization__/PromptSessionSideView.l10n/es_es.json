@@ -12,7 +12,7 @@
   "promptSessionSideView.legalTermsLinkName": "Directrices de usuario generativas de Adobe Experience Cloud AI",
   "promptSessionSideView.navigationLabel": "Plantillas de mensaje",
   "promptSessionSideView.previewButtonLabel": "Previsualizar",
-  "promptSessionSideView.promptEditorContextualHelpContent": "Al editar el mensaje directamente, incluya un contexto específico, que puede incluir los materiales de promoción de la marca, el contenido del sitio web, los esquemas de datos para dichos datos, las plantillas y otros documentos de confianza.",
+  "promptSessionSideView.promptEditorContextualInfoContent": "Al editar el mensaje directamente, incluya un contexto específico, que puede incluir los materiales de promoción de la marca, el contenido del sitio web, los esquemas de datos para dichos datos, las plantillas y otros documentos de confianza.",
   "promptSessionSideView.promptEditorViewTitle": "Preguntar y documentos de origen de confianza",
   "promptSessionSideView.resetInputsButtonLabel": "Restablecer entradas",
   "promptSessionSideView.saveActionLabel": "Guardar",
@@ -21,7 +21,7 @@
   "promptSessionSideView.savePromptFailureToast": "Error al guardar la plantilla de solicitud",
   "promptSessionSideView.savePromptInstructionsLabel": "Introduzca un nombre nuevo para crear una nueva solicitud o seleccione uno existente de la lista para actualizarlo.",
   "promptSessionSideView.savePromptNameLabel": "Nombre del mensaje",
-  "promptSessionSideView.savePromptSharedLabel": "Compartido entre organizaciones",
+  "promptSessionSideView.savePromptSharedSwitchLabel": "Compartido entre organizaciones",
   "promptSessionSideView.savePromptSuccessToast": "Plantilla de mensaje guardada",
   "promptSessionSideView.temperatureDescription": "Una temperatura más alta se aleja del indicador y conduce a más aleatoriedad y creatividad",
   "promptSessionSideView.temperatureLabel": "Temperatura"

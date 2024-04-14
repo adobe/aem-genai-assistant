@@ -14,5 +14,5 @@
   "app.noAccessDialogContent": "この製品へのアクセス権がありません",
   "app.noAccessDialogHeading": "アクセス拒否",
   "app.noAccessMessage": "「バリエーション<strong>を生成」を使用</strong>するには、生成 AI のユーザーガイドラインに同意する必要があります。{newLine}このページを再読み込みして<strong>同意しま</strong>す。",
-  "app.promptTemplateLibraryPanelLabel": "プロンプトテンプレート"
+  "app.promptTemplatesLibraryPanelLabel": "プロンプトテンプレート"
 }

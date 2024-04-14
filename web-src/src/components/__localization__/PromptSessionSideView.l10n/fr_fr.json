@@ -12,7 +12,7 @@
   "promptSessionSideView.legalTermsLinkName": "Instructions d’utilisation de Adobe Experience Cloud Generative AI",
   "promptSessionSideView.navigationLabel": "Demander les modèles",
   "promptSessionSideView.previewButtonLabel": "Aperçu",
-  "promptSessionSideView.promptEditorContextualHelpContent": "Lors de la modification directe de l'invite, incluez un contexte spécifique, qui peut inclure les documents de marque, le contenu du site Web, les schémas de données pour ces données, les modèles et d'autres documents approuvés.",
+  "promptSessionSideView.promptEditorContextualInfoContent": "Lors de la modification directe de l'invite, incluez un contexte spécifique, qui peut inclure les documents de marque, le contenu du site Web, les schémas de données pour ces données, les modèles et d'autres documents approuvés.",
   "promptSessionSideView.promptEditorViewTitle": "Demander et approuver les documents source",
   "promptSessionSideView.resetInputsButtonLabel": "Réinitialiser les entrées",
   "promptSessionSideView.saveActionLabel": "Enregistrer",
@@ -21,7 +21,7 @@
   "promptSessionSideView.savePromptFailureToast": "Erreur d’enregistrement du modèle de message",
   "promptSessionSideView.savePromptInstructionsLabel": "Entrez un nouveau nom pour créer une invite ou sélectionnez-en un existant dans la liste pour le mettre à jour.",
   "promptSessionSideView.savePromptNameLabel": "Demander le nom",
-  "promptSessionSideView.savePromptSharedLabel": "Partagé dans l’entreprise",
+  "promptSessionSideView.savePromptSharedSwitchLabel": "Partagé dans l’entreprise",
   "promptSessionSideView.savePromptSuccessToast": "Modèle d'invite enregistré",
   "promptSessionSideView.temperatureDescription": "Une température plus élevée s'écarte de l'invite et conduit à plus d'aléatoire et de créativité",
   "promptSessionSideView.temperatureLabel": "Température"

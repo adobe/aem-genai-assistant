@@ -14,5 +14,5 @@
   "app.noAccessDialogContent": "您沒有此產品的存取權",
   "app.noAccessDialogHeading": "存取被拒絕",
   "app.noAccessMessage": "若要使用<strong>「產生變</strong>數」，您必須同意創作AI使用者指引。{newLine}重新整理此頁面以<strong>同意</strong>。",
-  "app.promptTemplateLibraryPanelLabel": "提示範本"
+  "app.promptTemplatesLibraryPanelLabel": "提示範本"
 }

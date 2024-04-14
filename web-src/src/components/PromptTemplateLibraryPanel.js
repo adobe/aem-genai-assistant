@@ -35,7 +35,7 @@ export function PromptTemplateLibraryPanel({ props }) {
       <div tabIndex={0}>
         <WelcomeBanner />
 
-        <Heading level={3} alignSelf={'start'}>{formatMessage(intlMessages.app.promptTemplateLibraryPanelLabel)}</Heading>
+        <Heading level={3} alignSelf={'start'}>{formatMessage(intlMessages.app.promptTemplatesLibraryPanelLabel)}</Heading>
 
         <ErrorBoundary fallback={<div>Something went wrong</div>}>
           <Suspense fallback={<ProgressCircle isIndeterminate />}>

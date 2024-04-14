@@ -12,7 +12,7 @@
   "promptSessionSideView.legalTermsLinkName": "Adobe Experience Cloud Generative AI User Guidelines",
   "promptSessionSideView.navigationLabel": "Prompt Templates",
   "promptSessionSideView.previewButtonLabel": "Preview",
-  "promptSessionSideView.promptEditorContextualHelpContent": "When editing the prompt directly, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents.",
+  "promptSessionSideView.promptEditorContextualInfoContent": "When editing the prompt directly, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents.",
   "promptSessionSideView.promptEditorViewTitle": "Prompt and Trusted Source Documents",
   "promptSessionSideView.resetInputsButtonLabel": "Reset Inputs",
   "promptSessionSideView.saveActionLabel": "Save",
@@ -21,7 +21,7 @@
   "promptSessionSideView.savePromptFailureToast": "Error saving prompt template",
   "promptSessionSideView.savePromptInstructionsLabel": "Enter a new name to create a new prompt, or select an existing one from the list to update it.",
   "promptSessionSideView.savePromptNameLabel": "Prompt Name",
-  "promptSessionSideView.savePromptSharedLabel": "Shared across organization",
+  "promptSessionSideView.savePromptSharedSwitchLabel": "Shared across organization",
   "promptSessionSideView.savePromptSuccessToast": "Prompt template saved",
   "promptSessionSideView.temperatureDescription": "A higher temperature strays from the prompt and leads to more randomness and creativity",
   "promptSessionSideView.temperatureLabel": "Temperature"

@@ -12,7 +12,7 @@
   "promptSessionSideView.legalTermsLinkName": "Adobe Experience Cloud 생성 AI 사용자 지침",
   "promptSessionSideView.navigationLabel": "프롬프트 템플릿",
   "promptSessionSideView.previewButtonLabel": "미리 보기",
-  "promptSessionSideView.promptEditorContextualHelpContent": "프롬프트를 직접 편집할 때 특정 컨텍스트를 포함하십시오. 여기에는 브랜딩 자료, 웹 사이트 컨텐츠, 이러한 데이터에 대한 데이터 스키마, 템플릿 및 기타 신뢰할 수 있는 문서가 포함될 수 있습니다.",
+  "promptSessionSideView.promptEditorContextualInfoContent": "프롬프트를 직접 편집할 때 특정 컨텍스트를 포함하십시오. 여기에는 브랜딩 자료, 웹 사이트 컨텐츠, 이러한 데이터에 대한 데이터 스키마, 템플릿 및 기타 신뢰할 수 있는 문서가 포함될 수 있습니다.",
   "promptSessionSideView.promptEditorViewTitle": "프롬프트 및 신뢰할 수 있는 소스 문서",
   "promptSessionSideView.resetInputsButtonLabel": "입력 재설정",
   "promptSessionSideView.saveActionLabel": "저장",
@@ -21,7 +21,7 @@
   "promptSessionSideView.savePromptFailureToast": "프롬프트 템플릿을 저장하는 중 오류",
   "promptSessionSideView.savePromptInstructionsLabel": "새 이름을 입력하여 새 프롬프트를 만들거나 목록에서 기존 프롬프트를 선택하여 업데이트합니다.",
   "promptSessionSideView.savePromptNameLabel": "프롬프트 이름",
-  "promptSessionSideView.savePromptSharedLabel": "조직 간에 공유",
+  "promptSessionSideView.savePromptSharedSwitchLabel": "조직 간에 공유",
   "promptSessionSideView.savePromptSuccessToast": "프롬프트 템플릿 저장됨",
   "promptSessionSideView.temperatureDescription": "높은 온도는 즉각적에서 벗어나 더 임의성과 창의성으로 이어집니다",
   "promptSessionSideView.temperatureLabel": "온도"

@@ -12,7 +12,7 @@
   "promptSessionSideView.legalTermsLinkName": "Adobe Experience Cloud Generated AI使用者指引",
   "promptSessionSideView.navigationLabel": "提示範本",
   "promptSessionSideView.previewButtonLabel": "預覽",
-  "promptSessionSideView.promptEditorContextualHelpContent": "直接編輯提示時，請包含特定的內容，其中可能包含您的品牌資料、網站內容、這類資料的資料結構、範本和其他受信任檔案。",
+  "promptSessionSideView.promptEditorContextualInfoContent": "直接編輯提示時，請包含特定的內容，其中可能包含您的品牌資料、網站內容、這類資料的資料結構、範本和其他受信任檔案。",
   "promptSessionSideView.promptEditorViewTitle": "提示與信任的來原始檔",
   "promptSessionSideView.resetInputsButtonLabel": "重設輸入",
   "promptSessionSideView.saveActionLabel": "儲存",
@@ -21,7 +21,7 @@
   "promptSessionSideView.savePromptFailureToast": "儲存提示範本時發生錯誤",
   "promptSessionSideView.savePromptInstructionsLabel": "輸入新名稱以建立新提示，或從清單中選取現有名稱以更新。",
   "promptSessionSideView.savePromptNameLabel": "提示名稱",
-  "promptSessionSideView.savePromptSharedLabel": "在組織間共用",
+  "promptSessionSideView.savePromptSharedSwitchLabel": "在組織間共用",
   "promptSessionSideView.savePromptSuccessToast": "提示範本已儲存",
   "promptSessionSideView.temperatureDescription": "溫度越高，提示越少，隨機性和創造力就越大",
   "promptSessionSideView.temperatureLabel": "溫度"

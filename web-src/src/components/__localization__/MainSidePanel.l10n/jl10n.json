@@ -1,29 +1,38 @@
 {
   "mainSidePanel.collapseMenuType": {
-    "__value__": "Collapse Side Panel"
+    "__value__": "Collapse Side Panel",
+    "__desc__": "Collapse Side Panel"
   },
   "mainSidePanel.copyrightLabel": {
-    "__value__": "Copyright © 2024 Adobe. All rights reserved"
+    "__value__": "Copyright © 2024 Adobe. All rights reserved",
+    "__desc__": "Label for Copyright"
   },
   "mainSidePanel.expandMenuType": {
-    "__value__": "Expand Side Panel"
+    "__value__": "Expand Side Panel",
+    "__desc__": "Expand Side Panel"
   },
   "mainSidePanel.favoritesMenuItem": {
-    "__value__": "Favorites"
+    "__value__": "Favorites",
+    "__desc__": "Menu item for Favorites"
   },
   "mainSidePanel.helpAndFaqsMenuItem": {
-    "__value__": "Help & FAQ"
+    "__value__": "Help & FAQ",
+    "__desc__": "Menu item for Help  FAQ"
   },
   "mainSidePanel.promptTemplatesMenuItem": {
-    "__value__": "Prompt Templates"
+    "__value__": "Prompt Templates",
+    "__desc__": "Menu item for Prompt Templates"
   },
   "mainSidePanel.recentsMenuItem": {
-    "__value__": "Recents"
+    "__value__": "Recents",
+    "__desc__": "Menu item for Recents"
   },
   "mainSidePanel.title": {
-    "__value__": "Generate Variations"
+    "__value__": "Generate Variations",
+    "__desc__": "Title for Main side panel"
   },
   "mainSidePanel.userGuidelinesMenuItem": {
-    "__value__": "User Guidelines"
+    "__value__": "User Guidelines",
+    "__desc__": "Menu item for User Guidelines"
   }
 }

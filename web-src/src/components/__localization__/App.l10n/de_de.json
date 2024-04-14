@@ -14,5 +14,5 @@
   "app.noAccessDialogContent": "Sie haben keinen Zugriff auf dieses Produkt",
   "app.noAccessDialogHeading": "Zugriff verweigert",
   "app.noAccessMessage": "Um <strong>Varianten generieren</strong> zu verwenden<strong>,</strong> müssen Sie den Benutzerrichtlinien für generative KI zustimmen.{newLine}Aktualisieren Sie diese Seite, um <strong>zuzustimmen</strong>.",
-  "app.promptTemplateLibraryPanelLabel": "Vorlagen für Eingabeaufforderungen"
+  "app.promptTemplatesLibraryPanelLabel": "Vorlagen für Eingabeaufforderungen"
 }

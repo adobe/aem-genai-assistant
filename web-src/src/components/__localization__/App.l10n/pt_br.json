@@ -14,5 +14,5 @@
   "app.noAccessDialogContent": "Você não tem acesso a este produto",
   "app.noAccessDialogHeading": "Acesso negado",
   "app.noAccessMessage": "Para usar <strong>Gerar variações</strong>, você deve concordar com as Diretrizes de usuário da IA gerativa.{newLine}Atualize esta página para <strong>Concordar</strong>.",
-  "app.promptTemplateLibraryPanelLabel": "Solicitar modelos"
+  "app.promptTemplatesLibraryPanelLabel": "Solicitar modelos"
 }

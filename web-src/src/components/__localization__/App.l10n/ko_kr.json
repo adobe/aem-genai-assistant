@@ -14,5 +14,5 @@
   "app.noAccessDialogContent": "이 제품에 대한 액세스 권한이 없습니다.",
   "app.noAccessDialogHeading": "액세스 거부됨",
   "app.noAccessMessage": "변형 생성<strong>을</strong> 사용하려면 생성 AI 사용자 지침에 동의해야 합니다.{newLine}이 페이지를 새로 고쳐 <strong>동의합니다</strong>.",
-  "app.promptTemplateLibraryPanelLabel": "프롬프트 템플릿"
+  "app.promptTemplatesLibraryPanelLabel": "프롬프트 템플릿"
 }

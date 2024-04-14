@@ -14,5 +14,5 @@
   "app.noAccessDialogContent": "Vous n’avez pas accès à ce produit",
   "app.noAccessDialogHeading": "Accès refusé",
   "app.noAccessMessage": "Pour utiliser <strong>Generate Variations (Générer des variations)</strong>, vous devez accepter les instructions d’utilisation de Generative AI.{newLine}Actualisez cette page pour accepter. <strong>.</strong>",
-  "app.promptTemplateLibraryPanelLabel": "Demander les modèles"
+  "app.promptTemplatesLibraryPanelLabel": "Demander les modèles"
 }

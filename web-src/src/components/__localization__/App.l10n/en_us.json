@@ -14,5 +14,5 @@
   "app.noAccessDialogContent": "You have no access to this product",
   "app.noAccessDialogHeading": "Access Denied",
   "app.noAccessMessage": "To use <strong>Generate Variations</strong> you must agree to the Generative AI User Guidelines.{newLine}Refresh this page to <strong>Agree</strong>.",
-  "app.promptTemplateLibraryPanelLabel": "Prompt Templates"
+  "app.promptTemplatesLibraryPanelLabel": "Prompt Templates"
 }

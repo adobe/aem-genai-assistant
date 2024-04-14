@@ -15,38 +15,47 @@ export const intlMessages = {
     title: {
       defaultMessage: 'Generate Variations',
       id: 'mainSidePanel.title',
+      description: 'Title for Main side panel',
     },
     promptTemplatesMenuItem: {
       defaultMessage: 'Prompt Templates',
       id: 'mainSidePanel.promptTemplatesMenuItem',
+      description: 'Menu item for Prompt Templates',
     },
     favoritesMenuItem: {
       defaultMessage: 'Favorites',
       id: 'mainSidePanel.favoritesMenuItem',
+      description: 'Menu item for Favorites',
     },
     recentsMenuItem: {
       defaultMessage: 'Recents',
       id: 'mainSidePanel.recentsMenuItem',
+      description: 'Menu item for Recents',
     },
     helpAndFaqsMenuItem: {
       defaultMessage: 'Help & FAQ',
       id: 'mainSidePanel.helpAndFaqsMenuItem',
+      description: 'Menu item for Help & FAQ',
     },
     userGuidelinesMenuItem: {
       defaultMessage: 'User Guidelines',
       id: 'mainSidePanel.userGuidelinesMenuItem',
+      description: 'Menu item for User Guidelines',
     },
     copyrightLabel: {
       defaultMessage: 'Copyright © 2024 Adobe. All rights reserved',
       id: 'mainSidePanel.copyrightLabel',
+      description: 'Label for Copyright',
     },
     expandMenuType: {
       defaultMessage: 'Expand Side Panel',
       id: 'mainSidePanel.expandMenuType',
+      description: 'Expand Side Panel',
     },
     collapseMenuType: {
       defaultMessage: 'Collapse Side Panel',
       id: 'mainSidePanel.collapseMenuType',
+      description: 'Collapse Side Panel',
     },
   },
 };

@@ -15,30 +15,37 @@ export const intlMessages = {
     navigationLabel: {
       defaultMessage: 'Prompt Templates',
       id: 'favoritesView.navigationLabel',
+      description: 'Navigation label for Favorites view',
     },
     noFavoritesMessage: {
       defaultMessage: 'No favorites yet',
       id: 'favoritesView.noFavoritesMessage',
+      description: 'Message displayed when there are no favorites',
     },
     generateImageButtonLabel: {
       defaultMessage: 'Generate Image',
       id: 'favoritesView.generateImageButtonLabel',
+      description: 'Label for Generate Image button',
     },
     copyButtonTooltip: {
       defaultMessage: 'Copy',
       id: 'favoritesView.copyButtonTooltip',
+      description: 'Tooltip for Copy button',
     },
     removeButtonTooltip: {
       defaultMessage: 'Delete',
       id: 'favoritesView.removeButtonTooltip',
+      description: 'Tooltip for Remove button',
     },
     generateImageFailedToast: {
       defaultMessage: 'Something went wrong. Please try again!',
       id: 'favoritesView.generateImageFailedToast',
+      description: 'Toast message for failed image generation',
     },
     copyTextSuccessToast: {
       defaultMessage: 'Copied text to clipboard!',
       id: 'favoritesView.copyTextSuccessToast',
+      description: 'Toast message for successful text copy',
     },
   },
 };

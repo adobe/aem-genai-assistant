@@ -12,7 +12,7 @@
   "promptSessionSideView.legalTermsLinkName": "Adobe Experience Cloud Generative AI のユーザガイドライン",
   "promptSessionSideView.navigationLabel": "プロンプトテンプレート",
   "promptSessionSideView.previewButtonLabel": "プレビュー",
-  "promptSessionSideView.promptEditorContextualHelpContent": "プロンプトを直接編集する場合は、特定のコンテキストを含めてください。これには、ブランディング資料、Web サイトのコンテンツ、そのようなデータのデータスキーマ、テンプレート、その他の信頼できるドキュメントを含めることができます。",
+  "promptSessionSideView.promptEditorContextualInfoContent": "プロンプトを直接編集する場合は、特定のコンテキストを含めてください。これには、ブランディング資料、Web サイトのコンテンツ、そのようなデータのデータスキーマ、テンプレート、その他の信頼できるドキュメントを含めることができます。",
   "promptSessionSideView.promptEditorViewTitle": "プロンプトと信頼されたソースドキュメント",
   "promptSessionSideView.resetInputsButtonLabel": "入力をリセット",
   "promptSessionSideView.saveActionLabel": "保存",
@@ -21,7 +21,7 @@
   "promptSessionSideView.savePromptFailureToast": "プロンプトテンプレートの保存エラー",
   "promptSessionSideView.savePromptInstructionsLabel": "新しい名前を入力して新しいプロンプトを作成するか、リストから既存のプロンプトを選択して更新します。",
   "promptSessionSideView.savePromptNameLabel": "プロンプト名",
-  "promptSessionSideView.savePromptSharedLabel": "組織全体で共有",
+  "promptSessionSideView.savePromptSharedSwitchLabel": "組織全体で共有",
   "promptSessionSideView.savePromptSuccessToast": "保存されたプロンプトテンプレート",
   "promptSessionSideView.temperatureDescription": "高い温度はプロンプトから歪み、よりランダム性と創造性につながります",
   "promptSessionSideView.temperatureLabel": "温度"

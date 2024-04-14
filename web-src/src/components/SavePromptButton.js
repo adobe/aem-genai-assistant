@@ -269,7 +269,7 @@ export function SavePromptButton(props) {
               <Switch
                 isSelected={isShared}
                 onChange={setIsShared}>
-                {formatMessage(intlMessages.promptSessionSideView.savePromptSharedLabel)}
+                {formatMessage(intlMessages.promptSessionSideView.savePromptSharedSwitchLabel)}
               </Switch>
               { renderWarning() }
             </Form>

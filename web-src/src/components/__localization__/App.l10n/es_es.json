@@ -14,5 +14,5 @@
   "app.noAccessDialogContent": "No tiene acceso a este producto",
   "app.noAccessDialogHeading": "Acceso denegado",
   "app.noAccessMessage": "Para utilizar <strong>Generar variaciones</strong> debe aceptar las Directrices de usuario de IA generativa .{newLine}Actualice esta página para <strong>aceptar</strong>.",
-  "app.promptTemplateLibraryPanelLabel": "Plantillas de mensaje"
+  "app.promptTemplatesLibraryPanelLabel": "Plantillas de mensaje"
 }

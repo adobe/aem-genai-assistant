@@ -12,7 +12,7 @@
   "promptSessionSideView.legalTermsLinkName": "Diretrizes de usuário do Adobe Experience Cloud Generative AI",
   "promptSessionSideView.navigationLabel": "Solicitar modelos",
   "promptSessionSideView.previewButtonLabel": "Visualizar",
-  "promptSessionSideView.promptEditorContextualHelpContent": "Ao editar o prompt diretamente, inclua um contexto específico, que pode incluir seus materiais de marca, conteúdo do site, esquemas de dados para tais dados, modelos e outros documentos confiáveis.",
+  "promptSessionSideView.promptEditorContextualInfoContent": "Ao editar o prompt diretamente, inclua um contexto específico, que pode incluir seus materiais de marca, conteúdo do site, esquemas de dados para tais dados, modelos e outros documentos confiáveis.",
   "promptSessionSideView.promptEditorViewTitle": "Solicitação e Documentos de Origem Confiáveis",
   "promptSessionSideView.resetInputsButtonLabel": "Redefinir Entradas",
   "promptSessionSideView.saveActionLabel": "Salvar",
@@ -21,7 +21,7 @@
   "promptSessionSideView.savePromptFailureToast": "Erro ao salvar modelo de prompt",
   "promptSessionSideView.savePromptInstructionsLabel": "Digite um novo nome para criar um novo prompt ou selecione um existente na lista para atualizá-lo.",
   "promptSessionSideView.savePromptNameLabel": "Nome do Prompt",
-  "promptSessionSideView.savePromptSharedLabel": "Compartilhado entre organizações",
+  "promptSessionSideView.savePromptSharedSwitchLabel": "Compartilhado entre organizações",
   "promptSessionSideView.savePromptSuccessToast": "Modelo de aviso salvo",
   "promptSessionSideView.temperatureDescription": "Uma temperatura mais alta se desvia do imediato e leva a mais aleatoriedade e criatividade",
   "promptSessionSideView.temperatureLabel": "Temperatura"

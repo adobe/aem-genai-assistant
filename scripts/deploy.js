@@ -65,7 +65,7 @@ async function selectWorkspace(workspaceName) {
     await execCommand('aio', ['app', 'use', '-w', workspaceName, '--no-service-sync', '--merge']);
     console.log(`Workspace '${workspaceName}' selected successfully.`);
   } catch (error) {
-    console.error(`Failed to select workspace: ${error.message}`);
+    throw new Error(`Failed to select workspace: ${error.message}`);
   }
 }
 
@@ -75,7 +75,7 @@ async function createWorkspace(workspaceName) {
     await execCommand('aio', ['app', 'use', '-w', workspaceName, '--no-confirm-new-workspace', '--no-service-sync', '--merge']);
     console.log(`Workspace '${workspaceName}' created successfully.`);
   } catch (error) {
-    console.error(`Failed to create workspace: ${error.message}`);
+    throw new Error(`Failed to create workspace: ${error.message}`);
   }
 }
 
@@ -101,7 +101,7 @@ async function deployApp(workspaceName) {
       console.log(`${getDeploymentUrl(workspaceName)}\n`);
     }
   } catch (error) {
-    console.error(`Failed to deploy app: ${error.message}`);
+    throw new Error(`Failed to deploy application: ${error.message}`);
   }
 }
 

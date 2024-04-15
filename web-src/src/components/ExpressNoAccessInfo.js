@@ -20,9 +20,9 @@ export default function ExpressNoAccessInfo() {
 
   return (
     <ContextualHelp variant="info">
-      <Heading>{formatMessage(intlMessages.promptResultCard.expressNoAccessInfoContextualInfoHeading)}</Heading>
+      <Heading>{formatMessage(intlMessages.promptResultCard.expressNoAccessContextualInfoHeading)}</Heading>
       <Content>
-        {formatMessage(intlMessages.promptResultCard.expressNoAccessInfoContextualInfoContent)}
+        {formatMessage(intlMessages.promptResultCard.expressNoAccessContextualInfoContent)}
       </Content>
     </ContextualHelp>
   );

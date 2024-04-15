@@ -94,7 +94,7 @@ export const intlMessages = {
     },
     generateImageButtonLabel: {
       defaultMessage: 'Generate Image',
-      id: 'promptSessionSideView.generateImageButtonLabel',
+      id: 'promptResultCard.generateImageButtonLabel',
       description: 'Label for the Generate Image button',
     },
     sendFeedbackSuccessToast: {
@@ -104,22 +104,22 @@ export const intlMessages = {
     },
     generateImageFailedToast: {
       defaultMessage: 'Something went wrong. Please try again!',
-      id: 'favoritesView.generateImageFailedToast',
+      id: 'promptResultCard.generateImageFailedToast',
       description: 'Toast message for failed image generation',
     },
     copyTextSuccessToast: {
       defaultMessage: 'Copied text to clipboard!',
-      id: 'favoritesView.copyTextSuccessToast',
+      id: 'promptResultCard.copyTextSuccessToast',
       description: 'Toast message for successful text copy',
     },
-    expressNoAccessInfoContextualInfoHeading: {
+    expressNoAccessContextualInfoHeading: {
       defaultMessage: "You don't have access to Adobe Express",
-      id: 'expressNoAccessInfoContextualInfoHeading',
+      id: 'promptResultCard.expressNoAccessContextualInfoHeading',
       description: 'Heading for no access to Adobe Express',
     },
-    expressNoAccessInfoContextualInfoContent: {
+    expressNoAccessContextualInfoContent: {
       defaultMessage: 'To gain access, submit a request to your IT administrator or sign in with an elgible Adobe ID.',
-      id: 'expressNoAccessInfoContextualInfoContent',
+      id: 'promptResultCard.expressNoAccessContextualInfoContent',
       description: 'Content for no access to Adobe Express',
     },
   },

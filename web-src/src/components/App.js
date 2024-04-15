@@ -29,12 +29,12 @@ import { FavoriteVariantListPanel } from './FavoriteVariantListPanel.js';
 import { useShellContext } from './ShellProvider.js';
 
 /* eslint-disable import/extensions */
-import * as messages1 from './__localization__/App.l10n';
-import * as messages2 from './__localization__/MainSidePanel.l10n';
-import * as messages3 from './__localization__/PromptResultCard.l10n';
-import * as messages4 from './__localization__/PromptSessionSideView.l10n';
-import * as messages5 from './__localization__/Favorites.l10n';
-import * as messages6 from './__localization__/ImageViewer.l10n';
+import * as messagesApp from './__localization__/App.l10n';
+import * as messagesMainSidePanel from './__localization__/MainSidePanel.l10n';
+import * as messagesPromptResultCard from './__localization__/PromptResultCard.l10n';
+import * as messagesPromptSessionSideView from './__localization__/PromptSessionSideView.l10n';
+import * as messagesFavorites from './__localization__/Favorites.l10n';
+import * as messagesImageViewer from './__localization__/ImageViewer.l10n';
 /* eslint-enable import/extensions */
 
 const MAIN_SIDE_PANEL_EXPAND_WIDTH = '330px';
@@ -94,12 +94,12 @@ function getAllMessages(locale) {
 
   const normalizedLocale = locale.replace(/-/g, '_');
   return {
-    ...messages1[normalizedLocale],
-    ...messages2[normalizedLocale],
-    ...messages3[normalizedLocale],
-    ...messages4[normalizedLocale],
-    ...messages5[normalizedLocale],
-    ...messages6[normalizedLocale],
+    ...messagesApp[normalizedLocale],
+    ...messagesMainSidePanel[normalizedLocale],
+    ...messagesPromptResultCard[normalizedLocale],
+    ...messagesPromptSessionSideView[normalizedLocale],
+    ...messagesFavorites[normalizedLocale],
+    ...messagesImageViewer[normalizedLocale],
   };
 }
 

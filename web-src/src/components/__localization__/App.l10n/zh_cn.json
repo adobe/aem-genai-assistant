@@ -1,0 +1,18 @@
+{
+  "app.cancelActionLabel": "取消",
+  "app.consentDialogAgreeButtonLabel": "同意",
+  "app.consentDialogCancelButtonLabel": "取消",
+  "app.consentDialogContent": "<p>你可以用创成式人工智能技术以新的方式创造。</p><p>单击“同意”即表示您同意 {legalTermsLink}、以及以下内容：</p><ul><li>您为此功能提供的任何提示、上下文或补充信息或其他输入都必须绑定到特定的上下文，其中可以包括您的品牌宣传材料、网站内容、数据、此类数据的模式、模板或其他受信任文档，并且(b)不得包含任何个人信息（个人信息包括可以关联回特定个人的任何内容）。</li><li>您应仔细查看此功能的任何输出，并确保它适合您的用例。</li></ul>",
+  "app.consentDialogHeading": "生成AI(在Adobe应用程序中)",
+  "app.deleteActionLabel": "删除",
+  "app.deleteActionTitle": "删除",
+  "app.deletePromptTemplateButtonLabel": "删除",
+  "app.deletePromptTemplateFailedToast": "无法删除提示模板",
+  "app.deletePromptTemplateQuestion": "是否确实要删除此提示？",
+  "app.description": "快速创建高质量内容，然后进行试验性衡量或将其发布到您的网站。",
+  "app.name": "生成变量",
+  "app.noAccessDialogContent": "您无权访问本产品",
+  "app.noAccessDialogHeading": "访问被拒绝",
+  "app.noAccessMessage": "要使用<strong>生成变</strong>量，您必须同意创成AI用户准则。{newLine}刷新此页面以<strong>同意</strong>。",
+  "app.promptTemplatesLibraryPanelLabel": "提示模板"
+}

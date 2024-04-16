@@ -1,0 +1,11 @@
+{
+  "mainSidePanel.collapseMenuType": "Réduire le panneau latéral",
+  "mainSidePanel.copyrightLabel": "Copyright © 2024 Adobe. all rights reserved",
+  "mainSidePanel.expandMenuType": "Développer le panneau latéral",
+  "mainSidePanel.favoritesMenuItem": "Favoris",
+  "mainSidePanel.helpAndFaqsMenuItem": "Aide et FAQ",
+  "mainSidePanel.promptTemplatesMenuItem": "Demander les modèles",
+  "mainSidePanel.recentsMenuItem": "Récents",
+  "mainSidePanel.title": "Générer des variations",
+  "mainSidePanel.userGuidelinesMenuItem": "Consignes utilisateur"
+}

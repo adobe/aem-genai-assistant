@@ -1,11 +1,11 @@
 {
   "name": "aem-genai-assistant",
-  "version": "2.0.4",
+  "version": "2.1.0",
   "private": true,
   "scripts": {
     "prepare": "husky install",
-    "start": "REACT_APP_VERSION=$npm_package_version aio app run --local",
-    "preview": "REACT_APP_VERSION=$npm_package_version aio app run",
+    "start": "npm run prebuild && REACT_APP_VERSION=$npm_package_version aio app run --local",
+    "preview": "npm run prebuild && REACT_APP_VERSION=$npm_package_version aio app run",
     "grammar": "nearleyc web-src/src/helpers/expressions.ne -o web-src/src/helpers/Parser.generated.js",
     "prompts": "node scripts/prompt-generator.js",
     "prebuild": "npm run prompts && npm run grammar",
@@ -15,8 +15,12 @@
     "deploy": "REACT_APP_VERSION=$npm_package_version aio app deploy",
     "lint": "eslint --quiet 'web-src/src/**/*.js' 'actions/*.js'",
     "fix": "eslint --fix --quiet 'web-src/src/**/*.js' 'actions/*.js'",
-    "pretest": "npm run prompts && npm run grammar",
-    "test": "jest --collectCoverageFrom='[\"web-src/src/**/*.js\",\"actions/**/*.js\"]' --coverage --passWithNoTests ./actions ./web-src/src ./e2e"
+    "pretest": "npm run prebuild",
+    "test": "jest --collectCoverageFrom='[\"web-src/src/**/*.js\",\"actions/**/*.js\"]' --coverage --passWithNoTests ./actions ./web-src/src ./e2e",
+    "localize": "npm run harvest && npm run aladdin-put && npm run aladdin-get",
+    "harvest": "harvest",
+    "aladdin-put": "aladdin --command put",
+    "aladdin-get": "aladdin --command get"
   },
   "dependencies": {
     "@adobe/aio-sdk": "3.0.0",
@@ -37,6 +41,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-error-boundary": "4.0.11",
+    "react-intl": "^6.6.4",
     "react-simple-code-editor": "0.13.1",
     "recoil": "0.7.7",
     "uuid": "9.0.1",
@@ -57,7 +62,9 @@
     "@testing-library/jest-dom": "6.1.4",
     "@testing-library/react": "14.1.2",
     "babel-jest": "29.7.0",
+    "babel-plugin-formatjs": "^10.5.14",
     "eslint": "8.53.0",
+    "eslint-plugin-formatjs": "^4.13.0",
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-react-hooks": "4.6.0",
     "eslint-plugin-unused-imports": "3.0.0",

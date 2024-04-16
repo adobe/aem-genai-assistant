@@ -16,6 +16,9 @@ import {
 } from '@adobe/react-spectrum';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { css } from '@emotion/css';
+import { IntlProvider, useIntl } from 'react-intl';
+
+import { intlMessages } from './App.l10n.js';
 import { ConsentDialog } from './ConsentDialog.js';
 import { MainSidePanel } from './MainSidePanel.js';
 import { PromptSessionPanel } from './PromptSessionPanel.js';
@@ -23,6 +26,16 @@ import { PromptTemplateLibraryPanel } from './PromptTemplateLibraryPanel.js';
 import { viewTypeState, ViewType } from '../state/ViewType.js';
 import { mainSidePanelState, MainSidePanelType } from '../state/MainSidePanelState.js';
 import { FavoriteVariantListPanel } from './FavoriteVariantListPanel.js';
+import { useShellContext } from './ShellProvider.js';
+
+/* eslint-disable import/extensions */
+import * as messagesApp from './__localization__/App.l10n';
+import * as messagesMainSidePanel from './__localization__/MainSidePanel.l10n';
+import * as messagesPromptResultCard from './__localization__/PromptResultCard.l10n';
+import * as messagesPromptSessionSideView from './__localization__/PromptSessionSideView.l10n';
+import * as messagesFavorites from './__localization__/Favorites.l10n';
+import * as messagesImageViewer from './__localization__/ImageViewer.l10n';
+/* eslint-enable import/extensions */
 
 const MAIN_SIDE_PANEL_EXPAND_WIDTH = '330px';
 const MAIN_SIDE_PANEL_COLLAPSE_WIDTH = '40px';
@@ -62,17 +75,38 @@ function getView(viewType) {
 }
 
 function NoAccessMessage() {
+  const { formatMessage } = useIntl();
+
   return (
     <div className={styles.noAccessContainer}>
-      To use <strong>Generate Variations</strong> you must agree to the Generative AI User Guidelines.<br />
-      Refresh this page to <strong>Agree</strong>.
+      {formatMessage(intlMessages.app.noAccessMessage, {
+        strong: (msg) => <strong>{msg}</strong>,
+        newLine: <br />,
+      })}
     </div>
   );
+}
+
+function getAllMessages(locale) {
+  if (typeof locale !== 'string') {
+    return {};
+  }
+
+  const normalizedLocale = locale.replace(/-/g, '_');
+  return {
+    ...messagesApp[normalizedLocale],
+    ...messagesMainSidePanel[normalizedLocale],
+    ...messagesPromptResultCard[normalizedLocale],
+    ...messagesPromptSessionSideView[normalizedLocale],
+    ...messagesFavorites[normalizedLocale],
+    ...messagesImageViewer[normalizedLocale],
+  };
 }
 
 export function App() {
   const [hasConsent, setConsent] = React.useState(true);
   const [mainSidePanelWidth, setMainSidePanelWidth] = React.useState();
+  const { user } = useShellContext();
 
   const viewType = useRecoilValue(viewTypeState);
   const [mainSidePanel, setMainSidePanelState] = useRecoilState(mainSidePanelState);
@@ -98,7 +132,7 @@ export function App() {
   }, [mainSidePanel, setMainSidePanelState]);
 
   return (
-    <>
+    <IntlProvider messages={getAllMessages(user.locale)} locale={user.locale} defaultLocale="en-US">
       <ToastContainer />
       <ConsentDialog onConsentChange={setConsent} />
       {hasConsent
@@ -116,6 +150,6 @@ export function App() {
           </div>
         </Grid>
         : <NoAccessMessage />}
-    </>
+    </IntlProvider>
   );
 }

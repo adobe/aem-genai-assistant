@@ -1,0 +1,90 @@
+{
+  "expressNoAccessInfoContextualInfoContent": {
+    "__value__": "To gain access, submit a request to your IT administrator or sign in with an elgible Adobe ID.",
+    "__desc__": "Content for no access to Adobe Express"
+  },
+  "expressNoAccessInfoContextualInfoHeading": {
+    "__value__": "You don't have access to Adobe Express",
+    "__desc__": "Heading for no access to Adobe Express"
+  },
+  "favoritesView.copyTextSuccessToast": {
+    "__value__": "Copied text to clipboard!",
+    "__desc__": "Toast message for successful text copy"
+  },
+  "favoritesView.generateImageFailedToast": {
+    "__value__": "Something went wrong. Please try again!",
+    "__desc__": "Toast message for failed image generation"
+  },
+  "promptResultCard.copyButtonTooltip": {
+    "__value__": "Copy",
+    "__desc__": "Tooltip for Copy button"
+  },
+  "promptResultCard.createPromptDescription": {
+    "__value__": "Open \"Edit Prompt\" and write your prompt or paste sections of other prompts.",
+    "__desc__": "Description for Create a Prompt"
+  },
+  "promptResultCard.createPromptTitle": {
+    "__value__": "Create a Prompt",
+    "__desc__": "Title for Create a Prompt"
+  },
+  "promptResultCard.favoriteButtonTooltip": {
+    "__value__": "Favorite",
+    "__desc__": "Tooltip for Favorite button"
+  },
+  "promptResultCard.fillFormGenerateContentDescription": {
+    "__value__": "Begin by filling out the prompt template inputs using natural language. Once you filled in the prompt template, select the \"Generate\" button.",
+    "__desc__": "Description for Fill the Form and Generate Content"
+  },
+  "promptResultCard.fillFormGenerateContentTitle": {
+    "__value__": "Fill the Form and Generate Content",
+    "__desc__": "Title for Fill the Form and Generate Content"
+  },
+  "promptResultCard.generateContentDescription": {
+    "__value__": "If you've created input fields fill them in and select \"Generate\". Adobe's generative AI will process your input and generate unique content based on your specifications.",
+    "__desc__": "Description for Generate Content"
+  },
+  "promptResultCard.generateContentTitle": {
+    "__value__": "Generate Content",
+    "__desc__": "Title for Generate Content"
+  },
+  "promptResultCard.goodButtonTooltip": {
+    "__value__": "Good",
+    "__desc__": "Tooltip for Good button"
+  },
+  "promptResultCard.poorButtonTooltip": {
+    "__value__": "Poor",
+    "__desc__": "Tooltip for Poor button"
+  },
+  "promptResultCard.refineContentDescription": {
+    "__value__": "After content is generated if you want to refine it further, update the prompt and / or input fields. Once you are happy with the content leverage in your AEM authoring experience.",
+    "__desc__": "Description for Refine and use Content"
+  },
+  "promptResultCard.refineContentTitle": {
+    "__value__": "Refine and use Content",
+    "__desc__": "Title for Refine and use Content"
+  },
+  "promptResultCard.removeButtonTooltip": {
+    "__value__": "Remove",
+    "__desc__": "Tooltip for Remove button"
+  },
+  "promptResultCard.reuseButtonTooltip": {
+    "__value__": "Re-use",
+    "__desc__": "Tooltip for Reuse button"
+  },
+  "promptResultCard.savePromptDescription": {
+    "__value__": "If you want to reuse the prompt created select \"Save\".  This allows you to store the prompt for future use. You can save it at the user or organization level.",
+    "__desc__": "Description for Save"
+  },
+  "promptResultCard.savePromptTitle": {
+    "__value__": "Save",
+    "__desc__": "Title for Save"
+  },
+  "promptResultCard.sendFeedbackSuccessToast": {
+    "__value__": "Feedback sent!",
+    "__desc__": "Toast message for Feedback sent"
+  },
+  "promptSessionSideView.generateImageButtonLabel": {
+    "__value__": "Generate Image",
+    "__desc__": "Label for the Generate Image button"
+  }
+}

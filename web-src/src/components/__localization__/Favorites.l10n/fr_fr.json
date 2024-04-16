@@ -1,0 +1,9 @@
+{
+  "favoritesView.copyButtonTooltip": "Copier",
+  "favoritesView.copyTextSuccessToast": "Texte copié dans le Presse-papiers !",
+  "favoritesView.generateImageButtonLabel": "Générer une image",
+  "favoritesView.generateImageFailedToast": "Une erreur est survenue. Veuillez réessayer !",
+  "favoritesView.navigationLabel": "Demander les modèles",
+  "favoritesView.noFavoritesMessage": "Pas encore de favoris",
+  "favoritesView.removeButtonTooltip": "Supprimer"
+}

@@ -1,0 +1,14 @@
+{
+  "imageViewer.cancelButtonLabel": "Cancel",
+  "imageViewer.copyButtonLabel": "Copy",
+  "imageViewer.copyImageButtonTooltip": "Copy Image",
+  "imageViewer.copyImageSuccessToast": "Copied image to clipboard!",
+  "imageViewer.deleteButtonLabel": "Delete",
+  "imageViewer.deleteImageAlertTitle": "Delete Image",
+  "imageViewer.deleteImageDialogQuestion": "This will permanently delete the image. Continue?",
+  "imageViewer.downloadButtonLabel": "Download",
+  "imageViewer.editButtonLabel": "Edit",
+  "imageViewer.editButtonTooltip": "Edit",
+  "imageViewer.editImageFailedToast": "Something went wrong. Please try again!",
+  "imageViewer.moreButtonTooltip": "More"
+}

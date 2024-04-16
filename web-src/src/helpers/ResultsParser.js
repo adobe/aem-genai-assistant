@@ -16,7 +16,7 @@ function objectToString(obj) {
 
 export function createVariants(uuid, response) {
   try {
-    const json = JSON.parse(response);
+    const json = Object.values(JSON.parse(response))[0];
     if (Array.isArray(json)) {
       return json.map((content) => ({ id: uuid(), content: content === null || typeof content !== 'object' ? objectToString(content) : content }));
     } else {

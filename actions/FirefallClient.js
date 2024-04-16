@@ -40,7 +40,7 @@ class FirefallClient {
     const startTime = Date.now();
 
     try {
-      const response = await wretch(`${this.endpoint}/v1/completions`)
+      const response = await wretch(`${this.endpoint}/v2/chat/completions`)
         .headers({
           'x-gw-ims-org-id': this.org,
           'x-api-key': this.apiKey,
@@ -48,9 +48,12 @@ class FirefallClient {
           'Content-Type': 'application/json',
         })
         .post({
-          dialogue: {
-            question: prompt,
-          },
+          messages: [
+            {
+              role: 'system',
+              content: prompt.concat(' The output must be valid JSON.'),
+            },
+          ],
           llm_metadata: {
             llm_type: 'azure_chat_openai',
             model_name: model,
@@ -60,6 +63,9 @@ class FirefallClient {
             frequency_penalty: 0,
             presence_penalty: 0,
             n: 1,
+          },
+          response_format: {
+            type: 'json_object',
           },
         })
         .json();

@@ -12,10 +12,15 @@
 import '@testing-library/jest-dom';
 import * as React from 'react';
 import { render } from '@testing-library/react';
+import { IntlProvider } from 'react-intl';
 import { ResetButton } from './ResetButton.js';
 
 describe('ResetButton', () => {
   it('renders correctly', () => {
-    render(<ResetButton/>);
+    render(
+      <IntlProvider locale="en-US" defaultLocale="en-US">
+        <ResetButton />
+      </IntlProvider>,
+    );
   });
 });

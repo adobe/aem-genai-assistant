@@ -1,0 +1,44 @@
+{
+  "metadata": {
+    "total": 6,
+    "packageName": "app"
+  },
+  "components": {
+    "App.l10n": {
+      "__default__": "web-src/src/components/__localization__/App.l10n/en_us.json",
+      "__destination__": "web-src/src/components/__localization__/App.l10n",
+      "__source__": "web-src/src/components/__localization__/App.l10n/jl10n.json",
+      "__import__": "web-src/src/components/__localization__/App.l10n/index.js"
+    },
+    "Favorites.l10n": {
+      "__default__": "web-src/src/components/__localization__/Favorites.l10n/en_us.json",
+      "__destination__": "web-src/src/components/__localization__/Favorites.l10n",
+      "__source__": "web-src/src/components/__localization__/Favorites.l10n/jl10n.json",
+      "__import__": "web-src/src/components/__localization__/Favorites.l10n/index.js"
+    },
+    "ImageViewer.l10n": {
+      "__default__": "web-src/src/components/__localization__/ImageViewer.l10n/en_us.json",
+      "__destination__": "web-src/src/components/__localization__/ImageViewer.l10n",
+      "__source__": "web-src/src/components/__localization__/ImageViewer.l10n/jl10n.json",
+      "__import__": "web-src/src/components/__localization__/ImageViewer.l10n/index.js"
+    },
+    "MainSidePanel.l10n": {
+      "__default__": "web-src/src/components/__localization__/MainSidePanel.l10n/en_us.json",
+      "__destination__": "web-src/src/components/__localization__/MainSidePanel.l10n",
+      "__source__": "web-src/src/components/__localization__/MainSidePanel.l10n/jl10n.json",
+      "__import__": "web-src/src/components/__localization__/MainSidePanel.l10n/index.js"
+    },
+    "PromptResultCard.l10n": {
+      "__default__": "web-src/src/components/__localization__/PromptResultCard.l10n/en_us.json",
+      "__destination__": "web-src/src/components/__localization__/PromptResultCard.l10n",
+      "__source__": "web-src/src/components/__localization__/PromptResultCard.l10n/jl10n.json",
+      "__import__": "web-src/src/components/__localization__/PromptResultCard.l10n/index.js"
+    },
+    "PromptSessionSideView.l10n": {
+      "__default__": "web-src/src/components/__localization__/PromptSessionSideView.l10n/en_us.json",
+      "__destination__": "web-src/src/components/__localization__/PromptSessionSideView.l10n",
+      "__source__": "web-src/src/components/__localization__/PromptSessionSideView.l10n/jl10n.json",
+      "__import__": "web-src/src/components/__localization__/PromptSessionSideView.l10n/index.js"
+    }
+  }
+}

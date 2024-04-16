@@ -18,18 +18,22 @@ import {
   Heading,
   IllustratedMessage,
 } from '@adobe/react-spectrum';
+import { useIntl } from 'react-intl';
 
 import AccessDeniedIcon from '@spectrum-icons/workflow/LockClosed';
+import { intlMessages } from './App.l10n.js';
 
 export function NoAccessDialog() {
+  const { formatMessage } = useIntl();
+
   return (
     <DialogContainer onDismiss={() => 0}>
       <Dialog>
         <Content>
           <IllustratedMessage>
             <AccessDeniedIcon size={'XL'} />
-            <Heading>Access Denied</Heading>
-            <Content>You have no access to this product</Content>
+            <Heading>{formatMessage(intlMessages.app.noAccessDialogHeading)}</Heading>
+            <Content>{formatMessage(intlMessages.app.noAccessDialogContent)}</Content>
           </IllustratedMessage>
         </Content>
       </Dialog>

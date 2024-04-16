@@ -14,6 +14,9 @@ import React, { Fragment, useCallback } from 'react';
 import { ToastQueue } from '@react-spectrum/toast';
 import { AlertDialog, DialogContainer, Grid } from '@adobe/react-spectrum';
 import { v4 as uuid } from 'uuid';
+import { useIntl } from 'react-intl';
+
+import { intlMessages } from './App.l10n.js';
 import {
   customPromptTemplatesState, NEW_PROMPT_TEMPLATE_ID,
   promptTemplatesState,
@@ -50,6 +53,8 @@ export function PromptTemplatesView() {
   const [customPromptTemplates, setCustomPromptTemplates] = useRecoilState(customPromptTemplatesState);
   const [templateToDelete, setTemplateToDelete] = React.useState(null);
 
+  const { formatMessage } = useIntl();
+
   const handleSelect = useCallback(({
     id, label, description, template, isBundled,
   }) => {
@@ -78,7 +83,7 @@ export function PromptTemplatesView() {
         setCustomPromptTemplates(newCustomPromptTemplates);
       })
       .catch((error) => {
-        ToastQueue.negative('Failed to delete prompt template', { timeout: 1000 });
+        ToastQueue.negative(formatMessage(intlMessages.app.deletePromptTemplateFailedToast), { timeout: 1000 });
         console.error(error);
       });
   }, [templateToDelete, customPromptTemplates]);
@@ -106,13 +111,13 @@ export function PromptTemplatesView() {
       <DialogContainer onDismiss={() => {}}>
         { templateToDelete
           && (<AlertDialog
-            title="Delete"
+            title={formatMessage(intlMessages.app.deleteActionTitle)}
             variant="destructive"
-            primaryActionLabel="Delete"
-            secondaryActionLabel="Cancel"
+            primaryActionLabel={formatMessage(intlMessages.app.deleteActionLabel)}
+            secondaryActionLabel={formatMessage(intlMessages.app.cancelActionLabel)}
             onPrimaryAction={handleDelete}
             onSecondaryAction={() => setTemplateToDelete(null)}>
-            Are you sure you want to delete this prompt?
+            {formatMessage(intlMessages.app.deletePromptTemplateQuestion)}
           </AlertDialog>)
         }
       </DialogContainer>

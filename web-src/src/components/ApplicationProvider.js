@@ -23,6 +23,7 @@ import {
 } from '../state/PromptTemplatesState.js';
 import { TargetService } from '../services/TargetService.js';
 import { CsvParserService } from '../services/CsvParserService.js';
+import { getFeatureFlags } from '../helpers/FeatureFlagsHelper.js';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 
@@ -36,54 +37,67 @@ export const ApplicationContext = React.createContext(undefined);
 export const ApplicationProvider = ({ children }) => {
   const { user, done } = useShellContext();
   const setCustomPromptTemplates = useSetRecoilState(customPromptTemplatesState);
-  const [application, setApplication] = useState(undefined);
+  const [applicationContext, setApplicationContext] = useState(undefined);
 
   useEffect(() => {
     if (!user) {
       return;
     }
 
-    setApplication({
-      appVersion: APP_VERSION,
-
-      firefallService: new FirefallService({
-        completeEndpoint: actions[COMPLETE_ACTION],
-        feedbackEndpoint: actions[FEEDBACK_ACTION],
-        imsOrg: user.imsOrg,
-        accessToken: user.imsToken,
-      }),
-
-      csvParserService: new CsvParserService({
-        csvParserEndpoint: actions[CSV_PARSER_ACTION],
-      }),
-
-      targetService: new TargetService({
-        targetEndpoint: actions[TARGET_ACTION],
-        imsTenant: user.imsTenant,
-        accessToken: user.imsToken,
-      }),
-
-      expressSdkService: new ExpressSdkService({
-        clientId: 'aem-genai-assistant',
-        appName: 'AEM Generate Variations',
-        userId: user.id,
-        accessToken: user.imsToken,
-      }),
-    });
-
+    console.debug('Reading custom prompt templates...');
     readCustomPromptTemplates().then((templates) => {
       setCustomPromptTemplates(templates);
     });
 
-    done();
-  }, [user, done, setApplication]);
+    const createApplicationContext = async () => {
+      console.debug('Creating application context...');
 
-  if (!application) {
+      const featureFlags = await getFeatureFlags();
+      console.debug('Feature flags:', featureFlags);
+
+      return {
+        appVersion: APP_VERSION,
+
+        featureFlags,
+
+        firefallService: new FirefallService({
+          completeEndpoint: actions[COMPLETE_ACTION],
+          feedbackEndpoint: actions[FEEDBACK_ACTION],
+          imsOrg: user.imsOrg,
+          accessToken: user.imsToken,
+        }),
+
+        csvParserService: new CsvParserService({
+          csvParserEndpoint: actions[CSV_PARSER_ACTION],
+        }),
+
+        targetService: new TargetService({
+          targetEndpoint: actions[TARGET_ACTION],
+          imsTenant: user.imsTenant,
+          accessToken: user.imsToken,
+        }),
+
+        expressSdkService: new ExpressSdkService({
+          clientId: 'aem-genai-assistant',
+          appName: 'AEM Generate Variations',
+          userId: user.id,
+          accessToken: user.imsToken,
+        }),
+      };
+    };
+
+    createApplicationContext().then((app) => {
+      setApplicationContext(app);
+      done();
+    });
+  }, [user, done, setApplicationContext]);
+
+  if (!applicationContext) {
     return <Fragment />;
   }
 
   return (
-    <ApplicationContext.Provider value={application}>
+    <ApplicationContext.Provider value={applicationContext}>
       {children}
     </ApplicationContext.Provider>
   );

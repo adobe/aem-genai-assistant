@@ -1,16 +1,17 @@
 {
-  "expressNoAccessInfoContextualInfoContent": "Um Zugriff zu erhalten, senden Sie eine Anfrage an Ihren IT-Administrator oder melden Sie sich mit einer entsprechenden Adobe ID an.",
-  "expressNoAccessInfoContextualInfoHeading": "Sie haben keinen Zugriff auf Adobe Expreß",
-  "favoritesView.copyTextSuccessToast": "Text in die Zwischenablage kopiert!",
-  "favoritesView.generateImageFailedToast": "Ein Fehler ist aufgetreten. Versuchen Sie es erneut!",
   "promptResultCard.copyButtonTooltip": "Kopieren",
+  "promptResultCard.copyTextSuccessToast": "Text in die Zwischenablage kopiert!",
   "promptResultCard.createPromptDescription": "Öffnen Sie \"Eingabeaufforderung bearbeiten\" und schreiben Sie Ihre Eingabeaufforderung oder fügen Sie Abschnitte anderer Eingabeaufforderungen ein.",
   "promptResultCard.createPromptTitle": "Erstellen einer Eingabeaufforderung",
+  "promptResultCard.expressNoAccessContextualInfoContent": "Um Zugriff zu erhalten, senden Sie eine Anfrage an Ihren IT-Administrator oder melden Sie sich mit einer geeigneten Adobe ID an.",
+  "promptResultCard.expressNoAccessContextualInfoHeading": "Sie haben keinen Zugriff auf Adobe Expreß",
   "promptResultCard.favoriteButtonTooltip": "Favorit",
   "promptResultCard.fillFormGenerateContentDescription": "Füllen Sie zunächst die Eingabeaufforderungsvorlageneingaben mit natürlicher Sprache aus. Nachdem Sie die Eingabeaufforderungsvorlage ausgefüllt haben, klicken Sie auf die Schaltfläche \"Generieren\".",
   "promptResultCard.fillFormGenerateContentTitle": "Formular ausfüllen und Inhalt generieren",
   "promptResultCard.generateContentDescription": "Wenn Sie Eingabefelder erstellt haben, füllen Sie diese aus und wählen Sie \"Generieren\". Generative AI von Adobe verarbeitet Ihre Eingaben und generiert anhand Ihrer Spezifikationen eindeutige Inhalte.",
   "promptResultCard.generateContentTitle": "Inhalt generieren",
+  "promptResultCard.generateImageButtonLabel": "Bild generieren",
+  "promptResultCard.generateImageFailedToast": "Ein Fehler ist aufgetreten. Versuchen Sie es erneut!",
   "promptResultCard.goodButtonTooltip": "Gut",
   "promptResultCard.poorButtonTooltip": "Arm",
   "promptResultCard.refineContentDescription": "Nachdem der Inhalt generiert wurde, aktualisieren Sie die Eingabeaufforderung und/oder die Eingabefelder, wenn Sie ihn weiter verfeinern möchten. Sobald Sie mit der Nutzung der Inhalte in Ihrem AEM Authoring-Erlebnis zufrieden sind.",
@@ -19,6 +20,5 @@
   "promptResultCard.reuseButtonTooltip": "Wiederverwenden",
   "promptResultCard.savePromptDescription": "Wenn Sie die erstellte Eingabeaufforderung wiederverwenden möchten, wählen Sie \"Speichern\". Auf diese Weise können Sie die Eingabeaufforderung zur zukünftigen Verwendung speichern. Sie können sie auf Benutzer- oder Organisationsebene speichern.",
   "promptResultCard.savePromptTitle": "Speichern",
-  "promptResultCard.sendFeedbackSuccessToast": "Feedback gesendet!",
-  "promptSessionSideView.generateImageButtonLabel": "Bild generieren"
+  "promptResultCard.sendFeedbackSuccessToast": "Feedback gesendet!"
 }

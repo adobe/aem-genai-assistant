@@ -118,7 +118,7 @@ export const intlMessages = {
       description: 'Heading for no access to Adobe Express',
     },
     expressNoAccessContextualInfoContent: {
-      defaultMessage: 'To gain access, submit a request to your IT administrator or sign in with an elgible Adobe ID.',
+      defaultMessage: 'To gain access, submit a request to your IT administrator or sign in with an eligible Adobe ID.',
       id: 'promptResultCard.expressNoAccessContextualInfoContent',
       description: 'Content for no access to Adobe Express',
     },

@@ -1,16 +1,17 @@
 {
-  "expressNoAccessInfoContextualInfoContent": "Para obter acesso, envie uma solicitação ao administrador de TI ou faça logon com um Adobe ID qualificado.",
-  "expressNoAccessInfoContextualInfoHeading": "Você não tem acesso ao Adobe Express",
-  "favoritesView.copyTextSuccessToast": "Texto copiado para a área de transferência!",
-  "favoritesView.generateImageFailedToast": "Algo deu errado. Tente novamente!",
   "promptResultCard.copyButtonTooltip": "Copiar",
+  "promptResultCard.copyTextSuccessToast": "Texto copiado para a área de transferência!",
   "promptResultCard.createPromptDescription": "Abra \"Editar Prompt\" e escreva seu prompt ou cole seções de outros prompts.",
   "promptResultCard.createPromptTitle": "Criar um prompt",
+  "promptResultCard.expressNoAccessContextualInfoContent": "Para obter acesso, envie uma solicitação ao administrador de TI ou faça logon com um Adobe ID qualificado.",
+  "promptResultCard.expressNoAccessContextualInfoHeading": "Você não tem acesso ao Adobe Express",
   "promptResultCard.favoriteButtonTooltip": "Favorito",
   "promptResultCard.fillFormGenerateContentDescription": "Comece preenchendo as entradas do modelo de prompt usando a linguagem natural. Depois de preencher o modelo de prompt, selecione o botão \"Gerar\".",
   "promptResultCard.fillFormGenerateContentTitle": "Preencher o formulário e gerar conteúdo",
   "promptResultCard.generateContentDescription": "Se você criou campos de entrada, preencha-os e selecione \"Gerar\". O Adobe generative AI processará sua entrada e gerará conteúdo exclusivo com base em suas especificações.",
   "promptResultCard.generateContentTitle": "Gerar conteúdo",
+  "promptResultCard.generateImageButtonLabel": "Gerar imagem",
+  "promptResultCard.generateImageFailedToast": "Algo deu errado. Tente novamente!",
   "promptResultCard.goodButtonTooltip": "Bom",
   "promptResultCard.poorButtonTooltip": "Ruim",
   "promptResultCard.refineContentDescription": "Depois que o conteúdo for gerado se você quiser refiná-lo ainda mais, atualize o prompt e/ou os campos de entrada. AEM Quando estiver satisfeito com o aproveitamento de conteúdo em sua experiência de criação.",
@@ -19,6 +20,5 @@
   "promptResultCard.reuseButtonTooltip": "Reutilização",
   "promptResultCard.savePromptDescription": "Se quiser reutilizar o prompt criado, selecione \"Salvar\". Isso permite que você armazene o prompt para uso futuro. Você pode salvá-lo no nível do usuário ou da organização.",
   "promptResultCard.savePromptTitle": "Salvar",
-  "promptResultCard.sendFeedbackSuccessToast": "Feedback enviado!",
-  "promptSessionSideView.generateImageButtonLabel": "Gerar imagem"
+  "promptResultCard.sendFeedbackSuccessToast": "Feedback enviado!"
 }

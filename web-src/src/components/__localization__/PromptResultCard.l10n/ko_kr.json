@@ -1,16 +1,17 @@
 {
-  "expressNoAccessInfoContextualInfoContent": "액세스 권한을 얻으려면 IT 관리자에게 요청을 제출하거나 읽기 쉬운 Adobe ID으로 로그인하십시오.",
-  "expressNoAccessInfoContextualInfoHeading": "Adobe Express에 대한 액세스 권한이 없습니다.",
-  "favoritesView.copyTextSuccessToast": "텍스트를 클립보드에 복사했습니다.",
-  "favoritesView.generateImageFailedToast": "문제가 발생했습니다. 다시 시도하십시오.",
   "promptResultCard.copyButtonTooltip": "복사",
+  "promptResultCard.copyTextSuccessToast": "텍스트를 클립보드에 복사했습니다.",
   "promptResultCard.createPromptDescription": "\"프롬프트 편집\"을 열고 프롬프트를 작성하거나 다른 프롬프트의 섹션을 붙여넣습니다.",
   "promptResultCard.createPromptTitle": "프롬프트 만들기",
+  "promptResultCard.expressNoAccessContextualInfoContent": "액세스 권한을 얻으려면 IT 관리자에게 요청을 제출하거나 자격 있는 Adobe ID으로 로그인하십시오.",
+  "promptResultCard.expressNoAccessContextualInfoHeading": "Adobe Express에 대한 액세스 권한이 없습니다.",
   "promptResultCard.favoriteButtonTooltip": "즐겨찾기",
   "promptResultCard.fillFormGenerateContentDescription": "먼저 자연어를 사용하여 프롬프트 템플릿 입력을 입력합니다. 프롬프트 템플릿을 입력했으면 \"생성\" 버튼을 선택합니다.",
   "promptResultCard.fillFormGenerateContentTitle": "양식 채우기 및 컨텐츠 생성",
   "promptResultCard.generateContentDescription": "입력 필드를 만들었으면에 입력하고 \"생성\"을 선택합니다. Adobe의 생성 AI가 입력을 처리하고 사양에 따라 고유 콘텐츠를 생성합니다.",
   "promptResultCard.generateContentTitle": "컨텐츠 생성",
+  "promptResultCard.generateImageButtonLabel": "이미지 생성",
+  "promptResultCard.generateImageFailedToast": "문제가 발생했습니다. 다시 시도하십시오.",
   "promptResultCard.goodButtonTooltip": "양호",
   "promptResultCard.poorButtonTooltip": "가난해",
   "promptResultCard.refineContentDescription": "콘텐츠를 더 세분화하려면 콘텐츠가 생성되면 프롬프트 및/또는 입력 필드를 업데이트합니다. AEM 작성 환경의 컨텐츠 활용에 만족하면",
@@ -19,6 +20,5 @@
   "promptResultCard.reuseButtonTooltip": "재사용",
   "promptResultCard.savePromptDescription": "생성된 프롬프트를 재사용하려면 \"저장\"을 선택합니다. 나중에 사용할 수 있도록 프롬프트를 저장할 수 있습니다. 사용자 또는 조직 수준에서 저장할 수 있습니다.",
   "promptResultCard.savePromptTitle": "저장",
-  "promptResultCard.sendFeedbackSuccessToast": "피드백이 전송되었습니다!",
-  "promptSessionSideView.generateImageButtonLabel": "이미지 생성"
+  "promptResultCard.sendFeedbackSuccessToast": "피드백이 전송되었습니다!"
 }

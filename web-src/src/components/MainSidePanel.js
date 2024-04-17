@@ -45,6 +45,33 @@ export function MainSidePanel(props) {
   const [mainSidePanel, setMainSidePanelState] = useRecoilState(mainSidePanelState);
 
   const { formatMessage } = useIntl();
+  let latestGrouping = -1;
+
+  const now = new Date();
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const twoDaysAgo = new Date();
+  twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+  const lastSevenDays = new Date();
+  lastSevenDays.setDate(lastSevenDays.getDate() - 7);
+  const lastThirtyDays = new Date();
+  lastThirtyDays.setDate(lastThirtyDays.getDate() - 30);
+  const lastNinetyDays = new Date();
+  lastNinetyDays.setDate(lastNinetyDays.getDate() - 90);
+  const lastSixMonths = new Date();
+  lastSixMonths.setMonth(lastSixMonths.getMonth() - 6);
+  const lastTwelveMonths = new Date();
+  lastTwelveMonths.setMonth(lastTwelveMonths.getMonth() - 12);
+
+  const TIME_GROUPINGS = [
+    { label: 'Today', start: now, end: yesterday },
+    { label: 'Yesterday', start: yesterday, end: twoDaysAgo },
+    { label: 'Last 7 days', start: twoDaysAgo, end: lastSevenDays },
+    { label: 'Last 30 days', start: lastSevenDays, end: lastThirtyDays },
+    { label: 'Last 90 days', start: lastThirtyDays, end: lastNinetyDays },
+    { label: 'Last 6 months', start: lastNinetyDays, end: lastSixMonths },
+    { label: 'Last 12 months', start: lastSixMonths, end: lastTwelveMonths },
+  ];
 
   const style = {
     headerText: css`
@@ -69,6 +96,14 @@ export function MainSidePanel(props) {
       padding: 10px 10px;
       gap: 12px;
       border-radius: 8px;
+    `,
+    subMenuHeader: css`
+      display: block;
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 600;
+      color: #656565;
+      padding: 15px 10px 6px 43px;
     `,
     subMenuItem: css`
       display: flex;
@@ -115,6 +150,18 @@ export function MainSidePanel(props) {
       setMainSidePanelState(MainSidePanelType.Expanded);
     }
   }, [mainSidePanel]);
+
+  // returns TIME_GROUPINGS index of bucket that the date parameter belongs in
+  function findTimeGrouping(date) {
+    for (let i = latestGrouping + 1; i < TIME_GROUPINGS.length; i += 1) {
+      const grouping = TIME_GROUPINGS[i];
+      if (date <= grouping.start && date > grouping.end) {
+        return i;
+      }
+    }
+
+    return latestGrouping;
+  }
 
   return (
     <Grid {...props}
@@ -166,12 +213,27 @@ export function MainSidePanel(props) {
               && <Text>{formatMessage(intlMessages.mainSidePanel.recentsMenuItem)}</Text>}
           </li>
           {(mainSidePanel === MainSidePanelType.Expanded && sessions && sessions.length > 0)
-            && sessions.map((session) => (
-              // eslint-disable-next-line max-len
-              <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyle.clickedSubMenuItem : style.subMenuItem} key={session.id}>
-                <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => handleRecent(session)}>{session.name}</Link>
-              </li>
-            ))}
+            && sessions.toReversed().map((session) => {
+              const sessionDate = new Date(session.name);
+              const grpIndex = findTimeGrouping(sessionDate);
+              let changeGrouping = false;
+
+              if (latestGrouping < grpIndex) {
+                changeGrouping = true;
+                latestGrouping = grpIndex;
+              }
+
+              return (<>
+                        { changeGrouping
+                          && latestGrouping > -1
+                          && <Text UNSAFE_className={style.subMenuHeader}>{TIME_GROUPINGS[latestGrouping].label}</Text>
+                        }
+                        {/* eslint-disable-next-line max-len */}
+                        <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyle.clickedSubMenuItem : style.subMenuItem} key={session.id}>
+                          <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => handleRecent(session)}>{session.name}</Link>
+                        </li>
+                      </>);
+            })}
         </ul>
       </Flex>
 

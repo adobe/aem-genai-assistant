@@ -12,20 +12,24 @@
 import { Slider } from '@adobe/react-spectrum';
 import React from 'react';
 import { useRecoilState } from 'recoil';
+import { useIntl } from 'react-intl';
+
+import { intlMessages } from './PromptSessionSideView.l10n.js';
 import {
   TEMPERATURE_MAX, TEMPERATURE_MIN, temperatureState,
 } from '../state/TemperatureState.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
 
-const TEMPERATURE_LABEL = 'Temperature';
-const TEMPERATURE_DESC = 'A higher temperature strays from the prompt and leads to more randomness and creativity';
-
 export function TemperatureSlider() {
   const [temperature, setTemperature] = useRecoilState(temperatureState);
+  const { formatMessage } = useIntl();
+
   return (
     <Slider
-      label="Temperature"
-      contextualHelp={<DescriptionLabel label={TEMPERATURE_LABEL} description={TEMPERATURE_DESC}/>}
+      label={formatMessage(intlMessages.promptSessionSideView.temperatureLabel)}
+      contextualHelp={<DescriptionLabel
+        label={formatMessage(intlMessages.promptSessionSideView.temperatureLabel)}
+        description={formatMessage(intlMessages.promptSessionSideView.temperatureDescription)} />}
       minValue={TEMPERATURE_MIN}
       maxValue={TEMPERATURE_MAX}
       isFilled={true}

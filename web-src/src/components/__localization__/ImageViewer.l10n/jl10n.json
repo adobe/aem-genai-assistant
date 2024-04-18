@@ -1,0 +1,50 @@
+{
+  "imageViewer.cancelButtonLabel": {
+    "__value__": "Cancel",
+    "__desc__": "Label for Cancel button"
+  },
+  "imageViewer.copyButtonLabel": {
+    "__value__": "Copy",
+    "__desc__": "Label for Copy button"
+  },
+  "imageViewer.copyImageButtonTooltip": {
+    "__value__": "Copy Image",
+    "__desc__": "Tooltip for Copy image button"
+  },
+  "imageViewer.copyImageSuccessToast": {
+    "__value__": "Copied image to clipboard!",
+    "__desc__": "Toast message for successful image copy"
+  },
+  "imageViewer.deleteButtonLabel": {
+    "__value__": "Delete",
+    "__desc__": "Label for Delete button"
+  },
+  "imageViewer.deleteImageAlertTitle": {
+    "__value__": "Delete Image",
+    "__desc__": "Alert title for deleting an image"
+  },
+  "imageViewer.deleteImageDialogQuestion": {
+    "__value__": "This will permanently delete the image. Continue?",
+    "__desc__": "Dialog question for deleting an image"
+  },
+  "imageViewer.downloadButtonLabel": {
+    "__value__": "Download",
+    "__desc__": "Label for Download button"
+  },
+  "imageViewer.editButtonLabel": {
+    "__value__": "Edit",
+    "__desc__": "Label for Edit button"
+  },
+  "imageViewer.editButtonTooltip": {
+    "__value__": "Edit",
+    "__desc__": "Tooltip for Edit button"
+  },
+  "imageViewer.editImageFailedToast": {
+    "__value__": "Something went wrong. Please try again!",
+    "__desc__": "Toast message for failed Edit image"
+  },
+  "imageViewer.moreButtonTooltip": {
+    "__value__": "More",
+    "__desc__": "Tooltip for More button"
+  }
+}

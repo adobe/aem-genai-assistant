@@ -16,6 +16,9 @@ import React, { useCallback, useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { ToastQueue } from '@react-spectrum/toast';
 import { v4 as uuid } from 'uuid';
+import { useIntl } from 'react-intl';
+
+import { intlMessages } from './PromptSessionSideView.l10n.js';
 import GenAIIcon from '../icons/GenAIIcon.js';
 import { renderPrompt } from '../helpers/PromptRenderer.js';
 import { useApplicationContext } from './ApplicationProvider.js';
@@ -32,13 +35,17 @@ import { sampleRUM } from '../rum.js';
 
 export function GenerateButton() {
   const { firefallService } = useApplicationContext();
+
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
   const temperature = useRecoilValue(temperatureState);
+
   const setResults = useSetRecoilState(resultsState);
   const setIsOpenPromptEditor = useSetRecoilState(promptEditorState);
   const [generationInProgress, setGenerationInProgress] = useState(false);
+
   const saveResults = useSaveResults();
+  const { formatMessage } = useIntl();
 
   const generateResults = useCallback(async () => {
     try {
@@ -86,26 +93,17 @@ export function GenerateButton() {
         onPress={handleGenerate}
         isDisabled={generationInProgress}>
         {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}
-        Generate
+        {formatMessage(intlMessages.promptSessionSideView.generateButtonLabel)}
       </Button>
       <ContextualHelp variant="info">
-        <Heading>Terms of use</Heading>
+        <Heading>{formatMessage(intlMessages.promptSessionSideView.generateButtonContextualInfoHeading)}</Heading>
         <Content>
-          <p>
-            Access to this feature is subject to your agreement to the <LegalTermsLink />, and the following:
-          </p>
-          <ul>
-            <li>
-              Any prompts, context, or supplemental information, or other input you provide to this feature (a) must be
-              tied to specific context, which can include your branding materials, website content, data, schemas for
-              such data, templates, or other trusted documents, and (b) must not contain any personal information
-              (personal information includes anything that can be linked back to a specific individual).
-            </li>
-            <li>
-              You should review any output from this feature for accuracy and ensure that it is appropriate for your
-              use case.
-            </li>
-          </ul>
+          {formatMessage(intlMessages.promptSessionSideView.generateButtonContextualInfoContent, {
+            p: (chunks) => <p>{chunks}</p>,
+            ul: (chunks) => <ul>{chunks}</ul>,
+            li: (chunks) => <li>{chunks}</li>,
+            legalTermsLink: <LegalTermsLink />,
+          })}
         </Content>
       </ContextualHelp>
     </Flex>

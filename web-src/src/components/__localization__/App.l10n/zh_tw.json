@@ -1,0 +1,18 @@
+{
+  "app.cancelActionLabel": "取消",
+  "app.consentDialogAgreeButtonLabel": "同意",
+  "app.consentDialogCancelButtonLabel": "取消",
+  "app.consentDialogContent": "<p>您可以使用創成式AI技術，以全新的方式建立。</p><p>按下「同意」即表示您同意 {legalTermsLink}，以及下列專案：</p><ul><li>您為此功能提供的任何提示、上下文或補充資訊或其他輸入內容(a)都必須與特定上下文關聯，該上下文可包括您的品牌資料、網站內容、資料、此類資料的結構描述、模板或其他受信任文檔，並且(b)不得包含任何個人資訊（個人資訊包括可以連結到特定個人的任何內容）。</li><li>您應該檢查此功能的任何輸出的準確性，並且確保它適合您的使用案例。</li></ul>",
+  "app.consentDialogHeading": "Adobe應用程式中的創成AI",
+  "app.deleteActionLabel": "刪除",
+  "app.deleteActionTitle": "刪除",
+  "app.deletePromptTemplateButtonLabel": "刪除",
+  "app.deletePromptTemplateFailedToast": "無法刪除提示範本",
+  "app.deletePromptTemplateQuestion": "您確定要刪除此提示？",
+  "app.description": "快速建立高品質內容，然後利用實驗加以測量，或將它發佈至您的網站。",
+  "app.name": "產生變數",
+  "app.noAccessDialogContent": "您沒有此產品的存取權",
+  "app.noAccessDialogHeading": "存取被拒絕",
+  "app.noAccessMessage": "若要使用<strong>「產生變</strong>數」，您必須同意創作AI使用者指引。{newLine}重新整理此頁面以<strong>同意</strong>。",
+  "app.promptTemplatesLibraryPanelLabel": "提示範本"
+}

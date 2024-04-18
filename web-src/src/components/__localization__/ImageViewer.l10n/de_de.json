@@ -1,0 +1,14 @@
+{
+  "imageViewer.cancelButtonLabel": "Abbrechen",
+  "imageViewer.copyButtonLabel": "Kopieren",
+  "imageViewer.copyImageButtonTooltip": "Bild kopieren",
+  "imageViewer.copyImageSuccessToast": "Bild in die Zwischenablage kopiert!",
+  "imageViewer.deleteButtonLabel": "Löschen",
+  "imageViewer.deleteImageAlertTitle": "Bild löschen",
+  "imageViewer.deleteImageDialogQuestion": "Dadurch wird das Bild permanent gelöscht. Fortfahren?",
+  "imageViewer.downloadButtonLabel": "Herunterladen",
+  "imageViewer.editButtonLabel": "Bearbeiten",
+  "imageViewer.editButtonTooltip": "Bearbeiten",
+  "imageViewer.editImageFailedToast": "Ein Fehler ist aufgetreten. Versuchen Sie es erneut!",
+  "imageViewer.moreButtonTooltip": "Mehr"
+}

@@ -338,6 +338,16 @@ export function PromptResultCard({ result, ...props }) {
       });
   }, []);
 
+  const {
+    // eslint-disable-next-line camelcase
+    AI_Rationale, variationName, ...selectedVariantData
+  } = selectedVariant.content;
+  // eslint-disable-next-line camelcase
+  const selectedVariantMetadata = { variationName, AI_Rationale };
+
+  console.debug('selectedVariantData', selectedVariantData);
+  console.debug('selectedVariantMetadata', selectedVariantMetadata);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -365,20 +375,22 @@ export function PromptResultCard({ result, ...props }) {
                 return (
                   <a key={variant.id} onClick={() => setSelectedVariant(variant)}>
                     <div className={css`
-                    ${styles.variant};
-                    ${variant.id === selectedVariant.id && styles.variantSelected};
-                    ${isFavorite(variant) && styles.variantFavorite};
-                  `}
-                      dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
+                      ${styles.variant};
+                      ${variant.id === selectedVariant.id && styles.variantSelected};
+                      ${isFavorite(variant) && styles.variantFavorite};
+                    `}
+                         dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }}/>
                   </a>
                 );
               })
             }
           </div>
-          <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariant.content) }} />
+          <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariantData) }} />
+          <br/>
+          <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariantMetadata) }} />
           <div className={styles.resultActions}>
             <Flex direction="row">
-              { runMode !== RUN_MODE_CF
+              {runMode !== RUN_MODE_CF
                 && <TooltipTrigger delay={0}>
                   <ActionButton
                     isQuiet
@@ -433,7 +445,7 @@ export function PromptResultCard({ result, ...props }) {
                 </ActionButton>
                 <Tooltip>Poor</Tooltip>
               </TooltipTrigger>
-              { runMode !== RUN_MODE_CF
+              {runMode !== RUN_MODE_CF
                 && <TooltipTrigger delay={0}>
                   <ActionButton
                     isQuiet
@@ -444,7 +456,7 @@ export function PromptResultCard({ result, ...props }) {
                   <Tooltip>Remove</Tooltip>
                 </TooltipTrigger>
               }
-              { runMode === RUN_MODE_CF
+              {runMode === RUN_MODE_CF
                 && <>
                   <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'}/>
                   <ContentFragmentExportButton variant={selectedVariant}/>
@@ -460,7 +472,8 @@ export function PromptResultCard({ result, ...props }) {
                   style="fill"
                   onPress={() => handleGenerateImagePrompt(selectedVariant.id)}
                   isDisabled={!isExpressAuthorized}>
-                  {imagePromptProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}
+                  {imagePromptProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px"/>
+                    : <GenAIIcon marginEnd={'8px'}/>}
                   Generate Image
                 </Button>
                 {!isExpressAuthorized && <ExpressNoAccessInfo/>}

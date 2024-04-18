@@ -49,7 +49,7 @@ export const ShellProvider = ({ children, runtime }) => {
 
   const shellEventsHandler = useCallback((shellConfig) => {
     const {
-      imsProfile, imsToken, imsOrg, imsInfo: { tenant },
+      imsProfile, imsToken, imsOrg, imsInfo: { tenant }, locale,
     } = shellConfig;
 
     setShellContext({
@@ -59,6 +59,7 @@ export const ShellProvider = ({ children, runtime }) => {
         imsTenant: tenant,
         imsToken,
         imsOrg,
+        locale,
       },
       isUserAuthorized: isAuthorized(imsProfile, imsOrg),
       isExpressAuthorized: expressAuthorized(imsProfile, imsOrg),

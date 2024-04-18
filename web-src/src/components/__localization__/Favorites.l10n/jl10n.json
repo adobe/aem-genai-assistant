@@ -1,0 +1,30 @@
+{
+  "favoritesView.copyButtonTooltip": {
+    "__value__": "Copy",
+    "__desc__": "Tooltip for Copy button"
+  },
+  "favoritesView.copyTextSuccessToast": {
+    "__value__": "Copied text to clipboard!",
+    "__desc__": "Toast message for successful text copy"
+  },
+  "favoritesView.generateImageButtonLabel": {
+    "__value__": "Generate Image",
+    "__desc__": "Label for Generate Image button"
+  },
+  "favoritesView.generateImageFailedToast": {
+    "__value__": "Something went wrong. Please try again!",
+    "__desc__": "Toast message for failed image generation"
+  },
+  "favoritesView.navigationLabel": {
+    "__value__": "Prompt Templates",
+    "__desc__": "Navigation label for Favorites view"
+  },
+  "favoritesView.noFavoritesMessage": {
+    "__value__": "No favorites yet",
+    "__desc__": "Message displayed when there are no favorites"
+  },
+  "favoritesView.removeButtonTooltip": {
+    "__value__": "Delete",
+    "__desc__": "Tooltip for Remove button"
+  }
+}

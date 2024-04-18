@@ -16,6 +16,9 @@ import React, { useCallback } from 'react';
 import ShowMenu from '@spectrum-icons/workflow/ShowMenu';
 import { css } from '@emotion/css';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { useIntl } from 'react-intl';
+
+import { intlMessages } from './MainSidePanel.l10n.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { USER_GUIDELINES_URL } from './LegalTermsLink.js';
 
@@ -36,9 +39,12 @@ export const HELP_AND_FAQ_URL = 'https://www.aem.live/docs/sidekick-generate-var
 export function MainSidePanel(props) {
   const { appVersion } = useApplicationContext();
   const sessions = useRecoilValue(sessionHistoryState);
+
   const [currentSession, setCurrentSession] = useRecoilState(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
   const [mainSidePanel, setMainSidePanelState] = useRecoilState(mainSidePanelState);
+
+  const { formatMessage } = useIntl();
 
   const style = {
     headerText: css`
@@ -127,11 +133,13 @@ export function MainSidePanel(props) {
               <ShowMenu size='S' />
             </ActionButton>
             <Tooltip>
-              {mainSidePanel === MainSidePanelType.Collapsed ? <Text>Expand</Text> : <Text>Collapse</Text>} Side Panel
+              {mainSidePanel === MainSidePanelType.Collapsed
+                ? <Text>{formatMessage(intlMessages.mainSidePanel.expandMenuType)}</Text>
+                : <Text>{formatMessage(intlMessages.mainSidePanel.collapseMenuType)}</Text>}
             </Tooltip>
           </TooltipTrigger>
           {mainSidePanel === MainSidePanelType.Expanded
-            && <Text UNSAFE_className={style.headerText}>Generate Variations</Text>}
+            && <Text UNSAFE_className={style.headerText}>{formatMessage(intlMessages.mainSidePanel.title)}</Text>}
         </Flex>
         {mainSidePanel === MainSidePanelType.Expanded
           && <Text UNSAFE_className={style.versionTag}>v{appVersion}</Text>}
@@ -140,19 +148,22 @@ export function MainSidePanel(props) {
       <Flex direction={'column'} gridArea={'menu'} gap={'size-100'}>
         <ul className={style.menu}>
           <li className={viewType === ViewType.NewSession ? derivedStyle.clickedMenuItem : style.menuItem}>
-            <ClickableImage src={PromptsIcon} width={'20px'} title={'Prompt Templates'} alt={'New prompt template'} onClick={() => setViewType(ViewType.NewSession)} />
-            {mainSidePanel === MainSidePanelType.Expanded && <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>Prompt Templates</Link>}
+            <ClickableImage src={PromptsIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItem)} alt={'New prompt template'} onClick={() => setViewType(ViewType.NewSession)} />
+            {mainSidePanel === MainSidePanelType.Expanded
+              && <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>{formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItem)}</Link>}
           </li>
           <li className={viewType === ViewType.Favorites ? derivedStyle.clickedMenuItem : style.menuItem}>
-            <ClickableImage src={FavoritesIcon} width={'20px'} title={'Favorites'} alt={'Favorites'} onClick={() => setViewType(ViewType.Favorites)} />
-            {mainSidePanel === MainSidePanelType.Expanded && <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.Favorites)}>Favorites</Link>}
+            <ClickableImage src={FavoritesIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.favoritesMenuItem)} alt={'Favorites'} onClick={() => setViewType(ViewType.Favorites)} />
+            {mainSidePanel === MainSidePanelType.Expanded
+              && <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.Favorites)}>{formatMessage(intlMessages.mainSidePanel.favoritesMenuItem)}</Link>}
           </li>
           <li className={style.menuItem}>
             {mainSidePanel === MainSidePanelType.Expanded
               ? <Image src={RecentsIcon} width={'20px'} alt={'Recents'} />
-              : <ClickableImage src={RecentsIcon} width={'20px'} title={'Recents'} alt={'Recents'} onClick={() => (sessions?.length > 0) && setMainSidePanelState(MainSidePanelType.Expanded)} />
+              : <ClickableImage src={RecentsIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.recentsMenuItem)} alt={'Recents'} onClick={() => (sessions?.length > 0) && setMainSidePanelState(MainSidePanelType.Expanded)} />
             }
-            {mainSidePanel === MainSidePanelType.Expanded && <Text>Recents</Text>}
+            {mainSidePanel === MainSidePanelType.Expanded
+              && <Text>{formatMessage(intlMessages.mainSidePanel.recentsMenuItem)}</Text>}
           </li>
           {(mainSidePanel === MainSidePanelType.Expanded && sessions && sessions.length > 0)
             && sessions.map((session) => (
@@ -167,15 +178,15 @@ export function MainSidePanel(props) {
       <Flex direction={'column'} gridArea={'footer'} gap={'16px'}>
         <ul className={style.menu}>
           <li className={style.menuItem}>
-            <ClickableImage src={HelpIcon} width={'20px'} title={'Help & FAQ'} alt={'Help'} onClick={() => window.open(HELP_AND_FAQ_URL, '_blank')} />
-            {mainSidePanel === MainSidePanelType.Expanded && <Link href={HELP_AND_FAQ_URL} target="_blank" UNSAFE_className={style.menu}>Help & FAQ</Link>}
+            <ClickableImage src={HelpIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.helpAndFaqsMenuItem)} alt={'Help'} onClick={() => window.open(HELP_AND_FAQ_URL, '_blank')} />
+            {mainSidePanel === MainSidePanelType.Expanded && <Link href={HELP_AND_FAQ_URL} target="_blank" UNSAFE_className={style.menu}>{formatMessage(intlMessages.mainSidePanel.helpAndFaqsMenuItem)}</Link>}
           </li>
           <li className={style.menuItem}>
-            <ClickableImage src={FileTxt} width={'20px'} title={'User Guidelines'} alt={'Guidelines'} onClick={() => window.open(USER_GUIDELINES_URL, '_blank')} />
-            {mainSidePanel === MainSidePanelType.Expanded && <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={style.menu}>User Guidelines</Link>}
+            <ClickableImage src={FileTxt} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)} alt={'Guidelines'} onClick={() => window.open(USER_GUIDELINES_URL, '_blank')} />
+            {mainSidePanel === MainSidePanelType.Expanded && <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={style.menu}>{formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)}</Link>}
           </li>
           {mainSidePanel === MainSidePanelType.Expanded
-            ? <Text UNSAFE_className={style.copyright}>Copyright © 2023 Adobe. All rights reserved</Text>
+            ? <Text UNSAFE_className={style.copyright}>{formatMessage(intlMessages.mainSidePanel.copyrightLabel)}</Text>
             : <Text />}
         </ul>
       </Flex>

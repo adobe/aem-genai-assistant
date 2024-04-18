@@ -16,10 +16,12 @@ import React, {
   useEffect, useState, useCallback, useRef,
 } from 'react';
 import { css } from '@emotion/css';
+import { useIntl } from 'react-intl';
 
 import Close from '@spectrum-icons/workflow/Close';
 import ChevronLeft from '@spectrum-icons/workflow/ChevronLeft';
 import ChevronRight from '@spectrum-icons/workflow/ChevronRight';
+import { intlMessages } from './ImageViewer.l10n.js';
 import EditIcon from '../icons/EditIcon.js';
 import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';
 import DownloadIcon from '../icons/DownloadIcon.js';
@@ -77,6 +79,7 @@ export function ImageViewer({
   images, index, onIndexChange, open, onClose, onEdit, onCopy, onDownload, ...props
 }) {
   const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
+  const { formatMessage } = useIntl();
 
   const handleNextImage = useCallback(() => {
     onIndexChange((prevIndex) => (prevIndex + 1) % images.length);
@@ -142,20 +145,20 @@ export function ImageViewer({
               <Button
                 variant='secondary'
                 style='fill'
-                width='size-1000'
+                minWidth='size-1000'
                 UNSAFE_className={`${!isMoreMenuOpen && 'variant-image-button'} hover-cursor-pointer`}
                 onPress={() => onCopy(index)}>
                 <CopyOutlineIcon marginEnd={'8px'} />
-                Copy
+                {formatMessage(intlMessages.imageViewer.copyButtonLabel)}
               </Button>
               <Button
                 variant='secondary'
                 style='fill'
-                width='size-1000'
+                minWidth='size-1000'
                 UNSAFE_className={`${!isMoreMenuOpen && 'variant-image-button'} hover-cursor-pointer`}
                 onPress={() => onEdit(index)}>
                 <EditIcon marginEnd={'8px'} />
-                Edit
+                {formatMessage(intlMessages.imageViewer.editButtonLabel)}
               </Button>
             </Flex>
             <TooltipTrigger delay={0}>
@@ -176,11 +179,11 @@ export function ImageViewer({
                 }}>
                   <Item key="download">
                     <DownloadIcon UNSAFE_style={{ boxSizing: 'content-box' }}/>
-                    <Text>Download</Text>
+                    <Text>{formatMessage(intlMessages.imageViewer.downloadButtonLabel)}</Text>
                   </Item>
                 </Menu>
               </MenuTrigger>
-              <Tooltip>More</Tooltip>
+              <Tooltip>{formatMessage(intlMessages.imageViewer.moreButtonTooltip)}</Tooltip>
             </TooltipTrigger>
             <Button
               variant='secondary'

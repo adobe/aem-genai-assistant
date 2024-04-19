@@ -10,7 +10,10 @@
  * governing permissions and limitations under the License.
  */
 import featureFlags from '@adobe/exc-app/featureflags';
-import { getFeatureFlags } from './FeatureFlagsHelper.js';
+import { FeatureFlagsService } from './FeatureFlagsService.js';
+
+const PROJECT_ID = 'project-id';
+const FLAG_NAME = 'flag-name';
 
 jest.mock('@adobe/exc-app/featureflags', () => {
   return {
@@ -18,16 +21,18 @@ jest.mock('@adobe/exc-app/featureflags', () => {
   };
 });
 
-describe('getFeatureFlags', () => {
+describe('FeatureFlagsService', () => {
   it('should fetch and return the feature flags', async () => {
     const mockFlags = {
-      'aem-generate-variations': true,
+      [PROJECT_ID]: {
+        [FLAG_NAME]: true,
+      },
     };
     featureFlags.get.mockResolvedValue(mockFlags);
 
-    const result = await getFeatureFlags();
+    const service = await FeatureFlagsService.create(PROJECT_ID);
 
-    expect(featureFlags.get).toHaveBeenCalledWith(['aem-generate-variations']);
-    expect(result).toBe(true);
+    expect(featureFlags.get).toHaveBeenCalledWith([PROJECT_ID]);
+    expect(service.isEnabled(FLAG_NAME)).toBe(true);
   });
 });

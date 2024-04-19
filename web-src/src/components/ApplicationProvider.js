@@ -23,9 +23,11 @@ import {
 } from '../state/PromptTemplatesState.js';
 import { TargetService } from '../services/TargetService.js';
 import { CsvParserService } from '../services/CsvParserService.js';
-import { getFeatureFlags } from '../helpers/FeatureFlagsHelper.js';
+import { FeatureFlagsService } from '../services/FeatureFlagsService.js';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
+
+const FEATURE_FLAGS_PROJECT_ID = 'aem-generate-variations';
 
 const COMPLETE_ACTION = 'complete';
 const FEEDBACK_ACTION = 'feedback';
@@ -52,13 +54,13 @@ export const ApplicationProvider = ({ children }) => {
     const createApplicationContext = async () => {
       console.debug('Creating application context...');
 
-      const featureFlags = await getFeatureFlags();
-      console.debug('Feature flags:', featureFlags);
+      // Create the feature flags service first, as it might be used by other services
+      const featureFlagsService = FeatureFlagsService.create(FEATURE_FLAGS_PROJECT_ID);
 
       return {
         appVersion: APP_VERSION,
 
-        featureFlags,
+        featureFlagsService,
 
         firefallService: new FirefallService({
           completeEndpoint: actions[COMPLETE_ACTION],

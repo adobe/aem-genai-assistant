@@ -11,9 +11,19 @@
  */
 import featureFlags from '@adobe/exc-app/featureflags';
 
-const PROJECT_ID = 'aem-generate-variations';
+export class FeatureFlagsService {
+  constructor(flags = {}) {
+    this.flags = flags;
+  }
 
-export async function getFeatureFlags() {
-  const flags = await featureFlags.get([PROJECT_ID]);
-  return flags[PROJECT_ID];
+  isEnabled(flagName) {
+    return this.flags[flagName];
+  }
+
+  static async create(projectId) {
+    const flags = await featureFlags.get([projectId]);
+    const projectFlags = flags[projectId];
+    console.debug('Feature flags:', projectFlags);
+    return new FeatureFlagsService(projectFlags);
+  }
 }

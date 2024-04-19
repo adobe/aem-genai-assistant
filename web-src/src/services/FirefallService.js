@@ -39,6 +39,7 @@ export class FirefallService {
         accessToken: this.accessToken,
       })
       .json();
+
     return {
       /* eslint-disable-next-line camelcase */
       queryId: query_id,

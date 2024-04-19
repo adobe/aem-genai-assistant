@@ -61,8 +61,6 @@ const style = {
   `,
   editable: css`
     background-color: white;
-    height: 500px;
-    border: 2px solid #ccc;
   `,
   container: css`
     width: 100%;

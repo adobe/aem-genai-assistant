@@ -55,7 +55,7 @@ export const ApplicationProvider = ({ children }) => {
       console.debug('Creating application context...');
 
       // Create the feature flags service first, as it might be used by other services
-      const featureFlagsService = FeatureFlagsService.create(FEATURE_FLAGS_PROJECT_ID);
+      const featureFlagsService = await FeatureFlagsService.create(FEATURE_FLAGS_PROJECT_ID);
 
       return {
         appVersion: APP_VERSION,

@@ -31,6 +31,7 @@ export class FeatureFlagsService {
   static async create(projectId) {
     const flags = await featureFlags.get([projectId]);
     const projectFlags = flags[projectId];
+    // We log the feature flags to the console for troubleshooting purposes.
     console.debug('Feature flags:', projectFlags);
     return new FeatureFlagsService(projectFlags);
   }

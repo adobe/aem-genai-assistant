@@ -36,46 +36,7 @@ class FirefallClient {
     this.accessToken = accessToken;
   }
 
-  async completion(prompt, temperature = 0.0, model = 'gpt-4') {
-    const startTime = Date.now();
-
-    try {
-      const response = await wretch(`${this.endpoint}/v1/completions`)
-        .headers({
-          'x-gw-ims-org-id': this.org,
-          'x-api-key': this.apiKey,
-          Authorization: `Bearer ${this.accessToken}`,
-          'Content-Type': 'application/json',
-        })
-        .post({
-          dialogue: {
-            question: prompt,
-          },
-          llm_metadata: {
-            llm_type: 'azure_chat_openai',
-            model_name: model,
-            temperature,
-            max_tokens: 800,
-            top_p: 1,
-            frequency_penalty: 0,
-            presence_penalty: 0,
-            n: 1,
-          },
-        })
-        .json();
-
-      const endTime = Date.now();
-      const requestTime = ((endTime - startTime) / 1000).toFixed(2);
-      logger.info(`Generate request completed in ${requestTime} s`);
-
-      return response;
-    } catch (error) {
-      logger.error('Failed generating results:', error);
-      throw toFirefallError(error, ERROR_CODES.defaultCompletion);
-    }
-  }
-
-  async completionJson(prompt, temperature = 0.0, model = 'gpt-4') {
+  async completion(prompt, temperature = 0.0, asJson = false, model = 'gpt-4') {
     const startTime = Date.now();
 
     try {
@@ -90,7 +51,7 @@ class FirefallClient {
           messages: [
             {
               role: 'system',
-              content: prompt.concat(' The output must be valid JSON.'),
+              content: asJson ? prompt.concat(' The output must be valid JSON.') : prompt,
             },
           ],
           llm_metadata: {
@@ -103,9 +64,9 @@ class FirefallClient {
             presence_penalty: 0,
             n: 1,
           },
-          response_format: {
+          response_format: (asJson ? {
             type: 'json_object',
-          },
+          } : {}),
         })
         .json();
 

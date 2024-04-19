@@ -27,7 +27,6 @@ import { CsvParserService } from '../services/CsvParserService.js';
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 
 const COMPLETE_ACTION = 'complete';
-const COMPLETE_JSON_ACTION = 'complete-json';
 const FEEDBACK_ACTION = 'feedback';
 const TARGET_ACTION = 'target';
 const CSV_PARSER_ACTION = 'csv';
@@ -49,7 +48,6 @@ export const ApplicationProvider = ({ children }) => {
 
       firefallService: new FirefallService({
         completeEndpoint: actions[COMPLETE_ACTION],
-        completeJsonEndpoint: actions[COMPLETE_JSON_ACTION],
         feedbackEndpoint: actions[FEEDBACK_ACTION],
         imsOrg: user.imsOrg,
         accessToken: user.imsToken,

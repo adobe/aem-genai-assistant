@@ -15,48 +15,26 @@ import { replaceRuntimeDomainInUrl } from '../helpers/UrlHelper.js';
 export class FirefallService {
   constructor({
     completeEndpoint,
-    completeJsonEndpoint,
     feedbackEndpoint,
     imsOrg,
     accessToken,
   }) {
     this.completeEndpoint = replaceRuntimeDomainInUrl(completeEndpoint);
-    this.completeJsonEndpoint = replaceRuntimeDomainInUrl(completeJsonEndpoint);
     this.feedbackEndpoint = replaceRuntimeDomainInUrl(feedbackEndpoint);
     this.imsOrg = imsOrg;
     this.accessToken = accessToken;
 
     console.debug(`Complete: ${this.completeEndpoint}`);
-    console.debug(`Complete JSON: ${this.completeJsonEndpoint}`);
     console.debug(`Feedback: ${this.feedbackEndpoint}`);
   }
 
-  async complete(prompt, temperature) {
+  async complete(prompt, temperature, asJson) {
     /* eslint-disable-next-line camelcase */
-    const { query_id, generations } = await wretch(this.completeEndpoint)
+    const { query_id, choices } = await wretch(this.completeEndpoint)
       .post({
         prompt,
         temperature,
-        imsOrg: this.imsOrg,
-        accessToken: this.accessToken,
-      })
-      .json();
-
-    console.log(query_id, generations);
-
-    return {
-      /* eslint-disable-next-line camelcase */
-      queryId: query_id,
-      response: generations[0][0].message.content,
-    };
-  }
-
-  async completeJson(prompt, temperature) {
-    /* eslint-disable-next-line camelcase */
-    const { query_id, choices } = await wretch(this.completeJsonEndpoint)
-      .post({
-        prompt,
-        temperature,
+        asJson,
         imsOrg: this.imsOrg,
         accessToken: this.accessToken,
       })

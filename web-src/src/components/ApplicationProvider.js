@@ -89,7 +89,7 @@ export const ApplicationProvider = ({ children }) => {
             model,
           });
         } catch (e) {
-          console.error(`Failed to get fragment: ${e.message}`);
+          throw new Error(`Failed to get fragment: ${e.message}`);
         }
       });
     }

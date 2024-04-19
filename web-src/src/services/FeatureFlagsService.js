@@ -12,6 +12,10 @@
 import featureFlags from '@adobe/exc-app/featureflags';
 
 export class FeatureFlagsService {
+  /*
+   * The constructor is considered private and should not be called directly.
+   * Use the static create method to create a new instance of the FeatureFlagsService.
+   */
   constructor(flags = {}) {
     this.flags = flags;
   }
@@ -20,6 +24,10 @@ export class FeatureFlagsService {
     return this.flags[flagName];
   }
 
+  /*
+   * Create a new instance of the FeatureFlagsService for the given project.
+   * @param {string} projectId - The project ID for which to get the feature flags.
+   */
   static async create(projectId) {
     const flags = await featureFlags.get([projectId]);
     const projectFlags = flags[projectId];

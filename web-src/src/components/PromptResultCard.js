@@ -154,6 +154,26 @@ const styles = {
   `,
 };
 
+function extractMetadataFields(obj) {
+  const resultFields = { ...obj };
+  const metadataFields = {};
+
+  const aiRationaleRegex = /^ai[_\s]*rationale$/i;
+  const variationNameRegex = /^variation[_\s]*name$/i;
+
+  for (const key of Object.keys(obj)) {
+    if (aiRationaleRegex.test(key)) {
+      metadataFields.aiRationale = obj[key];
+      delete resultFields[key];
+    } else if (variationNameRegex.test(key)) {
+      metadataFields.variationName = obj[key];
+      delete resultFields[key];
+    }
+  }
+
+  return { resultFields, metadataFields };
+}
+
 function ContentFragmentExportButton({ variant }) {
   const { aemService } = useApplicationContext();
   const contentFragment = useRecoilValue(contentFragmentState);
@@ -338,15 +358,10 @@ export function PromptResultCard({ result, ...props }) {
       });
   }, []);
 
-  const {
-    // eslint-disable-next-line camelcase
-    AI_Rationale, variationName, ...selectedVariantData
-  } = selectedVariant.content;
-  // eslint-disable-next-line camelcase
-  const selectedVariantMetadata = { variationName, AI_Rationale };
+  const { resultFields, metadataFields } = extractMetadataFields(selectedVariant.content);
 
-  console.debug('selectedVariantData', selectedVariantData);
-  console.debug('selectedVariantMetadata', selectedVariantMetadata);
+  console.debug('resultFields', resultFields);
+  console.debug('metadataFields', metadataFields);
 
   return (
     <motion.div
@@ -385,9 +400,8 @@ export function PromptResultCard({ result, ...props }) {
               })
             }
           </div>
-          <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariantData) }} />
-          <br/>
-          <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariantMetadata) }} />
+          <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(resultFields) }} />
+          <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(metadataFields) }} />
           <div className={styles.resultActions}>
             <Flex direction="row">
               {runMode !== RUN_MODE_CF

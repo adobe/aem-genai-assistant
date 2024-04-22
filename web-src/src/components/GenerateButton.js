@@ -79,9 +79,10 @@ export function GenerateButton() {
       .catch((error) => {
         ToastQueue.negative(error.message, { timeout: 2000 });
 
-        // capture network error (status 500)
-        if (error.status === 500) {
-          sampleRUM('genai:prompt:networkerror');
+        // capture network error (InternalError status 400)
+        if (error.status === 400) {
+          log('prompt:generate:networkerror', { status: error.status, message: error.message });
+          sampleRUM('genai:prompt:generate:networkerror');
         }
       })
       .finally(() => {
@@ -89,7 +90,8 @@ export function GenerateButton() {
 
         const endTime = Date.now();
         const responseTime = ((endTime - startTime) / 1000).toFixed(2);
-        sampleRUM('genai:prompt:responsetime', { target: responseTime });
+        log('prompt:generate:responsetime', { responseTime });
+        sampleRUM('genai:prompt:generate:responsetime', { target: responseTime });
       });
   }, [generateResults, setGenerationInProgress]);
 

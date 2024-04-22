@@ -36,7 +36,7 @@ class FirefallClient {
     this.accessToken = accessToken;
   }
 
-  async completion(prompt, temperature = 0.0, asJson = false, model = 'gpt-4') {
+  async completion(prompt, temperature = 0.0, asJson = true, model = 'gpt-4') {
     const startTime = Date.now();
 
     try {

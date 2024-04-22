@@ -27,7 +27,7 @@ export async function generateImagePrompt(firefallService, selectedVariant) {
     Generated Prompt:
     "A happy, confident person enjoying music in an urban park, using high-quality wireless headphones, with the city skyline in the background."
     Here is the JSON context: ${JSON.stringify(selectedVariant.content)}`;
-  const { queryId, response } = await firefallService.complete(variantToImagePrompt, 0);
+  const { queryId, response } = await firefallService.complete(variantToImagePrompt, 0, false);
   return response;
 }
 

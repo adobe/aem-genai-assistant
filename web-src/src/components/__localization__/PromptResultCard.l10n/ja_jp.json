@@ -1,16 +1,17 @@
 {
-  "expressNoAccessInfoContextualInfoContent": "アクセス権を取得するには、IT 管理者にリクエストを送信するか、有効なAdobe IDを使用してサインインします。",
-  "expressNoAccessInfoContextualInfoHeading": "Adobe Expressへのアクセス権がありません",
-  "favoritesView.copyTextSuccessToast": "クリップボードにテキストをコピーしました。",
-  "favoritesView.generateImageFailedToast": "エラーが発生しました。再度お試しください！",
   "promptResultCard.copyButtonTooltip": "コピー",
+  "promptResultCard.copyTextSuccessToast": "クリップボードにテキストをコピーしました。",
   "promptResultCard.createPromptDescription": "「プロンプトの編集」を開き、プロンプトを書き込むか、他のプロンプトのセクションを貼り付けます。",
   "promptResultCard.createPromptTitle": "プロンプトを作成する",
+  "promptResultCard.expressNoAccessContextualInfoContent": "アクセス権を取得するには、IT 管理者にリクエストを送信するか、資格を持つAdobe IDでサインインします。",
+  "promptResultCard.expressNoAccessContextualInfoHeading": "Adobe Expressへのアクセス権がありません",
   "promptResultCard.favoriteButtonTooltip": "お気に入り",
   "promptResultCard.fillFormGenerateContentDescription": "最初に、自然言語を使用してプロンプトテンプレートの入力を行います。プロンプトテンプレートに入力したら、「生成」ボタンを選択します。",
   "promptResultCard.fillFormGenerateContentTitle": "フォームへの入力とコンテンツの生成",
   "promptResultCard.generateContentDescription": "入力フィールドを作成した場合は、入力フィールドに入力し、「生成」を選択します。Adobeの生成 AI は、入力を処理し、仕様に基づいて一意のコンテンツを生成します。",
   "promptResultCard.generateContentTitle": "コンテンツを生成",
+  "promptResultCard.generateImageButtonLabel": "画像を生成",
+  "promptResultCard.generateImageFailedToast": "エラーが発生しました。再度お試しください！",
   "promptResultCard.goodButtonTooltip": "良い",
   "promptResultCard.poorButtonTooltip": "悪い",
   "promptResultCard.refineContentDescription": "コンテンツを生成した後、さらに絞り込む場合は、プロンプトや入力フィールドを更新します。AEMオーサリングエクスペリエンスでのコンテンツ活用に満足したら、",
@@ -19,6 +20,5 @@
   "promptResultCard.reuseButtonTooltip": "再利用",
   "promptResultCard.savePromptDescription": "作成したプロンプトを再利用する場合は、「保存」を選択します。これにより、今後の使用のためにプロンプトを保存できます。ユーザーまたは組織レベルで保存できます。",
   "promptResultCard.savePromptTitle": "保存",
-  "promptResultCard.sendFeedbackSuccessToast": "フィードバックを送信しました。",
-  "promptSessionSideView.generateImageButtonLabel": "画像を生成"
+  "promptResultCard.sendFeedbackSuccessToast": "フィードバックを送信しました。"
 }

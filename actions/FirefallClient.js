@@ -51,7 +51,11 @@ class FirefallClient {
           messages: [
             {
               role: 'system',
-              content: asJson ? prompt.concat(' The output must be valid JSON.') : prompt,
+              content: asJson ? 'The output must be valid JSON.' : '',
+            },
+            {
+              role: 'user',
+              content: prompt,
             },
           ],
           llm_metadata: {

@@ -50,7 +50,7 @@ export function GenerateButton() {
   const generateResults = useCallback(async () => {
     try {
       const finalPrompt = renderPrompt(prompt, parameters);
-      const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
+      const { queryId, response } = await firefallService.complete(finalPrompt, temperature, true);
       const variants = createVariants(uuid, response);
       setResults((results) => [...results, {
         id: queryId,
@@ -74,12 +74,22 @@ export function GenerateButton() {
     sampleRUM('genai:prompt:generate', { source: 'GenerateButton#handleGenerate' });
     setGenerationInProgress(true);
     setIsOpenPromptEditor(false);
+    const startTime = Date.now();
     generateResults()
       .catch((error) => {
         ToastQueue.negative(error.message, { timeout: 2000 });
+
+        // capture network error (status 500)
+        if (error.status === 500) {
+          sampleRUM('genai:prompt:networkerror');
+        }
       })
       .finally(() => {
         setGenerationInProgress(false);
+
+        const endTime = Date.now();
+        const responseTime = ((endTime - startTime) / 1000).toFixed(2);
+        sampleRUM('genai:prompt:responsetime', { target: responseTime });
       });
   }, [generateResults, setGenerationInProgress]);
 

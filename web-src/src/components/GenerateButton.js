@@ -79,8 +79,8 @@ export function GenerateButton() {
       .catch((error) => {
         ToastQueue.negative(error.message, { timeout: 2000 });
 
-        // capture network error (InternalError status 400)
-        if (error.status === 400) {
+        // capture network errors
+        if (error.status > 300) {
           log('prompt:generate:networkerror', { status: error.status, message: error.message });
           sampleRUM('genai:prompt:generate:networkerror');
         }

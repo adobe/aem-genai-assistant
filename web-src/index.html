@@ -11,10 +11,10 @@
     const workspace = new URLSearchParams(window.location.search).get('app_workspace');
     if (workspace) {
       const url = new URL(window.location.href);
-      // only redirect if the hostname is 'development.adobeio-static.net'
-      if (url.hostname.includes('development.adobeio-static.net')) {
+      // only redirect if the hostname is 'qa.adobeio-static.net'
+      if (url.hostname.includes('-qa.adobeio-static.net')) {
         // replace the hostname with the new one based on the 'app_workspace' query param
-        url.hostname = url.hostname.replace('development.adobeio-static.net', `${workspace}.adobeio-static.net`);
+        url.hostname = url.hostname.replace('-qa.adobeio-static.net', `-${workspace}.adobeio-static.net`);
         // remove the 'app_workspace' query param to avoid infinite redirect loop
         url.searchParams.delete('app_workspace');
         console.log(`Redirecting to new URL: ${url.toString()}`);

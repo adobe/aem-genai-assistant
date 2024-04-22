@@ -146,6 +146,10 @@ const styles = {
   `,
   resultContent: css`
   `,
+  resultMetadata: css`
+    color: var(--alias-content-semantic-neutral-subdued-default, #929292);
+    font-size: 12px;
+  `,
   resultActions: css`
     & div {
       font-size: 12px;
@@ -180,9 +184,14 @@ function ContentFragmentExportButton({ variant }) {
   const [variationName, setVariationName] = useState(variant.content.variationName ?? `var-${uuid()}`);
   const [exportedVariations, setExportedVariations] = useState([]);
   const [isExportInProgress, setIsExportInProgress] = useState(false);
+  const [isExportAndOpenInProgress, setIsExportAndOpenInProgress] = useState(false);
 
   const handleExportVariation = useCallback((shouldOpenEditor) => {
-    setIsExportInProgress(true);
+    if (shouldOpenEditor) {
+      setIsExportAndOpenInProgress(true);
+    } else {
+      setIsExportInProgress(true);
+    }
     log('prompt:export', { variant: variant.id, as: 'contentFragmentVariation' });
     sampleRUM('genai:prompt:export', { source: 'ResultCard#ExportAsVariation#onPress' });
     return aemService.createFragmentVariation(contentFragment.fragment.id, variationName, variant.content)
@@ -199,6 +208,7 @@ function ContentFragmentExportButton({ variant }) {
         ToastQueue.negative(error.message, { timeout: 1000 });
       })
       .finally(() => {
+        setIsExportAndOpenInProgress(false);
         setIsExportInProgress(false);
       });
   }, [variant, variationName, exportedVariations, aemService, contentFragment]);
@@ -235,15 +245,15 @@ function ContentFragmentExportButton({ variant }) {
           </Content>
           <ButtonGroup>
             <Button variant={'secondary'} onPress={close}>Cancel</Button>
-            <Button width="size-1250" variant={'cta'} isDisabled={isExportInProgress} onPress={() => handleExportVariation(false).then(close)}>
+            <Button width="size-1250" variant={'cta'} isDisabled={isExportInProgress || isExportAndOpenInProgress} onPress={() => handleExportVariation(false).then(close)}>
               {isExportInProgress
                 ? <ProgressCircle size="S" aria-label="Export" isIndeterminate right="8px" />
                 : <CreateVariationIcon marginEnd={'8px'} />
               }
               Export
             </Button>
-            <Button width="size-3000" variant={'cta'} isDisabled={isExportInProgress} onPress={() => handleExportVariation(true).then(close)}>
-              {isExportInProgress
+            <Button width="size-3000" variant={'cta'} isDisabled={isExportInProgress || isExportAndOpenInProgress} onPress={() => handleExportVariation(true).then(close)}>
+              {isExportAndOpenInProgress
                 ? <ProgressCircle size="S" aria-label="Export" isIndeterminate right="8px" />
                 : <CreateVariationIcon marginEnd={'8px'} />
               }
@@ -401,7 +411,7 @@ export function PromptResultCard({ result, ...props }) {
             }
           </div>
           <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(resultFields) }} />
-          <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(metadataFields) }} />
+          <div className={styles.resultMetadata} dangerouslySetInnerHTML={{ __html: toHTML(metadataFields) }} />
           <div className={styles.resultActions}>
             <Flex direction="row">
               {runMode !== RUN_MODE_CF

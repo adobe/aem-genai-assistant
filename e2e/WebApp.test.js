@@ -63,6 +63,7 @@ jest.mock('../web-src/src/components/ShellProvider.js', () => ({
     user: {
       imsOrg: 'org',
       imsToken: 'token',
+      locale: 'en-US',
     },
     done: jest.fn(),
   }),

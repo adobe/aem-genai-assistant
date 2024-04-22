@@ -35,6 +35,7 @@ const styles = {
     border-right: 2px solid rgb(224, 224, 224); 
   `,
   breadcrumbsLink: css`
+    display: flex;
     color: var(--alias-content-neutral-subdued-default, var(--alias-content-neutral-subdued-default, #464646));
     font-size: 16px;
     font-style: normal;
@@ -75,8 +76,10 @@ export function PromptSessionSideView({ isOpenPromptEditor, onTogglePrompt, ...p
       gap={'size-100'}>
 
       <Flex UNSAFE_className={styles.promptFlexItems} UNSAFE_style={{ paddingTop: '0', paddingBottom: '0' }} direction={'row'} justifyContent={'left'} alignItems={'center'} gridArea={'breadcrumbs'}>
+      <Link href="#" onPress={() => setViewType(ViewType.NewSession)} UNSAFE_className={styles.breadcrumbsLink}>
         <Image src={ChevronLeft} alt={'Back'} width={'24px'} />
-        <Link href="#" onPress={() => setViewType(ViewType.NewSession)} UNSAFE_className={styles.breadcrumbsLink}>{formatMessage(intlMessages.promptSessionSideView.navigationLabel)}</Link>
+        {formatMessage(intlMessages.promptSessionSideView.navigationLabel)}
+      </Link>
       </Flex>
 
       {currentSession

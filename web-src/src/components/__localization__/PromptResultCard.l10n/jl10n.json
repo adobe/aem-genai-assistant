@@ -1,23 +1,11 @@
 {
-  "expressNoAccessInfoContextualInfoContent": {
-    "__value__": "To gain access, submit a request to your IT administrator or sign in with an elgible Adobe ID.",
-    "__desc__": "Content for no access to Adobe Express"
-  },
-  "expressNoAccessInfoContextualInfoHeading": {
-    "__value__": "You don't have access to Adobe Express",
-    "__desc__": "Heading for no access to Adobe Express"
-  },
-  "favoritesView.copyTextSuccessToast": {
-    "__value__": "Copied text to clipboard!",
-    "__desc__": "Toast message for successful text copy"
-  },
-  "favoritesView.generateImageFailedToast": {
-    "__value__": "Something went wrong. Please try again!",
-    "__desc__": "Toast message for failed image generation"
-  },
   "promptResultCard.copyButtonTooltip": {
     "__value__": "Copy",
     "__desc__": "Tooltip for Copy button"
+  },
+  "promptResultCard.copyTextSuccessToast": {
+    "__value__": "Copied text to clipboard!",
+    "__desc__": "Toast message for successful text copy"
   },
   "promptResultCard.createPromptDescription": {
     "__value__": "Open \"Edit Prompt\" and write your prompt or paste sections of other prompts.",
@@ -26,6 +14,14 @@
   "promptResultCard.createPromptTitle": {
     "__value__": "Create a Prompt",
     "__desc__": "Title for Create a Prompt"
+  },
+  "promptResultCard.expressNoAccessContextualInfoContent": {
+    "__value__": "To gain access, submit a request to your IT administrator or sign in with an eligible Adobe ID.",
+    "__desc__": "Content for no access to Adobe Express"
+  },
+  "promptResultCard.expressNoAccessContextualInfoHeading": {
+    "__value__": "You don't have access to Adobe Express",
+    "__desc__": "Heading for no access to Adobe Express"
   },
   "promptResultCard.favoriteButtonTooltip": {
     "__value__": "Favorite",
@@ -46,6 +42,14 @@
   "promptResultCard.generateContentTitle": {
     "__value__": "Generate Content",
     "__desc__": "Title for Generate Content"
+  },
+  "promptResultCard.generateImageButtonLabel": {
+    "__value__": "Generate Image",
+    "__desc__": "Label for the Generate Image button"
+  },
+  "promptResultCard.generateImageFailedToast": {
+    "__value__": "Something went wrong. Please try again!",
+    "__desc__": "Toast message for failed image generation"
   },
   "promptResultCard.goodButtonTooltip": {
     "__value__": "Good",
@@ -82,9 +86,5 @@
   "promptResultCard.sendFeedbackSuccessToast": {
     "__value__": "Feedback sent!",
     "__desc__": "Toast message for Feedback sent"
-  },
-  "promptSessionSideView.generateImageButtonLabel": {
-    "__value__": "Generate Image",
-    "__desc__": "Label for the Generate Image button"
   }
 }

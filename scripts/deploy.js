@@ -114,6 +114,7 @@ async function deploy() {
 
     const currentBranch = await getCurrentGitBranch();
     if (currentBranch === 'main') {
+      // If the current branch is 'main', deploy using settings from environment variables (CI/CD pipeline).
       await deployApp();
       return;
     }

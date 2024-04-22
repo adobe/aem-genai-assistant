@@ -25,6 +25,7 @@ import ChevronLeft from '../assets/chevron-left.svg';
 
 const styles = {
   breadcrumbsLink: css`
+    display: flex;
     color: var(--alias-content-neutral-subdued-default, var(--alias-content-neutral-subdued-default, #464646));
     font-size: 16px;
     font-style: normal;
@@ -41,8 +42,10 @@ export function FavoriteVariantListPanel(props) {
   return (
     <>
       <Flex UNSAFE_style={{ padding: '20px 20px 20px' }} direction={'row'} justifyContent={'left'} alignItems={'center'} gridArea={'breadcrumbs'}>
-        <Image src={ChevronLeft} alt={'Back'} width={'24px'} />
-        <Link href="#" onPress={() => setViewType(ViewType.NewSession)} UNSAFE_className={styles.breadcrumbsLink}>{formatMessage(intlMessages.favoritesView.navigationLabel)}</Link>
+        <Link href="#" onPress={() => setViewType(ViewType.NewSession)} UNSAFE_className={styles.breadcrumbsLink}>
+          <Image src={ChevronLeft} alt={'Back'} width={'24px'} />
+          {formatMessage(intlMessages.favoritesView.navigationLabel)}
+        </Link>
       </Flex>
       <View
         paddingStart={'size-400'}

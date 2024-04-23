@@ -36,11 +36,11 @@ class FirefallClient {
     this.accessToken = accessToken;
   }
 
-  async completion(prompt, temperature = 0.0, asJson = true, model = 'gpt-4') {
+  async completion(prompt, temperature = 0.0, model = 'gpt-4') {
     const startTime = Date.now();
 
     try {
-      const response = await wretch(`${this.endpoint}/v2/chat/completions`)
+      const response = await wretch(`${this.endpoint}/v1/completions`)
         .headers({
           'x-gw-ims-org-id': this.org,
           'x-api-key': this.apiKey,
@@ -48,16 +48,9 @@ class FirefallClient {
           'Content-Type': 'application/json',
         })
         .post({
-          messages: [
-            {
-              role: 'system',
-              content: asJson ? 'The output must be valid JSON.' : '',
-            },
-            {
-              role: 'user',
-              content: prompt,
-            },
-          ],
+          dialogue: {
+            question: prompt,
+          },
           llm_metadata: {
             llm_type: 'azure_chat_openai',
             model_name: model,
@@ -68,9 +61,6 @@ class FirefallClient {
             presence_penalty: 0,
             n: 1,
           },
-          response_format: (asJson ? {
-            type: 'json_object',
-          } : {}),
         })
         .json();
 

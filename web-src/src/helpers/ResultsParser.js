@@ -16,15 +16,7 @@ function objectToString(obj) {
 
 export function createVariants(uuid, response) {
   try {
-    let json = JSON.parse(response);
-
-    if (typeof Object.values(json)[0] !== 'string') {
-      json = Object.values(json);
-      if (Array.isArray(json[0])) {
-        [json] = json;
-      }
-    }
-
+    const json = JSON.parse(response);
     if (Array.isArray(json)) {
       return json.map((content) => ({ id: uuid(), content: content === null || typeof content !== 'object' ? objectToString(content) : content }));
     } else {

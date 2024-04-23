@@ -9,12 +9,8 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-
-console.log('Loading script...');
-
 const { spawn } = require('child_process');
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
+const { getCurrentGitBranch } = require('./utils.js');
 
 const WORKSPACE_PRODUCTION = 'Production';
 const WORKSPACE_STAGE = 'Stage';
@@ -47,27 +43,6 @@ function execCommand(command, args) {
 
 function convertToWorkspaceName(branchName) {
   return branchName.replace(/[^a-zA-Z0-9]/g, '');
-}
-
-async function getCurrentGitBranch() {
-  try {
-    const ref = process.env.GITHUB_REF;
-    if (ref) {
-      console.log('Fetching Git branch from environment variables...');
-      const headRef = process.env.GITHUB_HEAD_REF;
-      if (headRef) {
-        console.log('Using head ref from environment variables...');
-        return headRef.trim().toLowerCase();
-      }
-      console.log('Using ref from environment variables...');
-      return ref.replace('refs/heads/', '').trim().toLowerCase();
-    }
-    console.log('Fetching Git branch using Git command...');
-    const { stdout } = await exec('git rev-parse --abbrev-ref HEAD');
-    return stdout.trim().toLowerCase();
-  } catch (error) {
-    throw new Error("Error fetching Git branch. Ensure you're in a Git repository.");
-  }
 }
 
 async function selectWorkspace(workspaceName) {
@@ -122,9 +97,6 @@ async function deployApp(workspaceName) {
 
 async function deploy() {
   try {
-    console.log('Starting deployment process...');
-
-    console.log('Checking current Git branch...');
     const currentBranch = await getCurrentGitBranch();
     console.log(`Current Git branch: ${currentBranch}`);
     if (currentBranch === 'build-action-fx') {
@@ -133,9 +105,7 @@ async function deploy() {
       return;
     }
 
-    console.log('Fetching workspaces...');
     const output = await execCommand('aio', ['console', 'ws', 'ls', '-j']);
-    console.log('Workspaces fetched successfully.');
     const workspaces = JSON.parse(output);
 
     const workspaceName = convertToWorkspaceName(currentBranch);

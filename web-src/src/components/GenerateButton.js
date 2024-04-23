@@ -74,12 +74,24 @@ export function GenerateButton() {
     sampleRUM('genai:prompt:generate', { source: 'GenerateButton#handleGenerate' });
     setGenerationInProgress(true);
     setIsOpenPromptEditor(false);
+    const startTime = Date.now();
     generateResults()
       .catch((error) => {
         ToastQueue.negative(error.message, { timeout: 2000 });
+
+        // capture network errors
+        if (error.status > 300) {
+          log('prompt:generate:networkerror', { status: error.status, message: error.message });
+          sampleRUM('genai:prompt:generate:networkerror', { target: error.message });
+        }
       })
       .finally(() => {
         setGenerationInProgress(false);
+
+        const endTime = Date.now();
+        const responseTime = ((endTime - startTime) / 1000).toFixed(2);
+        log('prompt:generate:responsetime', { responseTime });
+        sampleRUM('genai:prompt:generate:responsetime', { target: responseTime });
       });
   }, [generateResults, setGenerationInProgress]);
 

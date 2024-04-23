@@ -115,8 +115,10 @@ async function deploy() {
 
     console.log('Fetching workspaces...');
     const output = await execCommand('aio', ['console', 'ws', 'ls', '-j']);
+    console.log('Workspaces fetched successfully.');
     const workspaces = JSON.parse(output);
 
+    console.log('Checking current Git branch...');
     const currentBranch = await getCurrentGitBranch();
     if (currentBranch === 'main') {
       // If the current branch is 'main', deploy using settings from environment variables (CI/CD pipeline).

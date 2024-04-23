@@ -9,6 +9,9 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+
+console.log('Loading script...');
+
 const { spawn } = require('child_process');
 const util = require('util');
 const exec = util.promisify(require('child_process').exec);
@@ -58,7 +61,7 @@ async function getCurrentGitBranch() {
 async function selectWorkspace(workspaceName) {
   console.log(`Selecting workspace: ${workspaceName}...`);
   try {
-    await execCommand('aio', ['app', 'use', '-w', workspaceName, '--no-service-sync', '--merge']);
+    // await execCommand('aio', ['app', 'use', '-w', workspaceName, '--no-service-sync', '--merge']);
     console.log(`Workspace '${workspaceName}' selected successfully.`);
   } catch (error) {
     throw new Error(`Failed to select workspace: ${error.message}`);
@@ -94,7 +97,7 @@ function getDeploymentUrl(workspaceName) {
 async function deployApp(workspaceName) {
   try {
     console.log('Deploying application...');
-    await execCommand('aio', ['app', 'deploy']);
+    // await execCommand('aio', ['app', 'deploy']);
     console.log('Application deployed successfully.');
     if (workspaceName) {
       console.log('To you your deployment, visit:');
@@ -107,8 +110,10 @@ async function deployApp(workspaceName) {
 
 async function deploy() {
   try {
+    console.log('Starting deployment process...');
     const inquirer = await import('inquirer');
 
+    console.log('Fetching workspaces...');
     const output = await execCommand('aio', ['console', 'ws', 'ls', '-j']);
     const workspaces = JSON.parse(output);
 

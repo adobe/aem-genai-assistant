@@ -17,10 +17,10 @@ async function getCurrentGitBranch() {
     const ref = process.env.GITHUB_REF;
     if (ref) {
       console.debug('Fetching Git branch from environment variables...');
-      const headRef = process.env.GITHUB_HEAD_REF;
-      if (headRef) {
-        console.debug('Using head ref from environment variables...');
-        return headRef.trim().toLowerCase();
+      const baseRef = process.env.GITHUB_BASE_REF;
+      if (baseRef) {
+        console.debug('Using base ref from environment variables...');
+        return baseRef.trim().toLowerCase();
       }
       console.debug('Using ref from environment variables...');
       return ref.replace('refs/heads/', '').trim().toLowerCase();

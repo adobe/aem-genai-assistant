@@ -51,14 +51,8 @@ function convertToWorkspaceName(branchName) {
 
 async function getCurrentGitBranch() {
   try {
-    if (process.env.GITHUB_REF) {
-      // If the environment variable GITHUB_REF is set, use it to determine the current branch.
-      console.log('Using GITHUB_REF environment variable to determine current branch.');
-      return process.env.GITHUB_REF.replace('refs/heads/', '');
-    }
-    // If the environment variable GITHUB_REF is not set, use the Git command to determine the current branch.
-    const { stdout } = await exec('git rev-parse --abbrev-ref HEAD');
-    return stdout.trim().toLowerCase();
+    const { stdout } = await exec('git branch --show-current');
+    return stdout.replace(/(\r\n|\n|\r)/gm, '').trim() || 'main';
   } catch (error) {
     throw new Error("Error fetching Git branch. Ensure you're in a Git repository.");
   }

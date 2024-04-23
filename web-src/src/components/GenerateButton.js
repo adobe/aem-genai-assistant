@@ -50,7 +50,7 @@ export function GenerateButton() {
   const generateResults = useCallback(async () => {
     try {
       const finalPrompt = renderPrompt(prompt, parameters);
-      const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
+      const { queryId, response } = await firefallService.complete(finalPrompt, temperature, true);
       const variants = createVariants(uuid, response);
       setResults((results) => [...results, {
         id: queryId,

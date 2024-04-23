@@ -82,7 +82,7 @@ export function GenerateButton() {
         // capture network errors
         if (error.status > 300) {
           log('prompt:generate:networkerror', { status: error.status, message: error.message });
-          sampleRUM('genai:prompt:generate:networkerror');
+          sampleRUM('genai:prompt:generate:networkerror', { target: error.message });
         }
       })
       .finally(() => {

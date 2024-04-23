@@ -111,12 +111,6 @@ async function deployApp(workspaceName) {
 async function deploy() {
   try {
     console.log('Starting deployment process...');
-    const inquirer = await import('inquirer');
-
-    console.log('Fetching workspaces...');
-    const output = await execCommand('aio', ['console', 'ws', 'ls', '-j']);
-    console.log('Workspaces fetched successfully.');
-    const workspaces = JSON.parse(output);
 
     console.log('Checking current Git branch...');
     const currentBranch = await getCurrentGitBranch();
@@ -126,7 +120,14 @@ async function deploy() {
       return;
     }
 
+    console.log('Fetching workspaces...');
+    const output = await execCommand('aio', ['console', 'ws', 'ls', '-j']);
+    console.log('Workspaces fetched successfully.');
+    const workspaces = JSON.parse(output);
+
     const workspaceName = convertToWorkspaceName(currentBranch);
+
+    const inquirer = await import('inquirer');
 
     if (workspaces.some((ws) => ws.name === workspaceName)) {
       const matchingWorkspace = workspaces.find((ws) => ws.name === workspaceName);

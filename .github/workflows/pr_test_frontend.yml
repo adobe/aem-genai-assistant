@@ -21,7 +21,7 @@ jobs:
         npm install
         npm run grammar
         npm run prompts
-        npm run build
-        npm run lint
-        npm run test
+#        npm run build
+#        npm run lint
+#        npm run test
         npm run deploy

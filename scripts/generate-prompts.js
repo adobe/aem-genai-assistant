@@ -13,6 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
+const { getCurrentGitBranch } = require('./utils.js');
 
 const DATA_DIR = path.join(__dirname, '../data');
 const PROMPT_TEMPLATES_DIR = path.join(__dirname, '../prompt-templates');
@@ -65,20 +66,6 @@ const createBundledPromptTemplates = (promptIndex) => {
   return bundledPromptTemplates;
 };
 
-const getGitBranchName = async () => {
-  return new Promise((resolve) => {
-    exec('git branch --show-current', (err, stdout, stderr) => {
-      if (err) {
-        console.error(`Error: ${err}`);
-        return 'main';
-      }
-      const branchName = stdout.replace(/(\r\n|\n|\r)/gm, '').trim() || 'main';
-      console.log(`Using branch to replace GIT_BRANCH: ${branchName}`);
-      resolve(branchName);
-    });
-  });
-};
-
 const startProgram = async () => {
   console.log('- Prompt Generator Starting...');
   try {
@@ -98,7 +85,7 @@ const startProgram = async () => {
       // If it fails, log the error and continue
       try {
         const promptTemplate = fs.readFileSync(path.join(PROMPT_TEMPLATES_DIR, prompt.file), 'utf8');
-        const branchName = await getGitBranchName();
+        const branchName = await getCurrentGitBranch();
         prompt.template = promptTemplate.replace(/GIT_BRANCH/g, branchName);
         delete prompt.file;
 

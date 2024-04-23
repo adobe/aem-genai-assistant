@@ -48,7 +48,7 @@ function convertToWorkspaceName(branchName) {
 async function selectWorkspace(workspaceName) {
   console.log(`Selecting workspace: ${workspaceName}...`);
   try {
-    // await execCommand('aio', ['app', 'use', '-w', workspaceName, '--no-service-sync', '--merge']);
+    await execCommand('aio', ['app', 'use', '-w', workspaceName, '--no-service-sync', '--merge']);
     console.log(`Workspace '${workspaceName}' selected successfully.`);
   } catch (error) {
     throw new Error(`Failed to select workspace: ${error.message}`);
@@ -84,7 +84,7 @@ function getDeploymentUrl(workspaceName) {
 async function deployApp(workspaceName) {
   try {
     console.log('Deploying application...');
-    // await execCommand('aio', ['app', 'deploy']);
+    await execCommand('aio', ['app', 'deploy']);
     console.log('Application deployed successfully.');
     if (workspaceName) {
       console.log('To you your deployment, visit:');
@@ -99,7 +99,7 @@ async function deploy() {
   try {
     const currentBranch = await getCurrentGitBranch();
     console.log(`Current Git branch: ${currentBranch}`);
-    if (currentBranch === 'build-action-fx') {
+    if (currentBranch === 'main') {
       // If the current branch is 'main', deploy using settings from environment variables (CI/CD pipeline).
       await deployApp();
       return;

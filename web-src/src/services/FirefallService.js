@@ -28,22 +28,20 @@ export class FirefallService {
     console.debug(`Feedback: ${this.feedbackEndpoint}`);
   }
 
-  async complete(prompt, temperature, asJson) {
+  async complete(prompt, temperature) {
     /* eslint-disable-next-line camelcase */
-    const { query_id, choices } = await wretch(this.completeEndpoint)
+    const { query_id, generations } = await wretch(this.completeEndpoint)
       .post({
         prompt,
         temperature,
-        asJson,
         imsOrg: this.imsOrg,
         accessToken: this.accessToken,
       })
       .json();
-
     return {
       /* eslint-disable-next-line camelcase */
       queryId: query_id,
-      response: choices[0].message.content,
+      response: generations[0][0].message.content,
     };
   }
 

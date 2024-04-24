@@ -13,6 +13,7 @@
 const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
+const { getCurrentGitBranch } = require('./utils.js');
 
 const DATA_DIR = path.join(__dirname, '../data');
 const PROMPT_TEMPLATES_DIR = path.join(__dirname, '../prompt-templates');
@@ -42,18 +43,27 @@ const saveBundledPromptTemplates = (bundledPromptTemplates) => {
   fs.writeFileSync(PROMPT_TEMPLATES_JSON_FILE, JSON.stringify(bundledPromptTemplates, null, 4));
 };
 
-const getGitBranchName = async () => {
-  return new Promise((resolve) => {
-    exec('git branch --show-current', (err, stdout, stderr) => {
-      if (err) {
-        console.error(`Error: ${err}`);
-        return 'main';
-      }
-      const branchName = stdout.replace(/(\r\n|\n|\r)/gm, '').trim() || 'main';
-      console.log(`Using branch to replace GIT_BRANCH: ${branchName}`);
-      resolve(branchName);
-    });
+const formatPromptKeys = (prompt) => {
+  Object.keys(prompt).forEach((key) => {
+    const newKey = key.charAt(0).toUpperCase() + key.slice(1);
+    prompt[newKey] = prompt[key];
+    delete prompt[key];
   });
+};
+
+const createBundledPromptTemplates = (promptIndex) => {
+  const bundledPromptTemplates = {
+    total: 0,
+    offset: 0,
+    limit: 0,
+    data: [],
+    ':type': 'sheet',
+  };
+
+  bundledPromptTemplates.limit = promptIndex.length;
+  bundledPromptTemplates.total = promptIndex.length;
+
+  return bundledPromptTemplates;
 };
 
 const startProgram = async () => {
@@ -66,29 +76,25 @@ const startProgram = async () => {
 
     // Create or update the bundled prompt templates file
     console.log(`\t* Creating Bundled Prompt Templates File @ ${PROMPT_TEMPLATES_JSON_FILE}`);
-    const bundledPromptTemplates = [];
+    const bundledPromptTemplates = createBundledPromptTemplates(sortedPromptIndex);
 
     // Add the prompt templates to the target files
     for await (const prompt of promptIndex) {
-      const {
-        label, description, file, modes,
-      } = prompt;
-      console.log(`\t\t* Adding ${label}`);
-
+      console.log(`\t\t* Adding ${prompt.label}`);
       // Try to read the prompt template file
       // If it fails, log the error and continue
       try {
-        const promptTemplate = fs.readFileSync(path.join(PROMPT_TEMPLATES_DIR, file), 'utf8');
-        const branchName = await getGitBranchName();
-        const template = promptTemplate.replace(/GIT_BRANCH/g, branchName);
+        const promptTemplate = fs.readFileSync(path.join(PROMPT_TEMPLATES_DIR, prompt.file), 'utf8');
+        const branchName = await getCurrentGitBranch();
+        prompt.template = promptTemplate.replace(/GIT_BRANCH/g, branchName);
+        delete prompt.file;
 
         // Add the prompt to the bundled prompt templates file
-        bundledPromptTemplates.push({
-          label, description, template, modes,
-        });
+        formatPromptKeys(prompt);
+        bundledPromptTemplates.data.push(prompt);
       } catch (err) {
         console.log(`\t\t\t! Error: ${err}`);
-        console.log(`\t\t\t! Skipping ${label}`);
+        console.log(`\t\t\t! Skipping ${prompt.label}`);
       }
     }
 

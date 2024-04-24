@@ -5,6 +5,13 @@
         "runtime": "automatic"
       }
     ],
-    [ "@babel/plugin-transform-modules-commonjs" ]
+    [ "@babel/plugin-transform-modules-commonjs" ],
+    [
+      "formatjs",
+      {
+        "idInterpolationPattern": "[sha512:contenthash:base64:6]",
+        "ast": true
+      }
+    ]
   ]
 }

@@ -44,6 +44,12 @@ jest.mock('@adobe/exc-app/settings', () => ({
   SettingsLevel: jest.fn(),
 }));
 
+jest.mock('@adobe/exc-app/featureflags', () => {
+  return {
+    get: jest.fn().mockImplementation(() => Promise.resolve({})),
+  };
+});
+
 jest.mock('../web-src/src/helpers/NetworkHelper.js', () => ({
   wretch: jest.fn().mockImplementation(() => ({
     get: jest.fn().mockImplementation(() => ({
@@ -57,6 +63,7 @@ jest.mock('../web-src/src/components/ShellProvider.js', () => ({
     user: {
       imsOrg: 'org',
       imsToken: 'token',
+      locale: 'en-US',
     },
     done: jest.fn(),
   }),

@@ -14,7 +14,9 @@ import {
 } from '@adobe/react-spectrum';
 import React from 'react';
 import { css } from '@emotion/css';
+import { useIntl } from 'react-intl';
 import NewSessionBanner from '../assets/new-session-banner.png';
+import { intlMessages } from './App.l10n.js';
 
 const styles = {
   banner: css`
@@ -37,12 +39,16 @@ const styles = {
 export function WelcomeBanner({
   template, onClick, ...props
 }) {
+  const { formatMessage } = useIntl();
+
   return (
     <Flex direction="row" alignItems="center" justifyContent="space-between" flexWrap="nowrap" {...props} UNSAFE_className={styles.banner}>
       <div className={styles.container}>
         <Text>
-          <Heading level={1} alignSelf={'start'}>Generate Variations</Heading>
-          Create high quality content quickly then measure it with experimentation or publish it to your site.
+          <Heading level={1} alignSelf={'start'}>
+            {formatMessage(intlMessages.app.name)}
+          </Heading>
+          {formatMessage(intlMessages.app.description)}
         </Text>
       </div>
       <Image flex="1" src={NewSessionBanner} UNSAFE_className={styles.image} objectFit="cover" alt={'Generate Variations Poster'} />

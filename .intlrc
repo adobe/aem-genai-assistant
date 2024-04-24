@@ -1,0 +1,25 @@
+{
+  "files": [
+      "web-src/**/*.l10n.js"
+  ],
+  "ignore": [
+      "**/adobe-intl-aladdin/**",
+      "**/adobe-intl-react/**"
+  ],
+  "aladdinProduct": "Adobe_Experience_Manager",
+  "aladdinProject": "AEM_Generate_Variations",
+  "locales": [
+    "fr_FR",
+    "de_DE",
+    "ja_JP",
+    "it_IT",
+    "es_ES",
+    "pt_BR",
+    "zh_CN",
+    "zh_TW",
+    "ko_KR"
+  ],
+  "aladdinServer": "https://aladdin.adobe.io/api/v1",
+  "aladdinVersion": "NextGen",
+  "aladdinAdobeioKey": "dx-aem"
+}

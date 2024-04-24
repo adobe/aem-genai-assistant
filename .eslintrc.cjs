@@ -19,7 +19,8 @@ module.exports = {
   ],
   plugins: [
     "react-hooks",
-    "unused-imports"
+    "unused-imports",
+    "formatjs"
   ],
   rules: {
     'no-console': 'off',
@@ -35,7 +36,8 @@ module.exports = {
       'ignoreTemplateLiterals': true,
       'ignoreStrings': true,
       'code': 120
-    }]
+    }],
+    'formatjs/no-offset': 'error',
   },
   env: {
     browser: true,

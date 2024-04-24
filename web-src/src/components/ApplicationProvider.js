@@ -23,6 +23,7 @@ import {
 } from '../state/PromptTemplatesState.js';
 import { TargetService } from '../services/TargetService.js';
 import { CsvParserService } from '../services/CsvParserService.js';
+import { FeatureFlagsService } from '../services/FeatureFlagsService.js';
 import { AemService } from '../services/AemService.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
 
@@ -30,6 +31,8 @@ export const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 
 export const RUN_MODE_DEFAULT = 'default';
 export const RUN_MODE_CF = 'content-fragments';
+
+const FEATURE_FLAGS_PROJECT_ID = 'aem-generate-variations';
 
 const COMPLETE_ACTION = 'complete';
 const FEEDBACK_ACTION = 'feedback';
@@ -60,26 +63,37 @@ export const ApplicationProvider = ({ children }) => {
   const setBundledPromptTemplates = useSetRecoilState(bundledPromptTemplatesState);
   const setCustomPromptTemplates = useSetRecoilState(customPromptTemplatesState);
   const setContentFragment = useSetRecoilState(contentFragmentState);
-  const [application, setApplication] = useState(undefined);
+  const [applicationContext, setApplicationContext] = useState(undefined);
 
   useEffect(() => {
     if (!user) {
       return;
     }
 
-    const { aemHost, fragmentId } = parseUrlParameters();
-    console.log(`AEM Host: ${aemHost}`);
-    console.log(`Fragment ID: ${fragmentId}`);
+    const createApplicationContext = async () => {
+      console.debug('Creating application context...');
 
-    const runMode = fragmentId ? RUN_MODE_CF : RUN_MODE_DEFAULT;
-    console.log(`Run Mode: ${runMode}`);
+      // Create the feature flags service first, as it might be used by other services
+      const featureFlagsService = await FeatureFlagsService.create(FEATURE_FLAGS_PROJECT_ID);
 
-    const aemService = aemHost ? createAemService(aemHost, user.imsToken) : undefined;
+      const { aemHost, fragmentId } = parseUrlParameters();
+      console.log(`AEM Host: ${aemHost}`);
+      console.log(`Fragment ID: ${fragmentId}`);
 
-    let startupPromise = Promise.resolve();
+      const runMode = fragmentId ? RUN_MODE_CF : RUN_MODE_DEFAULT;
+      console.log(`Run Mode: ${runMode}`);
 
-    if (aemService && fragmentId) {
-      startupPromise = startupPromise.then(async () => {
+      console.debug('Reading bundled prompt templates...');
+      setBundledPromptTemplates(parseBundledPromptTemplates(runMode));
+
+      console.debug('Reading custom prompt templates...');
+      readCustomPromptTemplates(runMode, RUN_MODE_DEFAULT).then((templates) => {
+        setCustomPromptTemplates(templates);
+      });
+
+      const aemService = aemHost ? createAemService(aemHost, user.imsToken) : undefined;
+
+      if (aemService && fragmentId) {
         try {
           const fragment = await aemService.getFragment(fragmentId);
           console.debug(`Fragment: ${fragment}`);
@@ -91,19 +105,14 @@ export const ApplicationProvider = ({ children }) => {
         } catch (e) {
           throw new Error(`Failed to get fragment: ${e.message}`);
         }
-      });
-    }
+      }
 
-    setBundledPromptTemplates(parseBundledPromptTemplates(runMode));
-    readCustomPromptTemplates(runMode, RUN_MODE_DEFAULT).then((templates) => {
-      setCustomPromptTemplates(templates);
-    });
-
-    startupPromise.then(() => {
-      setApplication({
+      return {
         appVersion: APP_VERSION,
 
         runMode,
+
+        featureFlagsService,
 
         firefallService: new FirefallService({
           completeEndpoint: actions[COMPLETE_ACTION],
@@ -130,20 +139,21 @@ export const ApplicationProvider = ({ children }) => {
         }),
 
         aemService,
-      });
+      };
+    };
 
+    createApplicationContext().then((app) => {
+      setApplicationContext(app);
       done();
-    }).catch((e) => {
-      console.error(`Failed to initialize application: ${e.message}`);
     });
-  }, [user, done, setApplication]);
+  }, [user, done, setApplicationContext]);
 
-  if (!application) {
+  if (!applicationContext) {
     return <Fragment/>;
   }
 
   return (
-    <ApplicationContext.Provider value={application}>
+    <ApplicationContext.Provider value={applicationContext}>
       {children}
     </ApplicationContext.Provider>
   );

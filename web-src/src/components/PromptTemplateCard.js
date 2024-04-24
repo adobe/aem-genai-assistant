@@ -18,6 +18,9 @@ import { css } from '@emotion/css';
 import { motion } from 'framer-motion';
 import SharedTemplateIcon from '@spectrum-icons/workflow/UserGroup';
 import DeleteIcon from '@spectrum-icons/workflow/Delete';
+import { useIntl } from 'react-intl';
+
+import { intlMessages } from './App.l10n.js';
 import GenerateIcon from '../assets/generate.svg';
 import SmallLogo from '../assets/logo_small.svg';
 import { NEW_PROMPT_TEMPLATE_ID } from '../state/PromptTemplatesState.js';
@@ -73,6 +76,7 @@ export function PromptTemplateCard({
   template, onClick, onDelete, ...props
 }) {
   const cardNodeRef = React.useRef(null);
+  const { formatMessage } = useIntl();
 
   const handleClick = useCallback((e) => {
     if (isParentNode(e.target, cardNodeRef.current.UNSAFE_getDOMNode())) {
@@ -96,7 +100,7 @@ export function PromptTemplateCard({
       <ActionMenu isQuiet onAction={handleAction} UNSAFE_className={styles.actions}>
         <Item key={'delete'} textValue={'Delete'}>
           <DeleteIcon color={'negative'} UNSAFE_style={{ boxSizing: 'content-box' }}/>
-          <Text UNSAFE_style={{ color: 'red' }}>Delete</Text>
+          <Text UNSAFE_style={{ color: 'red' }}>{formatMessage(intlMessages.app.deletePromptTemplateButtonLabel)}</Text>
         </Item>
       </ActionMenu>
     );

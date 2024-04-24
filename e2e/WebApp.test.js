@@ -77,7 +77,7 @@ jest.mock('../web-src/src/services/FirefallService.js', () => ({
   }),
 }));
 
-describe.skip('WebApp', () => {
+describe('WebApp', () => {
   beforeEach(() => {
     delete window.location;
     window.location = new URL(CONFIG_URL);

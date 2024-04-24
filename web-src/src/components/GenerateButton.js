@@ -82,7 +82,6 @@ export function GenerateButton() {
         // capture network errors
         if (error.status > 300) {
           log('prompt:generate:networkerror', { status: error.status, message: error.message });
-          sampleRUM('genai:prompt:generate:networkerror', { target: error.message });
         }
       })
       .finally(() => {
@@ -91,7 +90,6 @@ export function GenerateButton() {
         const endTime = Date.now();
         const responseTime = ((endTime - startTime) / 1000).toFixed(2);
         log('prompt:generate:responsetime', { responseTime });
-        sampleRUM('genai:prompt:generate:responsetime', { target: responseTime });
       });
   }, [generateResults, setGenerationInProgress]);
 

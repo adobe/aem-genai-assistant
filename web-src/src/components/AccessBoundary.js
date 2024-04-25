@@ -11,6 +11,7 @@
  */
 import React, { Fragment, useEffect } from 'react';
 import { css } from '@emotion/css';
+import { useLDClient } from 'launchdarkly-react-client-sdk';
 import { useShellContext } from './ShellProvider.js';
 
 const styles = {
@@ -38,6 +39,15 @@ function NoAccessMessage() {
 
 export function AccessBoundary({ children, fallback = <NoAccessMessage /> }) {
   const { isUserAuthorized, done } = useShellContext();
+  const [isEarlyAccessAuthorized, setIsEarlyAccessAuthorized] = React.useState(false);
+  const ldClient = useLDClient();
+
+  useEffect(() => {
+    ldClient.on('change:SITES-20810', (value, previous) => {
+      console.log('App access changed:', value, `(was ${previous})`);
+      setIsEarlyAccessAuthorized(value);
+    });
+  }, []);
 
   useEffect(() => {
     if (!isUserAuthorized) {

@@ -15,6 +15,7 @@ import React, {
 } from 'react';
 
 import page from '@adobe/exc-app/page';
+import { useLDClient } from 'launchdarkly-react-client-sdk';
 
 export const ShellContext = createContext();
 
@@ -47,10 +48,19 @@ const expressAuthorized = (imsProfile, imsOrg) => {
 export const ShellProvider = ({ children, runtime }) => {
   const [shellContext, setShellContext] = useState();
 
+  const ldClient = useLDClient();
+
   const shellEventsHandler = useCallback((shellConfig) => {
     const {
       imsProfile, imsToken, imsOrg, imsInfo: { tenant }, locale,
     } = shellConfig;
+
+    const context = {
+      kind: 'org',
+      key: imsOrg,
+      imsOrgId: imsOrg,
+    };
+    ldClient.identify(context);
 
     setShellContext({
       user: {

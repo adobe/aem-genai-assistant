@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 const { Core } = require('@adobe/aio-sdk');
+const LaunchDarkly = require('@launchdarkly/node-server-sdk');
 const QueryStringAddon = require('wretch/addons/queryString');
 const { ImsClient } = require('./ImsClient.js');
 const wretch = require('./Network.js');
@@ -65,6 +66,34 @@ async function checkForProductContext(endpoint, clientId, org, token, productCon
   }
 }
 
+async function checkForEarlyProductAccess(sdkKey, org) {
+  const ldClient = LaunchDarkly.init(sdkKey);
+  const context = {
+    kind: 'org',
+    key: org,
+    imsOrgId: org,
+  };
+
+  // const featureFlagKey = "early-access-generate-variations";
+  const featureFlagKey = 'SITES-20810';
+
+  return new Promise((resolve, reject) => {
+    ldClient.once('ready', () => {
+      ldClient.variation(featureFlagKey, context, false, (err, showFeature) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(showFeature);
+        }
+      });
+    });
+
+    ldClient.on('error', (err) => {
+      reject(err);
+    });
+  });
+}
+
 function asAuthAction(action) {
   return async (params) => {
     const imsEndpoint = params.IMS_ENDPOINT;
@@ -73,6 +102,7 @@ function asAuthAction(action) {
     const clientSecret = params.IMS_SERVICE_CLIENT_SECRET;
     const permAuthCode = params.IMS_SERVICE_PERM_AUTH_CODE;
     const productContext = params.IMS_PRODUCT_CONTEXT;
+    const ldSdkKey = params.LD_SDK_KEY;
 
     // Extract the token from the params
     const { imsOrg, accessToken } = params;
@@ -85,6 +115,11 @@ function asAuthAction(action) {
     // Check that the profile has the expected product context
     if (!await checkForProductContext(imsEndpoint, clientId, imsOrg, accessToken, productContext)) {
       throw new Error('Profile does not have the required product context');
+    }
+
+    // Check that the profile has early access to the product
+    if (!await checkForEarlyProductAccess(ldSdkKey, imsOrg)) {
+      throw new Error('Profile does not have early access to the product');
     }
 
     // If everything is okay, generate a service token

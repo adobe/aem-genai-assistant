@@ -15,6 +15,7 @@ import { RecoilRoot } from 'recoil';
 import { defaultTheme, Provider } from '@adobe/react-spectrum';
 import { init } from '@adobe/exc-app';
 import React from 'react';
+import { asyncWithLDProvider } from 'launchdarkly-react-client-sdk';
 import { App } from './components/App.js';
 import { ApplicationProvider } from './components/ApplicationProvider.js';
 import { ShellProvider } from './components/ShellProvider.js';
@@ -22,17 +23,28 @@ import './index.css';
 import { AccessBoundary } from './components/AccessBoundary.js';
 
 init((runtime) => {
-  createRoot(document.getElementById('root')).render(
-    <RecoilRoot>
-      <ShellProvider runtime={runtime}>
-        <AccessBoundary>
-          <ApplicationProvider>
-            <Provider colorScheme="light" theme={defaultTheme} width="100%" height="100%">
-              <App />
-            </Provider>
-          </ApplicationProvider>
-        </AccessBoundary>
-      </ShellProvider>
-    </RecoilRoot>,
-  );
+  (async () => {
+    const LDProvider = await asyncWithLDProvider({
+      clientSideID: process.env.LD_CLIENT_ID,
+      reactOptions: {
+        useCamelCaseFlagKeys: false,
+      },
+    });
+
+    createRoot(document.getElementById('root')).render(
+      <LDProvider>
+        <RecoilRoot>
+          <ShellProvider runtime={runtime}>
+            <AccessBoundary>
+              <ApplicationProvider>
+                <Provider colorScheme="light" theme={defaultTheme} width="100%" height="100%">
+                  <App />
+                </Provider>
+              </ApplicationProvider>
+            </AccessBoundary>
+          </ShellProvider>
+        </RecoilRoot>
+      </LDProvider>,
+    );
+  })();
 });

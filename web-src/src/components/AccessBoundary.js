@@ -11,7 +11,6 @@
  */
 import React, { Fragment, useEffect } from 'react';
 import { css } from '@emotion/css';
-// import { useLDClient } from 'launchdarkly-react-client-sdk';
 import { useShellContext } from './ShellProvider.js';
 
 const styles = {
@@ -51,7 +50,6 @@ export function AccessBoundary({ children, fallback = <NoAccessMessage /> }) {
 
   useEffect(() => {
     if (!(isUserAuthorized || isEarlyAccessAuthorized)) {
-      console.log('Early access not authorized');
       done();
     }
   }, [isUserAuthorized, isEarlyAccessAuthorized, done]);

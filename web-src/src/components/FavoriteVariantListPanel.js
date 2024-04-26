@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Grid, View, Text, Image, Link, ButtonGroup, AlertDialog, DialogTrigger, Button,
+  Flex, Grid, View, Text, Image, Link, ButtonGroup, AlertDialog, DialogTrigger, Button, Tooltip, TooltipTrigger,
 } from '@adobe/react-spectrum';
 import React, { useCallback } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -105,14 +105,17 @@ export function FavoriteVariantListPanel(props) {
           {formatMessage(intlMessages.favoritesView.navigationLabel)}
         </Link>
         <ButtonGroup marginStart={'auto'}>
-          <Button
-            key="exportCsv"
-            variant="cta"
-            onPress={exportCsv}
-            isDisabled={selectedVariants.length === 0}>
-            <ExportIcon />
-            <Text>Export to CSV</Text>
-          </Button>
+          <TooltipTrigger>
+            <Button
+              key="exportCsv"
+              variant="cta"
+              onPress={exportCsv}
+              isDisabled={selectedVariants.length === 0}>
+              <ExportIcon />
+              <Text>Export to CSV</Text>
+            </Button>
+            <Tooltip>Export the selected variants (text content only) to a CSV file.</Tooltip>
+          </TooltipTrigger>
           <Button
             key="selectAll"
             variant="secondary"

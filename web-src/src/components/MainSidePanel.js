@@ -12,7 +12,7 @@
 import {
   Flex, Grid, Image, Link, Text, ActionButton, TooltipTrigger, Tooltip,
 } from '@adobe/react-spectrum';
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import ShowMenu from '@spectrum-icons/workflow/ShowMenu';
 import { css } from '@emotion/css';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -36,34 +36,27 @@ import { ClickableImage } from './ClickableImage.js';
 
 export const HELP_AND_FAQ_URL = 'https://www.aem.live/docs/sidekick-generate-variations';
 
-export function MainSidePanel(props) {
-  const { appVersion } = useApplicationContext();
-  const sessions = useRecoilValue(sessionHistoryState);
-
-  const [currentSession, setCurrentSession] = useRecoilState(sessionState);
-  const [viewType, setViewType] = useRecoilState(viewTypeState);
-  const [mainSidePanel, setMainSidePanelState] = useRecoilState(mainSidePanelState);
-
-  const { formatMessage } = useIntl();
-  let latestGrouping = -1;
-
+// eslint-disable-next-line react/display-name
+function getGroupNames() {
   const now = new Date();
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  const twoDaysAgo = new Date();
-  twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-  const lastSevenDays = new Date();
-  lastSevenDays.setDate(lastSevenDays.getDate() - 7);
-  const lastThirtyDays = new Date();
-  lastThirtyDays.setDate(lastThirtyDays.getDate() - 30);
-  const lastNinetyDays = new Date();
-  lastNinetyDays.setDate(lastNinetyDays.getDate() - 90);
-  const lastSixMonths = new Date();
-  lastSixMonths.setMonth(lastSixMonths.getMonth() - 6);
-  const lastTwelveMonths = new Date();
-  lastTwelveMonths.setMonth(lastTwelveMonths.getMonth() - 12);
+  const currDate = now.getDate();
 
-  const TIME_GROUPINGS = [
+  const yesterday = new Date();
+  yesterday.setDate(currDate - 1);
+  const twoDaysAgo = new Date();
+  twoDaysAgo.setDate(currDate - 2);
+  const lastSevenDays = new Date();
+  lastSevenDays.setDate(currDate - 7);
+  const lastThirtyDays = new Date();
+  lastThirtyDays.setDate(currDate - 30);
+  const lastNinetyDays = new Date();
+  lastNinetyDays.setDate(currDate - 90);
+  const lastSixMonths = new Date();
+  lastSixMonths.setMonth(currDate - 6);
+  const lastTwelveMonths = new Date();
+  lastTwelveMonths.setMonth(currDate - 12);
+
+  return [
     { label: 'Today', start: now, end: yesterday },
     { label: 'Yesterday', start: yesterday, end: twoDaysAgo },
     { label: 'Last 7 days', start: twoDaysAgo, end: lastSevenDays },
@@ -72,6 +65,19 @@ export function MainSidePanel(props) {
     { label: 'Last 6 months', start: lastNinetyDays, end: lastSixMonths },
     { label: 'Last 12 months', start: lastSixMonths, end: lastTwelveMonths },
   ];
+}
+
+export function MainSidePanel(props) {
+  const { appVersion } = useApplicationContext();
+  const sessions = useRecoilValue(sessionHistoryState);
+
+  const [currentSession, setCurrentSession] = useRecoilState(sessionState);
+  const [viewType, setViewType] = useRecoilState(viewTypeState);
+  const [mainSidePanel, setMainSidePanelState] = useRecoilState(mainSidePanelState);
+  const TIME_GROUPINGS = useMemo(() => getGroupNames(), [sessions]);
+  let groupingLabel = '';
+
+  const { formatMessage } = useIntl();
 
   const style = {
     headerText: css`
@@ -151,18 +157,6 @@ export function MainSidePanel(props) {
     }
   }, [mainSidePanel]);
 
-  // returns TIME_GROUPINGS index of bucket that the date parameter belongs in
-  function findTimeGrouping(date) {
-    for (let i = latestGrouping + 1; i < TIME_GROUPINGS.length; i += 1) {
-      const grouping = TIME_GROUPINGS[i];
-      if (date <= grouping.start && date > grouping.end) {
-        return i;
-      }
-    }
-
-    return latestGrouping;
-  }
-
   return (
     <Grid {...props}
       UNSAFE_style={{ padding: '10px' }}
@@ -215,19 +209,17 @@ export function MainSidePanel(props) {
           {(mainSidePanel === MainSidePanelType.Expanded && sessions && sessions.length > 0)
             && sessions.toReversed().map((session) => {
               const sessionDate = new Date(session.name);
-              const grpIndex = findTimeGrouping(sessionDate);
-              let changeGrouping = false;
+              const prevLabel = groupingLabel;
 
-              if (latestGrouping < grpIndex) {
-                changeGrouping = true;
-                latestGrouping = grpIndex;
+              for (let i = 0; i < TIME_GROUPINGS.length; i += 1) {
+                if (sessionDate <= TIME_GROUPINGS[i].start && sessionDate >= TIME_GROUPINGS[i].end) {
+                  groupingLabel = TIME_GROUPINGS[i].label;
+                }
               }
 
               return (<>
-                        { changeGrouping
-                          && latestGrouping > -1
-                          && <Text UNSAFE_className={style.subMenuHeader}>{TIME_GROUPINGS[latestGrouping].label}</Text>
-                        }
+                        {prevLabel !== groupingLabel
+                        && <Text UNSAFE_className={style.subMenuHeader}>{groupingLabel}</Text>}
                         {/* eslint-disable-next-line max-len */}
                         <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyle.clickedSubMenuItem : style.subMenuItem} key={session.id}>
                           <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => handleRecent(session)}>{session.name}</Link>

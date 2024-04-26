@@ -30,7 +30,7 @@ import FileTxt from '../assets/file-txt.svg';
 import { sessionHistoryState } from '../state/SessionHistoryState.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
-import { MainSidePanelType, mainSidePanelState } from '../state/MainSidePanelState.js';
+import { MainSidePanelType, mainSidePanelTypeState } from '../state/MainSidePanelTypeState.js';
 import { ClickableImage } from './ClickableImage.js';
 import { APP_VERSION, RUN_MODE_CF, useApplicationContext } from './ApplicationProvider.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
@@ -120,7 +120,7 @@ export function MainSidePanel(props) {
   const sessions = useRecoilValue(sessionHistoryState);
   const [currentSession, setCurrentSession] = useRecoilState(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
-  const [mainSidePanel, setMainSidePanelState] = useRecoilState(mainSidePanelState);
+  const [mainSidePanelType, setMainSidePanelType] = useRecoilState(mainSidePanelTypeState);
 
   const { formatMessage } = useIntl();
 
@@ -130,12 +130,12 @@ export function MainSidePanel(props) {
   }, [setCurrentSession, setViewType]);
 
   const toggleMainSidePanelState = useCallback(() => {
-    if (mainSidePanel === MainSidePanelType.Expanded) {
-      setMainSidePanelState(MainSidePanelType.Collapsed);
+    if (mainSidePanelType === MainSidePanelType.Expanded) {
+      setMainSidePanelType(MainSidePanelType.Collapsed);
     } else {
-      setMainSidePanelState(MainSidePanelType.Expanded);
+      setMainSidePanelType(MainSidePanelType.Expanded);
     }
-  }, [mainSidePanel]);
+  }, [mainSidePanelType]);
 
   return (
     <Grid {...props}
@@ -154,15 +154,15 @@ export function MainSidePanel(props) {
               <ShowMenu size='S' />
             </ActionButton>
             <Tooltip>
-              {mainSidePanel === MainSidePanelType.Collapsed
+              {mainSidePanelType === MainSidePanelType.Collapsed
                 ? <Text>{formatMessage(intlMessages.mainSidePanel.expandMenuType)}</Text>
                 : <Text>{formatMessage(intlMessages.mainSidePanel.collapseMenuType)}</Text>}
             </Tooltip>
           </TooltipTrigger>
-          {mainSidePanel === MainSidePanelType.Expanded
+          {mainSidePanelType === MainSidePanelType.Expanded
             && <Text UNSAFE_className={styles.headerText}>{formatMessage(intlMessages.mainSidePanel.title)}</Text>}
         </Flex>
-        {mainSidePanel === MainSidePanelType.Expanded
+        {mainSidePanelType === MainSidePanelType.Expanded
           && <Text UNSAFE_className={styles.versionTag}>v{APP_VERSION}</Text>}
       </Flex>
 
@@ -171,23 +171,23 @@ export function MainSidePanel(props) {
           <ul className={styles.menu}>
             <li className={viewType === ViewType.NewSession ? derivedStyles.clickedMenuItem : styles.menuItem}>
               <ClickableImage src={PromptsIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItem)} alt={'New prompt template'} onClick={() => setViewType(ViewType.NewSession)} />
-              {mainSidePanel === MainSidePanelType.Expanded
+              {mainSidePanelType === MainSidePanelType.Expanded
               && <Link href="#" UNSAFE_className={styles.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>{formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItem)}</Link>}
             </li>
             <li className={viewType === ViewType.Favorites ? derivedStyles.clickedMenuItem : styles.menuItem}>
               <ClickableImage src={FavoritesIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.favoritesMenuItem)} alt={'Favorites'} onClick={() => setViewType(ViewType.Favorites)} />
-              {mainSidePanel === MainSidePanelType.Expanded
+              {mainSidePanelType === MainSidePanelType.Expanded
               && <Link href="#" UNSAFE_className={styles.menuItemLink} onPress={() => setViewType(ViewType.Favorites)}>{formatMessage(intlMessages.mainSidePanel.favoritesMenuItem)}</Link>}
             </li>
             <li className={styles.menuItem}>
-              {mainSidePanel === MainSidePanelType.Expanded
+              {mainSidePanelType === MainSidePanelType.Expanded
                 ? <Image src={RecentsIcon} width={'20px'} alt={'Recents'} />
-                : <ClickableImage src={RecentsIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.recentsMenuItem)} alt={'Recents'} onClick={() => (sessions?.length > 0) && setMainSidePanelState(MainSidePanelType.Expanded)} />
+                : <ClickableImage src={RecentsIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.recentsMenuItem)} alt={'Recents'} onClick={() => (sessions?.length > 0) && setMainSidePanelType(MainSidePanelType.Expanded)} />
               }
-              {mainSidePanel === MainSidePanelType.Expanded
+              {mainSidePanelType === MainSidePanelType.Expanded
               && <Text>{formatMessage(intlMessages.mainSidePanel.recentsMenuItem)}</Text>}
             </li>
-            {(mainSidePanel === MainSidePanelType.Expanded && sessions && sessions.length > 0)
+            {(mainSidePanelType === MainSidePanelType.Expanded && sessions && sessions.length > 0)
               && sessions.map((session) => (
                 // eslint-disable-next-line max-len
                 <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyles.clickedSubMenuItem : styles.subMenuItem} key={session.id}>
@@ -198,19 +198,21 @@ export function MainSidePanel(props) {
         </Flex>
       }
 
-      { runMode === RUN_MODE_CF && <ContentFragmentRunModeContext /> }
+      { (runMode === RUN_MODE_CF && mainSidePanelType === MainSidePanelType.Expanded)
+        && <ContentFragmentRunModeContext />
+      }
 
       <Flex direction={'column'} gridArea={'footer'} gap={'16px'}>
       <ul className={styles.menu}>
           <li className={styles.menuItem}>
             <ClickableImage src={HelpIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.helpAndFaqsMenuItem)} alt={'Help'} onClick={() => window.open(HELP_AND_FAQ_URL, '_blank')} />
-            {mainSidePanel === MainSidePanelType.Expanded && <Link href={HELP_AND_FAQ_URL} target="_blank" UNSAFE_className={styles.menu}>{formatMessage(intlMessages.mainSidePanel.helpAndFaqsMenuItem)}</Link>}
+            {mainSidePanelType === MainSidePanelType.Expanded && <Link href={HELP_AND_FAQ_URL} target="_blank" UNSAFE_className={styles.menu}>{formatMessage(intlMessages.mainSidePanel.helpAndFaqsMenuItem)}</Link>}
           </li>
           <li className={styles.menuItem}>
             <ClickableImage src={FileTxt} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)} alt={'Guidelines'} onClick={() => window.open(USER_GUIDELINES_URL, '_blank')} />
-            {mainSidePanel === MainSidePanelType.Expanded && <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={styles.menu}>{formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)}</Link>}
+            {mainSidePanelType === MainSidePanelType.Expanded && <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={styles.menu}>{formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)}</Link>}
           </li>
-          {mainSidePanel === MainSidePanelType.Expanded
+          {mainSidePanelType === MainSidePanelType.Expanded
             ? <Text UNSAFE_className={styles.copyright}>
                 {formatMessage(intlMessages.mainSidePanel.copyrightLabel)}
               </Text>

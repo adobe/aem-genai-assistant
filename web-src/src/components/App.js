@@ -24,7 +24,7 @@ import { MainSidePanel } from './MainSidePanel.js';
 import { PromptSessionPanel } from './PromptSessionPanel.js';
 import { PromptTemplateLibraryPanel } from './PromptTemplateLibraryPanel.js';
 import { viewTypeState, ViewType } from '../state/ViewType.js';
-import { mainSidePanelState, MainSidePanelType } from '../state/MainSidePanelState.js';
+import { mainSidePanelTypeState, MainSidePanelType } from '../state/MainSidePanelTypeState.js';
 import { FavoriteVariantListPanel } from './FavoriteVariantListPanel.js';
 import { useShellContext } from './ShellProvider.js';
 
@@ -109,7 +109,7 @@ export function App() {
   const { user } = useShellContext();
 
   const viewType = useRecoilValue(viewTypeState);
-  const [mainSidePanel, setMainSidePanelState] = useRecoilState(mainSidePanelState);
+  const [mainSidePanel, setMainSidePanelState] = useRecoilState(mainSidePanelTypeState);
 
   React.useEffect(() => {
     const handleResize = () => {

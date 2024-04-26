@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Button, ActionButton, Flex, Tooltip, TooltipTrigger, View, ProgressCircle, Divider,
+  Button, ActionButton, Flex, Tooltip, TooltipTrigger, View, ProgressCircle, Divider, Checkbox,
 } from '@adobe/react-spectrum';
 import React, {
   useCallback, useState,
@@ -38,6 +38,7 @@ import GenAIIcon from '../icons/GenAIIcon.js';
 
 const styles = {
   card: css`
+    position: relative;
     padding: 10px;
     border: 1px solid #e0e0e0;
     border-radius: 10px;
@@ -46,16 +47,25 @@ const styles = {
     padding: 10px;
     min-height: 100px;
   `,
+  selectionToggle: css`
+    position: absolute;
+    top: 5px;
+    right: 0;
+  `,
 };
 
-export function FavoriteVariantCard({ variant, ...props }) {
+export function FavoriteVariantCard({
+  variant, isSelected, setSelected, ...props
+}) {
   const { firefallService, expressSdkService } = useApplicationContext();
   const { isExpressAuthorized } = useShellContext();
-  const toggleFavorite = useToggleFavorite();
-  const { addImageToVariant } = useVariantImages();
   const { formatMessage } = useIntl();
 
+  const toggleFavorite = useToggleFavorite();
+  const { addImageToVariant } = useVariantImages();
+
   const [imagePromptProgress, setImagePromptProgress] = useState(false);
+  const [showSelectionToggle, setShowSelectionToggle] = useState(false);
 
   const handleGenerateImage = useCallback(async (imagePrompt) => {
     log('express:favorite:generateimage', { variantId: variant.id });
@@ -102,7 +112,16 @@ export function FavoriteVariantCard({ variant, ...props }) {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ ease: 'easeIn', duration: 0.3 }}>
-      <div {...props} className={styles.card}>
+      <div
+         className={styles.card}
+         onMouseEnter={() => setShowSelectionToggle(true)}
+         onMouseLeave={() => setShowSelectionToggle(false)}
+         {...props}>
+        <Checkbox
+          UNSAFE_className={styles.selectionToggle}
+          isHidden={!(isSelected || showSelectionToggle)}
+          isSelected={isSelected}
+          onChange={setSelected} />
         <div className={styles.variant} dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
         <View marginTop={'10px'} marginBottom={'6px'}>
           <Flex direction="row" justifyContent="left">

@@ -34,6 +34,7 @@
     "@spectrum-icons/illustrations": "3.6.7",
     "@spectrum-icons/workflow": "4.2.6",
     "exceljs": "4.4.0",
+    "file-saver": "2.0.5",
     "framer-motion": "10.16.5",
     "localforage": "1.10.0",
     "nearley": "2.20.1",

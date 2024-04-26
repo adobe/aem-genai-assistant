@@ -10,16 +10,17 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Grid, View, Text, Image, Link, Item, ActionGroup,
+  Flex, Grid, View, Text, Image, Link, ButtonGroup, AlertDialog, DialogTrigger, Button,
 } from '@adobe/react-spectrum';
 import React, { useCallback } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { css } from '@emotion/css';
 import { useIntl } from 'react-intl';
 import { saveAs } from 'file-saver';
 import Papa from 'papaparse';
 
 import ExportIcon from '@spectrum-icons/workflow/Export';
+import RemoveFavoriteIcon from '@spectrum-icons/workflow/Delete';
 import SelectAllIcon from '@spectrum-icons/workflow/SelectBoxAll';
 import DeselectAllIcon from '@spectrum-icons/workflow/Deselect';
 import { intlMessages } from './Favorites.l10n.js';
@@ -62,31 +63,29 @@ export function exportToCsv(variants) {
 
 export function FavoriteVariantListPanel(props) {
   const { formatMessage } = useIntl();
-  const favorites = useRecoilValue(favoritesState);
+  const [favorites, setFavorites] = useRecoilState(favoritesState);
   const setViewType = useSetRecoilState(viewTypeState);
   const [selectedVariants, setSelectedVariants] = React.useState([]);
 
-  const performAction = useCallback((key) => {
-    switch (key) {
-      case 'exportCsv':
-        // eslint-disable-next-line no-case-declarations
-        const variantsToExport = favorites.filter((variant) => selectedVariants.includes(variant.id));
-        console.log('variantsToExport', variantsToExport);
-        if (variantsToExport.length > 0) {
-          exportToCsv(favorites, 'selected_variants.csv');
-          break;
-        }
-        break;
-      case 'selectAll':
-        setSelectedVariants(favorites.map((variant) => variant.id));
-        break;
-      case 'deselectAll':
-        setSelectedVariants([]);
-        break;
-      default:
-        console.error('Unknown action', key);
+  const exportCsv = useCallback(() => {
+    const variantsToExport = favorites.filter((variant) => selectedVariants.includes(variant.id));
+    if (variantsToExport.length > 0) {
+      exportToCsv(favorites, 'selected_variants.csv');
     }
   }, [favorites, selectedVariants]);
+
+  const removeFromFavorites = useCallback(() => {
+    setFavorites(favorites.filter((variant) => !selectedVariants.includes(variant.id)));
+    setSelectedVariants([]);
+  }, [favorites, selectedVariants]);
+
+  const selectAll = useCallback(() => {
+    setSelectedVariants(favorites.map((variant) => variant.id));
+  }, [favorites]);
+
+  const deselectAll = useCallback(() => {
+    setSelectedVariants([]);
+  }, []);
 
   const toggleVariantSelection = useCallback((variant) => {
     console.log('toggleVariantSelection', variant);
@@ -105,20 +104,51 @@ export function FavoriteVariantListPanel(props) {
           <Image src={ChevronLeft} alt={'Back'} width={'24px'} />
           {formatMessage(intlMessages.favoritesView.navigationLabel)}
         </Link>
-        <ActionGroup marginStart={'auto'} onAction={performAction}>
-          <Item key="exportCsv">
+        <ButtonGroup marginStart={'auto'}>
+          <Button
+            key="exportCsv"
+            variant="cta"
+            onPress={exportCsv}
+            isDisabled={selectedVariants.length === 0}>
             <ExportIcon />
             <Text>Export to CSV</Text>
-          </Item>
-          <Item key="selectAll">
+          </Button>
+          <Button
+            key="selectAll"
+            variant="secondary"
+            onPress={selectAll}
+            isSelected={selectedVariants.length === favorites.length}
+            isDisabled={favorites.length === 0}>
             <SelectAllIcon />
             <Text>Select All</Text>
-          </Item>
-          <Item key="deselectAll">
+          </Button>
+          <Button
+            key="deselectAll"
+            variant="secondary"
+            onPress={deselectAll}
+            isSelected={selectedVariants.length === 0}
+            isDisabled={favorites.length === 0}>
             <DeselectAllIcon />
             <Text>Deselect All</Text>
-          </Item>
-        </ActionGroup>
+          </Button>
+          <DialogTrigger>
+            <Button
+              key="removeFromFavorites"
+              variant="negative"
+              isDisabled={selectedVariants.length === 0}>
+              <RemoveFavoriteIcon />
+              <Text>Delete</Text>
+            </Button>
+            <AlertDialog
+              title="Remove from favorites"
+              variant="confirmation"
+              onPrimaryAction={removeFromFavorites}
+              primaryActionLabel="Confirm"
+              cancelLabel="Cancel">
+              <Text>Are you sure you want to remove the selected variants from your favorites?</Text>
+            </AlertDialog>
+          </DialogTrigger>
+        </ButtonGroup>
       </Flex>
       <View
         paddingStart={'size-400'}

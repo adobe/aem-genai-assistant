@@ -66,20 +66,17 @@ async function checkForProductContext(endpoint, clientId, org, token, productCon
   }
 }
 
-async function checkForEarlyProductAccess(sdkKey, org) {
+async function checkForEarlyProductAccess(toggle, sdkKey, org) {
   const ldClient = LaunchDarkly.init(sdkKey);
   const context = {
-    kind: 'org',
+    kind: 'user',
     key: org,
     imsOrgId: org,
   };
 
-  // const featureFlagKey = "early-access-generate-variations";
-  const featureFlagKey = 'SITES-20810';
-
   return new Promise((resolve, reject) => {
     ldClient.once('ready', () => {
-      ldClient.variation(featureFlagKey, context, false, (err, showFeature) => {
+      ldClient.variation(toggle, context, false, (err, showFeature) => {
         if (err) {
           reject(err);
         } else {
@@ -102,6 +99,7 @@ function asAuthAction(action) {
     const clientSecret = params.IMS_SERVICE_CLIENT_SECRET;
     const permAuthCode = params.IMS_SERVICE_PERM_AUTH_CODE;
     const productContext = params.IMS_PRODUCT_CONTEXT;
+    const earlyAccessToggle = params.FT_EARLY_ACCESS;
     const ldSdkKey = params.LD_SDK_KEY;
 
     // Extract the token from the params
@@ -112,14 +110,11 @@ function asAuthAction(action) {
       throw new Error('Access token is invalid');
     }
 
-    // Check that the profile has the expected product context
-    if (!await checkForProductContext(imsEndpoint, clientId, imsOrg, accessToken, productContext)) {
-      throw new Error('Profile does not have the required product context');
-    }
-
-    // Check that the profile has early access to the product
-    if (!await checkForEarlyProductAccess(ldSdkKey, imsOrg)) {
-      throw new Error('Profile does not have early access to the product');
+    // Check that the profile has access to the product
+    const hasProductContext = await checkForProductContext(imsEndpoint, clientId, imsOrg, accessToken, productContext);
+    const hasEarlyProductAccess = await checkForEarlyProductAccess(earlyAccessToggle, ldSdkKey, imsOrg);
+    if (!(hasProductContext || hasEarlyProductAccess)) {
+      throw new Error('Profile does not have access to the product');
     }
 
     // If everything is okay, generate a service token

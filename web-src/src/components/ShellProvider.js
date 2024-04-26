@@ -15,9 +15,11 @@ import React, {
 } from 'react';
 
 import page from '@adobe/exc-app/page';
-import { useLDClient } from 'launchdarkly-react-client-sdk';
+import { FeatureFlagsService } from '../services/FeatureFlagsService.js';
 
 export const ShellContext = createContext();
+
+const FEATURE_FLAGS_PROJECT_ID = 'aem-generate-variations';
 
 const isAuthorized = (imsProfile, imsOrg) => {
   if (Array.isArray(imsProfile.projectedProductContext)) {
@@ -48,19 +50,10 @@ const expressAuthorized = (imsProfile, imsOrg) => {
 export const ShellProvider = ({ children, runtime }) => {
   const [shellContext, setShellContext] = useState();
 
-  const ldClient = useLDClient();
-
   const shellEventsHandler = useCallback((shellConfig) => {
     const {
       imsProfile, imsToken, imsOrg, imsInfo: { tenant }, locale,
     } = shellConfig;
-
-    const context = {
-      kind: 'org',
-      key: imsOrg,
-      imsOrgId: imsOrg,
-    };
-    ldClient.identify(context);
 
     setShellContext({
       user: {
@@ -75,11 +68,23 @@ export const ShellProvider = ({ children, runtime }) => {
       isExpressAuthorized: expressAuthorized(imsProfile, imsOrg),
       done: page.done,
     });
-  }, [setShellContext]);
+  }, []);
 
   useEffect(() => {
     runtime.on('ready', shellEventsHandler);
     runtime.on('configuration', shellEventsHandler);
+  }, []);
+
+  useEffect(() => {
+    const initFeatureFlagsService = async () => {
+      const featureFlagsService = await FeatureFlagsService.create(FEATURE_FLAGS_PROJECT_ID);
+      setShellContext((prevContext) => ({
+        ...prevContext,
+        featureFlagsService,
+      }));
+    };
+
+    initFeatureFlagsService();
   }, []);
 
   if (!shellContext) {

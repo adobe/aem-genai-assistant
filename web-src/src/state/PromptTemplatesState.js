@@ -53,7 +53,7 @@ export function parseBundledPromptTemplates(runMode) {
     });
 }
 
-function createPromptMigrator(defaultRunMode) {
+export function createPromptMigrator(defaultRunMode) {
   return (prompt) => {
     if (!prompt.modes) {
       return {

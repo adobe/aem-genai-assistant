@@ -40,7 +40,6 @@ export class AemService {
         accessToken: this.accessToken,
       })
       .json();
-    console.debug(JSON.stringify(fragment));
     return fragment;
   }
 
@@ -54,13 +53,11 @@ export class AemService {
         accessToken: this.accessToken,
       })
       .json();
-    console.debug(JSON.stringify(model));
     return model;
   }
 
   async createFragmentVariation(fragmentId, variationName, content) {
     console.debug(`Creating variation ${variationName} for fragment ${fragmentId}`);
-    console.debug(`Content: ${JSON.stringify(content)}`);
     const variation = await wretch(this.cfEndpoint)
       .post({
         command: 'createFragmentVariation',
@@ -71,7 +68,6 @@ export class AemService {
         accessToken: this.accessToken,
       })
       .json();
-    console.debug(JSON.stringify(variation));
     return variation;
   }
 }

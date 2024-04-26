@@ -10,28 +10,15 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Button,
-  ActionButton,
-  Tooltip,
-  TooltipTrigger,
-  Flex,
-  ProgressCircle,
-  Divider,
-  Text,
-  Dialog,
-  Heading,
-  Content,
-  Form, ButtonGroup, DialogTrigger, TextField,
+  ActionButton, Button, Divider, Flex, ProgressCircle, Tooltip, TooltipTrigger,
 } from '@adobe/react-spectrum';
 import React, {
-  useCallback, useState, useEffect, useRef,
+  useCallback, useEffect, useRef, useState,
 } from 'react';
 import { css } from '@emotion/css';
 import { motion } from 'framer-motion';
 import { ToastQueue } from '@react-spectrum/toast';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import CreateVariationIcon from '@spectrum-icons/workflow/BoxExport';
-import { v4 as uuid } from 'uuid';
+import { useSetRecoilState } from 'recoil';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './PromptResultCard.l10n.js';
@@ -64,7 +51,7 @@ import ThumbsDownOutlineIcon from '../icons/ThumbsDownOutlineIcon.js';
 import ThumbsUpDisabledIcon from '../icons/ThumbsUpDisabledIcon.js';
 import ThumbsDownDisabledIcon from '../icons/ThumbsDownDisabledIcon.js';
 import GenAIIcon from '../icons/GenAIIcon.js';
-import { contentFragmentState } from '../state/ContentFragmentState.js';
+import { ContentFragmentExportButton } from './ContentFragmentExportButton.js';
 
 const styles = {
   card: css`
@@ -162,7 +149,7 @@ const styles = {
   `,
 };
 
-function extractMetadataFields(obj) {
+export function extractMetadataFields(obj) {
   const resultFields = { ...obj };
   const metadataFields = {};
 
@@ -180,94 +167,6 @@ function extractMetadataFields(obj) {
   }
 
   return { resultFields, metadataFields };
-}
-
-function ContentFragmentExportButton({ variant }) {
-  const { aemService } = useApplicationContext();
-  const contentFragment = useRecoilValue(contentFragmentState);
-  const [variationName, setVariationName] = useState(variant.content.variationName ?? `var-${uuid()}`);
-  const [exportedVariations, setExportedVariations] = useState([]);
-  const [isExportInProgress, setIsExportInProgress] = useState(false);
-  const [isExportAndOpenInProgress, setIsExportAndOpenInProgress] = useState(false);
-
-  const handleExportVariation = useCallback((shouldOpenEditor) => {
-    if (shouldOpenEditor) {
-      setIsExportAndOpenInProgress(true);
-    } else {
-      setIsExportInProgress(true);
-    }
-    log('prompt:export', { variant: variant.id, as: 'contentFragmentVariation' });
-    sampleRUM('genai:prompt:export', { source: 'ResultCard#ExportAsVariation#onPress' });
-    return aemService.createFragmentVariation(contentFragment.fragment.id, variationName, variant.content)
-      .then((variation) => {
-        setExportedVariations((prev) => [...prev, variant.id]);
-        if (shouldOpenEditor) {
-          const url = `https://experience.adobe.com/?repo=${new URL(aemService.getHost()).host}#/aem/cf/editor/editor${contentFragment.fragment.path}`;
-          window.open(url, '_blank');
-        }
-        ToastQueue.positive('Variation created', { timeout: 1000 });
-        console.debug('variation', variation);
-      })
-      .catch((error) => {
-        ToastQueue.negative(error.message, { timeout: 1000 });
-      })
-      .finally(() => {
-        setIsExportAndOpenInProgress(false);
-        setIsExportInProgress(false);
-      });
-  }, [variant, variationName, exportedVariations, aemService, contentFragment]);
-
-  return (
-    <DialogTrigger type='modal'>
-      <Button
-        UNSAFE_className="hover-cursor-pointer"
-        marginStart={'size-100'}
-        marginEnd={'size-100'}
-        width="size-2000"
-        variant="secondary"
-        style="fill"
-        isDisabled={exportedVariations.includes(variant.id)}>
-        <CreateVariationIcon marginEnd={'8px'} />
-        Export Variation
-      </Button>
-      {(close) => (
-        <Dialog width={'550px'}>
-          <Heading>Export Variation</Heading>
-          <Divider />
-          <Content>
-            <Form onSubmit={(e) => e.preventDefault()}>
-              <Text marginBottom={10}>
-                Export the selected variation as a new content fragment variation.
-              </Text>
-              <TextField
-                value={variationName}
-                onChange={setVariationName}
-                label={'Name'}
-                width={'100%'}>
-              </TextField>
-            </Form>
-          </Content>
-          <ButtonGroup>
-            <Button variant={'secondary'} onPress={close}>Cancel</Button>
-            <Button width="size-1250" variant={'cta'} isDisabled={isExportInProgress || isExportAndOpenInProgress} onPress={() => handleExportVariation(false).then(close)}>
-              {isExportInProgress
-                ? <ProgressCircle size="S" aria-label="Export" isIndeterminate right="8px" />
-                : <CreateVariationIcon marginEnd={'8px'} />
-              }
-              Export
-            </Button>
-            <Button width="size-3000" variant={'cta'} isDisabled={isExportInProgress || isExportAndOpenInProgress} onPress={() => handleExportVariation(true).then(close)}>
-              {isExportAndOpenInProgress
-                ? <ProgressCircle size="S" aria-label="Export" isIndeterminate right="8px" />
-                : <CreateVariationIcon marginEnd={'8px'} />
-              }
-              Export and Open in CF Editor
-            </Button>
-          </ButtonGroup>
-        </Dialog>
-      )}
-    </DialogTrigger>
-  );
 }
 
 export function PromptResultCard({ result, ...props }) {
@@ -375,9 +274,6 @@ export function PromptResultCard({ result, ...props }) {
 
   const { resultFields, metadataFields } = extractMetadataFields(selectedVariant.content);
 
-  console.debug('resultFields', resultFields);
-  console.debug('metadataFields', metadataFields);
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -443,7 +339,7 @@ export function PromptResultCard({ result, ...props }) {
                       { timeout: 1000 },
                     );
                   }}>
-                  <CopyOutlineIcon/>
+                  <CopyOutlineIcon />
                 </ActionButton>
                 <Tooltip>{formatMessage(intlMessages.promptResultCard.copyButtonTooltip)}</Tooltip>
               </TooltipTrigger>
@@ -458,7 +354,7 @@ export function PromptResultCard({ result, ...props }) {
                     sendFeedback(true);
                     saveFeedback(selectedVariant);
                   }}>
-                  {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon/> : <ThumbsUpOutlineIcon/>}
+                  {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon /> : <ThumbsUpOutlineIcon />}
                 </ActionButton>
                 <Tooltip>{formatMessage(intlMessages.promptResultCard.goodButtonTooltip)}</Tooltip>
               </TooltipTrigger>
@@ -473,7 +369,7 @@ export function PromptResultCard({ result, ...props }) {
                     sendFeedback(false);
                     saveFeedback(selectedVariant);
                   }}>
-                  {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon/> : <ThumbsDownOutlineIcon/>}
+                  {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon /> : <ThumbsDownOutlineIcon />}
                 </ActionButton>
                 <Tooltip>{formatMessage(intlMessages.promptResultCard.poorButtonTooltip)}</Tooltip>
               </TooltipTrigger>
@@ -504,15 +400,14 @@ export function PromptResultCard({ result, ...props }) {
                   style="fill"
                   onPress={() => handleGenerateImagePrompt(selectedVariant.id)}
                   isDisabled={!isExpressAuthorized}>
-                  {imagePromptProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px"/>
-                    : <GenAIIcon marginEnd={'8px'}/>}
+                  {imagePromptProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}
                   {formatMessage(intlMessages.promptResultCard.generateImageButtonLabel)}
                 </Button>
-                {!isExpressAuthorized && <ExpressNoAccessInfo/>}
+                {!isExpressAuthorized && <ExpressNoAccessInfo />}
               </Flex>
             </Flex>
           </div>
-          <VariantImagesView variant={selectedVariant}/>
+          <VariantImagesView variant={selectedVariant} />
         </div>
       </div>
     </motion.div>

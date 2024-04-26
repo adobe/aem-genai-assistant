@@ -9,7 +9,6 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-const { retry } = require('wretch/middlewares/retry');
 const wretch = require('./Network.js');
 
 class AemClient {
@@ -22,7 +21,6 @@ class AemClient {
     try {
       const url = `${this.endpoint}/adobe/sites/cf/fragments/${fragmentId}`;
       console.debug('Fetching fragment from', url);
-      console.debug('Access token', this.accessToken);
       return wretch(url)
         .headers({
           'X-Adobe-Accept-Unsupported-API': '1',
@@ -77,8 +75,7 @@ class AemClient {
         value: [content[field.name]],
       }));
 
-      await wretch(updateVariationUrl)
-        .middlewares([retry()])
+      await wretch(updateVariationUrl, true /* retryOnFailure */)
         .headers({
           'X-Adobe-Accept-Unsupported-API': '1',
           'If-Match': eTag,

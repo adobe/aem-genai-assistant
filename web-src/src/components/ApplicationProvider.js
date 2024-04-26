@@ -42,7 +42,7 @@ const CF_ACTION = 'cf';
 
 export const ApplicationContext = React.createContext(undefined);
 
-function parseUrlParameters() {
+export function parseUrlParameters() {
   const searchParams = new URLSearchParams(window.location.search);
   return {
     aemHost: `https://${searchParams.get('aemHost')}`,
@@ -96,7 +96,6 @@ export const ApplicationProvider = ({ children }) => {
       if (aemService && fragmentId) {
         try {
           const fragment = await aemService.getFragment(fragmentId);
-          console.debug(`Fragment: ${fragment}`);
           const model = await aemService.getFragmentModel(fragment.model.id);
           setContentFragment({
             fragment,
@@ -149,7 +148,7 @@ export const ApplicationProvider = ({ children }) => {
   }, [user, done, setApplicationContext]);
 
   if (!applicationContext) {
-    return <Fragment/>;
+    return <Fragment />;
   }
 
   return (

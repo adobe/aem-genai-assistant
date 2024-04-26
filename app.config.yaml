@@ -45,10 +45,3 @@ application:
             function: actions/cf/index.js
             web: true
             runtime: nodejs:18
-            inputs:
-              IMS_ENDPOINT: $IMS_ENDPOINT
-              IMS_CLIENT_ID: $IMS_CLIENT_ID
-              IMS_SERVICE_CLIENT_ID: $IMS_SERVICE_CLIENT_ID
-              IMS_SERVICE_CLIENT_SECRET: $IMS_SERVICE_CLIENT_SECRET
-              IMS_SERVICE_PERM_AUTH_CODE: $IMS_SERVICE_PERM_AUTH_CODE
-              IMS_PRODUCT_CONTEXT: $IMS_PRODUCT_CONTEXT

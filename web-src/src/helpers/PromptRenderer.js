@@ -39,7 +39,7 @@ function removeEmptyLines(text) {
   return text.replace(/\n\s*\n/g, '\n\n').trim();
 }
 
-function createContentModelPrompt(contentFragmentModel) {
+export function createContentModelPrompt(contentFragmentModel) {
   const fields = contentFragmentModel.fields
     .map((field) => {
       if (field.type !== 'text') {

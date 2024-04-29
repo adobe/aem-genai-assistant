@@ -10,7 +10,6 @@ See: http://aem.live/docs/sidekick-generate-variations
 
 - Check that you have access to [App Builder](https://developer.adobe.com/app-builder/) and [Developer Console](https://developer.adobe.com/console) (log in with the **Sites Internal** profile)
     - Request access from an IT admin
-- Install Adobe I/O CLI: `npm install -g @adobe/aio-cli`
 - Install dependencies: `npm install`
 - Select an organization, project, and workspace:
     - `aio console org select`

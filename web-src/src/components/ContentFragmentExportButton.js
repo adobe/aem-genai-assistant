@@ -39,6 +39,10 @@ export function ContentFragmentExportButton({ variant }) {
   const [isExportInProgress, setIsExportInProgress] = useState(false);
   const [isExportAndOpenInProgress, setIsExportAndOpenInProgress] = useState(false);
 
+  if (variant.content.variationName !== variationName) {
+    setVariationName(variant.content.variationName);
+  }
+
   const handleExportVariation = useCallback((shouldOpenEditor) => {
     if (shouldOpenEditor) {
       setIsExportAndOpenInProgress(true);

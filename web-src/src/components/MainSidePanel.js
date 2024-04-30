@@ -12,7 +12,7 @@
 import {
   Flex, Grid, Image, Link, Text, ActionButton, TooltipTrigger, Tooltip,
 } from '@adobe/react-spectrum';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import ShowMenu from '@spectrum-icons/workflow/ShowMenu';
 import { css } from '@emotion/css';
 import { useRecoilState, useRecoilValue } from 'recoil';
@@ -33,39 +33,9 @@ import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { MainSidePanelType, mainSidePanelState } from '../state/MainSidePanelState.js';
 import { ClickableImage } from './ClickableImage.js';
+import { newGroupingLabelGenerator } from '../helpers/FormatHelper.js';
 
 export const HELP_AND_FAQ_URL = 'https://www.aem.live/docs/sidekick-generate-variations';
-
-// eslint-disable-next-line react/display-name
-function getGroupNames() {
-  const now = new Date();
-  const currDate = now.getDate();
-
-  const yesterday = new Date();
-  yesterday.setDate(currDate - 1);
-  const twoDaysAgo = new Date();
-  twoDaysAgo.setDate(currDate - 2);
-  const lastSevenDays = new Date();
-  lastSevenDays.setDate(currDate - 7);
-  const lastThirtyDays = new Date();
-  lastThirtyDays.setDate(currDate - 30);
-  const lastNinetyDays = new Date();
-  lastNinetyDays.setDate(currDate - 90);
-  const lastSixMonths = new Date();
-  lastSixMonths.setMonth(currDate - 6);
-  const lastTwelveMonths = new Date();
-  lastTwelveMonths.setMonth(currDate - 12);
-
-  return [
-    { label: 'Today', start: now, end: yesterday },
-    { label: 'Yesterday', start: yesterday, end: twoDaysAgo },
-    { label: 'Last 7 days', start: twoDaysAgo, end: lastSevenDays },
-    { label: 'Last 30 days', start: lastSevenDays, end: lastThirtyDays },
-    { label: 'Last 90 days', start: lastThirtyDays, end: lastNinetyDays },
-    { label: 'Last 6 months', start: lastNinetyDays, end: lastSixMonths },
-    { label: 'Last 12 months', start: lastSixMonths, end: lastTwelveMonths },
-  ];
-}
 
 export function MainSidePanel(props) {
   const { appVersion } = useApplicationContext();
@@ -74,8 +44,6 @@ export function MainSidePanel(props) {
   const [currentSession, setCurrentSession] = useRecoilState(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
   const [mainSidePanel, setMainSidePanelState] = useRecoilState(mainSidePanelState);
-  const TIME_GROUPINGS = useMemo(() => getGroupNames(), [sessions]);
-  let groupingLabel = '';
 
   const { formatMessage } = useIntl();
 
@@ -144,6 +112,8 @@ export function MainSidePanel(props) {
     `,
   };
 
+  const groupingLabelGenerator = newGroupingLabelGenerator();
+
   const handleRecent = useCallback((session) => {
     setCurrentSession(session);
     setViewType(ViewType.CurrentSession);
@@ -209,22 +179,15 @@ export function MainSidePanel(props) {
           {(mainSidePanel === MainSidePanelType.Expanded && sessions && sessions.length > 0)
             && sessions.toReversed().map((session) => {
               const sessionDate = new Date(session.name);
-              const prevLabel = groupingLabel;
-
-              for (let i = 0; i < TIME_GROUPINGS.length; i += 1) {
-                if (sessionDate <= TIME_GROUPINGS[i].start && sessionDate >= TIME_GROUPINGS[i].end) {
-                  groupingLabel = TIME_GROUPINGS[i].label;
-                }
-              }
+              const groupingLabel = groupingLabelGenerator(sessionDate);
 
               return (<>
-                        {prevLabel !== groupingLabel
-                        && <Text UNSAFE_className={style.subMenuHeader}>{groupingLabel}</Text>}
-                        {/* eslint-disable-next-line max-len */}
-                        <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyle.clickedSubMenuItem : style.subMenuItem} key={session.id}>
-                          <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => handleRecent(session)}>{session.name}</Link>
-                        </li>
-                      </>);
+                {groupingLabel && <Text UNSAFE_className={style.subMenuHeader}>{groupingLabel}</Text>}
+                {/* eslint-disable-next-line max-len */}
+                <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyle.clickedSubMenuItem : style.subMenuItem} key={session.id}>
+                  <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => handleRecent(session)}>{session.name}</Link>
+                </li>
+              </>);
             })}
         </ul>
       </Flex>

@@ -22,3 +22,44 @@ export function formatIdentifier(name) {
   const words = label.trim().split(/\s+/);
   return words.map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 }
+
+export function newGroupingLabelGenerator() {
+  let prevLabel = null;
+
+  return (inputDate) => {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const date = new Date(inputDate);
+
+    // Calculate the difference in days
+    const msPerDay = 24 * 60 * 60 * 1000;
+    const dayDifference = (today - date) / msPerDay;
+
+    let label;
+    if (dayDifference <= 1) {
+      label = 'Today';
+    } else if (dayDifference <= 2) {
+      label = 'Yesterday';
+    } else if (dayDifference <= 7) {
+      label = 'Last 7 days';
+    } else if (dayDifference <= 30) {
+      label = 'Last 30 days';
+    } else if (dayDifference <= 90) {
+      label = 'Last 90 days';
+    } else if (dayDifference <= 180) {
+      label = 'Last 6 months';
+    } else if (dayDifference <= 365) {
+      label = 'Last 12 months';
+    } else {
+      label = 'Older';
+    }
+
+    if (label !== prevLabel) {
+      prevLabel = label;
+      return label;
+    }
+
+    // Return null if the label hasn't changed
+    return null;
+  };
+}

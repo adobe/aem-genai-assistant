@@ -5,7 +5,7 @@ module.exports = (config) => {
   const spinner = ora();
   const PROTECTED_WORKSPACES = ['QA', 'Production'];
 
-  spinner.info(chalk.blue('Running pre-app-deploy hook...'));
+  spinner.info(chalk.blue('Running pre-app-deploy hook'));
 
   if (config.project.workspace) {
     if (PROTECTED_WORKSPACES.includes(config.project.workspace.name) && !process.env.IS_CICD) {

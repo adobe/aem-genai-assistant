@@ -10,8 +10,7 @@
  * governing permissions and limitations under the License.
  */
 const { spawn } = require('child_process');
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
+const { getCurrentGitBranch } = require('./utils.js');
 
 const WORKSPACE_PRODUCTION = 'Production';
 const WORKSPACE_STAGE = 'Stage';
@@ -44,15 +43,6 @@ function execCommand(command, args) {
 
 function convertToWorkspaceName(branchName) {
   return branchName.replace(/[^a-zA-Z0-9]/g, '');
-}
-
-async function getCurrentGitBranch() {
-  try {
-    const { stdout } = await exec('git rev-parse --abbrev-ref HEAD');
-    return stdout.trim().toLowerCase();
-  } catch (error) {
-    throw new Error("Error fetching Git branch. Ensure you're in a Git repository.");
-  }
 }
 
 async function selectWorkspace(workspaceName) {
@@ -107,19 +97,20 @@ async function deployApp(workspaceName) {
 
 async function deploy() {
   try {
-    const inquirer = await import('inquirer');
-
-    const output = await execCommand('aio', ['console', 'ws', 'ls', '-j']);
-    const workspaces = JSON.parse(output);
-
     const currentBranch = await getCurrentGitBranch();
+    console.log(`Current Git branch: ${currentBranch}`);
     if (currentBranch === 'main') {
       // If the current branch is 'main', deploy using settings from environment variables (CI/CD pipeline).
       await deployApp();
       return;
     }
 
+    const output = await execCommand('aio', ['console', 'ws', 'ls', '-j']);
+    const workspaces = JSON.parse(output);
+
     const workspaceName = convertToWorkspaceName(currentBranch);
+
+    const inquirer = await import('inquirer');
 
     if (workspaces.some((ws) => ws.name === workspaceName)) {
       const matchingWorkspace = workspaces.find((ws) => ws.name === workspaceName);

@@ -36,7 +36,7 @@ jobs:
           SPLUNK_HEC__HEC_TOKEN: ${{ secrets.SPLUNK_HEC__HEC_TOKEN }}
           AIO_LOG_LEVEL: info
       run: |
-        npm install
+        npm ci --no-optional
         npm run grammar
         npm run prompts
         npm run build

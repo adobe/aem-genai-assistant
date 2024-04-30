@@ -77,15 +77,16 @@ export const ShellProvider = ({ children, runtime }) => {
   }, []);
 
   useEffect(() => {
-    const initFeatureFlagsService = async () => {
-      const featureFlagsService = await FeatureFlagsService.create(FEATURE_FLAGS_PROJECT_ID);
-      setShellContext((prevContext) => ({
-        ...prevContext,
-        featureFlagsService,
-      }));
-    };
-
-    initFeatureFlagsService();
+    FeatureFlagsService.create(FEATURE_FLAGS_PROJECT_ID)
+      .then((featureFlagsService) => {
+        setShellContext((prevContext) => ({
+          ...prevContext,
+          featureFlagsService,
+        }));
+      })
+      .catch((error) => {
+        console.error('Failed to initialize feature flags service:', error);
+      });
   }, []);
 
   if (!shellContext) {

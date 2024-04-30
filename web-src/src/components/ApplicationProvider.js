@@ -57,6 +57,7 @@ export const ApplicationProvider = ({ children }) => {
         firefallService: new FirefallService({
           completeEndpoint: actions[COMPLETE_ACTION],
           feedbackEndpoint: actions[FEEDBACK_ACTION],
+          isInternal: user.internal,
           imsOrg: user.imsOrg,
           accessToken: user.imsToken,
         }),

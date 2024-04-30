@@ -66,18 +66,20 @@ async function checkForProductContext(endpoint, clientId, org, token, productCon
   }
 }
 
-async function checkForEarlyProductAccess(toggle, sdkKey, org) {
+async function checkForEarlyProductAccess(toggle, sdkKey, isInternal, org) {
   const ldClient = LaunchDarkly.init(sdkKey);
   const context = {
     kind: 'user',
     key: org,
     imsOrgId: org,
+    internal: isInternal,
   };
 
   return new Promise((resolve, reject) => {
     ldClient.once('ready', () => {
       ldClient.variation(toggle, context, false, (err, showFeature) => {
         if (err) {
+          logger.error(err);
           reject(err);
         } else {
           resolve(showFeature);
@@ -86,6 +88,7 @@ async function checkForEarlyProductAccess(toggle, sdkKey, org) {
     });
 
     ldClient.on('error', (err) => {
+      logger.error(err);
       reject(err);
     });
   });
@@ -103,7 +106,7 @@ function asAuthAction(action) {
     const ldSdkKey = params.LD_SDK_KEY;
 
     // Extract the token from the params
-    const { imsOrg, accessToken } = params;
+    const { isInternal, imsOrg, accessToken } = params;
 
     // Validate the access token
     if (!await isValidToken(imsEndpoint, clientId, accessToken)) {
@@ -112,10 +115,15 @@ function asAuthAction(action) {
 
     // Check that the profile has access to the product
     const hasProductContext = await checkForProductContext(imsEndpoint, clientId, imsOrg, accessToken, productContext);
-    const hasEarlyProductAccess = await checkForEarlyProductAccess(earlyAccessToggle, ldSdkKey, imsOrg);
-    if (!(hasProductContext || hasEarlyProductAccess)) {
-      throw new Error('Profile does not have access to the product');
-    }
+    await checkForEarlyProductAccess(earlyAccessToggle, ldSdkKey, isInternal, imsOrg)
+      .then((hasEarlyProductAccess) => {
+        if (!(hasProductContext || hasEarlyProductAccess)) {
+          throw new Error('Profile does not have access to the product');
+        }
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
 
     // If everything is okay, generate a service token
     const imsClient = new ImsClient(imsEndpoint, serviceClientId, clientSecret, permAuthCode);

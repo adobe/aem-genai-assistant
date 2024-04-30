@@ -16,11 +16,13 @@ export class FirefallService {
   constructor({
     completeEndpoint,
     feedbackEndpoint,
+    isInternal,
     imsOrg,
     accessToken,
   }) {
     this.completeEndpoint = replaceRuntimeDomainInUrl(completeEndpoint);
     this.feedbackEndpoint = replaceRuntimeDomainInUrl(feedbackEndpoint);
+    this.isInternal = isInternal;
     this.imsOrg = imsOrg;
     this.accessToken = accessToken;
 
@@ -34,6 +36,7 @@ export class FirefallService {
       .post({
         prompt,
         temperature,
+        isInternal: this.isInternal,
         imsOrg: this.imsOrg,
         accessToken: this.accessToken,
       })
@@ -51,6 +54,7 @@ export class FirefallService {
       .post({
         queryId,
         sentiment,
+        isInternal: this.isInternal,
         imsOrg: this.imsOrg,
         accessToken: this.accessToken,
       });

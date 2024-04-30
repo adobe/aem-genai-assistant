@@ -10,7 +10,7 @@ module.exports = (config) => {
 
   if (config.project.workspace) {
     if (PROTECTED_WORKSPACES.includes(config.project.workspace.name) && !process.env.IS_CICD) {
-      console.log(chalk.red(chalk.bold(`\nDeployment failed:\n  -> The target workspace '${config.project.workspace.name}' is protected and cannot be deployed to. Please select a different workspace and try again.\n`)));
+      console.log(chalk.red(chalk.bold(`\nDeployment failed:\n  -> The target workspace '${config.project.workspace.name}' is protected and cannot be deployed to. Please switch to a different workspace and try again.\n`)));
       process.exit(1);
     }
   }

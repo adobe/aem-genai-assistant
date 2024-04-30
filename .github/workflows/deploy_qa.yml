@@ -35,6 +35,8 @@ jobs:
           EXPRESS_SDK_URL: https://dev.cc-embed.adobe.com/sdk/1p/v4/4.1.14/CCEverywhere.js
           SPLUNK_HEC__HEC_TOKEN: ${{ secrets.SPLUNK_HEC__HEC_TOKEN }}
           AIO_LOG_LEVEL: info
+          FT_EARLY_ACCESS: 'SITES-20810'
+          LD_SDK_KEY: ${{ secrets.LD_SDK_KEY }}
       run: |
         npm install
         npm run grammar

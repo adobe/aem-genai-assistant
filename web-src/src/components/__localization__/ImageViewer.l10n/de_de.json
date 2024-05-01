@@ -9,6 +9,6 @@
   "imageViewer.downloadButtonLabel": "Herunterladen",
   "imageViewer.editButtonLabel": "Bearbeiten",
   "imageViewer.editButtonTooltip": "Bearbeiten",
-  "imageViewer.editImageFailedToast": "Ein Fehler ist aufgetreten. Versuchen Sie es erneut!",
+  "imageViewer.editImageFailedToast": "Ein Problem ist aufgetreten. Versuchen sie es später erneut.",
   "imageViewer.moreButtonTooltip": "Mehr"
 }

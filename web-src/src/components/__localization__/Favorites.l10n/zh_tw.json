@@ -4,6 +4,6 @@
   "favoritesView.generateImageButtonLabel": "產生影像",
   "favoritesView.generateImageFailedToast": "發生錯誤。請再試一次！",
   "favoritesView.navigationLabel": "提示範本",
-  "favoritesView.noFavoritesMessage": "尚無我的最愛",
+  "favoritesView.noFavoritesMessage": "還沒有最愛項目",
   "favoritesView.removeButtonTooltip": "刪除"
 }

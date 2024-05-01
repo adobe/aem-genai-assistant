@@ -121,7 +121,7 @@ export function FavoriteVariantListPanel(props) {
               onPress={selectAll}
               isHidden={selectedVariants.length === favorites.length}>
               <SelectAllIcon />
-              <Text>Select All</Text>
+              <Text>{formatMessage(intlMessages.favoritesView.selectAllButtonLabel)}</Text>
             </ActionButton>
             <ActionButton
               key="deselectAll"
@@ -129,7 +129,7 @@ export function FavoriteVariantListPanel(props) {
               onPress={deselectAll}
               isHidden={selectedVariants.length === 0}>
               <DeselectAllIcon />
-              <Text>Deselect All</Text>
+              <Text>{formatMessage(intlMessages.favoritesView.deselectAllButtonLabel)}</Text>
             </ActionButton>
           </Flex>
           <Flex gap={10}>
@@ -139,24 +139,24 @@ export function FavoriteVariantListPanel(props) {
                 onPress={exportCsv}
                 isDisabled={selectedVariants.length === 0}>
                 <ExportIcon />
-                <Text>Export to CSV</Text>
+                <Text>{formatMessage(intlMessages.favoritesView.exportToCSVButtonLabel)}</Text>
               </ActionButton>
-              <Tooltip>Export the selected variants (text content only) to a CSV file.</Tooltip>
+              <Tooltip>{formatMessage(intlMessages.favoritesView.exportToCSVButtonTooltip)}</Tooltip>
             </TooltipTrigger>
             <DialogTrigger>
               <ActionButton
                 key="removeFromFavorites"
                 isDisabled={selectedVariants.length === 0}>
                 <RemoveFavoriteIcon />
-                <Text>Delete</Text>
+                <Text>{formatMessage(intlMessages.favoritesView.removeSelectedButtonLabel)}</Text>
               </ActionButton>
               <AlertDialog
-                title="Remove from favorites"
+                title={formatMessage(intlMessages.favoritesView.removeSelectedAlertTitle)}
                 variant="confirmation"
                 onPrimaryAction={removeFromFavorites}
-                primaryActionLabel="Confirm"
-                cancelLabel="Cancel">
-                <Text>Are you sure you want to remove the selected variants from your favorites?</Text>
+                primaryActionLabel={formatMessage(intlMessages.favoritesView.removeSelectedAlertDeleteButtonLabel)}
+                cancelLabel={formatMessage(intlMessages.favoritesView.removeSelectedAlertCancelButtonLabel)}>
+                <Text>{formatMessage(intlMessages.favoritesView.removeSelectedAlertMessage)}</Text>
               </AlertDialog>
             </DialogTrigger>
           </Flex>

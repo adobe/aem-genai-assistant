@@ -22,6 +22,51 @@ export const intlMessages = {
       id: 'favoritesView.noFavoritesMessage',
       description: 'Message displayed when there are no favorites',
     },
+    selectAllButtonLabel: {
+      defaultMessage: 'Select All',
+      id: 'favoritesView.selectAllButtonLabel',
+      description: 'Label for Select All button',
+    },
+    deselectAllButtonLabel: {
+      defaultMessage: 'Deselect All',
+      id: 'favoritesView.deselectAllButtonLabel',
+      description: 'Label for Deselect All button',
+    },
+    exportToCSVButtonLabel: {
+      defaultMessage: 'Export to CSV',
+      id: 'favoritesView.exportToCSVButtonLabel',
+      description: 'Label for Export to CSV button',
+    },
+    exportToCSVButtonTooltip: {
+      defaultMessage: 'Export the selected variants (text content only) to a CSV file.',
+      id: 'favoritesView.exportToCSVButtonTooltip',
+      description: 'Tooltip for Export to CSV button',
+    },
+    removeSelectedButtonLabel: {
+      defaultMessage: 'Delete',
+      id: 'favoritesView.removeFromFavoritesButtonLabel',
+      description: 'Label for Remove Selected from Favorites button',
+    },
+    removeSelectedAlertTitle: {
+      defaultMessage: 'Delete selected items?',
+      id: 'favoritesView.removeFromFavoritesAlertTitle',
+      description: 'Title for Remove Selected from Favorites alert',
+    },
+    removeSelectedAlertMessage: {
+      defaultMessage: 'Are you sure you want to delete the selected items from your favorites?',
+      id: 'favoritesView.removeFromFavoritesAlertMessage',
+      description: 'Message for Remove Selected from Favorites alert',
+    },
+    removeSelectedAlertCancelButtonLabel: {
+      defaultMessage: 'Cancel',
+      id: 'favoritesView.removeFromFavoritesAlertCancelButtonLabel',
+      description: 'Label for Cancel button in Remove Selected from Favorites alert',
+    },
+    removeSelectedAlertDeleteButtonLabel: {
+      defaultMessage: 'Delete',
+      id: 'favoritesView.removeFromFavoritesAlertDeleteButtonLabel',
+      description: 'Label for Delete button in Remove Selected from Favorites alert',
+    },
     generateImageButtonLabel: {
       defaultMessage: 'Generate Image',
       id: 'favoritesView.generateImageButtonLabel',

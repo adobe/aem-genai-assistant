@@ -69,7 +69,6 @@ export function FavoriteVariantCard({
   const { addImageToVariant } = useVariantImages();
 
   const [imagePromptProgress, setImagePromptProgress] = useState(false);
-  const [showSelectionToggle, setShowSelectionToggle] = useState(false);
 
   const handleGenerateImage = useCallback(async (imagePrompt) => {
     log('express:favorite:generateimage', { variantId: variant.id });
@@ -119,8 +118,6 @@ export function FavoriteVariantCard({
       <div
          className={[styles.card, isSelected && styles.selectedCard].join(' ')}
          onClick={() => setSelected(!isSelected)}
-         onMouseEnter={() => setShowSelectionToggle(true)}
-         onMouseLeave={() => setShowSelectionToggle(false)}
          {...props}>
         <div className={styles.variant} dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
         <View marginTop={'10px'} marginBottom={'6px'}>

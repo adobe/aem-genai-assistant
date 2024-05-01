@@ -141,8 +141,6 @@ export function MainSidePanel(props) {
           {mainSidePanel === MainSidePanelType.Expanded
             && <Text UNSAFE_className={style.headerText}>{formatMessage(intlMessages.mainSidePanel.title)}</Text>}
         </Flex>
-        {mainSidePanel === MainSidePanelType.Expanded
-          && <Text UNSAFE_className={style.versionTag}>v{appVersion}</Text>}
       </Flex>
 
       <Flex direction={'column'} gridArea={'menu'} gap={'size-100'}>
@@ -183,7 +181,11 @@ export function MainSidePanel(props) {
           </li>
           <li className={style.menuItem}>
             <ClickableImage src={FileTxt} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)} alt={'Guidelines'} onClick={() => window.open(USER_GUIDELINES_URL, '_blank')} />
-            {mainSidePanel === MainSidePanelType.Expanded && <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={style.menu}>{formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)}</Link>}
+            {mainSidePanel === MainSidePanelType.Expanded
+               && <>
+                <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={style.menu}>{formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)}</Link>
+                <Text UNSAFE_className={style.versionTag}>v{appVersion}</Text>
+              </>}
           </li>
           {mainSidePanel === MainSidePanelType.Expanded
             ? <Text UNSAFE_className={style.copyright}>{formatMessage(intlMessages.mainSidePanel.copyrightLabel)}</Text>

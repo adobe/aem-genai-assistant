@@ -10,7 +10,17 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Grid, View, Text, Image, Link, ButtonGroup, AlertDialog, DialogTrigger, Button, Tooltip, TooltipTrigger,
+  Flex,
+  Grid,
+  View,
+  Text,
+  Image,
+  Link,
+  AlertDialog,
+  DialogTrigger,
+  Tooltip,
+  TooltipTrigger,
+  ActionButton,
 } from '@adobe/react-spectrum';
 import React, { useCallback } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
@@ -104,54 +114,53 @@ export function FavoriteVariantListPanel(props) {
           <Image src={ChevronLeft} alt={'Back'} width={'24px'} />
           {formatMessage(intlMessages.favoritesView.navigationLabel)}
         </Link>
-        <ButtonGroup marginStart={'auto'}>
-          <TooltipTrigger>
-            <Button
-              key="exportCsv"
-              variant="cta"
-              onPress={exportCsv}
-              isDisabled={selectedVariants.length === 0}>
-              <ExportIcon />
-              <Text>Export to CSV</Text>
-            </Button>
-            <Tooltip>Export the selected variants (text content only) to a CSV file.</Tooltip>
-          </TooltipTrigger>
-          <Button
-            key="selectAll"
-            variant="secondary"
-            onPress={selectAll}
-            isSelected={selectedVariants.length === favorites.length}
-            isDisabled={favorites.length === 0}>
-            <SelectAllIcon />
-            <Text>Select All</Text>
-          </Button>
-          <Button
-            key="deselectAll"
-            variant="secondary"
-            onPress={deselectAll}
-            isSelected={selectedVariants.length === 0}
-            isDisabled={favorites.length === 0}>
-            <DeselectAllIcon />
-            <Text>Deselect All</Text>
-          </Button>
-          <DialogTrigger>
-            <Button
-              key="removeFromFavorites"
-              variant="negative"
-              isDisabled={selectedVariants.length === 0}>
-              <RemoveFavoriteIcon />
-              <Text>Delete</Text>
-            </Button>
-            <AlertDialog
-              title="Remove from favorites"
-              variant="confirmation"
-              onPrimaryAction={removeFromFavorites}
-              primaryActionLabel="Confirm"
-              cancelLabel="Cancel">
-              <Text>Are you sure you want to remove the selected variants from your favorites?</Text>
-            </AlertDialog>
-          </DialogTrigger>
-        </ButtonGroup>
+        <Flex flexGrow={1} gap={'size-100'} marginStart={'size-200'} marginEnd={'size-100'} justifyContent={'space-between'}>
+          <Flex gap={'size-200'}>
+            <ActionButton
+              key="selectAll"
+              onPress={selectAll}
+              isHidden={selectedVariants.length === favorites.length}>
+              <SelectAllIcon />
+              <Text>Select All</Text>
+            </ActionButton>
+            <ActionButton
+              key="deselectAll"
+              alignSelf={'end'}
+              onPress={deselectAll}
+              isHidden={selectedVariants.length === 0}>
+              <DeselectAllIcon />
+              <Text>Deselect All</Text>
+            </ActionButton>
+          </Flex>
+          <Flex gap={10}>
+            <TooltipTrigger>
+              <ActionButton
+                key="exportCsv"
+                onPress={exportCsv}
+                isDisabled={selectedVariants.length === 0}>
+                <ExportIcon />
+                <Text>Export to CSV</Text>
+              </ActionButton>
+              <Tooltip>Export the selected variants (text content only) to a CSV file.</Tooltip>
+            </TooltipTrigger>
+            <DialogTrigger>
+              <ActionButton
+                key="removeFromFavorites"
+                isDisabled={selectedVariants.length === 0}>
+                <RemoveFavoriteIcon />
+                <Text>Delete</Text>
+              </ActionButton>
+              <AlertDialog
+                title="Remove from favorites"
+                variant="confirmation"
+                onPrimaryAction={removeFromFavorites}
+                primaryActionLabel="Confirm"
+                cancelLabel="Cancel">
+                <Text>Are you sure you want to remove the selected variants from your favorites?</Text>
+              </AlertDialog>
+            </DialogTrigger>
+          </Flex>
+        </Flex>
       </Flex>
       <View
         paddingStart={'size-400'}

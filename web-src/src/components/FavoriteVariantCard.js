@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Button, ActionButton, Flex, Tooltip, TooltipTrigger, View, ProgressCircle, Divider, Checkbox,
+  Button, ActionButton, Flex, Tooltip, TooltipTrigger, View, ProgressCircle, Divider,
 } from '@adobe/react-spectrum';
 import React, {
   useCallback, useState,
@@ -42,6 +42,10 @@ const styles = {
     padding: 10px;
     border: 1px solid #e0e0e0;
     border-radius: 10px;
+  `,
+  selectedCard: css`
+    background-color: rgba(0, 116, 217, 0.07);
+    border-color: #0074D9;
   `,
   variant: css`
     padding: 10px;
@@ -113,15 +117,11 @@ export function FavoriteVariantCard({
       animate={{ opacity: 1, scale: 1 }}
       transition={{ ease: 'easeIn', duration: 0.3 }}>
       <div
-         className={styles.card}
+         className={[styles.card, isSelected && styles.selectedCard].join(' ')}
+         onClick={() => setSelected(!isSelected)}
          onMouseEnter={() => setShowSelectionToggle(true)}
          onMouseLeave={() => setShowSelectionToggle(false)}
          {...props}>
-        <Checkbox
-          UNSAFE_className={styles.selectionToggle}
-          isHidden={!(isSelected || showSelectionToggle)}
-          isSelected={isSelected}
-          onChange={setSelected} />
         <div className={styles.variant} dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
         <View marginTop={'10px'} marginBottom={'6px'}>
           <Flex direction="row" justifyContent="left">

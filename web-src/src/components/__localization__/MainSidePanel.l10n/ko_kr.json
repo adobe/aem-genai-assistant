@@ -1,11 +1,11 @@
 {
-  "mainSidePanel.collapseMenuType": "사이드 패널 축소",
-  "mainSidePanel.copyrightLabel": "Copyright © 2024 Adobe. all rights reserved",
-  "mainSidePanel.expandMenuType": "사이드 패널 확장",
+  "mainSidePanel.collapseMenuType": "사이드 패널 접기",
+  "mainSidePanel.copyrightLabel": "Copyright © 2024 Adobe. All rights reserved",
+  "mainSidePanel.expandMenuType": "사이드 패널 펼치기",
   "mainSidePanel.favoritesMenuItem": "즐겨찾기",
   "mainSidePanel.helpAndFaqsMenuItem": "도움말 및 FAQ",
   "mainSidePanel.promptTemplatesMenuItem": "프롬프트 템플릿",
-  "mainSidePanel.recentsMenuItem": "최근",
+  "mainSidePanel.recentsMenuItem": "최근 항목",
   "mainSidePanel.title": "변형 생성",
-  "mainSidePanel.userGuidelinesMenuItem": "사용자 지침"
+  "mainSidePanel.userGuidelinesMenuItem": "사용자 가이드라인"
 }

@@ -1,8 +1,8 @@
 {
   "favoritesView.copyButtonTooltip": "コピー",
-  "favoritesView.copyTextSuccessToast": "クリップボードにテキストをコピーしました。",
+  "favoritesView.copyTextSuccessToast": "テキストをクリップボードにコピーしました",
   "favoritesView.generateImageButtonLabel": "画像を生成",
-  "favoritesView.generateImageFailedToast": "エラーが発生しました。再度お試しください！",
+  "favoritesView.generateImageFailedToast": "エラーが発生しました。もう一度試してください。",
   "favoritesView.navigationLabel": "プロンプトテンプレート",
   "favoritesView.noFavoritesMessage": "お気に入りはまだありません",
   "favoritesView.removeButtonTooltip": "削除"

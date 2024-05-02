@@ -140,8 +140,6 @@ export function MainSidePanel(props) {
           {mainSidePanel === MainSidePanelType.Expanded
             && <Text UNSAFE_className={style.headerText}>{formatMessage(intlMessages.mainSidePanel.title)}</Text>}
         </Flex>
-        {mainSidePanel === MainSidePanelType.Expanded
-          && <Text UNSAFE_className={style.versionTag}>v{appVersion}</Text>}
       </Flex>
 
       <Flex direction={'column'} gridArea={'menu'} gap={'size-100'}>

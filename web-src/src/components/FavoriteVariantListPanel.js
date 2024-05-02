@@ -39,6 +39,7 @@ import { FavoriteVariantCard } from './FavoriteVariantCard.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import ChevronLeft from '../assets/chevron-left.svg';
 import { formatIdentifier } from '../helpers/FormatHelper.js';
+import { log } from '../helpers/MetricsHelper.js';
 
 const DEFAULT_FILENAME = 'selected_variants.csv';
 
@@ -80,6 +81,7 @@ export function FavoriteVariantListPanel(props) {
   const exportCsv = useCallback(() => {
     const variantsToExport = favorites.filter((variant) => selectedVariants.includes(variant.id));
     if (variantsToExport.length > 0) {
+      log('favorites:export:csv', { numberOfVariants: variantsToExport.length });
       exportToCsv(favorites, 'selected_variants.csv');
     }
   }, [favorites, selectedVariants]);

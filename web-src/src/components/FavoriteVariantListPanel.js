@@ -111,7 +111,7 @@ export function FavoriteVariantListPanel(props) {
     <>
       <Flex UNSAFE_style={{ padding: '20px 20px 20px' }} direction={'row'} justifyContent={'left'} alignItems={'center'} gridArea={'breadcrumbs'}>
         <Link href="#" onPress={() => setViewType(ViewType.NewSession)} UNSAFE_className={styles.breadcrumbsLink}>
-          <Image src={ChevronLeft} alt={'Back'} width={'24px'} />
+          <Image src={ChevronLeft} alt={formatMessage(intlMessages.favoritesView.backButtonAltText)} width={'24px'} />
           {formatMessage(intlMessages.favoritesView.navigationLabel)}
         </Link>
         <Flex flexGrow={1} gap={'size-100'} marginStart={'size-200'} marginEnd={'size-100'} justifyContent={'space-between'}>
@@ -167,7 +167,6 @@ export function FavoriteVariantListPanel(props) {
         paddingEnd={'size-400'}
         height={'calc(100% - 90px)'}
         overflow={'auto'}>
-
         <Grid
           width={'100%'}
           alignItems={'start'}

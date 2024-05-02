@@ -22,6 +22,11 @@ export const intlMessages = {
       id: 'favoritesView.noFavoritesMessage',
       description: 'Message displayed when there are no favorites',
     },
+    backButtonAltText: {
+      defaultMessage: 'Back to all prompts',
+      id: 'favoritesView.backButtonAltText',
+      description: 'Alt text for back button',
+    },
     selectAllButtonLabel: {
       defaultMessage: 'Select All',
       id: 'favoritesView.selectAllButtonLabel',

@@ -187,7 +187,7 @@ export function MainSidePanel(props) {
             <Text UNSAFE_className={style.copyright}>
               {formatMessage(intlMessages.mainSidePanel.copyrightLabel)}
               <br/>
-              {`${formatMessage(appIntlMessages.app.name)}, v${appVersion}`}
+              {`${formatMessage(appIntlMessages.app.name)} v${appVersion}`}
             </Text>
           </>
           : <Text />}

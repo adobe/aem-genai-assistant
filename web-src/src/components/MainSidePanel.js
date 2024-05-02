@@ -53,6 +53,9 @@ export function MainSidePanel(props) {
       font-style: normal;
       font-weight: 700;
     `,
+    versionTag: css`
+      margin-top: -18px;
+    `,
     menu: css`
       font-size: 14px;
       font-style: normal;
@@ -186,7 +189,8 @@ export function MainSidePanel(props) {
           ? <>
             <Text UNSAFE_className={style.copyright}>
               {formatMessage(intlMessages.mainSidePanel.copyrightLabel)}
-              <br/>
+            </Text>
+            <Text UNSAFE_className={[style.copyright, style.versionTag].join(' ')}>
               {`${formatMessage(appIntlMessages.app.name)} v${appVersion}`}
             </Text>
           </>

@@ -1,11 +1,11 @@
 {
   "mainSidePanel.collapseMenuType": "Contraer panel lateral",
-  "mainSidePanel.copyrightLabel": "Copyright © 2024 Adobe. all rights reserved",
+  "mainSidePanel.copyrightLabel": "Copyright © 2024 Adobe. All rights reserved",
   "mainSidePanel.expandMenuType": "Expandir panel lateral",
   "mainSidePanel.favoritesMenuItem": "Favoritos",
   "mainSidePanel.helpAndFaqsMenuItem": "Ayuda y preguntas frecuentes",
-  "mainSidePanel.promptTemplatesMenuItem": "Plantillas de mensaje",
+  "mainSidePanel.promptTemplatesMenuItem": "Plantillas de indicación",
   "mainSidePanel.recentsMenuItem": "Recientes",
   "mainSidePanel.title": "Generar variaciones",
-  "mainSidePanel.userGuidelinesMenuItem": "Directrices de usuario"
+  "mainSidePanel.userGuidelinesMenuItem": "Directrices del usuario"
 }

@@ -1,14 +1,14 @@
 {
   "imageViewer.cancelButtonLabel": "Annuler",
   "imageViewer.copyButtonLabel": "Copier",
-  "imageViewer.copyImageButtonTooltip": "Copier image",
-  "imageViewer.copyImageSuccessToast": "Image copiée dans le Presse-papiers !",
+  "imageViewer.copyImageButtonTooltip": "Copier l’image",
+  "imageViewer.copyImageSuccessToast": "Image copiée dans le presse-papiers !",
   "imageViewer.deleteButtonLabel": "Supprimer",
-  "imageViewer.deleteImageAlertTitle": "Supprimer image",
-  "imageViewer.deleteImageDialogQuestion": "L’image sera définitivement supprimée. Continuer ?",
+  "imageViewer.deleteImageAlertTitle": "Supprimer l’image",
+  "imageViewer.deleteImageDialogQuestion": "L’image sera définitivement supprimée. Continuer ?",
   "imageViewer.downloadButtonLabel": "Télécharger",
   "imageViewer.editButtonLabel": "Modifier",
   "imageViewer.editButtonTooltip": "Modifier",
-  "imageViewer.editImageFailedToast": "Une erreur est survenue. Veuillez réessayer !",
+  "imageViewer.editImageFailedToast": "Une erreur s’est produite. Réessayez ultérieurement.",
   "imageViewer.moreButtonTooltip": "Plus"
 }

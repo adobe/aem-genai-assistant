@@ -18,6 +18,7 @@ import { css } from '@emotion/css';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useIntl } from 'react-intl';
 
+import { intlMessages as appIntlMessages } from './App.l10n.js';
 import { intlMessages } from './MainSidePanel.l10n.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { USER_GUIDELINES_URL } from './LegalTermsLink.js';
@@ -53,9 +54,7 @@ export function MainSidePanel(props) {
       font-weight: 700;
     `,
     versionTag: css`
-      background-color: #E9E9E9;
-      padding: 0px 9px;
-      border-radius: 7px;
+      margin-top: -18px;
     `,
     menu: css`
       font-size: 14px;
@@ -185,10 +184,17 @@ export function MainSidePanel(props) {
             <ClickableImage src={FileTxt} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)} alt={'Guidelines'} onClick={() => window.open(USER_GUIDELINES_URL, '_blank')} />
             {mainSidePanel === MainSidePanelType.Expanded && <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={style.menu}>{formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)}</Link>}
           </li>
-          {mainSidePanel === MainSidePanelType.Expanded
-            ? <Text UNSAFE_className={style.copyright}>{formatMessage(intlMessages.mainSidePanel.copyrightLabel)}</Text>
-            : <Text />}
         </ul>
+        {mainSidePanel === MainSidePanelType.Expanded
+          ? <>
+            <Text UNSAFE_className={style.copyright}>
+              {formatMessage(intlMessages.mainSidePanel.copyrightLabel)}
+            </Text>
+            <Text UNSAFE_className={[style.copyright, style.versionTag].join(' ')}>
+              {`${formatMessage(appIntlMessages.app.name)} v${appVersion}`}
+            </Text>
+          </>
+          : <Text />}
       </Flex>
     </Grid>
   );

@@ -42,4 +42,4 @@ application:
             web: true
             runtime: nodejs:18
   hooks:
-    pre-app-build: ./hooks/pre-app-build.js
+    pre-app-deploy: ./hooks/pre-app-deploy.js

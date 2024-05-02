@@ -23,7 +23,7 @@ See: http://aem.live/docs/sidekick-generate-variations
 ### Deployment
 
 - `npm run deploy` to build and deploy all actions on Runtime and static files to CDN
-- `QA` and `Production` workspaces are protected from accidental local deployments with `pre-app-build` App Builder hook
+- `QA` and `Production` workspaces are protected from accidental local deployments with `pre-app-deploy` App Builder hook
 
 ### Configuration
 

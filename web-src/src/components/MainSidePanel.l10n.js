@@ -48,12 +48,12 @@ export const intlMessages = {
       description: 'Alt text for Recents',
     },
     contentFragmentHostNameLabel: {
-      defaultMessage: 'Connected to AEM instance',
+      defaultMessage: 'Connected to AEM instance:',
       id: 'mainSidePanel.contentFragmentHostNameLabel',
       description: 'Label for Content Fragment Host Name',
     },
     contentFragmentTileLabel: {
-      defaultMessage: 'Content Fragment Tile',
+      defaultMessage: 'Content Fragment: ',
       id: 'mainSidePanel.contentFragmentTileLabel',
       description: 'Label for Content Fragment Tile',
     },

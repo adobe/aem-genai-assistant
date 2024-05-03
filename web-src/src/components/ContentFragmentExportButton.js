@@ -27,9 +27,12 @@ import {
   TextField,
 } from '@adobe/react-spectrum';
 import CreateVariationIcon from '@spectrum-icons/workflow/BoxExport';
+import { useIntl } from 'react-intl';
 import { log } from '../helpers/MetricsHelper.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
+
+import { intlMessages } from './ContentFragmentExportButton.l10n.js';
 
 export function ContentFragmentExportButton({ variant }) {
   const { aemService } = useApplicationContext();
@@ -38,6 +41,8 @@ export function ContentFragmentExportButton({ variant }) {
   const [exportedVariations, setExportedVariations] = useState([]);
   const [isExportInProgress, setIsExportInProgress] = useState(false);
   const [isExportAndOpenInProgress, setIsExportAndOpenInProgress] = useState(false);
+
+  const { formatMessage } = useIntl();
 
   if (variant.content.variationName !== variationName) {
     setVariationName(variant.content.variationName);
@@ -83,38 +88,38 @@ export function ContentFragmentExportButton({ variant }) {
       </Button>
       {(close) => (
         <Dialog width={'550px'}>
-          <Heading>Export Variation</Heading>
+          <Heading>{formatMessage(intlMessages.promptResultCard.contentFragmentExportDialogTitle)}</Heading>
           <Divider/>
           <Content>
             <Form onSubmit={(e) => e.preventDefault()}>
               <Text marginBottom={10}>
-                Export the selected variation as a new content fragment variation.
+                {formatMessage(intlMessages.promptResultCard.contentFragmentExportDialogDescription)}
               </Text>
               <TextField
                 value={variationName}
                 onChange={setVariationName}
-                label={'Name'}
+                label={formatMessage(intlMessages.contentFragmentExportDialog.variationNameFieldLabel)}
                 width={'100%'}>
               </TextField>
             </Form>
           </Content>
           <ButtonGroup>
-            <Button variant={'secondary'} onPress={close}>Cancel</Button>
+            <Button variant={'secondary'} onPress={close}>{formatMessage(intlMessages.contentFragmentExportDialog.cancelButtonLabel)}</Button>
             <Button width="size-1250" variant={'cta'} isDisabled={isExportInProgress || isExportAndOpenInProgress}
                     onPress={() => handleExportVariation(false).then(close)}>
               {isExportInProgress
-                ? <ProgressCircle size="S" aria-label="Export" isIndeterminate right="8px"/>
+                ? <ProgressCircle size="S" aria-label={formatMessage(intlMessages.contentFragmentExportDialog.exportButtonProgressAreaLabel)} isIndeterminate right="8px"/>
                 : <CreateVariationIcon marginEnd={'8px'}/>
               }
-              Export
+              {formatMessage(intlMessages.contentFragmentExportDialog.exportButtonLabel)}
             </Button>
             <Button width="size-3000" variant={'cta'} isDisabled={isExportInProgress || isExportAndOpenInProgress}
                     onPress={() => handleExportVariation(true).then(close)}>
               {isExportAndOpenInProgress
-                ? <ProgressCircle size="S" aria-label="Export" isIndeterminate right="8px"/>
+                ? <ProgressCircle size="S" aria-label={formatMessage(intlMessages.contentFragmentExportDialog.exportButtonProgressAreaLabel)} isIndeterminate right="8px"/>
                 : <CreateVariationIcon marginEnd={'8px'}/>
               }
-              Export and Open in CF Editor
+              {formatMessage(intlMessages.contentFragmentExportDialog.exportAndOpenButtonLabel)}
             </Button>
           </ButtonGroup>
         </Dialog>

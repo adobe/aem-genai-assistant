@@ -2,8 +2,8 @@
   "favoritesView.copyButtonTooltip": "复制",
   "favoritesView.copyTextSuccessToast": "已将文本复制到剪贴板！",
   "favoritesView.generateImageButtonLabel": "生成图像",
-  "favoritesView.generateImageFailedToast": "发生错误。请重试！",
+  "favoritesView.generateImageFailedToast": "出现错误。请重试！",
   "favoritesView.navigationLabel": "提示模板",
-  "favoritesView.noFavoritesMessage": "尚无收藏夹",
+  "favoritesView.noFavoritesMessage": "尚未有收藏夹",
   "favoritesView.removeButtonTooltip": "删除"
 }

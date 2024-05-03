@@ -38,7 +38,7 @@ jobs:
           FT_EARLY_ACCESS: 'SITES-20810'
           LD_SDK_KEY: ${{ secrets.LD_SDK_KEY }}
       run: |
-        npm install
+        npm ci
         npm run grammar
         npm run prompts
         npm run build

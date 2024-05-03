@@ -10,18 +10,31 @@
  * governing permissions and limitations under the License.
  */
 import {
-  ActionButton, Flex, Tooltip, TooltipTrigger, View,
+  Button, ActionButton, Flex, Tooltip, TooltipTrigger, View, ProgressCircle, Divider,
 } from '@adobe/react-spectrum';
-import React from 'react';
+import React, {
+  useCallback, useState,
+} from 'react';
 import { css } from '@emotion/css';
 import { ToastQueue } from '@react-spectrum/toast';
 import { motion } from 'framer-motion';
+import { useIntl } from 'react-intl';
+
+import { intlMessages } from './Favorites.l10n.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
+import { useVariantImages } from '../state/VariantImagesHook.js';
+import { useApplicationContext } from './ApplicationProvider.js';
+import { useShellContext } from './ShellProvider.js';
 import { toHTML, toText } from '../helpers/PromptExporter.js';
+import { generateImagePrompt } from '../helpers/ImageHelper.js';
 import { sampleRUM } from '../rum.js';
+import { VariantImagesView } from './VariantImagesView.js';
+import { log } from '../helpers/MetricsHelper.js';
+import ExpressNoAccessInfo from './ExpressNoAccessInfo.js';
 
 import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';
 import DeleteOutlineIcon from '../icons/DeleteOutlineIcon.js';
+import GenAIIcon from '../icons/GenAIIcon.js';
 
 const styles = {
   card: css`
@@ -36,33 +49,79 @@ const styles = {
 };
 
 export function FavoriteVariantCard({ variant, ...props }) {
+  const { firefallService, expressSdkService } = useApplicationContext();
+  const { isExpressAuthorized } = useShellContext();
   const toggleFavorite = useToggleFavorite();
+  const { addImageToVariant } = useVariantImages();
+  const { formatMessage } = useIntl();
+
+  const [imagePromptProgress, setImagePromptProgress] = useState(false);
+
+  const handleGenerateImage = useCallback(async (imagePrompt) => {
+    log('express:favorite:generateimage', { variantId: variant.id });
+    const onPublish = (publishParams) => {
+      addImageToVariant(variant.id, publishParams.asset[0].data);
+    };
+
+    const success = await expressSdkService.handleImageOperation(
+      'generateImage',
+      {
+        outputParams: {
+          outputType: 'base64',
+        },
+        inputParams: {
+          promptText: imagePrompt,
+        },
+        callbacks: {
+          onPublish,
+        },
+      },
+    );
+
+    if (!success) {
+      ToastQueue.negative(formatMessage(intlMessages.favoritesView.generateImageFailedToast), { timeout: 2000 });
+    }
+  }, [expressSdkService, variant]);
+
+  const handleGenerateImagePrompt = useCallback(() => {
+    setImagePromptProgress(true);
+    generateImagePrompt(firefallService, variant)
+      .then((imagePrompt) => {
+        handleGenerateImage(imagePrompt);
+      })
+      .catch((error) => {
+        ToastQueue.negative(error.message, { timeout: 2000 });
+      })
+      .finally(() => {
+        setImagePromptProgress(false);
+      });
+  }, []);
 
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ ease: 'easeIn', duration: 0.3 }}>
-      <View
-        {...props}
-        UNSAFE_className={styles.card}>
+      <div {...props} className={styles.card}>
         <div className={styles.variant} dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
-        <View
-          borderRadius="regular"
-          paddingRight="24px">
-          <Flex direction="row" gap="size-100" justifyContent="left">
+        <View marginTop={'10px'} marginBottom={'6px'}>
+          <Flex direction="row" justifyContent="left">
             <TooltipTrigger delay={0}>
               <ActionButton
                 isQuiet
                 UNSAFE_className="hover-cursor-pointer"
                 onPress={() => {
+                  log('prompt:copyfavorite');
                   sampleRUM('genai:prompt:copyfavorite', { source: 'FavoriteCard#onPress' });
                   navigator.clipboard.writeText(toText(variant.content));
-                  ToastQueue.positive('Copied to clipboard', { timeout: 1000 });
+                  ToastQueue.positive(
+                    formatMessage(intlMessages.favoritesView.copyTextSuccessToast),
+                    { timeout: 1000 },
+                  );
                 }}>
                 <CopyOutlineIcon />
               </ActionButton>
-              <Tooltip>Copy</Tooltip>
+              <Tooltip>{formatMessage(intlMessages.favoritesView.copyButtonTooltip)}</Tooltip>
             </TooltipTrigger>
             <TooltipTrigger delay={0}>
               <ActionButton
@@ -71,11 +130,27 @@ export function FavoriteVariantCard({ variant, ...props }) {
                 onPress={() => toggleFavorite(variant)}>
                 <DeleteOutlineIcon />
               </ActionButton>
-              <Tooltip>Remove</Tooltip>
+              <Tooltip>{formatMessage(intlMessages.favoritesView.removeButtonTooltip)}</Tooltip>
             </TooltipTrigger>
+            <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'} />
+            <Flex direction="row" gap="size-100" alignItems={'center'}>
+              <Button
+                UNSAFE_className="hover-cursor-pointer"
+                marginStart={'size-100'}
+                width="size-2000"
+                variant="secondary"
+                style="fill"
+                onPress={() => handleGenerateImagePrompt()}
+                isDisabled={!isExpressAuthorized}>
+                {imagePromptProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}
+                {formatMessage(intlMessages.favoritesView.generateImageButtonLabel)}
+              </Button>
+              {!isExpressAuthorized && <ExpressNoAccessInfo />}
+            </Flex>
           </Flex>
         </View>
-      </View>
+        <VariantImagesView variant={variant} isFavorite={true} />
+      </div>
     </motion.div>
   );
 }

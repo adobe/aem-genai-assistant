@@ -1,0 +1,18 @@
+{
+  "app.cancelActionLabel": "Cancelar",
+  "app.consentDialogAgreeButtonLabel": "Aceptar",
+  "app.consentDialogCancelButtonLabel": "Cancelar",
+  "app.consentDialogContent": "<p>La tecnología de IA generativa ofrece nuevas formas de creación.</p><p>Al hacer clic en \"Aceptar\", acepta las {legalTermsLink} y lo siguiente:</p><ul><li>Cualquier indicación, contexto, información complementaria o entrada de otro tipo que proporcione a esta función (a) debe estar vinculada a un contexto específico, que puede incluir materiales de promoción de la marca, contenido del sitio web, datos, esquemas para dichos datos, plantillas u otros documentos de confianza, y (b) no debe contener información personal (se entiende por información personal cualquier dato que pueda asociarse a un individuo concreto).</li><li>Debe revisar cualquier resultado de esta función para verificar su precisión y asegurarse de que sea apropiado para su caso de uso.</li></ul>",
+  "app.consentDialogHeading": "IA generativa en aplicaciones de Adobe",
+  "app.deleteActionLabel": "Eliminar",
+  "app.deleteActionTitle": "Eliminar",
+  "app.deletePromptTemplateButtonLabel": "Eliminar",
+  "app.deletePromptTemplateFailedToast": "No se pudo eliminar la plantilla de indicación",
+  "app.deletePromptTemplateQuestion": "¿Seguro que desea eliminar esta indicación?",
+  "app.description": "Cree contenido de alta calidad rápidamente y luego evalúelo con la experimentación o publíquelo en su sitio.",
+  "app.name": "Generar variaciones",
+  "app.noAccessDialogContent": "No tiene acceso a este producto",
+  "app.noAccessDialogHeading": "Acceso denegado",
+  "app.noAccessMessage": "Para utilizar <strong>Generar variaciones</strong> debe aceptar las Directrices generativas del usuario de IA.{newLine}Actualice esta página para <strong>Aceptar</strong>.",
+  "app.promptTemplatesLibraryPanelLabel": "Plantillas de indicación"
+}

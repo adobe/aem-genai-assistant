@@ -9,38 +9,43 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { Flex, Image } from '@adobe/react-spectrum';
+import { Flex } from '@adobe/react-spectrum';
 import React from 'react';
 import { css } from '@emotion/css';
 import { useRecoilValue } from 'recoil';
 import { resultsState } from '../state/ResultsState.js';
+import { sessionState } from '../state/SessionState.js';
 import { PromptResultCard } from './PromptResultCard.js';
+import EmptyPromptResults from './EmptyPromptResults.js';
 
-import EmptyResults from '../assets/empty-results.svg';
+const style = {
+  emptyResults: css`
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 40px;
+    border-radius: 16px;
+    background-color: #F8F8F8;
+  `,
+};
 
 export function PromptResultListView(props) {
+  const currentSession = useRecoilValue(sessionState);
   const results = useRecoilValue(resultsState);
 
-  const style = {
-    emptyResults: css`
-      position: absolute;
-      top: 40px;
-      left: 50%;
-      transform: translateX(-50%);
-    `,
-  };
-
   return (
-    <Flex
-      {...props}
-      direction={'column'}
-      position={'absolute'}
-      gap={'size-200'}
-      width={'100%'}>
-      { results.length === 0
-        ? <Image src={EmptyResults} width={'600px'} UNSAFE_className={style.emptyResults} alt={'Empty'}></Image>
-        : results.map((result) => <PromptResultCard key={result.id} result={result} />)
-      }
-    </Flex>
+    <div {...props}>
+      <Flex
+        direction={'column'}
+        position={'absolute'}
+        gap={'size-200'}
+        width={'100%'}>
+        {results.length === 0
+          ? <EmptyPromptResults className={style.emptyResults} width={'600px'} isNew={currentSession.name.startsWith('New prompt')}/>
+          : results.map((result) => <PromptResultCard key={result.id} result={result} />)
+        }
+      </Flex>
+    </div>
   );
 }

@@ -14,12 +14,16 @@ import {
 } from '@adobe/react-spectrum';
 import { useSetRecoilState } from 'recoil';
 import React from 'react';
+import { useIntl } from 'react-intl';
+
+import { intlMessages } from './PromptSessionSideView.l10n.js';
 
 import ResetIcon from '../assets/reset.svg';
 import { parametersState } from '../state/ParametersState.js';
 
 export function ResetButton(props) {
   const setParameters = useSetRecoilState(parametersState);
+  const { formatMessage } = useIntl();
 
   const handleReset = () => {
     setParameters({});
@@ -32,8 +36,8 @@ export function ResetButton(props) {
       isQuiet
       onPress={handleReset}
       variant={''}>
-      <Image src={ResetIcon} alt={'Reset'} marginEnd={'8px'}/>
-      <Text>Reset</Text>
+      <Image src={ResetIcon} alt={'Reset Inputs'} marginEnd={'8px'}/>
+      <Text>{formatMessage(intlMessages.promptSessionSideView.resetInputsButtonLabel)}</Text>
     </ActionButton>
   );
 }

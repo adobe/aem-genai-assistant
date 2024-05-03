@@ -1,0 +1,14 @@
+{
+  "imageViewer.cancelButtonLabel": "取消",
+  "imageViewer.copyButtonLabel": "复制",
+  "imageViewer.copyImageButtonTooltip": "复制图像",
+  "imageViewer.copyImageSuccessToast": "已将图像复制到剪贴板！",
+  "imageViewer.deleteButtonLabel": "删除",
+  "imageViewer.deleteImageAlertTitle": "删除图像",
+  "imageViewer.deleteImageDialogQuestion": "这将会永久删除该图像。要继续吗？",
+  "imageViewer.downloadButtonLabel": "下载",
+  "imageViewer.editButtonLabel": "编辑",
+  "imageViewer.editButtonTooltip": "编辑",
+  "imageViewer.editImageFailedToast": "出现错误。请重试！",
+  "imageViewer.moreButtonTooltip": "更多"
+}

@@ -1,0 +1,18 @@
+{
+  "app.cancelActionLabel": "取消",
+  "app.consentDialogAgreeButtonLabel": "同意",
+  "app.consentDialogCancelButtonLabel": "取消",
+  "app.consentDialogContent": "<p>生成式 AI 技術能讓您以全新方式進行創作。</p><p>一旦點擊「同意」，即表示您同意接受《Adobe Experience Cloud 生成式 AI 使用者準則》及以下條款：</p><ul><li>您提供給此功能的任何提示、背景資訊、補充資訊或其他輸入資料必須：(a) 與特定情境相關，例如您的品牌素材、網站內容、資料、這類資料的架構、範本或其他可信賴文件，且 (b) 不得包含任何個人詳細資訊 (包括可追溯至特定個人的任何資訊)。</li><li>您應自行審核確認此功能產生的任何輸出結果是否正確，並符合您的使用情境。</li></ul>",
+  "app.consentDialogHeading": "Adobe 應用程式中的生成式 AI",
+  "app.deleteActionLabel": "刪除",
+  "app.deleteActionTitle": "刪除",
+  "app.deletePromptTemplateButtonLabel": "刪除",
+  "app.deletePromptTemplateFailedToast": "刪除提示範本失敗",
+  "app.deletePromptTemplateQuestion": "您確定要刪除此提示嗎?",
+  "app.description": "快速建立高品質的內容，然後透過實驗進行測量或將其發佈到您的網站。",
+  "app.name": "產生變化版本",
+  "app.noAccessDialogContent": "您無權存取此產品",
+  "app.noAccessDialogHeading": "存取遭拒",
+  "app.noAccessMessage": "若要使用「<strong>產生變化版本</strong>」，您必須同意「生成式 AI 使用者方針」。{newLine}請重新整理此頁面以<strong>同意</strong>。",
+  "app.promptTemplatesLibraryPanelLabel": "提示範本"
+}

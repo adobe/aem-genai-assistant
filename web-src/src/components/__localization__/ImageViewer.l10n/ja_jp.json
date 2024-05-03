@@ -1,0 +1,14 @@
+{
+  "imageViewer.cancelButtonLabel": "キャンセル",
+  "imageViewer.copyButtonLabel": "コピー",
+  "imageViewer.copyImageButtonTooltip": "画像をコピー",
+  "imageViewer.copyImageSuccessToast": "画像をクリップボードにコピーしました",
+  "imageViewer.deleteButtonLabel": "削除",
+  "imageViewer.deleteImageAlertTitle": "画像を削除",
+  "imageViewer.deleteImageDialogQuestion": "これにより画像が完全に削除されます。続行しますか？",
+  "imageViewer.downloadButtonLabel": "ダウンロード",
+  "imageViewer.editButtonLabel": "編集",
+  "imageViewer.editButtonTooltip": "編集",
+  "imageViewer.editImageFailedToast": "エラーが発生しました。もう一度試してください。",
+  "imageViewer.moreButtonTooltip": "詳細"
+}

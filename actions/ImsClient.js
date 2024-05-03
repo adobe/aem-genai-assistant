@@ -10,8 +10,7 @@
  * governing permissions and limitations under the License.
  */
 const FormUrlAddon = require('wretch/addons/formUrl');
-const { wretchRetry } = require('./Network.js');
-// const FormDataAddon = require('wretch/addons/formData');
+const wretch = require('./Network.js');
 
 class ImsClient {
   constructor(endpoint, clientId, clientSecret, permAuthCode) {
@@ -22,7 +21,7 @@ class ImsClient {
   }
 
   async getServiceToken() {
-    const json = await wretchRetry(`${this.endpoint}/ims/token/v1`)
+    const json = await wretch(`${this.endpoint}/ims/token/v1`)
       .addon(FormUrlAddon).formUrl({
         client_id: this.clientId,
         client_secret: this.clientSecret,

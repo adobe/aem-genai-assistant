@@ -1,0 +1,9 @@
+{
+  "favoritesView.copyButtonTooltip": "複製",
+  "favoritesView.copyTextSuccessToast": "已將文字複製到剪貼簿！",
+  "favoritesView.generateImageButtonLabel": "產生影像",
+  "favoritesView.generateImageFailedToast": "發生錯誤。請再試一次！",
+  "favoritesView.navigationLabel": "提示範本",
+  "favoritesView.noFavoritesMessage": "還沒有最愛項目",
+  "favoritesView.removeButtonTooltip": "刪除"
+}

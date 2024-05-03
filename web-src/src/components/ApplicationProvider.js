@@ -14,79 +14,92 @@ import React, {
 } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { FirefallService } from '../services/FirefallService.js';
+import { ExpressSdkService } from '../services/ExpressSdkService.js';
 import actions from '../config.json';
 import { useShellContext } from './ShellProvider.js';
-import { loadPromptTemplates, promptTemplatesState } from '../state/PromptTemplatesState.js';
+import {
+  customPromptTemplatesState,
+  readCustomPromptTemplates,
+} from '../state/PromptTemplatesState.js';
+import { TargetService } from '../services/TargetService.js';
+import { CsvParserService } from '../services/CsvParserService.js';
+import { FeatureFlagsService } from '../services/FeatureFlagsService.js';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 
+const FEATURE_FLAGS_PROJECT_ID = 'aem-generate-variations';
+
 const COMPLETE_ACTION = 'complete';
 const FEEDBACK_ACTION = 'feedback';
-
-const PROMPTS_TEMPLATES_PARAM_NAME = 'prompts';
-
-const PROMPT_TEMPLATES_FILENAME = 'prompt-templates';
-
-function getWebsiteUrl() {
-  const searchParams = new URLSearchParams(window.location.search);
-  const ref = searchParams.get('ref');
-  const repo = searchParams.get('repo');
-  const owner = searchParams.get('owner');
-
-  if (!ref || !repo || !owner) {
-    throw Error('It seems we\'re missing the ref, repo or owner search parameter in your application.');
-  }
-
-  return `https://${ref}--${repo}--${owner}.hlx.page`;
-}
-
-function getPromptTemplatesPath() {
-  const searchParams = new URLSearchParams(window.location.search);
-  return searchParams.get(PROMPTS_TEMPLATES_PARAM_NAME) || PROMPT_TEMPLATES_FILENAME;
-}
+const TARGET_ACTION = 'target';
+const CSV_PARSER_ACTION = 'csv';
 
 export const ApplicationContext = React.createContext(undefined);
 
 export const ApplicationProvider = ({ children }) => {
   const { user, done } = useShellContext();
-  const setPromptTemplates = useSetRecoilState(promptTemplatesState);
-  const [application, setApplication] = useState(undefined);
+  const setCustomPromptTemplates = useSetRecoilState(customPromptTemplatesState);
+  const [applicationContext, setApplicationContext] = useState(undefined);
 
   useEffect(() => {
     if (!user) {
       return;
     }
 
-    const websiteUrl = getWebsiteUrl();
-    const promptTemplatesPath = getPromptTemplatesPath();
-
-    setApplication({
-      appVersion: APP_VERSION,
-      websiteUrl,
-      promptTemplatesPath,
-      firefallService: new FirefallService({
-        completeEndpoint: actions[COMPLETE_ACTION],
-        feedbackEndpoint: actions[FEEDBACK_ACTION],
-        imsOrg: user.imsOrg,
-        accessToken: user.imsToken,
-      }),
+    console.debug('Reading custom prompt templates...');
+    readCustomPromptTemplates().then((templates) => {
+      setCustomPromptTemplates(templates);
     });
 
-    loadPromptTemplates(websiteUrl, promptTemplatesPath).then((templates) => {
-      setPromptTemplates(templates);
-    }).catch((e) => {
-      console.error(`Failed to load prompt templates: ${e.message}`);
+    const createApplicationContext = async () => {
+      console.debug('Creating application context...');
+
+      // Create the feature flags service first, as it might be used by other services
+      const featureFlagsService = await FeatureFlagsService.create(FEATURE_FLAGS_PROJECT_ID);
+
+      return {
+        appVersion: APP_VERSION,
+
+        featureFlagsService,
+
+        firefallService: new FirefallService({
+          completeEndpoint: actions[COMPLETE_ACTION],
+          feedbackEndpoint: actions[FEEDBACK_ACTION],
+          imsOrg: user.imsOrg,
+          accessToken: user.imsToken,
+        }),
+
+        csvParserService: new CsvParserService({
+          csvParserEndpoint: actions[CSV_PARSER_ACTION],
+        }),
+
+        targetService: new TargetService({
+          targetEndpoint: actions[TARGET_ACTION],
+          imsTenant: user.imsTenant,
+          accessToken: user.imsToken,
+        }),
+
+        expressSdkService: new ExpressSdkService({
+          clientId: 'aem-genai-assistant',
+          appName: 'AEM Generate Variations',
+          userId: user.id,
+          accessToken: user.imsToken,
+        }),
+      };
+    };
+
+    createApplicationContext().then((app) => {
+      setApplicationContext(app);
+      done();
     });
+  }, [user, done, setApplicationContext]);
 
-    done();
-  }, [user, done, setApplication]);
-
-  if (!application) {
-    return <Fragment/>;
+  if (!applicationContext) {
+    return <Fragment />;
   }
 
   return (
-    <ApplicationContext.Provider value={application}>
+    <ApplicationContext.Provider value={applicationContext}>
       {children}
     </ApplicationContext.Provider>
   );

@@ -1,0 +1,9 @@
+{
+  "favoritesView.copyButtonTooltip": "Copiar",
+  "favoritesView.copyTextSuccessToast": "Texto copiado en el portapapeles",
+  "favoritesView.generateImageButtonLabel": "Generar imagen",
+  "favoritesView.generateImageFailedToast": "Se ha producido un problema. Inténtelo de nuevo.",
+  "favoritesView.navigationLabel": "Plantillas de indicación",
+  "favoritesView.noFavoritesMessage": "Aún no tiene favoritos",
+  "favoritesView.removeButtonTooltip": "Eliminar"
+}

@@ -1,0 +1,18 @@
+{
+  "app.cancelActionLabel": "Annulla",
+  "app.consentDialogAgreeButtonLabel": "Accetto",
+  "app.consentDialogCancelButtonLabel": "Annulla",
+  "app.consentDialogContent": "<p>È possibile creare in nuovi modi con la tecnologia IA generativa.</p><p>Facendo clic su “Accetto”, l'Utente accetta le {legalTermsLink} e quanto segue:</p><ul><li>Ogni prompt, contesto, informazioni supplementari o altri input forniti dall'Utente a questa funzionalità (a) devono essere collegati a un contesto specifico, che può includere materiali di branding, contenuti del sito Web, dati, schemi per tali dati, modelli o altri documenti attendibili e (b) non deve contenere alcuna informazione personale (le informazioni personali includono tutto ciò che può essere collegato a un individuo specifico).</li><li>È necessario esaminare l'accuratezza di qualsiasi output di questa funzionalità e assicurarsi che sia appropriato per il proprio caso d'uso.</li></ul>",
+  "app.consentDialogHeading": "IA generativa nelle app Adobe\n",
+  "app.deleteActionLabel": "Elimina",
+  "app.deleteActionTitle": "Elimina",
+  "app.deletePromptTemplateButtonLabel": "Elimina",
+  "app.deletePromptTemplateFailedToast": "Impossibile eliminare il modello di prompt",
+  "app.deletePromptTemplateQuestion": "Eliminare questo prompt?",
+  "app.description": "Crea rapidamente contenuti di alta qualità, quindi misurane l’efficacia con la funzione di sperimentazione o pubblicali sul tuo sito.",
+  "app.name": "Genera varianti",
+  "app.noAccessDialogContent": "Non hai accesso a questo prodotto",
+  "app.noAccessDialogHeading": "Accesso negato",
+  "app.noAccessMessage": "Per utilizzare <strong>Genera varianti</strong> è necessario accettare le Linee guida per l’utente delle funzioni di IA generativa.{newLine}Aggiorna questa pagina per <strong>Accettare</strong>.",
+  "app.promptTemplatesLibraryPanelLabel": "Modelli di prompt"
+}

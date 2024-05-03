@@ -1,0 +1,18 @@
+{
+  "app.cancelActionLabel": "キャンセル",
+  "app.consentDialogAgreeButtonLabel": "同意する",
+  "app.consentDialogCancelButtonLabel": "キャンセル",
+  "app.consentDialogContent": "<p>生成 AIテクノロジーを使用した新しい方法で作成できます。</p><p>「同意する」をクリックすると、お客様は{legalTermsLink}と以下の条項に同意したことになります。</p><ul><li>お客様がこの機能に提供するプロンプト、コンテキスト、補足情報、またはその他の入力は、（a）特定のコンテキスト（ブランディング資素材、web サイトのコンテンツ、データ、そのようなデータのスキーマ、テンプレート、またはその他の信頼できるドキュメントなど）に結び付けられている必要があり、（b）いかなる個人情報も含んではなりません（個人情報には、特定の個人に結びつけることができるあらゆるものが含まれます）。</li><li>お客様は、この機能からの出力が正確であることをレビューし、お客様のユースケースに適していることを確認する必要があります。</li></ul>",
+  "app.consentDialogHeading": "アドビアプリの生成 AI",
+  "app.deleteActionLabel": "削除",
+  "app.deleteActionTitle": "削除",
+  "app.deletePromptTemplateButtonLabel": "削除",
+  "app.deletePromptTemplateFailedToast": "プロンプトテンプレートを削除できませんでした",
+  "app.deletePromptTemplateQuestion": "このプロンプトを削除してもよろしいですか？",
+  "app.description": "高品質のコンテンツをすばやく作成して実験で測定したり、サイトに公開したりします。",
+  "app.name": "バリエーションを生成",
+  "app.noAccessDialogContent": "この製品へのアクセス権がありません",
+  "app.noAccessDialogHeading": "アクセスが拒否されました",
+  "app.noAccessMessage": "<strong>バリエーションを生成</strong>を使用するには、生成 AI のユーザーガイドラインに同意する必要があります。{newLine}<strong>同意する</strong>には、このページを更新してください。",
+  "app.promptTemplatesLibraryPanelLabel": "プロンプトテンプレート"
+}

@@ -18,8 +18,6 @@ application:
               IMS_SERVICE_CLIENT_SECRET: $IMS_SERVICE_CLIENT_SECRET
               IMS_SERVICE_PERM_AUTH_CODE: $IMS_SERVICE_PERM_AUTH_CODE
               IMS_PRODUCT_CONTEXT: $IMS_PRODUCT_CONTEXT
-            limits:
-              timeout: 180000
           feedback:
             function: actions/feedback/index.js
             web: true
@@ -33,5 +31,13 @@ application:
               IMS_SERVICE_CLIENT_SECRET: $IMS_SERVICE_CLIENT_SECRET
               IMS_SERVICE_PERM_AUTH_CODE: $IMS_SERVICE_PERM_AUTH_CODE
               IMS_PRODUCT_CONTEXT: $IMS_PRODUCT_CONTEXT
-            limits:
-              timeout: 180000
+          target:
+            function: actions/target/index.js
+            web: true
+            runtime: nodejs:18
+            inputs:
+              TARGET_API_KEY: $TARGET_API_KEY
+          csv:
+            function: actions/csv/index.js
+            web: true
+            runtime: nodejs:18

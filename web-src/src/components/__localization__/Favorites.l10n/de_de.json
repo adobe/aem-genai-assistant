@@ -1,0 +1,9 @@
+{
+  "favoritesView.copyButtonTooltip": "Kopieren",
+  "favoritesView.copyTextSuccessToast": "Text in die Zwischenablage kopiert!",
+  "favoritesView.generateImageButtonLabel": "Bild generieren",
+  "favoritesView.generateImageFailedToast": "Ein Problem ist aufgetreten. Versuchen sie es später erneut.",
+  "favoritesView.navigationLabel": "Prompt-Vorlagen",
+  "favoritesView.noFavoritesMessage": "Noch keine Favoriten",
+  "favoritesView.removeButtonTooltip": "Löschen"
+}

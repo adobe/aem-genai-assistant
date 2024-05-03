@@ -1,0 +1,18 @@
+{
+  "app.cancelActionLabel": "Abbrechen",
+  "app.consentDialogAgreeButtonLabel": "Zustimmen",
+  "app.consentDialogCancelButtonLabel": "Abbrechen",
+  "app.consentDialogContent": "<p>Mit der generativen KI-Technologie können Sie auf ganz neue Weise kreativ sein.</p><p>Indem Sie auf „Zustimmen“ klicken, stimmen Sie den {legalTermsLink} sowie Folgendem zu:</p><ul><li>Alle Prompts sowie Kontext- oder Zusatzinformationen oder andere Eingaben, die Sie für diese Funktion bereitstellen, (a) müssen mit einem bestimmten Kontext verknüpft sein, zu dem Ihre Branding-Materialien, Website-Inhalte, Daten, Schemata für solche Daten, Vorlagen oder andere vertrauenswürdige Dokumente gehören können, und (b) dürfen keine personenbezogenen Informationen enthalten (personenbezogene Informationen umfassen alles, was mit einer bestimmten Person in Verbindung gebracht werden kann).</li><li>Sie sollten jede Ausgabe aus dieser Funktion auf ihre Genauigkeit überprüfen und sicherstellen, dass sie für Ihren Anwendungsfall geeignet ist.</li></ul>",
+  "app.consentDialogHeading": "Generative KI in Adobe-Apps",
+  "app.deleteActionLabel": "Löschen",
+  "app.deleteActionTitle": "Löschen",
+  "app.deletePromptTemplateButtonLabel": "Löschen",
+  "app.deletePromptTemplateFailedToast": "Prompt-Vorlage konnte nicht gelöscht werden",
+  "app.deletePromptTemplateQuestion": "Möchten Sie dieses Prompt wirklich löschen?",
+  "app.description": "Erstellen Sie schnell hochwertige Inhalte und messen Sie diese dann mit Experimenten oder veröffentlichen Sie sie auf Ihrer Website.",
+  "app.name": "Varianten erstellen",
+  "app.noAccessDialogContent": "Sie haben keinen Zugriff auf dieses Produkt",
+  "app.noAccessDialogHeading": "Zugriff verweigert",
+  "app.noAccessMessage": "Um <strong>Varianten generieren</strong> zu verwenden, müssen Sie den Benutzerrichtlinien für generative KI zustimmen.{newLine}Aktualisieren Sie diese Seite, um <strong>zuzustimmen</strong>.",
+  "app.promptTemplatesLibraryPanelLabel": "Prompt-Vorlagen"
+}

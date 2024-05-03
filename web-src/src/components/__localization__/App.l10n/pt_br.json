@@ -1,0 +1,18 @@
+{
+  "app.cancelActionLabel": "Cancelar",
+  "app.consentDialogAgreeButtonLabel": "Concordo",
+  "app.consentDialogCancelButtonLabel": "Cancelar",
+  "app.consentDialogContent": "<p>Você pode criar de novas maneiras com a tecnologia de IA generativa.</p><p>Ao clicar em “Concordar”, você concorda com as {legalTermsLink} e com o seguinte:</p><ul><li>Quaisquer solicitações, contexto ou informações complementares ou outras informações fornecidas para esse recurso (a) devem estar vinculadas a um contexto específico, que pode incluir materiais da sua marca, conteúdo do site, dados, esquemas para tais dados, modelos ou outros documentos confiáveis; e (b) não devem conter nenhuma informação pessoal (as informações pessoais incluem qualquer coisa que possa ser vinculada a um indivíduo específico).</li><li>Você deve revisar qualquer output desse recurso para verificar a precisão e garantir que seja apropriado para o seu caso de uso.</li></ul>",
+  "app.consentDialogHeading": "IA generativa em aplicativos Adobe",
+  "app.deleteActionLabel": "Excluir",
+  "app.deleteActionTitle": "Excluir",
+  "app.deletePromptTemplateButtonLabel": "Excluir",
+  "app.deletePromptTemplateFailedToast": "Falha ao excluir modelo de prompt",
+  "app.deletePromptTemplateQuestion": "Deseja excluir este prompt?",
+  "app.description": "Crie conteúdo de alta qualidade rapidamente e, em seguida, meça-o com experimentação ou publique-o em seu site.",
+  "app.name": "Gerar variações",
+  "app.noAccessDialogContent": "Você não tem acesso a este produto",
+  "app.noAccessDialogHeading": "Acesso negado",
+  "app.noAccessMessage": "Para usar a opção <strong>Gerar variações</strong>, você deve concordar com as Diretrizes do usuário de IA generativa.{newLine}Atualize esta página para <strong>Concordar</strong>.",
+  "app.promptTemplatesLibraryPanelLabel": "Modelos de prompt"
+}

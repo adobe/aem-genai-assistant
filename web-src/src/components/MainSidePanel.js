@@ -73,6 +73,10 @@ const style = {
         text-decoration: none;
       }
     `,
+  contentFragmentInfo: css`
+      border: 1px solid #CCE0FF;
+      border-radius: 8px;
+    `,
   copyright: css`
       font-size: 10px;
       font-style: normal;
@@ -93,19 +97,21 @@ const derivedStyles = {
     `,
 };
 
-function ContentFragmentRunModeContext() {
+function ContentFragmentInfo() {
   const { aemService } = useApplicationContext();
   const contentFragment = useRecoilValue(contentFragmentState);
 
+  const { formatMessage } = useIntl();
+
   return (
-    <Flex direction={'column'}>
-      <>
-        <Heading level={4} marginBottom={'size-10'}>Connected to AEM Service:</Heading>
+    <Flex direction={'column'} UNSAFE_className={style.contentFragmentInfo}>
+      <Flex>
+        <Heading level={4} marginBottom={'size-10'}>{formatMessage(intlMessages.mainSidePanel.contentFragmentHostNameLabel)}</Heading>
         <Text>{aemService.getHost()}</Text>
-      </>
+      </Flex>
       { contentFragment && contentFragment.fragment
         && <>
-          <Heading level={4} marginBottom={'size-10'}>Variations will be exported to:</Heading>
+          <Heading level={4} marginBottom={'size-10'}>{formatMessage(intlMessages.mainSidePanel.contentFragmentTileLabel)}</Heading>
           <Text>{contentFragment.fragment.title}</Text>
         </>
       }
@@ -167,19 +173,19 @@ export function MainSidePanel(props) {
         && <Flex direction={'column'} gridArea={'menu'} gap={'size-100'}>
           <ul className={style.menu}>
             <li className={viewType === ViewType.NewSession ? derivedStyles.clickedMenuItem : style.menuItem}>
-              <ClickableImage src={PromptsIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItem)} alt={'New prompt template'} onClick={() => setViewType(ViewType.NewSession)} />
+              <ClickableImage src={PromptsIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItem)} alt={formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItemAltText)} onClick={() => setViewType(ViewType.NewSession)} />
               {mainSidePanelType === MainSidePanelType.Expanded
               && <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>{formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItem)}</Link>}
             </li>
             <li className={viewType === ViewType.Favorites ? derivedStyles.clickedMenuItem : style.menuItem}>
-              <ClickableImage src={FavoritesIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.favoritesMenuItem)} alt={'Favorites'} onClick={() => setViewType(ViewType.Favorites)} />
+              <ClickableImage src={FavoritesIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.favoritesMenuItem)} alt={formatMessage(intlMessages.mainSidePanel.favoritesMenuItemAltText)} onClick={() => setViewType(ViewType.Favorites)} />
               {mainSidePanelType === MainSidePanelType.Expanded
               && <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.Favorites)}>{formatMessage(intlMessages.mainSidePanel.favoritesMenuItem)}</Link>}
             </li>
             <li className={style.menuItem}>
               {mainSidePanelType === MainSidePanelType.Expanded
                 ? <Image src={RecentsIcon} width={'20px'} alt={'Recents'} />
-                : <ClickableImage src={RecentsIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.recentsMenuItem)} alt={'Recents'} onClick={() => (sessions?.length > 0) && setMainSidePanelType(MainSidePanelType.Expanded)} />
+                : <ClickableImage src={RecentsIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.recentsMenuItem)} alt={formatMessage(intlMessages.mainSidePanel.recentsMenuItemAltText)} onClick={() => (sessions?.length > 0) && setMainSidePanelType(MainSidePanelType.Expanded)} />
               }
               {mainSidePanelType === MainSidePanelType.Expanded
               && <Text>{formatMessage(intlMessages.mainSidePanel.recentsMenuItem)}</Text>}
@@ -196,7 +202,7 @@ export function MainSidePanel(props) {
       }
 
       { (runMode === RUN_MODE_CF && mainSidePanelType === MainSidePanelType.Expanded)
-        && <ContentFragmentRunModeContext />
+        && <ContentFragmentInfo />
       }
 
       <Flex direction={'column'} gridArea={'footer'} gap={'16px'}>
@@ -206,7 +212,7 @@ export function MainSidePanel(props) {
             {mainSidePanelType === MainSidePanelType.Expanded && <Link href={HELP_AND_FAQ_URL} target="_blank" UNSAFE_className={style.menu}>{formatMessage(intlMessages.mainSidePanel.helpAndFaqsMenuItem)}</Link>}
           </li>
           <li className={style.menuItem}>
-            <ClickableImage src={FileTxt} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)} alt={'Guidelines'} onClick={() => window.open(USER_GUIDELINES_URL, '_blank')} />
+            <ClickableImage src={FileTxt} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)} alt={formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItemAltText)} onClick={() => window.open(USER_GUIDELINES_URL, '_blank')} />
             {mainSidePanelType === MainSidePanelType.Expanded && <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={style.menu}>{formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)}</Link>}
           </li>
         </ul>

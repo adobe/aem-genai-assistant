@@ -22,15 +22,40 @@ export const intlMessages = {
       id: 'mainSidePanel.promptTemplatesMenuItem',
       description: 'Menu item for Prompt Templates',
     },
+    promptTemplatesMenuItemAltText: {
+      defaultMessage: 'Prompt Templates',
+      id: 'mainSidePanel.promptTemplatesMenuItemAltText',
+      description: 'Alt text for Prompt Templates',
+    },
     favoritesMenuItem: {
       defaultMessage: 'Favorites',
       id: 'mainSidePanel.favoritesMenuItem',
       description: 'Menu item for Favorites',
     },
+    favoritesMenuItemAltText: {
+      defaultMessage: 'Favorites',
+      id: 'mainSidePanel.favoritesMenuItemAltText',
+      description: 'Alt text for Favorites',
+    },
     recentsMenuItem: {
       defaultMessage: 'Recents',
       id: 'mainSidePanel.recentsMenuItem',
       description: 'Menu item for Recents',
+    },
+    recentsMenuItemAltText: {
+      defaultMessage: 'Recents',
+      id: 'mainSidePanel.recentsMenuItemAltText',
+      description: 'Alt text for Recents',
+    },
+    contentFragmentHostNameLabel: {
+      defaultMessage: 'Connected to AEM instance',
+      id: 'mainSidePanel.contentFragmentHostNameLabel',
+      description: 'Label for Content Fragment Host Name',
+    },
+    contentFragmentTileLabel: {
+      defaultMessage: 'Content Fragment Tile',
+      id: 'mainSidePanel.contentFragmentTileLabel',
+      description: 'Label for Content Fragment Tile',
     },
     helpAndFaqsMenuItem: {
       defaultMessage: 'Help & FAQ',
@@ -41,6 +66,11 @@ export const intlMessages = {
       defaultMessage: 'User Guidelines',
       id: 'mainSidePanel.userGuidelinesMenuItem',
       description: 'Menu item for User Guidelines',
+    },
+    userGuidelinesMenuItemAltText: {
+      defaultMessage: 'User Guidelines',
+      id: 'mainSidePanel.userGuidelinesMenuItemAltText',
+      description: 'Alt text for User Guidelines',
     },
     copyrightLabel: {
       defaultMessage: 'Copyright © 2024 Adobe. All rights reserved',

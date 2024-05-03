@@ -24,6 +24,7 @@ import {
 import { TargetService } from '../services/TargetService.js';
 import { CsvParserService } from '../services/CsvParserService.js';
 import { FeatureFlagsService } from '../services/FeatureFlagsService.js';
+import { ContentScrappingService } from '../services/ContentScrapingService.js';
 
 const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 
@@ -33,6 +34,7 @@ const COMPLETE_ACTION = 'complete';
 const FEEDBACK_ACTION = 'feedback';
 const TARGET_ACTION = 'target';
 const CSV_PARSER_ACTION = 'csv';
+const SCRAPER_ACTION = 'scraper';
 
 export const ApplicationContext = React.createContext(undefined);
 
@@ -76,6 +78,12 @@ export const ApplicationProvider = ({ children }) => {
         targetService: new TargetService({
           targetEndpoint: actions[TARGET_ACTION],
           imsTenant: user.imsTenant,
+          accessToken: user.imsToken,
+        }),
+
+        contentScrapingService: new ContentScrappingService({
+          scraperEndpoint: actions[SCRAPER_ACTION],
+          imsOrg: user.imsOrg,
           accessToken: user.imsToken,
         }),
 

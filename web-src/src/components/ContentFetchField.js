@@ -9,13 +9,10 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { TextField } from '@adobe/react-spectrum';
+import { ProgressBar, TextField } from '@adobe/react-spectrum';
 import React, { useCallback, useEffect, useState } from 'react';
 import { debounce } from 'lodash';
-import wretch from 'wretch';
 import { useApplicationContext } from './ApplicationProvider.js';
-
-const domParser = new DOMParser();
 
 function isValidUrl(url) {
   try {
@@ -25,40 +22,30 @@ function isValidUrl(url) {
   }
 }
 
-const fetchContent = async function (url) {
-  const html = await wretch(url).get().text();
-  const text = Array.from(domParser.parseFromString(html, 'text/html').querySelectorAll('div')).map((node) => {
-    return node.textContent.replace(/\s+/g, ' ');
-  }).join('\n');
-  console.log(`Text: ${text}`);
-  return text;
-};
-
-export function ContentFetchField({ onChange, prompt, ...props }) {
+export function ContentFetchField({
+  onChange, prompt, selector, ...props
+}) {
   const [url, setUrl] = useState('');
-  const [pending, setPending] = useState(false);
-  const { firefallService } = useApplicationContext();
+  const [isPending, setIsPending] = useState(false);
+  const { contentScrapingService } = useApplicationContext();
 
-  const debouncedFetchContent = useCallback(debounce((fetchFromUrl) => {
-    setPending(true);
-    fetchContent(fetchFromUrl)
-      .then(async (text) => {
-        console.debug(`Fetched content: ${text}`);
-        if (prompt) {
-          const { response: processedText } = await firefallService.complete(`${prompt}:\n\n${text}`, 0);
-          console.debug(`Processed content: ${processedText}`);
-          onChange(processedText);
-        } else {
+  const debouncedFetchContent = useCallback(
+    debounce((fetchFromUrl) => {
+      setIsPending(true);
+      contentScrapingService.getContent(fetchFromUrl, selector, prompt)
+        .then(async (text) => {
+          console.debug(`Scraped content: ${text}`);
           onChange(text);
-        }
-        setPending(false);
-      })
-      .catch((e) => {
-        console.error(e);
-        onChange('');
-        setPending(false);
-      });
-  }, 1000));
+          setIsPending(false);
+        })
+        .catch((e) => {
+          console.error(e);
+          onChange('');
+          setIsPending(false);
+        });
+    }, 1000),
+    [prompt],
+  );
 
   useEffect(() => {
     if (!isValidUrl(url)) {
@@ -70,14 +57,16 @@ export function ContentFetchField({ onChange, prompt, ...props }) {
   }, [url]);
 
   return (
-    <TextField
-      value={url}
-      width="100%"
-      validationState={isValidUrl(url) ? 'valid' : 'invalid'}
-      isRequired
-      isDisabled={pending}
-      onChange={setUrl}
-      {...props}
-    />
+      <>
+        <TextField
+          value={url}
+          width="100%"
+          validationState={isValidUrl(url) ? 'valid' : 'invalid'}
+          isRequired
+          onChange={setUrl}
+          {...props}
+        />
+        { isPending && <ProgressBar label={'Fetching content...'} isIndeterminate /> }
+      </>
   );
 }

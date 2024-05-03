@@ -35,6 +35,7 @@
     "@spectrum-icons/workflow": "4.2.6",
     "exceljs": "4.4.0",
     "framer-motion": "10.16.5",
+    "jsdom": "24.0.0",
     "localforage": "1.10.0",
     "nearley": "2.20.1",
     "papaparse": "^5.4.1",

@@ -111,6 +111,7 @@ function createInputComponent(type, name, label, params, value, onChange) {
           name={name}
           label={label}
           description={params.description}
+          selector={params.selector}
           prompt={params.prompt}
           onChange={(newValue) => onChange(name, newValue)}
         />

@@ -101,6 +101,7 @@ Additional Context: [[
 {{@domain_knowledge_and_trusted_source_documents,
   label="Domain Knowledge and Trusted Source Documents",
   description="Provide more background information or specific details to guide the creation of the content. For Trusted Source Documents, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents. Include additional prompting E.g. 'use the following source document as a reference in generation to match brand voice' to ensure accurate use.",
-  default="No domain knowledge or trusted source documents provided",
-  type=text
+  prompt="Summarize the key points from the following source document to guide the creation of the content",
+  selector="p, h1, h2, h3, h4, h5, h6, li, td, th, span, blockquote, article, section, header, footer, aside, nav, div:only-child:empty",
+  type=content
 }}

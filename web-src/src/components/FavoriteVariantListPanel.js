@@ -10,18 +10,38 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Grid, View, Text, Image, Link,
+  Flex,
+  Grid,
+  View,
+  Text,
+  Image,
+  Link,
+  AlertDialog,
+  DialogTrigger,
+  Tooltip,
+  TooltipTrigger,
+  ActionButton,
 } from '@adobe/react-spectrum';
-import React from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import React, { useCallback } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { css } from '@emotion/css';
 import { useIntl } from 'react-intl';
+import { saveAs } from 'file-saver';
+import Papa from 'papaparse';
 
+import ExportIcon from '@spectrum-icons/workflow/Export';
+import RemoveFavoriteIcon from '@spectrum-icons/workflow/Delete';
+import SelectAllIcon from '@spectrum-icons/workflow/SelectBoxAll';
+import DeselectAllIcon from '@spectrum-icons/workflow/Deselect';
 import { intlMessages } from './Favorites.l10n.js';
 import { favoritesState } from '../state/FavoritesState.js';
 import { FavoriteVariantCard } from './FavoriteVariantCard.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import ChevronLeft from '../assets/chevron-left.svg';
+import { formatIdentifier } from '../helpers/FormatHelper.js';
+import { log } from '../helpers/MetricsHelper.js';
+
+const DEFAULT_FILENAME = 'selected_variants.csv';
 
 const styles = {
   breadcrumbsLink: css`
@@ -33,26 +53,122 @@ const styles = {
   `,
 };
 
-export function FavoriteVariantListPanel(props) {
-  const favorites = useRecoilValue(favoritesState);
-  const [viewType, setViewType] = useRecoilState(viewTypeState);
+export function exportToCsv(variants) {
+  const filteredVariants = variants
+    .map((variant) => variant.content)
+    .map((content) => {
+      const filteredContent = {};
+      Object.keys(content).forEach((key) => {
+        const normalizedKey = key.toLowerCase().replace(/[-_\s]/g, '');
+        console.log('normalizedKey', normalizedKey);
+        if (normalizedKey !== 'airationale') {
+          filteredContent[formatIdentifier(key)] = content[key];
+        }
+      });
+      return filteredContent;
+    });
+  const csv = Papa.unparse(filteredVariants);
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  saveAs(blob, DEFAULT_FILENAME);
+}
 
+export function FavoriteVariantListPanel(props) {
   const { formatMessage } = useIntl();
+  const [favorites, setFavorites] = useRecoilState(favoritesState);
+  const setViewType = useSetRecoilState(viewTypeState);
+  const [selectedVariants, setSelectedVariants] = React.useState([]);
+
+  const exportCsv = useCallback(() => {
+    const variantsToExport = favorites.filter((variant) => selectedVariants.includes(variant.id));
+    if (variantsToExport.length > 0) {
+      log('favorites:export:csv', { numberOfVariants: variantsToExport.length });
+      exportToCsv(favorites, 'selected_variants.csv');
+    }
+  }, [favorites, selectedVariants]);
+
+  const removeFromFavorites = useCallback(() => {
+    setFavorites(favorites.filter((variant) => !selectedVariants.includes(variant.id)));
+    setSelectedVariants([]);
+  }, [favorites, selectedVariants]);
+
+  const selectAll = useCallback(() => {
+    setSelectedVariants(favorites.map((variant) => variant.id));
+  }, [favorites]);
+
+  const deselectAll = useCallback(() => {
+    setSelectedVariants([]);
+  }, []);
+
+  const toggleVariantSelection = useCallback((variant) => {
+    console.log('toggleVariantSelection', variant);
+    setSelectedVariants((prevSelectedVariants) => {
+      if (prevSelectedVariants.includes(variant.id)) {
+        return prevSelectedVariants.filter((id) => id !== variant.id);
+      }
+      return [...prevSelectedVariants, variant.id];
+    });
+  }, [selectedVariants]);
 
   return (
     <>
       <Flex UNSAFE_style={{ padding: '20px 20px 20px' }} direction={'row'} justifyContent={'left'} alignItems={'center'} gridArea={'breadcrumbs'}>
         <Link href="#" onPress={() => setViewType(ViewType.NewSession)} UNSAFE_className={styles.breadcrumbsLink}>
-          <Image src={ChevronLeft} alt={'Back'} width={'24px'} />
+          <Image src={ChevronLeft} alt={formatMessage(intlMessages.favoritesView.backButtonAltText)} width={'24px'} />
           {formatMessage(intlMessages.favoritesView.navigationLabel)}
         </Link>
+        <Flex flexGrow={1} gap={'size-100'} marginStart={'size-200'} marginEnd={'size-100'} justifyContent={'space-between'}>
+          <Flex gap={'size-200'}>
+            <ActionButton
+              key="selectAll"
+              onPress={selectAll}
+              isHidden={selectedVariants.length === favorites.length}>
+              <SelectAllIcon />
+              <Text>{formatMessage(intlMessages.favoritesView.selectAllButtonLabel)}</Text>
+            </ActionButton>
+            <ActionButton
+              key="deselectAll"
+              alignSelf={'end'}
+              onPress={deselectAll}
+              isHidden={selectedVariants.length === 0}>
+              <DeselectAllIcon />
+              <Text>{formatMessage(intlMessages.favoritesView.deselectAllButtonLabel)}</Text>
+            </ActionButton>
+          </Flex>
+          <Flex gap={10}>
+            <TooltipTrigger>
+              <ActionButton
+                key="exportCsv"
+                onPress={exportCsv}
+                isDisabled={selectedVariants.length === 0}>
+                <ExportIcon />
+                <Text>{formatMessage(intlMessages.favoritesView.exportToCSVButtonLabel)}</Text>
+              </ActionButton>
+              <Tooltip>{formatMessage(intlMessages.favoritesView.exportToCSVButtonTooltip)}</Tooltip>
+            </TooltipTrigger>
+            <DialogTrigger>
+              <ActionButton
+                key="removeFromFavorites"
+                isDisabled={selectedVariants.length === 0}>
+                <RemoveFavoriteIcon />
+                <Text>{formatMessage(intlMessages.favoritesView.removeSelectedButtonLabel)}</Text>
+              </ActionButton>
+              <AlertDialog
+                title={formatMessage(intlMessages.favoritesView.removeSelectedAlertTitle)}
+                variant="confirmation"
+                onPrimaryAction={removeFromFavorites}
+                primaryActionLabel={formatMessage(intlMessages.favoritesView.removeSelectedAlertDeleteButtonLabel)}
+                cancelLabel={formatMessage(intlMessages.favoritesView.removeSelectedAlertCancelButtonLabel)}>
+                <Text>{formatMessage(intlMessages.favoritesView.removeSelectedAlertMessage)}</Text>
+              </AlertDialog>
+            </DialogTrigger>
+          </Flex>
+        </Flex>
       </Flex>
       <View
         paddingStart={'size-400'}
         paddingEnd={'size-400'}
         height={'calc(100% - 90px)'}
         overflow={'auto'}>
-
         <Grid
           width={'100%'}
           alignItems={'start'}
@@ -60,7 +176,14 @@ export function FavoriteVariantListPanel(props) {
           columns={'repeat(auto-fill, minmax(350px, 1fr))'} gap={'size-200'}>
           {favorites.length === 0
             ? <Text>{formatMessage(intlMessages.favoritesView.noFavoritesMessage)}</Text>
-            : favorites.map((variant) => <FavoriteVariantCard key={variant.id} variant={variant} />)}
+            : favorites.map((variant) => {
+              return <FavoriteVariantCard
+                key={variant.id}
+                variant={variant}
+                isSelected={selectedVariants.includes(variant.id)}
+                setSelected={() => toggleVariantSelection(variant)}
+              />;
+            })}
         </Grid>
       </View>
     </>

@@ -41,3 +41,18 @@ application:
             function: actions/csv/index.js
             web: true
             runtime: nodejs:18
+          test:
+            function: actions/test/index.js
+            web: true
+            runtime: nodejs:18
+            inputs:
+              LOG_LEVEL: debug
+          asynctest:
+            function: actions/asynctest/index.js
+            web: false
+            runtime: nodejs:18
+            limits:
+              timeout: 120000 # in ms (120 sec)
+              memory: 512
+            inputs:
+              LOG_LEVEL: debug

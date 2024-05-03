@@ -88,12 +88,12 @@ export function ContentFragmentExportButton({ variant }) {
       </Button>
       {(close) => (
         <Dialog width={'550px'}>
-          <Heading>{formatMessage(intlMessages.promptResultCard.contentFragmentExportDialogTitle)}</Heading>
+          <Heading>{formatMessage(intlMessages.contentFragmentExportDialog.title)}</Heading>
           <Divider/>
           <Content>
             <Form onSubmit={(e) => e.preventDefault()}>
               <Text marginBottom={10}>
-                {formatMessage(intlMessages.promptResultCard.contentFragmentExportDialogDescription)}
+                {formatMessage(intlMessages.contentFragmentExportDialog.description)}
               </Text>
               <TextField
                 value={variationName}

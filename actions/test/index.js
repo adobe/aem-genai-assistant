@@ -13,6 +13,8 @@
 const openwhisk = require('openwhisk');
 const { Core } = require('@adobe/aio-sdk');
 
+const RETRY_AFTER_DELAY = 10;
+
 async function main(params) {
   const { activationId, LOG_LEVEL: logLevel } = params;
 
@@ -45,7 +47,7 @@ async function main(params) {
     } else {
       const result = await ow.activations.get(activationId);
 
-      logger.debug(`Activation ID result: ${JSON.stringify(result, null, 2)}`);
+      logger.debug(`Activation ID ${activationId} result: ${JSON.stringify(result, null, 2)}`);
 
       return {
         statusCode: 200,
@@ -56,8 +58,15 @@ async function main(params) {
     logger.error(error);
 
     return {
-      statusCode: 500,
+      statusCode: 503,
+      headers: {
+        'Content-Type': 'application/json',
+        'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        Pragma: 'no-cache',
+        'Retry-After': RETRY_AFTER_DELAY,
+      },
       body: {
+        activationId,
         error,
       },
     };

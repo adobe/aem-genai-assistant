@@ -17,6 +17,8 @@ const TIMEOUT = 90000; // in ms (90 sec)
 function main(params) {
   const logger = Core.Logger('asynctest', { level: params.LOG_LEVEL || 'info' });
 
+  const start = new Date();
+
   logger.info('Calling asynctest ...');
 
   logger.debug(`Params: ${JSON.stringify(params, null, 2)}`);
@@ -25,10 +27,14 @@ function main(params) {
 
   return new Promise((resolve, reject) => {
     setTimeout(() => {
+      const end = new Date();
+      const delta = (end.getTime() - start.getTime()) / 1000;
+
       const result = {
         statusCode: 200,
         body: {
           payload: 'Hello from the long running job!',
+          duration: delta,
         },
       };
       resolve(result);

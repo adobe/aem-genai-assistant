@@ -74,8 +74,7 @@ const style = {
       }
     `,
   contentFragmentInfo: css`
-      border: 1px solid #CCE0FF;
-      border-radius: 8px;
+      padding: 10px;
     `,
   copyright: css`
       font-size: 10px;
@@ -105,10 +104,10 @@ function ContentFragmentInfo() {
 
   return (
     <Flex direction={'column'} UNSAFE_className={style.contentFragmentInfo}>
-      <Flex>
+      <>
         <Heading level={4} marginBottom={'size-10'}>{formatMessage(intlMessages.mainSidePanel.contentFragmentHostNameLabel)}</Heading>
         <Text>{aemService.getHost()}</Text>
-      </Flex>
+      </>
       { contentFragment && contentFragment.fragment
         && <>
           <Heading level={4} marginBottom={'size-10'}>{formatMessage(intlMessages.mainSidePanel.contentFragmentTileLabel)}</Heading>

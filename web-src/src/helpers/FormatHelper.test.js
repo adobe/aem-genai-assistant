@@ -79,4 +79,55 @@ describe('newGroupingLabelGenerator', () => {
     label = generator(today);
     expect(label).toBeNull();
   });
+
+  test('returns "Today" if 8 hours ago falls within the same day and returns "Yesterday" otherwise', () => {
+    const datetime = new Date();
+    datetime.setHours(datetime.getHours() - 8);
+    const label = generator(datetime);
+
+    datetime.setHours(0, 0, 0, 0);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (today.getTime() === datetime.getTime()) {
+      expect(label).toEqual('Today');
+    } else {
+      expect(label).toEqual('Yesterday');
+    }
+  });
+
+  test('returns "Today" if 16 hours ago falls within the same day and returns "Yesterday" otherwise', () => {
+    const datetime = new Date();
+    datetime.setHours(datetime.getHours() - 16);
+    const label = generator(datetime);
+
+    datetime.setHours(0, 0, 0, 0);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (today.getTime() === datetime.getTime()) {
+      expect(label).toEqual('Today');
+    } else {
+      expect(label).toEqual('Yesterday');
+    }
+  });
+
+  test('returns "Today" if 23 hours ago falls within the same day and returns "Yesterday" otherwise', () => {
+    const datetime = new Date();
+    datetime.setHours(datetime.getHours() - 23);
+    const label = generator(datetime);
+
+    datetime.setHours(0, 0, 0, 0);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (today.getTime() === datetime.getTime()) {
+      expect(label).toEqual('Today');
+    } else {
+      expect(label).toEqual('Yesterday');
+    }
+  });
 });

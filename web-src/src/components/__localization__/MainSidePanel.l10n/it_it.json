@@ -3,9 +3,9 @@
   "mainSidePanel.copyrightLabel": "Copyright © 2024 Adobe. All rights reserved",
   "mainSidePanel.expandMenuType": "Espandi pannello laterale",
   "mainSidePanel.favoritesMenuItem": "Preferiti",
-  "mainSidePanel.helpAndFaqsMenuItem": "Aiuto e domande frequenti",
-  "mainSidePanel.promptTemplatesMenuItem": "Richiedi modelli",
+  "mainSidePanel.helpAndFaqsMenuItem": "Assistenza e domande frequenti",
+  "mainSidePanel.promptTemplatesMenuItem": "Modelli di prompt",
   "mainSidePanel.recentsMenuItem": "Recenti",
   "mainSidePanel.title": "Genera varianti",
-  "mainSidePanel.userGuidelinesMenuItem": "Linee guida utente"
+  "mainSidePanel.userGuidelinesMenuItem": "Linee guida per l’utente"
 }

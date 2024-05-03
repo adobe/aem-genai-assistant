@@ -10,7 +10,10 @@
  * governing permissions and limitations under the License.
  */
 
+const { Core } = require('@adobe/aio-sdk');
 const InternalError = require('./InternalError.js');
+
+const logger = Core.Logger('GenericAction');
 
 function createResponse(status, body) {
   return {
@@ -34,10 +37,10 @@ function asGenericAction(action) {
       return createSuccessResponse(await action(params));
     } catch (e) {
       if (e instanceof InternalError) {
-        console.error(`Internal error: ${e.message} (${e.status})`);
+        logger.error(`Internal error: ${e.message} (${e.status})`);
         return createErrorResponse(e.status, e.message);
       }
-      console.error(`Unexpected error: ${e.message}`);
+      logger.error(`Unexpected error: ${e.message}`);
       return createErrorResponse(500, e.message ?? 'Internal Server Error');
     }
   };

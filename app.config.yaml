@@ -56,3 +56,5 @@ application:
               memory: 512
             inputs:
               LOG_LEVEL: debug
+  hooks:
+    pre-app-deploy: ./hooks/pre-app-deploy.js

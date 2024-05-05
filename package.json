@@ -33,7 +33,9 @@
     "@react-spectrum/toast": "3.0.0-beta.6",
     "@spectrum-icons/illustrations": "3.6.7",
     "@spectrum-icons/workflow": "4.2.6",
+    "chalk": "^4.0.0",
     "exceljs": "4.4.0",
+    "file-saver": "2.0.5",
     "framer-motion": "10.16.5",
     "localforage": "1.10.0",
     "nearley": "2.20.1",
@@ -73,6 +75,10 @@
     "inquirer": "8.2.6",
     "jest": "29",
     "jest-environment-jsdom": "29.7.0"
+  },
+  "optionalDependencies": {
+    "@adobe/adobe-intl-aladdin": "latest",
+    "@adobe/adobe-intl-harvester": "latest"
   },
   "engines": {
     "node": "^14.18 || ^16.13 || >=18"

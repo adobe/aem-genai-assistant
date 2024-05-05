@@ -314,7 +314,6 @@ export function PromptResultCard({ result, ...props }) {
                     log('prompt:thumbsup', { variant: selectedVariant.id });
                     sampleRUM('genai:prompt:thumbsup', { source: 'ResultCard#onPress' });
                     sendFeedback(true, selectedVariant);
-                    // saveFeedback(selectedVariant);
                   }}>
                   {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon /> : <ThumbsUpOutlineIcon />}
                 </ActionButton>
@@ -329,7 +328,6 @@ export function PromptResultCard({ result, ...props }) {
                     log('prompt:thumbsdown', { variant: selectedVariant.id });
                     sampleRUM('genai:prompt:thumbsdown', { source: 'ResultCard#onPress' });
                     sendFeedback(false, selectedVariant);
-                    // saveFeedback(selectedVariant);
                   }}>
                   {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon /> : <ThumbsDownOutlineIcon />}
                 </ActionButton>

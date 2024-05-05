@@ -94,6 +94,10 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
     const onPublish = (publishParams) => {
       replaceImageFromVariant(variantId, index, publishParams.asset[0].data);
     };
+    const onError = (err) => {
+      console.error('Error:', err.toString());
+      ToastQueue.negative(formatMessage(intlMessages.imageViewer.editImageFailedToast), { timeout: 2000 });
+    };
     const assetData = variantImages[variant.id][index];
 
     const success = await expressSdkService.handleImageOperation(
@@ -109,8 +113,12 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
             dataType: 'base64',
           },
         },
+        modalParams: {
+          loadTimeout: 60000,
+        },
         callbacks: {
           onPublish,
+          onError,
         },
       },
     );

@@ -75,6 +75,10 @@ export function FavoriteVariantCard({
     const onPublish = (publishParams) => {
       addImageToVariant(variant.id, publishParams.asset[0].data);
     };
+    const onError = (err) => {
+      console.error('Error:', err.toString());
+      ToastQueue.negative(formatMessage(intlMessages.favoritesView.generateImageFailedToast), { timeout: 2000 });
+    };
 
     const success = await expressSdkService.handleImageOperation(
       'generateImage',
@@ -85,8 +89,12 @@ export function FavoriteVariantCard({
         inputParams: {
           promptText: imagePrompt,
         },
+        modalParams: {
+          loadTimeout: 30000,
+        },
         callbacks: {
           onPublish,
+          onError,
         },
       },
     );

@@ -13,6 +13,7 @@ const { Core } = require('@adobe/aio-sdk');
 const QueryStringAddon = require('wretch/addons/queryString');
 const { ImsClient } = require('./ImsClient.js');
 const wretch = require('./Network.js');
+const { getAccessToken, getImsOrg } = require('./utils.js');
 
 const logger = Core.Logger('AuthAction');
 
@@ -74,8 +75,8 @@ function asAuthAction(action) {
     const permAuthCode = params.IMS_SERVICE_PERM_AUTH_CODE;
     const productContext = params.IMS_PRODUCT_CONTEXT;
 
-    // Extract the token from the params
-    const { imsOrg, accessToken } = params;
+    const accessToken = getAccessToken(params);
+    const imsOrg = getImsOrg(params);
 
     // Validate the access token
     if (!await isValidToken(imsEndpoint, clientId, accessToken)) {

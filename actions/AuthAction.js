@@ -14,6 +14,7 @@ const LaunchDarkly = require('@launchdarkly/node-server-sdk');
 const QueryStringAddon = require('wretch/addons/queryString');
 const { ImsClient } = require('./ImsClient.js');
 const wretch = require('./Network.js');
+const { checkForAdobeInternalUser } = require('./utils.js');
 
 const logger = Core.Logger('AuthAction');
 
@@ -72,11 +73,6 @@ async function checkForProductContext(profile, org, productContext) {
     logger.error(error);
     return false;
   }
-}
-
-function checkForAdobeInternalUser(profile) {
-  const emailPattern = /.+@[Aa][Dd][Oo][Bb][Ee]([Tt][Ee][Ss][Tt])?\.[Cc][Oo][Mm]$/;
-  return emailPattern.test(profile.email);
 }
 
 async function checkForEarlyProductAccess(toggle, sdkKey, isInternal, org) {

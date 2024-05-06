@@ -18,7 +18,7 @@ jobs:
       env:
         CI: true
       run: |
-        npm ci
+        npm install
         npm run grammar
         npm run prompts
         npm run build

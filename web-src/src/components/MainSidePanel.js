@@ -40,49 +40,49 @@ export const HELP_AND_FAQ_URL = 'https://www.aem.live/docs/sidekick-generate-var
 
 const style = {
   headerText: css`
-      font-size: 18px;
-      font-style: normal;
-      font-weight: 700;
-    `,
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+  `,
   versionTag: css`
-      margin-top: -18px;
-    `,
+    margin-top: -18px;
+  `,
   menu: css`
-      font-size: 14px;
-      font-style: normal;
-      font-weight: 700;
-      list-style: none;
-      padding: 0;
-    `,
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    list-style: none;
+    padding: 0;
+  `,
   menuItem: css`
-      display: flex;
-      padding: 10px 10px;
-      gap: 12px;
-      border-radius: 8px;
-    `,
+    display: flex;
+    padding: 10px 10px;
+    gap: 12px;
+    border-radius: 8px;
+  `,
   subMenuItem: css`
-      display: flex;
-      padding: 10px 10px 10px 50px;
-      gap: 12px;
-      border-radius: 8px;
-      font-weight: normal;
-    `,
+    display: flex;
+    padding: 10px 10px 10px 50px;
+    gap: 12px;
+    border-radius: 8px;
+    font-weight: normal;
+  `,
   menuItemLink: css`
-      color: #222;
-      &:hover {
-        text-decoration: none;
-      }
-    `,
+    color: #222;
+    &:hover {
+      text-decoration: none;
+    }
+  `,
   contentFragmentInfo: css`
       padding: 10px;
     `,
   copyright: css`
-      font-size: 10px;
-      font-style: normal;
-      font-weight: 400;
-      line-height: 18px; /* 180% */
-      padding-left: 10px;
-    `,
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px; /* 180% */
+    padding-left: 10px;
+  `,
 };
 
 const derivedStyles = {

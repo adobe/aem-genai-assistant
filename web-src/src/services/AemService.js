@@ -11,6 +11,7 @@
  */
 
 import { wretch } from '../helpers/NetworkHelper.js';
+import { replaceRuntimeDomainInUrl } from '../helpers/UrlHelper.js';
 
 export class AemService {
   constructor({
@@ -19,7 +20,7 @@ export class AemService {
     accessToken,
   }) {
     this.aemHost = aemHost;
-    this.cfEndpoint = cfEndpoint;
+    this.cfEndpoint = replaceRuntimeDomainInUrl(cfEndpoint);
     this.accessToken = accessToken;
 
     console.debug(`AEM Host: ${this.aemHost}`);
@@ -32,7 +33,7 @@ export class AemService {
 
   async getFragment(fragmentId) {
     console.debug(`Getting fragment ${fragmentId}`);
-    const fragment = await wretch(this.cfEndpoint)
+    return wretch(this.cfEndpoint)
       .post({
         command: 'getFragment',
         aemHost: this.aemHost,
@@ -40,12 +41,11 @@ export class AemService {
         accessToken: this.accessToken,
       })
       .json();
-    return fragment;
   }
 
   async getFragmentModel(modelId) {
     console.debug(`Getting model ${modelId}`);
-    const model = await wretch(this.cfEndpoint)
+    return wretch(this.cfEndpoint)
       .post({
         command: 'getFragmentModel',
         aemHost: this.aemHost,
@@ -53,12 +53,11 @@ export class AemService {
         accessToken: this.accessToken,
       })
       .json();
-    return model;
   }
 
   async createFragmentVariation(fragmentId, variationName, content) {
     console.debug(`Creating variation ${variationName} for fragment ${fragmentId}`);
-    const variation = await wretch(this.cfEndpoint)
+    return wretch(this.cfEndpoint)
       .post({
         command: 'createFragmentVariation',
         aemHost: this.aemHost,
@@ -68,6 +67,5 @@ export class AemService {
         accessToken: this.accessToken,
       })
       .json();
-    return variation;
   }
 }

@@ -16,6 +16,7 @@ jest.mock('@adobe/aio-sdk', () => ({
   Core: {
     Logger: jest.fn().mockReturnValue({
       info: jest.fn().mockReturnThis(),
+      debug: jest.fn().mockReturnThis(),
       error: jest.fn().mockReturnThis(),
     }),
   },
@@ -66,12 +67,13 @@ describe('AemClient', () => {
   it('should create fragment variation', async () => {
     const fragmentId = 'test-fragment-id';
     const variationName = 'test-variation-name';
-    const content = { field1: 'value1', field2: 'value2' };
+    const content = { field1: 'value1', doesNotExistInModel: 'doesNotExistInModel', field2: 'value2' };
 
     const mockJsonPromise = Promise.resolve({
       name: variationName,
       fields: [
         { name: 'field1', values: ['value1'] },
+        { name: 'doesNotExistInContent', values: ['doesNotExistInContent'] },
         { name: 'field2', values: ['value2'] },
       ],
     });
@@ -103,7 +105,7 @@ describe('AemClient', () => {
     });
     expect(mockPatch).toHaveBeenCalledWith([
       { op: 'replace', path: '/fields/0/values', value: ['value1'] },
-      { op: 'replace', path: '/fields/1/values', value: ['value2'] },
+      { op: 'replace', path: '/fields/2/values', value: ['value2'] },
     ]);
   });
 });

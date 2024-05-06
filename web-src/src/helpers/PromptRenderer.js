@@ -41,13 +41,10 @@ function removeEmptyLines(text) {
 
 export function createContentModelPrompt(contentFragmentModel) {
   const fields = contentFragmentModel.fields
+    .filter((field) => field.type === 'text' || field.type === 'long-text')
     .map((field) => {
-      if (field.type !== 'text') {
-        return null;
-      }
       return `\n- ${field.name}: ${field.description ?? field.label ?? ''}`;
-    })
-    .filter((field) => field !== null);
+    });
 
   fields.push('\n- variationName: The name of the variation to be created.');
 

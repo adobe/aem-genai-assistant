@@ -11,41 +11,48 @@
  */
 
 export const intlMessages = {
-  contentFragmentExportDialog: {
-    title: {
-      defaultMessage: 'Export to Content Fragment',
-      id: 'promptResultCard.contentFragmentExportDialogTitle',
-      description: 'Title for Export to Content Fragment dialog',
+  contentFragmentExportButton: {
+    buttonLabel: {
+      defaultMessage: 'Export Variation',
+      id: 'contentFragmentExportButton.buttonLabel',
+      description: 'Label for the button that opens the Export to Content Fragment dialog',
     },
-    description: {
-      defaultMessage: 'Export the selected variation as a new content fragment variation.',
-      id: 'promptResultCard.contentFragmentExportDialogDescription',
-      description: 'Description for Export to Content Fragment dialog',
-    },
-    variationNameFieldLabel: {
-      defaultMessage: 'Name',
-      id: 'promptResultCard.contentFragmentExportDialogExportButtonLabel',
-      description: 'Label for the Export button in Export to Content Fragment dialog',
-    },
-    exportButtonLabel: {
-      defaultMessage: 'Export',
-      id: 'promptResultCard.contentFragmentExportDialogExportButtonLabel',
-      description: 'Label for the Export button in Export to Content Fragment dialog',
-    },
-    exportAndOpenButtonLabel: {
-      defaultMessage: 'Export and Open',
-      id: 'promptResultCard.contentFragmentExportDialogExportAndOpenButtonLabel',
-      description: 'Label for the Export and Open button in Export to Content Fragment dialog',
-    },
-    exportButtonProgressAreaLabel: {
-      defaultMessage: 'Exporting...',
-      id: 'promptResultCard.contentFragmentExportDialogExportButtonProgressAreaLabel',
-      description: 'Label for the Export button in Export to Content Fragment dialog when in progress',
-    },
-    cancelButtonLabel: {
-      defaultMessage: 'Cancel',
-      id: 'promptResultCard.contentFragmentExportDialogCancelButtonLabel',
-      description: 'Label for the Cancel button in Export to Content Fragment dialog',
+    exportDialog: {
+      title: {
+        defaultMessage: 'Export to Content Fragment',
+        id: 'contentFragmentExportButton.exportDialog.title',
+        description: 'Title for Export to Content Fragment dialog',
+      },
+      description: {
+        defaultMessage: 'Export the selected variation as a new content fragment variation.',
+        id: 'contentFragmentExportButton.exportDialog.description',
+        description: 'Description for Export to Content Fragment dialog',
+      },
+      nameFieldLabel: {
+        defaultMessage: 'Name',
+        id: 'contentFragmentExportButton.exportDialog.nameFieldLabel',
+        description: 'Label for the Export button in Export to Content Fragment dialog',
+      },
+      exportButtonLabel: {
+        defaultMessage: 'Export',
+        id: 'contentFragmentExportButton.exportDialog.exportButtonLabel',
+        description: 'Label for the Export button in Export to Content Fragment dialog',
+      },
+      exportAndOpenButtonLabel: {
+        defaultMessage: 'Export and Open',
+        id: 'contentFragmentExportButton.exportDialog.exportAndOpenButtonLabel',
+        description: 'Label for the Export and Open button in Export to Content Fragment dialog',
+      },
+      exportButtonProgressAreaLabel: {
+        defaultMessage: 'Exporting...',
+        id: 'contentFragmentExportButton.exportDialog.exportButtonProgressAreaLabel',
+        description: 'Label for the Export button in Export to Content Fragment dialog when in progress',
+      },
+      cancelButtonLabel: {
+        defaultMessage: 'Cancel',
+        id: 'contentFragmentExportButton.exportDialog.cancelButtonLabel',
+        description: 'Label for the Cancel button in Export to Content Fragment dialog',
+      },
     },
   },
 };

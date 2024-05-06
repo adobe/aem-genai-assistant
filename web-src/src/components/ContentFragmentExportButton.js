@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import { useRecoilValue } from 'recoil';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { v4 as uuid } from 'uuid';
 import { ToastQueue } from '@react-spectrum/toast';
 import {
@@ -44,9 +44,11 @@ export function ContentFragmentExportButton({ variant }) {
 
   const { formatMessage } = useIntl();
 
-  if (variant.content.variationName !== variationName) {
-    setVariationName(variant.content.variationName);
-  }
+  useEffect(() => {
+    if (variant.content.variationName !== variationName) {
+      setVariationName(variant.content.variationName);
+    }
+  }, [variant]);
 
   const handleExportVariation = useCallback((shouldOpenEditor) => {
     if (shouldOpenEditor) {
@@ -56,7 +58,7 @@ export function ContentFragmentExportButton({ variant }) {
     }
     log('prompt:export', { variant: variant.id, as: 'contentFragmentVariation' });
     return aemService.createFragmentVariation(contentFragment.fragment.id, variationName, variant.content)
-      .then((variation) => {
+      .then(() => {
         setExportedVariations((prev) => [...prev, variant.id]);
         if (shouldOpenEditor) {
           const url = `https://experience.adobe.com/?repo=${new URL(aemService.getHost()).host}#/aem/cf/editor/editor${contentFragment.fragment.path}`;
@@ -84,42 +86,42 @@ export function ContentFragmentExportButton({ variant }) {
         style="fill"
         isDisabled={exportedVariations.includes(variant.id)}>
         <CreateVariationIcon marginEnd={'8px'}/>
-        Export Variation
+        {formatMessage(intlMessages.contentFragmentExportButton.buttonLabel)}
       </Button>
       {(close) => (
         <Dialog width={'550px'}>
-          <Heading>{formatMessage(intlMessages.contentFragmentExportDialog.title)}</Heading>
+          <Heading>{formatMessage(intlMessages.contentFragmentExportButton.exportDialog.title)}</Heading>
           <Divider/>
           <Content>
             <Form onSubmit={(e) => e.preventDefault()}>
               <Text marginBottom={10}>
-                {formatMessage(intlMessages.contentFragmentExportDialog.description)}
+                {formatMessage(intlMessages.contentFragmentExportButton.exportDialog.description)}
               </Text>
               <TextField
                 value={variationName}
                 onChange={setVariationName}
-                label={formatMessage(intlMessages.contentFragmentExportDialog.variationNameFieldLabel)}
+                label={formatMessage(intlMessages.contentFragmentExportButton.exportDialog.nameFieldLabel)}
                 width={'100%'}>
               </TextField>
             </Form>
           </Content>
           <ButtonGroup>
-            <Button variant={'secondary'} onPress={close}>{formatMessage(intlMessages.contentFragmentExportDialog.cancelButtonLabel)}</Button>
+            <Button variant={'secondary'} onPress={close}>{formatMessage(intlMessages.contentFragmentExportButton.exportDialog.cancelButtonLabel)}</Button>
             <Button width="size-1250" variant={'cta'} isDisabled={isExportInProgress || isExportAndOpenInProgress}
                     onPress={() => handleExportVariation(false).then(close)}>
               {isExportInProgress
-                ? <ProgressCircle size="S" aria-label={formatMessage(intlMessages.contentFragmentExportDialog.exportButtonProgressAreaLabel)} isIndeterminate right="8px"/>
+                ? <ProgressCircle size="S" aria-label={formatMessage(intlMessages.contentFragmentExportButton.exportDialog.exportButtonProgressAreaLabel)} isIndeterminate right="8px"/>
                 : <CreateVariationIcon marginEnd={'8px'}/>
               }
-              {formatMessage(intlMessages.contentFragmentExportDialog.exportButtonLabel)}
+              {formatMessage(intlMessages.contentFragmentExportButton.exportDialog.exportButtonLabel)}
             </Button>
             <Button width="size-3000" variant={'cta'} isDisabled={isExportInProgress || isExportAndOpenInProgress}
                     onPress={() => handleExportVariation(true).then(close)}>
               {isExportAndOpenInProgress
-                ? <ProgressCircle size="S" aria-label={formatMessage(intlMessages.contentFragmentExportDialog.exportButtonProgressAreaLabel)} isIndeterminate right="8px"/>
+                ? <ProgressCircle size="S" aria-label={formatMessage(intlMessages.contentFragmentExportButton.exportDialog.exportButtonProgressAreaLabel)} isIndeterminate right="8px"/>
                 : <CreateVariationIcon marginEnd={'8px'}/>
               }
-              {formatMessage(intlMessages.contentFragmentExportDialog.exportAndOpenButtonLabel)}
+              {formatMessage(intlMessages.contentFragmentExportButton.exportDialog.exportAndOpenButtonLabel)}
             </Button>
           </ButtonGroup>
         </Dialog>

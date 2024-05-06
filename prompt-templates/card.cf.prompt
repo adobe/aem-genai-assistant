@@ -3,7 +3,7 @@
 {{# Describe the context of where content will be displayed, detailing the     }}
 {{# intended user experience or expected interaction.                          }}
 {{# -------------------------------------------------------------------------- }}
-On our webpage, users are presented with a Card. block which has multiple Card elements. A Card contains summary content and actions about a single subject and linking to its details. They can be used by themselves or within a list. Cards are interactive, and the entire Card container needs to be clickable. Each Card has its own title and description text which should not be presenting detailed information or multiple concepts. Upon interacting with the Card element, {{explain_interaction}}.
+On our webpage, users are presented with a Card. block which has multiple Card elements. A Card contains summary content and actions about a single subject and linking to its details. They can be used by themselves or within a list. Cards are interactive, and the entire Card container needs to be clickable. Upon interacting with the Card element, {{explain_interaction}}.
 
 {{# -------------------------------------------------------------------------- }}
 {{# INTENT                                                                     }}
@@ -24,7 +24,7 @@ Your assigned target audience is {{target_audience}}.
 {{# Describe the content to be generated. We suggest you modify the hypotheses }}
 {{# to fit your needs.                                                         }}
 {{# -------------------------------------------------------------------------- }}
-Your task is to compose {{number_of_variations}} distinct piece(s) of copy for a Card targeted to our target audience that is concise, engaging and persuading the user by selecting any available content provided in double-brackets ([[]]) below. The text you compose will be used to test the hypotheses below in a live experiment. Keep in mind the specific traits of our target audience, considering that users will typically only read the title.
+Your task is to compose {{number_of_variations}} distinct piece(s) of copy for a Card targeted to our target audience that is concise, engaging and persuading the user by selecting any available content provided in double-brackets ([[]]) below. The text you compose will be used to test the hypotheses below in a live experiment.
 
 To accomplish your task, the text you compose must strictly comply with the following requirements listed in triple backticks (```) below and address the following hypotheses:
 - Users will be more likely to engage with the Card if it is personalized to their interests.
@@ -37,7 +37,7 @@ To accomplish your task, the text you compose must strictly comply with the foll
 {{# -------------------------------------------------------------------------- }}
 Requirements: ```
 - The text must be brief, such that:
-* In 20 words (100 characters) or less, compose the ""AI Rationale"" text first and use it to explain your reasoning for composing the copy, before composing the other parts.
+* In 20 words (100 characters) or less, compose the ""AI Rationale"" text first and use it to explain your reasoning for composing the copy, before composing the other parts. Add ""AI Rationale"" as filed to the response.
 - The tone of the text needs to be: {{tone_of_voice}}.
 - Never abbreviate or shorten the name of the product in the text.
 - Compose the text without using the same adjective more than once.

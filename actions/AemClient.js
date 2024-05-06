@@ -9,7 +9,10 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+const { Core } = require('@adobe/aio-sdk');
 const wretch = require('./Network.js');
+
+const logger = Core.Logger('AemClient');
 
 class AemClient {
   constructor(endpoint, accessToken) {
@@ -20,7 +23,7 @@ class AemClient {
   async getFragment(fragmentId) {
     try {
       const url = `${this.endpoint}/adobe/sites/cf/fragments/${fragmentId}`;
-      console.debug('Fetching fragment from', url);
+      logger.debug(`Fetching fragment from ${url}`);
       return wretch(url)
         .headers({
           'X-Adobe-Accept-Unsupported-API': '1',
@@ -36,7 +39,7 @@ class AemClient {
   async getFragmentModel(modelId) {
     try {
       const url = `${this.endpoint}/adobe/sites/cf/models/${modelId}`;
-      console.debug('Fetching model from', url);
+      logger.debug(`Fetching model from ${url}`);
       return wretch(url)
         .headers({
           'X-Adobe-Accept-Unsupported-API': '1',
@@ -52,7 +55,7 @@ class AemClient {
   async createFragmentVariation(fragmentId, variationName, content) {
     try {
       const createVariationUrl = `${this.endpoint}/adobe/sites/cf/fragments/${fragmentId}/variations`;
-      console.debug('Creating variation at', createVariationUrl);
+      logger.debug(`Creating variation at ${createVariationUrl} with name ${variationName}`);
 
       const createVariationResponse = await wretch(createVariationUrl)
         .headers({
@@ -67,13 +70,21 @@ class AemClient {
       const variation = await createVariationResponse.json();
 
       const updateVariationUrl = `${this.endpoint}/adobe/sites/cf/fragments/${fragmentId}/variations/${variation.name}`;
-      console.debug('Updating variation at', updateVariationUrl);
+      logger.debug(`Updating variation at ${updateVariationUrl}`);
 
-      const updates = variation.fields.map((field, index) => ({
-        op: 'replace',
-        path: `/fields/${index}/values`,
-        value: [content[field.name]],
-      }));
+      const updates = variation.fields
+        .map((field, index) => ({
+          index,
+          valueKey: Object.keys(content).find((key) => key.toLowerCase() === field.name.toLowerCase()),
+        }))
+        .filter(({ valueKey }) => valueKey !== undefined)
+        .map(({ field, index, valueKey }) => ({
+          op: 'replace',
+          path: `/fields/${index}/values`,
+          value: [content[valueKey]],
+        }));
+
+      logger.debug(`Updating variation with ${updates.length} fields`);
 
       await wretch(updateVariationUrl, true /* retryOnFailure */)
         .headers({

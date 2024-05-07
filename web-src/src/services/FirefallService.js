@@ -9,24 +9,41 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+
+/* eslint-disable max-classes-per-file */
+
 import { wretch } from '../helpers/NetworkHelper.js';
 import { replaceRuntimeDomainInUrl } from '../helpers/UrlHelper.js';
 
-const poll = async (fn, maxRetries = 30, pollDelay = 10000) => {
-  let retries = 0;
-  while (retries <= maxRetries) {
+const POLL_DELAY = 2; // in seconds
+const MAX_POLLING_TIME = 120; // in seconds
+
+class ActivationNotReadyError extends Error {}
+
+const poll = async (fn, maxPollingTime = MAX_POLLING_TIME, pollDelay = POLL_DELAY, initialPollDelay = POLL_DELAY) => {
+  const wait = async (timeout) => new Promise((resolve) => { setTimeout(resolve, timeout * 1000); });
+
+  if (initialPollDelay) {
+    await wait(initialPollDelay);
+  }
+
+  let pollingTime = 0;
+  while (pollingTime <= maxPollingTime) {
     try {
       // eslint-disable-next-line no-await-in-loop
       return await fn();
     } catch (error) {
-      retries += 1;
-      console.error(error);
+      if (!(error instanceof ActivationNotReadyError)) {
+        throw error;
+      }
+
+      pollingTime += pollDelay;
       // eslint-disable-next-line no-await-in-loop
-      await new Promise((resolve) => { setTimeout(resolve, pollDelay); });
+      await wait(pollDelay);
     }
   }
 
-  throw new Error(`Failed after ${retries} retries.`);
+  throw new Error(`The call did not complete after ${pollingTime} seconds.`);
 };
 
 export class FirefallService {
@@ -62,6 +79,9 @@ export class FirefallService {
           'X-Org-Id': this.imsOrg,
         })
         .get()
+        .error(503, () => {
+          throw new ActivationNotReadyError();
+        })
         .json();
     }).then((data) => {
       const { query_id: queryId, generations } = data;

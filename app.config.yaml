@@ -25,7 +25,6 @@ application:
             inputs:
               FIREFALL_ENDPOINT: $FIREFALL_ENDPOINT
               FIREFALL_API_KEY: $FIREFALL_API_KEY
-              LOG_LEVEL: debug
           feedback:
             function: actions/feedback/index.js
             web: true

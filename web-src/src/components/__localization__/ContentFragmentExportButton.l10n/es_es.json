@@ -1,0 +1,10 @@
+{
+  "contentFragmentExportButton.buttonLabel": "Exportar variación",
+  "contentFragmentExportButton.exportDialog.cancelButtonLabel": "Cancelar",
+  "contentFragmentExportButton.exportDialog.description": "Exporta la variación seleccionada como una nueva variación de fragmento de contenido.",
+  "contentFragmentExportButton.exportDialog.exportAndOpenButtonLabel": "Exportar y abrir",
+  "contentFragmentExportButton.exportDialog.exportButtonLabel": "Exportar",
+  "contentFragmentExportButton.exportDialog.exportButtonProgressAreaLabel": "Exportando...",
+  "contentFragmentExportButton.exportDialog.nameFieldLabel": "Nombre",
+  "contentFragmentExportButton.exportDialog.title": "Exportar a fragmento de contenido"
+}

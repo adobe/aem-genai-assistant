@@ -1,11 +1,17 @@
 {
-  "mainSidePanel.collapseMenuType": "Seitliches Bedienfeld reduzieren",
-  "mainSidePanel.copyrightLabel": "Copyright © Adobe 2024. all rights reserved",
+  "mainSidePanel.collapseMenuType": "Seitliches Bedienfeld schließen",
+  "mainSidePanel.contentFragmentHostNameLabel": "Verbunden mit AEM Instanz:",
+  "mainSidePanel.contentFragmentTileLabel": "Inhaltsfragment:",
+  "mainSidePanel.copyrightLabel": "Copyright © 2024 Adobe. All rights reserved",
   "mainSidePanel.expandMenuType": "Seitliches Bedienfeld erweitern",
   "mainSidePanel.favoritesMenuItem": "Favoriten",
+  "mainSidePanel.favoritesMenuItemAltText": "Favoriten",
   "mainSidePanel.helpAndFaqsMenuItem": "Hilfe und häufig gestellte Fragen",
-  "mainSidePanel.promptTemplatesMenuItem": "Vorlagen für Eingabeaufforderungen",
-  "mainSidePanel.recentsMenuItem": "Letzte",
-  "mainSidePanel.title": "Varianten generieren",
-  "mainSidePanel.userGuidelinesMenuItem": "Benutzerrichtlinien"
+  "mainSidePanel.promptTemplatesMenuItem": "Prompt-Vorlagen",
+  "mainSidePanel.promptTemplatesMenuItemAltText": "Prompt-Vorlagen",
+  "mainSidePanel.recentsMenuItem": "Zuletzt verwendet",
+  "mainSidePanel.recentsMenuItemAltText": "Zuletzt verwendet",
+  "mainSidePanel.title": "Varianten erstellen",
+  "mainSidePanel.userGuidelinesMenuItem": "Benutzerrichtlinien",
+  "mainSidePanel.userGuidelinesMenuItemAltText": "Benutzerrichtlinien"
 }

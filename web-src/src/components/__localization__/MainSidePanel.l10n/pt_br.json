@@ -1,11 +1,17 @@
 {
-  "mainSidePanel.collapseMenuType": "Recolher o painel lateral",
-  "mainSidePanel.copyrightLabel": "Copyright © 2024 Adobe. ALL RIGHTS RESERVED e",
-  "mainSidePanel.expandMenuType": "Expandir o painel lateral",
+  "mainSidePanel.collapseMenuType": "Recolher painel lateral",
+  "mainSidePanel.contentFragmentHostNameLabel": "AEM Conectado a",
+  "mainSidePanel.contentFragmentTileLabel": "Fragmento de conteúdo:",
+  "mainSidePanel.copyrightLabel": "Copyright © 2024 Adobe. All rights reserved",
+  "mainSidePanel.expandMenuType": "Expandir painel lateral",
   "mainSidePanel.favoritesMenuItem": "Favoritos",
-  "mainSidePanel.helpAndFaqsMenuItem": "Ajuda e Perguntas Frequentes",
-  "mainSidePanel.promptTemplatesMenuItem": "Solicitar modelos",
+  "mainSidePanel.favoritesMenuItemAltText": "Favoritos",
+  "mainSidePanel.helpAndFaqsMenuItem": "Ajuda e Perguntas frequentes",
+  "mainSidePanel.promptTemplatesMenuItem": "Modelos de prompt",
+  "mainSidePanel.promptTemplatesMenuItemAltText": "Modelos de prompt",
   "mainSidePanel.recentsMenuItem": "Recentes",
-  "mainSidePanel.title": "Gerar Variações",
-  "mainSidePanel.userGuidelinesMenuItem": "Diretrizes de usuário"
+  "mainSidePanel.recentsMenuItemAltText": "Recentes",
+  "mainSidePanel.title": "Gerar variações",
+  "mainSidePanel.userGuidelinesMenuItem": "Diretrizes do usuário",
+  "mainSidePanel.userGuidelinesMenuItemAltText": "Diretrizes do usuário"
 }

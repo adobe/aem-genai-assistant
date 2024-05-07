@@ -2,8 +2,8 @@
   "app.cancelActionLabel": "キャンセル",
   "app.consentDialogAgreeButtonLabel": "同意する",
   "app.consentDialogCancelButtonLabel": "キャンセル",
-  "app.consentDialogContent": "<p>ジェネレーティブ AI テクノロジーを使用すると、新しい方法で作成できます。</p><p>「同意する」をクリックすることで、同意したことになります {legalTermsLink}、および次の操作をおこないます。</p><ul><li>プロンプト、コンテキスト、補足情報、またはこの機能に対して提供するその他の入力は、(a) ブランディング資料、Web サイトのコンテンツ、データ、このようなデータのスキーマ、テンプレート、またはその他の信頼できるドキュメントを含む特定のコンテキストに結び付けられており、(b) 個人情報（個人情報には、特定の個人にリンクできる内容が含まれています）が含まれていてはなりません。</li><li>この機能からの出力が正確であることを確認し、使用事例に適していることを確認する必要があります。</li></ul>",
-  "app.consentDialogHeading": "生成 AI(Adobeアプリ )",
+  "app.consentDialogContent": "<p>生成 AIテクノロジーを使用した新しい方法で作成できます。</p><p>「同意する」をクリックすると、お客様は{legalTermsLink}と以下の条項に同意したことになります。</p><ul><li>お客様がこの機能に提供するプロンプト、コンテキスト、補足情報、またはその他の入力は、（a）特定のコンテキスト（ブランディング資素材、web サイトのコンテンツ、データ、そのようなデータのスキーマ、テンプレート、またはその他の信頼できるドキュメントなど）に結び付けられている必要があり、（b）いかなる個人情報も含んではなりません（個人情報には、特定の個人に結びつけることができるあらゆるものが含まれます）。</li><li>お客様は、この機能からの出力が正確であることをレビューし、お客様のユースケースに適していることを確認する必要があります。</li></ul>",
+  "app.consentDialogHeading": "アドビアプリの生成 AI",
   "app.deleteActionLabel": "削除",
   "app.deleteActionTitle": "削除",
   "app.deletePromptTemplateButtonLabel": "削除",
@@ -12,7 +12,7 @@
   "app.description": "高品質のコンテンツをすばやく作成して実験で測定したり、サイトに公開したりします。",
   "app.name": "バリエーションを生成",
   "app.noAccessDialogContent": "この製品へのアクセス権がありません",
-  "app.noAccessDialogHeading": "アクセス拒否",
-  "app.noAccessMessage": "「バリエーション<strong>を生成」を使用</strong>するには、生成 AI のユーザーガイドラインに同意する必要があります。{newLine}このページを再読み込みして<strong>同意しま</strong>す。",
+  "app.noAccessDialogHeading": "アクセスが拒否されました",
+  "app.noAccessMessage": "<strong>バリエーションを生成</strong>を使用するには、生成 AI のユーザーガイドラインに同意する必要があります。{newLine}<strong>同意する</strong>には、このページを更新してください。",
   "app.promptTemplatesLibraryPanelLabel": "プロンプトテンプレート"
 }

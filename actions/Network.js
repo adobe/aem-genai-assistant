@@ -11,8 +11,10 @@
  */
 const AbortAddon = require('wretch/addons/abort');
 
-const { WretchError } = require('wretch');
 const wretch = require('wretch');
+const { retry } = require('wretch/middlewares/retry');
+const { WretchError } = require('wretch');
+
 const { Core } = require('@adobe/aio-sdk');
 
 const logger = Core.Logger('FirefallAction');
@@ -26,8 +28,9 @@ function createWretchError(status, message) {
   return error;
 }
 
-function wretchWithOptions(url) {
+function wretchWithOptions(url, shouldRetry = false) {
   return wretch(url)
+    .middlewares(shouldRetry ? [retry()] : [])
     .addon(AbortAddon())
     .resolve((resolver) => resolver.setTimeout(REQUEST_TIMEOUT))
     .resolve((resolver) => {

@@ -1,11 +1,17 @@
 {
   "mainSidePanel.collapseMenuType": "折叠侧面板",
-  "mainSidePanel.copyrightLabel": "版权所有© 2024Adobe。all rights reserved",
+  "mainSidePanel.contentFragmentHostNameLabel": "已连接到AEM实例：",
+  "mainSidePanel.contentFragmentTileLabel": "内容片段：",
+  "mainSidePanel.copyrightLabel": "Copyright © 2024 Adobe. All rights reserved",
   "mainSidePanel.expandMenuType": "展开侧面板",
   "mainSidePanel.favoritesMenuItem": "收藏夹",
-  "mainSidePanel.helpAndFaqsMenuItem": "帮助和常见问题解答",
+  "mainSidePanel.favoritesMenuItemAltText": "收藏夹",
+  "mainSidePanel.helpAndFaqsMenuItem": "帮助和常见问题",
   "mainSidePanel.promptTemplatesMenuItem": "提示模板",
-  "mainSidePanel.recentsMenuItem": "最近",
-  "mainSidePanel.title": "生成变量",
-  "mainSidePanel.userGuidelinesMenuItem": "用户准则"
+  "mainSidePanel.promptTemplatesMenuItemAltText": "提示模板",
+  "mainSidePanel.recentsMenuItem": "最近项目",
+  "mainSidePanel.recentsMenuItemAltText": "最近项目",
+  "mainSidePanel.title": "生成变体",
+  "mainSidePanel.userGuidelinesMenuItem": "用户指南",
+  "mainSidePanel.userGuidelinesMenuItemAltText": "用户指南"
 }

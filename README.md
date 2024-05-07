@@ -31,6 +31,14 @@ See: http://aem.live/docs/sidekick-generate-variations
 ### Deployment
 
 - `npm run deploy` to build and deploy all actions on Runtime and static files to CDN
+- `QA` and `Production` workspaces are protected from accidental local deployments with `pre-app-deploy` App Builder hook
+
+#### Deployment Strategy
+- CI/CD handles the rollout to prod and QA envs.
+- Deployments for testing and checking out PRs should happen locally. Here, the script goes into interactive mode to guide a dev to switch to the correct env:
+  - If the matching AdobeIO workspace exists, it'll deploy there.
+  - If there isn't a matching AdobeIO workspace, it'll help create one.
+  - In both scenarios, a dev can opt out and select a workspace manually from the list.
 
 ### Configuration
 

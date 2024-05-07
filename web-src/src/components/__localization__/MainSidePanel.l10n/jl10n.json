@@ -3,6 +3,14 @@
     "__value__": "Collapse Side Panel",
     "__desc__": "Collapse Side Panel"
   },
+  "mainSidePanel.contentFragmentHostNameLabel": {
+    "__value__": "Connected to AEM instance:",
+    "__desc__": "Label for Content Fragment Host Name"
+  },
+  "mainSidePanel.contentFragmentTileLabel": {
+    "__value__": "Content Fragment:",
+    "__desc__": "Label for Content Fragment Tile"
+  },
   "mainSidePanel.copyrightLabel": {
     "__value__": "Copyright © 2024 Adobe. All rights reserved",
     "__desc__": "Label for Copyright"
@@ -15,6 +23,10 @@
     "__value__": "Favorites",
     "__desc__": "Menu item for Favorites"
   },
+  "mainSidePanel.favoritesMenuItemAltText": {
+    "__value__": "Favorites",
+    "__desc__": "Alt text for Favorites"
+  },
   "mainSidePanel.helpAndFaqsMenuItem": {
     "__value__": "Help & FAQ",
     "__desc__": "Menu item for Help  FAQ"
@@ -23,9 +35,17 @@
     "__value__": "Prompt Templates",
     "__desc__": "Menu item for Prompt Templates"
   },
+  "mainSidePanel.promptTemplatesMenuItemAltText": {
+    "__value__": "Prompt Templates",
+    "__desc__": "Alt text for Prompt Templates"
+  },
   "mainSidePanel.recentsMenuItem": {
     "__value__": "Recents",
     "__desc__": "Menu item for Recents"
+  },
+  "mainSidePanel.recentsMenuItemAltText": {
+    "__value__": "Recents",
+    "__desc__": "Alt text for Recents"
   },
   "mainSidePanel.title": {
     "__value__": "Generate Variations",
@@ -34,5 +54,9 @@
   "mainSidePanel.userGuidelinesMenuItem": {
     "__value__": "User Guidelines",
     "__desc__": "Menu item for User Guidelines"
+  },
+  "mainSidePanel.userGuidelinesMenuItemAltText": {
+    "__value__": "User Guidelines",
+    "__desc__": "Alt text for User Guidelines"
   }
 }

@@ -1,4 +1,7 @@
 {
+  "promptResultCard.contentFragmentExportDialogDescription": "Exportez la variation sélectionnée en tant que nouvelle variation de fragment de contenu.",
+  "promptResultCard.contentFragmentExportDialogExportButtonLabel": "Nom de variation",
+  "promptResultCard.contentFragmentExportDialogTitle": "Exporter vers un fragment de contenu",
   "promptResultCard.copyButtonTooltip": "Copier",
   "promptResultCard.copyTextSuccessToast": "Texte copié dans le presse-papiers !",
   "promptResultCard.createPromptDescription": "Ouvrez « Modifier le prompt » et rédigez votre prompt ou collez des sections d’autres prompts.",

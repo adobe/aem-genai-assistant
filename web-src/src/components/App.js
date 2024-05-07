@@ -35,6 +35,7 @@ import * as messagesPromptResultCard from './__localization__/PromptResultCard.l
 import * as messagesPromptSessionSideView from './__localization__/PromptSessionSideView.l10n';
 import * as messagesFavorites from './__localization__/Favorites.l10n';
 import * as messagesImageViewer from './__localization__/ImageViewer.l10n';
+import * as messagesContentFragmentExportButton from './__localization__/ContentFragmentExportButton.l10n';
 /* eslint-enable import/extensions */
 
 const MAIN_SIDE_PANEL_EXPAND_WIDTH = '330px';
@@ -100,6 +101,7 @@ function getAllMessages(locale) {
     ...messagesPromptSessionSideView[normalizedLocale],
     ...messagesFavorites[normalizedLocale],
     ...messagesImageViewer[normalizedLocale],
+    ...messagesContentFragmentExportButton[normalizedLocale],
   };
 }
 

@@ -1,11 +1,17 @@
 {
   "mainSidePanel.collapseMenuType": "Comprimi pannello laterale",
+  "mainSidePanel.contentFragmentHostNameLabel": "AEM Collegato all'istanza di alimentazione:",
+  "mainSidePanel.contentFragmentTileLabel": "Frammento di contenuto:",
   "mainSidePanel.copyrightLabel": "Copyright © 2024 Adobe. All rights reserved",
   "mainSidePanel.expandMenuType": "Espandi pannello laterale",
   "mainSidePanel.favoritesMenuItem": "Preferiti",
+  "mainSidePanel.favoritesMenuItemAltText": "Preferiti",
   "mainSidePanel.helpAndFaqsMenuItem": "Assistenza e domande frequenti",
   "mainSidePanel.promptTemplatesMenuItem": "Modelli di prompt",
+  "mainSidePanel.promptTemplatesMenuItemAltText": "Modelli di prompt",
   "mainSidePanel.recentsMenuItem": "Recenti",
+  "mainSidePanel.recentsMenuItemAltText": "Recenti",
   "mainSidePanel.title": "Genera varianti",
-  "mainSidePanel.userGuidelinesMenuItem": "Linee guida per l’utente"
+  "mainSidePanel.userGuidelinesMenuItem": "Linee guida per l’utente",
+  "mainSidePanel.userGuidelinesMenuItemAltText": "Linee guida per l’utente"
 }

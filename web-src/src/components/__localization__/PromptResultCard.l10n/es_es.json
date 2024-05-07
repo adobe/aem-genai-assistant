@@ -1,4 +1,7 @@
 {
+  "promptResultCard.contentFragmentExportDialogDescription": "Exporta la variación seleccionada como una nueva variación de fragmento de contenido.",
+  "promptResultCard.contentFragmentExportDialogExportButtonLabel": "Nombre de variación",
+  "promptResultCard.contentFragmentExportDialogTitle": "Exportar a fragmento de contenido",
   "promptResultCard.copyButtonTooltip": "Copiar",
   "promptResultCard.copyTextSuccessToast": "Texto copiado en el portapapeles",
   "promptResultCard.createPromptDescription": "Abra \"Editar indicación\" y escriba la indicación o pegue partes de otras indicaciones.",

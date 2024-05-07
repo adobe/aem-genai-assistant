@@ -151,7 +151,7 @@ export function SavePromptButton(props) {
       ...customPromptTemplates.filter((template) => template.id !== selectedTemplate.id),
       updatedTemplate,
     ];
-    saveTemplates(newCustomPromptTemplates, runMode).then(() => {
+    saveTemplates(newCustomPromptTemplates, runMode, formatMessage).then(() => {
       log('prompt:save:update', {
         id: updatedTemplate.id,
         label: updatedTemplate.label,

@@ -33,6 +33,7 @@ import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { MainSidePanelType, mainSidePanelTypeState } from '../state/MainSidePanelTypeState.js';
 import { ClickableImage } from './ClickableImage.js';
+import { newGroupingLabelGenerator } from '../helpers/FormatHelper.js';
 import { RUN_MODE_CF, useApplicationContext } from './ApplicationProvider.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
 
@@ -59,6 +60,14 @@ const style = {
     padding: 10px 10px;
     gap: 12px;
     border-radius: 8px;
+  `,
+  subMenuHeader: css`
+    display: block;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 600;
+    color: #656565;
+    padding: 15px 10px 6px 43px;
   `,
   subMenuItem: css`
     display: flex;
@@ -128,6 +137,8 @@ export function MainSidePanel(props) {
 
   const { formatMessage } = useIntl();
 
+  const groupingLabelGenerator = newGroupingLabelGenerator();
+
   const handleRecent = useCallback((session) => {
     setCurrentSession(session);
     setViewType(ViewType.CurrentSession);
@@ -190,12 +201,18 @@ export function MainSidePanel(props) {
               && <Text>{formatMessage(intlMessages.mainSidePanel.recentsMenuItem)}</Text>}
             </li>
             {(mainSidePanelType === MainSidePanelType.Expanded && sessions && sessions.length > 0)
-              && sessions.map((session) => (
-                // eslint-disable-next-line max-len
-                <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyles.clickedSubMenuItem : style.subMenuItem} key={session.id}>
-                  <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => handleRecent(session)}>{session.name}</Link>
-                </li>
-              ))}
+              && sessions.toReversed().map((session) => {
+                const sessionDate = new Date(session.name);
+                const groupingLabel = groupingLabelGenerator(sessionDate);
+
+                return (<>
+                  {groupingLabel && <Text UNSAFE_className={style.subMenuHeader}>{groupingLabel}</Text>}
+                  {/* eslint-disable-next-line max-len */}
+                  <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyles.clickedSubMenuItem : style.subMenuItem} key={session.id}>
+                    <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => handleRecent(session)}>{session.name}</Link>
+                  </li>
+                </>);
+              })}
           </ul>
         </Flex>
       }

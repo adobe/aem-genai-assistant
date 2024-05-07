@@ -1,11 +1,17 @@
 {
   "mainSidePanel.collapseMenuType": "折りたたみ式サイドパネル",
+  "mainSidePanel.contentFragmentHostNameLabel": "接続したAEMインスタンス：",
+  "mainSidePanel.contentFragmentTileLabel": "コンテンツフラグメント：",
   "mainSidePanel.copyrightLabel": "Copyright © 2024 Adobe. All rights reserved",
   "mainSidePanel.expandMenuType": "サイドパネルを展開",
   "mainSidePanel.favoritesMenuItem": "お気に入り",
+  "mainSidePanel.favoritesMenuItemAltText": "お気に入り",
   "mainSidePanel.helpAndFaqsMenuItem": "ヘルプと FAQ",
   "mainSidePanel.promptTemplatesMenuItem": "プロンプトテンプレート",
+  "mainSidePanel.promptTemplatesMenuItemAltText": "プロンプトテンプレート",
   "mainSidePanel.recentsMenuItem": "最近使用したもの",
+  "mainSidePanel.recentsMenuItemAltText": "最近使用したもの",
   "mainSidePanel.title": "バリエーションを生成",
-  "mainSidePanel.userGuidelinesMenuItem": "ユーザーガイドライン"
+  "mainSidePanel.userGuidelinesMenuItem": "ユーザーガイドライン",
+  "mainSidePanel.userGuidelinesMenuItemAltText": "ユーザーガイドライン"
 }

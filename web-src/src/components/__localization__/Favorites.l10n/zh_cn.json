@@ -1,9 +1,19 @@
 {
+  "favoritesView.backButtonAltText": "返回到所有提示",
   "favoritesView.copyButtonTooltip": "复制",
   "favoritesView.copyTextSuccessToast": "已将文本复制到剪贴板！",
+  "favoritesView.deselectAllButtonLabel": "取消全选",
+  "favoritesView.exportToCSVButtonLabel": "导出到CSV",
+  "favoritesView.exportToCSVButtonTooltip": "将选定变体（仅限文本内容）导出到CSV文件。",
   "favoritesView.generateImageButtonLabel": "生成图像",
   "favoritesView.generateImageFailedToast": "出现错误。请重试！",
   "favoritesView.navigationLabel": "提示模板",
   "favoritesView.noFavoritesMessage": "尚未有收藏夹",
-  "favoritesView.removeButtonTooltip": "删除"
+  "favoritesView.removeButtonTooltip": "删除",
+  "favoritesView.removeFromFavoritesAlertCancelButtonLabel": "取消",
+  "favoritesView.removeFromFavoritesAlertDeleteButtonLabel": "删除",
+  "favoritesView.removeFromFavoritesAlertMessage": "是否确实要从收藏夹中删除选定的项目？",
+  "favoritesView.removeFromFavoritesAlertTitle": "删除所选项目？",
+  "favoritesView.removeFromFavoritesButtonLabel": "删除",
+  "favoritesView.selectAllButtonLabel": "全选"
 }

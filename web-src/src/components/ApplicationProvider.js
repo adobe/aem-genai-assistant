@@ -18,24 +18,48 @@ import { ExpressSdkService } from '../services/ExpressSdkService.js';
 import actions from '../config.json';
 import { useShellContext } from './ShellProvider.js';
 import {
-  customPromptTemplatesState,
-  readCustomPromptTemplates,
+  bundledPromptTemplatesState,
+  customPromptTemplatesState, parseBundledPromptTemplates, readCustomPromptTemplates,
 } from '../state/PromptTemplatesState.js';
 import { TargetService } from '../services/TargetService.js';
 import { CsvParserService } from '../services/CsvParserService.js';
+import { AemService } from '../services/AemService.js';
+import { contentFragmentState } from '../state/ContentFragmentState.js';
 
-const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
+export const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
+
+export const RUN_MODE_DEFAULT = 'default';
+export const RUN_MODE_CF = 'content-fragments';
 
 const COMPLETE_ACTION = 'complete';
 const FEEDBACK_ACTION = 'feedback';
 const TARGET_ACTION = 'target';
 const CSV_PARSER_ACTION = 'csv';
+const CF_ACTION = 'cf';
 
 export const ApplicationContext = React.createContext(undefined);
 
+export function parseUrlParameters() {
+  const searchParams = new URLSearchParams(window.location.search);
+  return {
+    aemHost: `https://${searchParams.get('aemHost')}`,
+    fragmentId: searchParams.get('fragmentId'),
+  };
+}
+
+function createAemService(aemHost, accessToken) {
+  return new AemService({
+    aemHost,
+    cfEndpoint: actions[CF_ACTION],
+    accessToken,
+  });
+}
+
 export const ApplicationProvider = ({ children }) => {
   const { user, done } = useShellContext();
+  const setBundledPromptTemplates = useSetRecoilState(bundledPromptTemplatesState);
   const setCustomPromptTemplates = useSetRecoilState(customPromptTemplatesState);
+  const setContentFragment = useSetRecoilState(contentFragmentState);
   const [applicationContext, setApplicationContext] = useState(undefined);
 
   useEffect(() => {
@@ -43,16 +67,43 @@ export const ApplicationProvider = ({ children }) => {
       return;
     }
 
-    console.debug('Reading custom prompt templates...');
-    readCustomPromptTemplates().then((templates) => {
-      setCustomPromptTemplates(templates);
-    });
-
     const createApplicationContext = async () => {
       console.debug('Creating application context...');
 
+      const { aemHost, fragmentId } = parseUrlParameters();
+      console.log(`AEM Host: ${aemHost}`);
+      console.log(`Fragment ID: ${fragmentId}`);
+
+      const runMode = fragmentId ? RUN_MODE_CF : RUN_MODE_DEFAULT;
+      console.log(`Run Mode: ${runMode}`);
+
+      console.debug('Reading bundled prompt templates...');
+      setBundledPromptTemplates(parseBundledPromptTemplates(runMode));
+
+      console.debug('Reading custom prompt templates...');
+      readCustomPromptTemplates(runMode, RUN_MODE_DEFAULT).then((templates) => {
+        setCustomPromptTemplates(templates);
+      });
+
+      const aemService = aemHost ? createAemService(aemHost, user.imsToken) : undefined;
+
+      if (aemService && fragmentId) {
+        try {
+          const fragment = await aemService.getFragment(fragmentId);
+          const model = await aemService.getFragmentModel(fragment.model.id);
+          setContentFragment({
+            fragment,
+            model,
+          });
+        } catch (e) {
+          throw new Error(`Failed to get fragment: ${e.message}`);
+        }
+      }
+
       return {
         appVersion: APP_VERSION,
+
+        runMode,
 
         firefallService: new FirefallService({
           completeEndpoint: actions[COMPLETE_ACTION],
@@ -77,6 +128,8 @@ export const ApplicationProvider = ({ children }) => {
           userId: user.id,
           accessToken: user.imsToken,
         }),
+
+        aemService,
       };
     };
 

@@ -21,7 +21,7 @@ import { useIntl } from 'react-intl';
 import { intlMessages } from './PromptSessionSideView.l10n.js';
 import GenAIIcon from '../icons/GenAIIcon.js';
 import { renderPrompt } from '../helpers/PromptRenderer.js';
-import { useApplicationContext } from './ApplicationProvider.js';
+import { RUN_MODE_CF, useApplicationContext } from './ApplicationProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { temperatureState } from '../state/TemperatureState.js';
 import { resultsState } from '../state/ResultsState.js';
@@ -32,12 +32,13 @@ import { useSaveResults } from '../state/SaveResultsHook.js';
 import { createVariants } from '../helpers/ResultsParser.js';
 import { log } from '../helpers/MetricsHelper.js';
 import { sampleRUM } from '../rum.js';
+import { contentFragmentState } from '../state/ContentFragmentState.js';
 
 export function GenerateButton() {
-  const { firefallService } = useApplicationContext();
-
+  const { runMode, firefallService } = useApplicationContext();
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
+  const contentFragment = useRecoilValue(contentFragmentState);
   const temperature = useRecoilValue(temperatureState);
 
   const setResults = useSetRecoilState(resultsState);
@@ -49,7 +50,7 @@ export function GenerateButton() {
 
   const generateResults = useCallback(async () => {
     try {
-      const finalPrompt = renderPrompt(prompt, parameters);
+      const finalPrompt = renderPrompt(prompt, parameters, contentFragment?.model);
       const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
       const variants = createVariants(uuid, response);
       setResults((results) => [...results, {
@@ -60,7 +61,9 @@ export function GenerateButton() {
         parameters,
         temperature,
       }]);
-      await saveResults();
+      if (runMode !== RUN_MODE_CF) {
+        await saveResults();
+      }
       log('prompt:generate:variations:generated', { variations: variants.length, queryId });
       sampleRUM('genai:prompt:generatedvariations', { source: 'GenerateButton#generateResults', target: variants.length });
     } catch (error) {

@@ -1,9 +1,19 @@
 {
+  "favoritesView.backButtonAltText": "모든 프롬프트로 돌아가기",
   "favoritesView.copyButtonTooltip": "복사",
   "favoritesView.copyTextSuccessToast": "텍스트가 클립보드에 복사되었습니다.",
+  "favoritesView.deselectAllButtonLabel": "모두 선택 취소",
+  "favoritesView.exportToCSVButtonLabel": "CSV로 내보내기",
+  "favoritesView.exportToCSVButtonTooltip": "선택한 변형(텍스트 컨텐츠만)을 CSV 파일로 내보냅니다.",
   "favoritesView.generateImageButtonLabel": "이미지 생성",
   "favoritesView.generateImageFailedToast": "문제가 발생했습니다. 다시 시도해 주십시오.",
   "favoritesView.navigationLabel": "프롬프트 템플릿",
   "favoritesView.noFavoritesMessage": "아직 즐겨찾기 항목이 없습니다.",
-  "favoritesView.removeButtonTooltip": "삭제"
+  "favoritesView.removeButtonTooltip": "삭제",
+  "favoritesView.removeFromFavoritesAlertCancelButtonLabel": "취소",
+  "favoritesView.removeFromFavoritesAlertDeleteButtonLabel": "삭제",
+  "favoritesView.removeFromFavoritesAlertMessage": "즐겨찾기에서 선택한 항목을 삭제하시겠습니까?",
+  "favoritesView.removeFromFavoritesAlertTitle": "선택한 항목을 삭제하시겠습니까?",
+  "favoritesView.removeFromFavoritesButtonLabel": "삭제",
+  "favoritesView.selectAllButtonLabel": "모두 선택"
 }

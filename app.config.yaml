@@ -45,5 +45,9 @@ application:
             function: actions/csv/index.js
             web: true
             runtime: nodejs:18
+          cf:
+            function: actions/cf/index.js
+            web: true
+            runtime: nodejs:18
   hooks:
     pre-app-deploy: ./hooks/pre-app-deploy.js

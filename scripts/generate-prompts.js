@@ -43,29 +43,6 @@ const saveBundledPromptTemplates = (bundledPromptTemplates) => {
   fs.writeFileSync(PROMPT_TEMPLATES_JSON_FILE, JSON.stringify(bundledPromptTemplates, null, 4));
 };
 
-const formatPromptKeys = (prompt) => {
-  Object.keys(prompt).forEach((key) => {
-    const newKey = key.charAt(0).toUpperCase() + key.slice(1);
-    prompt[newKey] = prompt[key];
-    delete prompt[key];
-  });
-};
-
-const createBundledPromptTemplates = (promptIndex) => {
-  const bundledPromptTemplates = {
-    total: 0,
-    offset: 0,
-    limit: 0,
-    data: [],
-    ':type': 'sheet',
-  };
-
-  bundledPromptTemplates.limit = promptIndex.length;
-  bundledPromptTemplates.total = promptIndex.length;
-
-  return bundledPromptTemplates;
-};
-
 const startProgram = async () => {
   console.log('- Prompt Generator Starting...');
   try {
@@ -76,25 +53,29 @@ const startProgram = async () => {
 
     // Create or update the bundled prompt templates file
     console.log(`\t* Creating Bundled Prompt Templates File @ ${PROMPT_TEMPLATES_JSON_FILE}`);
-    const bundledPromptTemplates = createBundledPromptTemplates(sortedPromptIndex);
+    const bundledPromptTemplates = [];
 
     // Add the prompt templates to the target files
     for await (const prompt of promptIndex) {
-      console.log(`\t\t* Adding ${prompt.label}`);
+      const {
+        label, description, file, modes,
+      } = prompt;
+      console.log(`\t\t* Adding ${label}`);
+
       // Try to read the prompt template file
       // If it fails, log the error and continue
       try {
-        const promptTemplate = fs.readFileSync(path.join(PROMPT_TEMPLATES_DIR, prompt.file), 'utf8');
+        const promptTemplate = fs.readFileSync(path.join(PROMPT_TEMPLATES_DIR, file), 'utf8');
         const branchName = await getCurrentGitBranch();
-        prompt.template = promptTemplate.replace(/GIT_BRANCH/g, branchName);
-        delete prompt.file;
+        const template = promptTemplate.replace(/GIT_BRANCH/g, branchName);
 
         // Add the prompt to the bundled prompt templates file
-        formatPromptKeys(prompt);
-        bundledPromptTemplates.data.push(prompt);
+        bundledPromptTemplates.push({
+          label, description, template, modes,
+        });
       } catch (err) {
         console.log(`\t\t\t! Error: ${err}`);
-        console.log(`\t\t\t! Skipping ${prompt.label}`);
+        console.log(`\t\t\t! Skipping ${label}`);
       }
     }
 

@@ -24,7 +24,7 @@ import { MainSidePanel } from './MainSidePanel.js';
 import { PromptSessionPanel } from './PromptSessionPanel.js';
 import { PromptTemplateLibraryPanel } from './PromptTemplateLibraryPanel.js';
 import { viewTypeState, ViewType } from '../state/ViewType.js';
-import { mainSidePanelState, MainSidePanelType } from '../state/MainSidePanelState.js';
+import { mainSidePanelTypeState, MainSidePanelType } from '../state/MainSidePanelTypeState.js';
 import { FavoriteVariantListPanel } from './FavoriteVariantListPanel.js';
 import { useShellContext } from './ShellProvider.js';
 
@@ -35,6 +35,7 @@ import * as messagesPromptResultCard from './__localization__/PromptResultCard.l
 import * as messagesPromptSessionSideView from './__localization__/PromptSessionSideView.l10n';
 import * as messagesFavorites from './__localization__/Favorites.l10n';
 import * as messagesImageViewer from './__localization__/ImageViewer.l10n';
+import * as messagesContentFragmentExportButton from './__localization__/ContentFragmentExportButton.l10n';
 /* eslint-enable import/extensions */
 
 const MAIN_SIDE_PANEL_EXPAND_WIDTH = '330px';
@@ -100,6 +101,7 @@ function getAllMessages(locale) {
     ...messagesPromptSessionSideView[normalizedLocale],
     ...messagesFavorites[normalizedLocale],
     ...messagesImageViewer[normalizedLocale],
+    ...messagesContentFragmentExportButton[normalizedLocale],
   };
 }
 
@@ -109,7 +111,7 @@ export function App() {
   const { user } = useShellContext();
 
   const viewType = useRecoilValue(viewTypeState);
-  const [mainSidePanel, setMainSidePanelState] = useRecoilState(mainSidePanelState);
+  const [mainSidePanel, setMainSidePanelState] = useRecoilState(mainSidePanelTypeState);
 
   React.useEffect(() => {
     const handleResize = () => {

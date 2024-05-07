@@ -39,6 +39,22 @@ function removeEmptyLines(text) {
   return text.replace(/\n\s*\n/g, '\n\n').trim();
 }
 
-export function renderPrompt(prompt, placeholders) {
-  return removeEmptyLines(resolvePlaceholders(prompt, placeholders));
+export function createContentModelPrompt(contentFragmentModel) {
+  const fields = contentFragmentModel.fields
+    .filter((field) => field.type === 'text' || field.type === 'long-text')
+    .map((field) => {
+      return `\n- ${field.name}: ${field.description ?? field.label ?? ''}`;
+    });
+
+  fields.push('\n- variationName: The name assigned to the variation that should accurately represent the content\'s intent.');
+
+  return '\n\nAdditional requirements: ```'
+    + '\nThe response MUST be formatted as a JSON array.'
+    + `\nEach element of MUST be a JSON object that includes the following fields: ${fields}`
+    + '\n```';
+}
+
+export function renderPrompt(prompt, placeholders, contentFragmentModel) {
+  const extraPrompt = contentFragmentModel ? createContentModelPrompt(contentFragmentModel) : '';
+  return removeEmptyLines(resolvePlaceholders(prompt, placeholders)) + extraPrompt;
 }

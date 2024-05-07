@@ -1,9 +1,19 @@
 {
+  "favoritesView.backButtonAltText": "Back to all prompts",
   "favoritesView.copyButtonTooltip": "Copy",
   "favoritesView.copyTextSuccessToast": "Copied text to clipboard!",
+  "favoritesView.deselectAllButtonLabel": "Deselect All",
+  "favoritesView.exportToCSVButtonLabel": "Export to CSV",
+  "favoritesView.exportToCSVButtonTooltip": "Export the selected variants (text content only) to a CSV file.",
   "favoritesView.generateImageButtonLabel": "Generate Image",
   "favoritesView.generateImageFailedToast": "Something went wrong. Please try again!",
   "favoritesView.navigationLabel": "Prompt Templates",
   "favoritesView.noFavoritesMessage": "No favorites yet",
-  "favoritesView.removeButtonTooltip": "Delete"
+  "favoritesView.removeButtonTooltip": "Delete",
+  "favoritesView.removeFromFavoritesAlertCancelButtonLabel": "Cancel",
+  "favoritesView.removeFromFavoritesAlertDeleteButtonLabel": "Delete",
+  "favoritesView.removeFromFavoritesAlertMessage": "Are you sure you want to delete the selected items from your favorites?",
+  "favoritesView.removeFromFavoritesAlertTitle": "Delete selected items?",
+  "favoritesView.removeFromFavoritesButtonLabel": "Delete",
+  "favoritesView.selectAllButtonLabel": "Select All"
 }

@@ -115,7 +115,7 @@ export function ContentFragmentExportButton({ variant }) {
               }
               {formatMessage(intlMessages.contentFragmentExportButton.exportDialog.exportButtonLabel)}
             </Button>
-            <Button width="size-2500" variant={'cta'} isDisabled={isExportInProgress || isExportAndOpenInProgress}
+            <Button width="size-2400" variant={'cta'} isDisabled={isExportInProgress || isExportAndOpenInProgress}
                     onPress={() => handleExportVariation(true).then(close)}>
               {isExportAndOpenInProgress
                 ? <ProgressCircle size="S" aria-label={formatMessage(intlMessages.contentFragmentExportButton.exportDialog.exportButtonProgressAreaLabel)} isIndeterminate right="8px"/>

@@ -28,7 +28,7 @@ describe('createContentModelPrompt', () => {
       + '\nEach element of MUST be a JSON object that includes the following fields: '
       + '\n- field1: desc1,'
       + '\n- field2: label2,'
-      + '\n- variationName: The name of the variation to be created.'
+      + '\n- variationName: The name assigned to the variation that should accurately represent the content\'s intent.'
       + '\n```';
 
     expect(createContentModelPrompt(contentFragmentModel)).toEqual(expectedOutput);

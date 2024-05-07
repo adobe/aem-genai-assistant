@@ -41,6 +41,7 @@ import {
 import { useShellContext } from './ShellProvider.js';
 import { lastUsedPromptTemplateIdState } from '../state/LastUsedPromptTemplateIdState.js';
 import { log } from '../helpers/MetricsHelper.js';
+import { useApplicationContext } from './ApplicationProvider.js';
 
 const DEBOUNCE_DELAY = 800;
 
@@ -55,8 +56,8 @@ function debounce(callback, wait) {
   };
 }
 
-function saveTemplates(customPromptTemplates, formatMessage) {
-  return writeCustomPromptTemplates(customPromptTemplates).then(() => {
+function saveTemplates(customPromptTemplates, runMode, formatMessage) {
+  return writeCustomPromptTemplates(customPromptTemplates, runMode).then(() => {
     ToastQueue.positive(formatMessage(intlMessages.promptSessionSideView.savePromptSuccessToast), { timeout: 1000 });
   }).catch((error) => {
     ToastQueue.negative(formatMessage(intlMessages.promptSessionSideView.savePromptFailureToast), { timeout: 1000 });
@@ -65,6 +66,7 @@ function saveTemplates(customPromptTemplates, formatMessage) {
 }
 
 export function SavePromptButton(props) {
+  const { runMode } = useApplicationContext();
   const { user: { name } } = useShellContext();
 
   const [customPromptTemplates, setCustomPromptTemplates] = useRecoilState(customPromptTemplatesState);
@@ -118,7 +120,7 @@ export function SavePromptButton(props) {
       lastModifiedBy: name,
     };
     const newCustomPromptTemplates = [...customPromptTemplates, newTemplate];
-    saveTemplates(newCustomPromptTemplates, formatMessage).then(() => {
+    saveTemplates(newCustomPromptTemplates, runMode, formatMessage).then(() => {
       log('prompt:save:create', {
         id: newTemplate.id,
         label: newTemplate.label,
@@ -149,7 +151,7 @@ export function SavePromptButton(props) {
       ...customPromptTemplates.filter((template) => template.id !== selectedTemplate.id),
       updatedTemplate,
     ];
-    saveTemplates(newCustomPromptTemplates).then(() => {
+    saveTemplates(newCustomPromptTemplates, runMode, formatMessage).then(() => {
       log('prompt:save:update', {
         id: updatedTemplate.id,
         label: updatedTemplate.label,

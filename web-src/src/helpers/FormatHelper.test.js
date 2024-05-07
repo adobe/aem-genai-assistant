@@ -9,7 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { newGroupingLabelGenerator } from './FormatHelper.js';
+import { newGroupingLabelGenerator, formatIdentifier } from './FormatHelper.js';
 
 describe('newGroupingLabelGenerator', () => {
   let generator;
@@ -129,5 +129,25 @@ describe('newGroupingLabelGenerator', () => {
     } else {
       expect(label).toEqual('Yesterday');
     }
+  });
+});
+
+describe('formatIdentifier', () => {
+  it('should format the identifier correctly', () => {
+    const input = 'testIdentifier';
+    const expectedOutput = 'Test identifier';
+    expect(formatIdentifier(input)).toEqual(expectedOutput);
+  });
+
+  it('should handle identifiers with hyphens and underscores', () => {
+    const input = 'test-identifier_with_mixed-format';
+    const expectedOutput = 'Test identifier with mixed format';
+    expect(formatIdentifier(input)).toEqual(expectedOutput);
+  });
+
+  it('should handle identifiers with camelCase', () => {
+    const input = 'testIdentifierWithCamelCase';
+    const expectedOutput = 'Test identifier with camel case';
+    expect(formatIdentifier(input)).toEqual(expectedOutput);
   });
 });

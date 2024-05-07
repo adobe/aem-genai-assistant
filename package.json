@@ -77,10 +77,6 @@
     "jest": "29",
     "jest-environment-jsdom": "29.7.0"
   },
-  "optionalDependencies": {
-    "@adobe/adobe-intl-aladdin": "latest",
-    "@adobe/adobe-intl-harvester": "latest"
-  },
   "engines": {
     "node": "^14.18 || ^16.13 || >=18"
   },

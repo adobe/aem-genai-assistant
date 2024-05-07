@@ -12,6 +12,23 @@
 import { wretch } from '../helpers/NetworkHelper.js';
 import { replaceRuntimeDomainInUrl } from '../helpers/UrlHelper.js';
 
+const poll = async (fn, maxRetries = 30, pollDelay = 10000) => {
+  let retries = 0;
+  while (retries <= maxRetries) {
+    try {
+      // eslint-disable-next-line no-await-in-loop
+      return await fn();
+    } catch (error) {
+      retries += 1;
+      console.error(error);
+      // eslint-disable-next-line no-await-in-loop
+      await new Promise((resolve) => { setTimeout(resolve, pollDelay); });
+    }
+  }
+
+  throw new Error(`Failed after ${retries} retries.`);
+};
+
 export class FirefallService {
   constructor({
     completeEndpoint,
@@ -29,8 +46,7 @@ export class FirefallService {
   }
 
   async complete(prompt, temperature) {
-    /* eslint-disable-next-line camelcase */
-    const { query_id, generations } = await wretch(this.completeEndpoint)
+    const { activationId } = await wretch(this.completeEndpoint)
       .post({
         prompt,
         temperature,
@@ -38,11 +54,22 @@ export class FirefallService {
         accessToken: this.accessToken,
       })
       .json();
-    return {
-      /* eslint-disable-next-line camelcase */
-      queryId: query_id,
-      response: generations[0][0].message.content,
-    };
+
+    return poll(async () => {
+      return wretch(`${this.completeEndpoint}?activationId=${activationId}`)
+        .headers({
+          Authorization: `Bearer ${this.accessToken}`,
+          'X-Org-Id': this.imsOrg,
+        })
+        .get()
+        .json();
+    }).then((data) => {
+      const { query_id: queryId, generations } = data;
+      return {
+        queryId,
+        response: generations[0][0].message.content,
+      };
+    });
   }
 
   async feedback(queryId, sentiment) {

@@ -31,8 +31,14 @@ function createErrorResponse(status, message) {
   return createResponse(status, { error: message });
 }
 
+function getActionNameAndVersion() {
+  const { __OW_ACTION_NAME, __OW_ACTION_VERSION } = process.env;
+  return `${__OW_ACTION_NAME}:${__OW_ACTION_VERSION}`;
+}
+
 function asGenericAction(action) {
   return async (params) => {
+    const startTime = Date.now();
     try {
       return createSuccessResponse(await action(params));
     } catch (e) {
@@ -42,6 +48,8 @@ function asGenericAction(action) {
       }
       logger.error(`Unexpected error: ${e.message}`);
       return createErrorResponse(500, e.message ?? 'Internal Server Error');
+    } finally {
+      logger.info(`Execution time for action ${getActionNameAndVersion()}: ${Date.now() - startTime}ms`);
     }
   };
 }

@@ -49,6 +49,10 @@ application:
             function: actions/csv/index.js
             web: true
             runtime: nodejs:18
+          cf:
+            function: actions/cf/index.js
+            web: true
+            runtime: nodejs:18
           test:
             function: actions/test/index.js
             web: true

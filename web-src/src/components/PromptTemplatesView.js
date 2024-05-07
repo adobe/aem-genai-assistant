@@ -29,6 +29,7 @@ import { lastUsedPromptTemplateIdState } from '../state/LastUsedPromptTemplateId
 import { log } from '../helpers/MetricsHelper.js';
 import { sampleRUM } from '../rum.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
+import { useApplicationContext } from './ApplicationProvider.js';
 
 export function createNewSession(label, description, prompt) {
   const timestamp = Date.now();
@@ -44,6 +45,8 @@ export function createNewSession(label, description, prompt) {
 }
 
 export function PromptTemplatesView() {
+  const { runMode } = useApplicationContext();
+
   const promptTemplates = useRecoilValue(promptTemplatesState);
 
   const setCurrentSession = useSetRecoilState(sessionState);
@@ -77,7 +80,7 @@ export function PromptTemplatesView() {
   const handleDelete = useCallback(() => {
     const newCustomPromptTemplates = customPromptTemplates
       .filter((template) => template.id !== templateToDelete.id);
-    return writeCustomPromptTemplates(newCustomPromptTemplates)
+    return writeCustomPromptTemplates(newCustomPromptTemplates, runMode)
       .then(() => {
         setTemplateToDelete(null);
         setCustomPromptTemplates(newCustomPromptTemplates);

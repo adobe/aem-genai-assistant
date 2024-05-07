@@ -16,7 +16,7 @@ export const MainSidePanelType = {
   Expanded: 'expanded',
 };
 
-export const mainSidePanelState = atom({
-  key: 'mainSidePanelState',
+export const mainSidePanelTypeState = atom({
+  key: 'mainSidePanelTypeState',
   default: MainSidePanelType.Expanded,
 });

@@ -10,17 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import { toText, toHTML } from './PromptExporter.js';
-
-describe('toHTML', () => {
-  test('returns html: prompt result is an key/value pair', () => {
-    const promptResponse = { key1: 'value1', key2: 'value2' };
-    expect(toHTML(promptResponse)).toEqual('<b>key1</b>: value1<br/><b>key2</b>: value2');
-  });
-  test('returns html: prompt result is a string', () => {
-    const promptResponse = 'hello';
-    expect(toHTML(promptResponse)).toEqual('hello');
-  });
-});
+import { formatIdentifier } from './FormatHelper.js';
 
 describe('toText', () => {
   test('returns text: prompt result is an key/value pair', () => {
@@ -30,5 +20,21 @@ describe('toText', () => {
   test('returns text: prompt result is a string', () => {
     const promptResponse = 'hello';
     expect(toText(promptResponse)).toEqual('hello');
+  });
+});
+
+describe('toHTML', () => {
+  it('should return the input if it is a string', () => {
+    const input = 'testString';
+    expect(toHTML(input)).toEqual(input);
+  });
+
+  it('should format the input to HTML if it is an object', () => {
+    const input = { testIdentifier: 'value1', anotherIdentifier: 'value2' };
+    const expectedOutput = ''
+      + `<b>${formatIdentifier('testIdentifier')}</b>: value1`
+      + '<br/>'
+      + `<b>${formatIdentifier('anotherIdentifier')}</b>: value2`;
+    expect(toHTML(input)).toEqual(expectedOutput);
   });
 });

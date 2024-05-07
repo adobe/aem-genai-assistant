@@ -1,9 +1,19 @@
 {
+  "favoritesView.backButtonAltText": "Torna a tutti i prompt",
   "favoritesView.copyButtonTooltip": "Copia",
   "favoritesView.copyTextSuccessToast": "Testo copiato negli Appunti.",
+  "favoritesView.deselectAllButtonLabel": "Deseleziona tutto",
+  "favoritesView.exportToCSVButtonLabel": "Esporta in CSV",
+  "favoritesView.exportToCSVButtonTooltip": "Esporta le varianti selezionate (solo testo) in un file CSV.",
   "favoritesView.generateImageButtonLabel": "Genera immagine",
   "favoritesView.generateImageFailedToast": "Si è verificato un errore. Riprova.",
   "favoritesView.navigationLabel": "Modelli di prompt",
   "favoritesView.noFavoritesMessage": "Ancora nessun preferito",
-  "favoritesView.removeButtonTooltip": "Elimina"
+  "favoritesView.removeButtonTooltip": "Elimina",
+  "favoritesView.removeFromFavoritesAlertCancelButtonLabel": "Annulla",
+  "favoritesView.removeFromFavoritesAlertDeleteButtonLabel": "Elimina",
+  "favoritesView.removeFromFavoritesAlertMessage": "Eliminare gli elementi selezionati dai preferiti?",
+  "favoritesView.removeFromFavoritesAlertTitle": "Eliminare gli elementi selezionati?",
+  "favoritesView.removeFromFavoritesButtonLabel": "Elimina",
+  "favoritesView.selectAllButtonLabel": "Seleziona tutto"
 }

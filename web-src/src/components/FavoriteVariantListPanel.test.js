@@ -26,24 +26,24 @@ describe('exportToCsv', () => {
     const variants = [
       {
         content: {
-          'AI Rationale': 'Test 1',
-          'Other Field': 'Test 2',
+          'AI rationale': 'Test 1',
+          'Other field': 'Test 2',
         },
       },
       {
         content: {
           AI_Rationale: 'Test 3',
-          'Other Field': 'Test 4',
+          'Other field': 'Test 4',
         },
       },
     ];
 
     const expectedData = [
       {
-        'Other Field': 'Test 2',
+        'Other field': 'Test 2',
       },
       {
-        'Other Field': 'Test 4',
+        'Other field': 'Test 4',
       },
     ];
 

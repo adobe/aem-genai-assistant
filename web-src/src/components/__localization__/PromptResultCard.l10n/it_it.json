@@ -1,4 +1,7 @@
 {
+  "promptResultCard.contentFragmentExportDialogDescription": "Esporta la variante selezionata come nuova variante di frammento di contenuto.",
+  "promptResultCard.contentFragmentExportDialogExportButtonLabel": "Nome variante",
+  "promptResultCard.contentFragmentExportDialogTitle": "Esporta in frammento di contenuto",
   "promptResultCard.copyButtonTooltip": "Copia",
   "promptResultCard.copyTextSuccessToast": "Testo copiato negli Appunti.",
   "promptResultCard.createPromptDescription": "Apri “Modifica prompt” e scrivi il prompt o incolla sezioni di altri prompt.",

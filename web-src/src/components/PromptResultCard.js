@@ -10,10 +10,10 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Button, ActionButton, Tooltip, TooltipTrigger, Flex, ProgressCircle, Divider,
+  ActionButton, Button, Divider, Flex, ProgressCircle, Tooltip, TooltipTrigger,
 } from '@adobe/react-spectrum';
 import React, {
-  useCallback, useState, useEffect, useRef,
+  useCallback, useEffect, useRef, useState,
 } from 'react';
 import { css } from '@emotion/css';
 import { motion } from 'framer-motion';
@@ -22,11 +22,12 @@ import { useSetRecoilState } from 'recoil';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './PromptResultCard.l10n.js';
+
 import { useIsFavorite } from '../state/IsFavoriteHook.js';
 import { useIsFeedback } from '../state/IsFeedbackHook.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { useSaveFeedback } from '../state/SaveFeedbackHook.js';
-import { useApplicationContext } from './ApplicationProvider.js';
+import { RUN_MODE_CF, useApplicationContext } from './ApplicationProvider.js';
 import { useShellContext } from './ShellProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
@@ -50,6 +51,7 @@ import ThumbsDownOutlineIcon from '../icons/ThumbsDownOutlineIcon.js';
 import ThumbsUpDisabledIcon from '../icons/ThumbsUpDisabledIcon.js';
 import ThumbsDownDisabledIcon from '../icons/ThumbsDownDisabledIcon.js';
 import GenAIIcon from '../icons/GenAIIcon.js';
+import { ContentFragmentExportButton } from './ContentFragmentExportButton.js';
 
 const styles = {
   card: css`
@@ -135,12 +137,43 @@ const styles = {
   `,
   resultContent: css`
   `,
+  resultMetadata: css`
+    color: var(--alias-content-semantic-neutral-subdued-default, #929292);
+    font-size: 12px;
+  `,
   resultActions: css`
+    & div {
+      font-size: 12px;
+      color: var(--alias-content-semantic-neutral-subdued-default, #929292);
+    }
   `,
 };
 
+export function extractMetadataFields(obj) {
+  const resultFields = { ...obj };
+  const metadataFields = {};
+
+  const aiRationaleRegex = /^ai[_\s]*rationale$/i;
+  const variationNameRegex = /^variation[_\s]*name$/i;
+
+  for (const key of Object.keys(obj)) {
+    if (aiRationaleRegex.test(key)) {
+      metadataFields.aiRationale = obj[key];
+      delete resultFields[key];
+    } else if (variationNameRegex.test(key)) {
+      metadataFields.variationName = obj[key];
+      delete resultFields[key];
+    }
+  }
+
+  return { resultFields, metadataFields };
+}
+
 export function PromptResultCard({ result, ...props }) {
-  const { firefallService, expressSdkService } = useApplicationContext();
+  const {
+    runMode, firefallService, expressSdkService,
+  } = useApplicationContext();
+
   const { isExpressAuthorized } = useShellContext();
 
   const [selectedVariant, setSelectedVariant] = useState(result.variants[0]);
@@ -155,6 +188,7 @@ export function PromptResultCard({ result, ...props }) {
   const saveFeedback = useSaveFeedback();
   const saveResults = useSaveResults();
   const { addImageToVariant } = useVariantImages();
+
   const resultsEndRef = useRef();
   const { formatMessage } = useIntl();
 
@@ -246,6 +280,8 @@ export function PromptResultCard({ result, ...props }) {
       });
   }, []);
 
+  const { resultFields, metadataFields } = extractMetadataFields(selectedVariant.content);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -273,28 +309,31 @@ export function PromptResultCard({ result, ...props }) {
                 return (
                   <a key={variant.id} onClick={() => setSelectedVariant(variant)}>
                     <div className={css`
-                    ${styles.variant};
-                    ${variant.id === selectedVariant.id && styles.variantSelected};
-                    ${isFavorite(variant) && styles.variantFavorite};
-                  `}
-                      dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
+                      ${styles.variant};
+                      ${variant.id === selectedVariant.id && styles.variantSelected};
+                      ${isFavorite(variant) && styles.variantFavorite};
+                    `}
+                         dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }}/>
                   </a>
                 );
               })
             }
           </div>
-          <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariant.content) }} />
+          <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(resultFields) }} />
+          <div className={styles.resultMetadata} dangerouslySetInnerHTML={{ __html: toHTML(metadataFields) }} />
           <div className={styles.resultActions}>
             <Flex direction="row">
-              <TooltipTrigger delay={0}>
-                <ActionButton
-                  isQuiet
-                  UNSAFE_className="hover-cursor-pointer"
-                  onPress={() => toggleFavorite(selectedVariant)}>
-                  {isFavorite(selectedVariant) ? <FavoritesIcon /> : <FavoritesOutlineIcon />}
-                </ActionButton>
-                <Tooltip>{formatMessage(intlMessages.promptResultCard.favoriteButtonTooltip)}</Tooltip>
-              </TooltipTrigger>
+              {runMode !== RUN_MODE_CF
+                && <TooltipTrigger delay={0}>
+                  <ActionButton
+                    isQuiet
+                    UNSAFE_className="hover-cursor-pointer"
+                    onPress={() => toggleFavorite(selectedVariant)}>
+                    {isFavorite(selectedVariant) ? <FavoritesIcon/> : <FavoritesOutlineIcon/>}
+                  </ActionButton>
+                  <Tooltip>{formatMessage(intlMessages.promptResultCard.favoriteButtonTooltip)}</Tooltip>
+                </TooltipTrigger>
+              }
               <TooltipTrigger delay={0}>
                 <ActionButton
                   isQuiet
@@ -342,16 +381,24 @@ export function PromptResultCard({ result, ...props }) {
                 </ActionButton>
                 <Tooltip>{formatMessage(intlMessages.promptResultCard.poorButtonTooltip)}</Tooltip>
               </TooltipTrigger>
-              <TooltipTrigger delay={0}>
-                <ActionButton
-                  isQuiet
-                  UNSAFE_className="hover-cursor-pointer"
-                  onPress={() => deleteVariant(selectedVariant.id)}>
-                  <DeleteOutlineIcon />
-                </ActionButton>
-                <Tooltip>{formatMessage(intlMessages.promptResultCard.removeButtonTooltip)}</Tooltip>
-              </TooltipTrigger>
-              <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'} />
+              {runMode !== RUN_MODE_CF
+                && <TooltipTrigger delay={0}>
+                  <ActionButton
+                    isQuiet
+                    UNSAFE_className="hover-cursor-pointer"
+                    onPress={() => deleteVariant(selectedVariant.id)}>
+                    <DeleteOutlineIcon/>
+                  </ActionButton>
+                  <Tooltip>{formatMessage(intlMessages.promptResultCard.removeButtonTooltip)}</Tooltip>
+                </TooltipTrigger>
+              }
+              {runMode === RUN_MODE_CF
+                && <>
+                  <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'}/>
+                  <ContentFragmentExportButton variant={selectedVariant}/>
+                </>
+              }
+              <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'}/>
               <Flex direction="row" gap="size-100" alignItems={'center'}>
                 <Button
                   UNSAFE_className="hover-cursor-pointer"

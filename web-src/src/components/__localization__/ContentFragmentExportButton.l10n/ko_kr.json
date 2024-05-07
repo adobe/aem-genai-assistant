@@ -1,0 +1,10 @@
+{
+  "contentFragmentExportButton.buttonLabel": "변형 내보내기",
+  "contentFragmentExportButton.exportDialog.cancelButtonLabel": "취소",
+  "contentFragmentExportButton.exportDialog.description": "선택한 변형을 새 컨텐츠 조각 변형으로 내보냅니다.",
+  "contentFragmentExportButton.exportDialog.exportAndOpenButtonLabel": "내보내기 및 열기",
+  "contentFragmentExportButton.exportDialog.exportButtonLabel": "내보내기",
+  "contentFragmentExportButton.exportDialog.exportButtonProgressAreaLabel": "내보내기...",
+  "contentFragmentExportButton.exportDialog.nameFieldLabel": "이름",
+  "contentFragmentExportButton.exportDialog.title": "컨텐츠 조각으로 내보내기"
+}

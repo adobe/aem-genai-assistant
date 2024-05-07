@@ -1,4 +1,8 @@
 {
+  "favoritesView.backButtonAltText": {
+    "__value__": "Back to all prompts",
+    "__desc__": "Alt text for back button"
+  },
   "favoritesView.copyButtonTooltip": {
     "__value__": "Copy",
     "__desc__": "Tooltip for Copy button"
@@ -6,6 +10,18 @@
   "favoritesView.copyTextSuccessToast": {
     "__value__": "Copied text to clipboard!",
     "__desc__": "Toast message for successful text copy"
+  },
+  "favoritesView.deselectAllButtonLabel": {
+    "__value__": "Deselect All",
+    "__desc__": "Label for Deselect All button"
+  },
+  "favoritesView.exportToCSVButtonLabel": {
+    "__value__": "Export to CSV",
+    "__desc__": "Label for Export to CSV button"
+  },
+  "favoritesView.exportToCSVButtonTooltip": {
+    "__value__": "Export the selected variants (text content only) to a CSV file.",
+    "__desc__": "Tooltip for Export to CSV button"
   },
   "favoritesView.generateImageButtonLabel": {
     "__value__": "Generate Image",
@@ -26,5 +42,29 @@
   "favoritesView.removeButtonTooltip": {
     "__value__": "Delete",
     "__desc__": "Tooltip for Remove button"
+  },
+  "favoritesView.removeFromFavoritesAlertCancelButtonLabel": {
+    "__value__": "Cancel",
+    "__desc__": "Label for Cancel button in Remove Selected from Favorites alert"
+  },
+  "favoritesView.removeFromFavoritesAlertDeleteButtonLabel": {
+    "__value__": "Delete",
+    "__desc__": "Label for Delete button in Remove Selected from Favorites alert"
+  },
+  "favoritesView.removeFromFavoritesAlertMessage": {
+    "__value__": "Are you sure you want to delete the selected items from your favorites?",
+    "__desc__": "Message for Remove Selected from Favorites alert"
+  },
+  "favoritesView.removeFromFavoritesAlertTitle": {
+    "__value__": "Delete selected items?",
+    "__desc__": "Title for Remove Selected from Favorites alert"
+  },
+  "favoritesView.removeFromFavoritesButtonLabel": {
+    "__value__": "Delete",
+    "__desc__": "Label for Remove Selected from Favorites button"
+  },
+  "favoritesView.selectAllButtonLabel": {
+    "__value__": "Select All",
+    "__desc__": "Label for Select All button"
   }
 }

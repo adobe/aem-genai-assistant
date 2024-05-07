@@ -1,4 +1,7 @@
 {
+  "promptResultCard.contentFragmentExportDialogDescription": "将所选变量导出为新内容片段变量。",
+  "promptResultCard.contentFragmentExportDialogExportButtonLabel": "变量名称",
+  "promptResultCard.contentFragmentExportDialogTitle": "导出到内容片段",
   "promptResultCard.copyButtonTooltip": "复制",
   "promptResultCard.copyTextSuccessToast": "已将文本复制到剪贴板！",
   "promptResultCard.createPromptDescription": "打开“编辑提示”并编写您的提示或粘贴其他提示的部分。",

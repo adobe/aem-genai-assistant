@@ -12,7 +12,7 @@
 import { atom, selector } from 'recoil';
 import { v4 as uuid } from 'uuid';
 
-import { data as bundledPromptTemplatesJson } from '../../../data/bundled-prompt-templates.json';
+import bundledPromptTemplatesJson from '../../../data/bundled-prompt-templates.json';
 import { readValueFromSettings, writeValueToSettings } from '../helpers/SettingsHelper.js';
 
 export const NEW_PROMPT_TEMPLATE_ID = 'new-prompt';
@@ -28,99 +28,111 @@ export const newPromptTemplate = {
   isBundled: false,
 };
 
-function createPromptTemplatesEnvelope(templates) {
+function createPromptTemplatesWrapper(templates) {
   return {
     promptTemplates: templates,
   };
 }
 
-function parseBundledPromptTemplates(data) {
-  return data.map(({
-    Label, Description, Template,
-  }) => {
-    return {
-      id: uuid(),
-      label: Label,
-      description: Description,
-      template: Template || '',
-      isShared: true,
-      isBundled: true,
-      created: null,
-      lastModified: null,
-      createdBy: null,
-      lastModifiedBy: null,
-    };
-  });
-}
-
-function settingsToPromptTemplates(settings, isShared) {
-  return settings.promptTemplates.map(({
-    id, label, description, template, created, lastModified, createdBy, lastModifiedBy,
-  }) => {
-    return {
-      id,
-      label,
-      description,
-      template,
-      isShared,
-      isBundled: false,
-      created: created ?? new Date().getTime(),
-      lastModified: lastModified ?? new Date().getTime(),
-      createdBy,
-      lastModifiedBy,
-    };
-  });
-}
-
-function promptTemplatesToSettings(promptTemplates, isSharedTemplate) {
-  const settings = promptTemplates
-    .filter(({ isShared }) => isSharedTemplate === isShared)
-    .map(({
-      id, label, description, template, created, lastModified, createdBy, lastModifiedBy,
-    }) => {
+export function parseBundledPromptTemplates(runMode) {
+  return bundledPromptTemplatesJson
+    .filter(({ modes }) => modes.includes(runMode))
+    .map((prompt) => {
       return {
-        id,
-        label,
-        description,
-        template,
-        created,
-        lastModified,
-        createdBy,
-        lastModifiedBy,
+        id: uuid(),
+        label: prompt.label,
+        description: prompt.description,
+        template: prompt.template || '',
+        isShared: true,
+        isBundled: true,
+        created: null,
+        lastModified: null,
+        createdBy: null,
+        lastModifiedBy: null,
       };
     });
-  return createPromptTemplatesEnvelope(settings);
 }
 
-export async function readCustomPromptTemplates() {
+export function createPromptMigrator(defaultRunMode) {
+  return (prompt) => {
+    if (!prompt.modes) {
+      return {
+        ...prompt,
+        modes: [defaultRunMode],
+      };
+    }
+    return prompt;
+  };
+}
+
+function settingsToPromptTemplates(settings, isShared, runMode, defaultRunMode) {
+  return settings.promptTemplates
+    .map(createPromptMigrator(defaultRunMode))
+    .filter(({ modes }) => modes.includes(runMode))
+    .map((prompt) => {
+      return {
+        id: prompt.id,
+        label: prompt.label,
+        description: prompt.description,
+        template: prompt.template,
+        isShared,
+        isBundled: false,
+        created: prompt.created ?? new Date().getTime(),
+        lastModified: prompt.lastModified ?? new Date().getTime(),
+        createdBy: prompt.createdBy,
+        lastModifiedBy: prompt.lastModifiedBy,
+      };
+    });
+}
+
+function promptTemplatesToSettings(promptTemplates, isSharedTemplate, runMode) {
+  const settings = promptTemplates
+    .filter(({ isShared }) => isSharedTemplate === isShared)
+    .map((prompt) => {
+      return {
+        id: prompt.id,
+        label: prompt.label,
+        description: prompt.description,
+        template: prompt.template,
+        modes: [runMode],
+        created: prompt.created,
+        lastModified: prompt.lastModified,
+        createdBy: prompt.createdBy,
+        lastModifiedBy: prompt.lastModifiedBy,
+      };
+    });
+  return createPromptTemplatesWrapper(settings);
+}
+
+export async function readCustomPromptTemplates(runMode, defaultRunMode) {
   const privateSettings = await readValueFromSettings(
     PROMPT_TEMPLATE_STORAGE_KEY,
-    createPromptTemplatesEnvelope([]),
+    createPromptTemplatesWrapper([]),
     false,
   );
-  const privatePromptTemplates = settingsToPromptTemplates(privateSettings, false);
+  const privatePromptTemplates = settingsToPromptTemplates(privateSettings, false, runMode, defaultRunMode);
   const publicSettings = await readValueFromSettings(
     PROMPT_TEMPLATE_STORAGE_KEY,
-    createPromptTemplatesEnvelope([]),
+    createPromptTemplatesWrapper([]),
     true,
   );
-  const publicPromptTemplates = settingsToPromptTemplates(publicSettings, true);
+  const publicPromptTemplates = settingsToPromptTemplates(publicSettings, true, runMode, defaultRunMode);
   return [
     ...privatePromptTemplates,
     ...publicPromptTemplates,
   ];
 }
 
-export async function writeCustomPromptTemplates(promptTemplates) {
-  const publicSettings = promptTemplatesToSettings(promptTemplates, true);
+export async function writeCustomPromptTemplates(promptTemplates, runMode) {
+  const publicSettings = promptTemplatesToSettings(promptTemplates, true, runMode);
   await writeValueToSettings(PROMPT_TEMPLATE_STORAGE_KEY, publicSettings, true);
-  const privateSettings = promptTemplatesToSettings(promptTemplates, false);
+  const privateSettings = promptTemplatesToSettings(promptTemplates, false, runMode);
   await writeValueToSettings(PROMPT_TEMPLATE_STORAGE_KEY, privateSettings, false);
 }
 
-const bundledPromptTemplatesState = selector({
+export const bundledPromptTemplatesState = atom({
   key: 'bundledPromptTemplatesState',
-  get: () => parseBundledPromptTemplates(bundledPromptTemplatesJson),
+  default: [],
 });
 
 export const customPromptTemplatesState = atom({

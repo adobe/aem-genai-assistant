@@ -1,9 +1,19 @@
 {
+  "favoritesView.backButtonAltText": "Zurück zu allen Eingabeaufforderungen",
   "favoritesView.copyButtonTooltip": "Kopieren",
   "favoritesView.copyTextSuccessToast": "Text in die Zwischenablage kopiert!",
+  "favoritesView.deselectAllButtonLabel": "Auswahl aufheben",
+  "favoritesView.exportToCSVButtonLabel": "Als CSV exportieren",
+  "favoritesView.exportToCSVButtonTooltip": "Exportieren Sie die ausgewählten Varianten (nur Textinhalte) in eine CSV-Datei.",
   "favoritesView.generateImageButtonLabel": "Bild generieren",
   "favoritesView.generateImageFailedToast": "Ein Problem ist aufgetreten. Versuchen sie es später erneut.",
   "favoritesView.navigationLabel": "Prompt-Vorlagen",
   "favoritesView.noFavoritesMessage": "Noch keine Favoriten",
-  "favoritesView.removeButtonTooltip": "Löschen"
+  "favoritesView.removeButtonTooltip": "Löschen",
+  "favoritesView.removeFromFavoritesAlertCancelButtonLabel": "Abbrechen",
+  "favoritesView.removeFromFavoritesAlertDeleteButtonLabel": "Löschen",
+  "favoritesView.removeFromFavoritesAlertMessage": "Möchten Sie die ausgewählten Elemente wirklich aus Ihren Favoriten löschen?",
+  "favoritesView.removeFromFavoritesAlertTitle": "Ausgewählte Elemente löschen?",
+  "favoritesView.removeFromFavoritesButtonLabel": "Löschen",
+  "favoritesView.selectAllButtonLabel": "Alle auswählen"
 }

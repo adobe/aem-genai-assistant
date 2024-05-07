@@ -46,7 +46,7 @@ export function createContentModelPrompt(contentFragmentModel) {
       return `\n- ${field.name}: ${field.description ?? field.label ?? ''}`;
     });
 
-  fields.push('\n- variationName: The name of the variation to be created.');
+  fields.push('\n- variationName: The name assigned to the variation that should accurately represent the content\'s intent.');
 
   return '\n\nAdditional requirements: ```'
     + '\nThe response MUST be formatted as a JSON array.'

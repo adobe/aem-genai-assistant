@@ -69,6 +69,10 @@ IMS_SERVICE_PERM_AUTH_CODE=
 
 ## Splunk environment variables
 SPLUNK_HEC__HEC_TOKEN=
+
+## Launch Darkly environment variables
+FT_EARLY_ACCESS=
+LD_SDK_KEY=
 ```
 
 In addition, the following values need to be manually set (request from a teammate or admin):

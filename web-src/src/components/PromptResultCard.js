@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Button, ActionButton, Tooltip, TooltipTrigger, Flex, ProgressCircle, Divider,
+  Button, ActionButton, Tooltip, TooltipTrigger, Flex, ProgressCircle, Divider, Text, Heading,
 } from '@adobe/react-spectrum';
 import React, {
   useCallback, useState, useEffect, useRef,
@@ -21,6 +21,7 @@ import { ToastQueue } from '@react-spectrum/toast';
 import { useSetRecoilState } from 'recoil';
 import { useIntl } from 'react-intl';
 
+import Slider from 'react-slick';
 import { intlMessages } from './PromptResultCard.l10n.js';
 import { useIsFavorite } from '../state/IsFavoriteHook.js';
 import { useIsFeedback } from '../state/IsFeedbackHook.js';
@@ -51,6 +52,9 @@ import ThumbsUpDisabledIcon from '../icons/ThumbsUpDisabledIcon.js';
 import ThumbsDownDisabledIcon from '../icons/ThumbsDownDisabledIcon.js';
 import GenAIIcon from '../icons/GenAIIcon.js';
 
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+
 const styles = {
   card: css`
     display: flex;
@@ -58,12 +62,6 @@ const styles = {
     align-items: stretch;
     gap: 16px;
     margin: 0 16px;
-  `,
-  promptSection: css`
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: start;
   `,
   promptContent: css`
     --max-lines: 3;
@@ -101,18 +99,26 @@ const styles = {
     background: var(--palette-gray-50, #FFF);
   `,
   variantsContainer: css`
-    display: flex;
     flex-direction: row;
     gap: 10px;
-    justify-content: left;
+    align-items: center;
     width: 100%;
-    overflow: auto;
-    padding: 10px;
+    padding-left: 10px;
+    overflow: hidden;
+    position: relative;
   `,
+  variantLink: css`
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    `,
+
   variant: css`
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 4;
+    align-self: center;
+    max-width: 95%;
     width: 300px;
     height: 100px;
     padding: 8px;
@@ -148,7 +154,6 @@ export function PromptResultCard({ result, ...props }) {
   const setPrompt = useSetRecoilState(promptState);
   const setParameters = useSetRecoilState(parametersState);
   const setResults = useSetRecoilState(resultsState);
-
   const isFavorite = useIsFavorite();
   const isFeedback = useIsFeedback();
   const toggleFavorite = useToggleFavorite();
@@ -157,6 +162,15 @@ export function PromptResultCard({ result, ...props }) {
   const { addImageToVariant } = useVariantImages();
   const resultsEndRef = useRef();
   const { formatMessage } = useIntl();
+
+  /** @see for more details https://react-slick.neostack.com/docs/example/multiple-items */
+  const variationCarouselSettings = {
+    dots: false,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+  };
 
   useEffect(() => {
     if (resultsEndRef.current) {
@@ -174,9 +188,19 @@ export function PromptResultCard({ result, ...props }) {
       });
   }, [result, firefallService]);
 
+  const formattedTimestamp = new Date(result.timestamp).toLocaleString('en-US', {
+    month: 'numeric',
+    day: 'numeric',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  });
+
   const reusePrompt = useCallback(() => {
     setPrompt(result.promptTemplate);
     setParameters(result.parameters);
+    // setSelectedTimestamp(result.timestamp);
   }, [result, setPrompt, setParameters]);
 
   const deleteVariant = useCallback(async (variantId) => {
@@ -244,123 +268,129 @@ export function PromptResultCard({ result, ...props }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ type: 'easeInOut', duration: 0.3 }}>
       <div {...props} className={styles.card} ref={resultsEndRef}>
-        <div className={styles.promptSection}>
-          <div className={styles.promptContent}>{result.prompt}</div>
-          <div className={styles.promptActions}>
+        <div className={styles.resultsSection}>
+          <Flex justifyContent="space-between" alignItems="center" width={'100%'} UNSAFE_style={{ paddingRight: '8px' }}>
             <TooltipTrigger delay={0}>
               <ActionButton
-                isQuiet
-                UNSAFE_className="hover-cursor-pointer"
-                onPress={reusePrompt}>
+                  isQuiet
+                  UNSAFE_className="hover-cursor-pointer"
+                  onPress={reusePrompt}>
                 <RefreshIcon />
+                <Text>{formatMessage(intlMessages.promptResultCard.reuseButtonLabel)}</Text>
               </ActionButton>
               <Tooltip>{formatMessage(intlMessages.promptResultCard.reuseButtonTooltip)}</Tooltip>
             </TooltipTrigger>
-          </div>
-        </div>
-        <div className={styles.resultsSection}>
+            <Text>{formattedTimestamp}</Text>
+          </Flex>
+          <Divider size="S" marginStart={'size-100'} marginEnd={'size-100'}/>
           <div className={styles.variantsContainer}>
+            <Heading level={3}>{formatMessage(intlMessages.promptResultCard.variationsHeading)}</Heading>
+            <Slider {...variationCarouselSettings} >
             {
               result.variants.map((variant) => {
                 return (
-                  <a key={variant.id} onClick={() => setSelectedVariant(variant)}>
-                    <div className={css`
-                    ${styles.variant};
-                    ${variant.id === selectedVariant.id && styles.variantSelected};
-                    ${isFavorite(variant) && styles.variantFavorite};
-                  `}
-                      dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
-                  </a>
+                    <a key={variant.id} onClick={() => setSelectedVariant(variant)} className={styles.variantLink}>
+                      <div className={css`
+                        ${styles.variant};
+                        ${variant.id === selectedVariant.id && styles.variantSelected};
+                        ${isFavorite(variant) && styles.variantFavorite};
+                      `}
+                           dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }}/>
+                    </a>
                 );
               })
             }
+            </Slider>
           </div>
-          <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariant.content) }} />
-          <div className={styles.resultActions}>
-            <Flex direction="row">
+          <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariant.content) }}/>
+          <Flex direction="row" justifyContent={'space-between'} width={'100%'}>
+            <Flex>
               <TooltipTrigger delay={0}>
                 <ActionButton
-                  isQuiet
-                  UNSAFE_className="hover-cursor-pointer"
-                  onPress={() => toggleFavorite(selectedVariant)}>
-                  {isFavorite(selectedVariant) ? <FavoritesIcon /> : <FavoritesOutlineIcon />}
+                    isQuiet
+                    UNSAFE_className="hover-cursor-pointer"
+                    onPress={() => toggleFavorite(selectedVariant)}>
+                  {isFavorite(selectedVariant) ? <FavoritesIcon/> : <FavoritesOutlineIcon/>}
                 </ActionButton>
                 <Tooltip>{formatMessage(intlMessages.promptResultCard.favoriteButtonTooltip)}</Tooltip>
               </TooltipTrigger>
               <TooltipTrigger delay={0}>
                 <ActionButton
-                  isQuiet
-                  UNSAFE_className="hover-cursor-pointer"
-                  onPress={() => {
-                    log('prompt:copy', { variant: selectedVariant.id });
-                    sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress' });
-                    navigator.clipboard.writeText(toText(selectedVariant.content));
-                    ToastQueue.positive(
-                      formatMessage(intlMessages.promptResultCard.copyTextSuccessToast),
-                      { timeout: 1000 },
-                    );
-                  }}>
-                  <CopyOutlineIcon />
+                    isQuiet
+                    UNSAFE_className="hover-cursor-pointer"
+                    onPress={() => {
+                      log('prompt:copy', { variant: selectedVariant.id });
+                      sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress' });
+                      navigator.clipboard.writeText(toText(selectedVariant.content));
+                      ToastQueue.positive(
+                        formatMessage(intlMessages.promptResultCard.copyTextSuccessToast),
+                        { timeout: 1000 },
+                      );
+                    }}>
+                  <CopyOutlineIcon/>
                 </ActionButton>
                 <Tooltip>{formatMessage(intlMessages.promptResultCard.copyButtonTooltip)}</Tooltip>
               </TooltipTrigger>
               <TooltipTrigger delay={0}>
                 <ActionButton
-                  isQuiet
-                  isDisabled={isFeedback(selectedVariant)}
-                  UNSAFE_className="hover-cursor-pointer"
-                  onPress={() => {
-                    log('prompt:thumbsup', { variant: selectedVariant.id });
-                    sampleRUM('genai:prompt:thumbsup', { source: 'ResultCard#onPress' });
-                    sendFeedback(true);
-                    saveFeedback(selectedVariant);
-                  }}>
-                  {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon /> : <ThumbsUpOutlineIcon />}
+                    isQuiet
+                    UNSAFE_className="hover-cursor-pointer"
+                    onPress={() => deleteVariant(selectedVariant.id)}>
+                  <DeleteOutlineIcon/>
+                </ActionButton>
+                <Tooltip>{formatMessage(intlMessages.promptResultCard.removeButtonTooltip)}</Tooltip>
+              </TooltipTrigger>
+              <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'}/>
+              <Flex direction="row" gap="size-100" alignItems={'center'}>
+                <Button
+                    UNSAFE_className="hover-cursor-pointer"
+                    marginStart={'size-100'}
+                    width="size-2000"
+                    variant="secondary"
+                    style="fill"
+                    onPress={() => handleGenerateImagePrompt(selectedVariant.id)}
+                    isDisabled={!isExpressAuthorized}>
+                  {imagePromptProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px"/>
+                    : <GenAIIcon marginEnd={'8px'}/>}
+                  {formatMessage(intlMessages.promptResultCard.generateImageButtonLabel)}
+                </Button>
+                {!isExpressAuthorized && <ExpressNoAccessInfo/>}
+              </Flex>
+            </Flex>
+            <Flex>
+              <TooltipTrigger delay={0}>
+                <ActionButton
+                    isQuiet
+                    isDisabled={isFeedback(selectedVariant)}
+                    UNSAFE_className="hover-cursor-pointer"
+                    onPress={() => {
+                      log('prompt:thumbsup', { variant: selectedVariant.id });
+                      sampleRUM('genai:prompt:thumbsup', { source: 'ResultCard#onPress' });
+                      sendFeedback(true);
+                      saveFeedback(selectedVariant);
+                    }}>
+                  {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon/> : <ThumbsUpOutlineIcon/>}
                 </ActionButton>
                 <Tooltip>{formatMessage(intlMessages.promptResultCard.goodButtonTooltip)}</Tooltip>
               </TooltipTrigger>
               <TooltipTrigger delay={0}>
                 <ActionButton
-                  isQuiet
-                  isDisabled={isFeedback(selectedVariant)}
-                  UNSAFE_className="hover-cursor-pointer"
-                  onPress={() => {
-                    log('prompt:thumbsdown', { variant: selectedVariant.id });
-                    sampleRUM('genai:prompt:thumbsdown', { source: 'ResultCard#onPress' });
-                    sendFeedback(false);
-                    saveFeedback(selectedVariant);
-                  }}>
-                  {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon /> : <ThumbsDownOutlineIcon />}
+                    isQuiet
+                    isDisabled={isFeedback(selectedVariant)}
+                    UNSAFE_className="hover-cursor-pointer"
+                    onPress={() => {
+                      log('prompt:thumbsdown', { variant: selectedVariant.id });
+                      sampleRUM('genai:prompt:thumbsdown', { source: 'ResultCard#onPress' });
+                      sendFeedback(false);
+                      saveFeedback(selectedVariant);
+                    }}>
+                  {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon/> : <ThumbsDownOutlineIcon/>}
                 </ActionButton>
                 <Tooltip>{formatMessage(intlMessages.promptResultCard.poorButtonTooltip)}</Tooltip>
               </TooltipTrigger>
-              <TooltipTrigger delay={0}>
-                <ActionButton
-                  isQuiet
-                  UNSAFE_className="hover-cursor-pointer"
-                  onPress={() => deleteVariant(selectedVariant.id)}>
-                  <DeleteOutlineIcon />
-                </ActionButton>
-                <Tooltip>{formatMessage(intlMessages.promptResultCard.removeButtonTooltip)}</Tooltip>
-              </TooltipTrigger>
-              <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'} />
-              <Flex direction="row" gap="size-100" alignItems={'center'}>
-                <Button
-                  UNSAFE_className="hover-cursor-pointer"
-                  marginStart={'size-100'}
-                  width="size-2000"
-                  variant="secondary"
-                  style="fill"
-                  onPress={() => handleGenerateImagePrompt(selectedVariant.id)}
-                  isDisabled={!isExpressAuthorized}>
-                  {imagePromptProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}
-                  {formatMessage(intlMessages.promptResultCard.generateImageButtonLabel)}
-                </Button>
-                {!isExpressAuthorized && <ExpressNoAccessInfo />}
-              </Flex>
             </Flex>
-          </div>
-          <VariantImagesView variant={selectedVariant} />
+          </Flex>
+          <VariantImagesView variant={selectedVariant}/>
         </div>
       </div>
     </motion.div>

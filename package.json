@@ -44,7 +44,9 @@
     "react-error-boundary": "4.0.11",
     "react-intl": "^6.6.4",
     "react-simple-code-editor": "0.13.1",
+    "react-slick": "^0.30.2",
     "recoil": "0.7.7",
+    "slick-carousel": "^1.8.1",
     "uuid": "9.0.1",
     "wretch": "2.7.0"
   },

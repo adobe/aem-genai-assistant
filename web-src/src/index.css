@@ -134,3 +134,45 @@ body {
   opacity: 0;
   transition: opacity 0.3s ease-in-out 0.1s;
 }
+
+.slick-next:before {
+  background: url('./assets/right-arrow.svg');
+
+}
+.slick-prev:before {
+  background: url('./assets/left-arrow.svg');
+}
+.slick-prev:before, .slick-next:before {
+  content: '';
+  width: 40px;
+  height: 40px;
+  display: block;
+  position: absolute;
+  top: 0;
+  background-size: contain;
+}
+.slick-arrow {
+  background: #fff;
+  z-index: 101;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+.slick-next {
+  right:10px
+}
+.slick-prev {
+    left:10px
+}
+.slick-prev:hover, .slick-prev:focus, .slick-next:hover, .slick-next:focus {
+    background: #fff;
+  border-radius: 50%;
+}
+
+.slick-disabled, .slick-disabled:before, .slick-disabled:hover, .slick-disabled:focus {
+  display: none;
+  background: none;
+}
+.slick-track {
+  margin-left: 0;
+}

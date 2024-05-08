@@ -20,6 +20,14 @@ See: http://aem.live/docs/sidekick-generate-variations
 
 - Run `npm run lint && npm test` to run lint and unit tests for ui and actions
 
+### Debugging
+
+By default, App Builder stores only failed activations. To enable the storage of all App Builder activations, please add the `appBuilderLogging` parameter to the URL, as shown in the following example:
+
+```
+https://experience.adobe.com/?appBuilderLogging=true#/aem/generate-variations/
+```
+
 ### Deployment
 
 - `npm run deploy` to build and deploy all actions on Runtime and static files to CDN

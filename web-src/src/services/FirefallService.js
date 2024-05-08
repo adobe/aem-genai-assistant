@@ -53,7 +53,8 @@ export class FirefallService {
         sentiment,
         imsOrg: this.imsOrg,
         accessToken: this.accessToken,
-      });
+      })
+      .json();
     /* eslint-disable-next-line camelcase */
     return feedback_id;
   }

@@ -21,6 +21,7 @@ import { motion } from 'framer-motion';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './Favorites.l10n.js';
+import { EXPRESS_LOAD_TIMEOUT } from './Constants.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
 import { useApplicationContext } from './ApplicationProvider.js';
@@ -90,7 +91,7 @@ export function FavoriteVariantCard({
           promptText: imagePrompt,
         },
         modalParams: {
-          loadTimeout: 30000,
+          loadTimeout: EXPRESS_LOAD_TIMEOUT.GENERATE_IMAGE,
         },
         callbacks: {
           onPublish,

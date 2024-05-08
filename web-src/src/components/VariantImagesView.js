@@ -20,6 +20,7 @@ import { ToastQueue } from '@react-spectrum/toast';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './ImageViewer.l10n.js';
+import { EXPRESS_LOAD_TIMEOUT } from './Constants.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
 import { log } from '../helpers/MetricsHelper.js';
@@ -114,7 +115,7 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
           },
         },
         modalParams: {
-          loadTimeout: 60000,
+          loadTimeout: EXPRESS_LOAD_TIMEOUT.EDIT_IMAGE,
         },
         callbacks: {
           onPublish,

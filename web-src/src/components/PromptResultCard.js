@@ -22,6 +22,7 @@ import { useSetRecoilState } from 'recoil';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './PromptResultCard.l10n.js';
+import { EXPRESS_LOAD_TIMEOUT } from './Constants.js';
 
 import { useIsFavorite } from '../state/IsFavoriteHook.js';
 import { useIsFeedback } from '../state/IsFeedbackHook.js';
@@ -252,7 +253,7 @@ export function PromptResultCard({ result, ...props }) {
           promptText: imagePrompt,
         },
         modalParams: {
-          loadTimeout: 30000,
+          loadTimeout: EXPRESS_LOAD_TIMEOUT.GENERATE_IMAGE,
         },
         callbacks: {
           onPublish,

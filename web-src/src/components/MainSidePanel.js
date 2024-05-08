@@ -222,16 +222,16 @@ export function MainSidePanel(props) {
       }
 
       <Flex direction={'column'} gridArea={'footer'} gap={'16px'}>
-      <ul className={style.menu}>
-          <li className={style.menuItem}>
+        <div className={style.menu}>
+          <div className={style.menuItem}>
             <ClickableImage src={HelpIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.helpAndFaqsMenuItem)} alt={'Help'} onClick={() => window.open(HELP_AND_FAQ_URL, '_blank')} />
             {mainSidePanelType === MainSidePanelType.Expanded && <Link href={HELP_AND_FAQ_URL} target="_blank" UNSAFE_className={style.menu}>{formatMessage(intlMessages.mainSidePanel.helpAndFaqsMenuItem)}</Link>}
-          </li>
-          <li className={style.menuItem}>
+          </div>
+          <div className={style.menuItem}>
             <ClickableImage src={FileTxt} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)} alt={formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItemAltText)} onClick={() => window.open(USER_GUIDELINES_URL, '_blank')} />
             {mainSidePanelType === MainSidePanelType.Expanded && <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={style.menu}>{formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)}</Link>}
-          </li>
-        </ul>
+          </div>
+        </div>
         {mainSidePanelType === MainSidePanelType.Expanded
           ? <>
             <Text UNSAFE_className={style.copyright}>

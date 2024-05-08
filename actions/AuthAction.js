@@ -14,7 +14,7 @@ const LaunchDarkly = require('@launchdarkly/node-server-sdk');
 const QueryStringAddon = require('wretch/addons/queryString');
 const { ImsClient } = require('./ImsClient.js');
 const wretch = require('./Network.js');
-const { checkForAdobeInternalUser } = require('./Utils.js');
+const { checkForAdobeInternalUser } = require('./ActionUtils.js');
 
 const logger = Core.Logger('AuthAction');
 

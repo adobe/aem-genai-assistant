@@ -110,12 +110,14 @@ export async function readCustomPromptTemplates(runMode, defaultRunMode) {
     createPromptTemplatesWrapper([]),
     false,
   );
+  console.log('privateSettings', privateSettings);
   const privatePromptTemplates = settingsToPromptTemplates(privateSettings, false, runMode, defaultRunMode);
   const publicSettings = await readValueFromSettings(
     PROMPT_TEMPLATE_STORAGE_KEY,
     createPromptTemplatesWrapper([]),
     true,
   );
+  console.log('publicSettings', publicSettings);
   const publicPromptTemplates = settingsToPromptTemplates(publicSettings, true, runMode, defaultRunMode);
   return [
     ...privatePromptTemplates,

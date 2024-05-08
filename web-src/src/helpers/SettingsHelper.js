@@ -26,12 +26,17 @@ export async function readValueFromSettings(groupId, defaultValue, isShared) {
   }
 }
 
-export async function writeValueToSettings(groupId, value, isShared) {
+export async function writeValueToSettings(groupId, newValue, isShared) {
   try {
+    const oldValue = await readValueFromSettings(groupId, {}, isShared);
+    console.log('oldValue', oldValue);
     await settings.set({
       groupId,
       level: isShared ? SettingsLevel.ORG : SettingsLevel.USER,
-      settings: value,
+      settings: {
+        ...oldValue,
+        ...newValue,
+      },
     });
   } catch (err) {
     console.error(`Error writing data to ${groupId}`, err);

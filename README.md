@@ -56,7 +56,7 @@ AIO_runtime_apihost=
 AIO_LOG_LEVEL=info
 
 ## Firefall environment variables
-FIREFALL_API_KEY=aem-genai-assistant
+FIREFALL_API_KEY=aem-sidekick-genai-assistant
 FIREFALL_ENDPOINT=https://firefall.adobe.io # or https://firefall-stage.adobe.io
 
 ## IMS environment variables
@@ -82,3 +82,5 @@ In addition, the following values need to be manually set (request from a teamma
 - `EXPRESS_PRODUCT_CONTEXT`
 - `EXPRESS_SDK_URL`
 - `TARGET_API_KEY`
+- `FT_EARLY_ACCESS`
+- `LD_SDK_KEY`

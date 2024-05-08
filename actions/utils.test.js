@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-const { checkForAdobeInternalUser } = require('./utils.js'); // adjust the path as needed
+const { checkForAdobeInternalUser } = require('./Utils.js'); // adjust the path as needed
 
 describe('checkForAdobeInternalUser', () => {
   it('should return true for Adobe internal user emails', () => {

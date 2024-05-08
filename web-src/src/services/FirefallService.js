@@ -10,17 +10,14 @@
  * governing permissions and limitations under the License.
  */
 
-/* eslint-disable max-classes-per-file */
-
 import { wretch } from '../helpers/NetworkHelper.js';
 import { replaceRuntimeDomainInUrl } from '../helpers/UrlHelper.js';
 
 const POLL_DELAY = 2; // in seconds
 const MAX_POLLING_TIME = 120; // in seconds
 
-class ActivationNotReadyError extends Error {}
-
 const poll = async (fn, maxPollingTime = MAX_POLLING_TIME, pollDelay = POLL_DELAY, initialPollDelay = POLL_DELAY) => {
+  const STATUS_RUNNING = 'running';
   const wait = async (timeout) => new Promise((resolve) => { setTimeout(resolve, timeout * 1000); });
 
   if (initialPollDelay) {
@@ -29,17 +26,15 @@ const poll = async (fn, maxPollingTime = MAX_POLLING_TIME, pollDelay = POLL_DELA
 
   let pollingTime = 0;
   while (pollingTime <= maxPollingTime) {
-    try {
-      // eslint-disable-next-line no-await-in-loop
-      return await fn();
-    } catch (error) {
-      if (!(error instanceof ActivationNotReadyError)) {
-        throw error;
-      }
+    // eslint-disable-next-line no-await-in-loop
+    const response = await fn();
 
+    if (response.status === STATUS_RUNNING) {
       pollingTime += pollDelay;
       // eslint-disable-next-line no-await-in-loop
       await wait(pollDelay);
+    } else {
+      return response;
     }
   }
 
@@ -63,7 +58,7 @@ export class FirefallService {
   }
 
   async complete(prompt, temperature) {
-    const { activationId } = await wretch(this.completeEndpoint)
+    const { jobId } = await wretch(this.completeEndpoint)
       .post({
         prompt,
         temperature,
@@ -73,18 +68,16 @@ export class FirefallService {
       .json();
 
     return poll(async () => {
-      return wretch(`${this.completeEndpoint}?activationId=${activationId}`)
+      return wretch(`${this.completeEndpoint}?jobId=${jobId}`)
         .headers({
           Authorization: `Bearer ${this.accessToken}`,
           'X-Org-Id': this.imsOrg,
         })
         .get()
-        .error(503, () => {
-          throw new ActivationNotReadyError();
-        })
         .json();
     }).then((data) => {
-      const { query_id: queryId, generations } = data;
+      const { result } = data;
+      const { query_id: queryId, generations } = result;
       return {
         queryId,
         response: generations[0][0].message.content,

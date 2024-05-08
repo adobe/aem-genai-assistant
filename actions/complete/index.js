@@ -13,14 +13,16 @@
 const openwhisk = require('openwhisk');
 const { asGenericAction } = require('../GenericAction.js');
 const { asAuthAction } = require('../AuthAction.js');
-const InternalError = require('../InternalError.js');
+
+const STATUS_RUNNING = 'running';
+const STATUS_COMPLETED = 'completed';
 
 async function main(params) {
-  const { activationId } = params;
+  const { jobId } = params;
 
   const ow = openwhisk();
 
-  if (!activationId) {
+  if (!jobId) {
     const activation = await ow.actions.invoke({
       name: 'aem-genai-assistant/generate',
       blocking: false,
@@ -29,18 +31,26 @@ async function main(params) {
     });
 
     return {
-      activationId: activation.activationId,
+      statusCode: 202,
+      jobId: activation.activationId,
     };
   } else {
     try {
-      const activation = await ow.activations.get(activationId);
+      const activation = await ow.activations.get(jobId);
 
-      return activation.response.result;
+      return {
+        jobId,
+        status: STATUS_COMPLETED,
+        result: activation.response.result,
+      };
     } catch (error) {
       if (error instanceof Error && error.constructor.name === 'OpenWhiskError' && error.statusCode === 404) {
         // For valid activation IDs that haven't finished yet, App Builder (OpenWhisk) returns a 404 error
-        // instead of any data or status. Therefore, we will throw a 503 error to inform the client to retry later.
-        throw new InternalError(503, `Activation ID ${activationId} is not yet ready`);
+        // instead of any data or status. Therefore, we will return a status of 'running' to inform the client to wait.
+        return {
+          jobId,
+          status: STATUS_RUNNING,
+        };
       }
       throw error;
     }

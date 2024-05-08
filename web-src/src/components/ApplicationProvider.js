@@ -26,11 +26,9 @@ import { CsvParserService } from '../services/CsvParserService.js';
 import { FeatureFlagsService } from '../services/FeatureFlagsService.js';
 import { AemService } from '../services/AemService.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
+import { RUN_MODE_CF, RUN_MODE_DEFAULT } from '../state/RunMode.js';
 
 export const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
-
-export const RUN_MODE_DEFAULT = 'default';
-export const RUN_MODE_CF = 'content-fragments';
 
 const FEATURE_FLAGS_PROJECT_ID = 'aem-generate-variations';
 
@@ -87,7 +85,7 @@ export const ApplicationProvider = ({ children }) => {
       setBundledPromptTemplates(parseBundledPromptTemplates(runMode));
 
       console.debug('Reading custom prompt templates...');
-      readCustomPromptTemplates(runMode, RUN_MODE_DEFAULT).then((templates) => {
+      readCustomPromptTemplates(runMode).then((templates) => {
         setCustomPromptTemplates(templates);
       });
 

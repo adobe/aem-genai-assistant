@@ -34,8 +34,9 @@ import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { MainSidePanelType, mainSidePanelTypeState } from '../state/MainSidePanelTypeState.js';
 import { ClickableImage } from './ClickableImage.js';
 import { newGroupingLabelGenerator } from '../helpers/FormatHelper.js';
-import { RUN_MODE_CF, useApplicationContext } from './ApplicationProvider.js';
+import { useApplicationContext } from './ApplicationProvider.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
+import { RUN_MODE_CF } from '../state/RunMode.js';
 
 export const HELP_AND_FAQ_URL = 'https://www.aem.live/docs/sidekick-generate-variations';
 

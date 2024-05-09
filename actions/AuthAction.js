@@ -10,9 +10,11 @@
  * governing permissions and limitations under the License.
  */
 const { Core } = require('@adobe/aio-sdk');
+const LaunchDarkly = require('@launchdarkly/node-server-sdk');
 const QueryStringAddon = require('wretch/addons/queryString');
 const { ImsClient } = require('./ImsClient.js');
 const wretch = require('./Network.js');
+const { checkForAdobeInternalUser } = require('./ActionUtils.js');
 const { getAccessToken, getImsOrg } = require('./utils.js');
 
 const logger = Core.Logger('AuthAction');
@@ -37,7 +39,7 @@ async function isValidToken(endpoint, clientId, token) {
   }
 }
 
-async function checkForProductContext(endpoint, clientId, org, token, productContext) {
+async function getImsProfile(endpoint, clientId, token) {
   try {
     const response = await wretch(`${endpoint}/ims/profile/v1`)
       .addon(QueryStringAddon).query({
@@ -49,9 +51,17 @@ async function checkForProductContext(endpoint, clientId, org, token, productCon
       })
       .get()
       .json();
+    return response;
+  } catch (error) {
+    logger.error(error);
+    return null;
+  }
+}
 
-    if (Array.isArray(response.projectedProductContext)) {
-      const filteredProductContext = response.projectedProductContext
+async function checkForProductContext(profile, org, productContext) {
+  try {
+    if (Array.isArray(profile.projectedProductContext)) {
+      const filteredProductContext = profile.projectedProductContext
         .filter((obj) => obj.prodCtx.serviceCode === productContext);
 
       // For each entry in filteredProductContext check that
@@ -66,6 +76,34 @@ async function checkForProductContext(endpoint, clientId, org, token, productCon
   }
 }
 
+async function checkForEarlyProductAccess(toggle, sdkKey, isInternal, org) {
+  const ldClient = LaunchDarkly.init(sdkKey);
+  const context = {
+    kind: 'user',
+    key: org,
+    imsOrgId: org,
+    internal: isInternal,
+  };
+
+  return new Promise((resolve, reject) => {
+    ldClient.once('ready', () => {
+      ldClient.variation(toggle, context, false, (err, showFeature) => {
+        if (err) {
+          logger.error(err);
+          reject(err);
+        } else {
+          resolve(showFeature);
+        }
+      });
+    });
+
+    ldClient.on('error', (err) => {
+      logger.error(err);
+      reject(err);
+    });
+  });
+}
+
 function asAuthAction(action) {
   return async (params) => {
     const imsEndpoint = params.IMS_ENDPOINT;
@@ -74,6 +112,8 @@ function asAuthAction(action) {
     const clientSecret = params.IMS_SERVICE_CLIENT_SECRET;
     const permAuthCode = params.IMS_SERVICE_PERM_AUTH_CODE;
     const productContext = params.IMS_PRODUCT_CONTEXT;
+    const earlyAccessToggle = params.FT_EARLY_ACCESS;
+    const ldSdkKey = params.LD_SDK_KEY;
 
     const accessToken = getAccessToken(params);
     const imsOrg = getImsOrg(params);
@@ -83,9 +123,18 @@ function asAuthAction(action) {
       throw new Error('Access token is invalid');
     }
 
-    // Check that the profile has the expected product context
-    if (!await checkForProductContext(imsEndpoint, clientId, imsOrg, accessToken, productContext)) {
-      throw new Error('Profile does not have the required product context');
+    // Check that the profile has access to the product
+    const imsProfile = await getImsProfile(imsEndpoint, clientId, accessToken);
+    if (!imsProfile) {
+      throw new Error('Failed to fetch profile');
+    }
+
+    if (!await checkForProductContext(imsProfile, imsOrg, productContext)) {
+      const isInternalUser = checkForAdobeInternalUser(imsProfile);
+
+      if (!await checkForEarlyProductAccess(earlyAccessToggle, ldSdkKey, isInternalUser, imsOrg)) {
+        throw new Error('Profile does not have access to the product');
+      }
     }
 
     // If everything is okay, generate a service token

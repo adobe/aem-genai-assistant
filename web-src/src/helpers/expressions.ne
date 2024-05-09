@@ -10,4 +10,4 @@ parameter -> "," _ key _ "=" _ value _ {% ([, , key, , , , value]) => ({ key, va
 key -> [a-zA-Z0-9_]:+ {% ([key]) => key.join('') %}
 value -> string {% ([value]) => value %} | quotedString {% ([value]) => value %}
 string -> [a-zA-Z0-9\-_?:.,']:+ {% ([string]) => string.join('') %}
-quotedString -> "\"" [a-zA-Z0-9\-_=/&?:\s.,']:+ "\"" {% ([,string]) => string.join('') %}
+quotedString -> "\"" [a-zA-Z0-9\-_=/&?:\s.,'!@#$%^&*()[\]<>\~`|\\\t\n\r]:+ "\"" {% ([,string]) => string.join('') %}

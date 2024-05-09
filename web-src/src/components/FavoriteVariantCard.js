@@ -21,6 +21,7 @@ import { motion } from 'framer-motion';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './Favorites.l10n.js';
+import { EXPRESS_LOAD_TIMEOUT } from './Constants.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
 import { useApplicationContext } from './ApplicationProvider.js';
@@ -75,6 +76,10 @@ export function FavoriteVariantCard({
     const onPublish = (publishParams) => {
       addImageToVariant(variant.id, publishParams.asset[0].data);
     };
+    const onError = (err) => {
+      console.error('Error:', err.toString());
+      ToastQueue.negative(formatMessage(intlMessages.favoritesView.generateImageFailedToast), { timeout: 2000 });
+    };
 
     const success = await expressSdkService.handleImageOperation(
       'generateImage',
@@ -85,8 +90,12 @@ export function FavoriteVariantCard({
         inputParams: {
           promptText: imagePrompt,
         },
+        modalParams: {
+          loadTimeout: EXPRESS_LOAD_TIMEOUT.GENERATE_IMAGE,
+        },
         callbacks: {
           onPublish,
+          onError,
         },
       },
     );

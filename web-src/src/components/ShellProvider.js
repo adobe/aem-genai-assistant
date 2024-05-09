@@ -15,8 +15,11 @@ import React, {
 } from 'react';
 
 import page from '@adobe/exc-app/page';
+import { FeatureFlagsService } from '../services/FeatureFlagsService.js';
 
 export const ShellContext = createContext();
+
+const FEATURE_FLAGS_PROJECT_ID = 'aem-generate-variations';
 
 const isAuthorized = (imsProfile, imsOrg) => {
   if (Array.isArray(imsProfile.projectedProductContext)) {
@@ -49,7 +52,7 @@ export const ShellProvider = ({ children, runtime }) => {
 
   const shellEventsHandler = useCallback((shellConfig) => {
     const {
-      imsProfile, imsToken, imsOrg, imsInfo: { tenant }, locale,
+      imsProfile, imsToken, imsOrg, imsInfo: { tenant }, locale, internal,
     } = shellConfig;
 
     setShellContext({
@@ -60,16 +63,30 @@ export const ShellProvider = ({ children, runtime }) => {
         imsToken,
         imsOrg,
         locale,
+        internal,
       },
       isUserAuthorized: isAuthorized(imsProfile, imsOrg),
       isExpressAuthorized: expressAuthorized(imsProfile, imsOrg),
       done: page.done,
     });
-  }, [setShellContext]);
+  }, []);
 
   useEffect(() => {
     runtime.on('ready', shellEventsHandler);
     runtime.on('configuration', shellEventsHandler);
+  }, []);
+
+  useEffect(() => {
+    FeatureFlagsService.create(FEATURE_FLAGS_PROJECT_ID)
+      .then((featureFlagsService) => {
+        setShellContext((prevContext) => ({
+          ...prevContext,
+          featureFlagsService,
+        }));
+      })
+      .catch((error) => {
+        console.error('Failed to initialize feature flags service:', error);
+      });
   }, []);
 
   if (!shellContext) {

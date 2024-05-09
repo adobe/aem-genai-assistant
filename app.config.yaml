@@ -57,4 +57,5 @@ application:
             web: true
             runtime: nodejs:18
   hooks:
+    post-app-run: ./hooks/post-app-run.js
     pre-app-deploy: ./hooks/pre-app-deploy.js

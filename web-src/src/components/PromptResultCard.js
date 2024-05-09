@@ -196,9 +196,10 @@ export function PromptResultCard({ result, ...props }) {
     }
   }, [setResults]);
 
-  const sendFeedback = useCallback((sentiment) => {
+  const sendFeedback = useCallback((sentiment, variant) => {
     firefallService.feedback(result.id, sentiment)
       .then((id) => {
+        saveFeedback(variant);
         ToastQueue.positive(formatMessage(intlMessages.promptResultCard.sendFeedbackSuccessToast), { timeout: 1000 });
       })
       .catch((error) => {
@@ -398,31 +399,29 @@ export function PromptResultCard({ result, ...props }) {
             <Flex>
               <TooltipTrigger delay={0}>
                 <ActionButton
-                    isQuiet
-                    isDisabled={isFeedback(selectedVariant)}
-                    UNSAFE_className="hover-cursor-pointer"
-                    onPress={() => {
-                      log('prompt:thumbsup', { variant: selectedVariant.id });
-                      sampleRUM('genai:prompt:thumbsup', { source: 'ResultCard#onPress' });
-                      sendFeedback(true);
-                      saveFeedback(selectedVariant);
-                    }}>
-                  {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon/> : <ThumbsUpOutlineIcon/>}
+                  isQuiet
+                  isDisabled={isFeedback(selectedVariant)}
+                  UNSAFE_className="hover-cursor-pointer"
+                  onPress={() => {
+                    log('prompt:thumbsup', { variant: selectedVariant.id });
+                    sampleRUM('genai:prompt:thumbsup', { source: 'ResultCard#onPress' });
+                    sendFeedback(true, selectedVariant);
+                  }}>
+                  {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon /> : <ThumbsUpOutlineIcon />}
                 </ActionButton>
                 <Tooltip>{formatMessage(intlMessages.promptResultCard.goodButtonTooltip)}</Tooltip>
               </TooltipTrigger>
               <TooltipTrigger delay={0}>
                 <ActionButton
-                    isQuiet
-                    isDisabled={isFeedback(selectedVariant)}
-                    UNSAFE_className="hover-cursor-pointer"
-                    onPress={() => {
-                      log('prompt:thumbsdown', { variant: selectedVariant.id });
-                      sampleRUM('genai:prompt:thumbsdown', { source: 'ResultCard#onPress' });
-                      sendFeedback(false);
-                      saveFeedback(selectedVariant);
-                    }}>
-                  {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon/> : <ThumbsDownOutlineIcon/>}
+                  isQuiet
+                  isDisabled={isFeedback(selectedVariant)}
+                  UNSAFE_className="hover-cursor-pointer"
+                  onPress={() => {
+                    log('prompt:thumbsdown', { variant: selectedVariant.id });
+                    sampleRUM('genai:prompt:thumbsdown', { source: 'ResultCard#onPress' });
+                    sendFeedback(false, selectedVariant);
+                  }}>
+                  {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon /> : <ThumbsDownOutlineIcon />}
                 </ActionButton>
                 <Tooltip>{formatMessage(intlMessages.promptResultCard.poorButtonTooltip)}</Tooltip>
               </TooltipTrigger>

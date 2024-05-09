@@ -18,6 +18,8 @@ application:
               IMS_SERVICE_CLIENT_SECRET: $IMS_SERVICE_CLIENT_SECRET
               IMS_SERVICE_PERM_AUTH_CODE: $IMS_SERVICE_PERM_AUTH_CODE
               IMS_PRODUCT_CONTEXT: $IMS_PRODUCT_CONTEXT
+              FT_EARLY_ACCESS: $FT_EARLY_ACCESS
+              LD_SDK_KEY: $LD_SDK_KEY
           feedback:
             function: actions/feedback/index.js
             web: true
@@ -31,6 +33,8 @@ application:
               IMS_SERVICE_CLIENT_SECRET: $IMS_SERVICE_CLIENT_SECRET
               IMS_SERVICE_PERM_AUTH_CODE: $IMS_SERVICE_PERM_AUTH_CODE
               IMS_PRODUCT_CONTEXT: $IMS_PRODUCT_CONTEXT
+              FT_EARLY_ACCESS: $FT_EARLY_ACCESS
+              LD_SDK_KEY: $LD_SDK_KEY
           target:
             function: actions/target/index.js
             web: true

@@ -15,7 +15,7 @@ const getHeaders = () => {
   const ENABLE_APPBUILDER_LOGGING_PARAM = 'appBuilderLogging';
   const headers = {};
   const params = new URLSearchParams(window.location.search);
-  if (params.get(ENABLE_APPBUILDER_LOGGING_PARAM) !== null || window.location.hostname === 'localhost') {
+  if (params.get(ENABLE_APPBUILDER_LOGGING_PARAM) === 'true') {
     headers['X-OW-EXTRA-LOGGING'] = 'on';
   }
   return headers;

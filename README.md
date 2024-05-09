@@ -22,7 +22,7 @@ See: http://aem.live/docs/sidekick-generate-variations
 
 ### Debugging
 
-By default, App Builder stores only failed activations. To enable the storage of all App Builder activations, please add the `appBuilderLogging` parameter to the URL, as shown in the following example:
+By default, App Builder stores only failed activations. To enable the storage of all App Builder activations, set the `appBuilderLogging` search query parameter to `true`, as shown in the following example:
 
 ```
 https://experience.adobe.com/?appBuilderLogging=true#/aem/generate-variations/

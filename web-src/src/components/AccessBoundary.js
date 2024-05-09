@@ -37,15 +37,24 @@ function NoAccessMessage() {
 }
 
 export function AccessBoundary({ children, fallback = <NoAccessMessage /> }) {
-  const { isUserAuthorized, done } = useShellContext();
+  const { isUserAuthorized, featureFlagsService, done } = useShellContext();
+  const [isEarlyAccessAuthorized, setIsEarlyAccessAuthorized] = React.useState(false);
 
   useEffect(() => {
-    if (!isUserAuthorized) {
+    if (featureFlagsService) {
+      if (featureFlagsService.isEnabled(process.env.FT_EARLY_ACCESS) === 'true') {
+        setIsEarlyAccessAuthorized(true);
+      }
+    }
+  }, [featureFlagsService]);
+
+  useEffect(() => {
+    if (!(isUserAuthorized || isEarlyAccessAuthorized)) {
       done();
     }
-  }, [isUserAuthorized, done]);
+  }, [isUserAuthorized, isEarlyAccessAuthorized, done]);
 
-  if (!isUserAuthorized) {
+  if (!(isUserAuthorized || isEarlyAccessAuthorized)) {
     return fallback;
   }
 

@@ -22,6 +22,7 @@ import { useSetRecoilState } from 'recoil';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './PromptResultCard.l10n.js';
+import { EXPRESS_LOAD_TIMEOUT } from './Constants.js';
 
 import { useIsFavorite } from '../state/IsFavoriteHook.js';
 import { useIsFeedback } from '../state/IsFeedbackHook.js';
@@ -198,9 +199,10 @@ export function PromptResultCard({ result, ...props }) {
     }
   }, [setResults]);
 
-  const sendFeedback = useCallback((sentiment) => {
+  const sendFeedback = useCallback((sentiment, variant) => {
     firefallService.feedback(result.id, sentiment)
       .then((id) => {
+        saveFeedback(variant);
         ToastQueue.positive(formatMessage(intlMessages.promptResultCard.sendFeedbackSuccessToast), { timeout: 1000 });
       })
       .catch((error) => {
@@ -237,6 +239,10 @@ export function PromptResultCard({ result, ...props }) {
     const onPublish = (publishParams) => {
       addImageToVariant(variantId, publishParams.asset[0].data);
     };
+    const onError = (err) => {
+      console.error('Error:', err.toString());
+      ToastQueue.negative(formatMessage(intlMessages.promptResultCard.generateImageFailedToast), { timeout: 2000 });
+    };
 
     const success = await expressSdkService.handleImageOperation(
       'generateImage',
@@ -247,8 +253,12 @@ export function PromptResultCard({ result, ...props }) {
         inputParams: {
           promptText: imagePrompt,
         },
+        modalParams: {
+          loadTimeout: EXPRESS_LOAD_TIMEOUT.GENERATE_IMAGE,
+        },
         callbacks: {
           onPublish,
+          onError,
         },
       },
     );
@@ -351,8 +361,7 @@ export function PromptResultCard({ result, ...props }) {
                   onPress={() => {
                     log('prompt:thumbsup', { variant: selectedVariant.id });
                     sampleRUM('genai:prompt:thumbsup', { source: 'ResultCard#onPress' });
-                    sendFeedback(true);
-                    saveFeedback(selectedVariant);
+                    sendFeedback(true, selectedVariant);
                   }}>
                   {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon /> : <ThumbsUpOutlineIcon />}
                 </ActionButton>
@@ -366,8 +375,7 @@ export function PromptResultCard({ result, ...props }) {
                   onPress={() => {
                     log('prompt:thumbsdown', { variant: selectedVariant.id });
                     sampleRUM('genai:prompt:thumbsdown', { source: 'ResultCard#onPress' });
-                    sendFeedback(false);
-                    saveFeedback(selectedVariant);
+                    sendFeedback(false, selectedVariant);
                   }}>
                   {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon /> : <ThumbsDownOutlineIcon />}
                 </ActionButton>

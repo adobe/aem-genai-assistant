@@ -19,7 +19,7 @@ export const FIREFALL_ACTION_TYPES = {
 };
 
 export const FIREFALL_POLLING_TIMEOUTS = {
-  MAX_POLLING_TIME: 120, // in seconds
+  MAX_POLLING_TIME: 300, // in seconds
   TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY: 1, // in seconds
   VARIATIONS_GENERATION_POLL_DELAY: 5, // in seconds
 };

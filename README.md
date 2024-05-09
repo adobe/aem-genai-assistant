@@ -8,6 +8,13 @@ See: http://aem.live/docs/sidekick-generate-variations
 
 ### Initial Setup
 
+- Check that you have access to [App Builder](https://developer.adobe.com/app-builder/) and [Developer Console](https://developer.adobe.com/console) (log in with the **Sites Internal** profile)
+    - Request access from an IT admin
+- Install dependencies: `npm install`
+- Select an organization, project, and workspace:
+    - `aio console org select`
+    - `aio console project select`
+    - `aio console workspace select`
 - Populate the `.env` file in the project root and fill it as shown [below](#env)
 
 ### Local Development
@@ -19,6 +26,7 @@ See: http://aem.live/docs/sidekick-generate-variations
 ### Testing
 
 - Run `npm run lint && npm test` to run lint and unit tests for ui and actions
+- Preview the Generate Variations app in the [QA workspace](https://experience-qa.adobe.com/?shell_source=local&devMode=true&shell_ims=prod#/aem/generate-variations/): `npm run preview`
 
 ### Deployment
 
@@ -48,7 +56,7 @@ AIO_runtime_apihost=
 AIO_LOG_LEVEL=info
 
 ## Firefall environment variables
-FIREFALL_API_KEY=aem-genai-assistant
+FIREFALL_API_KEY=aem-sidekick-genai-assistant
 FIREFALL_ENDPOINT=https://firefall.adobe.io # or https://firefall-stage.adobe.io
 
 ## IMS environment variables
@@ -66,3 +74,13 @@ SPLUNK_HEC__HEC_TOKEN=
 FT_EARLY_ACCESS=
 LD_SDK_KEY=
 ```
+
+In addition, the following values need to be manually set (request from a teammate or admin):
+- `IMS_SERVICE_CLIENT_SECRET`
+- `IMS_SERVICE_PERM_AUTH_CODE`
+- `SPLUNK_HEC__HEC_TOKEN`
+- `EXPRESS_PRODUCT_CONTEXT`
+- `EXPRESS_SDK_URL`
+- `TARGET_API_KEY`
+- `FT_EARLY_ACCESS`
+- `LD_SDK_KEY`

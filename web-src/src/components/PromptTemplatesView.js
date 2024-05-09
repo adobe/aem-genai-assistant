@@ -20,7 +20,7 @@ import { intlMessages } from './App.l10n.js';
 import {
   customPromptTemplatesState, NEW_PROMPT_TEMPLATE_ID,
   promptTemplatesState,
-  writeCustomPromptTemplates,
+  reconcileCustomPromptTemplates,
 } from '../state/PromptTemplatesState.js';
 import { PromptTemplateCard } from './PromptTemplateCard.js';
 import { sessionState } from '../state/SessionState.js';
@@ -78,10 +78,8 @@ export function PromptTemplatesView() {
   }, [setCurrentSession, setViewType]);
 
   const handleDelete = useCallback(() => {
-    const newCustomPromptTemplates = customPromptTemplates
-      .filter((template) => template.id !== templateToDelete.id);
-    return writeCustomPromptTemplates(newCustomPromptTemplates, runMode)
-      .then(() => {
+    reconcileCustomPromptTemplates([], [templateToDelete], runMode)
+      .then((newCustomPromptTemplates) => {
         setTemplateToDelete(null);
         setCustomPromptTemplates(newCustomPromptTemplates);
       })

@@ -21,7 +21,7 @@ import { useIntl } from 'react-intl';
 import { intlMessages } from './PromptSessionSideView.l10n.js';
 import GenAIIcon from '../icons/GenAIIcon.js';
 import { renderPrompt } from '../helpers/PromptRenderer.js';
-import { RUN_MODE_CF, useApplicationContext } from './ApplicationProvider.js';
+import { useApplicationContext } from './ApplicationProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { temperatureState } from '../state/TemperatureState.js';
 import { resultsState } from '../state/ResultsState.js';
@@ -33,6 +33,7 @@ import { createVariants } from '../helpers/ResultsParser.js';
 import { log } from '../helpers/MetricsHelper.js';
 import { sampleRUM } from '../rum.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
+import { RUN_MODE_CF } from '../state/RunMode.js';
 
 export function GenerateButton() {
   const { runMode, firefallService } = useApplicationContext();

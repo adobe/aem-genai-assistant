@@ -36,7 +36,7 @@ import { intlMessages } from './PromptSessionSideView.l10n.js';
 import { promptState } from '../state/PromptState.js';
 import SaveIcon from '../assets/save.svg';
 import {
-  customPromptTemplatesState, writeCustomPromptTemplates,
+  customPromptTemplatesState, reconcileCustomPromptTemplates,
 } from '../state/PromptTemplatesState.js';
 import { useShellContext } from './ShellProvider.js';
 import { lastUsedPromptTemplateIdState } from '../state/LastUsedPromptTemplateIdState.js';
@@ -56,13 +56,15 @@ function debounce(callback, wait) {
   };
 }
 
-function saveTemplates(customPromptTemplates, runMode, formatMessage) {
-  return writeCustomPromptTemplates(customPromptTemplates, runMode).then(() => {
-    ToastQueue.positive(formatMessage(intlMessages.promptSessionSideView.savePromptSuccessToast), { timeout: 1000 });
-  }).catch((error) => {
-    ToastQueue.negative(formatMessage(intlMessages.promptSessionSideView.savePromptFailureToast), { timeout: 1000 });
-    console.error(error);
-  });
+function updateTemplates(templatesToUpsert, templatesToDelete, runMode, formatMessage) {
+  return reconcileCustomPromptTemplates(templatesToUpsert, templatesToDelete, runMode)
+    .then((updatedPromptTemplates) => {
+      ToastQueue.positive(formatMessage(intlMessages.promptSessionSideView.savePromptSuccessToast), { timeout: 1000 });
+      return updatedPromptTemplates;
+    }).catch((error) => {
+      ToastQueue.negative(formatMessage(intlMessages.promptSessionSideView.savePromptFailureToast), { timeout: 1000 });
+      console.error(error);
+    });
 }
 
 export function SavePromptButton(props) {
@@ -113,14 +115,14 @@ export function SavePromptButton(props) {
       label,
       description: description || label,
       template: prompt,
+      modes: [runMode],
       isShared,
       created: new Date().getTime(),
       lastModified: new Date().getTime(),
       createdBy: name,
       lastModifiedBy: name,
     };
-    const newCustomPromptTemplates = [...customPromptTemplates, newTemplate];
-    saveTemplates(newCustomPromptTemplates, runMode, formatMessage).then(() => {
+    updateTemplates([newTemplate], [], runMode, formatMessage).then((newCustomPromptTemplates) => {
       log('prompt:save:create', {
         id: newTemplate.id,
         label: newTemplate.label,
@@ -147,11 +149,7 @@ export function SavePromptButton(props) {
       lastModified: new Date().getTime(),
       lastModifiedBy: name,
     };
-    const newCustomPromptTemplates = [
-      ...customPromptTemplates.filter((template) => template.id !== selectedTemplate.id),
-      updatedTemplate,
-    ];
-    saveTemplates(newCustomPromptTemplates, runMode, formatMessage).then(() => {
+    updateTemplates([updatedTemplate], [], runMode, formatMessage).then((newCustomPromptTemplates) => {
       log('prompt:save:update', {
         id: updatedTemplate.id,
         label: updatedTemplate.label,

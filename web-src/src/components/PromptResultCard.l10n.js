@@ -92,6 +92,23 @@ export const intlMessages = {
       id: 'promptResultCard.removeButtonTooltip',
       description: 'Tooltip for Remove button',
     },
+
+    contentFragmentExportDialogTitle: {
+      defaultMessage: 'Export to Content Fragment',
+      id: 'promptResultCard.contentFragmentExportDialogTitle',
+      description: 'Title for Export to Content Fragment dialog',
+    },
+    contentFragmentExportDialogDescription: {
+      defaultMessage: 'Export the selected variation as a new content fragment variation.',
+      id: 'promptResultCard.contentFragmentExportDialogDescription',
+      description: 'Description for Export to Content Fragment dialog',
+    },
+    contentFragmentExportDialogVariationNameLabel: {
+      defaultMessage: 'Variation Name',
+      id: 'promptResultCard.contentFragmentExportDialogExportButtonLabel',
+      description: 'Label for the Export button in Export to Content Fragment dialog',
+    },
+
     generateImageButtonLabel: {
       defaultMessage: 'Generate Image',
       id: 'promptResultCard.generateImageButtonLabel',

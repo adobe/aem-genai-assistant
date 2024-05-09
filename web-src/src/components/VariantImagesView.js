@@ -20,6 +20,7 @@ import { ToastQueue } from '@react-spectrum/toast';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './ImageViewer.l10n.js';
+import { EXPRESS_LOAD_TIMEOUT } from './Constants.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
 import { log } from '../helpers/MetricsHelper.js';
@@ -94,6 +95,10 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
     const onPublish = (publishParams) => {
       replaceImageFromVariant(variantId, index, publishParams.asset[0].data);
     };
+    const onError = (err) => {
+      console.error('Error:', err.toString());
+      ToastQueue.negative(formatMessage(intlMessages.imageViewer.editImageFailedToast), { timeout: 2000 });
+    };
     const assetData = variantImages[variant.id][index];
 
     const success = await expressSdkService.handleImageOperation(
@@ -109,8 +114,12 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
             dataType: 'base64',
           },
         },
+        modalParams: {
+          loadTimeout: EXPRESS_LOAD_TIMEOUT.EDIT_IMAGE,
+        },
         callbacks: {
           onPublish,
+          onError,
         },
       },
     );

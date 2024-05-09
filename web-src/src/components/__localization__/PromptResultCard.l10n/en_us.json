@@ -1,4 +1,7 @@
 {
+  "promptResultCard.contentFragmentExportDialogDescription": "Export the selected variation as a new content fragment variation.",
+  "promptResultCard.contentFragmentExportDialogExportButtonLabel": "Variation Name",
+  "promptResultCard.contentFragmentExportDialogTitle": "Export to Content Fragment",
   "promptResultCard.copyButtonTooltip": "Copy",
   "promptResultCard.copyTextSuccessToast": "Copied text to clipboard!",
   "promptResultCard.createPromptDescription": "Open \"Edit Prompt\" and write your prompt or paste sections of other prompts.",

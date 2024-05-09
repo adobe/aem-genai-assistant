@@ -21,6 +21,7 @@ import { motion } from 'framer-motion';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './Favorites.l10n.js';
+import { EXPRESS_LOAD_TIMEOUT } from './Constants.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
 import { useApplicationContext } from './ApplicationProvider.js';
@@ -38,22 +39,35 @@ import GenAIIcon from '../icons/GenAIIcon.js';
 
 const styles = {
   card: css`
+    position: relative;
     padding: 10px;
     border: 1px solid #e0e0e0;
     border-radius: 10px;
+  `,
+  selectedCard: css`
+    background-color: rgba(0, 116, 217, 0.07);
+    border-color: #0074D9;
   `,
   variant: css`
     padding: 10px;
     min-height: 100px;
   `,
+  selectionToggle: css`
+    position: absolute;
+    top: 5px;
+    right: 0;
+  `,
 };
 
-export function FavoriteVariantCard({ variant, ...props }) {
+export function FavoriteVariantCard({
+  variant, isSelected, setSelected, ...props
+}) {
   const { firefallService, expressSdkService } = useApplicationContext();
   const { isExpressAuthorized } = useShellContext();
+  const { formatMessage } = useIntl();
+
   const toggleFavorite = useToggleFavorite();
   const { addImageToVariant } = useVariantImages();
-  const { formatMessage } = useIntl();
 
   const [imagePromptProgress, setImagePromptProgress] = useState(false);
 
@@ -61,6 +75,10 @@ export function FavoriteVariantCard({ variant, ...props }) {
     log('express:favorite:generateimage', { variantId: variant.id });
     const onPublish = (publishParams) => {
       addImageToVariant(variant.id, publishParams.asset[0].data);
+    };
+    const onError = (err) => {
+      console.error('Error:', err.toString());
+      ToastQueue.negative(formatMessage(intlMessages.favoritesView.generateImageFailedToast), { timeout: 2000 });
     };
 
     const success = await expressSdkService.handleImageOperation(
@@ -72,8 +90,12 @@ export function FavoriteVariantCard({ variant, ...props }) {
         inputParams: {
           promptText: imagePrompt,
         },
+        modalParams: {
+          loadTimeout: EXPRESS_LOAD_TIMEOUT.GENERATE_IMAGE,
+        },
         callbacks: {
           onPublish,
+          onError,
         },
       },
     );
@@ -102,7 +124,10 @@ export function FavoriteVariantCard({ variant, ...props }) {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ ease: 'easeIn', duration: 0.3 }}>
-      <div {...props} className={styles.card}>
+      <div
+         className={[styles.card, isSelected && styles.selectedCard].join(' ')}
+         onClick={() => setSelected(!isSelected)}
+         {...props}>
         <div className={styles.variant} dangerouslySetInnerHTML={{ __html: toHTML(variant.content) }} />
         <View marginTop={'10px'} marginBottom={'6px'}>
           <Flex direction="row" justifyContent="left">

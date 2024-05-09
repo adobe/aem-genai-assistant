@@ -1,6 +1,6 @@
 {
   "metadata": {
-    "total": 6,
+    "total": 7,
     "packageName": "app"
   },
   "components": {
@@ -9,6 +9,12 @@
       "__destination__": "web-src/src/components/__localization__/App.l10n",
       "__source__": "web-src/src/components/__localization__/App.l10n/jl10n.json",
       "__import__": "web-src/src/components/__localization__/App.l10n/index.js"
+    },
+    "ContentFragmentExportButton.l10n": {
+      "__default__": "web-src/src/components/__localization__/ContentFragmentExportButton.l10n/en_us.json",
+      "__destination__": "web-src/src/components/__localization__/ContentFragmentExportButton.l10n",
+      "__source__": "web-src/src/components/__localization__/ContentFragmentExportButton.l10n/jl10n.json",
+      "__import__": "web-src/src/components/__localization__/ContentFragmentExportButton.l10n/index.js"
     },
     "Favorites.l10n": {
       "__default__": "web-src/src/components/__localization__/Favorites.l10n/en_us.json",

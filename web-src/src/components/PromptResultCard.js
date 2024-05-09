@@ -13,7 +13,7 @@ import {
   Button, ActionButton, Tooltip, TooltipTrigger, Flex, ProgressCircle, Divider, Text, Heading,
 } from '@adobe/react-spectrum';
 import React, {
-  useCallback, useState, useEffect, useRef,
+  useCallback, useEffect, useRef, useState,
 } from 'react';
 import { css } from '@emotion/css';
 import { motion } from 'framer-motion';
@@ -23,11 +23,13 @@ import { useIntl } from 'react-intl';
 
 import Slider from 'react-slick';
 import { intlMessages } from './PromptResultCard.l10n.js';
+import { EXPRESS_LOAD_TIMEOUT } from './Constants.js';
+
 import { useIsFavorite } from '../state/IsFavoriteHook.js';
 import { useIsFeedback } from '../state/IsFeedbackHook.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { useSaveFeedback } from '../state/SaveFeedbackHook.js';
-import { useApplicationContext } from './ApplicationProvider.js';
+import { RUN_MODE_CF, useApplicationContext } from './ApplicationProvider.js';
 import { useShellContext } from './ShellProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
@@ -51,6 +53,7 @@ import ThumbsDownOutlineIcon from '../icons/ThumbsDownOutlineIcon.js';
 import ThumbsUpDisabledIcon from '../icons/ThumbsUpDisabledIcon.js';
 import ThumbsDownDisabledIcon from '../icons/ThumbsDownDisabledIcon.js';
 import GenAIIcon from '../icons/GenAIIcon.js';
+import { ContentFragmentExportButton } from './ContentFragmentExportButton.js';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -63,27 +66,9 @@ const styles = {
     gap: 16px;
     margin: 0 16px;
   `,
+  promptSection: css`
+  `,
   promptContent: css`
-    --max-lines: 3;
-    --line-height: 1.4;
-    max-height: calc(var(--max-lines) * 1em * var(--line-height));
-    line-height: var(--line-height);
-    overflow: hidden;
-    color: var(--alias-content-neutral-subdued-default, var(--alias-content-neutral-subdued-default, #464646));
-    font-family: Adobe Clean, serif;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    position: relative;
-    ::before {
-      content: "";
-      position: absolute;
-      height: calc(1em * var(--line-height));
-      width: 100%;
-      bottom: 0;
-      pointer-events: none;
-      background: linear-gradient(to bottom, transparent, white);
-    }
   `,
   promptActions: css`
   `,
@@ -141,12 +126,43 @@ const styles = {
   `,
   resultContent: css`
   `,
+  resultMetadata: css`
+    color: var(--alias-content-semantic-neutral-subdued-default, #929292);
+    font-size: 12px;
+  `,
   resultActions: css`
+    & div {
+      font-size: 12px;
+      color: var(--alias-content-semantic-neutral-subdued-default, #929292);
+    }
   `,
 };
 
+export function extractMetadataFields(obj) {
+  const resultFields = { ...obj };
+  const metadataFields = {};
+
+  const aiRationaleRegex = /^ai[_\s]*rationale$/i;
+  const variationNameRegex = /^variation[_\s]*name$/i;
+
+  for (const key of Object.keys(obj)) {
+    if (aiRationaleRegex.test(key)) {
+      metadataFields.aiRationale = obj[key];
+      delete resultFields[key];
+    } else if (variationNameRegex.test(key)) {
+      metadataFields.variationName = obj[key];
+      delete resultFields[key];
+    }
+  }
+
+  return { resultFields, metadataFields };
+}
+
 export function PromptResultCard({ result, ...props }) {
-  const { firefallService, expressSdkService } = useApplicationContext();
+  const {
+    runMode, firefallService, expressSdkService,
+  } = useApplicationContext();
+
   const { isExpressAuthorized } = useShellContext();
 
   const [selectedVariant, setSelectedVariant] = useState(result.variants[0]);
@@ -154,12 +170,14 @@ export function PromptResultCard({ result, ...props }) {
   const setPrompt = useSetRecoilState(promptState);
   const setParameters = useSetRecoilState(parametersState);
   const setResults = useSetRecoilState(resultsState);
+
   const isFavorite = useIsFavorite();
   const isFeedback = useIsFeedback();
   const toggleFavorite = useToggleFavorite();
   const saveFeedback = useSaveFeedback();
   const saveResults = useSaveResults();
   const { addImageToVariant } = useVariantImages();
+
   const resultsEndRef = useRef();
   const { formatMessage } = useIntl();
 
@@ -200,7 +218,6 @@ export function PromptResultCard({ result, ...props }) {
   const reusePrompt = useCallback(() => {
     setPrompt(result.promptTemplate);
     setParameters(result.parameters);
-    // setSelectedTimestamp(result.timestamp);
   }, [result, setPrompt, setParameters]);
 
   const deleteVariant = useCallback(async (variantId) => {
@@ -227,6 +244,10 @@ export function PromptResultCard({ result, ...props }) {
     const onPublish = (publishParams) => {
       addImageToVariant(variantId, publishParams.asset[0].data);
     };
+    const onError = (err) => {
+      console.error('Error:', err.toString());
+      ToastQueue.negative(formatMessage(intlMessages.promptResultCard.generateImageFailedToast), { timeout: 2000 });
+    };
 
     const success = await expressSdkService.handleImageOperation(
       'generateImage',
@@ -237,8 +258,12 @@ export function PromptResultCard({ result, ...props }) {
         inputParams: {
           promptText: imagePrompt,
         },
+        modalParams: {
+          loadTimeout: EXPRESS_LOAD_TIMEOUT.GENERATE_IMAGE,
+        },
         callbacks: {
           onPublish,
+          onError,
         },
       },
     );
@@ -261,6 +286,8 @@ export function PromptResultCard({ result, ...props }) {
         setImagePromptProgress(false);
       });
   }, []);
+
+  const { resultFields, metadataFields } = extractMetadataFields(selectedVariant.content);
 
   return (
     <motion.div
@@ -302,10 +329,12 @@ export function PromptResultCard({ result, ...props }) {
             }
             </Slider>
           </div>
-          <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(selectedVariant.content) }}/>
+            <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(resultFields) }} />
+            <div className={styles.resultMetadata} dangerouslySetInnerHTML={{ __html: toHTML(metadataFields) }} />
           <Flex direction="row" justifyContent={'space-between'} width={'100%'}>
             <Flex>
-              <TooltipTrigger delay={0}>
+                {runMode !== RUN_MODE_CF
+                    && <TooltipTrigger delay={0}>
                 <ActionButton
                     isQuiet
                     UNSAFE_className="hover-cursor-pointer"
@@ -314,6 +343,7 @@ export function PromptResultCard({ result, ...props }) {
                 </ActionButton>
                 <Tooltip>{formatMessage(intlMessages.promptResultCard.favoriteButtonTooltip)}</Tooltip>
               </TooltipTrigger>
+                }
               <TooltipTrigger delay={0}>
                 <ActionButton
                     isQuiet
@@ -331,7 +361,8 @@ export function PromptResultCard({ result, ...props }) {
                 </ActionButton>
                 <Tooltip>{formatMessage(intlMessages.promptResultCard.copyButtonTooltip)}</Tooltip>
               </TooltipTrigger>
-              <TooltipTrigger delay={0}>
+                {runMode !== RUN_MODE_CF
+                    && <TooltipTrigger delay={0}>
                 <ActionButton
                     isQuiet
                     UNSAFE_className="hover-cursor-pointer"
@@ -340,6 +371,13 @@ export function PromptResultCard({ result, ...props }) {
                 </ActionButton>
                 <Tooltip>{formatMessage(intlMessages.promptResultCard.removeButtonTooltip)}</Tooltip>
               </TooltipTrigger>
+                }
+                {runMode === RUN_MODE_CF
+                    && <>
+                        <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'}/>
+                        <ContentFragmentExportButton variant={selectedVariant}/>
+                    </>
+                }
               <Divider size="S" orientation="vertical" marginStart={'size-100'} marginEnd={'size-100'}/>
               <Flex direction="row" gap="size-100" alignItems={'center'}>
                 <Button

@@ -1,11 +1,17 @@
 {
   "mainSidePanel.collapseMenuType": "Collapse Side Panel",
+  "mainSidePanel.contentFragmentHostNameLabel": "Connected to AEM instance:",
+  "mainSidePanel.contentFragmentTileLabel": "Content Fragment:",
   "mainSidePanel.copyrightLabel": "Copyright © 2024 Adobe. All rights reserved",
   "mainSidePanel.expandMenuType": "Expand Side Panel",
   "mainSidePanel.favoritesMenuItem": "Favorites",
+  "mainSidePanel.favoritesMenuItemAltText": "Favorites",
   "mainSidePanel.helpAndFaqsMenuItem": "Help & FAQ",
   "mainSidePanel.promptTemplatesMenuItem": "Prompt Templates",
+  "mainSidePanel.promptTemplatesMenuItemAltText": "Prompt Templates",
   "mainSidePanel.recentsMenuItem": "Recents",
+  "mainSidePanel.recentsMenuItemAltText": "Recents",
   "mainSidePanel.title": "Generate Variations",
-  "mainSidePanel.userGuidelinesMenuItem": "User Guidelines"
+  "mainSidePanel.userGuidelinesMenuItem": "User Guidelines",
+  "mainSidePanel.userGuidelinesMenuItemAltText": "User Guidelines"
 }

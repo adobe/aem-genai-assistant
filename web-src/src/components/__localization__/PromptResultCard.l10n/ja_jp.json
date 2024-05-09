@@ -1,4 +1,7 @@
 {
+  "promptResultCard.contentFragmentExportDialogDescription": "選択したバリエーションを新しいコンテンツフラグメントバリエーションとして書き出します。",
+  "promptResultCard.contentFragmentExportDialogExportButtonLabel": "バリエーション名",
+  "promptResultCard.contentFragmentExportDialogTitle": "コンテンツフラグメントに書き出し",
   "promptResultCard.copyButtonTooltip": "コピー",
   "promptResultCard.copyTextSuccessToast": "テキストをクリップボードにコピーしました",
   "promptResultCard.createPromptDescription": "「プロンプトを編集」を開き、プロンプトを記述するか、他のプロンプトのペーストします。",

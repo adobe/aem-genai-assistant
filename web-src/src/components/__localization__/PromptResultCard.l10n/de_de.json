@@ -1,4 +1,7 @@
 {
+  "promptResultCard.contentFragmentExportDialogDescription": "Exportiert die ausgewählte Variante als neue Inhaltsfragmentvariante.",
+  "promptResultCard.contentFragmentExportDialogExportButtonLabel": "Variantenname",
+  "promptResultCard.contentFragmentExportDialogTitle": "In Inhaltsfragment exportieren",
   "promptResultCard.copyButtonTooltip": "Kopieren",
   "promptResultCard.copyTextSuccessToast": "Text in die Zwischenablage kopiert!",
   "promptResultCard.createPromptDescription": "Öffnen Sie „Prompt bearbeiten“ und schreiben Sie Ihr Prompt oder fügen Sie Abschnitte anderer Prompts ein.",

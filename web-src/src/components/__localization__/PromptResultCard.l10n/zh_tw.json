@@ -1,4 +1,7 @@
 {
+  "promptResultCard.contentFragmentExportDialogDescription": "將選取的變數匯出為新內容片段變數。",
+  "promptResultCard.contentFragmentExportDialogExportButtonLabel": "變數名稱",
+  "promptResultCard.contentFragmentExportDialogTitle": "匯出至內容片段",
   "promptResultCard.copyButtonTooltip": "複製",
   "promptResultCard.copyTextSuccessToast": "已將文字複製到剪貼簿！",
   "promptResultCard.createPromptDescription": "開啟「編輯提示」，並編寫您的提示或貼上其他提示部分。",
@@ -19,7 +22,7 @@
   "promptResultCard.removeButtonTooltip": "移除",
   "promptResultCard.reuseButtonLabel": "重複使用",
   "promptResultCard.reuseButtonTooltip": "載入用來產生變數的輸入值和提示。",
-  "promptResultCard.savePromptDescription": "如果您想要重複使用已建立的提示，請選取「儲存」。這可讓您儲存該提示以供日後使用。您可以將其儲存在使用者或組織層級。",
+  "promptResultCard.savePromptDescription": "如果要重複使用建立的提示，請選取「儲存」。這可讓您儲存提示以供日後使用。您可以在使用者或組織層級儲存。",
   "promptResultCard.savePromptTitle": "儲存",
   "promptResultCard.sendFeedbackSuccessToast": "回饋已傳送！",
   "promptResultCard.variationsHeading": "變數"

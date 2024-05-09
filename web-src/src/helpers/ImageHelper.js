@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 
-import { FIREFALL_ACTION_TYPES } from '../Constants.js';
+import { FIREFALL_ACTION_TYPES } from '../services/FirefallService.js';
 
 export async function generateImagePrompt(firefallService, selectedVariant) {
   const variantToImagePrompt = `I want to create images using a text-to-image model. For this, I need a concise, one-sentence image prompt created by following these steps:

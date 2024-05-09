@@ -33,7 +33,7 @@ import { createVariants } from '../helpers/ResultsParser.js';
 import { log } from '../helpers/MetricsHelper.js';
 import { sampleRUM } from '../rum.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
-import { FIREFALL_ACTION_TYPES } from '../Constants.js';
+import { FIREFALL_ACTION_TYPES } from '../services/FirefallService.js';
 
 export function GenerateButton() {
   const { runMode, firefallService } = useApplicationContext();

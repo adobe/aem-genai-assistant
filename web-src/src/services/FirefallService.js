@@ -12,7 +12,17 @@
 
 import { wretch } from '../helpers/NetworkHelper.js';
 import { replaceRuntimeDomainInUrl } from '../helpers/UrlHelper.js';
-import { FIREFALL_ACTION_TYPES, FIREFALL_POLLING_TIMEOUTS } from '../Constants.js';
+
+export const FIREFALL_ACTION_TYPES = {
+  TEXT_TO_IMAGE_PROMPT_GENERATION: 'text-to-image',
+  VARIATIONS_GENERATION: 'variations',
+};
+
+export const FIREFALL_POLLING_TIMEOUTS = {
+  MAX_POLLING_TIME: 120, // in seconds
+  TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY: 1, // in seconds
+  VARIATIONS_GENERATION_POLL_DELAY: 5, // in seconds
+};
 
 const poll = async (fn, pollDelay, initialPollDelay, maxPollingTime = FIREFALL_POLLING_TIMEOUTS.MAX_POLLING_TIME) => {
   const STATUS_RUNNING = 'running';

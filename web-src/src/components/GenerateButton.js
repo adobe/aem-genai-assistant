@@ -33,6 +33,7 @@ import { createVariants } from '../helpers/ResultsParser.js';
 import { log } from '../helpers/MetricsHelper.js';
 import { sampleRUM } from '../rum.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
+import { FIREFALL_ACTION_TYPES } from '../Constants.js';
 
 export function GenerateButton() {
   const { runMode, firefallService } = useApplicationContext();
@@ -51,7 +52,11 @@ export function GenerateButton() {
   const generateResults = useCallback(async () => {
     try {
       const finalPrompt = renderPrompt(prompt, parameters, contentFragment?.model);
-      const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
+      const { queryId, response } = await firefallService.complete(
+        finalPrompt,
+        temperature,
+        FIREFALL_ACTION_TYPES.VARIATIONS_GENERATION,
+      );
       const variants = createVariants(uuid, response);
       setResults((results) => [...results, {
         id: queryId,

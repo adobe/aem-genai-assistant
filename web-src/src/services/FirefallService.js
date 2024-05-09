@@ -12,11 +12,9 @@
 
 import { wretch } from '../helpers/NetworkHelper.js';
 import { replaceRuntimeDomainInUrl } from '../helpers/UrlHelper.js';
+import { FIREFALL_ACTION_TYPES, FIREFALL_POLLING_TIMEOUTS } from '../Constants.js';
 
-const POLL_DELAY = 2; // in seconds
-const MAX_POLLING_TIME = 120; // in seconds
-
-const poll = async (fn, maxPollingTime = MAX_POLLING_TIME, pollDelay = POLL_DELAY, initialPollDelay = POLL_DELAY) => {
+const poll = async (fn, pollDelay, initialPollDelay, maxPollingTime = FIREFALL_POLLING_TIMEOUTS.MAX_POLLING_TIME) => {
   const STATUS_RUNNING = 'running';
   const wait = async (timeout) => new Promise((resolve) => { setTimeout(resolve, timeout * 1000); });
 
@@ -57,7 +55,12 @@ export class FirefallService {
     console.debug(`Feedback: ${this.feedbackEndpoint}`);
   }
 
-  async complete(prompt, temperature) {
+  async complete(prompt, temperature, actionType) {
+    const pollDelay = (actionType === FIREFALL_ACTION_TYPES.VARIATIONS_GENERATION)
+      ? FIREFALL_POLLING_TIMEOUTS.VARIATIONS_GENERATION_POLL_DELAY
+      : FIREFALL_POLLING_TIMEOUTS.TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY;
+    const initialPollDelay = pollDelay;
+
     const { jobId } = await wretch(this.completeEndpoint)
       .post({
         prompt,
@@ -75,7 +78,7 @@ export class FirefallService {
         })
         .get()
         .json();
-    }).then((data) => {
+    }, pollDelay, initialPollDelay).then((data) => {
       const { result } = data;
       const { query_id: queryId, generations } = result;
       return {

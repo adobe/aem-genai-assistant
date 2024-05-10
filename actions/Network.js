@@ -9,6 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+const AbortAddon = require('wretch/addons/abort');
 
 const wretch = require('wretch');
 const { retry } = require('wretch/middlewares/retry');
@@ -18,6 +19,8 @@ const { Core } = require('@adobe/aio-sdk');
 
 const logger = Core.Logger('FirefallAction');
 
+const REQUEST_TIMEOUT = 55;
+
 function createWretchError(status, message) {
   const error = new WretchError();
   error.status = status;
@@ -25,11 +28,20 @@ function createWretchError(status, message) {
   return error;
 }
 
-function wretchWithOptions(url, shouldRetry = false) {
+function wretchWithOptions(url, options = {
+  shouldRetry: false,
+  requestTimeout: REQUEST_TIMEOUT, // in seconds
+}) {
   return wretch(url)
-    .middlewares(shouldRetry ? [retry()] : [])
+    .middlewares(options.shouldRetry ? [retry()] : [])
+    .addon(AbortAddon())
+    .resolve((resolver) => resolver.setTimeout(options.requestTimeout * 1000))
     .resolve((resolver) => {
       return resolver.fetchError((error) => {
+        if (error.name === 'AbortError') {
+          logger.error('Request aborted', error);
+          throw createWretchError(504, 'Gateway Timeout');
+        }
         logger.error('Network error', error);
         throw createWretchError(500, 'Network error');
       });

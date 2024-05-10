@@ -152,11 +152,17 @@ body {
 }
 .slick-arrow {
   background: #fff;
-  z-index: 101;
+  z-index: 2;
   border-radius: 50%;
   width: auto;
   height: auto;
+  filter: opacity(0);
 }
+
+.slick-slider:hover .slick-arrow {
+  filter: opacity(1);
+}
+
 .slick-next {
   right: 64px;
   top: calc(50% - 32px);

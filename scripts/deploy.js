@@ -78,7 +78,7 @@ function getDeploymentUrl(workspaceName) {
   // We use the QA environment to direct traffic to the appropriate workspace because:
   // - It is maintained by CI/CD, ensuring it is always available and current.
   // - It is not used by other developers for manual deployment of their changes.
-  return `https://experience-qa.adobe.com/?devMode=true&shell_source=qa&shell_ims=prod&app_workspace=${workspaceName}#/aem/generate-variations/`;
+  return `https://experience-qa.adobe.com/?devMode=true&shell_source=workspace&workspace=${workspaceName}&shell_ims=prod#/aem/generate-variations/`;
 }
 
 async function deployApp(workspaceName) {

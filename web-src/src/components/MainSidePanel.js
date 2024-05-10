@@ -34,8 +34,9 @@ import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { MainSidePanelType, mainSidePanelTypeState } from '../state/MainSidePanelTypeState.js';
 import { ClickableImage } from './ClickableImage.js';
 import { newGroupingLabelGenerator } from '../helpers/FormatHelper.js';
-import { RUN_MODE_CF, useApplicationContext } from './ApplicationProvider.js';
+import { useApplicationContext } from './ApplicationProvider.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
+import { RUN_MODE_CF } from '../state/RunMode.js';
 
 export const HELP_AND_FAQ_URL = 'https://www.aem.live/docs/sidekick-generate-variations';
 
@@ -222,16 +223,16 @@ export function MainSidePanel(props) {
       }
 
       <Flex direction={'column'} gridArea={'footer'} gap={'16px'}>
-      <ul className={style.menu}>
-          <li className={style.menuItem}>
+        <div className={style.menu}>
+          <div className={style.menuItem}>
             <ClickableImage src={HelpIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.helpAndFaqsMenuItem)} alt={'Help'} onClick={() => window.open(HELP_AND_FAQ_URL, '_blank')} />
             {mainSidePanelType === MainSidePanelType.Expanded && <Link href={HELP_AND_FAQ_URL} target="_blank" UNSAFE_className={style.menu}>{formatMessage(intlMessages.mainSidePanel.helpAndFaqsMenuItem)}</Link>}
-          </li>
-          <li className={style.menuItem}>
+          </div>
+          <div className={style.menuItem}>
             <ClickableImage src={FileTxt} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)} alt={formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItemAltText)} onClick={() => window.open(USER_GUIDELINES_URL, '_blank')} />
             {mainSidePanelType === MainSidePanelType.Expanded && <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={style.menu}>{formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)}</Link>}
-          </li>
-        </ul>
+          </div>
+        </div>
         {mainSidePanelType === MainSidePanelType.Expanded
           ? <>
             <Text UNSAFE_className={style.copyright}>

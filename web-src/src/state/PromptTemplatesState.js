@@ -14,6 +14,7 @@ import { v4 as uuid } from 'uuid';
 
 import bundledPromptTemplatesJson from '../../../data/bundled-prompt-templates.json';
 import { readValueFromSettings, writeValueToSettings } from '../helpers/SettingsHelper.js';
+import { RUN_MODE_ALL, RUN_MODE_DEFAULT } from './RunMode.js';
 
 export const NEW_PROMPT_TEMPLATE_ID = 'new-prompt';
 
@@ -53,28 +54,29 @@ export function parseBundledPromptTemplates(runMode) {
     });
 }
 
-export function createPromptMigrator(defaultRunMode) {
+export function createPromptMigrator() {
   return (prompt) => {
     if (!prompt.modes) {
       return {
         ...prompt,
-        modes: [defaultRunMode],
+        modes: [RUN_MODE_DEFAULT],
       };
     }
     return prompt;
   };
 }
 
-function settingsToPromptTemplates(settings, isShared, runMode, defaultRunMode) {
+function settingsToPromptTemplates(settings, isShared, runMode) {
   return settings.promptTemplates
-    .map(createPromptMigrator(defaultRunMode))
-    .filter(({ modes }) => modes.includes(runMode))
+    .map(createPromptMigrator())
+    .filter(({ modes }) => (runMode === RUN_MODE_ALL ? true : modes.includes(runMode)))
     .map((prompt) => {
       return {
         id: prompt.id,
         label: prompt.label,
         description: prompt.description,
         template: prompt.template,
+        modes: prompt.modes,
         isShared,
         isBundled: false,
         created: prompt.created ?? new Date().getTime(),
@@ -85,7 +87,7 @@ function settingsToPromptTemplates(settings, isShared, runMode, defaultRunMode) 
     });
 }
 
-function promptTemplatesToSettings(promptTemplates, isSharedTemplate, runMode) {
+function promptTemplatesToSettings(promptTemplates, isSharedTemplate) {
   const settings = promptTemplates
     .filter(({ isShared }) => isSharedTemplate === isShared)
     .map((prompt) => {
@@ -94,7 +96,7 @@ function promptTemplatesToSettings(promptTemplates, isSharedTemplate, runMode) {
         label: prompt.label,
         description: prompt.description,
         template: prompt.template,
-        modes: [runMode],
+        modes: prompt.modes,
         created: prompt.created,
         lastModified: prompt.lastModified,
         createdBy: prompt.createdBy,
@@ -104,30 +106,42 @@ function promptTemplatesToSettings(promptTemplates, isSharedTemplate, runMode) {
   return createPromptTemplatesWrapper(settings);
 }
 
-export async function readCustomPromptTemplates(runMode, defaultRunMode) {
+export async function readCustomPromptTemplates(runMode) {
   const privateSettings = await readValueFromSettings(
     PROMPT_TEMPLATE_STORAGE_KEY,
     createPromptTemplatesWrapper([]),
     false,
   );
-  const privatePromptTemplates = settingsToPromptTemplates(privateSettings, false, runMode, defaultRunMode);
+  const privatePromptTemplates = settingsToPromptTemplates(privateSettings, false, runMode);
   const publicSettings = await readValueFromSettings(
     PROMPT_TEMPLATE_STORAGE_KEY,
     createPromptTemplatesWrapper([]),
     true,
   );
-  const publicPromptTemplates = settingsToPromptTemplates(publicSettings, true, runMode, defaultRunMode);
+  const publicPromptTemplates = settingsToPromptTemplates(publicSettings, true, runMode);
   return [
     ...privatePromptTemplates,
     ...publicPromptTemplates,
   ];
 }
 
-export async function writeCustomPromptTemplates(promptTemplates, runMode) {
-  const publicSettings = promptTemplatesToSettings(promptTemplates, true, runMode);
+export async function reconcileCustomPromptTemplates(templatesToUpsert, templatesToDelete, runMode) {
+  const promptTemplates = await readCustomPromptTemplates(RUN_MODE_ALL);
+  const updatedPromptTemplates = promptTemplates
+    .filter(({ id }) => !templatesToDelete.find(({ id: idToDelete }) => idToDelete === id));
+  templatesToUpsert.forEach((template) => {
+    const existingTemplate = updatedPromptTemplates.find(({ id }) => id === template.id);
+    if (existingTemplate) {
+      Object.assign(existingTemplate, template);
+    } else {
+      updatedPromptTemplates.push(template);
+    }
+  });
+  const publicSettings = promptTemplatesToSettings(updatedPromptTemplates, true);
   await writeValueToSettings(PROMPT_TEMPLATE_STORAGE_KEY, publicSettings, true);
-  const privateSettings = promptTemplatesToSettings(promptTemplates, false, runMode);
+  const privateSettings = promptTemplatesToSettings(updatedPromptTemplates, false);
   await writeValueToSettings(PROMPT_TEMPLATE_STORAGE_KEY, privateSettings, false);
+  return updatedPromptTemplates.filter(({ modes }) => modes.includes(runMode));
 }
 
 export const bundledPromptTemplatesState = atom({

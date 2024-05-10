@@ -28,7 +28,7 @@ import { useIsFavorite } from '../state/IsFavoriteHook.js';
 import { useIsFeedback } from '../state/IsFeedbackHook.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { useSaveFeedback } from '../state/SaveFeedbackHook.js';
-import { RUN_MODE_CF, useApplicationContext } from './ApplicationProvider.js';
+import { useApplicationContext } from './ApplicationProvider.js';
 import { useShellContext } from './ShellProvider.js';
 import { promptState } from '../state/PromptState.js';
 import { parametersState } from '../state/ParametersState.js';
@@ -53,6 +53,7 @@ import ThumbsUpDisabledIcon from '../icons/ThumbsUpDisabledIcon.js';
 import ThumbsDownDisabledIcon from '../icons/ThumbsDownDisabledIcon.js';
 import GenAIIcon from '../icons/GenAIIcon.js';
 import { ContentFragmentExportButton } from './ContentFragmentExportButton.js';
+import { RUN_MODE_CF } from '../state/RunMode.js';
 
 const styles = {
   card: css`

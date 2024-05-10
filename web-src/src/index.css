@@ -161,6 +161,7 @@ body {
 
 .slick-slider:hover .slick-arrow {
   filter: opacity(1);
+  transition: opacity 0.3s ease-in-out 0.1s
 }
 
 .slick-next {
@@ -168,7 +169,7 @@ body {
   top: calc(50% - 32px);
 }
 .slick-prev {
-  top: calc(50% - 32px);
+  top: calc(50% - 40px);
   left: -0.8rem;
 }
 

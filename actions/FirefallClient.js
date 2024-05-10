@@ -25,7 +25,7 @@ const ERROR_CODES = {
 
 function toFirefallError(error, defaultMessage) {
   const errorMessage = ERROR_CODES[error.status] ?? defaultMessage;
-  return new InternalError(error.status ?? 500, `IS-ERROR: ${errorMessage} (${error.status}: ${error.message}).`);
+  return new InternalError(error.status ?? 500, `IS-ERROR: ${errorMessage} (${error.status}).`);
 }
 
 class FirefallClient {

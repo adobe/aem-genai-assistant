@@ -19,7 +19,7 @@ const { Core } = require('@adobe/aio-sdk');
 
 const logger = Core.Logger('FirefallAction');
 
-const REQUEST_TIMEOUT = 55 * 1000;
+const REQUEST_TIMEOUT = 55;
 
 function createWretchError(status, message) {
   const error = new WretchError();
@@ -28,16 +28,19 @@ function createWretchError(status, message) {
   return error;
 }
 
-function wretchWithOptions(url, shouldRetry = false) {
+function wretchWithOptions(url, options = {
+  shouldRetry: false,
+  requestTimeout: REQUEST_TIMEOUT, // in seconds
+}) {
   return wretch(url)
-    .middlewares(shouldRetry ? [retry()] : [])
+    .middlewares(options.shouldRetry ? [retry()] : [])
     .addon(AbortAddon())
-    .resolve((resolver) => resolver.setTimeout(REQUEST_TIMEOUT))
+    .resolve((resolver) => resolver.setTimeout(options.requestTimeout * 1000))
     .resolve((resolver) => {
       return resolver.fetchError((error) => {
         if (error.name === 'AbortError') {
           logger.error('Request aborted', error);
-          throw createWretchError(408, 'Request timed out');
+          throw createWretchError(504, 'Gateway Timeout');
         }
         logger.error('Network error', error);
         throw createWretchError(500, 'Network error');

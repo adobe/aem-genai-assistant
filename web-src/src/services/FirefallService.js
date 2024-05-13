@@ -18,13 +18,12 @@ export const FIREFALL_ACTION_TYPES = {
   VARIATIONS_GENERATION: 'variations',
 };
 
-const FIREFALL_POLLING_TIMEOUTS = {
-  MAX_POLLING_TIME: 300, // in seconds
-  TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY: 1, // in seconds
-  VARIATIONS_GENERATION_POLL_DELAY: 5, // in seconds
-};
+// all the following constants are in seconds
+const MAX_POLLING_TIME = 300;
+const TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY = 1;
+const VARIATIONS_GENERATION_POLL_DELAY = 5;
 
-const poll = async (fn, pollDelay, initialPollDelay, maxPollingTime = FIREFALL_POLLING_TIMEOUTS.MAX_POLLING_TIME) => {
+const poll = async (fn, pollDelay, initialPollDelay, maxPollingTime = MAX_POLLING_TIME) => {
   const STATUS_RUNNING = 'running';
   const wait = async (timeout) => new Promise((resolve) => { setTimeout(resolve, timeout * 1000); });
 
@@ -67,8 +66,8 @@ export class FirefallService {
 
   async complete(prompt, temperature, actionType) {
     const pollDelay = (actionType === FIREFALL_ACTION_TYPES.VARIATIONS_GENERATION)
-      ? FIREFALL_POLLING_TIMEOUTS.VARIATIONS_GENERATION_POLL_DELAY
-      : FIREFALL_POLLING_TIMEOUTS.TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY;
+      ? VARIATIONS_GENERATION_POLL_DELAY
+      : TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY;
     const initialPollDelay = pollDelay;
 
     const { jobId } = await wretch(this.completeEndpoint)

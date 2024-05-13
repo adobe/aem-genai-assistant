@@ -12,10 +12,10 @@
 import wretch from 'wretch';
 
 const getHeaders = () => {
-  const ENABLE_APPBUILDER_LOGGING_PARAM = 'appBuilderLogging';
+  const ENABLE_EXTRA_LOGGING_PARAM = 'extraLogging';
   const headers = {};
   const params = new URLSearchParams(window.location.search);
-  if (params.get(ENABLE_APPBUILDER_LOGGING_PARAM) === 'true') {
+  if (params.get(ENABLE_EXTRA_LOGGING_PARAM) === 'true') {
     headers['X-OW-EXTRA-LOGGING'] = 'on';
   }
   return headers;

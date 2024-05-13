@@ -19,7 +19,12 @@ const { Core } = require('@adobe/aio-sdk');
 
 const logger = Core.Logger('FirefallAction');
 
-const REQUEST_TIMEOUT = 55;
+const REQUEST_TIMEOUT = 55; // in seconds
+const SHOULD_RETRY = false;
+const DEFAULT_OPTIONS = {
+  shouldRetry: SHOULD_RETRY,
+  requestTimeout: REQUEST_TIMEOUT, // in seconds
+};
 
 function createWretchError(status, message) {
   const error = new WretchError();
@@ -28,14 +33,13 @@ function createWretchError(status, message) {
   return error;
 }
 
-function wretchWithOptions(url, options = {
-  shouldRetry: false,
-  requestTimeout: REQUEST_TIMEOUT, // in seconds
-}) {
+function wretchWithOptions(url, options = DEFAULT_OPTIONS) {
+  // overwrite default options
+  const finalOptions = { ...DEFAULT_OPTIONS, ...options };
   return wretch(url)
-    .middlewares(options.shouldRetry ? [retry()] : [])
+    .middlewares(finalOptions.shouldRetry ? [retry()] : [])
     .addon(AbortAddon())
-    .resolve((resolver) => resolver.setTimeout(options.requestTimeout * 1000))
+    .resolve((resolver) => resolver.setTimeout(finalOptions.requestTimeout * 1000))
     .resolve((resolver) => {
       return resolver.fetchError((error) => {
         if (error.name === 'AbortError') {

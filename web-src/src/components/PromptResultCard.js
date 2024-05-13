@@ -164,7 +164,7 @@ export function PromptResultCard({ result, ...props }) {
     runMode, firefallService, expressSdkService,
   } = useApplicationContext();
 
-  const { isExpressAuthorized } = useShellContext();
+  const { isExpressAuthorized, user } = useShellContext();
 
   const [selectedVariant, setSelectedVariant] = useState(result.variants[0]);
   const [imagePromptProgress, setImagePromptProgress] = useState(false);
@@ -208,7 +208,7 @@ export function PromptResultCard({ result, ...props }) {
       });
   }, [result, firefallService]);
 
-  const formattedTimestamp = new Date(result.timestamp).toLocaleString('en-US', {
+  const formattedTimestamp = new Date(result.timestamp).toLocaleString(user.locale, {
     month: 'numeric',
     day: 'numeric',
     year: 'numeric',

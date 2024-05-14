@@ -156,12 +156,13 @@ body {
   border-radius: 50%;
   width: auto;
   height: auto;
-  filter: opacity(0);
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out 0.1s;
 }
 
 .slick-slider:hover .slick-arrow {
-  filter: opacity(1);
-  transition: opacity 0.3s ease-in-out 0.1s
+  transition: opacity 0.3s ease-in-out 0.1s;
+  opacity: 1;
 }
 
 .slick-next {

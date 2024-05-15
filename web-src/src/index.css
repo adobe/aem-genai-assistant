@@ -161,7 +161,6 @@ body {
 }
 
 .slick-slider:hover .slick-arrow {
-  transition: opacity 0.3s ease-in-out 0.1s;
   opacity: 1;
 }
 

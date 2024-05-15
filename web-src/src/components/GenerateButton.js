@@ -50,6 +50,46 @@ export function GenerateButton() {
   const saveResults = useSaveResults();
   const { formatMessage } = useIntl();
 
+  const setLoadingToastMessages = () => {
+    const timeoutIds = [];
+    timeoutIds.push(
+      setTimeout(() => ToastQueue.info(
+        formatMessage(intlMessages.promptSessionSideView.variationsGeneration15SecondsDelayToast),
+        { timeout: 1500 },
+      ), 15000),
+    );
+    timeoutIds.push(
+      setTimeout(() => ToastQueue.info(
+        formatMessage(intlMessages.promptSessionSideView.variationsGeneration30SecondsDelayToast),
+        { timeout: 1500 },
+      ), 30000),
+    );
+    timeoutIds.push(
+      setTimeout(() => ToastQueue.info(
+        formatMessage(intlMessages.promptSessionSideView.variationsGeneration60SecondsDelayToast),
+        { timeout: 1500 },
+      ), 60000),
+    );
+
+    const intervalId = setInterval(() => ToastQueue.info(
+      formatMessage(intlMessages.promptSessionSideView.variationsGenerationLongDelayToast),
+      { timeout: 1500 },
+    ), 90000);
+
+    return {
+      timeoutIds,
+      intervalId,
+    };
+  };
+
+  const clearLoadingToastMessages = (timeouts) => {
+    const { timeoutIds, intervalId } = timeouts;
+    for (const timeoutId of timeoutIds) {
+      clearTimeout(timeoutId);
+    }
+    clearInterval(intervalId);
+  };
+
   const generateResults = useCallback(async () => {
     try {
       const finalPrompt = renderPrompt(prompt, parameters, contentFragment?.model);
@@ -83,12 +123,17 @@ export function GenerateButton() {
     sampleRUM('genai:prompt:generate', { source: 'GenerateButton#handleGenerate' });
     setGenerationInProgress(true);
     setIsOpenPromptEditor(false);
+
+    const timeouts = setLoadingToastMessages();
+
     generateResults()
       .catch((error) => {
         ToastQueue.negative(error.message, { timeout: 2000 });
       })
       .finally(() => {
         setGenerationInProgress(false);
+
+        clearLoadingToastMessages(timeouts);
       });
   }, [generateResults, setGenerationInProgress]);
 

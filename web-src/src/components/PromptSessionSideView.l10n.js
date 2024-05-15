@@ -142,5 +142,25 @@ export const intlMessages = {
       id: 'promptSessionSideView.audienceSelectorLoadTargetFailedToast',
       description: 'Toast message for failed Adobe Target loading',
     },
+    variationsGeneration15SecondsDelayToast: {
+      defaultMessage: 'Thanks for your patience. We are still working on your request.',
+      id: 'promptSessionSideView.variationsGeneration15SecondsDelayToast',
+      description: 'This toast message notifies customers that their request is still in progress after 15 seconds of waiting.',
+    },
+    variationsGeneration30SecondsDelayToast: {
+      defaultMessage: 'Your request is taking a bit longer than expected. We appreciate your patience as we continue to process it.',
+      id: 'promptSessionSideView.variationsGeneration30SecondsDelayToast',
+      description: 'This toast message informs customers that their request is experiencing a delay after 30 seconds of waiting.',
+    },
+    variationsGeneration60SecondsDelayToast: {
+      defaultMessage: 'We apologize for the delay. Rest assured, we are actively working on your request and will have it completed soon.',
+      id: 'promptSessionSideView.variationsGeneration60SecondsDelayToast',
+      description: 'This toast message apologizes to customers for a prolonged delay in processing their request after 60 seconds.',
+    },
+    variationsGenerationLongDelayToast: {
+      defaultMessage: 'We apologize for the extended delay and acknowledge the value of your time. We are actively working to ensure the completion of your request as quickly as possible.',
+      id: 'promptSessionSideView.variationsGenerationLongDelayToast',
+      description: 'This toast message acknowledges a significant delay in processing a customer\'s request.',
+    },
   },
 };

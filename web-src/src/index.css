@@ -134,3 +134,56 @@ body {
   opacity: 0;
   transition: opacity 0.3s ease-in-out 0.1s;
 }
+
+.slick-prev:before {
+  transform: rotate(180deg);
+}
+
+.slick-prev:before, .slick-next:before {
+  opacity: 1;
+  content: '';
+  width: 64px;
+  height: 64px;
+  display: block;
+  position: absolute;
+  top: 0;
+  background-size: contain;
+  background: url('./assets/variations-scroll-indicator.svg');
+}
+.slick-arrow {
+  background: #fff;
+  z-index: 2;
+  border-radius: 50%;
+  width: auto;
+  height: auto;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out 0.1s;
+}
+
+.slick-slider:hover .slick-arrow {
+  opacity: 1;
+}
+
+.slick-next {
+  right: 64px;
+  top: calc(50% - 32px);
+}
+.slick-prev {
+  top: calc(50% - 40px);
+  left: -0.8rem;
+}
+
+.slick-prev:hover, .slick-prev:focus, .slick-next:hover, .slick-next:focus {
+  background: #fff;
+  border-radius: 50%;
+}
+
+.slick-disabled, .slick-disabled:before, .slick-disabled:hover, .slick-disabled:focus {
+  display: none;
+  background: none;
+}
+.slick-track {
+  margin-left: 0;
+}
+
+

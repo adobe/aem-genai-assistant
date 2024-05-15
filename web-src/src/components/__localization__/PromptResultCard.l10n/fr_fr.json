@@ -20,8 +20,10 @@
   "promptResultCard.refineContentDescription": "Une fois le contenu généré, si vous souhaitez l’affiner davantage, mettez à jour les champs de prompt et/ou de saisie. Une fois que le contenu vous convient, utilisez-le dans votre expérience de création AEM.",
   "promptResultCard.refineContentTitle": "Affiner et utiliser le contenu",
   "promptResultCard.removeButtonTooltip": "Supprimer",
-  "promptResultCard.reuseButtonTooltip": "Réutiliser",
-  "promptResultCard.savePromptDescription": "Si vous souhaitez réutiliser le prompt créé, sélectionnez « Enregistrer ». Cela vous permet de stocker le prompt en vue d’une utilisation ultérieure. Vous pouvez l’enregistrer au niveau de l’utilisateur ou de l’utilisatrice, ou à l’échelle de l’organisation.",
+  "promptResultCard.reuseButtonLabel": "Réutiliser",
+  "promptResultCard.reuseButtonTooltip": "Chargez les valeurs d’entrée et l’invite utilisées pour générer les variations.",
+  "promptResultCard.savePromptDescription": "Si vous souhaitez réutiliser l'invite créée, sélectionnez \"Enregistrer\". Vous pouvez ainsi stocker l’invite pour une utilisation ultérieure. Vous pouvez l’enregistrer au niveau de l’utilisateur ou de l’organisation.",
   "promptResultCard.savePromptTitle": "Enregistrer",
-  "promptResultCard.sendFeedbackSuccessToast": "Commentaires envoyés !"
+  "promptResultCard.sendFeedbackSuccessToast": "Commentaires envoyés !",
+  "promptResultCard.variationsHeading": "Variations"
 }

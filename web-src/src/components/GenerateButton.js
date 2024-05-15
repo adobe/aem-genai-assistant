@@ -50,31 +50,53 @@ export function GenerateButton() {
   const saveResults = useSaveResults();
   const { formatMessage } = useIntl();
 
+  const closeToast = () => {
+    const toast = document.querySelector('div[class*="spectrum-Toast-buttons"]');
+    if (toast !== null) {
+      const closeBtn = toast.querySelector('button[aria-label="Close"]');
+      if (closeBtn !== null) {
+        closeBtn.click();
+      }
+    }
+  };
+
   const setLoadingToastMessages = () => {
     const timeoutIds = [];
     timeoutIds.push(
-      setTimeout(() => ToastQueue.info(
-        formatMessage(intlMessages.promptSessionSideView.variationsGeneration15SecondsDelayToast),
-        { timeout: 1500 },
-      ), 15000),
+      setTimeout(() => {
+        closeToast();
+        ToastQueue.info(
+          formatMessage(intlMessages.promptSessionSideView.variationsGeneration15SecondsDelayToast),
+          { timeout: 1500 },
+        );
+      }, 15000),
     );
     timeoutIds.push(
-      setTimeout(() => ToastQueue.info(
-        formatMessage(intlMessages.promptSessionSideView.variationsGeneration30SecondsDelayToast),
-        { timeout: 1500 },
-      ), 30000),
+      setTimeout(() => {
+        closeToast();
+        ToastQueue.info(
+          formatMessage(intlMessages.promptSessionSideView.variationsGeneration30SecondsDelayToast),
+          { timeout: 1500 },
+        );
+      }, 30000),
     );
     timeoutIds.push(
-      setTimeout(() => ToastQueue.info(
-        formatMessage(intlMessages.promptSessionSideView.variationsGeneration60SecondsDelayToast),
-        { timeout: 1500 },
-      ), 60000),
+      setTimeout(() => {
+        closeToast();
+        ToastQueue.info(
+          formatMessage(intlMessages.promptSessionSideView.variationsGeneration60SecondsDelayToast),
+          { timeout: 1500 },
+        );
+      }, 60000),
     );
 
-    const intervalId = setInterval(() => ToastQueue.info(
-      formatMessage(intlMessages.promptSessionSideView.variationsGenerationLongDelayToast),
-      { timeout: 1500 },
-    ), 90000);
+    const intervalId = setInterval(() => {
+      closeToast();
+      ToastQueue.info(
+        formatMessage(intlMessages.promptSessionSideView.variationsGenerationLongDelayToast),
+        { timeout: 1500 },
+      );
+    }, 90000);
 
     return {
       timeoutIds,
@@ -88,6 +110,7 @@ export function GenerateButton() {
       clearTimeout(timeoutId);
     }
     clearInterval(intervalId);
+    closeToast();
   };
 
   const generateResults = useCallback(async () => {

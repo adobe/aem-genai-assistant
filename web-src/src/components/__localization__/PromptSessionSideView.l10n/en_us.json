@@ -24,5 +24,14 @@
   "promptSessionSideView.savePromptSharedSwitchLabel": "Shared across organization",
   "promptSessionSideView.savePromptSuccessToast": "Prompt template saved",
   "promptSessionSideView.temperatureDescription": "A higher temperature strays from the prompt and leads to more randomness and creativity",
-  "promptSessionSideView.temperatureLabel": "Temperature"
+  "promptSessionSideView.temperatureLabel": "Temperature",
+  "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": "Thanks for your patience, your content is almost ready",
+  "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": "Almost done with your content",
+  "promptSessionSideView.variationsGeneration15SecondsWaitTimeToast": "Preparing your content",
+  "promptSessionSideView.variationsGeneration30SecondsWaitTimeToast": "Thanks for your patience, your content is on its way",
+  "promptSessionSideView.variationsGeneration45SecondsWaitTimeToast": "Generating your content",
+  "promptSessionSideView.variationsGeneration60SecondsWaitTimeToast": "Thanks for your patience, your content is on its way",
+  "promptSessionSideView.variationsGeneration75SecondsWaitTimeToast": "Getting your content ready",
+  "promptSessionSideView.variationsGeneration90SecondsWaitTimeToast": "Almost done with your content",
+  "promptSessionSideView.variationsGenerationLongWaitTimeToast": "Sorry for the delay, your content is almost ready"
 }

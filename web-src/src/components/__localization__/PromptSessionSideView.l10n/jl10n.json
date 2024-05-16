@@ -102,5 +102,41 @@
   "promptSessionSideView.temperatureLabel": {
     "__value__": "Temperature",
     "__desc__": "Temperature label for Prompt Session side view"
+  },
+  "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": {
+    "__value__": "Thanks for your patience, your content is almost ready",
+    "__desc__": "This toast message notifies customers that their request is still in progress after  seconds of waiting"
+  },
+  "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": {
+    "__value__": "Almost done with your content",
+    "__desc__": "This toast message notifies customers that their request is still in progress after  seconds of waiting"
+  },
+  "promptSessionSideView.variationsGeneration15SecondsWaitTimeToast": {
+    "__value__": "Preparing your content",
+    "__desc__": "This toast message notifies customers that their request is still in progress after  seconds of waiting"
+  },
+  "promptSessionSideView.variationsGeneration30SecondsWaitTimeToast": {
+    "__value__": "Thanks for your patience, your content is on its way",
+    "__desc__": "This toast message notifies customers that their request is still in progress after  seconds of waiting"
+  },
+  "promptSessionSideView.variationsGeneration45SecondsWaitTimeToast": {
+    "__value__": "Generating your content",
+    "__desc__": "This toast message notifies customers that their request is still in progress after  seconds of waiting"
+  },
+  "promptSessionSideView.variationsGeneration60SecondsWaitTimeToast": {
+    "__value__": "Thanks for your patience, your content is on its way",
+    "__desc__": "This toast message notifies customers that their request is still in progress after  seconds of waiting"
+  },
+  "promptSessionSideView.variationsGeneration75SecondsWaitTimeToast": {
+    "__value__": "Getting your content ready",
+    "__desc__": "This toast message notifies customers that their request is still in progress after  seconds of waiting"
+  },
+  "promptSessionSideView.variationsGeneration90SecondsWaitTimeToast": {
+    "__value__": "Almost done with your content",
+    "__desc__": "This toast message notifies customers that their request is still in progress after  seconds of waiting"
+  },
+  "promptSessionSideView.variationsGenerationLongWaitTimeToast": {
+    "__value__": "Sorry for the delay, your content is almost ready",
+    "__desc__": "This toast message notifies customers that their request is still in progress after more than  minutes of waiting"
   }
 }

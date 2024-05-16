@@ -24,5 +24,14 @@
   "promptSessionSideView.savePromptSharedSwitchLabel": "已跨组织共享",
   "promptSessionSideView.savePromptSuccessToast": "提示模板已保存",
   "promptSessionSideView.temperatureDescription": "温度升高会偏离提示，并会提高随机性和创造性",
-  "promptSessionSideView.temperatureLabel": "温度"
+  "promptSessionSideView.temperatureLabel": "温度",
+  "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": "感谢您的耐心等待，您的内容已准备就绪",
+  "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": "几乎已完成您的内容",
+  "promptSessionSideView.variationsGeneration15SecondsWaitTimeToast": "准备内容",
+  "promptSessionSideView.variationsGeneration30SecondsWaitTimeToast": "感谢耐心等候，您的内容即将完成",
+  "promptSessionSideView.variationsGeneration45SecondsWaitTimeToast": "生成内容",
+  "promptSessionSideView.variationsGeneration60SecondsWaitTimeToast": "感谢耐心等候，您的内容即将完成",
+  "promptSessionSideView.variationsGeneration75SecondsWaitTimeToast": "正在准备您的内容",
+  "promptSessionSideView.variationsGeneration90SecondsWaitTimeToast": "几乎已完成您的内容",
+  "promptSessionSideView.variationsGenerationLongWaitTimeToast": "对延迟感到抱歉，您的内容即将准备就绪"
 }

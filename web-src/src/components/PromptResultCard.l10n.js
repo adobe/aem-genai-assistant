@@ -63,7 +63,7 @@ export const intlMessages = {
       description: 'Description for Save',
     },
     reuseButtonTooltip: {
-      defaultMessage: 'Re-use',
+      defaultMessage: 'Load the input values and prompt used to generate variations.',
       id: 'promptResultCard.reuseButtonTooltip',
       description: 'Tooltip for Re-use button',
     },
@@ -114,6 +114,11 @@ export const intlMessages = {
       id: 'promptResultCard.generateImageButtonLabel',
       description: 'Label for the Generate Image button',
     },
+    reuseButtonLabel: {
+      defaultMessage: 'Reuse',
+      id: 'promptResultCard.reuseButtonLabel',
+      description: 'Label for the Reuse button',
+    },
     sendFeedbackSuccessToast: {
       defaultMessage: 'Feedback sent!',
       id: 'promptResultCard.sendFeedbackSuccessToast',
@@ -138,6 +143,11 @@ export const intlMessages = {
       defaultMessage: 'To gain access, submit a request to your IT administrator or sign in with an eligible Adobe ID.',
       id: 'promptResultCard.expressNoAccessContextualInfoContent',
       description: 'Content for no access to Adobe Express',
+    },
+    variationsHeading: {
+      defaultMessage: 'Variations',
+      id: 'promptResultCard.variationsHeading',
+      description: 'Heading for the Variations section',
     },
   },
 };

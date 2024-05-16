@@ -36,19 +36,6 @@ import { contentFragmentState } from '../state/ContentFragmentState.js';
 import { RUN_MODE_CF } from '../state/RunMode.js';
 import { FIREFALL_ACTION_TYPES } from '../services/FirefallService.js';
 
-const waitMessages = [
-  { msg: intlMessages.promptSessionSideView.variationsGeneration15SecondsWaitTimeToast, delay: 15 },
-  { msg: intlMessages.promptSessionSideView.variationsGeneration30SecondsWaitTimeToast, delay: 30 },
-  { msg: intlMessages.promptSessionSideView.variationsGeneration45SecondsWaitTimeToast, delay: 45 },
-  { msg: intlMessages.promptSessionSideView.variationsGeneration60SecondsWaitTimeToast, delay: 60 },
-  { msg: intlMessages.promptSessionSideView.variationsGeneration75SecondsWaitTimeToast, delay: 75 },
-  { msg: intlMessages.promptSessionSideView.variationsGeneration90SecondsWaitTimeToast, delay: 90 },
-  { msg: intlMessages.promptSessionSideView.variationsGeneration105SecondsWaitTimeToast, delay: 105 },
-  { msg: intlMessages.promptSessionSideView.variationsGeneration120SecondsWaitTimeToast, delay: 120 },
-  { msg: intlMessages.promptSessionSideView.variationsGenerationLongWaitTimeToast, delay: 180 },
-  { msg: intlMessages.promptSessionSideView.variationsGenerationLongWaitTimeToast, delay: 240 },
-];
-
 const createWaitMessagesController = (intlFn) => {
   const displayToast = (msg, timeout = 1500) => {
     ToastQueue.info(msg, { timeout });
@@ -65,11 +52,22 @@ const createWaitMessagesController = (intlFn) => {
     }
   };
 
-  const waitMessagesCopy = [...waitMessages];
+  const waitMessages = [
+    { msg: intlMessages.promptSessionSideView.variationsGeneration15SecondsWaitTimeToast, delay: 15 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration30SecondsWaitTimeToast, delay: 30 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration45SecondsWaitTimeToast, delay: 45 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration60SecondsWaitTimeToast, delay: 60 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration75SecondsWaitTimeToast, delay: 75 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration90SecondsWaitTimeToast, delay: 90 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration105SecondsWaitTimeToast, delay: 105 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration120SecondsWaitTimeToast, delay: 120 },
+    { msg: intlMessages.promptSessionSideView.variationsGenerationLongWaitTimeToast, delay: 180 },
+    { msg: intlMessages.promptSessionSideView.variationsGenerationLongWaitTimeToast, delay: 240 },
+  ];
   const timeoutIds = [];
   return {
     startDisplaying: () => {
-      for (const waitMessage of waitMessagesCopy) {
+      for (const waitMessage of waitMessages) {
         timeoutIds.push(
           setTimeout(() => {
             closeToast();

@@ -36,10 +36,6 @@ import { contentFragmentState } from '../state/ContentFragmentState.js';
 import { RUN_MODE_CF } from '../state/RunMode.js';
 import { FIREFALL_ACTION_TYPES } from '../services/FirefallService.js';
 
-const displayToast = (msg, timeout = 1500) => {
-  ToastQueue.info(msg, { timeout });
-};
-
 const waitMessages = [
   { msg: intlMessages.promptSessionSideView.variationsGeneration15SecondsWaitTimeToast, delay: 15 },
   { msg: intlMessages.promptSessionSideView.variationsGeneration30SecondsWaitTimeToast, delay: 30 },
@@ -54,6 +50,10 @@ const waitMessages = [
 ];
 
 const createWaitMessagesController = (intlFn) => {
+  const displayToast = (msg, timeout = 1500) => {
+    ToastQueue.info(msg, { timeout });
+  };
+
   const closeToast = () => {
     // Closing an active toast, if any
     const toast = document.querySelector('div[class*="spectrum-Toast-buttons"]');

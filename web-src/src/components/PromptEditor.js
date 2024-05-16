@@ -54,6 +54,7 @@ const style = {
     position: absolute;
     background-color: white;
     box-shadow: 2px 0px 3px 0px rgba(0, 0, 0, 0.12);
+    z-index:2;
     &:focus {
       outline: none;
     }

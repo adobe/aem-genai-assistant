@@ -17,12 +17,6 @@ See: http://aem.live/docs/sidekick-generate-variations
     - `aio console workspace select`
 - Populate the `.env` file in the project root and fill it as shown [below](#env)
 
-### Local Development
-
-- `npm start` to start your local Dev server
-  - App will run on `localhost:9080` by default
-  - Actions will be deployed locally (requires Docker running)
-
 ### Testing
 
 - Run `npm run lint && npm test` to run lint and unit tests for ui and actions

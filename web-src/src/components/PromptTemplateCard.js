@@ -21,7 +21,7 @@ import DeleteIcon from '@spectrum-icons/workflow/Delete';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './App.l10n.js';
-import GenerateIcon from '../assets/generate.svg';
+import GenAIIcon from '../icons/GenAIIcon.js';
 import SmallLogo from '../assets/logo_small.svg';
 import { NEW_PROMPT_TEMPLATE_ID } from '../state/PromptTemplatesState.js';
 
@@ -127,7 +127,7 @@ export function PromptTemplateCard({
           ref={cardNodeRef}
           columns={['min-content', 'auto', 'min-content']}
           rows={['min-content', 'auto', 'min-content']}>
-          <Image src={GenerateIcon} width="24px" alt={''} gridArea={'icon'} alignSelf={'start'}/>
+          <GenAIIcon size={'S'} gridArea={'icon'}/>
           <Text UNSAFE_className={styles.title} gridArea={'title'}>{template.label}</Text>
           {(template.isBundled) ? <Image src={SmallLogo} width={'18px'} alt={''} gridArea={'logo'}/> : <Fragment/>}
           <Text UNSAFE_className={styles.description} gridArea={'description'}>{template.description}</Text>

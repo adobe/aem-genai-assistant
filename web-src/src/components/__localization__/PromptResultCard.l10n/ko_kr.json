@@ -1,7 +1,7 @@
 {
-  "promptResultCard.contentFragmentExportDialogDescription": "선택한 변형을 새 컨텐츠 조각 변형으로 내보냅니다.",
+  "promptResultCard.contentFragmentExportDialogDescription": "선택한 변형을 새 콘텐츠 조각 변형으로 내보냅니다.",
   "promptResultCard.contentFragmentExportDialogExportButtonLabel": "변형 이름",
-  "promptResultCard.contentFragmentExportDialogTitle": "컨텐츠 조각으로 내보내기",
+  "promptResultCard.contentFragmentExportDialogTitle": "콘텐츠 조각으로 내보내기",
   "promptResultCard.copyButtonTooltip": "복사",
   "promptResultCard.copyTextSuccessToast": "텍스트가 클립보드에 복사되었습니다.",
   "promptResultCard.createPromptDescription": "“프롬프트 편집”을 열고 프롬프트를 작성하거나 다른 프롬프트의 섹션을 붙여넣습니다.",

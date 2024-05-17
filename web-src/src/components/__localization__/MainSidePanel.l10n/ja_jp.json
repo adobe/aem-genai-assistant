@@ -1,7 +1,7 @@
 {
   "mainSidePanel.collapseMenuType": "折りたたみ式サイドパネル",
-  "mainSidePanel.contentFragmentHostNameLabel": "接続したAEMインスタンス：",
-  "mainSidePanel.contentFragmentTileLabel": "コンテンツフラグメント：",
+  "mainSidePanel.contentFragmentHostNameLabel": "次の AEM インスタンスに接続しました :",
+  "mainSidePanel.contentFragmentTileLabel": "コンテンツフラグメント",
   "mainSidePanel.copyrightLabel": "Copyright © 2024 Adobe. All rights reserved",
   "mainSidePanel.expandMenuType": "サイドパネルを展開",
   "mainSidePanel.favoritesMenuItem": "お気に入り",

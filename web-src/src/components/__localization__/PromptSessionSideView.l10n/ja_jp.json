@@ -24,5 +24,14 @@
   "promptSessionSideView.savePromptSharedSwitchLabel": "組織全体で共有",
   "promptSessionSideView.savePromptSuccessToast": "保存されたプロンプトテンプレート",
   "promptSessionSideView.temperatureDescription": "温度が高いほどプロンプトから逸脱し、よりランダムで創造的になります",
-  "promptSessionSideView.temperatureLabel": "温度"
+  "promptSessionSideView.temperatureLabel": "温度",
+  "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": "コンテンツの準備がほぼ完了しました。しばらくお待ちください",
+  "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": "コンテンツの処理がほぼ完了しました",
+  "promptSessionSideView.variationsGeneration15SecondsWaitTimeToast": "コンテンツを準備中",
+  "promptSessionSideView.variationsGeneration30SecondsWaitTimeToast": "ご迷惑をおかけして申し訳ありません。コンテンツは処理されています",
+  "promptSessionSideView.variationsGeneration45SecondsWaitTimeToast": "コンテンツの生成",
+  "promptSessionSideView.variationsGeneration60SecondsWaitTimeToast": "ご迷惑をおかけして申し訳ありません。コンテンツは処理されています",
+  "promptSessionSideView.variationsGeneration75SecondsWaitTimeToast": "コンテンツの準備をしています",
+  "promptSessionSideView.variationsGeneration90SecondsWaitTimeToast": "コンテンツの処理がほぼ完了しました",
+  "promptSessionSideView.variationsGenerationLongWaitTimeToast": "コンテンツの準備がほぼ完了しており、遅延が発生しました"
 }

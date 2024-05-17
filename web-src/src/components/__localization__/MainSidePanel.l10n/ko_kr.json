@@ -1,7 +1,7 @@
 {
   "mainSidePanel.collapseMenuType": "사이드 패널 접기",
   "mainSidePanel.contentFragmentHostNameLabel": "AEM 인스턴스에 연결됨:",
-  "mainSidePanel.contentFragmentTileLabel": "컨텐츠 조각:",
+  "mainSidePanel.contentFragmentTileLabel": "콘텐츠 조각:",
   "mainSidePanel.copyrightLabel": "Copyright © 2024 Adobe. All rights reserved",
   "mainSidePanel.expandMenuType": "사이드 패널 펼치기",
   "mainSidePanel.favoritesMenuItem": "즐겨찾기",

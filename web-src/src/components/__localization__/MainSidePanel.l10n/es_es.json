@@ -1,6 +1,6 @@
 {
   "mainSidePanel.collapseMenuType": "Contraer panel lateral",
-  "mainSidePanel.contentFragmentHostNameLabel": "Conectado a AEM instancia:",
+  "mainSidePanel.contentFragmentHostNameLabel": "Conectado a instancia de AEM:",
   "mainSidePanel.contentFragmentTileLabel": "Fragmento de contenido:",
   "mainSidePanel.copyrightLabel": "Copyright © 2024 Adobe. All rights reserved",
   "mainSidePanel.expandMenuType": "Expandir panel lateral",

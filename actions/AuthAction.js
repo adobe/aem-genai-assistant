@@ -18,6 +18,45 @@ const { checkForAdobeInternalUser } = require('./ActionUtils.js');
 
 const logger = Core.Logger('AuthAction');
 
+/**
+ * Extracts a user access token from either the Authorization header or the request payload
+ *
+ * @param {object} params action input parameters
+ * @returns {string|undefined} the token string, or undefined if not present
+ */
+function getAccessToken(params) {
+  // First, check if a bearer user access token is set
+  if (
+    params.__ow_headers
+    && params.__ow_headers.authorization
+    && params.__ow_headers.authorization.startsWith('Bearer ')
+  ) {
+    return params.__ow_headers.authorization.substring('Bearer '.length);
+  }
+
+  // Second, check if a token has been passed through the payload
+  return params.accessToken;
+}
+
+/**
+ * Extracts an Adobe IMS organization ID from either the 'X-Org-Id' header or the request payload
+ *
+ * @param {object} params action input parameters
+ * @returns {string|undefined} the Adobe IMS organization ID string, or undefined if not present
+ */
+function getImsOrg(params) {
+  // First, check if an Adobe IMS organization ID has been passed through the 'X-Org-Id' header
+  if (
+    params.__ow_headers
+    && params.__ow_headers['x-org-id']
+  ) {
+    return params.__ow_headers['x-org-id'];
+  }
+
+  // Second, check if an Adobe IMS organization ID has been passed through the payload
+  return params.imsOrg;
+}
+
 async function isValidToken(endpoint, clientId, token) {
   try {
     const response = await wretch(`${endpoint}/ims/validate_token/v1`)
@@ -114,8 +153,8 @@ function asAuthAction(action) {
     const earlyAccessToggle = params.FT_EARLY_ACCESS;
     const ldSdkKey = params.LD_SDK_KEY;
 
-    // Extract the token from the params
-    const { imsOrg, accessToken } = params;
+    const accessToken = getAccessToken(params);
+    const imsOrg = getImsOrg(params);
 
     // Validate the access token
     if (!await isValidToken(imsEndpoint, clientId, accessToken)) {

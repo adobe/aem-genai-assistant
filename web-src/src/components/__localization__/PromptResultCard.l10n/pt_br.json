@@ -22,7 +22,7 @@
   "promptResultCard.removeButtonTooltip": "Remover",
   "promptResultCard.reuseButtonLabel": "Reutilizar",
   "promptResultCard.reuseButtonTooltip": "Carregue os valores de entrada e o prompt usado para gerar variações.",
-  "promptResultCard.savePromptDescription": "Se quiser reutilizar o prompt criado, selecione \"Salvar\". Isso permite que você armazene o prompt para uso futuro. Você pode salvá-lo no nível do usuário ou da organização.",
+  "promptResultCard.savePromptDescription": "Se quiser reutilizar o prompt criado, clique em “Salvar” para armazená-lo para uso futuro. Você pode salvá-lo no nível do usuário ou da organização.",
   "promptResultCard.savePromptTitle": "Salvar",
   "promptResultCard.sendFeedbackSuccessToast": "Feedback enviado.",
   "promptResultCard.variationsHeading": "Variações"

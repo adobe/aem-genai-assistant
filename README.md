@@ -22,6 +22,14 @@ See: http://aem.live/docs/sidekick-generate-variations
 - Run `npm run lint && npm test` to run lint and unit tests for ui and actions
 - Preview the Generate Variations app in the [QA workspace](https://experience-qa.adobe.com/?shell_source=local&devMode=true&shell_ims=prod#/aem/generate-variations/): `npm run preview`
 
+### Debugging
+
+By default, App Builder stores only failed activations. To enable the storage of all App Builder activations, set the `extraLogging` search query parameter to `true`, as shown in the following example:
+
+```
+https://experience.adobe.com/?extraLogging=true#/aem/generate-variations/
+```
+
 ### Deployment
 
 - `npm run deploy` to build and deploy all actions on Runtime and static files to CDN

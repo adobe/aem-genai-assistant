@@ -24,5 +24,14 @@
   "promptSessionSideView.savePromptSharedSwitchLabel": "Compartido entre organizaciones",
   "promptSessionSideView.savePromptSuccessToast": "Plantilla de indicación guardada",
   "promptSessionSideView.temperatureDescription": "Una temperatura más alta se desvía de la indicación y genera un resultado más aleatorio y creativo",
-  "promptSessionSideView.temperatureLabel": "Temperatura"
+  "promptSessionSideView.temperatureLabel": "Temperatura",
+  "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": "Gracias por su paciencia, su contenido está casi listo",
+  "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": "Casi terminamos con tu contenido",
+  "promptSessionSideView.variationsGeneration15SecondsWaitTimeToast": "Preparación del contenido",
+  "promptSessionSideView.variationsGeneration30SecondsWaitTimeToast": "Gracias por su paciencia, su contenido está en camino",
+  "promptSessionSideView.variationsGeneration45SecondsWaitTimeToast": "Generación del contenido",
+  "promptSessionSideView.variationsGeneration60SecondsWaitTimeToast": "Gracias por su paciencia, su contenido está en camino",
+  "promptSessionSideView.variationsGeneration75SecondsWaitTimeToast": "Preparación del contenido",
+  "promptSessionSideView.variationsGeneration90SecondsWaitTimeToast": "Casi terminamos con tu contenido",
+  "promptSessionSideView.variationsGenerationLongWaitTimeToast": "Disculpe el retraso, su contenido está casi listo"
 }

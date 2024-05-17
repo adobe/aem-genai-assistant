@@ -12,7 +12,7 @@
   "favoritesView.removeButtonTooltip": "Eliminar",
   "favoritesView.removeFromFavoritesAlertCancelButtonLabel": "Cancelar",
   "favoritesView.removeFromFavoritesAlertDeleteButtonLabel": "Eliminar",
-  "favoritesView.removeFromFavoritesAlertMessage": "¿Seguro que desea eliminar los elementos seleccionados de sus favoritos?",
+  "favoritesView.removeFromFavoritesAlertMessage": "¿Seguro que desea eliminar los elementos seleccionados de los favoritos?",
   "favoritesView.removeFromFavoritesAlertTitle": "¿Desea eliminar los elementos seleccionados?",
   "favoritesView.removeFromFavoritesButtonLabel": "Eliminar",
   "favoritesView.selectAllButtonLabel": "Seleccionar todo"

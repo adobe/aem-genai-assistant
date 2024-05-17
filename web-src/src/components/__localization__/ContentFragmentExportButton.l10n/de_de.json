@@ -4,7 +4,7 @@
   "contentFragmentExportButton.exportDialog.description": "Exportiert die ausgewählte Variante als neue Inhaltsfragmentvariante.",
   "contentFragmentExportButton.exportDialog.exportAndOpenButtonLabel": "Exportieren und öffnen",
   "contentFragmentExportButton.exportDialog.exportButtonLabel": "Exportieren",
-  "contentFragmentExportButton.exportDialog.exportButtonProgressAreaLabel": "Export läuft...",
+  "contentFragmentExportButton.exportDialog.exportButtonProgressAreaLabel": "Export läuft …",
   "contentFragmentExportButton.exportDialog.nameFieldLabel": "Name",
   "contentFragmentExportButton.exportDialog.title": "In Inhaltsfragment exportieren"
 }

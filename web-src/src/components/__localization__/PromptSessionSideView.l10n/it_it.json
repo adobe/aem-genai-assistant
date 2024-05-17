@@ -9,7 +9,7 @@
   "promptSessionSideView.generateButtonContextualHelpHeading": "Condizioni di utilizzo",
   "promptSessionSideView.generateButtonLabel": "Genera",
   "promptSessionSideView.inputsLabel": "Input",
-  "promptSessionSideView.legalTermsLinkName": "Adobe Experience Cloud Generative AI User Guidelines",
+  "promptSessionSideView.legalTermsLinkName": "Linee guida per l’utente dell’IA generativa di Adobe Experience Cloud",
   "promptSessionSideView.navigationLabel": "Modelli di prompt",
   "promptSessionSideView.previewButtonLabel": "Anteprima",
   "promptSessionSideView.promptEditorContextualInfoContent": "Quando modifichi direttamente il prompt, includi un contesto specifico, come materiale di branding, contenuto del sito web, schemi di dati per tali dati, modelli e altri documenti affidabili.",
@@ -24,5 +24,14 @@
   "promptSessionSideView.savePromptSharedSwitchLabel": "Condiviso tra più organizzazioni",
   "promptSessionSideView.savePromptSuccessToast": "Modello di prompt salvato",
   "promptSessionSideView.temperatureDescription": "Una temperatura più elevata si allontana dal prompt per risultati più casuali e creativi",
-  "promptSessionSideView.temperatureLabel": "Temperatura"
+  "promptSessionSideView.temperatureLabel": "Temperatura",
+  "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": "Grazie per la pazienza, il vostro contenuto è quasi pronto",
+  "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": "Quasi completato con il tuo contenuto",
+  "promptSessionSideView.variationsGeneration15SecondsWaitTimeToast": "Preparazione dei contenuti",
+  "promptSessionSideView.variationsGeneration30SecondsWaitTimeToast": "Grazie per la pazienza, il vostro contenuto sta arrivando",
+  "promptSessionSideView.variationsGeneration45SecondsWaitTimeToast": "Generazione dei contenuti",
+  "promptSessionSideView.variationsGeneration60SecondsWaitTimeToast": "Grazie per la pazienza, il vostro contenuto sta arrivando",
+  "promptSessionSideView.variationsGeneration75SecondsWaitTimeToast": "Preparazione dei contenuti",
+  "promptSessionSideView.variationsGeneration90SecondsWaitTimeToast": "Quasi completato con il tuo contenuto",
+  "promptSessionSideView.variationsGenerationLongWaitTimeToast": "Spiacenti per il ritardo, il contenuto è quasi pronto"
 }

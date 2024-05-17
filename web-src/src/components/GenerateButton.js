@@ -36,6 +36,57 @@ import { contentFragmentState } from '../state/ContentFragmentState.js';
 import { RUN_MODE_CF } from '../state/RunMode.js';
 import { FIREFALL_ACTION_TYPES } from '../services/FirefallService.js';
 
+const createWaitMessagesController = (intlFn) => {
+  const displayToast = (msg, timeout = 1500) => {
+    ToastQueue.info(msg, { timeout });
+  };
+
+  const closeToast = () => {
+    // Closing an active toast, if any
+    const toast = document.querySelector('div[class*="spectrum-Toast-buttons"]');
+    if (toast !== null) {
+      const closeBtn = toast.querySelector('button[aria-label="Close"]');
+      if (closeBtn !== null) {
+        closeBtn.click();
+      }
+    }
+  };
+
+  const waitMessages = [
+    { msg: intlMessages.promptSessionSideView.variationsGeneration15SecondsWaitTimeToast, delay: 15 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration30SecondsWaitTimeToast, delay: 30 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration45SecondsWaitTimeToast, delay: 45 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration60SecondsWaitTimeToast, delay: 60 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration75SecondsWaitTimeToast, delay: 75 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration90SecondsWaitTimeToast, delay: 90 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration105SecondsWaitTimeToast, delay: 105 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration120SecondsWaitTimeToast, delay: 120 },
+    { msg: intlMessages.promptSessionSideView.variationsGenerationLongWaitTimeToast, delay: 180 },
+    { msg: intlMessages.promptSessionSideView.variationsGenerationLongWaitTimeToast, delay: 240 },
+  ];
+  const timeoutIds = [];
+  return {
+    startDisplaying: () => {
+      for (const waitMessage of waitMessages) {
+        timeoutIds.push(
+          setTimeout(() => {
+            closeToast();
+            displayToast(intlFn(waitMessage.msg));
+          }, waitMessage.delay * 1000),
+        );
+      }
+    },
+    stopDisplaying: () => {
+      if (timeoutIds.length > 0) {
+        while (timeoutIds.length > 0) {
+          clearTimeout(timeoutIds.shift());
+        }
+        closeToast();
+      }
+    },
+  };
+};
+
 export function GenerateButton() {
   const { runMode, firefallService } = useApplicationContext();
   const prompt = useRecoilValue(promptState);
@@ -83,11 +134,17 @@ export function GenerateButton() {
     sampleRUM('genai:prompt:generate', { source: 'GenerateButton#handleGenerate' });
     setGenerationInProgress(true);
     setIsOpenPromptEditor(false);
+
+    const waitMessagesController = createWaitMessagesController(formatMessage);
+    waitMessagesController.startDisplaying();
+
     generateResults()
       .catch((error) => {
+        waitMessagesController.stopDisplaying();
         ToastQueue.negative(error.message, { timeout: 2000 });
       })
       .finally(() => {
+        waitMessagesController.stopDisplaying();
         setGenerationInProgress(false);
       });
   }, [generateResults, setGenerationInProgress]);

@@ -89,6 +89,9 @@ export class FirefallService {
         .json();
     }, pollDelay, initialPollDelay).then((data) => {
       const { result } = data;
+      if (result.error) {
+        throw new Error(result.error);
+      }
       const { query_id: queryId, generations } = result;
       return {
         queryId,

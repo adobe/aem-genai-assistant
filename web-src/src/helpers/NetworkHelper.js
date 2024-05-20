@@ -11,6 +11,16 @@
  */
 import wretch from 'wretch';
 
+const getHeaders = () => {
+  const ENABLE_EXTRA_LOGGING_PARAM = 'extraLogging';
+  const headers = {};
+  const params = new URLSearchParams(window.location.search);
+  if (params.get(ENABLE_EXTRA_LOGGING_PARAM) === 'true') {
+    headers['X-OW-EXTRA-LOGGING'] = 'on';
+  }
+  return headers;
+};
+
 function unwrapError(error) {
   if (error.json?.error) {
     throw new Error(error.json.error);
@@ -21,7 +31,7 @@ function unwrapError(error) {
 
 function wretchWithOptions(url) {
   return wretch(url)
-    .headers({ 'X-OW-EXTRA-LOGGING': 'on' })
+    .headers(getHeaders())
     .resolve((resolver) => {
       return resolver
         .badRequest((err) => unwrapError(err))

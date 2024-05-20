@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "prepare": "husky install",
-    "start": "npm run prebuild && REACT_APP_VERSION=$npm_package_version aio app run --local",
     "preview": "npm run prebuild && REACT_APP_VERSION=$npm_package_version aio app run",
     "grammar": "nearleyc web-src/src/helpers/expressions.ne -o web-src/src/helpers/Parser.generated.js",
     "prompts": "node scripts/generate-prompts.js",
@@ -48,7 +47,9 @@
     "react-intl": "6.6.4",
     "react-simple-code-editor": "0.13.1",
     "react-transition-group": "4.4.5",
+    "react-slick": "0.30.2",
     "recoil": "0.7.7",
+    "slick-carousel": "1.8.1",
     "uuid": "9.0.1",
     "wretch": "2.7.0"
   },

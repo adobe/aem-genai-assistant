@@ -184,7 +184,7 @@ export function MainSidePanel(props) {
         && <Flex direction={'column'} gridArea={'menu'} gap={'size-100'}>
           <ul className={style.menu}>
             <li className={viewType === ViewType.NewSession ? derivedStyles.clickedMenuItem : style.menuItem}>
-              <ClickableImage src={PromptsIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItem)} alt={formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItemAltText)} onClick={() => setViewType(ViewType.NewSession)} />
+                <ClickableImage src={PromptsIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItem)} alt={formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItemAltText)} onClick={() => setViewType(ViewType.NewSession)} />
               {mainSidePanelType === MainSidePanelType.Expanded
               && <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>{formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItem)}</Link>}
             </li>
@@ -205,14 +205,20 @@ export function MainSidePanel(props) {
               && sessions.toReversed().map((session) => {
                 const sessionDate = new Date(session.name);
                 const groupingLabel = groupingLabelGenerator(sessionDate);
-
-                return (<>
-                  {groupingLabel && <Text UNSAFE_className={style.subMenuHeader}>{groupingLabel}</Text>}
-                  {/* eslint-disable-next-line max-len */}
-                  <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyles.clickedSubMenuItem : style.subMenuItem} key={session.id}>
-                    <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => handleRecent(session)}>{session.name}</Link>
-                  </li>
-                </>);
+                return (
+                      <>
+                        {groupingLabel
+                            && <Text key={groupingLabel} UNSAFE_className={style.subMenuHeader}>
+                              {groupingLabel}
+                            </Text>}
+                        {/* eslint-disable-next-line max-len */}
+                        <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyles.clickedSubMenuItem : style.subMenuItem}
+                            key={session.id}>
+                          <Link href="#" UNSAFE_className={style.menuItemLink}
+                                onPress={() => handleRecent(session)}>{session.name}</Link>
+                        </li>
+                      </>
+                );
               })}
           </ul>
         </Flex>

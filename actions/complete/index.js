@@ -9,15 +9,52 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+
+const openwhisk = require('openwhisk');
 const { asGenericAction } = require('../GenericAction.js');
 const { asAuthAction } = require('../AuthAction.js');
-const { asFirefallAction } = require('../FirefallAction.js');
+
+const STATUS_RUNNING = 'running';
+const STATUS_COMPLETED = 'completed';
 
 async function main(params) {
-  const {
-    prompt, temperature, model, firefallClient,
-  } = params;
-  return firefallClient.completion(prompt ?? 'Who are you?', temperature ?? 0.0, model ?? 'gpt-4');
+  const { jobId } = params;
+
+  const ow = openwhisk();
+
+  if (!jobId) {
+    const activation = await ow.actions.invoke({
+      name: 'aem-genai-assistant/generate',
+      blocking: false,
+      result: false,
+      params,
+    });
+
+    return {
+      statusCode: 202,
+      jobId: activation.activationId,
+    };
+  } else {
+    try {
+      const activation = await ow.activations.get(jobId);
+
+      return {
+        jobId,
+        status: STATUS_COMPLETED,
+        result: activation.response.result,
+      };
+    } catch (error) {
+      if (error instanceof Error && error.constructor.name === 'OpenWhiskError' && error.statusCode === 404) {
+        // For valid activation IDs that haven't finished yet, App Builder (OpenWhisk) returns a 404 error
+        // instead of any data or status. Therefore, we will return a status of 'running' to inform the client to wait.
+        return {
+          jobId,
+          status: STATUS_RUNNING,
+        };
+      }
+      throw error;
+    }
+  }
 }
 
-exports.main = asGenericAction(asAuthAction(asFirefallAction(main)));
+exports.main = asGenericAction(asAuthAction(main));

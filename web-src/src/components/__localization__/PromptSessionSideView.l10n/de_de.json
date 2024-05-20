@@ -24,5 +24,14 @@
   "promptSessionSideView.savePromptSharedSwitchLabel": "Im Unternehmen freigegeben",
   "promptSessionSideView.savePromptSuccessToast": "Prompt-Vorlage gespeichert",
   "promptSessionSideView.temperatureDescription": "Eine höhere Temperatur führt zu einer Abweichung vom Prompt und zu mehr Zufälligkeit und Kreativität",
-  "promptSessionSideView.temperatureLabel": "Temperatur"
+  "promptSessionSideView.temperatureLabel": "Temperatur",
+  "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": "Vielen Dank für Ihre Geduld. Ihre Inhalte sind fast fertig.",
+  "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": "Beinahe fertig mit Ihrem Inhalt",
+  "promptSessionSideView.variationsGeneration15SecondsWaitTimeToast": "Inhalte vorbereiten",
+  "promptSessionSideView.variationsGeneration30SecondsWaitTimeToast": "Vielen Dank für Ihre Geduld, Ihre Inhalte sind auf dem Weg",
+  "promptSessionSideView.variationsGeneration45SecondsWaitTimeToast": "Erstellen Ihres Inhalts",
+  "promptSessionSideView.variationsGeneration60SecondsWaitTimeToast": "Vielen Dank für Ihre Geduld, Ihre Inhalte sind auf dem Weg",
+  "promptSessionSideView.variationsGeneration75SecondsWaitTimeToast": "Bereiten Ihrer Inhalte vor",
+  "promptSessionSideView.variationsGeneration90SecondsWaitTimeToast": "Beinahe fertig mit Ihrem Inhalt",
+  "promptSessionSideView.variationsGenerationLongWaitTimeToast": "Entschuldigung für die Verzögerung, Ihr Inhalt ist fast fertig"
 }

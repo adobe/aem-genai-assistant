@@ -1,10 +1,10 @@
 {
-  "contentFragmentExportButton.buttonLabel": "导出变量",
+  "contentFragmentExportButton.buttonLabel": "导出变体",
   "contentFragmentExportButton.exportDialog.cancelButtonLabel": "取消",
-  "contentFragmentExportButton.exportDialog.description": "将所选变量导出为新内容片段变量。",
-  "contentFragmentExportButton.exportDialog.exportAndOpenButtonLabel": "导出并打开",
+  "contentFragmentExportButton.exportDialog.description": "将选定的变体导出为新的内容片段变体。",
+  "contentFragmentExportButton.exportDialog.exportAndOpenButtonLabel": "导出和打开",
   "contentFragmentExportButton.exportDialog.exportButtonLabel": "导出",
-  "contentFragmentExportButton.exportDialog.exportButtonProgressAreaLabel": "正在导出……",
+  "contentFragmentExportButton.exportDialog.exportButtonProgressAreaLabel": "正在导出…",
   "contentFragmentExportButton.exportDialog.nameFieldLabel": "名称",
   "contentFragmentExportButton.exportDialog.title": "导出到内容片段"
 }

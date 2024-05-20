@@ -1,5 +1,5 @@
 {
-  "promptResultCard.contentFragmentExportDialogDescription": "Exporta la variación seleccionada como una nueva variación de fragmento de contenido.",
+  "promptResultCard.contentFragmentExportDialogDescription": "Exportar la variación seleccionada como una nueva variación de fragmento de contenido.",
   "promptResultCard.contentFragmentExportDialogExportButtonLabel": "Nombre de variación",
   "promptResultCard.contentFragmentExportDialogTitle": "Exportar a fragmento de contenido",
   "promptResultCard.copyButtonTooltip": "Copiar",
@@ -20,8 +20,10 @@
   "promptResultCard.refineContentDescription": "Si, una vez generado el contenido, desea perfeccionarlo, actualice los campos de indicación o entrada. Una vez conforme con el contenido, aprovéchelo en su experiencia de creación de AEM.",
   "promptResultCard.refineContentTitle": "Perfeccionar y utilizar contenido",
   "promptResultCard.removeButtonTooltip": "Quitar",
-  "promptResultCard.reuseButtonTooltip": "Reutilizar",
+  "promptResultCard.reuseButtonLabel": "Reutilizar",
+  "promptResultCard.reuseButtonTooltip": "Cargue los valores de entrada y el indicador utilizado para generar variaciones.",
   "promptResultCard.savePromptDescription": "Si desea volver a utilizar la indicación creada, seleccione \"Guardar\". Esto le permite almacenar la indicación para un uso futuro. Puede guardarla en el nivel de usuario u organización.",
   "promptResultCard.savePromptTitle": "Guardar",
-  "promptResultCard.sendFeedbackSuccessToast": "Comentarios enviados"
+  "promptResultCard.sendFeedbackSuccessToast": "Comentarios enviados",
+  "promptResultCard.variationsHeading": "Variaciones"
 }

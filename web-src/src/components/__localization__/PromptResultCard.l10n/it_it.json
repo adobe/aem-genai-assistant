@@ -20,8 +20,10 @@
   "promptResultCard.refineContentDescription": "Dopo aver generato il contenuto, puoi perfezionarlo ulteriormente aggiornando il prompt e/o i campi di input. Una volta ottenuto i contenuti desiderati, puoi utilizzarli nella tua esperienza di authoring AEM.",
   "promptResultCard.refineContentTitle": "Perfeziona e utilizza il contenuto",
   "promptResultCard.removeButtonTooltip": "Rimuovi",
-  "promptResultCard.reuseButtonTooltip": "Riutilizza",
+  "promptResultCard.reuseButtonLabel": "Riutilizza",
+  "promptResultCard.reuseButtonTooltip": "Carica i valori di input e il prompt utilizzato per generare le varianti.",
   "promptResultCard.savePromptDescription": "Se intendi riutilizzare il prompt creato, seleziona “Salva” per memorizzarlo e riutilizzarlo in futuro. Puoi salvarlo a livello di utente o di organizzazione.",
   "promptResultCard.savePromptTitle": "Salva",
-  "promptResultCard.sendFeedbackSuccessToast": "Feedback inviato."
+  "promptResultCard.sendFeedbackSuccessToast": "Feedback inviato.",
+  "promptResultCard.variationsHeading": "Varianti"
 }

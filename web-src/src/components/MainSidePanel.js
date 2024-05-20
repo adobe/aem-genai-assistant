@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Grid, Image, Link, Text, ActionButton, TooltipTrigger, Tooltip, Heading, Item,
+  Flex, Grid, Image, Link, Text, ActionButton, TooltipTrigger, Tooltip, Heading,
 } from '@adobe/react-spectrum';
 import React, { useCallback } from 'react';
 import ShowMenu from '@spectrum-icons/workflow/ShowMenu';
@@ -205,14 +205,20 @@ export function MainSidePanel(props) {
               && sessions.toReversed().map((session) => {
                 const sessionDate = new Date(session.name);
                 const groupingLabel = groupingLabelGenerator(sessionDate);
-
-                return (<Item key={sessionDate}>
-                  {groupingLabel && <Text UNSAFE_className={style.subMenuHeader}>{groupingLabel}</Text>}
-                  {/* eslint-disable-next-line max-len */}
-                  <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyles.clickedSubMenuItem : style.subMenuItem} key={session.id}>
-                    <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => handleRecent(session)}>{session.name}</Link>
-                  </li>
-                </Item>);
+                return (
+                      <>
+                        {groupingLabel
+                            && <Text key={groupingLabel} UNSAFE_className={style.subMenuHeader}>
+                              {groupingLabel}
+                            </Text>}
+                        {/* eslint-disable-next-line max-len */}
+                        <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyles.clickedSubMenuItem : style.subMenuItem}
+                            key={session.id}>
+                          <Link href="#" UNSAFE_className={style.menuItemLink}
+                                onPress={() => handleRecent(session)}>{session.name}</Link>
+                        </li>
+                      </>
+                );
               })}
           </ul>
         </Flex>

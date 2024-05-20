@@ -117,6 +117,7 @@ export function SavePromptButton(props) {
       template: prompt,
       modes: [runMode],
       isShared,
+      isBundled: false,
       created: new Date().getTime(),
       lastModified: new Date().getTime(),
       createdBy: name,

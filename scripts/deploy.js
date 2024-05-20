@@ -99,8 +99,8 @@ async function deploy() {
   try {
     const currentBranch = await getCurrentGitBranch();
     console.log(`Current Git branch: ${currentBranch}`);
-    if (currentBranch === 'main') {
-      // If the current branch is 'main', deploy using settings from environment variables (CI/CD pipeline).
+    if (currentBranch === 'main' || currentBranch.startsWith('/refs/tags/')) {
+      // If the current branch is 'main' or a tag, deploy using settings from environment variables (CI/CD pipeline).
       await deployApp();
       return;
     }
@@ -149,6 +149,7 @@ async function deploy() {
     await deployApp(answers.answer);
   } catch (error) {
     console.error(`Error during execution: ${error.message}`);
+    process.exit(1);
   }
 }
 

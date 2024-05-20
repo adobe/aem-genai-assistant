@@ -12,8 +12,8 @@
   "favoritesView.removeButtonTooltip": "Supprimer",
   "favoritesView.removeFromFavoritesAlertCancelButtonLabel": "Annuler",
   "favoritesView.removeFromFavoritesAlertDeleteButtonLabel": "Supprimer",
-  "favoritesView.removeFromFavoritesAlertMessage": "Voulez-vous vraiment supprimer les éléments sélectionnés de vos favoris ?",
-  "favoritesView.removeFromFavoritesAlertTitle": "Supprimer les éléments sélectionnés ?",
+  "favoritesView.removeFromFavoritesAlertMessage": "Voulez-vous vraiment supprimer les éléments sélectionnés de vos favoris ?",
+  "favoritesView.removeFromFavoritesAlertTitle": "Supprimer les éléments sélectionnés ?",
   "favoritesView.removeFromFavoritesButtonLabel": "Supprimer",
   "favoritesView.selectAllButtonLabel": "Tout sélectionner"
 }

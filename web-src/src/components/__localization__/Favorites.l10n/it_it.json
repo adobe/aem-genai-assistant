@@ -4,7 +4,7 @@
   "favoritesView.copyTextSuccessToast": "Testo copiato negli Appunti.",
   "favoritesView.deselectAllButtonLabel": "Deseleziona tutto",
   "favoritesView.exportToCSVButtonLabel": "Esporta in CSV",
-  "favoritesView.exportToCSVButtonTooltip": "Esporta le varianti selezionate (solo testo) in un file CSV.",
+  "favoritesView.exportToCSVButtonTooltip": "Esporta le varianti selezionate (solo contenuto testo) in un file CSV.",
   "favoritesView.generateImageButtonLabel": "Genera immagine",
   "favoritesView.generateImageFailedToast": "Si è verificato un errore. Riprova.",
   "favoritesView.navigationLabel": "Modelli di prompt",
@@ -13,7 +13,7 @@
   "favoritesView.removeFromFavoritesAlertCancelButtonLabel": "Annulla",
   "favoritesView.removeFromFavoritesAlertDeleteButtonLabel": "Elimina",
   "favoritesView.removeFromFavoritesAlertMessage": "Eliminare gli elementi selezionati dai preferiti?",
-  "favoritesView.removeFromFavoritesAlertTitle": "Eliminare gli elementi selezionati?",
+  "favoritesView.removeFromFavoritesAlertTitle": "Eliminare elementi selezionati?",
   "favoritesView.removeFromFavoritesButtonLabel": "Elimina",
   "favoritesView.selectAllButtonLabel": "Seleziona tutto"
 }

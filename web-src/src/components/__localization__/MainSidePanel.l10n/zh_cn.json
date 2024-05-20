@@ -1,6 +1,6 @@
 {
   "mainSidePanel.collapseMenuType": "折叠侧面板",
-  "mainSidePanel.contentFragmentHostNameLabel": "已连接到AEM实例：",
+  "mainSidePanel.contentFragmentHostNameLabel": "已连接到 AEM 实例：",
   "mainSidePanel.contentFragmentTileLabel": "内容片段：",
   "mainSidePanel.copyrightLabel": "Copyright © 2024 Adobe. All rights reserved",
   "mainSidePanel.expandMenuType": "展开侧面板",

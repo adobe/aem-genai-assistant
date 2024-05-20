@@ -17,16 +17,18 @@ See: http://aem.live/docs/sidekick-generate-variations
     - `aio console workspace select`
 - Populate the `.env` file in the project root and fill it as shown [below](#env)
 
-### Local Development
-
-- `npm start` to start your local Dev server
-  - App will run on `localhost:9080` by default
-  - Actions will be deployed locally (requires Docker running)
-
 ### Testing
 
 - Run `npm run lint && npm test` to run lint and unit tests for ui and actions
 - Preview the Generate Variations app in the [QA workspace](https://experience-qa.adobe.com/?shell_source=local&devMode=true&shell_ims=prod#/aem/generate-variations/): `npm run preview`
+
+### Debugging
+
+By default, App Builder stores only failed activations. To enable the storage of all App Builder activations, set the `extraLogging` search query parameter to `true`, as shown in the following example:
+
+```
+https://experience.adobe.com/?extraLogging=true#/aem/generate-variations/
+```
 
 ### Deployment
 

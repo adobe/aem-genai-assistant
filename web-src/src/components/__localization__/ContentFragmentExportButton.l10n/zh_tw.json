@@ -1,10 +1,10 @@
 {
-  "contentFragmentExportButton.buttonLabel": "匯出變數",
+  "contentFragmentExportButton.buttonLabel": "匯出變化版本",
   "contentFragmentExportButton.exportDialog.cancelButtonLabel": "取消",
-  "contentFragmentExportButton.exportDialog.description": "將選取的變數匯出為新內容片段變數。",
+  "contentFragmentExportButton.exportDialog.description": "將所選的變化版本匯出為新的內容片段變化版本。",
   "contentFragmentExportButton.exportDialog.exportAndOpenButtonLabel": "匯出並開啟",
   "contentFragmentExportButton.exportDialog.exportButtonLabel": "匯出",
-  "contentFragmentExportButton.exportDialog.exportButtonProgressAreaLabel": "正在匯出……",
+  "contentFragmentExportButton.exportDialog.exportButtonProgressAreaLabel": "匯出中…",
   "contentFragmentExportButton.exportDialog.nameFieldLabel": "名稱",
   "contentFragmentExportButton.exportDialog.title": "匯出至內容片段"
 }

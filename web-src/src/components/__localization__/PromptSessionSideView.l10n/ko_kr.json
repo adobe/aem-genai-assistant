@@ -24,5 +24,14 @@
   "promptSessionSideView.savePromptSharedSwitchLabel": "조직 전체에서 공유됨",
   "promptSessionSideView.savePromptSuccessToast": "프롬프트 템플릿 저장됨",
   "promptSessionSideView.temperatureDescription": "온도가 높을수록 프롬프트에서 벗어나 더 많은 무작위성과 창의성을 얻을 수 있습니다.",
-  "promptSessionSideView.temperatureLabel": "온도"
+  "promptSessionSideView.temperatureLabel": "온도",
+  "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": "기다려 주셔서 감사합니다. 컨텐츠가 거의 준비되었습니다.",
+  "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": "콘텐츠로 거의 완료",
+  "promptSessionSideView.variationsGeneration15SecondsWaitTimeToast": "컨텐츠 준비",
+  "promptSessionSideView.variationsGeneration30SecondsWaitTimeToast": "기다려 주셔서 감사합니다. 컨텐츠가 곧 제공될 예정입니다.",
+  "promptSessionSideView.variationsGeneration45SecondsWaitTimeToast": "컨텐츠 생성",
+  "promptSessionSideView.variationsGeneration60SecondsWaitTimeToast": "기다려 주셔서 감사합니다. 컨텐츠가 곧 제공될 예정입니다.",
+  "promptSessionSideView.variationsGeneration75SecondsWaitTimeToast": "컨텐츠 준비",
+  "promptSessionSideView.variationsGeneration90SecondsWaitTimeToast": "콘텐츠로 거의 완료",
+  "promptSessionSideView.variationsGenerationLongWaitTimeToast": "지연되어 죄송합니다. 컨텐츠가 거의 준비되었습니다."
 }

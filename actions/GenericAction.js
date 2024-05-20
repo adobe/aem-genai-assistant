@@ -23,8 +23,18 @@ function createResponse(status, body) {
   };
 }
 
+function isObject(obj) {
+  return typeof obj === 'object' && !Array.isArray(obj) && obj !== null;
+}
+
 function createSuccessResponse(body) {
-  return createResponse(200, body);
+  if (!isObject(body)) {
+    return createResponse(200, body);
+  }
+
+  // If there is a status code in the body, use it; otherwise, default to 200.
+  const { statusCode, ...response } = body;
+  return createResponse(statusCode ?? 200, response);
 }
 
 function createErrorResponse(status, message) {

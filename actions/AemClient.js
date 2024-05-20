@@ -86,7 +86,7 @@ class AemClient {
 
       logger.debug(`Updating variation with ${updates.length} fields`);
 
-      await wretch(updateVariationUrl, true /* retryOnFailure */)
+      await wretch(updateVariationUrl, { shouldRetry: true } /* retryOnFailure */)
         .headers({
           'X-Adobe-Accept-Unsupported-API': '1',
           'If-Match': eTag,

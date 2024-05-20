@@ -10,6 +10,8 @@
  * governing permissions and limitations under the License.
  */
 
+import { FIREFALL_ACTION_TYPES } from '../services/FirefallService.js';
+
 export async function generateImagePrompt(firefallService, selectedVariant) {
   const variantToImagePrompt = `I want to create images using a text-to-image model. For this, I need a concise, one-sentence image prompt created by following these steps:
     - Read and understand the subject or theme from the given JSON context below.
@@ -27,7 +29,11 @@ export async function generateImagePrompt(firefallService, selectedVariant) {
     Generated Prompt:
     "A happy, confident person enjoying music in an urban park, using high-quality wireless headphones, with the city skyline in the background."
     Here is the JSON context: ${JSON.stringify(selectedVariant.content)}`;
-  const { queryId, response } = await firefallService.complete(variantToImagePrompt, 0);
+  const { response } = await firefallService.complete(
+    variantToImagePrompt,
+    0,
+    FIREFALL_ACTION_TYPES.TEXT_TO_IMAGE_PROMPT_GENERATION,
+  );
   return response;
 }
 

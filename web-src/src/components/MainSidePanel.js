@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Flex, Grid, Image, Link, Text, ActionButton, TooltipTrigger, Tooltip, Heading,
+  Flex, Grid, Image, Link, Text, ActionButton, TooltipTrigger, Tooltip, Heading, Item,
 } from '@adobe/react-spectrum';
 import React, { useCallback } from 'react';
 import ShowMenu from '@spectrum-icons/workflow/ShowMenu';
@@ -184,7 +184,7 @@ export function MainSidePanel(props) {
         && <Flex direction={'column'} gridArea={'menu'} gap={'size-100'}>
           <ul className={style.menu}>
             <li className={viewType === ViewType.NewSession ? derivedStyles.clickedMenuItem : style.menuItem}>
-              <ClickableImage src={PromptsIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItem)} alt={formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItemAltText)} onClick={() => setViewType(ViewType.NewSession)} />
+                <ClickableImage src={PromptsIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItem)} alt={formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItemAltText)} onClick={() => setViewType(ViewType.NewSession)} />
               {mainSidePanelType === MainSidePanelType.Expanded
               && <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => setViewType(ViewType.NewSession)}>{formatMessage(intlMessages.mainSidePanel.promptTemplatesMenuItem)}</Link>}
             </li>
@@ -206,13 +206,13 @@ export function MainSidePanel(props) {
                 const sessionDate = new Date(session.name);
                 const groupingLabel = groupingLabelGenerator(sessionDate);
 
-                return (<>
+                return (<Item key={sessionDate}>
                   {groupingLabel && <Text UNSAFE_className={style.subMenuHeader}>{groupingLabel}</Text>}
                   {/* eslint-disable-next-line max-len */}
                   <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyles.clickedSubMenuItem : style.subMenuItem} key={session.id}>
                     <Link href="#" UNSAFE_className={style.menuItemLink} onPress={() => handleRecent(session)}>{session.name}</Link>
                   </li>
-                </>);
+                </Item>);
               })}
           </ul>
         </Flex>

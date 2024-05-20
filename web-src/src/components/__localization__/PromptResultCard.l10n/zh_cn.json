@@ -1,6 +1,6 @@
 {
-  "promptResultCard.contentFragmentExportDialogDescription": "将所选变量导出为新内容片段变量。",
-  "promptResultCard.contentFragmentExportDialogExportButtonLabel": "变量名称",
+  "promptResultCard.contentFragmentExportDialogDescription": "将选定的变体导出为新的内容片段变体。",
+  "promptResultCard.contentFragmentExportDialogExportButtonLabel": "变体名称",
   "promptResultCard.contentFragmentExportDialogTitle": "导出到内容片段",
   "promptResultCard.copyButtonTooltip": "复制",
   "promptResultCard.copyTextSuccessToast": "已将文本复制到剪贴板！",

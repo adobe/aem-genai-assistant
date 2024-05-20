@@ -20,21 +20,26 @@ jobs:
       env:
           CI: true
           AIO_RUNTIME_AUTH: ${{ secrets.AIO_RUNTIME_AUTH_QA }}
-          AIO_RUNTIME_NAMESPACE: 245265-879aquaant-qa
+          AIO_RUNTIME_NAMESPACE: '245265-879aquaant-qa'
           AIO_RUNTIME_APIHOST: 'https://adobeioruntime.net'
           FIREFALL_ENDPOINT: 'https://firefall.adobe.io'
-          FIREFALL_API_KEY: aem-sidekick-genai-assistant
-          TARGET_API_KEY: 1a6d085515114ef9a6937de9ab7d61fe
+          FIREFALL_API_KEY: 'aem-sidekick-genai-assistant'
+          TARGET_API_KEY: '1a6d085515114ef9a6937de9ab7d61fe'
           IMS_ENDPOINT: 'https://ims-na1.adobelogin.com'
-          IMS_CLIENT_ID: aem-genai-assistant
-          IMS_SERVICE_CLIENT_ID: aem-sidekick-genai-assistant
+          IMS_CLIENT_ID: 'aem-genai-assistant'
+          IMS_SERVICE_CLIENT_ID: 'aem-sidekick-genai-assistant'
           IMS_SERVICE_CLIENT_SECRET: ${{ secrets.IMS_SERVICE_CLIENT_SECRET }}
           IMS_SERVICE_PERM_AUTH_CODE: ${{ secrets.IMS_SERVICE_PERM_AUTH_CODE }}
-          IMS_PRODUCT_CONTEXT: dma_aem_cloud
-          EXPRESS_PRODUCT_CONTEXT: spark
-          EXPRESS_SDK_URL: https://dev.cc-embed.adobe.com/sdk/1p/v4/4.1.14/CCEverywhere.js
+          IMS_PRODUCT_CONTEXT: 'dma_aem_cloud'
+          PRODUCT_ENTITLEMENT: 'dx_aem_edge_delivery_services'
+          EXPRESS_ENTITLEMENT: 'spark'
+          EXPRESS_PRODUCT_CONTEXT: 'spark'
+          ACCESS_PLATFORM_APP_ID: 'AemGenerateVariations'
+          ACCESS_PLATFORM_CLIENT_ID: 'aem-genai-assistant'
+          ACCESS_PROFILE_ENDPOINT: 'https://aps-web.adobe.io'
+          EXPRESS_SDK_URL: 'https://dev.cc-embed.adobe.com/sdk/1p/v4/4.1.14/CCEverywhere.js'
           SPLUNK_HEC__HEC_TOKEN: ${{ secrets.SPLUNK_HEC__HEC_TOKEN }}
-          AIO_LOG_LEVEL: info
+          AIO_LOG_LEVEL: 'info'
           FT_EARLY_ACCESS: 'SITES-20810'
           LD_SDK_KEY: ${{ secrets.LD_SDK_KEY }}
       run: |

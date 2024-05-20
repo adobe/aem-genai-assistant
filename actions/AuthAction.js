@@ -9,14 +9,16 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-const { Core } = require('@adobe/aio-sdk');
+const { Core, State } = require('@adobe/aio-sdk');
 const LaunchDarkly = require('@launchdarkly/node-server-sdk');
 const QueryStringAddon = require('wretch/addons/queryString');
 const { ImsClient } = require('./ImsClient.js');
 const wretch = require('./Network.js');
 const { checkForAdobeInternalUser } = require('./ActionUtils.js');
 
-const logger = Core.Logger('AuthAction');
+// const logger = Core.Logger('AuthAction');
+const logger = Core.Logger('AuthAction', { level: 'debug' });
+const mockAccessProfile = require('../data/mock-access-profile.json');
 
 /**
  * Extracts a user access token from either the Authorization header or the request payload
@@ -96,6 +98,43 @@ async function getImsProfile(endpoint, clientId, token) {
   }
 }
 
+async function getAccessProfile(appId, clientId, endpoint, accesstoken, serviceToken) {
+  try {
+    const response = await wretch(`${endpoint}/services/access_profile/v3`)
+      .headers({
+        Authorization: `Bearer ${serviceToken}`,
+        'x-api-key': clientId,
+        'x-user-token': accesstoken,
+      })
+      .post({
+        appDetails: {
+          nglAppVersion: '1.0',
+          nglLibRuntimeMode: 'NAMED_USER_ONLINE',
+          nglLibVersion: '12.3',
+          locale: 'en_US',
+          appNameForLocale: appId,
+          nglAppId: appId,
+          appVersionForLocale: '1.0',
+        },
+        deviceDetails: {},
+      })
+      .json();
+
+    return atob(response.asnp.payload);
+  } catch (error) {
+    logger.error(error);
+    return null;
+  }
+}
+
+function getMockAccessProfile() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(mockAccessProfile);
+    }, 2000);
+  });
+}
+
 async function checkForProductContext(profile, org, productContext) {
   try {
     if (Array.isArray(profile.projectedProductContext)) {
@@ -114,13 +153,26 @@ async function checkForProductContext(profile, org, productContext) {
   }
 }
 
+function checkForProductAccess(accessProfile, imsOrg, entitlement) {
+  if (Array.isArray(accessProfile.appProfile?.accessibleItems)) {
+    const filteredItems = accessProfile.appProfile.accessibleItems
+      .filter((obj) => obj.fulfillable_items[entitlement]?.enabled);
+
+    // For each entry in filteredItems check that
+    // there is at least one entry where user.imsOrg matches the owner_id property
+    // otherwise, if no match, the user is not authorized to use Express
+    return filteredItems.some((obj) => obj.source.owner_id === imsOrg);
+  }
+  return false;
+}
+
 async function checkForEarlyProductAccess(toggle, sdkKey, isInternal, org) {
   const ldClient = LaunchDarkly.init(sdkKey);
   const context = {
     kind: 'user',
     key: org,
     imsOrgId: org,
-    internal: isInternal,
+    internal: false,
   };
 
   return new Promise((resolve, reject) => {
@@ -142,6 +194,16 @@ async function checkForEarlyProductAccess(toggle, sdkKey, isInternal, org) {
   });
 }
 
+async function getExistingServiceToken(state, profile) {
+  const storedUser = await state.get(profile.userId);
+
+  if (storedUser) {
+    logger.debug(`Found existing service token for user ${profile.userId}`);
+    return storedUser.value.serviceToken;
+  }
+  return null;
+}
+
 function asAuthAction(action) {
   return async (params) => {
     const imsEndpoint = params.IMS_ENDPOINT;
@@ -149,7 +211,10 @@ function asAuthAction(action) {
     const serviceClientId = params.IMS_SERVICE_CLIENT_ID;
     const clientSecret = params.IMS_SERVICE_CLIENT_SECRET;
     const permAuthCode = params.IMS_SERVICE_PERM_AUTH_CODE;
-    const productContext = params.IMS_PRODUCT_CONTEXT;
+    const productEntitlement = params.PRODUCT_ENTITLEMENT;
+    const accessAppId = process.env.ACCESS_PLATFORM_APP_ID;
+    const accessClientId = process.env.ACCESS_PLATFORM_CLIENT_ID;
+    const accessEndpoint = process.env.ACCESS_PROFILE_ENDPOINT;
     const earlyAccessToggle = params.FT_EARLY_ACCESS;
     const ldSdkKey = params.LD_SDK_KEY;
 
@@ -161,23 +226,37 @@ function asAuthAction(action) {
       throw new Error('Access token is invalid');
     }
 
-    // Check that the profile has access to the product
+    // Check that the IMS profile has access to the product
     const imsProfile = await getImsProfile(imsEndpoint, clientId, accessToken);
     if (!imsProfile) {
-      throw new Error('Failed to fetch profile');
+      throw new Error('Failed to fetch IMS profile');
     }
 
-    if (!await checkForProductContext(imsProfile, imsOrg, productContext)) {
+    // If everything is okay, retrieve or generate a service token
+    const userState = await State.init();
+    let serviceToken = await getExistingServiceToken(userState, imsProfile);
+
+    if (!serviceToken) {
+      const imsClient = new ImsClient(imsEndpoint, serviceClientId, clientSecret, permAuthCode);
+      const { access_token: token, expires_in: expiryTimeMs } = await imsClient.getServiceToken();
+      serviceToken = token;
+
+      logger.debug(`Setting new service token for user ${imsProfile.userId}`);
+      await userState.put(imsProfile.userId, { serviceToken: token }, { ttl: expiryTimeMs });
+    }
+
+    // Check that the Access profile has access to the product
+    // const accessProfile = await getAccessProfile(
+    // accessAppId, accessClientId, accessEndpoint, accessToken, serviceToken);
+    const accessProfile = await getMockAccessProfile();
+
+    if (!checkForProductAccess(accessProfile, imsOrg, productEntitlement)) {
       const isInternalUser = checkForAdobeInternalUser(imsProfile);
 
       if (!await checkForEarlyProductAccess(earlyAccessToggle, ldSdkKey, isInternalUser, imsOrg)) {
         throw new Error('Profile does not have access to the product');
       }
     }
-
-    // If everything is okay, generate a service token
-    const imsClient = new ImsClient(imsEndpoint, serviceClientId, clientSecret, permAuthCode);
-    const serviceToken = await imsClient.getServiceToken();
 
     return action({ ...params, imsOrg, serviceToken });
   };

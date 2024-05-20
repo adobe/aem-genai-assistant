@@ -1,0 +1,149 @@
+{
+  "id": "c54076a8-51b9-40d1-9c86-1b90a470fa7c",
+  "serverId": "lcs-stage",
+  "responseType": "INITIAL",
+  "profileStatus": "PROFILE_AVAILABLE",
+  "profileStatusReason": 3000,
+  "profileStatusReasonText": "Profile available due to purchase",
+  "appLicenseMode": "PAID",
+  "appProfile": {
+    "appId": "AemGenerateVariations",
+    "accessibleItems": [
+      {
+        "status": "ACTIVE",
+        "source": {
+          "owner_id": "908936ED5D35CC220A495CD4@AdobeOrg",
+          "id": "185E9F1BE728CE4941FB",
+          "type": "CONFIGURED_LICENSE",
+          "parent_id": "5047511C4A0CFC9E2CEB",
+          "status_reason": "NORMAL",
+          "can_access_until": 1782630001000
+        },
+        "fulfillable_items": {
+          "spark": {
+            "enabled": true,
+            "feature_sets": {
+              "ENT_P": {
+                "id": "ENT_P",
+                "label": "ENT P",
+                "enabled": true
+              }
+            },
+            "charging_model": {
+              "model": "RECURRING",
+              "overage": "NA",
+              "rollover": 0
+            }
+          },
+          "dx_aem_edge_delivery_services": {
+            "enabled": true,
+            "feature_sets": {
+              "CS_LVL_2": {
+                "id": "CS_LVL_2",
+                "label": "CS LVL 2",
+                "enabled": true
+              }
+            },
+            "charging_model": {
+              "model": "RECURRING",
+              "overage": "NA",
+              "rollover": 0
+            }
+          }
+        }
+      },
+      {
+        "status": "ACTIVE",
+        "source": {
+          "owner_id": "908936ED5D35CC220A495CD4@AdobeOrg",
+          "id": "4F300F0D1E02CE10C8CB",
+          "type": "CONFIGURED_LICENSE",
+          "parent_id": "523B923288CBC62BB7EB",
+          "status_reason": "NORMAL",
+          "can_access_until": 1782630001000
+        },
+        "fulfillable_items": {
+          "spark": {
+            "enabled": true,
+            "feature_sets": {
+              "ENT_P": {
+                "id": "ENT_P",
+                "label": "ENT P",
+                "enabled": true
+              }
+            },
+            "charging_model": {
+              "model": "RECURRING",
+              "overage": "NA"
+            }
+          },
+          "dx_aem_edge_delivery_services": {
+            "enabled": true,
+            "feature_sets": {
+              "CS_LVL_2": {
+                "id": "CS_LVL_2",
+                "label": "CS LVL 2",
+                "enabled": true
+              }
+            },
+            "charging_model": {
+              "model": "RECURRING",
+              "overage": "NA",
+              "rollover": 0
+            }
+          }
+        }
+      }
+    ],
+    "secondaryAppProfiles": {}
+  },
+  "userProfile": {
+    "userId": "44AE19EC64C9575B0A49421E@bb391ac1649348ed49403d.e",
+    "firstName": "Robin",
+    "lastName": "Villescas",
+    "email": "robinv@adobe.com",
+    "countryCode": "US",
+    "accountType": "type2e",
+    "displayName": "Robin%20Villescas",
+    "authId": "8D4B0B985CD449AF0A49421C@c62f24cc5b5b7e0e0a494004"
+  },
+  "controlProfile": {
+    "nglAppId": "AemGenerateVariations",
+    "requesterNglAppId": "AemGenerateVariations",
+    "deviceId": "defaultDeviceId",
+    "nglLibRuntimeMode": "NAMED_USER_ONLINE",
+    "creationTimestamp": 1707246823676,
+    "cacheLifetime": 15551999997,
+    "validUptoTimestamp": 1707333223676,
+    "cacheRefreshControl": {
+      "appRefreshInterval": 86400000,
+      "nglLibRefreshInterval": 86400000
+    },
+    "createdForVdi": false,
+    "cacheExpiryWarningControl": {
+      "warningStartTimestamp": 1722194023673,
+      "warningInterval": 0
+    },
+    "appUsageTrackingControl": {
+      "enabledTracking": true,
+      "protectTrackedData": false,
+      "eventsToTrack": [
+        "APP_LAUNCH_COUNT",
+        "APP_RUNNING_TIME"
+      ]
+    },
+    "logControl": {
+      "level": "INFO",
+      "minFileUploadSize": 0,
+      "maxFileUploadSize": 1000,
+      "uploadInterval": 86400000,
+      "uploadOnSessionStart": true,
+      "uploadOnError": true
+    },
+    "overrideStatusForLocalSignout": "PROFILE_DENIED",
+    "eTag": "naBh0cezgn5vAw5SYyqPLVntqPI5jskrKWHb216LZ4Fr3u58qlv2vM6vRyCPWwCM"
+  },
+  "frlProfile": "{}",
+  "legacyProfile": "{}",
+  "additionalLegacyProfiles": "{}"
+}

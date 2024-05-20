@@ -82,6 +82,11 @@ export const intlMessages = {
       id: 'app.noAccessMessage',
       description: 'Message for users who have not agreed to the Generative AI User Guidelines',
     },
+    noLicenseMessage: {
+      defaultMessage: 'We are sorry you do not have access to this product.<br/><br/><strong>Generate Variations</strong> is currently available to customers who have licensed <strong>AEM Sites as a Cloud Service with Edge Delivery Services</strong>.<br/><br/>Reach out to the Adobe account team to discuss how you can move to <strong>AEM Sites as a Cloud Service with Edge Delivery Services</strong>.',
+      id: 'app.noLicenseMessage',
+      description: 'Message for users who do not have the required license',
+    },
     consentDialogAgreeButtonLabel: {
       defaultMessage: 'Agree',
       id: 'app.consentDialogAgreeButtonLabel',

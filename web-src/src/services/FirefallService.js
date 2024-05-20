@@ -23,8 +23,12 @@ const MAX_POLLING_TIME = 300;
 const TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY = 1;
 const VARIATIONS_GENERATION_POLL_DELAY = 5;
 
+const STATUS_WAITING = 'WAITING'; // The job is enqueued and is currently waiting to be picked up by the worker.
+const STATUS_PROCESSING = 'PROCESSING'; // The worker is executing the job.
+const STATUS_SUCCEEDED = 'SUCCEEDED'; // [Terminal state] Job has been successfully accomplished. You can get the response from `output` field.
+const STATUS_FAILED = 'FAILED'; // [Terminal state] Job has failed. You can get more details on it from `error_details` field.
+
 const poll = async (fn, pollDelay, initialPollDelay, maxPollingTime = MAX_POLLING_TIME) => {
-  const STATUS_RUNNING = 'running';
   const wait = async (timeout) => new Promise((resolve) => { setTimeout(resolve, timeout * 1000); });
 
   if (initialPollDelay) {
@@ -36,7 +40,7 @@ const poll = async (fn, pollDelay, initialPollDelay, maxPollingTime = MAX_POLLIN
     // eslint-disable-next-line no-await-in-loop
     const response = await fn();
 
-    if (response.status === STATUS_RUNNING) {
+    if ([STATUS_WAITING, STATUS_PROCESSING].includes(response.status)) {
       pollingTime += pollDelay;
       // eslint-disable-next-line no-await-in-loop
       await wait(pollDelay);
@@ -70,7 +74,7 @@ export class FirefallService {
       : TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY;
     const initialPollDelay = pollDelay;
 
-    const { jobId } = await wretch(this.completeEndpoint)
+    const { job_id: jobId } = await wretch(this.completeEndpoint)
       .post({
         prompt,
         temperature,
@@ -88,15 +92,23 @@ export class FirefallService {
         .get()
         .json();
     }, pollDelay, initialPollDelay).then((data) => {
-      const { result } = data;
-      if (result.error) {
-        throw new Error(result.error);
+      if (data.status === STATUS_SUCCEEDED) {
+        const transform = (str) => {
+          if (str.startsWith('```json')) {
+            return str.replace(/^```json/, '').replace(/```$/, '');
+          }
+          return str;
+        };
+        const { query_id: queryId, output } = data;
+        return {
+          queryId,
+          response: transform(output.capability_response.generations[0][0].message.content),
+        };
+      } else if (data.status === STATUS_FAILED) {
+        throw new Error(data.error_details);
+      } else {
+        throw new Error(`Unknown status response received: ${data.status}.`);
       }
-      const { query_id: queryId, generations } = result;
-      return {
-        queryId,
-        response: generations[0][0].message.content,
-      };
     });
   }
 

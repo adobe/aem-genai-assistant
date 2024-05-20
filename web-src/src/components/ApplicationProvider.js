@@ -29,7 +29,7 @@ import { RUN_MODE_CF, RUN_MODE_DEFAULT } from '../state/RunMode.js';
 
 export const APP_VERSION = process.env.REACT_APP_VERSION || 'unknown';
 
-const COMPLETE_ACTION = 'complete';
+const COMPLETE_ACTION = 'completionJob';
 const FEEDBACK_ACTION = 'feedback';
 const TARGET_ACTION = 'target';
 const CSV_PARSER_ACTION = 'csv';

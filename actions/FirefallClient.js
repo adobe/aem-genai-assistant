@@ -18,6 +18,8 @@ const logger = Core.Logger('FirefallAction');
 const ERROR_CODES = {
   defaultCompletion: 'An error occurred while generating results',
   defaultFeedback: 'An error occurred while sending feedback',
+  defaultEnqueueCompletionJob: 'An error occurred while enqueueing a completion job',
+  defaultGetCompletionJob: 'An error occurred while getting a completion job',
   400: "The response was filtered due to the prompt triggering Generative AI's content management policy. Please modify your prompt and retry.",
   408: "Generative AI's request timed out. Please try again by reducing the number of variations.",
   429: "Generative AI's Rate limit exceeded. Please wait one minute and try again.",
@@ -76,6 +78,46 @@ class FirefallClient {
     } catch (error) {
       logger.error('Failed generating results:', error);
       throw toFirefallError(error, ERROR_CODES.defaultCompletion);
+    }
+  }
+
+  async enqueueCompletionJob(prompt) {
+    try {
+      const response = await wretch(`${this.endpoint}/v2/capability_execution/job`)
+        .headers({
+          'x-gw-ims-org-id': this.org,
+          'x-api-key': this.apiKey,
+          Authorization: `Bearer ${this.accessToken}`,
+          'Content-Type': 'application/json',
+        })
+        .post({
+          input: prompt,
+          capability_name: 'gpt_4_turbo_completions_capability',
+        })
+        .json();
+
+      return response;
+    } catch (error) {
+      logger.error(`Failed executing POST "${this.endpoint}/v2/capability_execution/job":`, error);
+      throw toFirefallError(error, ERROR_CODES.defaultEnqueueCompletionJob);
+    }
+  }
+
+  async getCompletionJob(jobId) {
+    try {
+      const response = await wretch(`${this.endpoint}/v2/capability_execution/job/${jobId}`)
+        .headers({
+          'x-gw-ims-org-id': this.org,
+          'x-api-key': this.apiKey,
+          Authorization: `Bearer ${this.accessToken}`,
+        })
+        .get()
+        .json();
+
+      return response;
+    } catch (error) {
+      logger.error(`Failed executing GET "${this.endpoint}/v2/capability_execution/job/${jobId}":`, error);
+      throw toFirefallError(error, ERROR_CODES.defaultGetCompletionJob);
     }
   }
 

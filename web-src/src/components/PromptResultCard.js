@@ -36,7 +36,6 @@ import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
-import { sampleRUM } from '../rum.js';
 import { log } from '../helpers/MetricsHelper.js';
 import { toHTML, toText } from '../helpers/PromptExporter.js';
 import { generateImagePrompt } from '../helpers/ImageHelper.js';
@@ -348,18 +347,17 @@ export function PromptResultCard({ result, ...props }) {
                 }
               <TooltipTrigger delay={0}>
                 <ActionButton
-                    isQuiet
-                    UNSAFE_className="hover-cursor-pointer"
-                    onPress={() => {
-                      log('prompt:copy', { variant: selectedVariant.id });
-                      sampleRUM('genai:prompt:copy', { source: 'ResultCard#onPress' });
-                      navigator.clipboard.writeText(toText(selectedVariant.content));
-                      ToastQueue.positive(
-                        formatMessage(intlMessages.promptResultCard.copyTextSuccessToast),
-                        { timeout: 1000 },
-                      );
-                    }}>
-                  <CopyOutlineIcon/>
+                  isQuiet
+                  UNSAFE_className="hover-cursor-pointer"
+                  onPress={() => {
+                    log('prompt:copy', { source: 'ResultCard#onPress', variant: selectedVariant.id });
+                    navigator.clipboard.writeText(toText(selectedVariant.content));
+                    ToastQueue.positive(
+                      formatMessage(intlMessages.promptResultCard.copyTextSuccessToast),
+                      { timeout: 1000 },
+                    );
+                  }}>
+                  <CopyOutlineIcon />
                 </ActionButton>
                 <Tooltip>{formatMessage(intlMessages.promptResultCard.copyButtonTooltip)}</Tooltip>
               </TooltipTrigger>
@@ -404,8 +402,7 @@ export function PromptResultCard({ result, ...props }) {
                   isDisabled={isFeedback(selectedVariant)}
                   UNSAFE_className="hover-cursor-pointer"
                   onPress={() => {
-                    log('prompt:thumbsup', { variant: selectedVariant.id });
-                    sampleRUM('genai:prompt:thumbsup', { source: 'ResultCard#onPress' });
+                    log('prompt:thumbsup', { source: 'ResultCard#onPress', variant: selectedVariant.id });
                     sendFeedback(true, selectedVariant);
                   }}>
                   {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon /> : <ThumbsUpOutlineIcon />}
@@ -418,8 +415,7 @@ export function PromptResultCard({ result, ...props }) {
                   isDisabled={isFeedback(selectedVariant)}
                   UNSAFE_className="hover-cursor-pointer"
                   onPress={() => {
-                    log('prompt:thumbsdown', { variant: selectedVariant.id });
-                    sampleRUM('genai:prompt:thumbsdown', { source: 'ResultCard#onPress' });
+                    log('prompt:thumbsdown', { source: 'ResultCard#onPress', variant: selectedVariant.id });
                     sendFeedback(false, selectedVariant);
                   }}>
                   {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon /> : <ThumbsDownOutlineIcon />}

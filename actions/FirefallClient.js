@@ -65,6 +65,7 @@ class FirefallClient {
             presence_penalty: 0,
             n: 1,
           },
+          store_context: true,
         })
         .json();
 

@@ -31,7 +31,6 @@ import { LegalTermsLink } from './LegalTermsLink.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { createVariants } from '../helpers/ResultsParser.js';
 import { log } from '../helpers/MetricsHelper.js';
-import { sampleRUM } from '../rum.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
 import { RUN_MODE_CF } from '../state/RunMode.js';
 import { FIREFALL_ACTION_TYPES } from '../services/FirefallService.js';
@@ -121,8 +120,7 @@ export function GenerateButton() {
       if (runMode !== RUN_MODE_CF) {
         await saveResults();
       }
-      log('prompt:generate:variations:generated', { variations: variants.length, queryId });
-      sampleRUM('genai:prompt:generatedvariations', { source: 'GenerateButton#generateResults', target: variants.length });
+      log('prompt:generate:variations:generated', { source: 'GenerateButton#generateResults', variations: variants.length, queryId });
     } catch (error) {
       console.error(error);
       throw error;
@@ -130,8 +128,7 @@ export function GenerateButton() {
   }, [firefallService, prompt, parameters, temperature]);
 
   const handleGenerate = useCallback(() => {
-    log('prompt:generate');
-    sampleRUM('genai:prompt:generate', { source: 'GenerateButton#handleGenerate' });
+    log('prompt:generate', { source: 'GenerateButton#handleGenerate' });
     setGenerationInProgress(true);
     setIsOpenPromptEditor(false);
 

@@ -73,7 +73,7 @@ export function FavoriteVariantCard({
 
   const handleGenerateImage = useCallback(async (imagePrompt) => {
     log('express:favorite:generateimage', { variantId: variant.id });
-    const onPublish = (publishParams) => {
+    const onPublish = (intent, publishParams) => {
       addImageToVariant(variant.id, publishParams.asset[0].data);
     };
     const onError = (err) => {
@@ -84,18 +84,18 @@ export function FavoriteVariantCard({
     const success = await expressSdkService.handleImageOperation(
       'generateImage',
       {
-        outputParams: {
-          outputType: 'base64',
-        },
-        inputParams: {
+        appConfig: {
+          callbacks: {
+            onPublish,
+            onError,
+          },
+          metaData: {},
           promptText: imagePrompt,
         },
-        modalParams: {
+
+        exportConfig: [],
+        containerConfig: {
           loadTimeout: EXPRESS_LOAD_TIMEOUT.GENERATE_IMAGE,
-        },
-        callbacks: {
-          onPublish,
-          onError,
         },
       },
     );

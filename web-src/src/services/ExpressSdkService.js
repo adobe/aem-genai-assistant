@@ -15,14 +15,14 @@ export class ExpressSdkService {
     appName,
     userId,
     accessToken,
+    locale,
   }) {
     this.clientId = clientId;
     this.appName = appName;
     this.userId = userId;
     this.accessToken = accessToken;
-    this.userInfo = null;
-    this.authInfo = null;
     this.ccEverywhereInstance = null;
+    this.locale = locale;
   }
 
   async initExpressEditor() {
@@ -36,31 +36,28 @@ export class ExpressSdkService {
             return;
           }
           try {
-            this.userInfo = {
-              profile: {
-                userId: this.userId,
-                serviceCode: null,
-                serviceLevel: null,
-              },
-              serviceCode: null,
-              serviceLevel: null,
-            };
-            this.authInfo = {
-              accessToken: this.accessToken,
-              useJumpUrl: false,
-              forceJumpCheck: false,
-            };
             const ccEverywhere = await window.CCEverywhere.initialize(
               {
                 clientId: this.clientId,
                 appName: this.appName,
+                platform: 'web',
               },
-              {},
-              this.userInfo,
-              this.authInfo,
+              {
+                locale: this.locale,
+
+              },
+              async () => {
+                return {
+                  mode: 'pre-signed-in',
+                  config: {
+                    userId: this.userId,
+                  },
+                };
+              },
             );
             resolve(ccEverywhere);
           } catch (error) {
+            console.log('Express SDK error:', error);
             reject(error);
           }
         };
@@ -85,9 +82,19 @@ export class ExpressSdkService {
     }
 
     if (operation === 'generateImage') {
-      this.ccEverywhereInstance.miniEditor.createImageFromText(operationParams, this.userInfo, this.authInfo);
+      console.log(this.ccEverywhereInstance);
+      this.ccEverywhereInstance.module.createImageFromText(
+        operationParams.appConfig,
+        operationParams.exportConfig,
+        operationParams.containerConfig,
+      );
     } else if (operation === 'editImage') {
-      this.ccEverywhereInstance.miniEditor.editImage(operationParams, this.userInfo, this.authInfo);
+      this.ccEverywhereInstance.module.editImage(
+        operationParams.docConfig,
+        operationParams.appConfig,
+        operationParams.exportConfig,
+        operationParams.containerConfig,
+      );
     }
     return true;
   }

@@ -125,6 +125,7 @@ export const ApplicationProvider = ({ children }) => {
           appName: 'AEM Generate Variations',
           userId: user.id,
           accessToken: user.imsToken,
+          locale: user.locale,
         }),
 
         aemService,

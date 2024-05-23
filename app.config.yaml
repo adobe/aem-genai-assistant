@@ -18,6 +18,9 @@ application:
               IMS_PRODUCT_CONTEXT: $IMS_PRODUCT_CONTEXT
               FT_EARLY_ACCESS: $FT_EARLY_ACCESS
               LD_SDK_KEY: $LD_SDK_KEY
+            annotations:
+              require-adobe-auth: true
+              final: true
           generate:
             function: actions/generate/index.js
             web: false
@@ -42,20 +45,38 @@ application:
               IMS_PRODUCT_CONTEXT: $IMS_PRODUCT_CONTEXT
               FT_EARLY_ACCESS: $FT_EARLY_ACCESS
               LD_SDK_KEY: $LD_SDK_KEY
+            annotations:
+              require-adobe-auth: true
+              final: true
           target:
             function: actions/target/index.js
             web: true
             runtime: nodejs:18
             inputs:
               TARGET_API_KEY: $TARGET_API_KEY
+            annotations:
+              require-adobe-auth: true
+              final: true
           csv:
             function: actions/csv/index.js
             web: true
             runtime: nodejs:18
+            annotations:
+              require-adobe-auth: true
+              final: true
           cf:
             function: actions/cf/index.js
             web: true
             runtime: nodejs:18
+            inputs:
+              IMS_ENDPOINT: $IMS_ENDPOINT
+              IMS_CLIENT_ID: $IMS_CLIENT_ID
+              IMS_PRODUCT_CONTEXT: $IMS_PRODUCT_CONTEXT
+              FT_EARLY_ACCESS: $FT_EARLY_ACCESS
+              LD_SDK_KEY: $LD_SDK_KEY
+            annotations:
+              require-adobe-auth: true
+              final: true
   hooks:
     post-app-run: ./hooks/post-app-run.js
     pre-app-deploy: ./hooks/pre-app-deploy.js

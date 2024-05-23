@@ -14,15 +14,13 @@ export class ExpressSdkService {
     clientId,
     appName,
     userId,
-    accessToken,
     locale,
   }) {
     this.clientId = clientId;
     this.appName = appName;
     this.userId = userId;
-    this.accessToken = accessToken;
-    this.ccEverywhereInstance = null;
     this.locale = locale;
+    this.ccEverywhereInstance = null;
   }
 
   async initExpressEditor() {
@@ -82,7 +80,6 @@ export class ExpressSdkService {
     }
 
     if (operation === 'generateImage') {
-      console.log(this.ccEverywhereInstance);
       this.ccEverywhereInstance.module.createImageFromText(
         operationParams.appConfig,
         operationParams.exportConfig,

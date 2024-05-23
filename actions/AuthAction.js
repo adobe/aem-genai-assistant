@@ -19,18 +19,6 @@ const { checkForAdobeInternalUser } = require('./ActionUtils.js');
 const logger = Core.Logger('AuthAction');
 
 /**
- * Extracts a user access token from the Authorization header
- *
- * @param {object} params action input parameters
- * @returns {string} the token string
- */
-function getAccessToken(params) {
-  // we agreed to utilize AppBuilder's built-in authentication,
-  // so here we can be sure that the Authorization Bearer Token header is set, and valid
-  return params.__ow_headers.authorization.substring('Bearer '.length);
-}
-
-/**
  * Extracts an Adobe IMS organization ID from the 'x-gw-ims-org-id' header
  *
  * @param {object} params action input parameters
@@ -56,6 +44,53 @@ async function getImsProfile(endpoint, clientId, token) {
   } catch (error) {
     logger.error(error);
     return null;
+  }
+}
+
+async function isValidToken(endpoint, clientId, token) {
+  try {
+    const response = await wretch(`${endpoint}/ims/validate_token/v1`)
+      .addon(QueryStringAddon).query({
+        client_id: clientId,
+        type: 'access_token',
+      })
+      .headers({
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      })
+      .get()
+      .json();
+    return response.valid;
+  } catch (error) {
+    logger.error(error);
+    return false;
+  }
+}
+
+/**
+ * Extracts a user access token from the Authorization header
+ *
+ * @param {object} params action input parameters
+ * @returns {Promise<string>} the token string
+ */
+async function getAccessToken(params) {
+  const imsEndpoint = params.IMS_ENDPOINT;
+  const clientId = params.IMS_CLIENT_ID;
+
+  // First, check if a bearer user access token is set
+  if (
+    params.__ow_headers
+    && params.__ow_headers.authorization
+    && params.__ow_headers.authorization.startsWith('Bearer ')
+  ) {
+    const accessToken = params.__ow_headers.authorization.substring('Bearer '.length);
+    // Validate the access token
+    if (!await isValidToken(imsEndpoint, clientId, accessToken)) {
+      throw new Error('The access token is not valid');
+    }
+    return accessToken;
+  } else {
+    throw new Error('The access token is not provided');
   }
 }
 
@@ -114,7 +149,7 @@ function asAuthAction(action, isAuthorize = true) {
     const ldSdkKey = params.LD_SDK_KEY;
 
     const imsOrg = getImsOrg(params);
-    const accessToken = getAccessToken(params);
+    const accessToken = await getAccessToken(params);
 
     if (isAuthorize) {
       // Check that the profile has access to the product

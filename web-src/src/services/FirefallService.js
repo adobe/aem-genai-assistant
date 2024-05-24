@@ -73,7 +73,7 @@ export class FirefallService {
     const { jobId } = await wretch(this.completeEndpoint)
       .auth(`Bearer ${this.accessToken}`)
       .headers({
-        'x-gw-ims-org-id': this.imsOrg,
+        'x-org-id': this.imsOrg,
       })
       .post({
         prompt,
@@ -85,7 +85,7 @@ export class FirefallService {
       return wretch(`${this.completeEndpoint}?jobId=${jobId}`)
         .auth(`Bearer ${this.accessToken}`)
         .headers({
-          'x-gw-ims-org-id': this.imsOrg,
+          'x-org-id': this.imsOrg,
         })
         .get()
         .json();
@@ -107,7 +107,7 @@ export class FirefallService {
     const { feedback_id } = await wretch(this.feedbackEndpoint)
       .auth(`Bearer ${this.accessToken}`)
       .headers({
-        'x-gw-ims-org-id': this.imsOrg,
+        'x-org-id': this.imsOrg,
       })
       .post({
         queryId,

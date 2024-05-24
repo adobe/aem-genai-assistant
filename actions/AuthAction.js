@@ -19,32 +19,13 @@ const { checkForAdobeInternalUser } = require('./ActionUtils.js');
 const logger = Core.Logger('AuthAction');
 
 /**
- * Extracts an Adobe IMS organization ID from the 'x-gw-ims-org-id' header
+ * Extracts an Adobe IMS organization ID from the 'X-Org-Id' header
  *
  * @param {object} params action input parameters
  * @returns {string|undefined} the Adobe IMS organization ID string, or undefined if not present
  */
 function getImsOrg(params) {
-  return (params.__ow_headers && params.__ow_headers['x-gw-ims-org-id']) ? params.__ow_headers['x-gw-ims-org-id'] : undefined;
-}
-
-async function getImsProfile(endpoint, clientId, token) {
-  try {
-    const response = await wretch(`${endpoint}/ims/profile/v1`)
-      .addon(QueryStringAddon).query({
-        client_id: clientId,
-      })
-      .headers({
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      })
-      .get()
-      .json();
-    return response;
-  } catch (error) {
-    logger.error(error);
-    return null;
-  }
+  return (params.__ow_headers && params.__ow_headers['x-org-id']) ? params.__ow_headers['x-org-id'] : undefined;
 }
 
 async function isValidToken(endpoint, clientId, token) {
@@ -91,6 +72,25 @@ async function getAccessToken(params) {
     return accessToken;
   } else {
     throw new Error('The access token is not provided');
+  }
+}
+
+async function getImsProfile(endpoint, clientId, token) {
+  try {
+    const response = await wretch(`${endpoint}/ims/profile/v1`)
+      .addon(QueryStringAddon).query({
+        client_id: clientId,
+      })
+      .headers({
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      })
+      .get()
+      .json();
+    return response;
+  } catch (error) {
+    logger.error(error);
+    return null;
   }
 }
 

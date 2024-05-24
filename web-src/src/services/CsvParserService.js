@@ -29,7 +29,7 @@ export class CsvParserService {
     const json = await wretch(this.csvParserEndpoint)
       .auth(`Bearer ${this.accessToken}`)
       .headers({
-        'x-gw-ims-org-id': this.imsOrg,
+        'x-org-id': this.imsOrg,
       })
       .addon(QueryStringAddon)
       .query({ url })

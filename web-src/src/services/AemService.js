@@ -38,7 +38,7 @@ export class AemService {
     return wretch(this.cfEndpoint)
       .auth(`Bearer ${this.accessToken}`)
       .headers({
-        'x-gw-ims-org-id': this.imsOrg,
+        'x-org-id': this.imsOrg,
       })
       .post({
         command: 'getFragment',
@@ -53,7 +53,7 @@ export class AemService {
     return wretch(this.cfEndpoint)
       .auth(`Bearer ${this.accessToken}`)
       .headers({
-        'x-gw-ims-org-id': this.imsOrg,
+        'x-org-id': this.imsOrg,
       })
       .post({
         command: 'getFragmentModel',
@@ -68,7 +68,7 @@ export class AemService {
     return wretch(this.cfEndpoint)
       .auth(`Bearer ${this.accessToken}`)
       .headers({
-        'x-gw-ims-org-id': this.imsOrg,
+        'x-org-id': this.imsOrg,
       })
       .post({
         command: 'createFragmentVariation',

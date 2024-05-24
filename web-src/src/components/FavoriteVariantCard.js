@@ -28,7 +28,6 @@ import { useApplicationContext } from './ApplicationProvider.js';
 import { useShellContext } from './ShellProvider.js';
 import { toHTML, toText } from '../helpers/PromptExporter.js';
 import { generateImagePrompt } from '../helpers/ImageHelper.js';
-import { sampleRUM } from '../rum.js';
 import { VariantImagesView } from './VariantImagesView.js';
 import { log } from '../helpers/MetricsHelper.js';
 import ExpressNoAccessInfo from './ExpressNoAccessInfo.js';
@@ -136,8 +135,7 @@ export function FavoriteVariantCard({
                 isQuiet
                 UNSAFE_className="hover-cursor-pointer"
                 onPress={() => {
-                  log('prompt:copyfavorite');
-                  sampleRUM('genai:prompt:copyfavorite', { source: 'FavoriteCard#onPress' });
+                  log('prompt:copyfavorite', { source: 'FavoriteCard#onPress' });
                   navigator.clipboard.writeText(toText(variant.content));
                   ToastQueue.positive(
                     formatMessage(intlMessages.favoritesView.copyTextSuccessToast),

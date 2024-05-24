@@ -46,7 +46,7 @@ class FirefallClient {
     try {
       const response = await wretch(`${this.endpoint}/v1/completions`, { requestTimeout: REQUEST_TIMEOUT })
         .headers({
-          'x-org-id': this.org,
+          'x-gw-ims-org-id': this.org,
           'x-api-key': this.apiKey,
           Authorization: `Bearer ${this.accessToken}`,
           'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ class FirefallClient {
         .headers({
           Authorization: `Bearer ${this.accessToken}`,
           'x-api-key': this.apiKey,
-          'x-org-id': this.org,
+          'x-gw-ims-org-id': this.org,
           'Content-Type': 'application/json',
         })
         .post({

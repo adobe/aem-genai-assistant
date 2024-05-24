@@ -31,7 +31,7 @@ export class TargetService {
     return wretch(url)
       .auth(`Bearer ${this.accessToken}`)
       .headers({
-        'x-org-id': this.imsOrg,
+        'x-gw-ims-org-id': this.imsOrg,
       })
       .accept('application/json')
       .get()

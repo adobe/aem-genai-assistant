@@ -16,8 +16,12 @@ application:
               IMS_SERVICE_CLIENT_SECRET: $IMS_SERVICE_CLIENT_SECRET
               IMS_SERVICE_PERM_AUTH_CODE: $IMS_SERVICE_PERM_AUTH_CODE
               IMS_PRODUCT_CONTEXT: $IMS_PRODUCT_CONTEXT
+              PRODUCT_ENTITLEMENT: $PRODUCT_ENTITLEMENT
               FT_EARLY_ACCESS: $FT_EARLY_ACCESS
               LD_SDK_KEY: $LD_SDK_KEY
+              ACCESS_PLATFORM_APP_ID: $ACCESS_PLATFORM_APP_ID
+              ACCESS_PLATFORM_CLIENT_ID: $ACCESS_PLATFORM_CLIENT_ID
+              ACCESS_PROFILE_ENDPOINT: $ACCESS_PROFILE_ENDPOINT
           generate:
             function: actions/generate/index.js
             web: false
@@ -40,8 +44,12 @@ application:
               IMS_SERVICE_CLIENT_SECRET: $IMS_SERVICE_CLIENT_SECRET
               IMS_SERVICE_PERM_AUTH_CODE: $IMS_SERVICE_PERM_AUTH_CODE
               IMS_PRODUCT_CONTEXT: $IMS_PRODUCT_CONTEXT
+              PRODUCT_ENTITLEMENT: $PRODUCT_ENTITLEMENT
               FT_EARLY_ACCESS: $FT_EARLY_ACCESS
               LD_SDK_KEY: $LD_SDK_KEY
+              ACCESS_PLATFORM_APP_ID: $ACCESS_PLATFORM_APP_ID
+              ACCESS_PLATFORM_CLIENT_ID: $ACCESS_PLATFORM_CLIENT_ID
+              ACCESS_PROFILE_ENDPOINT: $ACCESS_PROFILE_ENDPOINT
           target:
             function: actions/target/index.js
             web: true

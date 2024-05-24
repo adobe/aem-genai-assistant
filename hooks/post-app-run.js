@@ -2,7 +2,7 @@
 const chalk = require('chalk');
 const ora = require('ora');
 
-const APP_URL = 'https://experience-qa.adobe.com/?shell_source=local&devMode=true&shell_ims=prod#/aem/generate-variations/';
+const APP_URL = 'https://experience-qa.adobe.com/?shell_source=local&devMode=true&shell_ims=prod&extraLogging=true#/aem/generate-variations/';
 
 module.exports = (config) => {
   const spinner = ora();

@@ -21,7 +21,7 @@ class ImsClient {
   }
 
   async getServiceToken() {
-    const json = await wretch(`${this.endpoint}/ims/token/v1`)
+    const response = await wretch(`${this.endpoint}/ims/token/v1`)
       .addon(FormUrlAddon).formUrl({
         client_id: this.clientId,
         client_secret: this.clientSecret,
@@ -31,7 +31,7 @@ class ImsClient {
       .post()
       .json();
 
-    return json.access_token;
+    return response;
   }
 }
 

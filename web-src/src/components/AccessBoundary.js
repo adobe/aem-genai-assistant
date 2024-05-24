@@ -30,14 +30,17 @@ const styles = {
 function NoAccessMessage() {
   return (
     <div className={styles.container}>
-      Apologies, it appears that you lack permission to use this feature.<br/>
-      Please try selecting a different organization or contact your Administrator to request access.
+      We are sorry you do not have access to this product.<br /><br />
+      {/* eslint-disable-next-line max-len */}
+      <strong>Generate Variations</strong> is currently available to customers who have licensed <strong>AEM Sites as a Cloud Service with Edge Delivery Services</strong>.<br /><br />
+      {/* eslint-disable-next-line max-len */}
+      Reach out to the Adobe account team to discuss how you can move to <strong>AEM Sites as a Cloud Service with Edge Delivery Services</strong>.
     </div>
   );
 }
 
 export function AccessBoundary({ children, fallback = <NoAccessMessage /> }) {
-  const { isUserAuthorized, featureFlagsService, done } = useShellContext();
+  const { featureFlagsService, isUserAuthorized, done } = useShellContext();
   const [isEarlyAccessAuthorized, setIsEarlyAccessAuthorized] = React.useState(false);
 
   useEffect(() => {

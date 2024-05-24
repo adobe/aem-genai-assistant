@@ -69,6 +69,13 @@ IMS_SERVICE_CLIENT_ID=aem-sidekick-genai-assistant # This is the IMSS client ID 
 IMS_SERVICE_CLIENT_SECRET=
 IMS_SERVICE_PERM_AUTH_CODE=
 
+## Access Profile environment Variables
+PRODUCT_ENTITLEMENT=dx_aem_edge_delivery_services
+EXPRESS_ENTITLEMENT=spark
+ACCESS_PLATFORM_APP_ID=AemGenerateVariations
+ACCESS_PLATFORM_CLIENT_ID=aem-genai-assistant
+ACCESS_PROFILE_ENDPOINT=https://aps-web.adobe.io
+
 ## Splunk environment variables
 SPLUNK_HEC__HEC_TOKEN=
 

@@ -242,7 +242,8 @@ export function PromptResultCard({ result, ...props }) {
 
   const handleGenerateImage = useCallback(async (imagePrompt, variantId) => {
     log('express:generateimage', { variantId });
-    const onPublish = (publishParams) => {
+    const onPublish = (intent, publishParams) => {
+      console.log('Image generated:', publishParams.asset[0].data);
       addImageToVariant(variantId, publishParams.asset[0].data);
     };
     const onError = (err) => {
@@ -253,18 +254,17 @@ export function PromptResultCard({ result, ...props }) {
     const success = await expressSdkService.handleImageOperation(
       'generateImage',
       {
-        outputParams: {
-          outputType: 'base64',
-        },
-        inputParams: {
+        appConfig: {
+          callbacks: {
+            onPublish,
+            onError,
+          },
+          metaData: {},
           promptText: imagePrompt,
         },
-        modalParams: {
+        exportConfig: [],
+        containerConfig: {
           loadTimeout: EXPRESS_LOAD_TIMEOUT.GENERATE_IMAGE,
-        },
-        callbacks: {
-          onPublish,
-          onError,
         },
       },
     );

@@ -92,7 +92,7 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
     } else {
       log('express:editimage', { variant: variantId });
     }
-    const onPublish = (publishParams) => {
+    const onPublish = (intent, publishParams) => {
       replaceImageFromVariant(variantId, index, publishParams.asset[0].data);
     };
     const onError = (err) => {
@@ -104,22 +104,25 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
     const success = await expressSdkService.handleImageOperation(
       'editImage',
       {
-        outputParams: {
-          outputType: 'base64',
+        appConfig: {
+          callbacks: {
+            onPublish,
+            onError,
+          },
+          metaData: {
+          },
         },
-        inputParams: {
+        docConfig: {
           asset: {
             data: assetData,
             type: 'image',
             dataType: 'base64',
           },
+
         },
-        modalParams: {
+        exportConfig: [],
+        containerConfig: {
           loadTimeout: EXPRESS_LOAD_TIMEOUT.EDIT_IMAGE,
-        },
-        callbacks: {
-          onPublish,
-          onError,
         },
       },
     );

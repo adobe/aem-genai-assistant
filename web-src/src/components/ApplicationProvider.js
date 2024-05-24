@@ -124,7 +124,7 @@ export const ApplicationProvider = ({ children }) => {
           clientId: 'aem-genai-assistant',
           appName: 'AEM Generate Variations',
           userId: user.id,
-          accessToken: user.imsToken,
+          locale: user.locale,
         }),
 
         aemService,

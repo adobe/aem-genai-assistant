@@ -20,7 +20,9 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { css, injectGlobal } from '@emotion/css';
 import { Global } from '@emotion/react';
 import { motion, AnimatePresence } from 'framer-motion';
+import CheckmarkCircle from '@spectrum-icons/workflow/CheckmarkCircle';
 import Close from '@spectrum-icons/workflow/Close';
+import Alert from '@spectrum-icons/workflow/Alert';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './PromptSessionSideView.l10n.js';
@@ -75,6 +77,15 @@ const style = {
     border-radius: 4px;
     padding: 12px;
   `,
+  containerError: css`
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: auto;
+    border: 1px solid var(--spectrum-red-900);
+    border-radius: 4px;
+    padding: 12px;
+  `,
   editor: css`
     font-family: Monospaced, monospace;
     font-size: 12px;
@@ -86,23 +97,44 @@ const style = {
   textarea: css`
     outline: none;
   `,
+  errorHelpText: css`
+    margin-top: 15px;
+    color: var(--spectrum-red-900);
+  `,
+  validHelpText: css`
+    margin-top: 15px;
+    color: var(--spectrum-green-700);
+  `,
+  hidden: css`
+    display: none;
+  `,
 };
 
 function PromptEditor({ isOpen, onClose, ...props }) {
   const [prompt, setPrompt] = useRecoilState(promptState);
   const [promptText, setPromptText] = useState(prompt);
   const [viewSource, setViewSource] = useState(false);
+  const [editorSyntaxError, setEditorSyntaxError] = useState(false);
 
   const parameters = useRecoilValue(parametersState);
   const contentFragment = useRecoilValue(contentFragmentState);
 
   const { formatMessage } = useIntl();
-
   useEffect(() => {
     setPrompt(promptText);
     const promptEditorTextArea = document.getElementById('promptEditorTextArea');
     if (promptEditorTextArea) {
       promptEditorTextArea.setAttribute('title', 'Prompt Editor');
+    }
+
+    // detect unsupported characters in editor
+    const regex = /=".*[{"}]+.*",/gm;
+    const matches = [...promptText.matchAll(regex)];
+
+    if (matches.length > 0) {
+      setEditorSyntaxError(true);
+    } else {
+      setEditorSyntaxError(false);
     }
   }, [promptText, setPrompt]);
 
@@ -181,7 +213,7 @@ function PromptEditor({ isOpen, onClose, ...props }) {
             </Flex>
           </Flex>
 
-          <div className={style.container}>
+          <div className={editorSyntaxError ? style.containerError : style.container}>
             <SimpleEditor
               className={style.editor}
               textareaClassName={style.textarea}
@@ -196,6 +228,22 @@ function PromptEditor({ isOpen, onClose, ...props }) {
               readOnly={!viewSource}
             />
           </div>
+
+          <Flex gap="size-100" UNSAFE_className={editorSyntaxError ? style.hidden : style.validHelpText }>
+            <CheckmarkCircle aria-label="Positive Alert" color="positive" />
+            <Text>
+              Prompt is valid
+            </Text>
+          </Flex>
+
+          <Flex gap="size-100" UNSAFE_className={editorSyntaxError ? style.errorHelpText : style.hidden}>
+            <Alert aria-label="Negative Alert" color="negative" />
+            <Text>
+              The characters <span style={{ fontWeight: '800' }}>&#123;</span>, <span style={{ fontWeight: '800' }}>&#125;</span>,
+              and <span style={{ fontWeight: '800' }}>&quot;</span> are reserved and can&apos;t be used within quoted text values.
+              Please remove or replace these characters and try again.
+            </Text>
+          </Flex>
         </motion.div>
       )}
     </AnimatePresence>

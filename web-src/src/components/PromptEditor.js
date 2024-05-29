@@ -29,6 +29,7 @@ import { intlMessages } from './PromptSessionSideView.l10n.js';
 
 import { parametersState } from '../state/ParametersState.js';
 import { promptState } from '../state/PromptState.js';
+import { promptSyntaxErrorState } from '../state/PromptSyntaxErrorState.js';
 import { NO_VALUE_STRING, renderPrompt } from '../helpers/PromptRenderer.js';
 import { log } from '../helpers/MetricsHelper.js';
 
@@ -114,7 +115,7 @@ function PromptEditor({ isOpen, onClose, ...props }) {
   const [prompt, setPrompt] = useRecoilState(promptState);
   const [promptText, setPromptText] = useState(prompt);
   const [viewSource, setViewSource] = useState(false);
-  const [editorSyntaxError, setEditorSyntaxError] = useState(false);
+  const [editorSyntaxError, setEditorSyntaxError] = useRecoilState(promptSyntaxErrorState);
 
   const parameters = useRecoilValue(parametersState);
   const contentFragment = useRecoilValue(contentFragmentState);
@@ -128,7 +129,7 @@ function PromptEditor({ isOpen, onClose, ...props }) {
     }
 
     // detect unsupported characters in editor
-    const regex = /=".*[{"}]+.*",/gm;
+    const regex = /=".*[{}"]+.*"/g;
     const matches = [...promptText.matchAll(regex)];
 
     if (matches.length > 0) {
@@ -239,8 +240,8 @@ function PromptEditor({ isOpen, onClose, ...props }) {
           <Flex gap="size-100" UNSAFE_className={editorSyntaxError ? style.errorHelpText : style.hidden}>
             <Alert aria-label="Negative Alert" color="negative" />
             <Text>
-              The characters <span style={{ fontWeight: '800' }}>&#123;</span>, <span style={{ fontWeight: '800' }}>&#125;</span>,
-              and <span style={{ fontWeight: '800' }}>&quot;</span> are reserved and can&apos;t be used within quoted text values.
+              The characters <span style={{ fontWeight: '600' }}>&#123;</span>, <span style={{ fontWeight: '600' }}>&#125;</span>,
+              and <span style={{ fontWeight: '600' }}>&quot;</span> are reserved and can&apos;t be used within quoted text values.
               Please remove or replace these characters and try again.
             </Text>
           </Flex>

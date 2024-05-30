@@ -99,7 +99,7 @@ async function deploy() {
   try {
     const currentBranch = await getCurrentGitBranch();
     console.log(`Current Git branch: ${currentBranch}`);
-    if (currentBranch === 'main' || currentBranch.startsWith('/refs/tags/')) {
+    if (currentBranch === 'main' || currentBranch.startsWith('refs/tags/')) {
       // If the current branch is 'main' or a tag, deploy using settings from environment variables (CI/CD pipeline).
       await deployApp();
       return;

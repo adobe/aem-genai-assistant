@@ -140,7 +140,7 @@ async function checkForEarlyProductAccess(toggle, sdkKey, isInternal, org) {
   });
 }
 
-function asAuthAction(action, isAuthorize = true) {
+function asAuthAction(action, shouldAuthorize = true) {
   return async (params) => {
     const imsEndpoint = params.IMS_ENDPOINT;
     const clientId = params.IMS_CLIENT_ID;
@@ -151,7 +151,7 @@ function asAuthAction(action, isAuthorize = true) {
     const imsOrg = getImsOrg(params);
     const accessToken = await getAccessToken(params);
 
-    if (isAuthorize) {
+    if (shouldAuthorize) {
       // Check that the profile has access to the product
       const imsProfile = await getImsProfile(imsEndpoint, clientId, accessToken);
       if (!imsProfile) {

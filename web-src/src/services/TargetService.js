@@ -15,10 +15,12 @@ export class TargetService {
   constructor({
     targetEndpoint,
     imsTenant,
+    imsOrg,
     accessToken,
   }) {
     this.targetEndpoint = targetEndpoint;
     this.imsTenant = imsTenant;
+    this.imsOrg = imsOrg;
     this.accessToken = accessToken;
 
     console.debug(`Target: ${this.targetEndpoint}`);
@@ -28,6 +30,9 @@ export class TargetService {
     const url = `${this.targetEndpoint}?org=${this.imsTenant}`;
     return wretch(url)
       .auth(`Bearer ${this.accessToken}`)
+      .headers({
+        'x-gw-ims-org-id': this.imsOrg,
+      })
       .accept('application/json')
       .get()
       .json();

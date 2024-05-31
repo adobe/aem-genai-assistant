@@ -45,10 +45,11 @@ export function parseUrlParameters() {
   };
 }
 
-function createAemService(aemHost, accessToken) {
+function createAemService(aemHost, imsOrg, accessToken) {
   return new AemService({
     aemHost,
     cfEndpoint: actions[CF_ACTION],
+    imsOrg,
     accessToken,
   });
 }
@@ -83,7 +84,7 @@ export const ApplicationProvider = ({ children }) => {
         setCustomPromptTemplates(templates);
       });
 
-      const aemService = aemHost ? createAemService(aemHost, user.imsToken) : undefined;
+      const aemService = aemHost ? createAemService(aemHost, user.imsOrg, user.imsToken) : undefined;
 
       if (aemService && fragmentId) {
         try {
@@ -112,11 +113,14 @@ export const ApplicationProvider = ({ children }) => {
 
         csvParserService: new CsvParserService({
           csvParserEndpoint: actions[CSV_PARSER_ACTION],
+          imsOrg: user.imsOrg,
+          accessToken: user.imsToken,
         }),
 
         targetService: new TargetService({
           targetEndpoint: actions[TARGET_ACTION],
           imsTenant: user.imsTenant,
+          imsOrg: user.imsOrg,
           accessToken: user.imsToken,
         }),
 

@@ -111,6 +111,11 @@ const style = {
   `,
 };
 
+export function findSyntaxError(prompt) {
+  const matches = [...prompt.matchAll(/=".*[{}"]+.*"/g)];
+  return matches.length > 0;
+}
+
 function PromptEditor({ isOpen, onClose, ...props }) {
   const [prompt, setPrompt] = useRecoilState(promptState);
   const [promptText, setPromptText] = useState(prompt);
@@ -121,6 +126,7 @@ function PromptEditor({ isOpen, onClose, ...props }) {
   const contentFragment = useRecoilValue(contentFragmentState);
 
   const { formatMessage } = useIntl();
+
   useEffect(() => {
     setPrompt(promptText);
     const promptEditorTextArea = document.getElementById('promptEditorTextArea');
@@ -128,15 +134,7 @@ function PromptEditor({ isOpen, onClose, ...props }) {
       promptEditorTextArea.setAttribute('title', 'Prompt Editor');
     }
 
-    // detect unsupported characters in editor
-    const regex = /=".*[{}"]+.*"/g;
-    const matches = [...promptText.matchAll(regex)];
-
-    if (matches.length > 0) {
-      setEditorSyntaxError(true);
-    } else {
-      setEditorSyntaxError(false);
-    }
+    setEditorSyntaxError(findSyntaxError(promptText));
   }, [promptText, setPrompt]);
 
   useEffect(() => {
@@ -233,7 +231,7 @@ function PromptEditor({ isOpen, onClose, ...props }) {
           <Flex gap="size-100" UNSAFE_className={editorSyntaxError ? style.hidden : style.validHelpText }>
             <CheckmarkCircle aria-label="Positive Alert" color="positive" />
             <Text>
-              Prompt is valid
+              Prompt is valid.
             </Text>
           </Flex>
 

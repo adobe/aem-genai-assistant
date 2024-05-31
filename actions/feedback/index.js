@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 const { asGenericAction } = require('../GenericAction.js');
-const { asAuthAction } = require('../AuthAction.js');
+const { asAuthNAction } = require('../AuthNAction.js');
 const { asFirefallAction } = require('../FirefallAction.js');
 
 async function main(params) {
@@ -18,4 +18,4 @@ async function main(params) {
   return firefallClient.feedback(queryId, sentiment);
 }
 
-exports.main = asGenericAction(asAuthAction(asFirefallAction(main)));
+exports.main = asGenericAction(asAuthNAction(asFirefallAction(main)));

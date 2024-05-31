@@ -16,7 +16,7 @@ const QueryStringAddon = require('wretch/addons/queryString');
 const wretch = require('./Network.js');
 const { checkForAdobeInternalUser } = require('./ActionUtils.js');
 
-const logger = Core.Logger('AuthAction');
+const logger = Core.Logger('AuthNAction');
 
 /**
  * Extracts an Adobe IMS organization ID from the 'x-gw-ims-org-id' header
@@ -140,7 +140,7 @@ async function checkForEarlyProductAccess(toggle, sdkKey, isInternal, org) {
   });
 }
 
-function asAuthAction(action, shouldAuthorize = true) {
+function asAuthNAction(action, shouldAuthorize = true) {
   return async (params) => {
     const imsEndpoint = params.IMS_ENDPOINT;
     const clientId = params.IMS_CLIENT_ID;
@@ -171,4 +171,4 @@ function asAuthAction(action, shouldAuthorize = true) {
   };
 }
 
-module.exports = { asAuthAction };
+module.exports = { asAuthNAction };

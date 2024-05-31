@@ -13,6 +13,7 @@
 const openwhisk = require('openwhisk');
 const { asGenericAction } = require('../GenericAction.js');
 const { asAuthNAction } = require('../AuthNAction.js');
+const { asAuthZAction } = require('../AuthZAction.js');
 
 const STATUS_RUNNING = 'running';
 const STATUS_COMPLETED = 'completed';
@@ -57,4 +58,4 @@ async function main(params) {
   }
 }
 
-exports.main = asGenericAction(asAuthNAction(main));
+exports.main = asGenericAction(asAuthNAction(asAuthZAction(main)));

@@ -20,4 +20,4 @@ async function main({ url }) {
   return data;
 }
 
-exports.main = asGenericAction(asAuthNAction(main, false));
+exports.main = asGenericAction(asAuthNAction(main));

@@ -11,6 +11,7 @@
  */
 const { asGenericAction } = require('../GenericAction.js');
 const { asAuthNAction } = require('../AuthNAction.js');
+const { asAuthZAction } = require('../AuthZAction.js');
 const { asAemAction } = require('../AemAction.js');
 
 function getFragment(params) {
@@ -58,4 +59,4 @@ async function main(params) {
   }
 }
 
-exports.main = asGenericAction(asAuthNAction(asAemAction(main)));
+exports.main = asGenericAction(asAuthNAction(asAuthZAction(asAemAction(main))));

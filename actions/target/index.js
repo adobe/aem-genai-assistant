@@ -41,4 +41,4 @@ async function main({ __ow_headers: headers, org, TARGET_API_KEY }) {
     }));
 }
 
-exports.main = asGenericAction(asAuthNAction(main, false));
+exports.main = asGenericAction(asAuthNAction(main));

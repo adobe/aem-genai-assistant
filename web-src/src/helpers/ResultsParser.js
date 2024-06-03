@@ -35,27 +35,31 @@ const parseResponse = (str) => {
     const firstChar = incomplete.substring(0, 1);
     const isArray = firstChar === '[';
     const isObject = firstChar === '{';
+
     if (!isArray && !isObject) {
       return incomplete;
-    } else {
-      const lastClosingCurlyBrace = incomplete.lastIndexOf('}');
-      if (lastClosingCurlyBrace === -1) {
-        return isArray ? [] : {};
-      } else {
-        let truncated = incomplete.substring(0, lastClosingCurlyBrace + 1);
-        truncated += isArray ? ']' : '}';
-        try {
-          return JSON.parse(truncated);
-        } catch (e) {
-          return incomplete;
-        }
-      }
+    }
+
+    const lastClosingCurlyBrace = incomplete.lastIndexOf('}');
+    if (lastClosingCurlyBrace === -1) {
+      return isArray ? [] : {};
+    }
+
+    let truncated = incomplete.substring(0, lastClosingCurlyBrace + 1);
+    truncated += isArray ? ']' : '}';
+    try {
+      return JSON.parse(truncated);
+    } catch (e) {
+      console.error('Error encountered while parsing the truncated JSON response string.', truncated);
+      return incomplete;
     }
   };
 
   try {
     return JSON.parse(str);
   } catch (err) {
+    console.error('Error encountered while parsing the JSON response string.', str);
+    // if parsing fails, attempt to fix and then parse again
     return fixJson(str);
   }
 };

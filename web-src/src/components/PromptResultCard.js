@@ -139,6 +139,11 @@ const styles = {
 };
 
 export function extractMetadataFields(obj) {
+  const isObject = (o) => typeof o === 'object' && !Array.isArray(o) && o !== null;
+  if (!isObject(obj)) {
+    return {};
+  }
+
   const resultFields = { ...obj };
   const metadataFields = {};
 
@@ -330,8 +335,12 @@ export function PromptResultCard({ result, ...props }) {
             }
             </Slider>
           </div>
-            <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(resultFields) }} />
-            <div className={styles.resultMetadata} dangerouslySetInnerHTML={{ __html: toHTML(metadataFields) }} />
+            {resultFields
+              && <div className={styles.resultContent} dangerouslySetInnerHTML={{ __html: toHTML(resultFields) }} />
+            }
+            {metadataFields
+              && <div className={styles.resultMetadata} dangerouslySetInnerHTML={{ __html: toHTML(metadataFields) }} />
+            }
           <Flex direction="row" justifyContent={'space-between'} width={'100%'}>
             <Flex>
                 {runMode !== RUN_MODE_CF

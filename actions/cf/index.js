@@ -10,7 +10,8 @@
  * governing permissions and limitations under the License.
  */
 const { asGenericAction } = require('../GenericAction.js');
-const { asAuthAction } = require('../AuthAction.js');
+const { asAuthNAction } = require('../AuthNAction.js');
+const { asAuthZAction } = require('../AuthZAction.js');
 const { asAemAction } = require('../AemAction.js');
 
 function getFragment(params) {
@@ -58,4 +59,4 @@ async function main(params) {
   }
 }
 
-exports.main = asGenericAction(asAuthAction(asAemAction(main)));
+exports.main = asGenericAction(asAuthNAction(asAuthZAction(asAemAction(main))));

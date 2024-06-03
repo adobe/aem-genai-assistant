@@ -20,7 +20,7 @@ export const FIREFALL_ACTION_TYPES = {
 
 // all the following constants are in seconds
 const MAX_POLLING_TIME = 300;
-const TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY = 1;
+const TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY = 3;
 const VARIATIONS_GENERATION_POLL_DELAY = 5;
 
 const poll = async (fn, pollDelay, initialPollDelay, maxPollingTime = MAX_POLLING_TIME) => {
@@ -95,6 +95,8 @@ export class FirefallService {
         throw new Error(result.error);
       }
       const { query_id: queryId, generations } = result;
+
+      console.log('Generations', generations);
       return {
         queryId,
         response: generations[0][0].message.content,

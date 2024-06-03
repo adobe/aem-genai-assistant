@@ -28,12 +28,13 @@ export async function generateImagePrompt(firefallService, selectedVariant) {
     }
     Generated Prompt:
     "A happy, confident person enjoying music in an urban park, using high-quality wireless headphones, with the city skyline in the background."
-    Here is the JSON context: ${JSON.stringify(selectedVariant.content)}`;
+    Here is the  context: ${JSON.stringify(selectedVariant.content)}`;
   const { response } = await firefallService.complete(
     variantToImagePrompt,
     0,
     FIREFALL_ACTION_TYPES.TEXT_TO_IMAGE_PROMPT_GENERATION,
   );
+  console.log(response);
   return response;
 }
 

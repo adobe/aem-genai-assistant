@@ -47,7 +47,25 @@ Requirements: ```
 - Compose the text without using the same adjective more than once.
 - Do not use exclamation marks or points at the end of sentences in the text.
 - Do not use exclamation marks or points in the text.
-- Format the response as an array of valid, iterable RFC8259 compliant JSON. Always list the "AI Rationale" attribute last.
+- - Please generate an output as an array of JSON to represent distinct piece(s) of copy for a Card.  Here is an example of the desired format when we want to compose 2 distinct piece(s) of copy for a Card:
+  ```
+ {copies: {
+  [
+  {"Title": "Unleash Bold Sounds","Body": "Dive into immersive audio with our bestselling wireless headphones.","AI Rationale": "The text appeals to the user's desire for high-quality audio and introduces the product in an engaging manner."},
+  {"Title": "Your Soundtrack Awaits", "Body": "Experience superior music clarity with our top-selling wireless headphones.",  "AI Rationale": "This copy draws on the user's interest in music and highlights the product as an enhancement to their experience."  }
+  ]
+  }
+  ```
+  Here is an example for 3 distinct piece(s) of copy for a Card:
+  ```
+  {copies:
+  [
+  {"Title": "Unleash Bold Sounds","Body": "Dive into immersive audio with our bestselling wireless headphones.","AI Rationale": "The text appeals to the user's desire for high-quality audio and introduces the product in an engaging manner."},
+  {"Title": "Your Soundtrack Awaits", "Body": "Experience superior music clarity with our top-selling wireless headphones.",  "AI Rationale": "This copy draws on the user's interest in music and highlights the product as an enhancement to their experience."  },
+  {"Title": "Your Soundtrack Awaits1", "Body": "Experience superior music clarity with our top-selling wireless headphones1.",  "AI Rationale": "This copy draws on the user's interest in music and highlights the product as an enhancement to their experience1."  }
+  ]
+  }
+  Please provide the variants as specified.
 ```
 
 {{# -------------------------------------------------------------------------- }}

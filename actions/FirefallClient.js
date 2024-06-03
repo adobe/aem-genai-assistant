@@ -36,7 +36,7 @@ class FirefallClient {
     this.accessToken = accessToken;
   }
 
-  async completion(prompt, temperature = 0.0, model = 'gpt-4') {
+  async completion(prompt, temperature = 0.0, model = 'gpt-4-turbo') {
     const startTime = Date.now();
 
     // must be aligned with the `aem-genai-assistant/generate` AppBuilder action timeout
@@ -64,6 +64,7 @@ class FirefallClient {
             frequency_penalty: 0,
             presence_penalty: 0,
             n: 1,
+            response_format: { type: 'json_object' },
           },
           store_context: true,
         })

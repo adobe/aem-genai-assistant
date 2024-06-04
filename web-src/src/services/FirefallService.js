@@ -69,7 +69,7 @@ export class FirefallService {
       ? VARIATIONS_GENERATION_POLL_DELAY
       : TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY;
     const initialPollDelay = pollDelay;
-
+    const mode = actionType === FIREFALL_ACTION_TYPES.VARIATIONS_GENERATION ? 'json' : 'text';
     const { jobId } = await wretch(this.completeEndpoint)
       .auth(`Bearer ${this.accessToken}`)
       .headers({
@@ -78,6 +78,7 @@ export class FirefallService {
       .post({
         prompt,
         temperature,
+        mode,
       })
       .json();
 

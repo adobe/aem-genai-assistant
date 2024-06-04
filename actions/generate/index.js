@@ -14,9 +14,9 @@ const { asFirefallAction } = require('../FirefallAction.js');
 
 function main(params) {
   const {
-    prompt, temperature, model, firefallClient,
+    prompt, temperature, model, mode, firefallClient,
   } = params;
-  return firefallClient.completion(prompt ?? 'Who are you?', temperature ?? 0.0, model ?? 'gpt-4-turbo');
+  return firefallClient.completion(prompt ?? 'Who are you?', temperature ?? 0.0,mode ?? 'json', model ?? 'gpt-4-turbo');
 }
 
 exports.main = asFirefallAction(main);

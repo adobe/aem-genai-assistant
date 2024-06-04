@@ -64,7 +64,7 @@ export class FirefallService {
     console.debug(`Feedback: ${this.feedbackEndpoint}`);
   }
 
-  async complete(prompt, temperature, actionType) {
+  async complete(prompt, temperature, actionType, asJson = true) {
     const pollDelay = (actionType === FIREFALL_ACTION_TYPES.VARIATIONS_GENERATION)
       ? VARIATIONS_GENERATION_POLL_DELAY
       : TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY;
@@ -78,6 +78,7 @@ export class FirefallService {
       .post({
         prompt,
         temperature,
+        asJson,
       })
       .json();
 
@@ -94,10 +95,10 @@ export class FirefallService {
       if (result.error) {
         throw new Error(result.error);
       }
-      const { query_id: queryId, generations } = result;
+      const { query_id: queryId, choices } = result;
       return {
         queryId,
-        response: generations[0][0].message.content,
+        response: choices[0].message.content,
       };
     });
   }

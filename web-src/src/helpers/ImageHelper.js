@@ -33,6 +33,7 @@ export async function generateImagePrompt(firefallService, selectedVariant) {
     variantToImagePrompt,
     0,
     FIREFALL_ACTION_TYPES.TEXT_TO_IMAGE_PROMPT_GENERATION,
+    false,
   );
   return response;
 }

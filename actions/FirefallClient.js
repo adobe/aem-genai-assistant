@@ -36,7 +36,7 @@ class FirefallClient {
     this.accessToken = accessToken;
   }
 
-  async completion(prompt, temperature = 0.0, model = 'gpt-4') {
+  async completion(prompt, temperature = 0.0, asJson = true, model = 'gpt-4-turbo') {
     const startTime = Date.now();
 
     // must be aligned with the `aem-genai-assistant/generate` AppBuilder action timeout
@@ -44,7 +44,7 @@ class FirefallClient {
     const REQUEST_TIMEOUT = 295;
 
     try {
-      const response = await wretch(`${this.endpoint}/v1/completions`, { requestTimeout: REQUEST_TIMEOUT })
+      const response = await wretch(`${this.endpoint}/v2/chat/completions`, { requestTimeout: REQUEST_TIMEOUT })
         .headers({
           'x-gw-ims-org-id': this.org,
           'x-api-key': this.apiKey,
@@ -52,9 +52,16 @@ class FirefallClient {
           'Content-Type': 'application/json',
         })
         .post({
-          dialogue: {
-            question: prompt,
-          },
+          messages: [
+            {
+              role: 'system',
+              content: asJson ? 'The output must be valid JSON.' : '',
+            },
+            {
+              role: 'user',
+              content: prompt,
+            },
+          ],
           llm_metadata: {
             llm_type: 'azure_chat_openai',
             model_name: model,
@@ -65,6 +72,9 @@ class FirefallClient {
             presence_penalty: 0,
             n: 1,
           },
+          response_format: (asJson ? {
+            type: 'json_object',
+          } : {}),
           store_context: true,
         })
         .json();

@@ -61,7 +61,9 @@ const styles = {
   `,
 };
 
-export function PromptSessionSideView({ isOpenPromptEditor, onTogglePrompt, ...props }) {
+export function PromptSessionSideView({
+  isOpenPromptEditor, onTogglePrompt, disableTextGeneration, ...props
+}) {
   const currentSession = useRecoilValue(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
   const { formatMessage } = useIntl();
@@ -116,7 +118,7 @@ export function PromptSessionSideView({ isOpenPromptEditor, onTogglePrompt, ...p
           <SavePromptButton />
           <ResetButton />
         </Flex>
-        <GenerateButton />
+        <GenerateButton disabled={disableTextGeneration} />
       </div>
 
     </Grid>

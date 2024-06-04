@@ -34,7 +34,6 @@ import { log } from '../helpers/MetricsHelper.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
 import { RUN_MODE_CF } from '../state/RunMode.js';
 import { FIREFALL_ACTION_TYPES } from '../services/FirefallService.js';
-import { promptSyntaxErrorState } from '../state/PromptSyntaxErrorState.js';
 
 const createWaitMessagesController = (intlFn) => {
   const displayToast = (msg, timeout = 1500) => {
@@ -87,13 +86,12 @@ const createWaitMessagesController = (intlFn) => {
   };
 };
 
-export function GenerateButton() {
+export function GenerateButton({ disabled }) {
   const { runMode, firefallService } = useApplicationContext();
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
   const contentFragment = useRecoilValue(contentFragmentState);
   const temperature = useRecoilValue(temperatureState);
-  const syntaxError = useRecoilValue(promptSyntaxErrorState);
 
   const setResults = useSetRecoilState(resultsState);
   const setIsOpenPromptEditor = useSetRecoilState(promptEditorState);
@@ -156,7 +154,7 @@ export function GenerateButton() {
         variant="cta"
         style="fill"
         onPress={handleGenerate}
-        isDisabled={generationInProgress || syntaxError}>
+        isDisabled={disabled || generationInProgress}>
         {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} color={'white'}/>}
         {formatMessage(intlMessages.promptSessionSideView.generateButtonLabel)}
       </Button>

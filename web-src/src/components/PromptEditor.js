@@ -20,7 +20,6 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { css, injectGlobal } from '@emotion/css';
 import { Global } from '@emotion/react';
 import { motion, AnimatePresence } from 'framer-motion';
-import CheckmarkCircle from '@spectrum-icons/workflow/CheckmarkCircle';
 import Close from '@spectrum-icons/workflow/Close';
 import Alert from '@spectrum-icons/workflow/Alert';
 import { useIntl } from 'react-intl';
@@ -29,7 +28,6 @@ import { intlMessages } from './PromptSessionSideView.l10n.js';
 
 import { parametersState } from '../state/ParametersState.js';
 import { promptState } from '../state/PromptState.js';
-import { promptSyntaxErrorState } from '../state/PromptSyntaxErrorState.js';
 import { NO_VALUE_STRING, renderPrompt } from '../helpers/PromptRenderer.js';
 import { log } from '../helpers/MetricsHelper.js';
 
@@ -102,10 +100,6 @@ const style = {
     margin-top: 15px;
     color: var(--spectrum-red-900);
   `,
-  validHelpText: css`
-    margin-top: 15px;
-    color: var(--spectrum-green-700);
-  `,
   hidden: css`
     display: none;
   `,
@@ -116,11 +110,12 @@ export function findSyntaxError(prompt) {
   return matches.length > 0;
 }
 
-function PromptEditor({ isOpen, onClose, ...props }) {
+function PromptEditor({
+  isOpen, onClose, error, setError, ...props
+}) {
   const [prompt, setPrompt] = useRecoilState(promptState);
   const [promptText, setPromptText] = useState(prompt);
   const [viewSource, setViewSource] = useState(false);
-  const [editorSyntaxError, setEditorSyntaxError] = useRecoilState(promptSyntaxErrorState);
 
   const parameters = useRecoilValue(parametersState);
   const contentFragment = useRecoilValue(contentFragmentState);
@@ -134,7 +129,7 @@ function PromptEditor({ isOpen, onClose, ...props }) {
       promptEditorTextArea.setAttribute('title', 'Prompt Editor');
     }
 
-    setEditorSyntaxError(findSyntaxError(promptText));
+    setError(findSyntaxError(promptText));
   }, [promptText, setPrompt]);
 
   useEffect(() => {
@@ -212,7 +207,7 @@ function PromptEditor({ isOpen, onClose, ...props }) {
             </Flex>
           </Flex>
 
-          <div className={editorSyntaxError ? style.containerError : style.container}>
+          <div className={error ? style.containerError : style.container}>
             <SimpleEditor
               className={style.editor}
               textareaClassName={style.textarea}
@@ -228,14 +223,7 @@ function PromptEditor({ isOpen, onClose, ...props }) {
             />
           </div>
 
-          <Flex gap="size-100" UNSAFE_className={editorSyntaxError ? style.hidden : style.validHelpText }>
-            <CheckmarkCircle aria-label="Positive Alert" color="positive" />
-            <Text>
-              Prompt is valid.
-            </Text>
-          </Flex>
-
-          <Flex gap="size-100" UNSAFE_className={editorSyntaxError ? style.errorHelpText : style.hidden}>
+          <Flex gap="size-100" UNSAFE_className={error ? style.errorHelpText : style.hidden}>
             <Alert aria-label="Negative Alert" color="negative" />
             <Text>
               The characters <span style={{ fontWeight: '600' }}>&#123;</span>, <span style={{ fontWeight: '600' }}>&#125;</span>,

@@ -41,6 +41,8 @@ const poll = async (fn, pollDelay, initialPollDelay, maxPollingTime = MAX_POLLIN
       // eslint-disable-next-line no-await-in-loop
       await wait(pollDelay);
     } else {
+      console.log('Polling completed:');
+      console.log('\x1b[33m%s\x1b[0m', `Request time: ${response.result.request_time} s`);
       return response;
     }
   }

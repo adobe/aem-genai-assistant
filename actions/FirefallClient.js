@@ -81,7 +81,7 @@ class FirefallClient {
       const endTime = Date.now();
       const requestTime = ((endTime - startTime) / 1000).toFixed(2);
       logger.info(`Generate request #${response.query_id} completed in ${requestTime} s`);
-
+      response.request_time = requestTime;
       return response;
     } catch (error) {
       logger.error('Failed generating results:', error);

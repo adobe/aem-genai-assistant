@@ -32,8 +32,8 @@ export async function generateImagePrompt(firefallService, selectedVariant) {
   const { response } = await firefallService.complete(
     variantToImagePrompt,
     0,
-    false,
     FIREFALL_ACTION_TYPES.TEXT_TO_IMAGE_PROMPT_GENERATION,
+    false,
   );
   return response;
 }

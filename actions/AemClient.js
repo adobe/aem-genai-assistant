@@ -75,7 +75,7 @@ class AemClient {
       // For some reason (most likely an issue with the fragment variation creation API),
       // the returned ETag is not always correct. It's better to directly retrieve the created variation
       // and get the ETag from there. Additionally, I found that the created variation might not be instantly
-      // available after creation, so I added some wait time.
+      // available after creation, so I added 1.5 seconds wait time.
       logger.debug(`Getting ETag for ${updateVariationUrl}`);
       await wait(1.5);
       const refreshed = await wretch(updateVariationUrl)

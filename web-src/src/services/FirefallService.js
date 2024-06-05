@@ -20,7 +20,7 @@ export const FIREFALL_ACTION_TYPES = {
 
 // all the following constants are in seconds
 const MAX_POLLING_TIME = 300;
-const TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY = 3;
+const TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY = 1;
 const VARIATIONS_GENERATION_POLL_DELAY = 5;
 
 const poll = async (fn, pollDelay, initialPollDelay, maxPollingTime = MAX_POLLING_TIME) => {
@@ -66,12 +66,12 @@ export class FirefallService {
     console.debug(`Feedback: ${this.feedbackEndpoint}`);
   }
 
-  async complete(prompt, temperature, actionType) {
+  async complete(prompt, temperature, actionType, asJson = true) {
     const pollDelay = (actionType === FIREFALL_ACTION_TYPES.VARIATIONS_GENERATION)
       ? VARIATIONS_GENERATION_POLL_DELAY
       : TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY;
     const initialPollDelay = pollDelay;
-    const mode = actionType === FIREFALL_ACTION_TYPES.VARIATIONS_GENERATION ? 'json' : 'text';
+
     const { jobId } = await wretch(this.completeEndpoint)
       .auth(`Bearer ${this.accessToken}`)
       .headers({
@@ -80,7 +80,7 @@ export class FirefallService {
       .post({
         prompt,
         temperature,
-        mode,
+        asJson,
       })
       .json();
 

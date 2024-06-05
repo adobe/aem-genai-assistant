@@ -28,29 +28,6 @@ function toFirefallError(error, defaultMessage) {
   return new InternalError(error.status ?? 500, `IS-ERROR: ${errorMessage} (${error.status}).`);
 }
 
-function preparePrompt(prompt, temperature = 0.0, mode = 'json', model = 'gpt-4-turbo') {
-  const promptObject = {
-    dialogue: {
-      question: prompt,
-    },
-    llm_metadata: {
-      llm_type: 'azure_chat_openai',
-      model_name: model,
-      temperature,
-      max_tokens: 800,
-      top_p: 1,
-      frequency_penalty: 0,
-      presence_penalty: 0,
-      n: 1,
-    },
-    store_context: true,
-  };
-  if (mode === 'json') {
-    promptObject.llm_metadata.response_format = { type: 'json_object' };
-  }
-  return promptObject;
-}
-
 class FirefallClient {
   constructor(endpoint, apiKey, org, accessToken) {
     this.endpoint = endpoint;
@@ -59,14 +36,13 @@ class FirefallClient {
     this.accessToken = accessToken;
   }
 
-  async completion(prompt, temperature = 0.0, mode = 'json', model = 'gpt-4-turbo') {
+  async completion(prompt, temperature = 0.0, asJson = true, model = 'gpt-4-turbo') {
     const startTime = Date.now();
 
     // must be aligned with the `aem-genai-assistant/generate` AppBuilder action timeout
     // (subtracted 5 seconds to allow some buffer for AppBuilder)
     const REQUEST_TIMEOUT = 295;
 
-    const request = preparePrompt(prompt, temperature, mode, model);
     try {
       const response = await wretch(`${this.endpoint}/v1/completions`, { requestTimeout: REQUEST_TIMEOUT })
         .headers({
@@ -75,7 +51,26 @@ class FirefallClient {
           Authorization: `Bearer ${this.accessToken}`,
           'Content-Type': 'application/json',
         })
-        .post(request)
+        .post({
+          dialogue: {
+            question: prompt,
+          },
+          llm_metadata: {
+            llm_type: 'azure_chat_openai',
+            model_name: model,
+            temperature,
+            max_tokens: 800,
+            top_p: 1,
+            frequency_penalty: 0,
+            presence_penalty: 0,
+            n: 1,
+            response_format: (asJson ? {
+              type: 'json_object',
+            } : {}),
+          },
+          store_context: true,
+
+        })
         .json();
 
       const endTime = Date.now();

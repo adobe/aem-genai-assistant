@@ -14,6 +14,8 @@ const wretch = require('./Network.js');
 
 const logger = Core.Logger('AemClient');
 
+const wait = async (timeout) => new Promise((resolve) => { setTimeout(resolve, timeout * 1000); });
+
 class AemClient {
   constructor(endpoint, accessToken) {
     this.endpoint = endpoint;
@@ -66,10 +68,25 @@ class AemClient {
         .post({ title: variationName })
         .res();
 
-      const eTag = createVariationResponse.headers.get('ETag');
       const variation = await createVariationResponse.json();
 
       const updateVariationUrl = `${this.endpoint}/adobe/sites/cf/fragments/${fragmentId}/variations/${variation.name}`;
+
+      // For some reason (most likely an issue with the fragment variation creation API),
+      // the returned ETag is not always correct. It's better to directly retrieve the created variation
+      // and get the ETag from there. Additionally, I found that the created variation might not be instantly
+      // available after creation, so I added some wait time.
+      logger.debug(`Getting ETag for ${updateVariationUrl}`);
+      await wait(1.5);
+      const refreshed = await wretch(updateVariationUrl)
+        .headers({
+          'X-Adobe-Accept-Unsupported-API': '1',
+          Authorization: `Bearer ${this.accessToken}`,
+        })
+        .get()
+        .res();
+      const eTag = refreshed.headers.get('ETag');
+
       logger.debug(`Updating variation at ${updateVariationUrl}`);
 
       const updates = variation.fields

@@ -71,19 +71,21 @@ export class FirefallService {
     const initialPollDelay = pollDelay;
 
     const { jobId } = await wretch(this.completeEndpoint)
+      .auth(`Bearer ${this.accessToken}`)
+      .headers({
+        'x-gw-ims-org-id': this.imsOrg,
+      })
       .post({
         prompt,
         temperature,
-        imsOrg: this.imsOrg,
-        accessToken: this.accessToken,
       })
       .json();
 
     return poll(async () => {
       return wretch(`${this.completeEndpoint}?jobId=${jobId}`)
+        .auth(`Bearer ${this.accessToken}`)
         .headers({
-          Authorization: `Bearer ${this.accessToken}`,
-          'X-Org-Id': this.imsOrg,
+          'x-gw-ims-org-id': this.imsOrg,
         })
         .get()
         .json();
@@ -103,11 +105,13 @@ export class FirefallService {
   async feedback(queryId, sentiment) {
     /* eslint-disable-next-line camelcase */
     const { feedback_id } = await wretch(this.feedbackEndpoint)
+      .auth(`Bearer ${this.accessToken}`)
+      .headers({
+        'x-gw-ims-org-id': this.imsOrg,
+      })
       .post({
         queryId,
         sentiment,
-        imsOrg: this.imsOrg,
-        accessToken: this.accessToken,
       })
       .json();
     /* eslint-disable-next-line camelcase */

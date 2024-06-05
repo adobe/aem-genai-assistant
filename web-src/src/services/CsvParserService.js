@@ -15,14 +15,22 @@ import { wretch } from '../helpers/NetworkHelper.js';
 export class CsvParserService {
   constructor({
     csvParserEndpoint,
+    imsOrg,
+    accessToken,
   }) {
     this.csvParserEndpoint = csvParserEndpoint;
+    this.imsOrg = imsOrg;
+    this.accessToken = accessToken;
 
     console.log('csvParserEndpoint', csvParserEndpoint);
   }
 
   async getData(url) {
     const json = await wretch(this.csvParserEndpoint)
+      .auth(`Bearer ${this.accessToken}`)
+      .headers({
+        'x-gw-ims-org-id': this.imsOrg,
+      })
       .addon(QueryStringAddon)
       .query({ url })
       .get()

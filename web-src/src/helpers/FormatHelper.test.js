@@ -20,62 +20,62 @@ describe('newGroupingLabelGenerator', () => {
 
   test('returns "Today" for today\'s date', () => {
     const label = generator(new Date());
-    expect(label).toEqual('Today');
+    expect(label).toEqual('formatHelperTodayLabel');
   });
 
   test('returns "Yesterday" for yesterday\'s date', () => {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     const label = generator(yesterday);
-    expect(label).toEqual('Yesterday');
+    expect(label).toEqual('formatHelperYesterdayLabel');
   });
 
   test('returns "Last 7 days" for a date 6 days ago', () => {
     const sixDaysAgo = new Date();
     sixDaysAgo.setDate(sixDaysAgo.getDate() - 6);
     const label = generator(sixDaysAgo);
-    expect(label).toEqual('Last 7 days');
+    expect(label).toEqual('formatHelperLast7DaysLabel');
   });
 
   test('returns "Last 30 days" for a date 29 days ago', () => {
     const twentyNineDaysAgo = new Date();
     twentyNineDaysAgo.setDate(twentyNineDaysAgo.getDate() - 29);
     const label = generator(twentyNineDaysAgo);
-    expect(label).toEqual('Last 30 days');
+    expect(label).toEqual('formatHelperLast30DaysLabel');
   });
 
   test('returns "Last 90 days" for a date 89 days ago', () => {
     const eightyNineDaysAgo = new Date();
     eightyNineDaysAgo.setDate(eightyNineDaysAgo.getDate() - 89);
     const label = generator(eightyNineDaysAgo);
-    expect(label).toEqual('Last 90 days');
+    expect(label).toEqual('formatHelperLast90DaysLabel');
   });
 
   test('returns "Last 6 months" for a date 179 days ago', () => {
     const oneHundredSeventyNineDaysAgo = new Date();
     oneHundredSeventyNineDaysAgo.setDate(oneHundredSeventyNineDaysAgo.getDate() - 179);
     const label = generator(oneHundredSeventyNineDaysAgo);
-    expect(label).toEqual('Last 6 months');
+    expect(label).toEqual('formatHelperLast6MonthsLabel');
   });
 
   test('returns "Last 12 months" for a date 364 days ago', () => {
     const threeHundredSixtyFourDaysAgo = new Date();
     threeHundredSixtyFourDaysAgo.setDate(threeHundredSixtyFourDaysAgo.getDate() - 364);
     const label = generator(threeHundredSixtyFourDaysAgo);
-    expect(label).toEqual('Last 12 months');
+    expect(label).toEqual('formatHelperLast12MonthsLabel');
   });
 
   test('returns "Older" for a date 366 days ago', () => {
     const threeHundredSixtySixDaysAgo = new Date();
     threeHundredSixtySixDaysAgo.setDate(threeHundredSixtySixDaysAgo.getDate() - 366);
     const label = generator(threeHundredSixtySixDaysAgo);
-    expect(label).toEqual('Older');
+    expect(label).toEqual('formatHelperOlderLabel');
   });
 
   test('returns null for the same date input twice', () => {
     const today = new Date();
     let label = generator(today);
-    expect(label).toEqual('Today');
+    expect(label).toEqual('formatHelperTodayLabel');
     label = generator(today);
     expect(label).toBeNull();
   });
@@ -91,9 +91,9 @@ describe('newGroupingLabelGenerator', () => {
     today.setHours(0, 0, 0, 0);
 
     if (today.getTime() === datetime.getTime()) {
-      expect(label).toEqual('Today');
+      expect(label).toEqual('formatHelperTodayLabel');
     } else {
-      expect(label).toEqual('Yesterday');
+      expect(label).toEqual('formatHelperYesterdayLabel');
     }
   });
 
@@ -108,9 +108,9 @@ describe('newGroupingLabelGenerator', () => {
     today.setHours(0, 0, 0, 0);
 
     if (today.getTime() === datetime.getTime()) {
-      expect(label).toEqual('Today');
+      expect(label).toEqual('formatHelperTodayLabel');
     } else {
-      expect(label).toEqual('Yesterday');
+      expect(label).toEqual('formatHelperYesterdayLabel');
     }
   });
 
@@ -125,9 +125,9 @@ describe('newGroupingLabelGenerator', () => {
     today.setHours(0, 0, 0, 0);
 
     if (today.getTime() === datetime.getTime()) {
-      expect(label).toEqual('Today');
+      expect(label).toEqual('formatHelperTodayLabel');
     } else {
-      expect(label).toEqual('Yesterday');
+      expect(label).toEqual('formatHelperYesterdayLabel');
     }
   });
 });

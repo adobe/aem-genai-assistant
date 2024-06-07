@@ -42,21 +42,21 @@ export function newGroupingLabelGenerator() {
 
     let label;
     if (dayDifference < 1) {
-      label = 'Today';
+      label = 'formatHelperTodayLabel';
     } else if (dayDifference < 2) {
-      label = 'Yesterday';
+      label = 'formatHelperYesterdayLabel';
     } else if (dayDifference < 7) {
-      label = 'Last 7 days';
+      label = 'formatHelperLast7DaysLabel';
     } else if (dayDifference < 30) {
-      label = 'Last 30 days';
+      label = 'formatHelperLast30DaysLabel';
     } else if (dayDifference < 90) {
-      label = 'Last 90 days';
+      label = 'formatHelperLast90DaysLabel';
     } else if (dayDifference < 180) {
-      label = 'Last 6 months';
+      label = 'formatHelperLast6MonthsLabel';
     } else if (dayDifference < 365) {
-      label = 'Last 12 months';
+      label = 'formatHelperLast12MonthsLabel';
     } else {
-      label = 'Older';
+      label = 'formatHelperOlderLabel';
     }
 
     if (label !== prevLabel) {

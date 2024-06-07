@@ -156,15 +156,16 @@ export function AudienceSelector({
       return (
         <Item key={index} textValue={item.key}>
           <Text>{item.key}</Text>
-          {disabledKeys.includes(String(index)) && <Text slot="description">Not available</Text>}
+          {disabledKeys.includes(String(index)) && <Text slot="description">{formatMessage(intlMessages.promptSessionSideView.audienceSelectorItemsNotAvailable)}</Text>}
         </Item>
       );
     });
   }, [items, disabledKeys]);
 
   const pickerPlaceholder = dataSource
-    ? `Select from ${dataSource === DATA_SOURCES.TARGET ? 'Adobe Target' : 'CSV file'}`
-    : 'Select a source';
+    ? formatMessage(intlMessages.promptSessionSideView.audienceSelectorSelectFromPlaceholder, {
+      source: dataSource === DATA_SOURCES.TARGET ? 'Adobe Target' : 'CSV file',
+    }) : formatMessage(intlMessages.promptSessionSideView.audienceSelectorDefaultSelectPlaceholder);
 
   return (
     <>

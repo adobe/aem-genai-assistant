@@ -107,6 +107,11 @@ export const intlMessages = {
       id: 'promptSessionSideView.savePromptSharedSwitchLabel',
       description: 'Switch label for sharing across organization',
     },
+    savePromptUpdateWarning: {
+      defaultMessage: 'You are about to update <b>{label}</b>, last modified on <b>{lastModified}</b> by <b>{lastModifiedBy}</b>. Any changes made will overwrite the current content.',
+      id: 'promptSessionSideView.savePromptUpdateWarning',
+      description: 'Warning message for updating prompt template',
+    },
     savePromptSuccessToast: {
       defaultMessage: 'Prompt template saved',
       id: 'promptSessionSideView.savePromptSuccessToast',
@@ -141,6 +146,21 @@ export const intlMessages = {
       defaultMessage: 'Failed to load from Adobe Target',
       id: 'promptSessionSideView.audienceSelectorLoadTargetFailedToast',
       description: 'Toast message for failed Adobe Target loading',
+    },
+    audienceSelectorItemsNotAvailable: {
+      defaultMessage: 'Not available',
+      id: 'promptSessionSideView.audienceSelectorItemsNotAvailable',
+      description: 'Text for items not available in Audience Selector',
+    },
+    audienceSelectorDefaultSelectPlaceholder: {
+      defaultMessage: 'Select a source',
+      id: 'promptSessionSideView.audienceSelectorSelectSourcePlaceholder',
+      description: 'Placeholder for default source selection in Audience Selector',
+    },
+    audienceSelectorSelectFromPlaceholder: {
+      defaultMessage: 'Select from {source}',
+      id: 'promptSessionSideView.audienceSelectorSelectFromPlaceholder',
+      description: 'Placeholder for source selection with Adobe Target or CSV file in Audience Selector',
     },
     variationsGeneration15SecondsWaitTimeToast: {
       defaultMessage: 'Preparing your content',

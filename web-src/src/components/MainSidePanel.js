@@ -208,8 +208,10 @@ export function MainSidePanel(props) {
                 return (
                       <>
                         {groupingLabel
-                            && <Text key={groupingLabel} UNSAFE_className={style.subMenuHeader}>
-                              {groupingLabel}
+                          && <Text
+                              key={formatMessage(intlMessages.mainSidePanel[groupingLabel])}
+                              UNSAFE_className={style.subMenuHeader}>
+                              {formatMessage(intlMessages.mainSidePanel[groupingLabel])}
                             </Text>}
                         {/* eslint-disable-next-line max-len */}
                         <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyles.clickedSubMenuItem : style.subMenuItem}

@@ -183,6 +183,7 @@ export function SavePromptButton(props) {
       return null;
     }
     const lastModified = new Date(selectedTemplate.lastModified).toLocaleDateString();
+
     return (
       <motion.div
         initial={{ opacity: 0.1, scaleY: 0.1 }}
@@ -190,9 +191,12 @@ export function SavePromptButton(props) {
         transition={{ ease: 'easeInOut', duration: 0.3 }}>
         <Well>
         <Text>
-          You are about to update <b>{label}</b>,
-          last modified on <b>{lastModified}</b> by <b>{selectedTemplate.lastModifiedBy}</b>.
-          Any changes made will overwrite the current content.
+          {formatMessage(intlMessages.promptSessionSideView.savePromptUpdateWarning, {
+            b: (chunks) => <b>{chunks}</b>,
+            label,
+            lastModified,
+            lastModifiedBy: selectedTemplate.lastModifiedBy,
+          })}
         </Text>
       </Well>
       </motion.div>

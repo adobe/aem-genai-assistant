@@ -39,7 +39,7 @@ export function PromptSessionPanel() {
 
       <PromptSessionSideView isOpenPromptEditor={isOpenPromptEditor}
         onTogglePrompt={() => setIsOpenPromptEditor(!isOpenPromptEditor)}
-        disableTextGeneration={promptEditorError} />
+        promptEditorError />
 
       <Grid UNSAFE_style={{ padding: '20px 20px 0 0' }}
         columns={'1fr'}

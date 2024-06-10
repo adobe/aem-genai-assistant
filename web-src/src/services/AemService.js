@@ -17,10 +17,12 @@ export class AemService {
   constructor({
     aemHost,
     cfEndpoint,
+    imsOrg,
     accessToken,
   }) {
     this.aemHost = aemHost;
     this.cfEndpoint = replaceRuntimeDomainInUrl(cfEndpoint);
+    this.imsOrg = imsOrg;
     this.accessToken = accessToken;
 
     console.debug(`AEM Host: ${this.aemHost}`);
@@ -34,11 +36,14 @@ export class AemService {
   async getFragment(fragmentId) {
     console.debug(`Getting fragment ${fragmentId}`);
     return wretch(this.cfEndpoint)
+      .auth(`Bearer ${this.accessToken}`)
+      .headers({
+        'x-gw-ims-org-id': this.imsOrg,
+      })
       .post({
         command: 'getFragment',
         aemHost: this.aemHost,
         fragmentId,
-        accessToken: this.accessToken,
       })
       .json();
   }
@@ -46,11 +51,14 @@ export class AemService {
   async getFragmentModel(modelId) {
     console.debug(`Getting model ${modelId}`);
     return wretch(this.cfEndpoint)
+      .auth(`Bearer ${this.accessToken}`)
+      .headers({
+        'x-gw-ims-org-id': this.imsOrg,
+      })
       .post({
         command: 'getFragmentModel',
         aemHost: this.aemHost,
         modelId,
-        accessToken: this.accessToken,
       })
       .json();
   }
@@ -58,13 +66,16 @@ export class AemService {
   async createFragmentVariation(fragmentId, variationName, content) {
     console.debug(`Creating variation ${variationName} for fragment ${fragmentId}`);
     return wretch(this.cfEndpoint)
+      .auth(`Bearer ${this.accessToken}`)
+      .headers({
+        'x-gw-ims-org-id': this.imsOrg,
+      })
       .post({
         command: 'createFragmentVariation',
         aemHost: this.aemHost,
         fragmentId,
         variationName,
         content,
-        accessToken: this.accessToken,
       })
       .json();
   }

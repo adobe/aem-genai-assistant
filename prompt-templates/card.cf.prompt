@@ -3,7 +3,7 @@
 {{# Describe the context of where content will be displayed, detailing the     }}
 {{# intended user experience or expected interaction.                          }}
 {{# -------------------------------------------------------------------------- }}
-On our webpage, users are presented with a Card. block which has multiple Card elements. A Card contains summary content and actions about a single subject and linking to its details. They can be used by themselves or within a list. Cards are interactive, and the entire Card container needs to be clickable. Upon interacting with the Card element, {{explain_interaction}}.
+On our webpage, users are presented with a Card block which has multiple Card elements. A Card contains summary content and actions about a single subject and linking to its details. They can be used by themselves or within a list. Cards are interactive, and the entire Card container needs to be clickable. Upon interacting with the Card element, {{explain_interaction}}.
 
 {{# -------------------------------------------------------------------------- }}
 {{# INTENT                                                                     }}

@@ -33,4 +33,12 @@ describe('extractMetadataFields', () => {
 
     expect(extractMetadataFields(input)).toEqual(expectedOutput);
   });
+
+  it('should skip parsing non-object arguments', () => {
+    const input = 'some string instead of an object';
+
+    const expectedOutput = {};
+
+    expect(extractMetadataFields(input)).toEqual(expectedOutput);
+  });
 });

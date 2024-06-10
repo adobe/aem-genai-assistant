@@ -68,6 +68,8 @@ export function PromptSessionSideView({
   const [viewType, setViewType] = useRecoilState(viewTypeState);
   const { formatMessage } = useIntl();
 
+  console.log('PromptSessionSideView.js: promptEditorError:', promptEditorError);
+
   return (
     <Grid
       {...props}

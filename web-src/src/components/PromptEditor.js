@@ -226,9 +226,8 @@ function PromptEditor({
           <Flex gap="size-100" UNSAFE_className={error ? style.errorHelpText : style.hidden}>
             <Alert aria-label="Negative Alert" color="negative" />
             <Text>
-              The characters <span style={{ fontWeight: '600' }}>&#123;</span>, <span style={{ fontWeight: '600' }}>&#125;</span>,
-              and <span style={{ fontWeight: '600' }}>&quot;</span> are reserved and can&apos;t be used within quoted text values.
-              Please remove or replace these characters and try again.
+              The characters <b>&#123;</b>, <b>&#125;</b>, and <b>&quot;</b> are reserved and can&apos;t
+              be used within quoted text values. Please remove or replace these characters and try again.
             </Text>
           </Flex>
         </motion.div>

@@ -37,9 +37,11 @@ export function PromptSessionPanel() {
       gap={'size-300'}
       height={'100%'}>
 
-      <PromptSessionSideView isOpenPromptEditor={isOpenPromptEditor}
+      <PromptSessionSideView
+        isOpenPromptEditor={isOpenPromptEditor}
         onTogglePrompt={() => setIsOpenPromptEditor(!isOpenPromptEditor)}
-        promptEditorError />
+        promptEditorError={promptEditorError}
+      />
 
       <Grid UNSAFE_style={{ padding: '20px 20px 0 0' }}
         columns={'1fr'}

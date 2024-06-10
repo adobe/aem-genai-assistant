@@ -111,11 +111,12 @@ export function findSyntaxError(prompt) {
 }
 
 function PromptEditor({
-  isOpen, onClose, error, setError, ...props
+  isOpen, onClose, setPromptValidationError, ...props
 }) {
   const [prompt, setPrompt] = useRecoilState(promptState);
   const [promptText, setPromptText] = useState(prompt);
   const [viewSource, setViewSource] = useState(false);
+  const [showErrorMsg, setShowErrorMsg] = useState(false);
 
   const parameters = useRecoilValue(parametersState);
   const contentFragment = useRecoilValue(contentFragmentState);
@@ -129,7 +130,9 @@ function PromptEditor({
       promptEditorTextArea.setAttribute('title', 'Prompt Editor');
     }
 
-    setError(findSyntaxError(promptText));
+    const isErrorFound = findSyntaxError(promptText);
+    setShowErrorMsg(isErrorFound);
+    setPromptValidationError(isErrorFound);
   }, [promptText, setPrompt]);
 
   useEffect(() => {
@@ -207,7 +210,7 @@ function PromptEditor({
             </Flex>
           </Flex>
 
-          <div className={error ? style.containerError : style.container}>
+          <div className={showErrorMsg ? style.containerError : style.container}>
             <SimpleEditor
               className={style.editor}
               textareaClassName={style.textarea}
@@ -223,7 +226,7 @@ function PromptEditor({
             />
           </div>
 
-          <Flex gap="size-100" UNSAFE_className={error ? style.errorHelpText : style.hidden}>
+          <Flex gap="size-100" UNSAFE_className={showErrorMsg ? style.errorHelpText : style.hidden}>
             <Alert aria-label="Negative Alert" color="negative" />
             <Text>
               The characters <b>&#123;</b>, <b>&#125;</b>, and <b>&quot;</b> are reserved and can&apos;t

@@ -58,8 +58,7 @@ export function PromptSessionPanel() {
         <PromptEditor
           isOpen={isOpenPromptEditor}
           onClose={() => setIsOpenPromptEditor(false)}
-          error={promptEditorError}
-          setError={setPromptEditorError}
+          setPromptValidationError={setPromptEditorError}
         />
       </Grid>
     </Grid>

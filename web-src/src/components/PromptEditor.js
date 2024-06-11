@@ -21,6 +21,7 @@ import { css, injectGlobal } from '@emotion/css';
 import { Global } from '@emotion/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Close from '@spectrum-icons/workflow/Close';
+import Alert from '@spectrum-icons/workflow/Alert';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './PromptSessionSideView.l10n.js';
@@ -75,6 +76,15 @@ const style = {
     border-radius: 4px;
     padding: 12px;
   `,
+  containerError: css`
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: auto;
+    border: 1px solid var(--spectrum-red-900);
+    border-radius: 4px;
+    padding: 12px;
+  `,
   editor: css`
     font-family: Monospaced, monospace;
     font-size: 12px;
@@ -86,12 +96,27 @@ const style = {
   textarea: css`
     outline: none;
   `,
+  errorHelpText: css`
+    margin-top: 15px;
+    color: var(--spectrum-red-900);
+  `,
+  hidden: css`
+    display: none;
+  `,
 };
 
-function PromptEditor({ isOpen, onClose, ...props }) {
+export function findSyntaxError(prompt) {
+  const matches = [...prompt.matchAll(/=".*[{}"]+.*"/g)];
+  return matches.length > 0;
+}
+
+function PromptEditor({
+  isOpen, onClose, setPromptValidationError, ...props
+}) {
   const [prompt, setPrompt] = useRecoilState(promptState);
   const [promptText, setPromptText] = useState(prompt);
   const [viewSource, setViewSource] = useState(false);
+  const [showErrorMsg, setShowErrorMsg] = useState(false);
 
   const parameters = useRecoilValue(parametersState);
   const contentFragment = useRecoilValue(contentFragmentState);
@@ -104,6 +129,10 @@ function PromptEditor({ isOpen, onClose, ...props }) {
     if (promptEditorTextArea) {
       promptEditorTextArea.setAttribute('title', 'Prompt Editor');
     }
+
+    const isErrorFound = findSyntaxError(promptText);
+    setShowErrorMsg(isErrorFound);
+    setPromptValidationError(isErrorFound);
   }, [promptText, setPrompt]);
 
   useEffect(() => {
@@ -181,7 +210,7 @@ function PromptEditor({ isOpen, onClose, ...props }) {
             </Flex>
           </Flex>
 
-          <div className={style.container}>
+          <div className={showErrorMsg ? style.containerError : style.container}>
             <SimpleEditor
               className={style.editor}
               textareaClassName={style.textarea}
@@ -196,6 +225,14 @@ function PromptEditor({ isOpen, onClose, ...props }) {
               readOnly={!viewSource}
             />
           </div>
+
+          <Flex gap="size-100" UNSAFE_className={showErrorMsg ? style.errorHelpText : style.hidden}>
+            <Alert aria-label="Negative Alert" color="negative" />
+            <Text>
+              The characters <b>&#123;</b>, <b>&#125;</b>, and <b>&quot;</b> are reserved and can&apos;t
+              be used within quoted text values. Please remove or replace these characters and try again.
+            </Text>
+          </Flex>
         </motion.div>
       )}
     </AnimatePresence>

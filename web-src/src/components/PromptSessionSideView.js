@@ -61,7 +61,9 @@ const styles = {
   `,
 };
 
-export function PromptSessionSideView({ isOpenPromptEditor, onTogglePrompt, ...props }) {
+export function PromptSessionSideView({
+  isOpenPromptEditor, onTogglePrompt, promptEditorError, ...props
+}) {
   const currentSession = useRecoilValue(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
   const { formatMessage } = useIntl();
@@ -113,12 +115,11 @@ export function PromptSessionSideView({ isOpenPromptEditor, onTogglePrompt, ...p
 
       <div className={styles.actions}>
         <Flex direction={'column'} alignItems={'flex-start'} justifyContent={'center'} flexShrink={0} gap={'4px'}>
-          <SavePromptButton />
+          <SavePromptButton isDisabled={promptEditorError} />
           <ResetButton />
         </Flex>
-        <GenerateButton />
+        <GenerateButton isDisabled={promptEditorError} />
       </div>
-
     </Grid>
   );
 }

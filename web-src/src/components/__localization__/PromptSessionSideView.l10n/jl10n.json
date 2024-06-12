@@ -67,6 +67,10 @@
     "__value__": "When editing the prompt directly, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents.",
     "__desc__": "Content for Prompt Editor contextual info"
   },
+  "promptSessionSideView.promptEditorSyntaxErrorMessage": {
+    "__value__": "The characters <b>{openParentheses}</b>, <b>{closeParentheses}</b>, and <b>{quotationMark}</b> are reserved and can't be used within quoted text values. Please remove or replace these characters and try again.",
+    "__desc__": "Error message for syntax error in prompt editor"
+  },
   "promptSessionSideView.promptEditorViewTitle": {
     "__value__": "Prompt and Trusted Source Documents",
     "__desc__": "Title for Prompt ditor view"

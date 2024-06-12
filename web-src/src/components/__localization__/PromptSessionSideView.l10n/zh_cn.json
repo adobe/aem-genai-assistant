@@ -16,6 +16,7 @@
   "promptSessionSideView.navigationLabel": "提示模板",
   "promptSessionSideView.previewButtonLabel": "预览",
   "promptSessionSideView.promptEditorContextualInfoContent": "直接编辑提示时，请包含特定上下文，其中可以包括您的品牌材料、网站内容、此类数据的数据模式、模板和其他受信任的文档。",
+  "promptSessionSideView.promptEditorSyntaxErrorMessage": "字符 <b>{openParentheses}</b>, <b>{closeParentheses}</b>, and <b>{quotationMark}</b> 为保留文本，不能在引用文本值中使用。请删除或替换这些字符，然后重试。",
   "promptSessionSideView.promptEditorViewTitle": "及时且可信的来源文件",
   "promptSessionSideView.resetInputsButtonLabel": "重置输入",
   "promptSessionSideView.saveActionLabel": "保存",

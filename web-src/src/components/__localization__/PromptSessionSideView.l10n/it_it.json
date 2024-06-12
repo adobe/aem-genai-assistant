@@ -16,6 +16,7 @@
   "promptSessionSideView.navigationLabel": "Modelli di prompt",
   "promptSessionSideView.previewButtonLabel": "Anteprima",
   "promptSessionSideView.promptEditorContextualInfoContent": "Quando modifichi direttamente il prompt, includi un contesto specifico, come materiale di branding, contenuto del sito web, schemi di dati per tali dati, modelli e altri documenti affidabili.",
+  "promptSessionSideView.promptEditorSyntaxErrorMessage": "I caratteri <b>{openParentheses}</b>, <b>{closeParentheses}</b>, and <b>{quotationMark}</b> sono riservati e non possono essere utilizzati all'interno di valori di testo citati. Rimuovi o sostituisci questi caratteri e riprova.",
   "promptSessionSideView.promptEditorViewTitle": "Prompt e documenti da origini attendibili",
   "promptSessionSideView.resetInputsButtonLabel": "Ripristina input",
   "promptSessionSideView.saveActionLabel": "Salva",

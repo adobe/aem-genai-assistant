@@ -16,6 +16,7 @@
   "promptSessionSideView.navigationLabel": "Prompt Templates",
   "promptSessionSideView.previewButtonLabel": "Preview",
   "promptSessionSideView.promptEditorContextualInfoContent": "When editing the prompt directly, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents.",
+  "promptSessionSideView.promptEditorSyntaxErrorMessage": "The characters <b>{openParentheses}</b>, <b>{closeParentheses}</b>, and <b>{quotationMark}</b> are reserved and can't be used within quoted text values. Please remove or replace these characters and try again.",
   "promptSessionSideView.promptEditorViewTitle": "Prompt and Trusted Source Documents",
   "promptSessionSideView.resetInputsButtonLabel": "Reset Inputs",
   "promptSessionSideView.saveActionLabel": "Save",

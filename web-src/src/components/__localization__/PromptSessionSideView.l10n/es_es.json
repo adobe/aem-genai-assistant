@@ -16,6 +16,7 @@
   "promptSessionSideView.navigationLabel": "Plantillas de indicación",
   "promptSessionSideView.previewButtonLabel": "Previsualizar",
   "promptSessionSideView.promptEditorContextualInfoContent": "Al editar la indicación directamente, incluya un contexto específico, que puede consistir en materiales de promoción de la marca, contenido del sitio web, esquemas de datos para dichos datos, plantillas y otros documentos de confianza.",
+  "promptSessionSideView.promptEditorSyntaxErrorMessage": "Los personajes <b>{openParentheses}</b>, <b>{closeParentheses}</b>, and <b>{quotationMark}</b> están reservados y no se pueden utilizar dentro de valores de texto entre comillas. Elimine o reemplace estos caracteres e inténtelo de nuevo.",
   "promptSessionSideView.promptEditorViewTitle": "Indicación y Documentos de origen de confianza",
   "promptSessionSideView.resetInputsButtonLabel": "Restablecer entradas",
   "promptSessionSideView.saveActionLabel": "Guardar",

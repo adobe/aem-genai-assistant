@@ -16,6 +16,7 @@
   "promptSessionSideView.navigationLabel": "プロンプトテンプレート",
   "promptSessionSideView.previewButtonLabel": "プレビュー",
   "promptSessionSideView.promptEditorContextualInfoContent": "プロンプトを直接編集する場合は、特定のコンテキストを含めてください。これには、ブランディング資料、web サイトのコンテンツ、そのようなデータのデータスキーマ、テンプレート、その他の信頼できるドキュメントを含めることができます。",
+  "promptSessionSideView.promptEditorSyntaxErrorMessage": "文字 <b>{openParentheses}</b>, <b>{closeParentheses}</b>, and <b>{quotationMark}</b> は予約済みであり、引用テキスト値の内部では使用できません。これらの文字を削除または置換して、再試行してください。",
   "promptSessionSideView.promptEditorViewTitle": "プロンプトと信頼できるソースドキュメント",
   "promptSessionSideView.resetInputsButtonLabel": "入力をリセット",
   "promptSessionSideView.saveActionLabel": "保存",

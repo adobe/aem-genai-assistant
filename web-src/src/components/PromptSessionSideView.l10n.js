@@ -127,6 +127,11 @@ export const intlMessages = {
       id: 'promptSessionSideView.promptEditorContextualInfoContent',
       description: 'Content for Prompt Editor contextual info',
     },
+    promptEditorErrorMessage: {
+      defaultMessage: 'The characters <b>{openParentheses}</b>, <b>{closeParentheses}</b>, and <b>{quotationMark}</b> are reserved and can\'t be used within quoted text values. Please remove or replace these characters and try again.',
+      id: 'promptSessionSideView.promptEditorSyntaxErrorMessage',
+      description: 'Error message for syntax error in prompt editor',
+    },
     previewButtonLabel: {
       defaultMessage: 'Preview',
       id: 'promptSessionSideView.previewButtonLabel',

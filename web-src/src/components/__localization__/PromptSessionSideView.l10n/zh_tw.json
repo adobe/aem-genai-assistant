@@ -16,6 +16,7 @@
   "promptSessionSideView.navigationLabel": "提示範本",
   "promptSessionSideView.previewButtonLabel": "預覽",
   "promptSessionSideView.promptEditorContextualInfoContent": "直接編輯提示時，請包含特定相關內容，這包括您的品牌化素材、網站內容、此類資料的資料結構描述、範本和其他可信任的文件。",
+  "promptSessionSideView.promptEditorSyntaxErrorMessage": "字元 <b>{openParentheses}</b>, <b>{closeParentheses}</b>, and <b>{quotationMark}</b> 已保留，且無法用於引號文字值。請移除或取代這些字元，然後再試一次。",
   "promptSessionSideView.promptEditorViewTitle": "提示和可信任的來源文件",
   "promptSessionSideView.resetInputsButtonLabel": "重設輸入",
   "promptSessionSideView.saveActionLabel": "儲存",

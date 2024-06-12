@@ -16,6 +16,7 @@
   "promptSessionSideView.navigationLabel": "Modèles de prompt",
   "promptSessionSideView.previewButtonLabel": "Prévisualiser",
   "promptSessionSideView.promptEditorContextualInfoContent": "Lorsque vous modifiez directement le prompt, vous devez inclure du contexte spécifique. Il peut s’agir de matériel faisant la promotion de votre marque, de contenu de site web, de schémas pour ce type de données, de modèles ou encore d’autres documents approuvés.",
+  "promptSessionSideView.promptEditorSyntaxErrorMessage": "Les caractères <b>{openParentheses}</b>, <b>{closeParentheses}</b>, and <b>{quotationMark}</b> sont réservés et ne peuvent pas être utilisés dans les valeurs de texte entre guillemets. Supprimez ou remplacez ces caractères, puis réessayez.",
   "promptSessionSideView.promptEditorViewTitle": "Invite et documents sources approuvés",
   "promptSessionSideView.resetInputsButtonLabel": "Réinitialiser les entrées",
   "promptSessionSideView.saveActionLabel": "Enregistrer",

@@ -16,6 +16,7 @@
   "promptSessionSideView.navigationLabel": "Prompt-Vorlagen",
   "promptSessionSideView.previewButtonLabel": "Vorschau",
   "promptSessionSideView.promptEditorContextualInfoContent": "Geben Sie beim direkten Bearbeiten des Prompts spezifischen Kontext an. Dabei kann es sich um Branding-Materialien, Website-Content, Daten, Schemata für solche Daten, Vorlagen und andere vertrauenswürdige Dokumente handeln.",
+  "promptSessionSideView.promptEditorSyntaxErrorMessage": "Die Zeichen <b>{openParentheses}</b>, <b>{closeParentheses}</b>, and <b>{quotationMark}</b> sind reserviert und können nicht in Anführungszeichenwerten verwendet werden. Entfernen oder ersetzen Sie diese Zeichen und versuchen Sie es erneut.",
   "promptSessionSideView.promptEditorViewTitle": "Prompt und vertrauenswürdige Quelldokumente",
   "promptSessionSideView.resetInputsButtonLabel": "Eingaben zurücksetzen",
   "promptSessionSideView.saveActionLabel": "Speichern",

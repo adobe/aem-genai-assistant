@@ -6,5 +6,6 @@
   "contentFragmentExportButton.exportDialog.exportButtonLabel": "Exportar",
   "contentFragmentExportButton.exportDialog.exportButtonProgressAreaLabel": "Exportando...",
   "contentFragmentExportButton.exportDialog.nameFieldLabel": "Nome",
-  "contentFragmentExportButton.exportDialog.title": "Exportar para fragmento de conteúdo"
+  "contentFragmentExportButton.exportDialog.title": "Exportar para fragmento de conteúdo",
+  "contentFragmentExportButton.variationCreatedToast": "Variação criada."
 }

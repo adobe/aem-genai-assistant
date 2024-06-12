@@ -20,7 +20,7 @@ const ERROR_CODES = {
   defaultFeedback: 'An error occurred while sending feedback',
   400: "The response was filtered due to the prompt triggering Generative AI's content management policy. Please modify your prompt and retry.",
   408: "Generative AI's request timed out. Please try again by reducing the number of variations.",
-  429: "Generative AI's Rate limit exceeded. Please wait one minute and try again.",
+  429: "Generative AI's rate limit exceeded. Please wait one minute and try again.",
 };
 
 function toFirefallError(error, defaultMessage) {

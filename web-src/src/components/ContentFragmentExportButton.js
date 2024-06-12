@@ -64,7 +64,7 @@ export function ContentFragmentExportButton({ variant }) {
           const url = `https://experience.adobe.com/?repo=${new URL(aemService.getHost()).host}#/aem/cf/editor/editor${contentFragment.fragment.path}`;
           window.open(url, '_blank');
         }
-        ToastQueue.positive('Variation created', { timeout: 1000 });
+        ToastQueue.positive(intlMessages.contentFragmentExportButton.variationCreatedToast, { timeout: 1000 });
       })
       .catch((error) => {
         ToastQueue.negative(error.message, { timeout: 1000 });

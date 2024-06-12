@@ -86,7 +86,7 @@ const createWaitMessagesController = (intlFn) => {
   };
 };
 
-export function GenerateButton() {
+export function GenerateButton({ isDisabled }) {
   const { runMode, firefallService } = useApplicationContext();
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
@@ -154,7 +154,7 @@ export function GenerateButton() {
         variant="cta"
         style="fill"
         onPress={handleGenerate}
-        isDisabled={generationInProgress}>
+        isDisabled={isDisabled || generationInProgress}>
         {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} color={'white'}/>}
         {formatMessage(intlMessages.promptSessionSideView.generateButtonLabel)}
       </Button>

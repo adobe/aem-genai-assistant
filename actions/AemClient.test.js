@@ -87,6 +87,10 @@ describe('AemClient', () => {
       res: () => mockResPromise,
     }));
 
+    const mockGet = jest.fn(() => ({
+      res: () => mockResPromise,
+    }));
+
     const mockPatch = jest.fn(() => ({
       res: () => mockResPromise,
     }));
@@ -94,6 +98,7 @@ describe('AemClient', () => {
     wretch.mockReturnValue({
       headers: jest.fn().mockReturnThis(),
       post: mockPost,
+      get: mockGet,
       patch: mockPatch,
     });
 

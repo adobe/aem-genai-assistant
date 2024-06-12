@@ -9,73 +9,14 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+
 const { Core } = require('@adobe/aio-sdk');
 const LaunchDarkly = require('@launchdarkly/node-server-sdk');
 const QueryStringAddon = require('wretch/addons/queryString');
-const { ImsClient } = require('./ImsClient.js');
 const wretch = require('./Network.js');
 const { checkForAdobeInternalUser } = require('./ActionUtils.js');
 
-const logger = Core.Logger('AuthAction');
-
-/**
- * Extracts a user access token from either the Authorization header or the request payload
- *
- * @param {object} params action input parameters
- * @returns {string|undefined} the token string, or undefined if not present
- */
-function getAccessToken(params) {
-  // First, check if a bearer user access token is set
-  if (
-    params.__ow_headers
-    && params.__ow_headers.authorization
-    && params.__ow_headers.authorization.startsWith('Bearer ')
-  ) {
-    return params.__ow_headers.authorization.substring('Bearer '.length);
-  }
-
-  // Second, check if a token has been passed through the payload
-  return params.accessToken;
-}
-
-/**
- * Extracts an Adobe IMS organization ID from either the 'X-Org-Id' header or the request payload
- *
- * @param {object} params action input parameters
- * @returns {string|undefined} the Adobe IMS organization ID string, or undefined if not present
- */
-function getImsOrg(params) {
-  // First, check if an Adobe IMS organization ID has been passed through the 'X-Org-Id' header
-  if (
-    params.__ow_headers
-    && params.__ow_headers['x-org-id']
-  ) {
-    return params.__ow_headers['x-org-id'];
-  }
-
-  // Second, check if an Adobe IMS organization ID has been passed through the payload
-  return params.imsOrg;
-}
-
-async function isValidToken(endpoint, clientId, token) {
-  try {
-    const response = await wretch(`${endpoint}/ims/validate_token/v1`)
-      .addon(QueryStringAddon).query({
-        client_id: clientId,
-        type: 'access_token',
-      })
-      .headers({
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      })
-      .get()
-      .json();
-    return response.valid;
-  } catch (error) {
-    logger.error(error);
-    return false;
-  }
-}
+const logger = Core.Logger('AuthZAction');
 
 async function getImsProfile(endpoint, clientId, token) {
   try {
@@ -96,7 +37,7 @@ async function getImsProfile(endpoint, clientId, token) {
   }
 }
 
-async function checkForProductContext(profile, org, productContext) {
+function checkForProductContext(profile, org, productContext) {
   try {
     if (Array.isArray(profile.projectedProductContext)) {
       const filteredProductContext = profile.projectedProductContext
@@ -142,24 +83,15 @@ async function checkForEarlyProductAccess(toggle, sdkKey, isInternal, org) {
   });
 }
 
-function asAuthAction(action) {
+function asAuthZAction(action) {
   return async (params) => {
     const imsEndpoint = params.IMS_ENDPOINT;
     const clientId = params.IMS_CLIENT_ID;
-    const serviceClientId = params.IMS_SERVICE_CLIENT_ID;
-    const clientSecret = params.IMS_SERVICE_CLIENT_SECRET;
-    const permAuthCode = params.IMS_SERVICE_PERM_AUTH_CODE;
     const productContext = params.IMS_PRODUCT_CONTEXT;
     const earlyAccessToggle = params.FT_EARLY_ACCESS;
     const ldSdkKey = params.LD_SDK_KEY;
 
-    const accessToken = getAccessToken(params);
-    const imsOrg = getImsOrg(params);
-
-    // Validate the access token
-    if (!await isValidToken(imsEndpoint, clientId, accessToken)) {
-      throw new Error('Access token is invalid');
-    }
+    const { imsOrg, accessToken } = params;
 
     // Check that the profile has access to the product
     const imsProfile = await getImsProfile(imsEndpoint, clientId, accessToken);
@@ -167,7 +99,7 @@ function asAuthAction(action) {
       throw new Error('Failed to fetch profile');
     }
 
-    if (!await checkForProductContext(imsProfile, imsOrg, productContext)) {
+    if (!checkForProductContext(imsProfile, imsOrg, productContext)) {
       const isInternalUser = checkForAdobeInternalUser(imsProfile);
 
       if (!await checkForEarlyProductAccess(earlyAccessToggle, ldSdkKey, isInternalUser, imsOrg)) {
@@ -175,12 +107,8 @@ function asAuthAction(action) {
       }
     }
 
-    // If everything is okay, generate a service token
-    const imsClient = new ImsClient(imsEndpoint, serviceClientId, clientSecret, permAuthCode);
-    const serviceToken = await imsClient.getServiceToken();
-
-    return action({ ...params, imsOrg, serviceToken });
+    return action(params);
   };
 }
 
-module.exports = { asAuthAction };
+module.exports = { asAuthZAction };

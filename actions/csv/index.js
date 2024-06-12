@@ -12,6 +12,7 @@
 const Papa = require('papaparse');
 const wretch = require('../Network.js');
 const { asGenericAction } = require('../GenericAction.js');
+const { asAuthNAction } = require('../AuthNAction.js');
 
 async function main({ url }) {
   const text = await wretch(url).get().text();
@@ -19,4 +20,4 @@ async function main({ url }) {
   return data;
 }
 
-exports.main = asGenericAction(main);
+exports.main = asGenericAction(asAuthNAction(main));

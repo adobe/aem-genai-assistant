@@ -66,7 +66,13 @@ const parseResponse = (str) => {
 
 export function createVariants(uuid, response) {
   try {
-    const json = parseResponse(response);
+    let json = parseResponse(response);
+    if (typeof Object.values(json)[0] !== 'string') {
+      json = Object.values(json);
+      if (Array.isArray(json[0])) {
+        [json] = json;
+      }
+    }
     if (Array.isArray(json)) {
       return json.map((content) => ({ id: uuid(), content: content === null || typeof content !== 'object' ? objectToString(content) : content }));
     } else {

@@ -34,8 +34,8 @@ function NoAccessMessage() {
 
   return (
     <div className={styles.container}>
-      {formatMessage(intlMessages.app.noAccessMessage, {
-        br: <br />,
+      {formatMessage(intlMessages.app.accessBoundaryNoAccessMessage, {
+        newLine: <br/>,
       })}
     </div>
   );

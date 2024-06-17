@@ -98,7 +98,7 @@ export const intlMessages = {
       description: 'Default error message for wretch with options calls',
     },
     accessBoundaryNoAccessMessage: {
-      defaultMessage: 'Apologies, it appears that you lack permission to use this feature.<br/>Please try selecting a different organization or contact your Administrator to request access.',
+      defaultMessage: 'Apologies, it appears that you lack permission to use this feature.{newLine}Please try selecting a different organization or contact your Administrator to request access.',
       id: 'app.accessBoundaryNoAccessMessage',
       description: 'Message for users who do not have access to the product',
     },

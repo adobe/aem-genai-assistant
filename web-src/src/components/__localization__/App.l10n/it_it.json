@@ -1,4 +1,5 @@
 {
+  "app.accessBoundaryNoAccessMessage": "Le mie scuse sembrano essere insufficienti per utilizzare questa funzione.<br />Prova a selezionare un'altra organizzazione o contatta l'amministratore per richiedere l'accesso.",
   "app.cancelActionLabel": "Annulla",
   "app.consentDialogAgreeButtonLabel": "Accetto",
   "app.consentDialogCancelButtonLabel": "Annulla",
@@ -11,6 +12,7 @@
   "app.deletePromptTemplateQuestion": "Eliminare questo prompt?",
   "app.description": "Crea rapidamente contenuti di alta qualità, quindi misurane l’efficacia con la funzione di sperimentazione o pubblicali sul tuo sito.",
   "app.name": "Genera varianti",
+  "app.networkHelperDefaultError": "Ops! Abbiamo incontrato un errore imprevisto. Riprova più tardi.",
   "app.noAccessDialogContent": "Non hai accesso a questo prodotto",
   "app.noAccessDialogHeading": "Accesso negato",
   "app.noAccessMessage": "Per utilizzare <strong>Genera varianti</strong> è necessario accettare le Linee guida per l’utente delle funzioni di IA generativa.{newLine}Aggiorna questa pagina per <strong>Accettare</strong>.",

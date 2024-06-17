@@ -1,4 +1,8 @@
 {
+  "app.accessBoundaryNoAccessMessage": {
+    "__value__": "Apologies, it appears that you lack permission to use this feature.<br/>Please try selecting a different organization or contact your Administrator to request access.",
+    "__desc__": "Message for users who do not have access to the product"
+  },
   "app.cancelActionLabel": {
     "__value__": "Cancel",
     "__desc__": "Label for Cancel action"
@@ -46,6 +50,10 @@
   "app.name": {
     "__value__": "Generate Variations",
     "__desc__": "Name of app"
+  },
+  "app.networkHelperDefaultError": {
+    "__value__": "Oops! We've encountered an unexpected error. Please try again later.",
+    "__desc__": "Default error message for wretch with options calls"
   },
   "app.noAccessDialogContent": {
     "__value__": "You have no access to this product",

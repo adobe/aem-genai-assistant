@@ -1,4 +1,5 @@
 {
+  "app.accessBoundaryNoAccessMessage": "Apologies, it appears that you lack permission to use this feature.<br/>Please try selecting a different organization or contact your Administrator to request access.",
   "app.cancelActionLabel": "Cancel",
   "app.consentDialogAgreeButtonLabel": "Agree",
   "app.consentDialogCancelButtonLabel": "Cancel",
@@ -11,6 +12,7 @@
   "app.deletePromptTemplateQuestion": "Are you sure you want to delete this prompt?",
   "app.description": "Create high quality content quickly then measure it with experimentation or publish it to your site.",
   "app.name": "Generate Variations",
+  "app.networkHelperDefaultError": "Oops! We've encountered an unexpected error. Please try again later.",
   "app.noAccessDialogContent": "You have no access to this product",
   "app.noAccessDialogHeading": "Access Denied",
   "app.noAccessMessage": "To use <strong>Generate Variations</strong> you must agree to the Generative AI User Guidelines.{newLine}Refresh this page to <strong>Agree</strong>.",

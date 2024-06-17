@@ -1,4 +1,5 @@
 {
+  "app.accessBoundaryNoAccessMessage": "Entschuldigung, es scheint, dass Sie nicht berechtigt sind, diese Funktion zu verwenden.<br />Versuchen Sie, eine andere Organisation auszuwählen, oder wenden Sie sich an Ihren Administrator, um Zugriff anzufordern.",
   "app.cancelActionLabel": "Abbrechen",
   "app.consentDialogAgreeButtonLabel": "Zustimmen",
   "app.consentDialogCancelButtonLabel": "Abbrechen",
@@ -11,6 +12,7 @@
   "app.deletePromptTemplateQuestion": "Möchten Sie dieses Prompt wirklich löschen?",
   "app.description": "Erstellen Sie schnell hochwertige Inhalte und messen Sie diese dann mit Experimenten oder veröffentlichen Sie sie auf Ihrer Website.",
   "app.name": "Varianten erstellen",
+  "app.networkHelperDefaultError": "Entschuldigung! Ein unerwarteter Fehler ist aufgetreten. Versuchen Sie es später erneut.",
   "app.noAccessDialogContent": "Sie haben keinen Zugriff auf dieses Produkt",
   "app.noAccessDialogHeading": "Zugriff verweigert",
   "app.noAccessMessage": "Um <strong>Varianten generieren</strong> zu verwenden, müssen Sie den Benutzerrichtlinien für generative KI zustimmen.{newLine}Aktualisieren Sie diese Seite, um <strong>zuzustimmen</strong>.",

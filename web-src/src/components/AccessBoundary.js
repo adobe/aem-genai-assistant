@@ -9,9 +9,11 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import React, { Fragment, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { css } from '@emotion/css';
+import { useIntl } from 'react-intl';
 import { useShellContext } from './ShellProvider.js';
+import { intlMessages } from './App.l10n.js';
 
 const styles = {
   container: css`
@@ -28,10 +30,13 @@ const styles = {
 };
 
 function NoAccessMessage() {
+  const { formatMessage } = useIntl();
+
   return (
     <div className={styles.container}>
-      Apologies, it appears that you lack permission to use this feature.<br/>
-      Please try selecting a different organization or contact your Administrator to request access.
+      {formatMessage(intlMessages.app.noAccessMessage, {
+        br: <br />,
+      })}
     </div>
   );
 }

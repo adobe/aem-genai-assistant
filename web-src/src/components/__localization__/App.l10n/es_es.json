@@ -1,4 +1,5 @@
 {
+  "app.accessBoundaryNoAccessMessage": "Disculpas, parece que no tienes permiso para usar esta función.<br />Intente seleccionar otra organización o póngase en contacto con el administrador para solicitar el acceso.",
   "app.cancelActionLabel": "Cancelar",
   "app.consentDialogAgreeButtonLabel": "Aceptar",
   "app.consentDialogCancelButtonLabel": "Cancelar",
@@ -11,6 +12,7 @@
   "app.deletePromptTemplateQuestion": "¿Seguro que desea eliminar esta indicación?",
   "app.description": "Cree contenido de alta calidad rápidamente y luego evalúelo con la experimentación o publíquelo en su sitio.",
   "app.name": "Generar variaciones",
+  "app.networkHelperDefaultError": "¡Uy! Hemos encontrado un error inesperado. Inténtelo nuevamente más tarde.",
   "app.noAccessDialogContent": "No tiene acceso a este producto",
   "app.noAccessDialogHeading": "Acceso denegado",
   "app.noAccessMessage": "Para utilizar <strong>Generar variaciones</strong> debe aceptar las Directrices generativas del usuario de IA.{newLine}Actualice esta página para <strong>Aceptar</strong>.",

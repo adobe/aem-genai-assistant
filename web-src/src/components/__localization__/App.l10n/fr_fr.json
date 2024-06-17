@@ -1,4 +1,5 @@
 {
+  "app.accessBoundaryNoAccessMessage": "Veuillez nous excuser, il semble que vous ne soyez pas autorisé à utiliser cette fonctionnalité.<br />Essayez de sélectionner une autre organisation ou contactez votre administrateur pour demander l’accès.",
   "app.cancelActionLabel": "Annuler",
   "app.consentDialogAgreeButtonLabel": "Accepter",
   "app.consentDialogCancelButtonLabel": "Annuler",
@@ -11,6 +12,7 @@
   "app.deletePromptTemplateQuestion": "Voulez-vous vraiment supprimer ce prompt ?",
   "app.description": "Créez rapidement du contenu de haute qualité, puis évaluez-le par l’expérimentation ou publiez-le sur votre site.",
   "app.name": "Générer des variations",
+  "app.networkHelperDefaultError": "Oups ! Nous avons rencontré une erreur inattendue. Veuillez réessayer plus tard.",
   "app.noAccessDialogContent": "Vous n’avez pas accès à ce produit.",
   "app.noAccessDialogHeading": "Accès refusé",
   "app.noAccessMessage": "Pour utiliser <strong>Générer des variations,</strong> vous devez accepter les instructions d’utilisation de l’IA générative.{newLine}Actualisez cette page pour <strong>accepter</strong>.",

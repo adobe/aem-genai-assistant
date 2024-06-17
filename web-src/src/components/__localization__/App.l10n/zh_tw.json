@@ -1,4 +1,5 @@
 {
+  "app.accessBoundaryNoAccessMessage": "很抱歉，您似乎沒有使用此功能的許可權。<br />請嘗試選取其他組織，或聯絡管理員以要求存取權。",
   "app.cancelActionLabel": "取消",
   "app.consentDialogAgreeButtonLabel": "同意",
   "app.consentDialogCancelButtonLabel": "取消",
@@ -11,6 +12,7 @@
   "app.deletePromptTemplateQuestion": "您確定要刪除此提示嗎?",
   "app.description": "快速建立高品質的內容，然後透過實驗進行測量或將其發佈到您的網站。",
   "app.name": "產生變化版本",
+  "app.networkHelperDefaultError": "糟糕！我們遇到未預期的錯誤。請稍後再試。",
   "app.noAccessDialogContent": "您無權存取此產品",
   "app.noAccessDialogHeading": "存取遭拒",
   "app.noAccessMessage": "若要使用「<strong>產生變化版本</strong>」，您必須同意「生成式 AI 使用者方針」。{newLine}請重新整理此頁面以<strong>同意</strong>。",

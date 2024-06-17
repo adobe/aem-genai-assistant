@@ -92,5 +92,15 @@ export const intlMessages = {
       id: 'app.consentDialogCancelButtonLabel',
       description: 'Label for consent dialog Cancel button',
     },
+    networkHelperDefaultError: {
+      defaultMessage: 'Oops! We\'ve encountered an unexpected error. Please try again later.',
+      id: 'app.networkHelperDefaultError',
+      description: 'Default error message for wretch with options calls',
+    },
+    accessBoundaryNoAccessMessage: {
+      defaultMessage: 'Apologies, it appears that you lack permission to use this feature.<br/>Please try selecting a different organization or contact your Administrator to request access.',
+      id: 'app.accessBoundaryNoAccessMessage',
+      description: 'Message for users who do not have access to the product',
+    },
   },
 };

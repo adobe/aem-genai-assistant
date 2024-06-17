@@ -1,5 +1,5 @@
 {
-  "app.accessBoundaryNoAccessMessage": "Entschuldigung, es scheint, dass Sie nicht berechtigt sind, diese Funktion zu verwenden.<br />Versuchen Sie, eine andere Organisation auszuwählen, oder wenden Sie sich an Ihren Administrator, um Zugriff anzufordern.",
+  "app.accessBoundaryNoAccessMessage": "Entschuldigung, es scheint, dass Sie nicht berechtigt sind, diese Funktion zu verwenden.{newLine}Versuchen Sie, eine andere Organisation auszuwählen, oder wenden Sie sich an Ihren Administrator, um Zugriff anzufordern.",
   "app.cancelActionLabel": "Abbrechen",
   "app.consentDialogAgreeButtonLabel": "Zustimmen",
   "app.consentDialogCancelButtonLabel": "Abbrechen",
@@ -11,10 +11,19 @@
   "app.deletePromptTemplateFailedToast": "Prompt-Vorlage konnte nicht gelöscht werden",
   "app.deletePromptTemplateQuestion": "Möchten Sie dieses Prompt wirklich löschen?",
   "app.description": "Erstellen Sie schnell hochwertige Inhalte und messen Sie diese dann mit Experimenten oder veröffentlichen Sie sie auf Ihrer Website.",
+  "app.errorOccurredWhileGeneratingResults": "Fehler beim Generieren der Ergebnisse",
+  "app.errorOccurredWhileSendingFeedback": "Fehler beim Senden von Feedback",
+  "app.genAIContentManagementPolicyFilteredResults": "Die Antwort wurde aufgrund der Eingabeaufforderung gefiltert, die die Inhaltsverwaltungsrichtlinie von Generative AI auslöste. Ändern Sie die Eingabeaufforderung und versuchen Sie es erneut.",
+  "app.invalidAccessToken": "Das Zugriffs-Token ist ungültig",
+  "app.missingAccessToken": "Das Zugriffs-Token wurde nicht bereitgestellt.",
   "app.name": "Varianten erstellen",
-  "app.networkHelperDefaultError": "Entschuldigung! Ein unerwarteter Fehler ist aufgetreten. Versuchen Sie es später erneut.",
   "app.noAccessDialogContent": "Sie haben keinen Zugriff auf dieses Produkt",
   "app.noAccessDialogHeading": "Zugriff verweigert",
   "app.noAccessMessage": "Um <strong>Varianten generieren</strong> zu verwenden, müssen Sie den Benutzerrichtlinien für generative KI zustimmen.{newLine}Aktualisieren Sie diese Seite, um <strong>zuzustimmen</strong>.",
-  "app.promptTemplatesLibraryPanelLabel": "Prompt-Vorlagen"
+  "app.noProductAccess": "Profil hat keinen Zugriff auf das Produkt",
+  "app.profileFetchFailed": "Profil konnte nicht abgerufen werden",
+  "app.promptTemplatesLibraryPanelLabel": "Prompt-Vorlagen",
+  "app.rateLimitExceeded": "Ratenlimit der generativen KI überschritten. Bitte warten Sie eine Minute und versuchen Sie es erneut.",
+  "app.requestTimeout": "Zeitüberschreitung bei Anfrage von Generative AI. Versuchen Sie es erneut, indem Sie die Anzahl der Varianten verringern.",
+  "app.unexpectedErrorEncountered": "Entschuldigung! Ein unerwarteter Fehler ist aufgetreten. Versuchen Sie es später erneut."
 }

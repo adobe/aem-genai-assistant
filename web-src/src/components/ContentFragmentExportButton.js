@@ -33,6 +33,8 @@ import { useApplicationContext } from './ApplicationProvider.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
 
 import { intlMessages } from './ContentFragmentExportButton.l10n.js';
+import { intlMessages as appIntlMessages } from './App.l10n.js';
+import { createToastErrorMessage, getErrorCodeSubstring } from '../helpers/FormatHelper.js';
 
 export function ContentFragmentExportButton({ variant }) {
   const { aemService } = useApplicationContext();
@@ -67,7 +69,17 @@ export function ContentFragmentExportButton({ variant }) {
         ToastQueue.positive(intlMessages.contentFragmentExportButton.variationCreatedToast, { timeout: 1000 });
       })
       .catch((error) => {
-        ToastQueue.negative(error.message, { timeout: 1000 });
+        const errorL10nId = getErrorCodeSubstring(error.message);
+        let errorMessage;
+
+        if (errorL10nId) {
+          const localizedErrorMsg = formatMessage(appIntlMessages.app[errorL10nId]);
+          errorMessage = createToastErrorMessage(error.message, localizedErrorMsg);
+        } else {
+          errorMessage = error.message;
+        }
+
+        ToastQueue.negative(errorMessage, { timeout: 1000 });
       })
       .finally(() => {
         setIsExportAndOpenInProgress(false);

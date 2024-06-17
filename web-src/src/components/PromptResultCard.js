@@ -23,6 +23,7 @@ import { useIntl } from 'react-intl';
 
 import Slider from 'react-slick';
 import { intlMessages } from './PromptResultCard.l10n.js';
+import { intlMessages as appIntlMessages } from './App.l10n.js';
 import { EXPRESS_LOAD_TIMEOUT } from './Constants.js';
 
 import { useIsFavorite } from '../state/IsFavoriteHook.js';
@@ -57,6 +58,7 @@ import { RUN_MODE_CF } from '../state/RunMode.js';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { createToastErrorMessage, getErrorCodeSubstring } from '../helpers/FormatHelper.js';
 
 const styles = {
   card: css`
@@ -208,7 +210,17 @@ export function PromptResultCard({ result, ...props }) {
         ToastQueue.positive(formatMessage(intlMessages.promptResultCard.sendFeedbackSuccessToast), { timeout: 1000 });
       })
       .catch((error) => {
-        ToastQueue.negative(error.message, { timeout: 1000 });
+        const errorL10nId = getErrorCodeSubstring(error.message);
+        let errorMessage;
+
+        if (errorL10nId) {
+          const localizedErrorMsg = formatMessage(appIntlMessages.app[errorL10nId]);
+          errorMessage = createToastErrorMessage(error.message, localizedErrorMsg);
+        } else {
+          errorMessage = error.message;
+        }
+
+        ToastQueue.negative(errorMessage, { timeout: 1000 });
       });
   }, [result, firefallService]);
 
@@ -286,7 +298,17 @@ export function PromptResultCard({ result, ...props }) {
         handleGenerateImage(imagePrompt, variantId);
       })
       .catch((error) => {
-        ToastQueue.negative(error.message, { timeout: 2000 });
+        const errorL10nId = getErrorCodeSubstring(error.message);
+        let errorMessage;
+
+        if (errorL10nId) {
+          const localizedErrorMsg = formatMessage(appIntlMessages.app[errorL10nId]);
+          errorMessage = createToastErrorMessage(error.message, localizedErrorMsg);
+        } else {
+          errorMessage = error.message;
+        }
+
+        ToastQueue.negative(errorMessage, { timeout: 2000 });
       })
       .finally(() => {
         setImagePromptProgress(false);

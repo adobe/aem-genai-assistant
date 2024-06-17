@@ -1,5 +1,5 @@
 {
-  "app.accessBoundaryNoAccessMessage": "很抱歉，您似乎沒有使用此功能的許可權。<br />請嘗試選取其他組織，或聯絡管理員以要求存取權。",
+  "app.accessBoundaryNoAccessMessage": "很抱歉，您似乎沒有使用此功能的許可權。{newLine}請嘗試選取其他組織，或聯絡管理員以要求存取權。",
   "app.cancelActionLabel": "取消",
   "app.consentDialogAgreeButtonLabel": "同意",
   "app.consentDialogCancelButtonLabel": "取消",
@@ -11,10 +11,19 @@
   "app.deletePromptTemplateFailedToast": "刪除提示範本失敗",
   "app.deletePromptTemplateQuestion": "您確定要刪除此提示嗎?",
   "app.description": "快速建立高品質的內容，然後透過實驗進行測量或將其發佈到您的網站。",
+  "app.errorOccurredWhileGeneratingResults": "產生結果時發生錯誤",
+  "app.errorOccurredWhileSendingFeedback": "傳送回饋意見時發生錯誤",
+  "app.genAIContentManagementPolicyFilteredResults": "已篩選回應，因為提示觸發創成AI的內容管理原則。請修改您的提示並重試。",
+  "app.invalidAccessToken": "存取權杖無效",
+  "app.missingAccessToken": "未提供存取權杖",
   "app.name": "產生變化版本",
-  "app.networkHelperDefaultError": "糟糕！我們遇到未預期的錯誤。請稍後再試。",
   "app.noAccessDialogContent": "您無權存取此產品",
   "app.noAccessDialogHeading": "存取遭拒",
   "app.noAccessMessage": "若要使用「<strong>產生變化版本</strong>」，您必須同意「生成式 AI 使用者方針」。{newLine}請重新整理此頁面以<strong>同意</strong>。",
-  "app.promptTemplatesLibraryPanelLabel": "提示範本"
+  "app.noProductAccess": "設定檔沒有產品的存取權",
+  "app.profileFetchFailed": "無法擷取設定檔",
+  "app.promptTemplatesLibraryPanelLabel": "提示範本",
+  "app.rateLimitExceeded": "已超過創作AI的速率限制。請等候一分鐘並再試一次。",
+  "app.requestTimeout": "創成AI的請求已逾時。請減少變數的數量，再試一次。",
+  "app.unexpectedErrorEncountered": "糟糕！我們遇到未預期的錯誤。請稍後再試。"
 }

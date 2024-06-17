@@ -1,6 +1,6 @@
 {
   "app.accessBoundaryNoAccessMessage": {
-    "__value__": "Apologies, it appears that you lack permission to use this feature.<br/>Please try selecting a different organization or contact your Administrator to request access.",
+    "__value__": "Apologies, it appears that you lack permission to use this feature.{newLine}Please try selecting a different organization or contact your Administrator to request access.",
     "__desc__": "Message for users who do not have access to the product"
   },
   "app.cancelActionLabel": {
@@ -47,13 +47,29 @@
     "__value__": "Create high quality content quickly then measure it with experimentation or publish it to your site.",
     "__desc__": "Description of app"
   },
+  "app.errorOccurredWhileGeneratingResults": {
+    "__value__": "An error occurred while generating results",
+    "__desc__": "Error message for generating results"
+  },
+  "app.errorOccurredWhileSendingFeedback": {
+    "__value__": "An error occurred while sending feedback",
+    "__desc__": "Error message for sending feedback"
+  },
+  "app.genAIContentManagementPolicyFilteredResults": {
+    "__value__": "The response was filtered due to the prompt triggering Generative AI's content management policy. Please modify your prompt and retry.",
+    "__desc__": "Error message for response filtered by GenAI Content Management"
+  },
+  "app.invalidAccessToken": {
+    "__value__": "The access token is not valid",
+    "__desc__": "Error message for an invalid access token"
+  },
+  "app.missingAccessToken": {
+    "__value__": "The access token is not provided",
+    "__desc__": "Error message for when the access token is not provided"
+  },
   "app.name": {
     "__value__": "Generate Variations",
     "__desc__": "Name of app"
-  },
-  "app.networkHelperDefaultError": {
-    "__value__": "Oops! We've encountered an unexpected error. Please try again later.",
-    "__desc__": "Default error message for wretch with options calls"
   },
   "app.noAccessDialogContent": {
     "__value__": "You have no access to this product",
@@ -67,8 +83,28 @@
     "__value__": "To use <strong>Generate Variations</strong> you must agree to the Generative AI User Guidelines.{newLine}Refresh this page to <strong>Agree</strong>.",
     "__desc__": "Message for users who have not agreed to the Generative AI User Guidelines"
   },
+  "app.noProductAccess": {
+    "__value__": "Profile does not have access to the product",
+    "__desc__": "Error message for when the profile has no access to the product"
+  },
+  "app.profileFetchFailed": {
+    "__value__": "Failed to fetch profile",
+    "__desc__": "Error message for a failed profile fetch"
+  },
   "app.promptTemplatesLibraryPanelLabel": {
     "__value__": "Prompt Templates",
     "__desc__": "Label for Prompt Templates library panel"
+  },
+  "app.rateLimitExceeded": {
+    "__value__": "Generative AI's rate limit exceeded. Please wait one minute and try again.",
+    "__desc__": "Error message for rate limit exceeded"
+  },
+  "app.requestTimeout": {
+    "__value__": "Generative AI's request timed out. Please try again by reducing the number of variations.",
+    "__desc__": "Error message for request timeout"
+  },
+  "app.unexpectedErrorEncountered": {
+    "__value__": "Oops! We've encountered an unexpected error. Please try again later.",
+    "__desc__": "Default error message for wretch with options calls"
   }
 }

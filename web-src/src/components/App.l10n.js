@@ -67,6 +67,51 @@ export const intlMessages = {
       id: 'app.cancelActionLabel',
       description: 'Label for Cancel action',
     },
+    errorOccurredWhileGeneratingResults: {
+      defaultMessage: 'An error occurred while generating results',
+      id: 'app.errorOccurredWhileGeneratingResults',
+      description: 'Error message for generating results',
+    },
+    errorOccurredWhileSendingFeedback: {
+      defaultMessage: 'An error occurred while sending feedback',
+      id: 'app.errorOccurredWhileSendingFeedback',
+      description: 'Error message for sending feedback',
+    },
+    genAIContentManagementPolicyFilteredResults: {
+      defaultMessage: 'The response was filtered due to the prompt triggering Generative AI\'s content management policy. Please modify your prompt and retry.',
+      id: 'app.genAIContentManagementPolicyFilteredResults',
+      description: 'Error message for response filtered by GenAI Content Management',
+    },
+    requestTimeout: {
+      defaultMessage: 'Generative AI\'s request timed out. Please try again by reducing the number of variations.',
+      id: 'app.requestTimeout',
+      description: 'Error message for request timeout',
+    },
+    rateLimitExceeded: {
+      defaultMessage: 'Generative AI\'s rate limit exceeded. Please wait one minute and try again.',
+      id: 'app.rateLimitExceeded',
+      description: 'Error message for rate limit exceeded',
+    },
+    invalidAccessToken: {
+      defaultMessage: 'The access token is not valid',
+      id: 'app.invalidAccessToken',
+      description: 'Error message for an invalid access token',
+    },
+    missingAccessToken: {
+      defaultMessage: 'The access token is not provided',
+      id: 'app.missingAccessToken',
+      description: 'Error message for when the access token is not provided',
+    },
+    profileFetchFailed: {
+      defaultMessage: 'Failed to fetch profile',
+      id: 'app.profileFetchFailed',
+      description: 'Error message for a failed profile fetch',
+    },
+    noProductAccess: {
+      defaultMessage: 'Profile does not have access to the product',
+      id: 'app.noProductAccess',
+      description: 'Error message for when the profile has no access to the product',
+    },
     consentDialogHeading: {
       defaultMessage: 'Generative AI in Adobe apps',
       id: 'app.consentDialogHeading',
@@ -92,9 +137,9 @@ export const intlMessages = {
       id: 'app.consentDialogCancelButtonLabel',
       description: 'Label for consent dialog Cancel button',
     },
-    networkHelperDefaultError: {
+    unexpectedErrorEncountered: {
       defaultMessage: 'Oops! We\'ve encountered an unexpected error. Please try again later.',
-      id: 'app.networkHelperDefaultError',
+      id: 'app.unexpectedErrorEncountered',
       description: 'Default error message for wretch with options calls',
     },
     accessBoundaryNoAccessMessage: {

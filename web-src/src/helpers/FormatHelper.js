@@ -69,12 +69,14 @@ export function newGroupingLabelGenerator() {
   };
 }
 
-export function getErrorCodeSubstring(str) {
+// returns the localization id from the given string, if found
+export function extractL10nId(str) {
   const result = str?.match(/{{(.*?)}}/);
   return result ? result[1] : undefined;
 }
 
-export function createToastErrorMessage(message, localizedError) {
+// replaces localization id in the original error message with the localized error
+export function handleLocalizedResponse(message, localizedError) {
   if (localizedError && message && message.includes('{{')) {
     return message.substring(0, message.indexOf('{{')) + localizedError + message.substring(message.indexOf('}}') + 2, message.length);
   }

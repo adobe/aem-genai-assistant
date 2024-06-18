@@ -36,7 +36,7 @@ import ExpressNoAccessInfo from './ExpressNoAccessInfo.js';
 import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';
 import DeleteOutlineIcon from '../icons/DeleteOutlineIcon.js';
 import GenAIIcon from '../icons/GenAIIcon.js';
-import { createToastErrorMessage, getErrorCodeSubstring } from '../helpers/FormatHelper.js';
+import { handleLocalizedResponse, extractL10nId } from '../helpers/FormatHelper.js';
 
 const styles = {
   card: css`
@@ -113,12 +113,12 @@ export function FavoriteVariantCard({
         handleGenerateImage(imagePrompt);
       })
       .catch((error) => {
-        const errorL10nId = getErrorCodeSubstring(error.message);
+        const errorL10nId = extractL10nId(error.message);
         let errorMessage;
 
         if (errorL10nId) {
           const localizedErrorMsg = formatMessage(appIntlMessages.app[errorL10nId]);
-          errorMessage = createToastErrorMessage(error.message, localizedErrorMsg);
+          errorMessage = handleLocalizedResponse(error.message, localizedErrorMsg);
         } else {
           errorMessage = error.message;
         }

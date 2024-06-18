@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  newGroupingLabelGenerator, formatIdentifier, getErrorCodeSubstring, createToastErrorMessage,
+  newGroupingLabelGenerator, formatIdentifier, extractL10nId, handleLocalizedResponse,
 } from './FormatHelper.js';
 
 describe('newGroupingLabelGenerator', () => {
@@ -154,64 +154,64 @@ describe('formatIdentifier', () => {
   });
 });
 
-describe('getErrorCodeSubstring', () => {
+describe('extractL10nId', () => {
   it('should extract the code with curly braces', () => {
     const input = '{{errorOccurredWhileGeneratingResults}}';
     const expectedOutput = 'errorOccurredWhileGeneratingResults';
-    expect(getErrorCodeSubstring(input)).toEqual(expectedOutput);
+    expect(extractL10nId(input)).toEqual(expectedOutput);
   });
 
   it('should return undefined if the input does not contain curly braces', () => {
     const input = 'An error occurred while generating results';
-    expect(getErrorCodeSubstring(input)).toBeUndefined();
+    expect(extractL10nId(input)).toBeUndefined();
   });
 
   it('should return undefined if the input is empty', () => {
     const input = '';
-    expect(getErrorCodeSubstring(input)).toBeUndefined();
+    expect(extractL10nId(input)).toBeUndefined();
   });
 
   it('should return undefined if the input is undefined', () => {
     const input = undefined;
-    expect(getErrorCodeSubstring(input)).toBeUndefined();
+    expect(extractL10nId(input)).toBeUndefined();
   });
 
   it('should return undefined if only 1 set of curly braces is present', () => {
     const input = '{{errorOccurredWhileGeneratingResults';
-    expect(getErrorCodeSubstring(input)).toBeUndefined();
+    expect(extractL10nId(input)).toBeUndefined();
   });
 });
 
-describe('createToastErrorMessage', () => {
+describe('handleLocalizedResponse', () => {
   it('should correctly assemble the final error message (en-US)', () => {
     const input = 'IS-ERROR: {{errorOccurredWhileGeneratingResults}} (400).';
     const expectedOutput = 'IS-ERROR: An error occurred while generating results (400).';
-    expect(createToastErrorMessage(input, 'An error occurred while generating results')).toEqual(expectedOutput);
+    expect(handleLocalizedResponse(input, 'An error occurred while generating results')).toEqual(expectedOutput);
   });
 
   it('should correctly assemble the final error message (ja-JP)', () => {
     const input = 'IS-ERROR: {{errorOccurredWhileGeneratingResults}} (400).';
     const expectedOutput = 'IS-ERROR: 結果の生成中にエラーが発生しました (400).';
-    expect(createToastErrorMessage(input, '結果の生成中にエラーが発生しました')).toEqual(expectedOutput);
+    expect(handleLocalizedResponse(input, '結果の生成中にエラーが発生しました')).toEqual(expectedOutput);
   });
 
   it('should return the input message if the error code is not found', () => {
     const input = 'IS-ERROR: errorOccurredWhileGeneratingResults (400).';
-    expect(createToastErrorMessage(input, 'An error occurred while generating results')).toEqual(input);
+    expect(handleLocalizedResponse(input, 'An error occurred while generating results')).toEqual(input);
   });
 
   it('should return the input message if the error code is not found (ja-JP)', () => {
     const input = 'IS-ERROR: errorOccurredWhileGeneratingResults (400).';
-    expect(createToastErrorMessage(input, '結果の生成中にエラーが発生しました')).toEqual(input);
+    expect(handleLocalizedResponse(input, '結果の生成中にエラーが発生しました')).toEqual(input);
   });
 
   it('should return the input message if the error code is empty', () => {
     const input = '';
-    expect(createToastErrorMessage(input, 'An error occurred while generating results')).toEqual(input);
+    expect(handleLocalizedResponse(input, 'An error occurred while generating results')).toEqual(input);
   });
 
   it('should return the input message if the error code is undefined', () => {
     const input = undefined;
-    expect(createToastErrorMessage(input, 'An error occurred while generating results')).toEqual(input);
+    expect(handleLocalizedResponse(input, 'An error occurred while generating results')).toEqual(input);
   });
 });

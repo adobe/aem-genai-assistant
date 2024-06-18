@@ -34,7 +34,7 @@ import { contentFragmentState } from '../state/ContentFragmentState.js';
 
 import { intlMessages } from './ContentFragmentExportButton.l10n.js';
 import { intlMessages as appIntlMessages } from './App.l10n.js';
-import { createToastErrorMessage, getErrorCodeSubstring } from '../helpers/FormatHelper.js';
+import { handleLocalizedResponse, extractL10nId } from '../helpers/FormatHelper.js';
 
 export function ContentFragmentExportButton({ variant }) {
   const { aemService } = useApplicationContext();
@@ -72,12 +72,12 @@ export function ContentFragmentExportButton({ variant }) {
         );
       })
       .catch((error) => {
-        const errorL10nId = getErrorCodeSubstring(error.message);
+        const errorL10nId = extractL10nId(error.message);
         let errorMessage;
 
         if (errorL10nId) {
           const localizedErrorMsg = formatMessage(appIntlMessages.app[errorL10nId]);
-          errorMessage = createToastErrorMessage(error.message, localizedErrorMsg);
+          errorMessage = handleLocalizedResponse(error.message, localizedErrorMsg);
         } else {
           errorMessage = error.message;
         }

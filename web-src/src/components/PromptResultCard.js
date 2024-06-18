@@ -58,7 +58,7 @@ import { RUN_MODE_CF } from '../state/RunMode.js';
 
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { createToastErrorMessage, getErrorCodeSubstring } from '../helpers/FormatHelper.js';
+import { handleLocalizedResponse, extractL10nId } from '../helpers/FormatHelper.js';
 
 const styles = {
   card: css`
@@ -210,12 +210,12 @@ export function PromptResultCard({ result, ...props }) {
         ToastQueue.positive(formatMessage(intlMessages.promptResultCard.sendFeedbackSuccessToast), { timeout: 1000 });
       })
       .catch((error) => {
-        const errorL10nId = getErrorCodeSubstring(error.message);
+        const errorL10nId = extractL10nId(error.message);
         let errorMessage;
 
         if (errorL10nId) {
           const localizedErrorMsg = formatMessage(appIntlMessages.app[errorL10nId]);
-          errorMessage = createToastErrorMessage(error.message, localizedErrorMsg);
+          errorMessage = handleLocalizedResponse(error.message, localizedErrorMsg);
         } else {
           errorMessage = error.message;
         }
@@ -298,12 +298,12 @@ export function PromptResultCard({ result, ...props }) {
         handleGenerateImage(imagePrompt, variantId);
       })
       .catch((error) => {
-        const errorL10nId = getErrorCodeSubstring(error.message);
+        const errorL10nId = extractL10nId(error.message);
         let errorMessage;
 
         if (errorL10nId) {
           const localizedErrorMsg = formatMessage(appIntlMessages.app[errorL10nId]);
-          errorMessage = createToastErrorMessage(error.message, localizedErrorMsg);
+          errorMessage = handleLocalizedResponse(error.message, localizedErrorMsg);
         } else {
           errorMessage = error.message;
         }

@@ -35,7 +35,7 @@ import { log } from '../helpers/MetricsHelper.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
 import { RUN_MODE_CF } from '../state/RunMode.js';
 import { FIREFALL_ACTION_TYPES } from '../services/FirefallService.js';
-import { createToastErrorMessage, getErrorCodeSubstring } from '../helpers/FormatHelper.js';
+import { handleLocalizedResponse, extractL10nId } from '../helpers/FormatHelper.js';
 
 const createWaitMessagesController = (intlFn) => {
   const displayToast = (msg, timeout = 1500) => {
@@ -141,12 +141,12 @@ export function GenerateButton({ isDisabled }) {
       .catch((error) => {
         waitMessagesController.stopDisplaying();
 
-        const errorL10nId = getErrorCodeSubstring(error.message);
+        const errorL10nId = extractL10nId(error.message);
         let errorMessage;
 
         if (errorL10nId) {
           const localizedErrorMsg = formatMessage(appIntlMessages.app[errorL10nId]);
-          errorMessage = createToastErrorMessage(error.message, localizedErrorMsg);
+          errorMessage = handleLocalizedResponse(error.message, localizedErrorMsg);
         } else {
           errorMessage = error.message;
         }

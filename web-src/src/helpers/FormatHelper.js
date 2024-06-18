@@ -70,12 +70,12 @@ export function newGroupingLabelGenerator() {
 }
 
 export function getErrorCodeSubstring(str) {
-  const result = str.match(/{{(.*?)}}/);
+  const result = str?.match(/{{(.*?)}}/);
   return result ? result[1] : undefined;
 }
 
 export function createToastErrorMessage(message, localizedError) {
-  if (localizedError && message.includes('{{')) {
+  if (localizedError && message && message.includes('{{')) {
     return message.substring(0, message.indexOf('{{')) + localizedError + message.substring(message.indexOf('}}') + 2, message.length);
   }
 

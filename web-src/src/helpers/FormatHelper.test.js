@@ -9,7 +9,9 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { newGroupingLabelGenerator, formatIdentifier } from './FormatHelper.js';
+import {
+  newGroupingLabelGenerator, formatIdentifier, getErrorCodeSubstring, createToastErrorMessage,
+} from './FormatHelper.js';
 
 describe('newGroupingLabelGenerator', () => {
   let generator;
@@ -149,5 +151,67 @@ describe('formatIdentifier', () => {
     const input = 'testIdentifierWithCamelCase';
     const expectedOutput = 'Test identifier with camel case';
     expect(formatIdentifier(input)).toEqual(expectedOutput);
+  });
+});
+
+describe('getErrorCodeSubstring', () => {
+  it('should extract the code with curly braces', () => {
+    const input = '{{errorOccurredWhileGeneratingResults}}';
+    const expectedOutput = 'errorOccurredWhileGeneratingResults';
+    expect(getErrorCodeSubstring(input)).toEqual(expectedOutput);
+  });
+
+  it('should return undefined if the input does not contain curly braces', () => {
+    const input = 'An error occurred while generating results';
+    expect(getErrorCodeSubstring(input)).toBeUndefined();
+  });
+
+  it('should return undefined if the input is empty', () => {
+    const input = '';
+    expect(getErrorCodeSubstring(input)).toBeUndefined();
+  });
+
+  it('should return undefined if the input is undefined', () => {
+    const input = undefined;
+    expect(getErrorCodeSubstring(input)).toBeUndefined();
+  });
+
+  it('should return undefined if only 1 set of curly braces is present', () => {
+    const input = '{{errorOccurredWhileGeneratingResults';
+    expect(getErrorCodeSubstring(input)).toBeUndefined();
+  });
+});
+
+describe('createToastErrorMessage', () => {
+  it('should correctly assemble the final error message (en-US)', () => {
+    const input = 'IS-ERROR: {{errorOccurredWhileGeneratingResults}} (400).';
+    const expectedOutput = 'IS-ERROR: An error occurred while generating results (400).';
+    expect(createToastErrorMessage(input, 'An error occurred while generating results')).toEqual(expectedOutput);
+  });
+
+  it('should correctly assemble the final error message (ja-JP)', () => {
+    const input = 'IS-ERROR: {{errorOccurredWhileGeneratingResults}} (400).';
+    const expectedOutput = 'IS-ERROR: 結果の生成中にエラーが発生しました (400).';
+    expect(createToastErrorMessage(input, '結果の生成中にエラーが発生しました')).toEqual(expectedOutput);
+  });
+
+  it('should return the input message if the error code is not found', () => {
+    const input = 'IS-ERROR: errorOccurredWhileGeneratingResults (400).';
+    expect(createToastErrorMessage(input, 'An error occurred while generating results')).toEqual(input);
+  });
+
+  it('should return the input message if the error code is not found (ja-JP)', () => {
+    const input = 'IS-ERROR: errorOccurredWhileGeneratingResults (400).';
+    expect(createToastErrorMessage(input, '結果の生成中にエラーが発生しました')).toEqual(input);
+  });
+
+  it('should return the input message if the error code is empty', () => {
+    const input = '';
+    expect(createToastErrorMessage(input, 'An error occurred while generating results')).toEqual(input);
+  });
+
+  it('should return the input message if the error code is undefined', () => {
+    const input = undefined;
+    expect(createToastErrorMessage(input, 'An error occurred while generating results')).toEqual(input);
   });
 });

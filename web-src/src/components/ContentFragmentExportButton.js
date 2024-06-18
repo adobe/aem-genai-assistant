@@ -66,7 +66,10 @@ export function ContentFragmentExportButton({ variant }) {
           const url = `https://experience.adobe.com/?repo=${new URL(aemService.getHost()).host}#/aem/cf/editor/editor${contentFragment.fragment.path}`;
           window.open(url, '_blank');
         }
-        ToastQueue.positive(intlMessages.contentFragmentExportButton.variationCreatedToast, { timeout: 1000 });
+        ToastQueue.positive(
+          formatMessage(intlMessages.contentFragmentExportButton.variationCreatedToast),
+          { timeout: 1000 },
+        );
       })
       .catch((error) => {
         const errorL10nId = getErrorCodeSubstring(error.message);

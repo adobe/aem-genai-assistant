@@ -10,13 +10,14 @@
  * governing permissions and limitations under the License.
  */
 
-const { asFirefallAction } = require('../FirefallAction.js');
+const { asGenericAction } = require('../GenericAction.js');
+const { getCompletions } = require('../AzureOpenAiClient.js');
 
 function main(params) {
   const {
-    prompt, temperature, model, firefallClient,
+    prompt, temperature, AZURE_OPENAI_API_KEY, AZURE_OPENAI_API_URL,
   } = params;
-  return firefallClient.completion(prompt ?? 'Who are you?', temperature ?? 0.0, model ?? 'gpt-4');
+  return getCompletions(prompt ?? 'Who are you?', temperature ?? 0.0, AZURE_OPENAI_API_KEY, AZURE_OPENAI_API_URL);
 }
 
-exports.main = asFirefallAction(main);
+exports.main = asGenericAction(main);

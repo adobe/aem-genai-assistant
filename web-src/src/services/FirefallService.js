@@ -23,6 +23,30 @@ const MAX_POLLING_TIME = 300;
 const TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY = 1;
 const VARIATIONS_GENERATION_POLL_DELAY = 5;
 
+function parseMarkdownOutput(output, defaultLang = 'json') {
+  const parsedData = {};
+  const codeSnippetPattern = /```(\w*)\n(.*?)```/gs;
+
+  let matches;
+  // eslint-disable-next-line no-cond-assign
+  while ((matches = codeSnippetPattern.exec(output)) !== null) {
+    const lang = matches[1] || 'plain';
+    const snippet = matches[2].trim();
+
+    if (!parsedData[lang]) {
+      parsedData[lang] = [];
+    }
+
+    parsedData[lang].push(snippet);
+  }
+
+  if (parsedData[defaultLang]) {
+    return parsedData[defaultLang].join('\n');
+  }
+
+  return output;
+}
+
 const poll = async (fn, pollDelay, initialPollDelay, maxPollingTime = MAX_POLLING_TIME) => {
   const STATUS_RUNNING = 'running';
   const wait = async (timeout) => new Promise((resolve) => { setTimeout(resolve, timeout * 1000); });
@@ -94,10 +118,10 @@ export class FirefallService {
       if (result.error) {
         throw new Error(result.error);
       }
-      const { query_id: queryId, generations } = result;
+      const { query_id: queryId, generations } = result.body;
       return {
         queryId,
-        response: generations[0][0].message.content,
+        response: parseMarkdownOutput(generations[0][0].message.content),
       };
     });
   }

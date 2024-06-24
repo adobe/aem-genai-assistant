@@ -17,6 +17,11 @@ export const intlMessages = {
       id: 'contentFragmentExportButton.buttonLabel',
       description: 'Label for the button that opens the Export to Content Fragment dialog',
     },
+    variationCreatedToast: {
+      defaultMessage: 'Variation created.',
+      id: 'contentFragmentExportButton.variationCreatedToast',
+      description: 'Toast message shown when a variation is successfully created',
+    },
     exportDialog: {
       title: {
         defaultMessage: 'Export to Content Fragment',

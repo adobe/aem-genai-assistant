@@ -21,18 +21,21 @@ import { ApplicationProvider } from './components/ApplicationProvider.js';
 import { ShellProvider } from './components/ShellProvider.js';
 import './index.css';
 import { AccessBoundary } from './components/AccessBoundary.js';
+import { IntlProviderWrapper } from './components/IntlProviderWrapper.js';
 
 init((runtime) => {
   createRoot(document.getElementById('root')).render(
     <RecoilRoot>
       <ShellProvider runtime={runtime}>
-        <AccessBoundary>
-          <ApplicationProvider>
-            <Provider colorScheme="light" theme={defaultTheme} width="100%" height="100%">
-              <App />
-            </Provider>
-          </ApplicationProvider>
-        </AccessBoundary>
+        <IntlProviderWrapper>
+          <AccessBoundary>
+            <ApplicationProvider>
+              <Provider colorScheme='light' theme={defaultTheme} width='100%' height='100%'>
+                <App />
+              </Provider>
+            </ApplicationProvider>
+          </AccessBoundary>
+        </IntlProviderWrapper>
       </ShellProvider>
     </RecoilRoot>,
   );

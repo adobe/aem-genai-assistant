@@ -27,6 +27,38 @@
     "__value__": "Favorites",
     "__desc__": "Alt text for Favorites"
   },
+  "mainSidePanel.formatHelperLast12MonthsLabel": {
+    "__value__": "Last 12 months",
+    "__desc__": "Label for the last twelve months"
+  },
+  "mainSidePanel.formatHelperLast30DaysLabel": {
+    "__value__": "Last 30 days",
+    "__desc__": "Label for the last thirty days"
+  },
+  "mainSidePanel.formatHelperLast6MonthsLabel": {
+    "__value__": "Last 6 months",
+    "__desc__": "Label for the last six months"
+  },
+  "mainSidePanel.formatHelperLast7DaysLabel": {
+    "__value__": "Last 7 days",
+    "__desc__": "Label for the last seven days"
+  },
+  "mainSidePanel.formatHelperLast90DaysLabel": {
+    "__value__": "Last 90 days",
+    "__desc__": "Label for the last ninety days"
+  },
+  "mainSidePanel.formatHelperOlderLabel": {
+    "__value__": "Older",
+    "__desc__": "Label for older dates"
+  },
+  "mainSidePanel.formatHelperTodayLabel": {
+    "__value__": "Today",
+    "__desc__": "Label for today"
+  },
+  "mainSidePanel.formatHelperYesterdayLabel": {
+    "__value__": "Yesterday",
+    "__desc__": "Label for yesterday"
+  },
   "mainSidePanel.helpAndFaqsMenuItem": {
     "__value__": "Help & FAQ",
     "__desc__": "Menu item for Help  FAQ"

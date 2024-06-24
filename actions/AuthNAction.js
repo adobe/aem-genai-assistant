@@ -64,12 +64,15 @@ async function getAccessToken(params) {
   ) {
     const accessToken = params.__ow_headers.authorization.substring('Bearer '.length);
     // Validate the access token
+
+    // The error identifiers (enclosed in double curly braces) will be replaced with the actual
+    // error messages after being processed for localization on the frontend
     if (!await isValidToken(imsEndpoint, clientId, accessToken)) {
-      throw new Error('The access token is not valid');
+      throw new Error('{{invalidAccessToken}}');
     }
     return accessToken;
   } else {
-    throw new Error('The access token is not provided');
+    throw new Error('{{missingAccessToken}}');
   }
 }
 

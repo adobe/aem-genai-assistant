@@ -39,16 +39,16 @@ describe('FirefallClient', () => {
 
   test('handles 400 http status in completion method', async () => {
     wretch().json.mockRejectedValue({ status: 400 });
-    await expect(sut.completion('prompt')).rejects.toThrow("IS-ERROR: The response was filtered due to the prompt triggering Generative AI's content management policy. Please modify your prompt and retry. (400).");
+    await expect(sut.completion('prompt')).rejects.toThrow('IS-ERROR: {{genAIContentManagementPolicyFilteredResults}} (400).');
   });
 
   test('handles 429 http status in completion method', async () => {
     wretch().json.mockRejectedValue({ status: 429 });
-    await expect(sut.completion('prompt')).rejects.toThrow("IS-ERROR: Generative AI's Rate limit exceeded. Please wait one minute and try again. (429).");
+    await expect(sut.completion('prompt')).rejects.toThrow('IS-ERROR: {{rateLimitExceeded}} (429).');
   });
 
   test('handless any http status in the feedback method', async () => {
     wretch().json.mockRejectedValue({ status: 500 });
-    await expect(sut.feedback('queryId', 'sentiment')).rejects.toThrow('An error occurred while sending feedback');
+    await expect(sut.feedback('queryId', 'sentiment')).rejects.toThrow('{{errorOccurredWhileSendingFeedback}}');
   });
 });

@@ -21,6 +21,7 @@ import { motion } from 'framer-motion';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './Favorites.l10n.js';
+import { intlMessages as appIntlMessages } from './App.l10n.js';
 import { EXPRESS_LOAD_TIMEOUT } from './Constants.js';
 import { useToggleFavorite } from '../state/ToggleFavoriteHook.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
@@ -35,6 +36,7 @@ import ExpressNoAccessInfo from './ExpressNoAccessInfo.js';
 import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';
 import DeleteOutlineIcon from '../icons/DeleteOutlineIcon.js';
 import GenAIIcon from '../icons/GenAIIcon.js';
+import { handleLocalizedResponse, extractL10nId } from '../helpers/FormatHelper.js';
 
 const styles = {
   card: css`
@@ -111,7 +113,17 @@ export function FavoriteVariantCard({
         handleGenerateImage(imagePrompt);
       })
       .catch((error) => {
-        ToastQueue.negative(error.message, { timeout: 2000 });
+        const errorL10nId = extractL10nId(error.message);
+        let errorMessage;
+
+        if (errorL10nId) {
+          const localizedErrorMsg = formatMessage(appIntlMessages.app[errorL10nId]);
+          errorMessage = handleLocalizedResponse(error.message, localizedErrorMsg);
+        } else {
+          errorMessage = error.message;
+        }
+
+        ToastQueue.negative(errorMessage, { timeout: 2000 });
       })
       .finally(() => {
         setImagePromptProgress(false);

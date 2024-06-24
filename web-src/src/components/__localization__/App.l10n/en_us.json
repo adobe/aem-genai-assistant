@@ -1,4 +1,5 @@
 {
+  "app.accessBoundaryNoAccessMessage": "Apologies, it appears that you lack permission to use this feature.{newLine}Please try selecting a different organization or contact your Administrator to request access.",
   "app.cancelActionLabel": "Cancel",
   "app.consentDialogAgreeButtonLabel": "Agree",
   "app.consentDialogCancelButtonLabel": "Cancel",
@@ -10,9 +11,19 @@
   "app.deletePromptTemplateFailedToast": "Failed to delete prompt template",
   "app.deletePromptTemplateQuestion": "Are you sure you want to delete this prompt?",
   "app.description": "Create high quality content quickly then measure it with experimentation or publish it to your site.",
+  "app.errorOccurredWhileGeneratingResults": "An error occurred while generating results",
+  "app.errorOccurredWhileSendingFeedback": "An error occurred while sending feedback",
+  "app.genAIContentManagementPolicyFilteredResults": "The response was filtered due to the prompt triggering Generative AI's content management policy. Please modify your prompt and retry.",
+  "app.invalidAccessToken": "The access token is not valid",
+  "app.missingAccessToken": "The access token is not provided",
   "app.name": "Generate Variations",
   "app.noAccessDialogContent": "You have no access to this product",
   "app.noAccessDialogHeading": "Access Denied",
   "app.noAccessMessage": "To use <strong>Generate Variations</strong> you must agree to the Generative AI User Guidelines.{newLine}Refresh this page to <strong>Agree</strong>.",
-  "app.promptTemplatesLibraryPanelLabel": "Prompt Templates"
+  "app.noProductAccess": "Profile does not have access to the product",
+  "app.profileFetchFailed": "Failed to fetch profile",
+  "app.promptTemplatesLibraryPanelLabel": "Prompt Templates",
+  "app.rateLimitExceeded": "Generative AI's rate limit exceeded. Please wait one minute and try again.",
+  "app.requestTimeout": "Generative AI's request timed out. Please try again by reducing the number of variations.",
+  "app.unexpectedErrorEncountered": "Oops! We've encountered an unexpected error. Please try again later."
 }

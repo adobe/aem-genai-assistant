@@ -1,4 +1,5 @@
 {
+  "app.accessBoundaryNoAccessMessage": "Disculpas, parece que no tienes permiso para usar esta función.{newLine}Intente seleccionar otra organización o póngase en contacto con el administrador para solicitar el acceso.",
   "app.cancelActionLabel": "Cancelar",
   "app.consentDialogAgreeButtonLabel": "Aceptar",
   "app.consentDialogCancelButtonLabel": "Cancelar",
@@ -10,9 +11,19 @@
   "app.deletePromptTemplateFailedToast": "No se pudo eliminar la plantilla de indicación",
   "app.deletePromptTemplateQuestion": "¿Seguro que desea eliminar esta indicación?",
   "app.description": "Cree contenido de alta calidad rápidamente y luego evalúelo con la experimentación o publíquelo en su sitio.",
+  "app.errorOccurredWhileGeneratingResults": "Error al generar resultados",
+  "app.errorOccurredWhileSendingFeedback": "Se ha producido un error al enviar comentarios",
+  "app.genAIContentManagementPolicyFilteredResults": "La respuesta se filtró debido al mensaje que activó la política de administración de contenido de Generative AI. Modifique el mensaje y vuelva a intentarlo.",
+  "app.invalidAccessToken": "El token de acceso no es válido",
+  "app.missingAccessToken": "No se ha proporcionado el token de acceso",
   "app.name": "Generar variaciones",
   "app.noAccessDialogContent": "No tiene acceso a este producto",
   "app.noAccessDialogHeading": "Acceso denegado",
   "app.noAccessMessage": "Para utilizar <strong>Generar variaciones</strong> debe aceptar las Directrices generativas del usuario de IA.{newLine}Actualice esta página para <strong>Aceptar</strong>.",
-  "app.promptTemplatesLibraryPanelLabel": "Plantillas de indicación"
+  "app.noProductAccess": "El perfil no tiene acceso al producto",
+  "app.profileFetchFailed": "Error al recuperar el perfil",
+  "app.promptTemplatesLibraryPanelLabel": "Plantillas de indicación",
+  "app.rateLimitExceeded": "Se superó el límite de tasa de IA generativa. Espere un minuto e inténtelo de nuevo.",
+  "app.requestTimeout": "Se agotó el tiempo de espera de la solicitud de Generative AI. Vuelva a intentarlo reduciendo el número de variaciones.",
+  "app.unexpectedErrorEncountered": "¡Uy! Hemos encontrado un error inesperado. Inténtelo nuevamente más tarde."
 }

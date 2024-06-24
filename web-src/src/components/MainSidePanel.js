@@ -37,6 +37,7 @@ import { newGroupingLabelGenerator } from '../helpers/FormatHelper.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
 import { RUN_MODE_CF } from '../state/RunMode.js';
+import { useShellContext } from './ShellProvider.js';
 
 export const HELP_AND_FAQ_URL = 'https://www.aem.live/docs/sidekick-generate-variations';
 
@@ -137,6 +138,7 @@ export function MainSidePanel(props) {
   const [mainSidePanelType, setMainSidePanelType] = useRecoilState(mainSidePanelTypeState);
 
   const { formatMessage } = useIntl();
+  const { user } = useShellContext();
 
   const groupingLabelGenerator = newGroupingLabelGenerator();
 
@@ -208,14 +210,23 @@ export function MainSidePanel(props) {
                 return (
                       <>
                         {groupingLabel
-                            && <Text key={groupingLabel} UNSAFE_className={style.subMenuHeader}>
-                              {groupingLabel}
+                          && <Text
+                              key={formatMessage(intlMessages.mainSidePanel[groupingLabel])}
+                              UNSAFE_className={style.subMenuHeader}>
+                              {formatMessage(intlMessages.mainSidePanel[groupingLabel])}
                             </Text>}
                         {/* eslint-disable-next-line max-len */}
                         <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyles.clickedSubMenuItem : style.subMenuItem}
                             key={session.id}>
                           <Link href="#" UNSAFE_className={style.menuItemLink}
-                                onPress={() => handleRecent(session)}>{session.name}</Link>
+                                onPress={() => handleRecent(session)}>{`${session.name.split(' ')[0]} ${sessionDate.toLocaleString(user.locale, {
+                                  month: 'numeric',
+                                  day: 'numeric',
+                                  year: 'numeric',
+                                  hour: 'numeric',
+                                  minute: 'numeric',
+                                  hour12: true,
+                                })}`}</Link>
                         </li>
                       </>
                 );

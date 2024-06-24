@@ -21,9 +21,9 @@
   "promptResultCard.refineContentTitle": "微調和使用內容",
   "promptResultCard.removeButtonTooltip": "移除",
   "promptResultCard.reuseButtonLabel": "重複使用",
-  "promptResultCard.reuseButtonTooltip": "載入用來產生變數的輸入值和提示。",
+  "promptResultCard.reuseButtonTooltip": "載入用於產生變化版本的輸入值和提示。",
   "promptResultCard.savePromptDescription": "如果您想要重複使用已建立的提示，請選取「儲存」。這可讓您儲存該提示以供日後使用。您可以將其儲存在使用者或組織層級。",
   "promptResultCard.savePromptTitle": "儲存",
   "promptResultCard.sendFeedbackSuccessToast": "回饋已傳送！",
-  "promptResultCard.variationsHeading": "變數"
+  "promptResultCard.variationsHeading": "變化版本"
 }

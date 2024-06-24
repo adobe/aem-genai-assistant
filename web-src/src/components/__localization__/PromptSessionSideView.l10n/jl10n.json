@@ -3,6 +3,10 @@
     "__value__": "Advanced",
     "__desc__": "Advanced label for Prompt Session side view"
   },
+  "promptSessionSideView.audienceSelectorItemsNotAvailable": {
+    "__value__": "Not available",
+    "__desc__": "Text for items not available in Audience Selector"
+  },
   "promptSessionSideView.audienceSelectorLoadCsvFailedToast": {
     "__value__": "Failed to parse CSV",
     "__desc__": "Toast message for failed CSV parsing"
@@ -10,6 +14,14 @@
   "promptSessionSideView.audienceSelectorLoadTargetFailedToast": {
     "__value__": "Failed to load from Adobe Target",
     "__desc__": "Toast message for failed Adobe Target loading"
+  },
+  "promptSessionSideView.audienceSelectorSelectFromPlaceholder": {
+    "__value__": "Select from {source}",
+    "__desc__": "Placeholder for source selection with Adobe Target or CSV file in Audience Selector"
+  },
+  "promptSessionSideView.audienceSelectorSelectSourcePlaceholder": {
+    "__value__": "Select a source",
+    "__desc__": "Placeholder for default source selection in Audience Selector"
   },
   "promptSessionSideView.cancelActionLabel": {
     "__value__": "Cancel",
@@ -55,6 +67,10 @@
     "__value__": "When editing the prompt directly, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents.",
     "__desc__": "Content for Prompt Editor contextual info"
   },
+  "promptSessionSideView.promptEditorSyntaxErrorMessage": {
+    "__value__": "The characters <b>{openParentheses}</b>, <b>{closeParentheses}</b>, and <b>{quotationMark}</b> are reserved and can't be used within quoted text values. Please remove or replace these characters and try again.",
+    "__desc__": "Error message for syntax error in prompt editor"
+  },
   "promptSessionSideView.promptEditorViewTitle": {
     "__value__": "Prompt and Trusted Source Documents",
     "__desc__": "Title for Prompt ditor view"
@@ -94,6 +110,10 @@
   "promptSessionSideView.savePromptSuccessToast": {
     "__value__": "Prompt template saved",
     "__desc__": "Toast message for successful Prompt Template save"
+  },
+  "promptSessionSideView.savePromptUpdateWarning": {
+    "__value__": "You are about to update <b>{label}</b>, last modified on <b>{lastModified}</b> by <b>{lastModifiedBy}</b>. Any changes made will overwrite the current content.",
+    "__desc__": "Warning message for updating prompt template"
   },
   "promptSessionSideView.temperatureDescription": {
     "__value__": "A higher temperature strays from the prompt and leads to more randomness and creativity",

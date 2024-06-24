@@ -15,12 +15,14 @@ const InternalError = require('./InternalError.js');
 
 const logger = Core.Logger('FirefallAction');
 
+// The error identifiers (enclosed in double curly braces) will be replaced with the actual
+// error messages after being processed for localization on the frontend
 const ERROR_CODES = {
-  defaultCompletion: 'An error occurred while generating results',
-  defaultFeedback: 'An error occurred while sending feedback',
-  400: "The response was filtered due to the prompt triggering Generative AI's content management policy. Please modify your prompt and retry.",
-  408: "Generative AI's request timed out. Please try again by reducing the number of variations.",
-  429: "Generative AI's Rate limit exceeded. Please wait one minute and try again.",
+  defaultCompletion: '{{errorOccurredWhileGeneratingResults}}',
+  defaultFeedback: '{{errorOccurredWhileSendingFeedback}}',
+  400: '{{genAIContentManagementPolicyFilteredResults}}',
+  408: '{{requestTimeout}}',
+  429: '{{rateLimitExceeded}}',
 };
 
 function toFirefallError(error, defaultMessage) {

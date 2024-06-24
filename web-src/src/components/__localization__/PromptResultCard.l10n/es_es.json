@@ -21,7 +21,7 @@
   "promptResultCard.refineContentTitle": "Perfeccionar y utilizar contenido",
   "promptResultCard.removeButtonTooltip": "Quitar",
   "promptResultCard.reuseButtonLabel": "Reutilizar",
-  "promptResultCard.reuseButtonTooltip": "Cargue los valores de entrada y el indicador utilizado para generar variaciones.",
+  "promptResultCard.reuseButtonTooltip": "Cargue los valores de entrada y la indicación utilizada para generar variaciones.",
   "promptResultCard.savePromptDescription": "Si desea volver a utilizar la indicación creada, seleccione \"Guardar\". Esto le permite almacenar la indicación para un uso futuro. Puede guardarla en el nivel de usuario u organización.",
   "promptResultCard.savePromptTitle": "Guardar",
   "promptResultCard.sendFeedbackSuccessToast": "Comentarios enviados",

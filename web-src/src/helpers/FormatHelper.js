@@ -42,21 +42,21 @@ export function newGroupingLabelGenerator() {
 
     let label;
     if (dayDifference < 1) {
-      label = 'Today';
+      label = 'formatHelperTodayLabel';
     } else if (dayDifference < 2) {
-      label = 'Yesterday';
+      label = 'formatHelperYesterdayLabel';
     } else if (dayDifference < 7) {
-      label = 'Last 7 days';
+      label = 'formatHelperLast7DaysLabel';
     } else if (dayDifference < 30) {
-      label = 'Last 30 days';
+      label = 'formatHelperLast30DaysLabel';
     } else if (dayDifference < 90) {
-      label = 'Last 90 days';
+      label = 'formatHelperLast90DaysLabel';
     } else if (dayDifference < 180) {
-      label = 'Last 6 months';
+      label = 'formatHelperLast6MonthsLabel';
     } else if (dayDifference < 365) {
-      label = 'Last 12 months';
+      label = 'formatHelperLast12MonthsLabel';
     } else {
-      label = 'Older';
+      label = 'formatHelperOlderLabel';
     }
 
     if (label !== prevLabel) {
@@ -67,4 +67,19 @@ export function newGroupingLabelGenerator() {
     // Return null if the label hasn't changed
     return null;
   };
+}
+
+// returns the localization id from the given string, if found
+export function extractL10nId(str) {
+  const result = str?.match(/{{(.*?)}}/);
+  return result ? result[1] : undefined;
+}
+
+// replaces localization id in the original error message with the localized error
+export function handleLocalizedResponse(message, localizedError) {
+  if (localizedError && message && message.includes('{{')) {
+    return message.substring(0, message.indexOf('{{')) + localizedError + message.substring(message.indexOf('}}') + 2, message.length);
+  }
+
+  return message;
 }

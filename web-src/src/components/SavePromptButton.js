@@ -69,7 +69,7 @@ function updateTemplates(templatesToUpsert, templatesToDelete, runMode, formatMe
 
 export function SavePromptButton(props) {
   const { runMode } = useApplicationContext();
-  const { user: { name } } = useShellContext();
+  const { user: { name, locale } } = useShellContext();
 
   const [customPromptTemplates, setCustomPromptTemplates] = useRecoilState(customPromptTemplatesState);
   const [lastUsedPromptTemplateId, setLastUsedPromptTemplateId] = useRecoilState(lastUsedPromptTemplateIdState);
@@ -182,7 +182,14 @@ export function SavePromptButton(props) {
     if (!selectedTemplate) {
       return null;
     }
-    const lastModified = new Date(selectedTemplate.lastModified).toLocaleDateString();
+    const lastModified = new Date(selectedTemplate.lastModified).toLocaleString(locale, {
+      month: 'numeric',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+    });
 
     return (
       <motion.div

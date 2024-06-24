@@ -28,6 +28,7 @@ import { SavePromptButton } from './SavePromptButton.js';
 import { ResetButton } from './ResetButton.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
+import { useShellContext } from './ShellProvider.js';
 
 const styles = {
   promptPropertiesPanel: css`
@@ -67,6 +68,7 @@ export function PromptSessionSideView({
   const currentSession = useRecoilValue(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
   const { formatMessage } = useIntl();
+  const { user } = useShellContext();
 
   return (
     <Grid
@@ -88,7 +90,14 @@ export function PromptSessionSideView({
         ? <Flex UNSAFE_className={styles.promptFlexItems} UNSAFE_style={{ borderBottom: '1px solid rgb(224, 224, 224)' }} direction={'column'} justifyContent={'stretch'} alignItems={'stretch'} gridArea={'info'}>
           <Flex UNSAFE_style={{ borderRadius: '8px', background: '#E0F2FF', padding: '10px' }} gap={'size-100'} alignItems={'center'}>
             <GenAIIcon />
-            <Text UNSAFE_className={styles.promptName}>{currentSession.name ?? 'Empty'}</Text>
+            <Text UNSAFE_className={styles.promptName}>{`${currentSession.name.split(' ')[0]} ${new Date(currentSession.name).toLocaleString(user.locale, {
+              month: 'numeric',
+              day: 'numeric',
+              year: 'numeric',
+              hour: 'numeric',
+              minute: 'numeric',
+              hour12: true,
+            })}` ?? 'Empty'}</Text>
           </Flex>
           <Text UNSAFE_style={{ padding: '10px' }}>{currentSession.description ?? 'Empty'}</Text>
         </Flex>

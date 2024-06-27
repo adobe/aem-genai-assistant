@@ -6,7 +6,7 @@
   "favoritesView.exportToCSVButtonLabel": "In CSV exportieren",
   "favoritesView.exportToCSVButtonTooltip": "Exportiert die ausgewählten Varianten (nur Textinhalte) in eine CSV-Datei.",
   "favoritesView.generateImageButtonLabel": "Bild generieren",
-  "favoritesView.generateImageFailedToast": "Ein Problem ist aufgetreten. Versuchen sie es später erneut.",
+  "favoritesView.generateImageFailedToast": "Ein Problem ist aufgetreten. Versuchen Sie es später erneut.",
   "favoritesView.navigationLabel": "Prompt-Vorlagen",
   "favoritesView.noFavoritesMessage": "Noch keine Favoriten",
   "favoritesView.removeButtonTooltip": "Löschen",

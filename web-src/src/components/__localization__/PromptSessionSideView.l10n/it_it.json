@@ -25,13 +25,13 @@
   "promptSessionSideView.savePromptSuccessToast": "Modello di prompt salvato",
   "promptSessionSideView.temperatureDescription": "Una temperatura più elevata si allontana dal prompt per risultati più casuali e creativi",
   "promptSessionSideView.temperatureLabel": "Temperatura",
-  "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": "Grazie per la pazienza, il vostro contenuto è quasi pronto",
-  "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": "Quasi completato con il tuo contenuto",
-  "promptSessionSideView.variationsGeneration15SecondsWaitTimeToast": "Preparazione dei contenuti",
-  "promptSessionSideView.variationsGeneration30SecondsWaitTimeToast": "Grazie per la pazienza, il vostro contenuto sta arrivando",
+  "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": "Grazie per la pazienza, i contenuti sono quasi pronti",
+  "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": "Abbiamo quasi completato la preparazione dei contenuti",
+  "promptSessionSideView.variationsGeneration15SecondsWaitTimeToast": "Stiamo preparando i contenuti",
+  "promptSessionSideView.variationsGeneration30SecondsWaitTimeToast": "Grazie per la pazienza, i contenuti stanno arrivando",
   "promptSessionSideView.variationsGeneration45SecondsWaitTimeToast": "Generazione dei contenuti",
-  "promptSessionSideView.variationsGeneration60SecondsWaitTimeToast": "Grazie per la pazienza, il vostro contenuto sta arrivando",
+  "promptSessionSideView.variationsGeneration60SecondsWaitTimeToast": "Grazie per la pazienza, i contenuti stanno arrivando",
   "promptSessionSideView.variationsGeneration75SecondsWaitTimeToast": "Preparazione dei contenuti",
-  "promptSessionSideView.variationsGeneration90SecondsWaitTimeToast": "Quasi completato con il tuo contenuto",
-  "promptSessionSideView.variationsGenerationLongWaitTimeToast": "Spiacenti per il ritardo, il contenuto è quasi pronto"
+  "promptSessionSideView.variationsGeneration90SecondsWaitTimeToast": "Abbiamo quasi completato la preparazione dei contenuti",
+  "promptSessionSideView.variationsGenerationLongWaitTimeToast": "Ci susiamo per il ritardo, i contenuti sono quasi pronti"
 }

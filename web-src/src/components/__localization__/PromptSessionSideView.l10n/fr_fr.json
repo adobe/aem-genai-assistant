@@ -25,13 +25,13 @@
   "promptSessionSideView.savePromptSuccessToast": "Modèle de prompt enregistré",
   "promptSessionSideView.temperatureDescription": "Une température plus élevée s’écarte de l’invite, et laisse davantage de place au hasard et à la créativité.",
   "promptSessionSideView.temperatureLabel": "Température",
-  "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": "Merci de votre patience, votre contenu est presque prêt",
-  "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": "Presque terminé avec votre contenu",
+  "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": "Merci de votre patience, votre contenu est presque prêt.",
+  "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": "Le traitement de votre contenu est presque terminé.",
   "promptSessionSideView.variationsGeneration15SecondsWaitTimeToast": "Préparation de votre contenu",
-  "promptSessionSideView.variationsGeneration30SecondsWaitTimeToast": "Merci pour votre patience, votre contenu est en route",
-  "promptSessionSideView.variationsGeneration45SecondsWaitTimeToast": "Générer votre contenu",
-  "promptSessionSideView.variationsGeneration60SecondsWaitTimeToast": "Merci pour votre patience, votre contenu est en route",
+  "promptSessionSideView.variationsGeneration30SecondsWaitTimeToast": "Merci pour votre patience, votre contenu est en route.",
+  "promptSessionSideView.variationsGeneration45SecondsWaitTimeToast": "Génération de votre contenu",
+  "promptSessionSideView.variationsGeneration60SecondsWaitTimeToast": "Merci pour votre patience, votre contenu est en route.",
   "promptSessionSideView.variationsGeneration75SecondsWaitTimeToast": "Préparation de votre contenu",
-  "promptSessionSideView.variationsGeneration90SecondsWaitTimeToast": "Presque terminé avec votre contenu",
-  "promptSessionSideView.variationsGenerationLongWaitTimeToast": "Désolé pour le retard, votre contenu est presque prêt"
+  "promptSessionSideView.variationsGeneration90SecondsWaitTimeToast": "Le traitement de votre contenu est presque terminé.",
+  "promptSessionSideView.variationsGenerationLongWaitTimeToast": "Nous nous excusons pour le retard, votre contenu est presque prêt."
 }

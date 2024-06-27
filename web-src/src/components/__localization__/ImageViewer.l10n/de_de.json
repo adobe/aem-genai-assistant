@@ -5,7 +5,7 @@
   "imageViewer.copyImageSuccessToast": "Bild in die Zwischenablage kopiert!",
   "imageViewer.deleteButtonLabel": "Löschen",
   "imageViewer.deleteImageAlertTitle": "Bild löschen",
-  "imageViewer.deleteImageDialogQuestion": "Dadurch wird das Bild permanent gelöscht. Fortfahren?",
+  "imageViewer.deleteImageDialogQuestion": "Dadurch wird das Bild endgültig gelöscht. Fortfahren?",
   "imageViewer.downloadButtonLabel": "Herunterladen",
   "imageViewer.editButtonLabel": "Bearbeiten",
   "imageViewer.editButtonTooltip": "Bearbeiten",

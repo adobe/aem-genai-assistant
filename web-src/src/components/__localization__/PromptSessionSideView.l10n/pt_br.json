@@ -25,13 +25,13 @@
   "promptSessionSideView.savePromptSuccessToast": "Modelo de prompt salvo",
   "promptSessionSideView.temperatureDescription": "Uma temperatura mais alta se desvia do prompt e gera mais aleatoriedade e criatividade",
   "promptSessionSideView.temperatureLabel": "Temperatura",
-  "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": "Obrigado por sua paciência, seu conteúdo está quase pronto",
-  "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": "Quase concluído com seu conteúdo",
-  "promptSessionSideView.variationsGeneration15SecondsWaitTimeToast": "Preparação do conteúdo",
-  "promptSessionSideView.variationsGeneration30SecondsWaitTimeToast": "Obrigado por sua paciência, seu conteúdo está a caminho",
-  "promptSessionSideView.variationsGeneration45SecondsWaitTimeToast": "Gerar conteúdo",
-  "promptSessionSideView.variationsGeneration60SecondsWaitTimeToast": "Obrigado por sua paciência, seu conteúdo está a caminho",
-  "promptSessionSideView.variationsGeneration75SecondsWaitTimeToast": "Preparando seu conteúdo",
-  "promptSessionSideView.variationsGeneration90SecondsWaitTimeToast": "Quase concluído com seu conteúdo",
-  "promptSessionSideView.variationsGenerationLongWaitTimeToast": "Desculpe o atraso, seu conteúdo está quase pronto"
+  "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": "Obrigado pela sua paciência, o seu conteúdo está quase pronto",
+  "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": "O seu conteúdo está quase pronto",
+  "promptSessionSideView.variationsGeneration15SecondsWaitTimeToast": "Preparando o seu conteúdo",
+  "promptSessionSideView.variationsGeneration30SecondsWaitTimeToast": "Obrigado pela sua paciência, o seu conteúdo está a caminho",
+  "promptSessionSideView.variationsGeneration45SecondsWaitTimeToast": "Gerando o seu conteúdo",
+  "promptSessionSideView.variationsGeneration60SecondsWaitTimeToast": "Obrigado pela sua paciência, o seu conteúdo está a caminho",
+  "promptSessionSideView.variationsGeneration75SecondsWaitTimeToast": "Preparando o seu conteúdo",
+  "promptSessionSideView.variationsGeneration90SecondsWaitTimeToast": "O seu conteúdo está quase pronto",
+  "promptSessionSideView.variationsGenerationLongWaitTimeToast": "Desculpe pelo atraso, o seu conteúdo está quase pronto"
 }

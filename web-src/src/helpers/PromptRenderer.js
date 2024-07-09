@@ -54,7 +54,20 @@ export function createContentModelPrompt(contentFragmentModel) {
     + '\n```';
 }
 
-export function renderPrompt(prompt, placeholders, contentFragmentModel) {
-  const extraPrompt = contentFragmentModel ? createContentModelPrompt(contentFragmentModel) : '';
-  return removeEmptyLines(resolvePlaceholders(prompt, placeholders)) + extraPrompt;
+export function addContentFragmentContext(fragment) {
+  return `\n\n[Read-only] Original content fragment for context:\n${fragment.variations
+    .map((v) => {
+      return `${v.title}: \n${v.fields
+        .map((f) => `- ${f.name}: ${f.values}`)
+        .join('\n')}`;
+    })
+    .join('\n\n')}`;
+}
+
+export function renderPrompt(prompt, placeholders, contentFragmentModel, fragment) {
+  const extraPrompt = contentFragmentModel ? createContentModelPrompt(contentFragmentModel) + addContentFragmentContext(fragment) : '';
+  console.log('extraPrompt', extraPrompt);
+  return (
+    removeEmptyLines(resolvePlaceholders(prompt, placeholders)) + extraPrompt
+  );
 }

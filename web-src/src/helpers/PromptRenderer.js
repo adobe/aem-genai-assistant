@@ -55,13 +55,15 @@ export function createContentModelPrompt(contentFragmentModel) {
 }
 
 export function addContentFragmentContext(fragment) {
-  return `\n\n[Read-only] Original content fragment for context:\n${fragment.variations
+  return '\n\nOriginal content fragment for context: ```'
+  + `\n${fragment.variations
     .map((v) => {
       return `${v.title}: \n${v.fields
         .map((f) => `- ${f.name}: ${f.values}`)
         .join('\n')}`;
     })
-    .join('\n\n')}`;
+    .join('\n\n')}`
+  + '\n```';
 }
 
 export function renderPrompt(prompt, placeholders, contentFragmentModel, fragment) {

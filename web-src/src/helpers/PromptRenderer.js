@@ -55,7 +55,7 @@ export function createContentModelPrompt(contentFragmentModel) {
 }
 
 export function addContentFragmentContext(fragment) {
-  return '\n\nOriginal fragment for context: ```'
+  return '\n\nOriginal content fragment for context: ```'
   + `\n${fragment.fields
     .map((field) => {
       return (field.values.length > 0 ? `- ${field.name}: ${field.values}\n` : '');

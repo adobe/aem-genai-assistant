@@ -55,20 +55,27 @@ export function createContentModelPrompt(contentFragmentModel) {
 }
 
 export function addContentFragmentContext(fragment) {
-  return '\n\nOriginal content fragment for context: ```'
+  return '\n\nOriginal fragment for context: ```'
+  + `\n${fragment.fields
+    .map((field) => {
+      return (field.values.length > 0 ? `- ${field.name}: ${field.values}\n` : '');
+    })
+    .join('')}`
+  + '```'
+  + '\n\nContent fragment variations for context: ```'
   + `\n${fragment.variations
     .map((v) => {
       return `${v.title}: \n${v.fields
-        .map((f) => `- ${f.name}: ${f.values}`)
-        .join('\n')}`;
-    })
-    .join('\n\n')}`
-  + '\n```';
+        .map((f) => {
+          return (f.values.length > 0 ? `- ${f.name}: ${f.values}\n` : '');
+        })
+        .join('')}`;
+    })}`
+  + '```';
 }
 
 export function renderPrompt(prompt, placeholders, contentFragmentModel, fragment) {
   const extraPrompt = contentFragmentModel ? createContentModelPrompt(contentFragmentModel) + addContentFragmentContext(fragment) : '';
-  console.log('extraPrompt', extraPrompt);
   return (
     removeEmptyLines(resolvePlaceholders(prompt, placeholders)) + extraPrompt
   );

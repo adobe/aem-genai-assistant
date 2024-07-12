@@ -70,12 +70,14 @@ export function addContentFragmentContext(fragment) {
           return (f.values.length > 0 ? `- ${f.name}: ${f.values}\n` : '');
         })
         .join('')}`;
-    })}`
+    }).join('\n')}`
   + '```';
 }
 
 export function renderPrompt(prompt, placeholders, contentFragmentModel, fragment) {
   const extraPrompt = contentFragmentModel ? createContentModelPrompt(contentFragmentModel) + addContentFragmentContext(fragment) : '';
+  console.log(extraPrompt);
+
   return (
     removeEmptyLines(resolvePlaceholders(prompt, placeholders)) + extraPrompt
   );

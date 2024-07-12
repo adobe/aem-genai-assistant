@@ -76,8 +76,6 @@ export function addContentFragmentContext(fragment) {
 
 export function renderPrompt(prompt, placeholders, contentFragmentModel, fragment) {
   const extraPrompt = contentFragmentModel ? createContentModelPrompt(contentFragmentModel) + addContentFragmentContext(fragment) : '';
-  console.log(extraPrompt);
-
   return (
     removeEmptyLines(resolvePlaceholders(prompt, placeholders)) + extraPrompt
   );

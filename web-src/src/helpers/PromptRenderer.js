@@ -55,6 +55,8 @@ export function createContentModelPrompt(contentFragmentModel) {
 }
 
 export function addContentFragmentContext(fragment) {
+  if (!fragment) return '';
+
   return '\n\nOriginal content fragment for context: ```'
   + `\n${fragment.fields
     .map((field) => {

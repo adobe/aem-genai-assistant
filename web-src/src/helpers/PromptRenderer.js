@@ -44,13 +44,13 @@ export function createContentModelPrompt(contentFragmentModel, contentFragment) 
     .filter((field) => field.type === 'text' || field.type === 'long-text')
     .map((field) => {
       const originalValue = contentFragment?.fields.find((f) => f.name === field.name)?.values.toString();
-      return `\n- field_name: "${field.name}"`
-      + `\n  field_description: "${field.description ?? field.label ?? ''}"`
-      + `${originalValue ? `\n  original_value: "${originalValue}"` : ''}`;
+      return `\n  - name: "${field.name}"`
+      + `\n    description: "${field.description ?? field.label ?? ''}"`
+      + `${originalValue ? `\n    original_value: "${originalValue}"` : ''}`;
     });
 
-  fields.push('\n- field_name: "variationName"'
-    + '\n  field_description: "The name assigned to the variation that should accurately represent the content\'s intent."');
+  fields.push('\n  - name: "variationName"'
+    + '\n    description: "The name assigned to the variation that should accurately represent the content\'s intent."');
 
   return '\n\nAdditional requirements: ```'
     + '\nThe response MUST be formatted as a JSON array.'

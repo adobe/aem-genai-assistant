@@ -1,4 +1,16 @@
 {
+  "promptResultCard.contentFragmentExportDialogDescription": {
+    "__value__": "Export the selected variation as a new content fragment variation.",
+    "__desc__": "Description for Export to Content Fragment dialog"
+  },
+  "promptResultCard.contentFragmentExportDialogExportButtonLabel": {
+    "__value__": "Variation Name",
+    "__desc__": "Label for the Export button in Export to Content Fragment dialog"
+  },
+  "promptResultCard.contentFragmentExportDialogTitle": {
+    "__value__": "Export to Content Fragment",
+    "__desc__": "Title for Export to Content Fragment dialog"
+  },
   "promptResultCard.copyButtonTooltip": {
     "__value__": "Copy",
     "__desc__": "Tooltip for Copy button"
@@ -71,8 +83,12 @@
     "__value__": "Remove",
     "__desc__": "Tooltip for Remove button"
   },
+  "promptResultCard.reuseButtonLabel": {
+    "__value__": "Reuse",
+    "__desc__": "Label for the Reuse button"
+  },
   "promptResultCard.reuseButtonTooltip": {
-    "__value__": "Re-use",
+    "__value__": "Load the input values and prompt used to generate variations.",
     "__desc__": "Tooltip for Reuse button"
   },
   "promptResultCard.savePromptDescription": {
@@ -86,5 +102,9 @@
   "promptResultCard.sendFeedbackSuccessToast": {
     "__value__": "Feedback sent!",
     "__desc__": "Toast message for Feedback sent"
+  },
+  "promptResultCard.variationsHeading": {
+    "__value__": "Variations",
+    "__desc__": "Heading for the Variations section"
   }
 }

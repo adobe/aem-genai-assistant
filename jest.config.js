@@ -17,4 +17,5 @@ module.exports = {
     '\\.(css|less)$':
       '<rootDir>/.jest/styleMock.js',
   },
+  setupFiles: ["<rootDir>/.jest/test-setup.js"]
 };

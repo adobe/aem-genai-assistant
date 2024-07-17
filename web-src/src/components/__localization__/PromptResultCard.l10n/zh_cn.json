@@ -1,4 +1,7 @@
 {
+  "promptResultCard.contentFragmentExportDialogDescription": "将选定的变体导出为新的内容片段变体。",
+  "promptResultCard.contentFragmentExportDialogExportButtonLabel": "变体名称",
+  "promptResultCard.contentFragmentExportDialogTitle": "导出到内容片段",
   "promptResultCard.copyButtonTooltip": "复制",
   "promptResultCard.copyTextSuccessToast": "已将文本复制到剪贴板！",
   "promptResultCard.createPromptDescription": "打开“编辑提示”并编写您的提示或粘贴其他提示的部分。",
@@ -17,8 +20,10 @@
   "promptResultCard.refineContentDescription": "内容生成后，如果您想进一步优化内容，请更新提示和/或输入字段。当您对内容满意后，就可以在 AEM 创作体验中加以利用。",
   "promptResultCard.refineContentTitle": "完善和使用内容",
   "promptResultCard.removeButtonTooltip": "移除",
-  "promptResultCard.reuseButtonTooltip": "重复使用",
+  "promptResultCard.reuseButtonLabel": "重用",
+  "promptResultCard.reuseButtonTooltip": "加载用于生成变体的输入值和提示。",
   "promptResultCard.savePromptDescription": "如果您想重复使用所创建的提示，请选择“保存”，以便存储提示，供将来使用。您可以在用户或组织级别保存它。",
   "promptResultCard.savePromptTitle": "保存",
-  "promptResultCard.sendFeedbackSuccessToast": "已发送反馈！"
+  "promptResultCard.sendFeedbackSuccessToast": "已发送反馈！",
+  "promptResultCard.variationsHeading": "变量"
 }

@@ -9,6 +9,8 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+import { formatIdentifier } from './FormatHelper.js';
+
 export function toText(input) {
   if (typeof input === 'string') {
     return input;
@@ -24,7 +26,7 @@ export function toHTML(input) {
     return input;
   } else {
     return Object.entries(input).map(([key, value]) => {
-      return `<b>${key}</b>: ${value}`;
+      return `<b>${formatIdentifier(key)}</b>: ${value}`;
     }).join('<br/>');
   }
 }

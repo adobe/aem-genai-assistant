@@ -1,4 +1,7 @@
 {
+  "promptResultCard.contentFragmentExportDialogDescription": "Exporte a variação selecionada como uma nova variação de fragmento de conteúdo.",
+  "promptResultCard.contentFragmentExportDialogExportButtonLabel": "Nome da variação",
+  "promptResultCard.contentFragmentExportDialogTitle": "Exportar para fragmento de conteúdo",
   "promptResultCard.copyButtonTooltip": "Copiar",
   "promptResultCard.copyTextSuccessToast": "Copiado para a área de transferência.",
   "promptResultCard.createPromptDescription": "Abra “Editar prompt”, escreva seu prompt ou cole seções de outros prompts.",
@@ -17,8 +20,10 @@
   "promptResultCard.refineContentDescription": "Depois que o conteúdo for gerado, se quiser refiná-lo ainda mais, atualize o prompt e/ou os campos de entrada até ficar satisfeito com o aproveitamento de conteúdo na experiência de criação no AEM.",
   "promptResultCard.refineContentTitle": "Refinar e usar conteúdo",
   "promptResultCard.removeButtonTooltip": "Remover",
-  "promptResultCard.reuseButtonTooltip": "Reutilizar",
+  "promptResultCard.reuseButtonLabel": "Reutilizar",
+  "promptResultCard.reuseButtonTooltip": "Carregue os valores de entrada e o prompt usado para gerar variações.",
   "promptResultCard.savePromptDescription": "Se quiser reutilizar o prompt criado, clique em “Salvar” para armazená-lo para uso futuro. Você pode salvá-lo no nível do usuário ou da organização.",
   "promptResultCard.savePromptTitle": "Salvar",
-  "promptResultCard.sendFeedbackSuccessToast": "Feedback enviado."
+  "promptResultCard.sendFeedbackSuccessToast": "Feedback enviado.",
+  "promptResultCard.variationsHeading": "Variações"
 }

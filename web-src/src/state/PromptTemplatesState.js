@@ -12,8 +12,9 @@
 import { atom, selector } from 'recoil';
 import { v4 as uuid } from 'uuid';
 
-import { data as bundledPromptTemplatesJson } from '../../../data/bundled-prompt-templates.json';
+import bundledPromptTemplatesJson from '../../../data/bundled-prompt-templates.json';
 import { readValueFromSettings, writeValueToSettings } from '../helpers/SettingsHelper.js';
+import { RUN_MODE_ALL, RUN_MODE_DEFAULT } from './RunMode.js';
 
 export const NEW_PROMPT_TEMPLATE_ID = 'new-prompt';
 
@@ -28,99 +29,124 @@ export const newPromptTemplate = {
   isBundled: false,
 };
 
-function createPromptTemplatesEnvelope(templates) {
+function createPromptTemplatesWrapper(templates) {
   return {
     promptTemplates: templates,
   };
 }
 
-function parseBundledPromptTemplates(data) {
-  return data.map(({
-    Label, Description, Template,
-  }) => {
-    return {
-      id: uuid(),
-      label: Label,
-      description: Description,
-      template: Template || '',
-      isShared: true,
-      isBundled: true,
-      created: null,
-      lastModified: null,
-      createdBy: null,
-      lastModifiedBy: null,
-    };
-  });
+export function parseBundledPromptTemplates(runMode) {
+  return bundledPromptTemplatesJson
+    .filter(({ modes }) => modes.includes(runMode))
+    .map((prompt) => {
+      return {
+        id: uuid(),
+        label: prompt.label,
+        description: prompt.description,
+        template: prompt.template || '',
+        isShared: true,
+        isBundled: true,
+        created: null,
+        lastModified: null,
+        createdBy: null,
+        lastModifiedBy: null,
+      };
+    });
 }
 
-function settingsToPromptTemplates(settings, isShared) {
-  return settings.promptTemplates.map(({
-    id, label, description, template, created, lastModified, createdBy, lastModifiedBy,
-  }) => {
-    return {
-      id,
-      label,
-      description,
-      template,
-      isShared,
-      isBundled: false,
-      created: created ?? new Date().getTime(),
-      lastModified: lastModified ?? new Date().getTime(),
-      createdBy,
-      lastModifiedBy,
-    };
-  });
+export function createPromptMigrator() {
+  return (prompt) => {
+    if (!prompt.modes) {
+      return {
+        ...prompt,
+        modes: [RUN_MODE_DEFAULT],
+      };
+    }
+    return prompt;
+  };
+}
+
+function settingsToPromptTemplates(settings, isShared, runMode) {
+  return settings.promptTemplates
+    .map(createPromptMigrator())
+    .filter(({ modes }) => (runMode === RUN_MODE_ALL ? true : modes.includes(runMode)))
+    .map((prompt) => {
+      return {
+        id: prompt.id,
+        label: prompt.label,
+        description: prompt.description,
+        template: prompt.template,
+        modes: prompt.modes,
+        isShared,
+        isBundled: false,
+        created: prompt.created ?? new Date().getTime(),
+        lastModified: prompt.lastModified ?? new Date().getTime(),
+        createdBy: prompt.createdBy,
+        lastModifiedBy: prompt.lastModifiedBy,
+      };
+    });
 }
 
 function promptTemplatesToSettings(promptTemplates, isSharedTemplate) {
   const settings = promptTemplates
     .filter(({ isShared }) => isSharedTemplate === isShared)
-    .map(({
-      id, label, description, template, created, lastModified, createdBy, lastModifiedBy,
-    }) => {
+    .map((prompt) => {
       return {
-        id,
-        label,
-        description,
-        template,
-        created,
-        lastModified,
-        createdBy,
-        lastModifiedBy,
+        id: prompt.id,
+        label: prompt.label,
+        description: prompt.description,
+        template: prompt.template,
+        modes: prompt.modes,
+        created: prompt.created,
+        lastModified: prompt.lastModified,
+        createdBy: prompt.createdBy,
+        lastModifiedBy: prompt.lastModifiedBy,
       };
     });
-  return createPromptTemplatesEnvelope(settings);
+  return createPromptTemplatesWrapper(settings);
 }
 
-export async function readCustomPromptTemplates() {
+export async function readCustomPromptTemplates(runMode) {
   const privateSettings = await readValueFromSettings(
     PROMPT_TEMPLATE_STORAGE_KEY,
-    createPromptTemplatesEnvelope([]),
+    createPromptTemplatesWrapper([]),
     false,
   );
-  const privatePromptTemplates = settingsToPromptTemplates(privateSettings, false);
+  const privatePromptTemplates = settingsToPromptTemplates(privateSettings, false, runMode);
   const publicSettings = await readValueFromSettings(
     PROMPT_TEMPLATE_STORAGE_KEY,
-    createPromptTemplatesEnvelope([]),
+    createPromptTemplatesWrapper([]),
     true,
   );
-  const publicPromptTemplates = settingsToPromptTemplates(publicSettings, true);
+  const publicPromptTemplates = settingsToPromptTemplates(publicSettings, true, runMode);
   return [
     ...privatePromptTemplates,
     ...publicPromptTemplates,
   ];
 }
 
-export async function writeCustomPromptTemplates(promptTemplates) {
-  const publicSettings = promptTemplatesToSettings(promptTemplates, true);
+export async function reconcileCustomPromptTemplates(templatesToUpsert, templatesToDelete, runMode) {
+  const promptTemplates = await readCustomPromptTemplates(RUN_MODE_ALL);
+  const updatedPromptTemplates = promptTemplates
+    .filter(({ id }) => !templatesToDelete.find(({ id: idToDelete }) => idToDelete === id));
+  templatesToUpsert.forEach((template) => {
+    const existingTemplate = updatedPromptTemplates.find(({ id }) => id === template.id);
+    if (existingTemplate) {
+      Object.assign(existingTemplate, template);
+    } else {
+      updatedPromptTemplates.push(template);
+    }
+  });
+  const publicSettings = promptTemplatesToSettings(updatedPromptTemplates, true);
   await writeValueToSettings(PROMPT_TEMPLATE_STORAGE_KEY, publicSettings, true);
-  const privateSettings = promptTemplatesToSettings(promptTemplates, false);
+  const privateSettings = promptTemplatesToSettings(updatedPromptTemplates, false);
   await writeValueToSettings(PROMPT_TEMPLATE_STORAGE_KEY, privateSettings, false);
+  return updatedPromptTemplates.filter(({ modes }) => modes.includes(runMode));
 }
 
-const bundledPromptTemplatesState = selector({
+export const bundledPromptTemplatesState = atom({
   key: 'bundledPromptTemplatesState',
-  get: () => parseBundledPromptTemplates(bundledPromptTemplatesJson),
+  default: [],
 });
 
 export const customPromptTemplatesState = atom({

@@ -10,10 +10,22 @@
  * governing permissions and limitations under the License.
  */
 const { FirefallClient } = require('./FirefallClient.js');
+const { ImsClient } = require('./ImsClient.js');
+
+const getServiceToken = async (params) => {
+  const imsEndpoint = params.IMS_ENDPOINT;
+  const serviceClientId = params.IMS_SERVICE_CLIENT_ID;
+  const clientSecret = params.IMS_SERVICE_CLIENT_SECRET;
+  const permAuthCode = params.IMS_SERVICE_PERM_AUTH_CODE;
+
+  const imsClient = new ImsClient(imsEndpoint, serviceClientId, clientSecret, permAuthCode);
+  return imsClient.getServiceToken();
+};
 
 function asFirefallAction(action) {
-  return (params) => {
-    const { imsOrg, serviceToken } = params;
+  return async (params) => {
+    const { imsOrg } = params;
+    const serviceToken = await getServiceToken(params);
 
     const firefallEndpoint = params.FIREFALL_ENDPOINT;
     const apiKey = params.FIREFALL_API_KEY;

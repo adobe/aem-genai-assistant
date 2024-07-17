@@ -20,6 +20,7 @@ import { ToastQueue } from '@react-spectrum/toast';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './ImageViewer.l10n.js';
+import { EXPRESS_LOAD_TIMEOUT } from './Constants.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
 import { log } from '../helpers/MetricsHelper.js';
@@ -91,26 +92,37 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
     } else {
       log('express:editimage', { variant: variantId });
     }
-    const onPublish = (publishParams) => {
+    const onPublish = (intent, publishParams) => {
       replaceImageFromVariant(variantId, index, publishParams.asset[0].data);
+    };
+    const onError = (err) => {
+      console.error('Error:', err.toString());
+      ToastQueue.negative(formatMessage(intlMessages.imageViewer.editImageFailedToast), { timeout: 2000 });
     };
     const assetData = variantImages[variant.id][index];
 
     const success = await expressSdkService.handleImageOperation(
       'editImage',
       {
-        outputParams: {
-          outputType: 'base64',
+        appConfig: {
+          callbacks: {
+            onPublish,
+            onError,
+          },
+          metaData: {
+          },
         },
-        inputParams: {
+        docConfig: {
           asset: {
             data: assetData,
             type: 'image',
             dataType: 'base64',
           },
+
         },
-        callbacks: {
-          onPublish,
+        exportConfig: [],
+        containerConfig: {
+          loadTimeout: EXPRESS_LOAD_TIMEOUT.EDIT_IMAGE,
         },
       },
     );

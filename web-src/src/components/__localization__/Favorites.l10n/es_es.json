@@ -1,9 +1,19 @@
 {
+  "favoritesView.backButtonAltText": "Volver a todas las indicaciones",
   "favoritesView.copyButtonTooltip": "Copiar",
   "favoritesView.copyTextSuccessToast": "Texto copiado en el portapapeles",
+  "favoritesView.deselectAllButtonLabel": "Deseleccionar todo",
+  "favoritesView.exportToCSVButtonLabel": "Exportar a CSV",
+  "favoritesView.exportToCSVButtonTooltip": "Exportar las variantes seleccionadas (solo contenido de texto) a un archivo CSV.",
   "favoritesView.generateImageButtonLabel": "Generar imagen",
   "favoritesView.generateImageFailedToast": "Se ha producido un problema. Inténtelo de nuevo.",
   "favoritesView.navigationLabel": "Plantillas de indicación",
   "favoritesView.noFavoritesMessage": "Aún no tiene favoritos",
-  "favoritesView.removeButtonTooltip": "Eliminar"
+  "favoritesView.removeButtonTooltip": "Eliminar",
+  "favoritesView.removeFromFavoritesAlertCancelButtonLabel": "Cancelar",
+  "favoritesView.removeFromFavoritesAlertDeleteButtonLabel": "Eliminar",
+  "favoritesView.removeFromFavoritesAlertMessage": "¿Seguro que desea eliminar los elementos seleccionados de los favoritos?",
+  "favoritesView.removeFromFavoritesAlertTitle": "¿Desea eliminar los elementos seleccionados?",
+  "favoritesView.removeFromFavoritesButtonLabel": "Eliminar",
+  "favoritesView.selectAllButtonLabel": "Seleccionar todo"
 }

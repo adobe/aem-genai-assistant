@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import { Flex, Grid } from '@adobe/react-spectrum';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { PromptSessionSideView } from './PromptSessionSideView.js';
 import { PromptResultListView } from './PromptResultListView.js';
@@ -20,6 +20,7 @@ import { log } from '../helpers/MetricsHelper.js';
 
 export function PromptSessionPanel() {
   const [isOpenPromptEditor, setIsOpenPromptEditor] = useRecoilState(promptEditorState);
+  const [promptEditorError, setPromptEditorError] = useState(false);
 
   useEffect(() => {
     if (isOpenPromptEditor) {
@@ -36,8 +37,11 @@ export function PromptSessionPanel() {
       gap={'size-300'}
       height={'100%'}>
 
-      <PromptSessionSideView isOpenPromptEditor={isOpenPromptEditor}
-        onTogglePrompt={() => setIsOpenPromptEditor(!isOpenPromptEditor)} />
+      <PromptSessionSideView
+        isOpenPromptEditor={isOpenPromptEditor}
+        onTogglePrompt={() => setIsOpenPromptEditor(!isOpenPromptEditor)}
+        promptEditorError={promptEditorError}
+      />
 
       <Grid UNSAFE_style={{ padding: '20px 20px 0 0' }}
         columns={'1fr'}
@@ -51,9 +55,12 @@ export function PromptSessionPanel() {
         }}>
           <PromptResultListView style={{ height: '100%' }} onClick={() => setIsOpenPromptEditor(false)} />
         </Flex>
-        <PromptEditor isOpen={isOpenPromptEditor} onClose={() => setIsOpenPromptEditor(false)} />
+        <PromptEditor
+          isOpen={isOpenPromptEditor}
+          onClose={() => setIsOpenPromptEditor(false)}
+          setPromptValidationError={setPromptEditorError}
+        />
       </Grid>
-
     </Grid>
   );
 }

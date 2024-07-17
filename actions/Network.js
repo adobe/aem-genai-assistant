@@ -11,13 +11,20 @@
  */
 const AbortAddon = require('wretch/addons/abort');
 
-const { WretchError } = require('wretch');
 const wretch = require('wretch');
+const { retry } = require('wretch/middlewares/retry');
+const { WretchError } = require('wretch');
+
 const { Core } = require('@adobe/aio-sdk');
 
 const logger = Core.Logger('FirefallAction');
 
-const REQUEST_TIMEOUT = 55 * 1000;
+const REQUEST_TIMEOUT = 55; // in seconds
+const SHOULD_RETRY = false;
+const DEFAULT_OPTIONS = {
+  shouldRetry: SHOULD_RETRY,
+  requestTimeout: REQUEST_TIMEOUT, // in seconds
+};
 
 function createWretchError(status, message) {
   const error = new WretchError();
@@ -26,15 +33,18 @@ function createWretchError(status, message) {
   return error;
 }
 
-function wretchWithOptions(url) {
+function wretchWithOptions(url, options = DEFAULT_OPTIONS) {
+  // overwrite default options
+  const finalOptions = { ...DEFAULT_OPTIONS, ...options };
   return wretch(url)
+    .middlewares(finalOptions.shouldRetry ? [retry()] : [])
     .addon(AbortAddon())
-    .resolve((resolver) => resolver.setTimeout(REQUEST_TIMEOUT))
+    .resolve((resolver) => resolver.setTimeout(finalOptions.requestTimeout * 1000))
     .resolve((resolver) => {
       return resolver.fetchError((error) => {
         if (error.name === 'AbortError') {
           logger.error('Request aborted', error);
-          throw createWretchError(408, 'Request timed out');
+          throw createWretchError(504, 'Gateway Timeout');
         }
         logger.error('Network error', error);
         throw createWretchError(500, 'Network error');

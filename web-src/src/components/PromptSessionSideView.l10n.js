@@ -142,5 +142,50 @@ export const intlMessages = {
       id: 'promptSessionSideView.audienceSelectorLoadTargetFailedToast',
       description: 'Toast message for failed Adobe Target loading',
     },
+    variationsGeneration15SecondsWaitTimeToast: {
+      defaultMessage: 'Preparing your content',
+      id: 'promptSessionSideView.variationsGeneration15SecondsWaitTimeToast',
+      description: 'This toast message notifies customers that their request is still in progress after 15 seconds of waiting.',
+    },
+    variationsGeneration30SecondsWaitTimeToast: {
+      defaultMessage: 'Thanks for your patience, your content is on its way',
+      id: 'promptSessionSideView.variationsGeneration30SecondsWaitTimeToast',
+      description: 'This toast message notifies customers that their request is still in progress after 30 seconds of waiting.',
+    },
+    variationsGeneration45SecondsWaitTimeToast: {
+      defaultMessage: 'Generating your content',
+      id: 'promptSessionSideView.variationsGeneration45SecondsWaitTimeToast',
+      description: 'This toast message notifies customers that their request is still in progress after 45 seconds of waiting.',
+    },
+    variationsGeneration60SecondsWaitTimeToast: {
+      defaultMessage: 'Thanks for your patience, your content is on its way',
+      id: 'promptSessionSideView.variationsGeneration60SecondsWaitTimeToast',
+      description: 'This toast message notifies customers that their request is still in progress after 60 seconds of waiting.',
+    },
+    variationsGeneration75SecondsWaitTimeToast: {
+      defaultMessage: 'Getting your content ready',
+      id: 'promptSessionSideView.variationsGeneration75SecondsWaitTimeToast',
+      description: 'This toast message notifies customers that their request is still in progress after 75 seconds of waiting.',
+    },
+    variationsGeneration90SecondsWaitTimeToast: {
+      defaultMessage: 'Almost done with your content',
+      id: 'promptSessionSideView.variationsGeneration90SecondsWaitTimeToast',
+      description: 'This toast message notifies customers that their request is still in progress after 90 seconds of waiting.',
+    },
+    variationsGeneration105SecondsWaitTimeToast: {
+      defaultMessage: 'Thanks for your patience, your content is almost ready',
+      id: 'promptSessionSideView.variationsGeneration105SecondsWaitTimeToast',
+      description: 'This toast message notifies customers that their request is still in progress after 105 seconds of waiting.',
+    },
+    variationsGeneration120SecondsWaitTimeToast: {
+      defaultMessage: 'Almost done with your content',
+      id: 'promptSessionSideView.variationsGeneration120SecondsWaitTimeToast',
+      description: 'This toast message notifies customers that their request is still in progress after 120 seconds of waiting.',
+    },
+    variationsGenerationLongWaitTimeToast: {
+      defaultMessage: 'Sorry for the delay, your content is almost ready',
+      id: 'promptSessionSideView.variationsGenerationLongWaitTimeToast',
+      description: 'This toast message notifies customers that their request is still in progress after more than 2 minutes of waiting.',
+    },
   },
 };

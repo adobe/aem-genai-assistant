@@ -1,9 +1,19 @@
 {
+  "favoritesView.backButtonAltText": "すべてのプロンプトに戻る",
   "favoritesView.copyButtonTooltip": "コピー",
   "favoritesView.copyTextSuccessToast": "テキストをクリップボードにコピーしました",
+  "favoritesView.deselectAllButtonLabel": "すべてを選択解除",
+  "favoritesView.exportToCSVButtonLabel": "CSV に書き出し",
+  "favoritesView.exportToCSVButtonTooltip": "選択したバリアント (テキストコンテンツのみ) を CSV ファイルに書き出します。",
   "favoritesView.generateImageButtonLabel": "画像を生成",
   "favoritesView.generateImageFailedToast": "エラーが発生しました。もう一度試してください。",
   "favoritesView.navigationLabel": "プロンプトテンプレート",
   "favoritesView.noFavoritesMessage": "お気に入りはまだありません",
-  "favoritesView.removeButtonTooltip": "削除"
+  "favoritesView.removeButtonTooltip": "削除",
+  "favoritesView.removeFromFavoritesAlertCancelButtonLabel": "キャンセル",
+  "favoritesView.removeFromFavoritesAlertDeleteButtonLabel": "削除",
+  "favoritesView.removeFromFavoritesAlertMessage": "選択した項目をお気に入りから削除してもよろしいですか？",
+  "favoritesView.removeFromFavoritesAlertTitle": "選択した項目を削除しますか？",
+  "favoritesView.removeFromFavoritesButtonLabel": "削除",
+  "favoritesView.selectAllButtonLabel": "すべてを選択"
 }

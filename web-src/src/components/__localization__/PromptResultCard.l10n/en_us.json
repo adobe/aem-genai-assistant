@@ -1,4 +1,7 @@
 {
+  "promptResultCard.contentFragmentExportDialogDescription": "Export the selected variation as a new content fragment variation.",
+  "promptResultCard.contentFragmentExportDialogExportButtonLabel": "Variation Name",
+  "promptResultCard.contentFragmentExportDialogTitle": "Export to Content Fragment",
   "promptResultCard.copyButtonTooltip": "Copy",
   "promptResultCard.copyTextSuccessToast": "Copied text to clipboard!",
   "promptResultCard.createPromptDescription": "Open \"Edit Prompt\" and write your prompt or paste sections of other prompts.",
@@ -17,8 +20,10 @@
   "promptResultCard.refineContentDescription": "After content is generated if you want to refine it further, update the prompt and / or input fields. Once you are happy with the content leverage in your AEM authoring experience.",
   "promptResultCard.refineContentTitle": "Refine and use Content",
   "promptResultCard.removeButtonTooltip": "Remove",
-  "promptResultCard.reuseButtonTooltip": "Re-use",
+  "promptResultCard.reuseButtonLabel": "Reuse",
+  "promptResultCard.reuseButtonTooltip": "Load the input values and prompt used to generate variations.",
   "promptResultCard.savePromptDescription": "If you want to reuse the prompt created select \"Save\".  This allows you to store the prompt for future use. You can save it at the user or organization level.",
   "promptResultCard.savePromptTitle": "Save",
-  "promptResultCard.sendFeedbackSuccessToast": "Feedback sent!"
+  "promptResultCard.sendFeedbackSuccessToast": "Feedback sent!",
+  "promptResultCard.variationsHeading": "Variations"
 }

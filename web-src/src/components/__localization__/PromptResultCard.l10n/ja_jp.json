@@ -1,4 +1,7 @@
 {
+  "promptResultCard.contentFragmentExportDialogDescription": "選択したバリエーションを新しいコンテンツフラグメントバリエーションとして書き出します。",
+  "promptResultCard.contentFragmentExportDialogExportButtonLabel": "バリエーション名",
+  "promptResultCard.contentFragmentExportDialogTitle": "コンテンツフラグメントに書き出し",
   "promptResultCard.copyButtonTooltip": "コピー",
   "promptResultCard.copyTextSuccessToast": "テキストをクリップボードにコピーしました",
   "promptResultCard.createPromptDescription": "「プロンプトを編集」を開き、プロンプトを記述するか、他のプロンプトのペーストします。",
@@ -17,8 +20,10 @@
   "promptResultCard.refineContentDescription": "コンテンツを生成した後、さらに調整する場合は、プロンプトや入力フィールドを更新します。コンテンツに満足したら、AEM オーサリングエクスペリエンスで活用します。",
   "promptResultCard.refineContentTitle": "コンテンツの調整と使用",
   "promptResultCard.removeButtonTooltip": "削除",
-  "promptResultCard.reuseButtonTooltip": "再利用",
+  "promptResultCard.reuseButtonLabel": "再利用",
+  "promptResultCard.reuseButtonTooltip": "入力値を読み込み、バリエーションの生成に使用するプロンプトを表示します。",
   "promptResultCard.savePromptDescription": "作成したプロンプトを再利用する場合は、「保存」を選択します。これにより、今後の使用のためにプロンプトを保存できます。ユーザーまたは組織レベルで保存できます。",
   "promptResultCard.savePromptTitle": "保存",
-  "promptResultCard.sendFeedbackSuccessToast": "フィードバックを送信しました。"
+  "promptResultCard.sendFeedbackSuccessToast": "フィードバックを送信しました。",
+  "promptResultCard.variationsHeading": "バリエーション"
 }

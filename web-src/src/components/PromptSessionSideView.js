@@ -21,7 +21,7 @@ import { intlMessages } from './PromptSessionSideView.l10n.js';
 import { PromptInputView } from './PromptInputView.js';
 import { GenerateButton } from './GenerateButton.js';
 
-import GenerateIcon from '../assets/generate.svg';
+import GenAIIcon from '../icons/GenAIIcon.js';
 import PromptIcon from '../icons/PromptIcon.js';
 import ChevronLeft from '../assets/chevron-left.svg';
 import { SavePromptButton } from './SavePromptButton.js';
@@ -61,7 +61,9 @@ const styles = {
   `,
 };
 
-export function PromptSessionSideView({ isOpenPromptEditor, onTogglePrompt, ...props }) {
+export function PromptSessionSideView({
+  isOpenPromptEditor, onTogglePrompt, promptEditorError, ...props
+}) {
   const currentSession = useRecoilValue(sessionState);
   const [viewType, setViewType] = useRecoilState(viewTypeState);
   const { formatMessage } = useIntl();
@@ -85,7 +87,7 @@ export function PromptSessionSideView({ isOpenPromptEditor, onTogglePrompt, ...p
       {currentSession
         ? <Flex UNSAFE_className={styles.promptFlexItems} UNSAFE_style={{ borderBottom: '1px solid rgb(224, 224, 224)' }} direction={'column'} justifyContent={'stretch'} alignItems={'stretch'} gridArea={'info'}>
           <Flex UNSAFE_style={{ borderRadius: '8px', background: '#E0F2FF', padding: '10px' }} gap={'size-100'} alignItems={'center'}>
-            <Image src={GenerateIcon} alt={''} width={'24px'} />
+            <GenAIIcon />
             <Text UNSAFE_className={styles.promptName}>{currentSession.name ?? 'Empty'}</Text>
           </Flex>
           <Text UNSAFE_style={{ padding: '10px' }}>{currentSession.description ?? 'Empty'}</Text>
@@ -113,12 +115,11 @@ export function PromptSessionSideView({ isOpenPromptEditor, onTogglePrompt, ...p
 
       <div className={styles.actions}>
         <Flex direction={'column'} alignItems={'flex-start'} justifyContent={'center'} flexShrink={0} gap={'4px'}>
-          <SavePromptButton />
+          <SavePromptButton isDisabled={promptEditorError} />
           <ResetButton />
         </Flex>
-        <GenerateButton />
+        <GenerateButton isDisabled={promptEditorError} />
       </div>
-
     </Grid>
   );
 }

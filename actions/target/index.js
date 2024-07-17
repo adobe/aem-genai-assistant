@@ -11,6 +11,7 @@
  */
 const wretch = require('../Network.js');
 const { asGenericAction } = require('../GenericAction.js');
+const { asAuthNAction } = require('../AuthNAction.js');
 
 const MIN_DESCRIPTION_LENGTH = 5;
 
@@ -40,4 +41,4 @@ async function main({ __ow_headers: headers, org, TARGET_API_KEY }) {
     }));
 }
 
-exports.main = asGenericAction(main);
+exports.main = asGenericAction(asAuthNAction(main));

@@ -1,9 +1,19 @@
 {
+  "favoritesView.backButtonAltText": "Retour à toutes les invites",
   "favoritesView.copyButtonTooltip": "Copier",
   "favoritesView.copyTextSuccessToast": "Texte copié dans le presse-papiers !",
+  "favoritesView.deselectAllButtonLabel": "Tout désélectionner",
+  "favoritesView.exportToCSVButtonLabel": "Exporter au format CSV",
+  "favoritesView.exportToCSVButtonTooltip": "Exporter les variantes sélectionnées (contenu texte uniquement) dans un fichier CSV.",
   "favoritesView.generateImageButtonLabel": "Générer une image",
   "favoritesView.generateImageFailedToast": "Une erreur s’est produite. Réessayez ultérieurement.",
   "favoritesView.navigationLabel": "Modèles de prompt",
   "favoritesView.noFavoritesMessage": "Il n’y a pas encore de favoris.",
-  "favoritesView.removeButtonTooltip": "Supprimer"
+  "favoritesView.removeButtonTooltip": "Supprimer",
+  "favoritesView.removeFromFavoritesAlertCancelButtonLabel": "Annuler",
+  "favoritesView.removeFromFavoritesAlertDeleteButtonLabel": "Supprimer",
+  "favoritesView.removeFromFavoritesAlertMessage": "Voulez-vous vraiment supprimer les éléments sélectionnés de vos favoris ?",
+  "favoritesView.removeFromFavoritesAlertTitle": "Supprimer les éléments sélectionnés ?",
+  "favoritesView.removeFromFavoritesButtonLabel": "Supprimer",
+  "favoritesView.selectAllButtonLabel": "Tout sélectionner"
 }

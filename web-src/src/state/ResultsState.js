@@ -18,9 +18,14 @@ export const resultsState = selector({
     return get(sessionState).results;
   },
   set: ({ set, get }, newValue) => {
+    const valueWithTimestamp = newValue.map((result) => ({
+      ...result,
+      timestamp: result.timestamp ?? new Date().getTime(),
+    }));
+
     set(sessionState, {
       ...get(sessionState),
-      results: newValue,
+      results: valueWithTimestamp,
     });
   },
 });

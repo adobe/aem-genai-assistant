@@ -13,7 +13,7 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '20'
+        node-version: '18'
     - name: Run npm scripts
       env:
           CI: true
@@ -30,11 +30,13 @@ jobs:
           IMS_SERVICE_PERM_AUTH_CODE: ${{ secrets.IMS_SERVICE_PERM_AUTH_CODE }}
           IMS_PRODUCT_CONTEXT: dma_aem_cloud
           EXPRESS_PRODUCT_CONTEXT: spark
-          EXPRESS_SDK_URL: https://dev.cc-embed.adobe.com/sdk/1p/v4/4.1.14/CCEverywhere.js
+          EXPRESS_SDK_URL: https://cc-embed.adobe.com/sdk/1p/v4/CCEverywhere.js
           SPLUNK_HEC__HEC_TOKEN: ${{ secrets.SPLUNK_HEC__HEC_TOKEN }}
           AIO_LOG_LEVEL: info
+          FT_EARLY_ACCESS: 'SITES-20810'
+          LD_SDK_KEY: ${{ secrets.LD_SDK_KEY }}
       run: |
-        npm install
+        npm ci
         npm run grammar
         npm run prompts
         npm run build

@@ -1,0 +1,10 @@
+{
+  "contentFragmentExportButton.buttonLabel": "書き出しのバリエーション",
+  "contentFragmentExportButton.exportDialog.cancelButtonLabel": "キャンセル",
+  "contentFragmentExportButton.exportDialog.description": "選択したバリエーションを新しいコンテンツフラグメントバリエーションとして書き出します。",
+  "contentFragmentExportButton.exportDialog.exportAndOpenButtonLabel": "書き出して開く",
+  "contentFragmentExportButton.exportDialog.exportButtonLabel": "書き出し",
+  "contentFragmentExportButton.exportDialog.exportButtonProgressAreaLabel": "書き出し中…",
+  "contentFragmentExportButton.exportDialog.nameFieldLabel": "名前",
+  "contentFragmentExportButton.exportDialog.title": "コンテンツフラグメントに書き出し"
+}

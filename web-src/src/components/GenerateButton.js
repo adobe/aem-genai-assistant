@@ -31,13 +31,66 @@ import { LegalTermsLink } from './LegalTermsLink.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { createVariants } from '../helpers/ResultsParser.js';
 import { log } from '../helpers/MetricsHelper.js';
-import { sampleRUM } from '../rum.js';
+import { contentFragmentState } from '../state/ContentFragmentState.js';
+import { RUN_MODE_CF } from '../state/RunMode.js';
+import { FIREFALL_ACTION_TYPES } from '../services/FirefallService.js';
 
-export function GenerateButton() {
-  const { firefallService } = useApplicationContext();
+const createWaitMessagesController = (intlFn) => {
+  const displayToast = (msg, timeout = 1500) => {
+    ToastQueue.info(msg, { timeout });
+  };
 
+  const closeToast = () => {
+    // Closing an active toast, if any
+    const toast = document.querySelector('div[class*="spectrum-Toast-buttons"]');
+    if (toast !== null) {
+      const closeBtn = toast.querySelector('button[aria-label="Close"]');
+      if (closeBtn !== null) {
+        closeBtn.click();
+      }
+    }
+  };
+
+  const waitMessages = [
+    { msg: intlMessages.promptSessionSideView.variationsGeneration15SecondsWaitTimeToast, delay: 15 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration30SecondsWaitTimeToast, delay: 30 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration45SecondsWaitTimeToast, delay: 45 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration60SecondsWaitTimeToast, delay: 60 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration75SecondsWaitTimeToast, delay: 75 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration90SecondsWaitTimeToast, delay: 90 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration105SecondsWaitTimeToast, delay: 105 },
+    { msg: intlMessages.promptSessionSideView.variationsGeneration120SecondsWaitTimeToast, delay: 120 },
+    { msg: intlMessages.promptSessionSideView.variationsGenerationLongWaitTimeToast, delay: 180 },
+    { msg: intlMessages.promptSessionSideView.variationsGenerationLongWaitTimeToast, delay: 240 },
+  ];
+  const timeoutIds = [];
+  return {
+    startDisplaying: () => {
+      for (const waitMessage of waitMessages) {
+        timeoutIds.push(
+          setTimeout(() => {
+            closeToast();
+            displayToast(intlFn(waitMessage.msg));
+          }, waitMessage.delay * 1000),
+        );
+      }
+    },
+    stopDisplaying: () => {
+      if (timeoutIds.length > 0) {
+        while (timeoutIds.length > 0) {
+          clearTimeout(timeoutIds.shift());
+        }
+        closeToast();
+      }
+    },
+  };
+};
+
+export function GenerateButton({ isDisabled }) {
+  const { runMode, firefallService } = useApplicationContext();
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
+  const contentFragment = useRecoilValue(contentFragmentState);
   const temperature = useRecoilValue(temperatureState);
 
   const setResults = useSetRecoilState(resultsState);
@@ -49,8 +102,12 @@ export function GenerateButton() {
 
   const generateResults = useCallback(async () => {
     try {
-      const finalPrompt = renderPrompt(prompt, parameters);
-      const { queryId, response } = await firefallService.complete(finalPrompt, temperature);
+      const finalPrompt = renderPrompt(prompt, parameters, contentFragment?.model);
+      const { queryId, response } = await firefallService.complete(
+        finalPrompt,
+        temperature,
+        FIREFALL_ACTION_TYPES.VARIATIONS_GENERATION,
+      );
       const variants = createVariants(uuid, response);
       setResults((results) => [...results, {
         id: queryId,
@@ -60,9 +117,10 @@ export function GenerateButton() {
         parameters,
         temperature,
       }]);
-      await saveResults();
-      log('prompt:generate:variations:generated', { variations: variants.length, queryId });
-      sampleRUM('genai:prompt:generatedvariations', { source: 'GenerateButton#generateResults', target: variants.length });
+      if (runMode !== RUN_MODE_CF) {
+        await saveResults();
+      }
+      log('prompt:generate:variations:generated', { source: 'GenerateButton#generateResults', variations: variants.length, queryId });
     } catch (error) {
       console.error(error);
       throw error;
@@ -70,15 +128,20 @@ export function GenerateButton() {
   }, [firefallService, prompt, parameters, temperature]);
 
   const handleGenerate = useCallback(() => {
-    log('prompt:generate');
-    sampleRUM('genai:prompt:generate', { source: 'GenerateButton#handleGenerate' });
+    log('prompt:generate', { source: 'GenerateButton#handleGenerate' });
     setGenerationInProgress(true);
     setIsOpenPromptEditor(false);
+
+    const waitMessagesController = createWaitMessagesController(formatMessage);
+    waitMessagesController.startDisplaying();
+
     generateResults()
       .catch((error) => {
+        waitMessagesController.stopDisplaying();
         ToastQueue.negative(error.message, { timeout: 2000 });
       })
       .finally(() => {
+        waitMessagesController.stopDisplaying();
         setGenerationInProgress(false);
       });
   }, [generateResults, setGenerationInProgress]);
@@ -91,8 +154,8 @@ export function GenerateButton() {
         variant="cta"
         style="fill"
         onPress={handleGenerate}
-        isDisabled={generationInProgress}>
-        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} />}
+        isDisabled={isDisabled || generationInProgress}>
+        {generationInProgress ? <ProgressCircle size="S" aria-label="Generate" isIndeterminate right="8px" /> : <GenAIIcon marginEnd={'8px'} color={'white'}/>}
         {formatMessage(intlMessages.promptSessionSideView.generateButtonLabel)}
       </Button>
       <ContextualHelp variant="info">

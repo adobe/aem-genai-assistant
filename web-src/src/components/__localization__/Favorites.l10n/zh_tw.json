@@ -1,9 +1,19 @@
 {
+  "favoritesView.backButtonAltText": "返回所有提示",
   "favoritesView.copyButtonTooltip": "複製",
   "favoritesView.copyTextSuccessToast": "已將文字複製到剪貼簿！",
+  "favoritesView.deselectAllButtonLabel": "取消全選",
+  "favoritesView.exportToCSVButtonLabel": "匯出至 CSV",
+  "favoritesView.exportToCSVButtonTooltip": "將所選的變體 (僅限文字內容) 匯出至 CSV 檔案。",
   "favoritesView.generateImageButtonLabel": "產生影像",
   "favoritesView.generateImageFailedToast": "發生錯誤。請再試一次！",
   "favoritesView.navigationLabel": "提示範本",
   "favoritesView.noFavoritesMessage": "還沒有最愛項目",
-  "favoritesView.removeButtonTooltip": "刪除"
+  "favoritesView.removeButtonTooltip": "刪除",
+  "favoritesView.removeFromFavoritesAlertCancelButtonLabel": "取消",
+  "favoritesView.removeFromFavoritesAlertDeleteButtonLabel": "刪除",
+  "favoritesView.removeFromFavoritesAlertMessage": "您確定要從最愛項目中刪除所選項目嗎?",
+  "favoritesView.removeFromFavoritesAlertTitle": "是否要刪除所選項目?",
+  "favoritesView.removeFromFavoritesButtonLabel": "刪除",
+  "favoritesView.selectAllButtonLabel": "全選"
 }

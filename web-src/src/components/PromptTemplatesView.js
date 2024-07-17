@@ -20,15 +20,15 @@ import { intlMessages } from './App.l10n.js';
 import {
   customPromptTemplatesState, NEW_PROMPT_TEMPLATE_ID,
   promptTemplatesState,
-  writeCustomPromptTemplates,
+  reconcileCustomPromptTemplates,
 } from '../state/PromptTemplatesState.js';
 import { PromptTemplateCard } from './PromptTemplateCard.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { lastUsedPromptTemplateIdState } from '../state/LastUsedPromptTemplateIdState.js';
 import { log } from '../helpers/MetricsHelper.js';
-import { sampleRUM } from '../rum.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
+import { useApplicationContext } from './ApplicationProvider.js';
 
 export function createNewSession(label, description, prompt) {
   const timestamp = Date.now();
@@ -44,6 +44,8 @@ export function createNewSession(label, description, prompt) {
 }
 
 export function PromptTemplatesView() {
+  const { runMode } = useApplicationContext();
+
   const promptTemplates = useRecoilValue(promptTemplatesState);
 
   const setCurrentSession = useSetRecoilState(sessionState);
@@ -64,10 +66,10 @@ export function PromptTemplatesView() {
       label,
     });
     if (id === NEW_PROMPT_TEMPLATE_ID) {
-      sampleRUM('genai:prompt:new', { source: 'HomePanel#handleSelect' });
+      log('prompt:new', { source: 'HomePanel#handleSelect' });
     } else {
       const promptType = isBundled ? 'isadobeselected' : 'iscustomselected';
-      sampleRUM(`genai:prompt:${promptType}`, { source: 'HomePanel#handleSelect' });
+      log(`prompt:${promptType}`, { source: 'HomePanel#handleSelect' });
     }
     setCurrentSession(createNewSession(label, description, template));
     setViewType(ViewType.CurrentSession);
@@ -75,10 +77,8 @@ export function PromptTemplatesView() {
   }, [setCurrentSession, setViewType]);
 
   const handleDelete = useCallback(() => {
-    const newCustomPromptTemplates = customPromptTemplates
-      .filter((template) => template.id !== templateToDelete.id);
-    return writeCustomPromptTemplates(newCustomPromptTemplates)
-      .then(() => {
+    reconcileCustomPromptTemplates([], [templateToDelete], runMode)
+      .then((newCustomPromptTemplates) => {
         setTemplateToDelete(null);
         setCustomPromptTemplates(newCustomPromptTemplates);
       })

@@ -24,7 +24,6 @@ import { useIntl } from 'react-intl';
 
 import { intlMessages } from './App.l10n.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
-import { sampleRUM } from '../rum.js';
 import { log } from '../helpers/MetricsHelper.js';
 import ConsentHero from '../assets/consent-hero.png';
 
@@ -46,8 +45,7 @@ export function ConsentDialog({ onConsentChange }) {
   }, [setOpen]);
 
   const handleAgree = () => {
-    log('consent:agree');
-    sampleRUM('genai:consent:agree', { source: 'ConsentDialog#handleAgree' });
+    log('consent:agree', { source: 'ConsentDialog#handleAgree' });
     settingsApi.set({
       groupId: EXC_SHELL_GROUP_ID,
       level: SettingsLevel.USERORG,
@@ -59,8 +57,7 @@ export function ConsentDialog({ onConsentChange }) {
   };
 
   const handleCancel = () => {
-    log('consent:cancel');
-    sampleRUM('genai:consent:cancel', { source: 'ConsentDialog#handleCancel' });
+    log('consent:cancel', { source: 'ConsentDialog#handleCancel' });
     setOpen(false);
     onConsentChange(false);
   };

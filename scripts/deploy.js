@@ -78,7 +78,7 @@ function getDeploymentUrl(workspaceName) {
   // We use the QA environment to direct traffic to the appropriate workspace because:
   // - It is maintained by CI/CD, ensuring it is always available and current.
   // - It is not used by other developers for manual deployment of their changes.
-  return `https://experience-qa.adobe.com/?devMode=true&shell_source=qa&shell_ims=prod&app_workspace=${workspaceName}#/aem/generate-variations/`;
+  return `https://experience-qa.adobe.com/?devMode=true&shell_source=workspace&workspace=${workspaceName}&shell_ims=prod#/aem/generate-variations/`;
 }
 
 async function deployApp(workspaceName) {
@@ -99,8 +99,8 @@ async function deploy() {
   try {
     const currentBranch = await getCurrentGitBranch();
     console.log(`Current Git branch: ${currentBranch}`);
-    if (currentBranch === 'main') {
-      // If the current branch is 'main', deploy using settings from environment variables (CI/CD pipeline).
+    if (currentBranch === 'main' || currentBranch.startsWith('refs/tags/')) {
+      // If the current branch is 'main' or a tag, deploy using settings from environment variables (CI/CD pipeline).
       await deployApp();
       return;
     }
@@ -149,6 +149,7 @@ async function deploy() {
     await deployApp(answers.answer);
   } catch (error) {
     console.error(`Error during execution: ${error.message}`);
+    process.exit(1);
   }
 }
 

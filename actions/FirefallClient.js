@@ -25,7 +25,7 @@ const ERROR_CODES = {
 
 function toFirefallError(error, defaultMessage) {
   const errorMessage = ERROR_CODES[error.status] ?? defaultMessage;
-  return new InternalError(400, `IS-ERROR: ${errorMessage} (${error.status}).`);
+  return new InternalError(error.status ?? 500, `IS-ERROR: ${errorMessage} (${error.status}).`);
 }
 
 class FirefallClient {
@@ -39,8 +39,12 @@ class FirefallClient {
   async completion(prompt, temperature = 0.0, model = 'gpt-4') {
     const startTime = Date.now();
 
+    // must be aligned with the `aem-genai-assistant/generate` AppBuilder action timeout
+    // (subtracted 5 seconds to allow some buffer for AppBuilder)
+    const REQUEST_TIMEOUT = 295;
+
     try {
-      const response = await wretch(`${this.endpoint}/v1/completions`)
+      const response = await wretch(`${this.endpoint}/v1/completions`, { requestTimeout: REQUEST_TIMEOUT })
         .headers({
           'x-gw-ims-org-id': this.org,
           'x-api-key': this.apiKey,
@@ -61,6 +65,7 @@ class FirefallClient {
             presence_penalty: 0,
             n: 1,
           },
+          store_context: true,
         })
         .json();
 

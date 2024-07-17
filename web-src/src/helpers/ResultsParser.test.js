@@ -14,6 +14,14 @@ import { createVariants } from './ResultsParser.js';
 const uuid = () => 123;
 
 describe('createVariants', () => {
+  const consoleError = console.error; // save the original console.error function
+  beforeEach(() => {
+    console.error = jest.fn(); // create a new mock function for each test
+  });
+  afterAll(() => {
+    console.error = consoleError; // restore the original console.error after all tests
+  });
+
   test('response is a JSON string: an array of json objects', () => {
     const response = [
       { key1: 'value1', key2: 'value2' },
@@ -29,15 +37,45 @@ describe('createVariants', () => {
       { id: 123, content: 'Hello!' },
       { id: 123, content: 'how is it going?' },
     ]);
+    expect(console.error).not.toHaveBeenCalled();
   });
+
   test('response is a JSON string: an object', () => {
     const response = { key: 'value' };
     expect(createVariants(uuid, JSON.stringify(response))).toEqual([
       { id: 123, content: { key: 'value' } },
     ]);
+    expect(console.error).not.toHaveBeenCalled();
   });
+
   test('response is a string', () => {
     const response = 'Hello! How can I assist you today?';
     expect(createVariants(uuid, response)).toEqual([{ id: 123, content: response }]);
+    expect(console.error).toHaveBeenCalledWith('Error encountered while parsing the JSON response string.', response);
+  });
+
+  test('The response is an incomplete JSON string of an array of objects: the last incomplete object is stripped, while all others are retained.', () => {
+    const response = '[{"Title":"Top-Selling Wireless Headphones"},{"Title":"Spotlight on Wireless Headphones"},{"Tit';
+    expect(createVariants(uuid, response)).toEqual([
+      { id: 123, content: { Title: 'Top-Selling Wireless Headphones' } },
+      { id: 123, content: { Title: 'Spotlight on Wireless Headphones' } },
+    ]);
+    expect(console.error).toHaveBeenCalledWith('Error encountered while parsing the JSON response string.', response);
+  });
+
+  test('The response is an incomplete JSON string representing an object: an empty object is returned.', () => {
+    const response = '{"Title":"Top-Selling Wireless Headphones","Body":"Discover their high-';
+    expect(createVariants(uuid, response)).toEqual([
+      { id: 123, content: {} },
+    ]);
+    expect(console.error).toHaveBeenCalledWith('Error encountered while parsing the JSON response string.', response);
+  });
+
+  test('The response is an incomplete JSON string: a string is returned.', () => {
+    const response = 'Top-Selling Wireless Headphones ...';
+    expect(createVariants(uuid, response)).toEqual([
+      { id: 123, content: response },
+    ]);
+    expect(console.error).toHaveBeenCalledWith('Error encountered while parsing the JSON response string.', response);
   });
 });

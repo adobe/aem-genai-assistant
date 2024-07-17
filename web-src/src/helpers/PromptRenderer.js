@@ -39,45 +39,28 @@ function removeEmptyLines(text) {
   return text.replace(/\n\s*\n/g, '\n\n').trim();
 }
 
-export function createContentModelPrompt(contentFragmentModel) {
+export function createContentModelPrompt(contentFragmentModel, contentFragment) {
   const fields = contentFragmentModel.fields
     .filter((field) => field.type === 'text' || field.type === 'long-text')
     .map((field) => {
-      return `\n- ${field.name}: ${field.description ?? field.label ?? ''}`;
+      const originalValue = contentFragment?.fields.find((f) => f.name === field.name)?.values.toString();
+      return `\n- field_name: "${field.name}"`
+      + `\n  field_description: "${field.description ?? field.label ?? ''}"`
+      + `${originalValue ? `\n  original_value: "${originalValue}"` : ''}`;
     });
 
-  fields.push('\n- variationName: The name assigned to the variation that should accurately represent the content\'s intent.');
+  fields.push('\n- field_name: "variationName"'
+    + '\n  field_description: "The name assigned to the variation that should accurately represent the content\'s intent."');
 
   return '\n\nAdditional requirements: ```'
     + '\nThe response MUST be formatted as a JSON array.'
-    + `\nEach element of MUST be a JSON object that includes the following fields: ${fields}`
+    + `\nEach element of MUST be a JSON object that includes the following fields: ${fields.join('')}`
     + '\n```';
 }
 
-export function addContentFragmentContext(fragment) {
-  if (!fragment) return '';
-
-  return '\n\nOriginal content fragment for context: ```'
-  + `\n${fragment.fields
-    .map((field) => {
-      return (field.values.length > 0 ? `- ${field.name}: ${field.values}\n` : '');
-    })
-    .join('')}`
-  + '```'
-  + '\n\nContent fragment variations for context: ```'
-  + `\n${fragment.variations
-    .map((v) => {
-      return `${v.title}: \n${v.fields
-        .map((f) => {
-          return (f.values.length > 0 ? `- ${f.name}: ${f.values}\n` : '');
-        })
-        .join('')}`;
-    }).join('\n')}`
-  + '```';
-}
-
-export function renderPrompt(prompt, placeholders, contentFragmentModel, fragment) {
-  const extraPrompt = contentFragmentModel ? createContentModelPrompt(contentFragmentModel) + addContentFragmentContext(fragment) : '';
+export function renderPrompt(prompt, placeholders, contentFragmentModel, contentFragment) {
+  const extraPrompt = contentFragmentModel ? createContentModelPrompt(contentFragmentModel, contentFragment) : '';
+  console.log('Final Prompt: \n', removeEmptyLines(resolvePlaceholders(prompt, placeholders)) + extraPrompt);
   return (
     removeEmptyLines(resolvePlaceholders(prompt, placeholders)) + extraPrompt
   );

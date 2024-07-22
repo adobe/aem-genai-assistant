@@ -23,7 +23,7 @@ import { TemperatureSlider } from './TemperatureSlider.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
 import { formatIdentifier } from '../helpers/FormatHelper.js';
 import { AudienceSelector } from './AudienceSelector.js';
-import { ContentFetchField } from './ContentFetchField.js';
+import { AdditionalContextInput } from './AdditionalContextInput.js';
 
 export function toCamelCaseKeys(obj) {
   const camelCaseKey = (key) => {
@@ -106,13 +106,13 @@ function createInputComponent(type, name, label, params, value, onChange) {
       return createAudienceSelectComponent(name, label, params, value, onChange);
     case 'content':
       return (
-        <ContentFetchField
+        <AdditionalContextInput
           key={name}
-          name={name}
           label={label}
           description={params.description}
           selector={params.selector}
           prompt={params.prompt}
+          value={value}
           onChange={(newValue) => onChange(name, newValue)}
         />
       );

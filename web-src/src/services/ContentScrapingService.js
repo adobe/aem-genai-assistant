@@ -26,12 +26,14 @@ export class ContentScrappingService {
 
   async getContent(url, selector, prompt) {
     return wretch(this.scraperEndpoint)
+      .auth(`Bearer ${this.accessToken}`)
+      .headers({
+        'x-gw-ims-org-id': this.imsOrg,
+      })
       .post({
         url,
         selector,
         prompt,
-        imsOrg: this.imsOrg,
-        accessToken: this.accessToken,
       })
       .text();
   }

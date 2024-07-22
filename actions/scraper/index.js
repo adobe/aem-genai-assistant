@@ -13,21 +13,55 @@ const Papa = require('papaparse');
 const { JSDOM } = require('jsdom');
 const wretch = require('../Network.js');
 const { asGenericAction } = require('../GenericAction.js');
-const { asAuthAction } = require('../AuthAction.js');
 const { asFirefallAction } = require('../FirefallAction.js');
+const { asAuthZAction } = require('../AuthZAction.js');
+const { asAuthNAction } = require('../AuthNAction.js');
+
+const MIN_CHUNK_LENGTH = 10;
+const MAX_CONTENT_LENGTH = 1500;
+
+function truncateText(text, maxLength) {
+  if (text.length <= maxLength) {
+    return text;
+  }
+
+  let truncated = text.substring(0, maxLength);
+
+  // Find the last period in the truncated string
+  const lastPeriod = truncated.lastIndexOf('.');
+
+  // If there's a period, cut off at that point
+  if (lastPeriod !== -1) {
+    truncated = truncated.substring(0, lastPeriod + 1);
+  } else {
+    // If no period is found, look for the last space
+    const lastSpace = truncated.lastIndexOf(' ');
+    if (lastSpace !== -1) {
+      truncated = `${truncated.substring(0, lastSpace)}...`;
+    } else {
+      // If no space is found, just add ellipsis to the end
+      truncated += '...';
+    }
+  }
+
+  return truncated;
+}
 
 async function main({
   url, selector, prompt, firefallClient,
 }) {
+  console.log(`Scraping URL: ${url}`);
   const html = await wretch(url).get().text();
   const dom = new JSDOM(html);
-  console.log(`Selector: ${selector}`);
+  console.log(`Using selector: ${selector}`);
   const text = Array.from(dom.window.document.querySelectorAll(selector))
     .map((node) => node.textContent.replace(/\s+/g, ' '))
+    .filter((textChunk) => textChunk.length > MIN_CHUNK_LENGTH)
     .join('\n');
-  console.log(`Text: ${text}`);
-  const { generations } = await firefallClient.completion(`${prompt}:\n\n${text}`, 0);
+  const truncatedText = truncateText(text, MAX_CONTENT_LENGTH);
+  console.log(`Scraper output: ${truncatedText}`);
+  const { generations } = await firefallClient.completion(`${prompt}:\n\n${truncatedText}`, 0);
   return generations[0][0].message.content;
 }
 
-exports.main = asGenericAction(asAuthAction(asFirefallAction(main)));
+exports.main = asGenericAction(asAuthNAction(asAuthZAction(asFirefallAction(main))));

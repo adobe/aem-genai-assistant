@@ -80,6 +80,8 @@ application:
               IMS_SERVICE_CLIENT_SECRET: $IMS_SERVICE_CLIENT_SECRET
               IMS_SERVICE_PERM_AUTH_CODE: $IMS_SERVICE_PERM_AUTH_CODE
               IMS_PRODUCT_CONTEXT: $IMS_PRODUCT_CONTEXT
+              FT_EARLY_ACCESS: $FT_EARLY_ACCESS
+              LD_SDK_KEY: $LD_SDK_KEY
   hooks:
     post-app-run: ./hooks/post-app-run.js
     pre-app-deploy: ./hooks/pre-app-deploy.js

@@ -16,36 +16,10 @@ const { asGenericAction } = require('../GenericAction.js');
 const { asFirefallAction } = require('../FirefallAction.js');
 const { asAuthZAction } = require('../AuthZAction.js');
 const { asAuthNAction } = require('../AuthNAction.js');
+const { truncateText } = require('../StringUtils.js');
 
 const MIN_CHUNK_LENGTH = 10;
 const MAX_CONTENT_LENGTH = 1500;
-
-function truncateText(text, maxLength) {
-  if (text.length <= maxLength) {
-    return text;
-  }
-
-  let truncated = text.substring(0, maxLength);
-
-  // Find the last period in the truncated string
-  const lastPeriod = truncated.lastIndexOf('.');
-
-  // If there's a period, cut off at that point
-  if (lastPeriod !== -1) {
-    truncated = truncated.substring(0, lastPeriod + 1);
-  } else {
-    // If no period is found, look for the last space
-    const lastSpace = truncated.lastIndexOf(' ');
-    if (lastSpace !== -1) {
-      truncated = `${truncated.substring(0, lastSpace)}...`;
-    } else {
-      // If no space is found, just add ellipsis to the end
-      truncated += '...';
-    }
-  }
-
-  return truncated;
-}
 
 async function main({
   url, selector, prompt, firefallClient,

@@ -74,7 +74,7 @@ function ContentScraper({ selector, prompt, onChange }) {
         );
         setIsPending(false);
       });
-  }, [prompt]);
+  }, [selector, prompt, onChange, contentScrapingService]);
 
   return (
     <div className={styles.scraper}>
@@ -82,8 +82,8 @@ function ContentScraper({ selector, prompt, onChange }) {
         value={url}
         isDisabled={isPending}
         onChange={setUrl}
-        label={'URL to scrape content from'}
-        contextualHelp={<DescriptionLabel label={'URL'} description={'Enter the URL of the source document to scrape content from'} />}
+        label={'URL for Domain Knowledge'}
+        contextualHelp={<DescriptionLabel label={'URL'} description={'Enter a URL for the system to scrap content to provide more background information or specific details to guide the creation of the content. Max 1500 characters.'} />}
         UNSAFE_className={styles.scraperInput}
       />
       <ActionButton

@@ -15,11 +15,14 @@ import {
 import React, { useCallback, useState } from 'react';
 import { css } from '@emotion/css';
 import { ToastQueue } from '@react-spectrum/toast';
+import { useIntl } from 'react-intl';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
 
+import { intlMessages } from './AdditionalContextInput.l10n.js';
+
 const DEFAULT_PROMPT = 'Summarize the key points from the following source document to guide the creation of the content';
-const DEFAULT_SELECTOR = 'p, h1, h2, h3, h4, h5, h6, li, td, th, span, blockquote, article, section, header, footer, aside, nav, div:only-child:empty';
+const DEFAULT_SELECTOR = 'p, h1, h2, h3, h4, h5, h6, li, td, th, span, blockquote, article, section, header, footer, aside, nav, div, a, strong, em, code, pre, figure, figcaption';
 
 function isValidUrl(url) {
   try {
@@ -52,6 +55,8 @@ function ContentScraper({ selector, prompt, onChange }) {
   const [url, setUrl] = useState('');
   const [isPending, setIsPending] = useState(false);
 
+  const { formatMessage } = useIntl();
+
   const fetchContent = useCallback((fetchFromUrl) => {
     if (!isValidUrl(fetchFromUrl)) {
       console.error(`Invalid URL: ${fetchFromUrl}`);
@@ -62,14 +67,14 @@ function ContentScraper({ selector, prompt, onChange }) {
       .then(async (text) => {
         console.debug(`Scraped content: ${text}`);
         onChange(text);
-        ToastQueue.positive('Content fetched successfully', { timeout: 1000 });
+        ToastQueue.positive(formatMessage(intlMessages.contentFetchedSuccessfullyToastMessage), { timeout: 1000 });
         setIsPending(false);
       })
       .catch((e) => {
         console.error(e);
         onChange('');
         ToastQueue.negative(
-          `Failed to fetch content from URL: ${fetchFromUrl}`,
+          formatMessage(intlMessages.contentFetchFailedToastMessage, { url: fetchFromUrl }),
           { timeout: 1000 },
         );
         setIsPending(false);
@@ -82,15 +87,17 @@ function ContentScraper({ selector, prompt, onChange }) {
         value={url}
         isDisabled={isPending}
         onChange={setUrl}
-        label={'URL for Domain Knowledge'}
-        contextualHelp={<DescriptionLabel label={'URL'} description={'Enter a URL for the system to scrap content to provide more background information or specific details to guide the creation of the content. Max 1500 characters.'} />}
+        label={formatMessage(intlMessages.domainKnowledgeUrlLabel)}
+        contextualHelp={<DescriptionLabel
+          label={formatMessage(intlMessages.domainKnowledgeUrlContextualHelpTitle)}
+          description={formatMessage(intlMessages.domainKnowledgeUrlContextualHelpDescription)} />}
         UNSAFE_className={styles.scraperInput}
       />
       <ActionButton
         isDisabled={!isValidUrl(url) || isPending}
         onPress={() => fetchContent(url)}
         UNSAFE_className={styles.scraperButton}>
-        {isPending ? <ProgressCircle size={'S'} isIndeterminate /> : 'Fetch'}
+        {isPending ? <ProgressCircle size={'S'} isIndeterminate /> : formatMessage(intlMessages.fetchButtonLabel)}
       </ActionButton>
     </div>
   );

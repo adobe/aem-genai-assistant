@@ -87,5 +87,45 @@ export const intlMessages = {
       id: 'mainSidePanel.collapseMenuType',
       description: 'Collapse Side Panel',
     },
+    formatHelperTodayLabel: {
+      defaultMessage: 'Today',
+      id: 'mainSidePanel.formatHelperTodayLabel',
+      description: 'Label for today',
+    },
+    formatHelperYesterdayLabel: {
+      defaultMessage: 'Yesterday',
+      id: 'mainSidePanel.formatHelperYesterdayLabel',
+      description: 'Label for yesterday',
+    },
+    formatHelperLast7DaysLabel: {
+      defaultMessage: 'Last 7 days',
+      id: 'mainSidePanel.formatHelperLast7DaysLabel',
+      description: 'Label for the last seven days',
+    },
+    formatHelperLast30DaysLabel: {
+      defaultMessage: 'Last 30 days',
+      id: 'mainSidePanel.formatHelperLast30DaysLabel',
+      description: 'Label for the last thirty days',
+    },
+    formatHelperLast90DaysLabel: {
+      defaultMessage: 'Last 90 days',
+      id: 'mainSidePanel.formatHelperLast90DaysLabel',
+      description: 'Label for the last ninety days',
+    },
+    formatHelperLast6MonthsLabel: {
+      defaultMessage: 'Last 6 months',
+      id: 'mainSidePanel.formatHelperLast6MonthsLabel',
+      description: 'Label for the last six months',
+    },
+    formatHelperLast12MonthsLabel: {
+      defaultMessage: 'Last 12 months',
+      id: 'mainSidePanel.formatHelperLast12MonthsLabel',
+      description: 'Label for the last twelve months',
+    },
+    formatHelperOlderLabel: {
+      defaultMessage: 'Older',
+      id: 'mainSidePanel.formatHelperOlderLabel',
+      description: 'Label for older dates',
+    },
   },
 };

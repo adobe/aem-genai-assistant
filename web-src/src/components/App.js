@@ -16,7 +16,7 @@ import {
 } from '@adobe/react-spectrum';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { css } from '@emotion/css';
-import { IntlProvider, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 
 import { intlMessages } from './App.l10n.js';
 import { ConsentDialog } from './ConsentDialog.js';
@@ -26,17 +26,6 @@ import { PromptTemplateLibraryPanel } from './PromptTemplateLibraryPanel.js';
 import { viewTypeState, ViewType } from '../state/ViewType.js';
 import { mainSidePanelTypeState, MainSidePanelType } from '../state/MainSidePanelTypeState.js';
 import { FavoriteVariantListPanel } from './FavoriteVariantListPanel.js';
-import { useShellContext } from './ShellProvider.js';
-
-/* eslint-disable import/extensions */
-import * as messagesApp from './__localization__/App.l10n';
-import * as messagesMainSidePanel from './__localization__/MainSidePanel.l10n';
-import * as messagesPromptResultCard from './__localization__/PromptResultCard.l10n';
-import * as messagesPromptSessionSideView from './__localization__/PromptSessionSideView.l10n';
-import * as messagesFavorites from './__localization__/Favorites.l10n';
-import * as messagesImageViewer from './__localization__/ImageViewer.l10n';
-import * as messagesContentFragmentExportButton from './__localization__/ContentFragmentExportButton.l10n';
-/* eslint-enable import/extensions */
 
 const MAIN_SIDE_PANEL_EXPAND_WIDTH = '330px';
 const MAIN_SIDE_PANEL_COLLAPSE_WIDTH = '40px';
@@ -88,27 +77,9 @@ function NoAccessMessage() {
   );
 }
 
-function getAllMessages(locale) {
-  if (typeof locale !== 'string') {
-    return {};
-  }
-
-  const normalizedLocale = locale.replace(/-/g, '_');
-  return {
-    ...messagesApp[normalizedLocale],
-    ...messagesMainSidePanel[normalizedLocale],
-    ...messagesPromptResultCard[normalizedLocale],
-    ...messagesPromptSessionSideView[normalizedLocale],
-    ...messagesFavorites[normalizedLocale],
-    ...messagesImageViewer[normalizedLocale],
-    ...messagesContentFragmentExportButton[normalizedLocale],
-  };
-}
-
 export function App() {
   const [hasConsent, setConsent] = React.useState(true);
   const [mainSidePanelWidth, setMainSidePanelWidth] = React.useState();
-  const { user } = useShellContext();
 
   const viewType = useRecoilValue(viewTypeState);
   const [mainSidePanel, setMainSidePanelState] = useRecoilState(mainSidePanelTypeState);
@@ -134,7 +105,7 @@ export function App() {
   }, [mainSidePanel, setMainSidePanelState]);
 
   return (
-    <IntlProvider messages={getAllMessages(user.locale)} locale={user.locale} defaultLocale="en-US">
+    <>
       <ToastContainer />
       <ConsentDialog onConsentChange={setConsent} />
       {hasConsent
@@ -152,6 +123,6 @@ export function App() {
           </div>
         </Grid>
         : <NoAccessMessage />}
-    </IntlProvider>
+    </>
   );
 }

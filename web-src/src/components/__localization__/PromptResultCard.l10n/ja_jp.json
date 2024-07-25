@@ -21,7 +21,7 @@
   "promptResultCard.refineContentTitle": "コンテンツの調整と使用",
   "promptResultCard.removeButtonTooltip": "削除",
   "promptResultCard.reuseButtonLabel": "再利用",
-  "promptResultCard.reuseButtonTooltip": "入力値を読み込み、バリエーションの生成に使用するプロンプトを表示します。",
+  "promptResultCard.reuseButtonTooltip": "バリエーションの生成に使用する入力値とプロンプトを読み込みます。",
   "promptResultCard.savePromptDescription": "作成したプロンプトを再利用する場合は、「保存」を選択します。これにより、今後の使用のためにプロンプトを保存できます。ユーザーまたは組織レベルで保存できます。",
   "promptResultCard.savePromptTitle": "保存",
   "promptResultCard.sendFeedbackSuccessToast": "フィードバックを送信しました。",

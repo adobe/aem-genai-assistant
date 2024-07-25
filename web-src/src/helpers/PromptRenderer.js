@@ -72,7 +72,7 @@ export function renderPrompt(prompt, placeholders, contentFragmentModel, content
     : '';
   const sampleCfVar = contentFragment
     ? `\nThe following is an example of the expected response using the field values of the current content fragment. These values may be used to inform the generated content:\n[\n  {\n${contentFragment ? contentFragment.fields.map((field) => {
-      return field.values[0] ? `    ${field.name}: ${field.values[0]},\n` : '';
+      return field.values[0] ? `    "${field.name}": "${field.values[0]}",\n` : '';
     }).join('') : ''}  },\n  ...\n]`
     : '';
 

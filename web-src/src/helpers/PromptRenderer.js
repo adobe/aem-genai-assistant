@@ -39,29 +39,47 @@ function removeEmptyLines(text) {
   return text.replace(/\n\s*\n/g, '\n\n').trim();
 }
 
-export function createContentModelPrompt(contentFragmentModel, contentFragment) {
+export function createContentModelPrompt(contentFragmentModel) {
   const fields = contentFragmentModel.fields
     .filter((field) => field.type === 'text' || field.type === 'long-text')
     .map((field) => {
-      const originalValue = contentFragment?.fields.find((f) => f.name === field.name)?.values.toString();
-      return `\n  - name: "${field.name}"`
-      + `\n    description: "${field.description ?? field.label ?? ''}"`
-      + `${originalValue ? `\n    original_value: "${originalValue}"` : ''}`;
+      return `\n- ${field.name}: ${field.description ?? field.label ?? ''}`;
     });
 
-  fields.push('\n  - name: "variationName"'
-    + '\n    description: "The name assigned to the variation that should accurately represent the content\'s intent."');
+  fields.push('\n- variationName: The name assigned to the variation that should accurately represent the content\'s intent.');
 
   return '\n\nAdditional requirements: ```'
     + '\nThe response MUST be formatted as a JSON array.'
-    + `\nEach element of MUST be a JSON object that includes the following fields: ${fields.join('')}`
+    + `\nEach element of MUST be a JSON object that includes the following fields: ${fields}`
     + '\n```';
 }
 
+export function insertAfterPosition(str, position, replacement) {
+  const match = typeof position === 'string'
+    ? position
+    : (str.match(new RegExp(position.source, 'g')) || []).slice(-1)[0];
+  if (!match) return str;
+  const last = str.lastIndexOf(match);
+  return last !== -1
+    ? `${str.slice(0, last + match.length)}${replacement}${str.slice(last + match.length)}`
+    : str;
+}
+
 export function renderPrompt(prompt, placeholders, contentFragmentModel, contentFragment) {
-  const extraPrompt = contentFragmentModel ? createContentModelPrompt(contentFragmentModel, contentFragment) : '';
-  console.log('Final Prompt: \n', removeEmptyLines(resolvePlaceholders(prompt, placeholders)) + extraPrompt);
+  let renderedPrompt = removeEmptyLines(resolvePlaceholders(prompt, placeholders));
+  const additionalReqs = contentFragmentModel
+    ? createContentModelPrompt(contentFragmentModel)
+    : '';
+  const sampleCfVar = contentFragment
+    ? `\nThe following is an example of the expected response using the field values of the current content fragment. These values may be used to inform the generated content:\n[\n  {\n${contentFragment ? contentFragment.fields.map((field) => {
+      return field.values[0] ? `    ${field.name}: ${field.values[0]},\n` : '';
+    }).join('') : ''}  },\n  ...\n]`
+    : '';
+
+  renderedPrompt = insertAfterPosition(renderedPrompt, '```', additionalReqs);
+  renderedPrompt = insertAfterPosition(renderedPrompt, 'Additional Context: [[', sampleCfVar);
+
   return (
-    removeEmptyLines(resolvePlaceholders(prompt, placeholders)) + extraPrompt
+    renderedPrompt.replace('No domain knowledge or trusted source documents provided', '')
   );
 }

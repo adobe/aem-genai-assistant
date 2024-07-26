@@ -69,7 +69,7 @@ function updateTemplates(templatesToUpsert, templatesToDelete, runMode, formatMe
 
 export function SavePromptButton(props) {
   const { runMode } = useApplicationContext();
-  const { user: { name } } = useShellContext();
+  const { user: { name, locale } } = useShellContext();
 
   const [customPromptTemplates, setCustomPromptTemplates] = useRecoilState(customPromptTemplatesState);
   const [lastUsedPromptTemplateId, setLastUsedPromptTemplateId] = useRecoilState(lastUsedPromptTemplateIdState);
@@ -182,7 +182,15 @@ export function SavePromptButton(props) {
     if (!selectedTemplate) {
       return null;
     }
-    const lastModified = new Date(selectedTemplate.lastModified).toLocaleDateString();
+    const lastModified = new Date(selectedTemplate.lastModified).toLocaleString(locale, {
+      month: 'numeric',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true,
+    });
+
     return (
       <motion.div
         initial={{ opacity: 0.1, scaleY: 0.1 }}
@@ -190,9 +198,12 @@ export function SavePromptButton(props) {
         transition={{ ease: 'easeInOut', duration: 0.3 }}>
         <Well>
         <Text>
-          You are about to update <b>{label}</b>,
-          last modified on <b>{lastModified}</b> by <b>{selectedTemplate.lastModifiedBy}</b>.
-          Any changes made will overwrite the current content.
+          {formatMessage(intlMessages.promptSessionSideView.savePromptUpdateWarning, {
+            b: (chunks) => <b>{chunks}</b>,
+            label,
+            lastModified,
+            lastModifiedBy: selectedTemplate.lastModifiedBy,
+          })}
         </Text>
       </Well>
       </motion.div>

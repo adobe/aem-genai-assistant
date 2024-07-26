@@ -26,7 +26,9 @@ function unwrapError(error) {
     throw new Error(error.json.error);
   }
   console.error(`Unexpected error: ${error}`);
-  throw new Error('Oops! We\'ve encountered an unexpected error. Please try again later.');
+  // This error identifier (enclosed in double curly braces) will be replaced with the actual
+  // error message after being processed for localization on the frontend
+  throw new Error('{{unexpectedErrorEncountered}}');
 }
 
 function wretchWithOptions(url) {

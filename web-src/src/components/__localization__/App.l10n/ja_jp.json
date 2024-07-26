@@ -1,4 +1,5 @@
 {
+  "app.accessBoundaryNoAccessMessage": "申し訳ありませんが、この機能を使用する権限がないようです。{newLine}別の組織を選択するか、管理者に連絡してアクセス権をリクエストしてください。",
   "app.cancelActionLabel": "キャンセル",
   "app.consentDialogAgreeButtonLabel": "同意する",
   "app.consentDialogCancelButtonLabel": "キャンセル",
@@ -10,9 +11,19 @@
   "app.deletePromptTemplateFailedToast": "プロンプトテンプレートを削除できませんでした",
   "app.deletePromptTemplateQuestion": "このプロンプトを削除してもよろしいですか？",
   "app.description": "高品質のコンテンツをすばやく作成して実験で測定したり、サイトに公開したりします。",
+  "app.errorOccurredWhileGeneratingResults": "結果の生成中にエラーが発生しました",
+  "app.errorOccurredWhileSendingFeedback": "フィードバックの送信中にエラーが発生しました",
+  "app.genAIContentManagementPolicyFilteredResults": "生成 AI のコンテンツ管理ポリシーを迅速にトリガーするので、応答がフィルターされました。プロンプトを変更して再試行してください。",
+  "app.invalidAccessToken": "アクセストークンが無効です",
+  "app.missingAccessToken": "アクセストークンが指定されていません",
   "app.name": "バリエーションを生成",
   "app.noAccessDialogContent": "この製品へのアクセス権がありません",
   "app.noAccessDialogHeading": "アクセスが拒否されました",
   "app.noAccessMessage": "<strong>バリエーションを生成</strong>を使用するには、生成 AI のユーザーガイドラインに同意する必要があります。{newLine}<strong>同意する</strong>には、このページを更新してください。",
-  "app.promptTemplatesLibraryPanelLabel": "プロンプトテンプレート"
+  "app.noProductAccess": "プロファイルは製品にアクセスできません",
+  "app.profileFetchFailed": "プロファイルを取得できませんでした",
+  "app.promptTemplatesLibraryPanelLabel": "プロンプトテンプレート",
+  "app.rateLimitExceeded": "ジェネレーティブ AI のレート制限を超えています。1 分待ってから再度お試しください。",
+  "app.requestTimeout": "ジェネレーティブ AI のリクエストがタイムアウトになりました。バリエーションの数を減らして再試行してください。",
+  "app.unexpectedErrorEncountered": "問題が発生しました。予期しないエラーが発生しました。後ほど再試行してください。"
 }

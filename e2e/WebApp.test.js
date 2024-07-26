@@ -17,6 +17,7 @@ import '@testing-library/jest-dom';
 import { RecoilRoot } from 'recoil';
 import { defaultTheme, Provider } from '@adobe/react-spectrum';
 import { ApplicationProvider } from '../web-src/src/components/ApplicationProvider.js';
+import { IntlProviderWrapper } from '../web-src/src/components/IntlProviderWrapper.js';
 import { App } from '../web-src/src/components/App.js';
 import { CONSENT_KEY } from '../web-src/src/components/ConsentDialog.js';
 import { PROMPT_TEMPLATE_STORAGE_KEY } from '../web-src/src/state/PromptTemplatesState.js';
@@ -86,11 +87,13 @@ describe('WebApp', () => {
   it('renders correctly', async () => {
     await act(async () => render(
       <RecoilRoot>
-        <ApplicationProvider>
-          <Provider colorScheme="light" theme={defaultTheme} width="100%" height="100%">
-            <App />
-          </Provider>
-        </ApplicationProvider>
+        <IntlProviderWrapper>
+          <ApplicationProvider>
+            <Provider colorScheme="light" theme={defaultTheme} width="100%" height="100%">
+              <App />
+            </Provider>
+          </ApplicationProvider>
+        </IntlProviderWrapper>
       </RecoilRoot>,
     ));
 

@@ -1,4 +1,5 @@
 {
+  "app.accessBoundaryNoAccessMessage": "Veuillez nous excuser, il semble que vous ne soyez pas autorisé à utiliser cette fonctionnalité.{newLine}Essayez de sélectionner une autre organisation ou contactez votre administrateur pour demander l’accès.",
   "app.cancelActionLabel": "Annuler",
   "app.consentDialogAgreeButtonLabel": "Accepter",
   "app.consentDialogCancelButtonLabel": "Annuler",
@@ -10,9 +11,19 @@
   "app.deletePromptTemplateFailedToast": "Échec de la suppression du modèle de prompt",
   "app.deletePromptTemplateQuestion": "Voulez-vous vraiment supprimer ce prompt ?",
   "app.description": "Créez rapidement du contenu de haute qualité, puis évaluez-le par l’expérimentation ou publiez-le sur votre site.",
+  "app.errorOccurredWhileGeneratingResults": "Une erreur est survenue lors de la génération des résultats",
+  "app.errorOccurredWhileSendingFeedback": "Une erreur est survenue lors de l'envoi de commentaires",
+  "app.genAIContentManagementPolicyFilteredResults": "La réponse a été filtrée en raison de l’invite déclenchant la stratégie de gestion de contenu de Generative AI. Modifiez votre invite et réessayez.",
+  "app.invalidAccessToken": "Le jeton d’accès n’est pas valide",
+  "app.missingAccessToken": "Le jeton d’accès n’est pas fourni",
   "app.name": "Générer des variations",
   "app.noAccessDialogContent": "Vous n’avez pas accès à ce produit.",
   "app.noAccessDialogHeading": "Accès refusé",
   "app.noAccessMessage": "Pour utiliser <strong>Générer des variations,</strong> vous devez accepter les instructions d’utilisation de l’IA générative.{newLine}Actualisez cette page pour <strong>accepter</strong>.",
-  "app.promptTemplatesLibraryPanelLabel": "Modèles de prompt"
+  "app.noProductAccess": "Le profil n’a pas accès au produit",
+  "app.profileFetchFailed": "Echec de récupération du profil",
+  "app.promptTemplatesLibraryPanelLabel": "Modèles de prompt",
+  "app.rateLimitExceeded": "Limite de taux de l’IA générique dépassée. Attendez une minute et réessayez.",
+  "app.requestTimeout": "La demande d’IA générative a expiré. Réessayez en réduisant le nombre de variations.",
+  "app.unexpectedErrorEncountered": "Oups ! Nous avons rencontré une erreur inattendue. Veuillez réessayer plus tard."
 }

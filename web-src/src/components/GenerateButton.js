@@ -104,7 +104,7 @@ export function GenerateButton({ isDisabled }) {
 
   const generateResults = useCallback(async () => {
     try {
-      const finalPrompt = renderPrompt(prompt, parameters, contentFragment?.model);
+      const finalPrompt = renderPrompt(prompt, parameters, contentFragment?.model, contentFragment?.fragment);
       const { queryId, response } = await firefallService.complete(
         finalPrompt,
         temperature,

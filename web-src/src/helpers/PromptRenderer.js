@@ -54,7 +54,35 @@ export function createContentModelPrompt(contentFragmentModel) {
     + '\n```';
 }
 
-export function renderPrompt(prompt, placeholders, contentFragmentModel) {
-  const extraPrompt = contentFragmentModel ? createContentModelPrompt(contentFragmentModel) : '';
-  return removeEmptyLines(resolvePlaceholders(prompt, placeholders)) + extraPrompt;
+export function insertAfterPosition(str, position, replacement) {
+  const match = typeof position === 'string'
+    ? position
+    : (str.match(new RegExp(position.source, 'g')) || []).slice(-1)[0];
+  if (!match) return str;
+  const last = str.lastIndexOf(match);
+  return last !== -1
+    ? `${str.slice(0, last + match.length)}${replacement}${str.slice(last + match.length)}`
+    : str;
+}
+
+export function renderPrompt(prompt, placeholders, contentFragmentModel, contentFragment) {
+  let renderedPrompt = removeEmptyLines(resolvePlaceholders(prompt, placeholders));
+  const additionalReqs = contentFragmentModel
+    ? createContentModelPrompt(contentFragmentModel)
+    : '';
+  const sampleCfVar = contentFragment
+    ? '\nThe following is an example of the expected response using the field values of the current content fragment. These values may be used to inform the generated content:'
+    + `\n[\n  {\n${contentFragment ? contentFragment.fields.map((field) => {
+      return field.values[0] ? `    "${field.name}": "${field.values[0]}",\n` : '';
+    }).join('') : ''}  },\n  ...\n]`
+    : '';
+
+  renderedPrompt = insertAfterPosition(renderedPrompt, '```', additionalReqs);
+  renderedPrompt = insertAfterPosition(renderedPrompt, 'Additional Context: [[', sampleCfVar);
+
+  console.log('Final Prompt: \n', renderedPrompt.replace('No domain knowledge or trusted source documents provided', ''));
+
+  return (
+    renderedPrompt.replace('No domain knowledge or trusted source documents provided', '')
+  );
 }

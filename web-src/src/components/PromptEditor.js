@@ -218,7 +218,8 @@ function PromptEditor({
               onFocus={() => setViewSource(true)}
               onKeyDown={handleKeyDown}
               autoFocus={true}
-              value={viewSource ? promptText : renderPrompt(promptText, parameters, contentFragment?.model)}
+              value={viewSource ? promptText
+                : renderPrompt(promptText, parameters, contentFragment?.model, contentFragment?.fragment)}
               onValueChange={setPromptText}
               highlight={(code) => highlight(code, languages.custom, 'custom')}
               style={{ minHeight: '100%' }}

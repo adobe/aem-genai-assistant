@@ -26,12 +26,9 @@ describe('createContentModelPrompt', () => {
     const expectedOutput = '\n\nAdditional requirements: ```'
       + '\nThe response MUST be formatted as a JSON array.'
       + '\nEach element of MUST be a JSON object that includes the following fields: '
-      + '\n  - name: "field1"'
-      + '\n    description: "desc1"'
-      + '\n  - name: "field2"'
-      + '\n    description: "label2"'
-      + '\n  - name: "variationName"'
-      + '\n    description: "The name assigned to the variation that should accurately represent the content\'s intent."'
+      + '\n- field1: desc1,'
+      + '\n- field2: label2,'
+      + '\n- variationName: The name assigned to the variation that should accurately represent the content\'s intent.'
       + '\n```';
 
     expect(createContentModelPrompt(contentFragmentModel)).toEqual(expectedOutput);

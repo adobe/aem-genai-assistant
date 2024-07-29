@@ -41,6 +41,8 @@ const poll = async (fn, pollDelay, initialPollDelay, maxPollingTime = MAX_POLLIN
       // eslint-disable-next-line no-await-in-loop
       await wait(pollDelay);
     } else {
+      console.log('Polling completed:');
+      console.log('\x1b[33m%s\x1b[0m', `Request time: ${response.result.request_time} s`);
       return response;
     }
   }
@@ -64,7 +66,7 @@ export class FirefallService {
     console.debug(`Feedback: ${this.feedbackEndpoint}`);
   }
 
-  async complete(prompt, temperature, actionType) {
+  async complete(prompt, temperature, actionType, asJson = true) {
     const pollDelay = (actionType === FIREFALL_ACTION_TYPES.VARIATIONS_GENERATION)
       ? VARIATIONS_GENERATION_POLL_DELAY
       : TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY;
@@ -78,6 +80,7 @@ export class FirefallService {
       .post({
         prompt,
         temperature,
+        asJson,
       })
       .json();
 
@@ -95,6 +98,8 @@ export class FirefallService {
         throw new Error(result.error);
       }
       const { query_id: queryId, generations } = result;
+
+      console.log('Generations', generations);
       return {
         queryId,
         response: generations[0][0].message.content,

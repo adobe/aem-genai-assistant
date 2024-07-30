@@ -16,6 +16,7 @@ const getHeaders = () => {
   const headers = {};
   const params = new URLSearchParams(window.location.search);
   if (params.get(ENABLE_EXTRA_LOGGING_PARAM) === 'true') {
+    console.log('Extra logging enabled');
     headers['X-OW-EXTRA-LOGGING'] = 'on';
   }
   return headers;

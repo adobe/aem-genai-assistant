@@ -22,7 +22,7 @@ import { useApplicationContext } from './ApplicationProvider.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
 import { log } from '../helpers/MetricsHelper.js';
 
-const DATA_SOURCES = {
+const DATA_SOURCE = {
   CSV: 'csv',
   TARGET: 'target',
 };
@@ -80,11 +80,11 @@ function DataSourceSelector({ dataSource, setDataSource }) {
     <div className={styles.toggleButtons}>
       <LabeledValue label={'Audiences source'} value={''} gridColumnStart={1} gridColumnEnd={3} />
       <ToggleButton
-        isSelected={dataSource === DATA_SOURCES.TARGET}
-        onChange={() => handleDataSourceChange(DATA_SOURCES.TARGET)}>Adobe Target</ToggleButton>
+        isSelected={dataSource === DATA_SOURCE.TARGET}
+        onChange={() => handleDataSourceChange(DATA_SOURCE.TARGET)}>Adobe Target</ToggleButton>
       <ToggleButton
-        isSelected={dataSource === DATA_SOURCES.CSV}
-        onChange={() => handleDataSourceChange(DATA_SOURCES.CSV)}>CSV file</ToggleButton>
+        isSelected={dataSource === DATA_SOURCE.CSV}
+        onChange={() => handleDataSourceChange(DATA_SOURCE.CSV)}>CSV file</ToggleButton>
     </div>
   );
 }
@@ -104,11 +104,11 @@ export function AudienceSelector({
   useEffect(() => {
     setItems([]);
     if (isTargetEnabled(adobeTarget) && !csv) {
-      setDataSource(DATA_SOURCES.TARGET);
+      setDataSource(DATA_SOURCE.TARGET);
     } else if (csv && !isTargetEnabled(adobeTarget)) {
-      setDataSource(DATA_SOURCES.CSV);
+      setDataSource(DATA_SOURCE.CSV);
     }
-    if (dataSource === DATA_SOURCES.CSV) {
+    if (dataSource === DATA_SOURCE.CSV) {
       getItemsFromCsvFile(csv)
         .then(setItems)
         .catch((err) => {
@@ -119,7 +119,7 @@ export function AudienceSelector({
           );
           setItems([]);
         });
-    } else if (dataSource === DATA_SOURCES.TARGET) {
+    } else if (dataSource === DATA_SOURCE.TARGET) {
       getItemsFromTarget()
         .then(setItems)
         .catch((err) => {
@@ -164,7 +164,7 @@ export function AudienceSelector({
 
   const pickerPlaceholder = dataSource
     ? formatMessage(intlMessages.promptSessionSideView.audienceSelectorSelectFromPlaceholder, {
-      source: dataSource === DATA_SOURCES.TARGET ? 'Adobe Target' : 'CSV file',
+      source: dataSource === DATA_SOURCE.TARGET ? 'Adobe Target' : 'CSV file',
     }) : formatMessage(intlMessages.promptSessionSideView.audienceSelectorDefaultSelectPlaceholder);
 
   return (
@@ -180,7 +180,7 @@ export function AudienceSelector({
         key={name}
         label={label}
         contextualHelp={<DescriptionLabel label={label} description={description} />}
-        width="100%"
+        width="99%"
         placeholder={pickerPlaceholder}
         items={items}
         isDisabled={!items.length}

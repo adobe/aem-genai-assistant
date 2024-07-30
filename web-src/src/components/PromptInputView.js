@@ -23,6 +23,7 @@ import { TemperatureSlider } from './TemperatureSlider.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
 import { formatIdentifier } from '../helpers/FormatHelper.js';
 import { AudienceSelector } from './AudienceSelector.js';
+import { AdditionalContextInput } from './AdditionalContextInput.js';
 
 export function toCamelCaseKeys(obj) {
   const camelCaseKey = (key) => {
@@ -99,10 +100,26 @@ function createAudienceSelectComponent(name, label, params, value, onChange) {
   );
 }
 
+function createContentComponent(name, label, params, value, onChange) {
+  return (
+    <AdditionalContextInput
+      key={name}
+      label={label}
+      description={params.description}
+      selector={params.selector}
+      prompt={params.prompt}
+      value={value}
+      onChange={(newValue) => onChange(name, newValue)}
+    />
+  );
+}
+
 function createInputComponent(type, name, label, params, value, onChange) {
   switch (type) {
     case 'audience':
       return createAudienceSelectComponent(name, label, params, value, onChange);
+    case 'content':
+      return createContentComponent(name, label, params, value, onChange);
     case 'number':
       return createNumberComponent(name, label, params, value, onChange);
     case 'text':

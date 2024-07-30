@@ -33,7 +33,7 @@ import { useShellContext } from './ShellProvider.js';
 const styles = {
   promptPropertiesPanel: css`
     padding: 20px 0;
-    border-right: 2px solid rgb(224, 224, 224); 
+    border-right: 2px solid rgb(224, 224, 224);
   `,
   breadcrumbsLink: css`
     display: flex;

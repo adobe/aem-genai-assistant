@@ -19,6 +19,7 @@ import { v4 as uuid } from 'uuid';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './PromptSessionSideView.l10n.js';
+import { intlMessages as appIntlMessages } from './App.l10n.js';
 import GenAIIcon from '../icons/GenAIIcon.js';
 import { renderPrompt } from '../helpers/PromptRenderer.js';
 import { useApplicationContext } from './ApplicationProvider.js';
@@ -34,6 +35,7 @@ import { log } from '../helpers/MetricsHelper.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
 import { RUN_MODE_CF } from '../state/RunMode.js';
 import { FIREFALL_ACTION_TYPES } from '../services/FirefallService.js';
+import { handleLocalizedResponse, extractL10nId } from '../helpers/FormatHelper.js';
 
 const createWaitMessagesController = (intlFn) => {
   const displayToast = (msg, timeout = 1500) => {
@@ -102,7 +104,7 @@ export function GenerateButton({ isDisabled }) {
 
   const generateResults = useCallback(async () => {
     try {
-      const finalPrompt = renderPrompt(prompt, parameters, contentFragment?.model);
+      const finalPrompt = renderPrompt(prompt, parameters, contentFragment?.model, contentFragment?.fragment);
       const { queryId, response } = await firefallService.complete(
         finalPrompt,
         temperature,
@@ -138,7 +140,18 @@ export function GenerateButton({ isDisabled }) {
     generateResults()
       .catch((error) => {
         waitMessagesController.stopDisplaying();
-        ToastQueue.negative(error.message, { timeout: 2000 });
+
+        const errorL10nId = extractL10nId(error.message);
+        let errorMessage;
+
+        if (errorL10nId) {
+          const localizedErrorMsg = formatMessage(appIntlMessages.app[errorL10nId]);
+          errorMessage = handleLocalizedResponse(error.message, localizedErrorMsg);
+        } else {
+          errorMessage = error.message;
+        }
+
+        ToastQueue.negative(errorMessage, { timeout: 2000 });
       })
       .finally(() => {
         waitMessagesController.stopDisplaying();

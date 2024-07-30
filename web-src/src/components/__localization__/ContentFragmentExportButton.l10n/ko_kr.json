@@ -6,5 +6,6 @@
   "contentFragmentExportButton.exportDialog.exportButtonLabel": "내보내기",
   "contentFragmentExportButton.exportDialog.exportButtonProgressAreaLabel": "내보내는 중...",
   "contentFragmentExportButton.exportDialog.nameFieldLabel": "이름",
-  "contentFragmentExportButton.exportDialog.title": "콘텐츠 조각으로 내보내기"
+  "contentFragmentExportButton.exportDialog.title": "콘텐츠 조각으로 내보내기",
+  "contentFragmentExportButton.variationCreatedToast": "변형이 생성되었습니다."
 }

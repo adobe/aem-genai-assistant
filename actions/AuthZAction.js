@@ -94,16 +94,19 @@ function asAuthZAction(action) {
     const { imsOrg, accessToken } = params;
 
     // Check that the profile has access to the product
+
+    // The error identifiers (enclosed in double curly braces) will be replaced with the actual
+    // error messages after being processed for localization on the frontend
     const imsProfile = await getImsProfile(imsEndpoint, clientId, accessToken);
     if (!imsProfile) {
-      throw new Error('Failed to fetch profile');
+      throw new Error('{{profileFetchFailed}}');
     }
 
     if (!checkForProductContext(imsProfile, imsOrg, productContext)) {
       const isInternalUser = checkForAdobeInternalUser(imsProfile);
 
       if (!await checkForEarlyProductAccess(earlyAccessToggle, ldSdkKey, isInternalUser, imsOrg)) {
-        throw new Error('Profile does not have access to the product');
+        throw new Error('{{noProductAccess}}');
       }
     }
 

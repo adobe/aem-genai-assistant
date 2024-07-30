@@ -1,4 +1,5 @@
 {
+  "app.accessBoundaryNoAccessMessage": "Le mie scuse sembrano essere insufficienti per utilizzare questa funzione.{newLine}Prova a selezionare un'altra organizzazione o contatta l'amministratore per richiedere l'accesso.",
   "app.cancelActionLabel": "Annulla",
   "app.consentDialogAgreeButtonLabel": "Accetto",
   "app.consentDialogCancelButtonLabel": "Annulla",
@@ -10,9 +11,19 @@
   "app.deletePromptTemplateFailedToast": "Impossibile eliminare il modello di prompt",
   "app.deletePromptTemplateQuestion": "Eliminare questo prompt?",
   "app.description": "Crea rapidamente contenuti di alta qualità, quindi misurane l’efficacia con la funzione di sperimentazione o pubblicali sul tuo sito.",
+  "app.errorOccurredWhileGeneratingResults": "Errore durante la generazione dei risultati",
+  "app.errorOccurredWhileSendingFeedback": "Si è verificato un errore durante l'invio di feedback",
+  "app.genAIContentManagementPolicyFilteredResults": "La risposta è stata filtrata a causa della rapida attivazione dei criteri di gestione dei contenuti di Generative AI. Modifica il prompt e riprova.",
+  "app.invalidAccessToken": "Il token di accesso non è valido",
+  "app.missingAccessToken": "Il token di accesso non è stato fornito",
   "app.name": "Genera varianti",
   "app.noAccessDialogContent": "Non hai accesso a questo prodotto",
   "app.noAccessDialogHeading": "Accesso negato",
   "app.noAccessMessage": "Per utilizzare <strong>Genera varianti</strong> è necessario accettare le Linee guida per l’utente delle funzioni di IA generativa.{newLine}Aggiorna questa pagina per <strong>Accettare</strong>.",
-  "app.promptTemplatesLibraryPanelLabel": "Modelli di prompt"
+  "app.noProductAccess": "Il profilo non ha accesso al prodotto",
+  "app.profileFetchFailed": "Impossibile recuperare il profilo",
+  "app.promptTemplatesLibraryPanelLabel": "Modelli di prompt",
+  "app.rateLimitExceeded": "È stato superato il limite di velocità dell’IA generativa. Attendete un minuto e riprovate.",
+  "app.requestTimeout": "Timeout della richiesta di AI generativa. Riduci il numero di varianti per riprovare.",
+  "app.unexpectedErrorEncountered": "Ops! Abbiamo incontrato un errore imprevisto. Riprova più tardi."
 }

@@ -164,7 +164,7 @@ export function AudienceSelector({
 
   const pickerPlaceholder = dataSource
     ? formatMessage(intlMessages.promptSessionSideView.audienceSelectorSelectFromPlaceholder, {
-      source: dataSource === DATA_SOURCES.TARGET ? 'Adobe Target' : 'CSV file',
+      source: dataSource === DATA_SOURCE.TARGET ? 'Adobe Target' : 'CSV file',
     }) : formatMessage(intlMessages.promptSessionSideView.audienceSelectorDefaultSelectPlaceholder);
 
   return (

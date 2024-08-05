@@ -11,7 +11,6 @@
  */
 
 import { wretch } from '../helpers/NetworkHelper.js';
-// import mockAccessProfile from '../../../data/mock-access-profile.json';
 
 export class AccessProfileService {
   constructor({
@@ -46,14 +45,6 @@ export class AccessProfileService {
 
     return JSON.parse(atob(response.asnp.payload));
   }
-
-  // static getMockAccessProfile() {
-  //   return new Promise((resolve) => {
-  //     setTimeout(() => {
-  //       resolve(mockAccessProfile);
-  //     }, 2000);
-  //   });
-  // }
 
   static create(imsToken) {
     if (!imsToken) {

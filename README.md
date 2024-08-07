@@ -81,7 +81,7 @@ In addition, the following values need to be manually set (request from a teamma
 - `IMS_SERVICE_CLIENT_SECRET`
 - `IMS_SERVICE_PERM_AUTH_CODE`
 - `SPLUNK_HEC__HEC_TOKEN`
-- `EXPRESS_PRODUCT_CONTEXT`
+- `EXPRESS_ENTITLEMENT`
 - `EXPRESS_SDK_URL`
 - `TARGET_API_KEY`
 - `FT_EARLY_ACCESS`

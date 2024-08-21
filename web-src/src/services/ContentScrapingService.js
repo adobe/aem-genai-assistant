@@ -10,6 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import { wretch } from '../helpers/NetworkHelper.js';
+import { replaceRuntimeDomainInUrl } from '../helpers/UrlHelper.js';
 
 export class ContentScrappingService {
   constructor({
@@ -17,11 +18,11 @@ export class ContentScrappingService {
     imsOrg,
     accessToken,
   }) {
-    this.scraperEndpoint = scraperEndpoint;
+    this.scraperEndpoint = replaceRuntimeDomainInUrl(scraperEndpoint);
     this.imsOrg = imsOrg;
     this.accessToken = accessToken;
 
-    console.log('scraperEndpoint', scraperEndpoint);
+    console.log('scraperEndpoint', this.scraperEndpoint);
   }
 
   async getContent(url, selector, prompt) {

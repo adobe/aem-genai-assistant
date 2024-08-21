@@ -38,7 +38,7 @@ class FirefallClient {
     this.accessToken = accessToken;
   }
 
-  async completion(prompt, temperature = 0.0, model = 'gpt-4') {
+  async completion(prompt, temperature = 0.0, asJson = true, model = 'gpt-4-turbo') {
     const startTime = Date.now();
 
     // must be aligned with the `aem-genai-assistant/generate` AppBuilder action timeout
@@ -66,15 +66,19 @@ class FirefallClient {
             frequency_penalty: 0,
             presence_penalty: 0,
             n: 1,
+            response_format: (asJson ? {
+              type: 'json_object',
+            } : {}),
           },
           store_context: true,
+
         })
         .json();
 
       const endTime = Date.now();
       const requestTime = ((endTime - startTime) / 1000).toFixed(2);
       logger.info(`Generate request #${response.query_id} completed in ${requestTime} s`);
-
+      response.request_time = requestTime;
       return response;
     } catch (error) {
       logger.error('Failed generating results:', error);

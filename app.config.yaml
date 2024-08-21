@@ -71,6 +71,8 @@ application:
             function: actions/scraper/index.js
             web: true
             runtime: nodejs:18
+            limits:
+              timeout: 180000 # in ms (180 sec)
             inputs:
               FIREFALL_ENDPOINT: $FIREFALL_ENDPOINT
               FIREFALL_API_KEY: $FIREFALL_API_KEY

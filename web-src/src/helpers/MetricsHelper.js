@@ -26,7 +26,6 @@ export function log(id, data = {}) {
   const metrics = getMetrics();
   metrics.log(id, data);
   metrics.analytics.track('event', { id, data });
-  console.log('metrics.analytics.track', 'event', { id, data });
 }
 
 export function error(id, data = {}) {

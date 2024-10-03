@@ -25,7 +25,11 @@ const getMetrics = () => {
 export function log(id, data = {}) {
   const metrics = getMetrics();
   metrics.log(id, data);
-  metrics.analytics.track('event', { id, data });
+}
+
+export function analytics(data) {
+  const metrics = getMetrics();
+  metrics.analytics.trackEvent({ feature: 'GenAI in Generate Variations', ...data });
 }
 
 export function error(id, data = {}) {

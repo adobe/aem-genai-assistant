@@ -37,7 +37,7 @@ import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
-import { log } from '../helpers/MetricsHelper.js';
+import { log, analytics } from '../helpers/MetricsHelper.js';
 import { toHTML, toText } from '../helpers/PromptExporter.js';
 import { generateImagePrompt } from '../helpers/ImageHelper.js';
 import { VariantImagesView } from './VariantImagesView.js';
@@ -240,6 +240,16 @@ export function PromptResultCard({ result, ...props }) {
 
   const deleteVariant = useCallback(async (variantId) => {
     log('prompt:delete', { variant: variantId });
+    analytics({
+      widget: {
+        name: 'Prompt Template',
+        type: 'NA',
+      },
+      element: 'Delete Variation',
+      elementId: 'prompt:delete',
+      type: 'button',
+      action: 'click',
+    });
     setResults((results) => results.reduce((acc, r) => {
       const prevVariantsLength = r.variants.length;
       const variants = r.variants.filter((v) => v.id !== variantId);
@@ -259,6 +269,16 @@ export function PromptResultCard({ result, ...props }) {
 
   const handleGenerateImage = useCallback(async (imagePrompt, variantId) => {
     log('express:generateimage', { variantId });
+    analytics({
+      widget: {
+        name: 'Prompt Template',
+        type: 'NA',
+      },
+      element: 'Generate Image',
+      elementId: 'express:generateimage',
+      type: 'button',
+      action: 'click',
+    });
     const onPublish = (intent, publishParams) => {
       console.log('Image generated:', publishParams.asset[0].data);
       addImageToVariant(variantId, publishParams.asset[0].data);
@@ -382,6 +402,16 @@ export function PromptResultCard({ result, ...props }) {
                   UNSAFE_className="hover-cursor-pointer"
                   onPress={() => {
                     log('prompt:copy', { source: 'ResultCard#onPress', variant: selectedVariant.id });
+                    analytics({
+                      widget: {
+                        name: 'Prompt Template',
+                        type: 'NA',
+                      },
+                      element: 'Copy Variation',
+                      elementId: 'prompt:copy',
+                      type: 'button',
+                      action: 'click',
+                    });
                     navigator.clipboard.writeText(toText(selectedVariant.content));
                     ToastQueue.positive(
                       formatMessage(intlMessages.promptResultCard.copyTextSuccessToast),
@@ -434,6 +464,16 @@ export function PromptResultCard({ result, ...props }) {
                   UNSAFE_className="hover-cursor-pointer"
                   onPress={() => {
                     log('prompt:thumbsup', { source: 'ResultCard#onPress', variant: selectedVariant.id });
+                    analytics({
+                      widget: {
+                        name: 'Prompt Template',
+                        type: 'NA',
+                      },
+                      element: 'Like Variation',
+                      elementId: 'prompt:thumbsup',
+                      type: 'button',
+                      action: 'click',
+                    });
                     sendFeedback(true, selectedVariant);
                   }}>
                   {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon /> : <ThumbsUpOutlineIcon />}
@@ -447,6 +487,16 @@ export function PromptResultCard({ result, ...props }) {
                   UNSAFE_className="hover-cursor-pointer"
                   onPress={() => {
                     log('prompt:thumbsdown', { source: 'ResultCard#onPress', variant: selectedVariant.id });
+                    analytics({
+                      widget: {
+                        name: 'Prompt Template',
+                        type: 'NA',
+                      },
+                      element: 'Dislike Variation',
+                      elementId: 'prompt:thumbsdown',
+                      type: 'button',
+                      action: 'click',
+                    });
                     sendFeedback(false, selectedVariant);
                   }}>
                   {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon /> : <ThumbsDownOutlineIcon />}

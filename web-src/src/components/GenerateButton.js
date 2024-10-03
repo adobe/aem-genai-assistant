@@ -31,7 +31,7 @@ import { promptEditorState } from '../state/PromptEditorState.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { createVariants } from '../helpers/ResultsParser.js';
-import { log } from '../helpers/MetricsHelper.js';
+import { log, analytics } from '../helpers/MetricsHelper.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
 import { RUN_MODE_CF } from '../state/RunMode.js';
 import { FIREFALL_ACTION_TYPES } from '../services/FirefallService.js';
@@ -123,6 +123,16 @@ export function GenerateButton({ isDisabled }) {
         await saveResults();
       }
       log('prompt:generate:variations:generated', { source: 'GenerateButton#generateResults', variations: variants.length, queryId });
+      analytics({
+        widget: {
+          name: 'Prompt Template',
+          type: 'NA',
+        },
+        element: 'Generate Variations',
+        elementId: 'prompt:generate:variations:generated',
+        type: 'button',
+        action: 'click',
+      });
     } catch (error) {
       console.error(error);
       throw error;
@@ -131,6 +141,16 @@ export function GenerateButton({ isDisabled }) {
 
   const handleGenerate = useCallback(() => {
     log('prompt:generate', { source: 'GenerateButton#handleGenerate' });
+    analytics({
+      widget: {
+        name: 'Prompt Template',
+        type: 'NA',
+      },
+      element: 'Generate Variations',
+      elementId: 'prompt:generate',
+      type: 'button',
+      action: 'click',
+    });
     setGenerationInProgress(true);
     setIsOpenPromptEditor(false);
 

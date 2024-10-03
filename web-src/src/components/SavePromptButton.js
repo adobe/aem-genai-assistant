@@ -40,7 +40,7 @@ import {
 } from '../state/PromptTemplatesState.js';
 import { useShellContext } from './ShellProvider.js';
 import { lastUsedPromptTemplateIdState } from '../state/LastUsedPromptTemplateIdState.js';
-import { log } from '../helpers/MetricsHelper.js';
+import { log, analytics } from '../helpers/MetricsHelper.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 
 const DEBOUNCE_DELAY = 800;
@@ -132,6 +132,16 @@ export function SavePromptButton(props) {
         lastModified: newTemplate.lastModified,
         lastModifiedBy: newTemplate.lastModifiedBy,
       });
+      analytics({
+        widget: {
+          name: 'Prompt Template',
+          type: 'NA',
+        },
+        element: 'New Prompt',
+        elementId: 'prompt:save:create',
+        type: 'button',
+        action: 'click',
+      });
       setCustomPromptTemplates(newCustomPromptTemplates);
       setLastUsedPromptTemplateId(newTemplate.id);
       setSelectedTemplate(newTemplate);
@@ -158,6 +168,16 @@ export function SavePromptButton(props) {
         isShared: updatedTemplate.isShared,
         lastModified: updatedTemplate.lastModified,
         lastModifiedBy: updatedTemplate.lastModifiedBy,
+      });
+      analytics({
+        widget: {
+          name: 'Prompt Template',
+          type: 'NA',
+        },
+        element: 'Existing Prompt',
+        elementId: 'prompt:save:update',
+        type: 'button',
+        action: 'click',
       });
       setCustomPromptTemplates(newCustomPromptTemplates);
       setLastUsedPromptTemplateId(updatedTemplate.id);

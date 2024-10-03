@@ -20,7 +20,7 @@ import { useIntl } from 'react-intl';
 import { intlMessages } from './PromptSessionSideView.l10n.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { DescriptionLabel } from './DescriptionLabel.js';
-import { log } from '../helpers/MetricsHelper.js';
+import { log, analytics } from '../helpers/MetricsHelper.js';
 
 const DATA_SOURCE = {
   CSV: 'csv',
@@ -73,6 +73,16 @@ function useGetItemsFromCsvFile() {
 function DataSourceSelector({ dataSource, setDataSource }) {
   const handleDataSourceChange = useCallback((newDataSource) => {
     log('prompt:inputs:audienceSelector:datasource:changed', { dataSource: newDataSource });
+    analytics({
+      widget: {
+        name: 'Prompt Template',
+        type: 'NA',
+      },
+      element: 'Audiences Source Selector',
+      elementId: 'prompt:inputs:audienceSelector:datasource:changed',
+      type: 'button',
+      action: 'click',
+    });
     setDataSource(newDataSource);
   }, []);
 

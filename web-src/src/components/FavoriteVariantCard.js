@@ -30,7 +30,7 @@ import { useShellContext } from './ShellProvider.js';
 import { toHTML, toText } from '../helpers/PromptExporter.js';
 import { generateImagePrompt } from '../helpers/ImageHelper.js';
 import { VariantImagesView } from './VariantImagesView.js';
-import { log } from '../helpers/MetricsHelper.js';
+import { log, analytics } from '../helpers/MetricsHelper.js';
 import ExpressNoAccessInfo from './ExpressNoAccessInfo.js';
 
 import CopyOutlineIcon from '../icons/CopyOutlineIcon.js';
@@ -74,6 +74,16 @@ export function FavoriteVariantCard({
 
   const handleGenerateImage = useCallback(async (imagePrompt) => {
     log('express:favorite:generateimage', { variantId: variant.id });
+    analytics({
+      widget: {
+        name: 'Favorite Variation',
+        type: 'NA',
+      },
+      element: 'Generate Image',
+      elementId: 'express:favorite:generateimage',
+      type: 'button',
+      action: 'click',
+    });
     const onPublish = (intent, publishParams) => {
       addImageToVariant(variant.id, publishParams.asset[0].data);
     };
@@ -148,6 +158,16 @@ export function FavoriteVariantCard({
                 UNSAFE_className="hover-cursor-pointer"
                 onPress={() => {
                   log('prompt:copyfavorite', { source: 'FavoriteCard#onPress' });
+                  analytics({
+                    widget: {
+                      name: 'Favorite Variation',
+                      type: 'NA',
+                    },
+                    element: 'Copy Favorite Variation',
+                    elementId: 'prompt:copyfavorite',
+                    type: 'button',
+                    action: 'click',
+                  });
                   navigator.clipboard.writeText(toText(variant.content));
                   ToastQueue.positive(
                     formatMessage(intlMessages.favoritesView.copyTextSuccessToast),

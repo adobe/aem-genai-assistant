@@ -26,7 +26,7 @@ import { PromptTemplateCard } from './PromptTemplateCard.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { lastUsedPromptTemplateIdState } from '../state/LastUsedPromptTemplateIdState.js';
-import { log } from '../helpers/MetricsHelper.js';
+import { log, analytics } from '../helpers/MetricsHelper.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 
@@ -65,11 +65,41 @@ export function PromptTemplatesView() {
       description,
       label,
     });
+    analytics({
+      widget: {
+        name: 'Prompt Template',
+        type: 'NA',
+      },
+      element: 'Select Prompt',
+      elementId: 'prompt:selected',
+      type: 'button',
+      action: 'click',
+    });
     if (id === NEW_PROMPT_TEMPLATE_ID) {
       log('prompt:new', { source: 'HomePanel#handleSelect' });
+      analytics({
+        widget: {
+          name: 'Prompt Template',
+          type: 'NA',
+        },
+        element: 'New Prompt',
+        elementId: 'prompt:new',
+        type: 'button',
+        action: 'click',
+      });
     } else {
       const promptType = isBundled ? 'isadobeselected' : 'iscustomselected';
       log(`prompt:${promptType}`, { source: 'HomePanel#handleSelect' });
+      analytics({
+        widget: {
+          name: 'Prompt Template',
+          type: 'NA',
+        },
+        element: 'Existing Prompt',
+        elementId: `prompt:${promptType}`,
+        type: 'button',
+        action: 'click',
+      });
     }
     setCurrentSession(createNewSession(label, description, template));
     setViewType(ViewType.CurrentSession);

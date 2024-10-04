@@ -251,7 +251,6 @@ export function PromptResultCard({ result, ...props }) {
       type: 'button',
       action: 'click',
     }, logRecords);
-    console.log('prompt:delete', logRecords);
     setResults((results) => results.reduce((acc, r) => {
       const prevVariantsLength = r.variants.length;
       const variants = r.variants.filter((v) => v.id !== variantId);
@@ -282,7 +281,6 @@ export function PromptResultCard({ result, ...props }) {
       type: 'button',
       action: 'click',
     }, logRecords);
-    console.log('express:generateimage', logRecords);
     const onPublish = (intent, publishParams) => {
       console.log('Image generated:', publishParams.asset[0].data);
       addImageToVariant(variantId, publishParams.asset[0].data);
@@ -417,7 +415,6 @@ export function PromptResultCard({ result, ...props }) {
                       type: 'button',
                       action: 'click',
                     }, logRecords);
-                    console.log('prompt:copy', logRecords);
                     navigator.clipboard.writeText(toText(selectedVariant.content));
                     ToastQueue.positive(
                       formatMessage(intlMessages.promptResultCard.copyTextSuccessToast),
@@ -481,7 +478,6 @@ export function PromptResultCard({ result, ...props }) {
                       type: 'button',
                       action: 'click',
                     }, logRecords);
-                    console.log('prompt:thumbsup', logRecords);
                     sendFeedback(true, selectedVariant);
                   }}>
                   {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon /> : <ThumbsUpOutlineIcon />}
@@ -506,7 +502,6 @@ export function PromptResultCard({ result, ...props }) {
                       type: 'button',
                       action: 'click',
                     }, logRecords);
-                    console.log('prompt:thumbsdown', logRecords);
                     sendFeedback(false, selectedVariant);
                   }}>
                   {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon /> : <ThumbsDownOutlineIcon />}

@@ -72,7 +72,8 @@ function useGetItemsFromCsvFile() {
 
 function DataSourceSelector({ dataSource, setDataSource }) {
   const handleDataSourceChange = useCallback((newDataSource) => {
-    log('prompt:inputs:audienceSelector:datasource:changed', { dataSource: newDataSource });
+    const logRecords = { dataSource: newDataSource };
+    log('prompt:inputs:audienceSelector:datasource:changed', logRecords);
     analytics({
       widget: {
         name: 'Prompt Template',
@@ -82,7 +83,7 @@ function DataSourceSelector({ dataSource, setDataSource }) {
       elementId: 'prompt:inputs:audienceSelector:datasource:changed',
       type: 'button',
       action: 'click',
-    });
+    }, logRecords);
     setDataSource(newDataSource);
   }, []);
 

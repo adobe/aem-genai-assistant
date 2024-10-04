@@ -81,7 +81,8 @@ export function FavoriteVariantListPanel(props) {
   const exportCsv = useCallback(() => {
     const variantsToExport = favorites.filter((variant) => selectedVariants.includes(variant.id));
     if (variantsToExport.length > 0) {
-      log('favorites:export:csv', { numberOfVariants: variantsToExport.length });
+      const logRecords = { numberOfVariants: variantsToExport.length };
+      log('favorites:export:csv', logRecords);
       analytics({
         widget: {
           name: 'Favorite Variations',
@@ -91,7 +92,7 @@ export function FavoriteVariantListPanel(props) {
         elementId: 'favorites:export:csv',
         type: 'button',
         action: 'click',
-      });
+      }, logRecords);
       exportToCsv(favorites, 'selected_variants.csv');
     }
   }, [favorites, selectedVariants]);

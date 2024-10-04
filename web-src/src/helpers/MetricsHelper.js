@@ -27,9 +27,9 @@ export function log(id, data = {}) {
   metrics.log(id, data);
 }
 
-export function analytics(data) {
+export function analytics(eventData, ...args) {
   const metrics = getMetrics();
-  metrics.analytics.trackEvent({ feature: 'GenAI in Generate Variations', ...data });
+  metrics.analytics.trackEvent({ feature: 'GenAI in Generate Variations', ...eventData }, ...args);
 }
 
 export function error(id, data = {}) {

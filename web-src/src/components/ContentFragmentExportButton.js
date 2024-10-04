@@ -58,7 +58,8 @@ export function ContentFragmentExportButton({ variant }) {
     } else {
       setIsExportInProgress(true);
     }
-    log('prompt:export', { variant: variant.id, as: 'contentFragmentVariation' });
+    const logRecords = { variant: variant.id, as: 'contentFragmentVariation' };
+    log('prompt:export', logRecords);
     analytics({
       widget: {
         name: 'Content Fragment Variation',
@@ -68,7 +69,7 @@ export function ContentFragmentExportButton({ variant }) {
       elementId: 'prompt:export',
       type: 'button',
       action: 'click',
-    });
+    }, logRecords);
     return aemService.createFragmentVariation(contentFragment.fragment.id, variationName, variant.content)
       .then(() => {
         setExportedVariations((prev) => [...prev, variant.id]);

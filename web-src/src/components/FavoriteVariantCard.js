@@ -73,7 +73,8 @@ export function FavoriteVariantCard({
   const [imagePromptProgress, setImagePromptProgress] = useState(false);
 
   const handleGenerateImage = useCallback(async (imagePrompt) => {
-    log('express:favorite:generateimage', { variantId: variant.id });
+    const logRecords = { variantId: variant.id };
+    log('express:favorite:generateimage', logRecords);
     analytics({
       widget: {
         name: 'Favorite Variation',
@@ -83,7 +84,7 @@ export function FavoriteVariantCard({
       elementId: 'express:favorite:generateimage',
       type: 'button',
       action: 'click',
-    });
+    }, logRecords);
     const onPublish = (intent, publishParams) => {
       addImageToVariant(variant.id, publishParams.asset[0].data);
     };
@@ -157,7 +158,8 @@ export function FavoriteVariantCard({
                 isQuiet
                 UNSAFE_className="hover-cursor-pointer"
                 onPress={() => {
-                  log('prompt:copyfavorite', { source: 'FavoriteCard#onPress' });
+                  const logRecords = { source: 'FavoriteCard#onPress' };
+                  log('prompt:copyfavorite', logRecords);
                   analytics({
                     widget: {
                       name: 'Favorite Variation',
@@ -167,7 +169,7 @@ export function FavoriteVariantCard({
                     elementId: 'prompt:copyfavorite',
                     type: 'button',
                     action: 'click',
-                  });
+                  }, logRecords);
                   navigator.clipboard.writeText(toText(variant.content));
                   ToastQueue.positive(
                     formatMessage(intlMessages.favoritesView.copyTextSuccessToast),

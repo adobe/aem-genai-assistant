@@ -122,7 +122,8 @@ export function GenerateButton({ isDisabled }) {
       if (runMode !== RUN_MODE_CF) {
         await saveResults();
       }
-      log('prompt:generate:variations:generated', { source: 'GenerateButton#generateResults', variations: variants.length, queryId });
+      const logRecords = { source: 'GenerateButton#generateResults', variations: variants.length, queryId };
+      log('prompt:generate:variations:generated', logRecords);
       analytics({
         widget: {
           name: 'Prompt Template',
@@ -132,7 +133,7 @@ export function GenerateButton({ isDisabled }) {
         elementId: 'prompt:generate:variations:generated',
         type: 'button',
         action: 'click',
-      });
+      }, logRecords);
     } catch (error) {
       console.error(error);
       throw error;
@@ -140,7 +141,8 @@ export function GenerateButton({ isDisabled }) {
   }, [firefallService, prompt, parameters, temperature]);
 
   const handleGenerate = useCallback(() => {
-    log('prompt:generate', { source: 'GenerateButton#handleGenerate' });
+    const logRecords = { source: 'GenerateButton#handleGenerate' };
+    log('prompt:generate', logRecords);
     analytics({
       widget: {
         name: 'Prompt Template',
@@ -150,7 +152,7 @@ export function GenerateButton({ isDisabled }) {
       elementId: 'prompt:generate',
       type: 'button',
       action: 'click',
-    });
+    }, logRecords);
     setGenerationInProgress(true);
     setIsOpenPromptEditor(false);
 

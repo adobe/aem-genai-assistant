@@ -40,7 +40,7 @@ import {
 } from '../state/PromptTemplatesState.js';
 import { useShellContext } from './ShellProvider.js';
 import { lastUsedPromptTemplateIdState } from '../state/LastUsedPromptTemplateIdState.js';
-import { log } from '../helpers/MetricsHelper.js';
+import { log, analytics } from '../helpers/MetricsHelper.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 
 const DEBOUNCE_DELAY = 800;
@@ -124,14 +124,25 @@ export function SavePromptButton(props) {
       lastModifiedBy: name,
     };
     updateTemplates([newTemplate], [], runMode, formatMessage).then((newCustomPromptTemplates) => {
-      log('prompt:save:create', {
+      const logRecords = {
         id: newTemplate.id,
         label: newTemplate.label,
         description: newTemplate.description,
         isShared: newTemplate.isShared,
         lastModified: newTemplate.lastModified,
         lastModifiedBy: newTemplate.lastModifiedBy,
-      });
+      };
+      log('prompt:save:create', logRecords);
+      analytics({
+        widget: {
+          name: 'Prompt Template',
+          type: 'NA',
+        },
+        element: 'New Prompt',
+        elementId: 'prompt:save:create',
+        type: 'button',
+        action: 'click',
+      }, logRecords);
       setCustomPromptTemplates(newCustomPromptTemplates);
       setLastUsedPromptTemplateId(newTemplate.id);
       setSelectedTemplate(newTemplate);
@@ -151,14 +162,25 @@ export function SavePromptButton(props) {
       lastModifiedBy: name,
     };
     updateTemplates([updatedTemplate], [], runMode, formatMessage).then((newCustomPromptTemplates) => {
-      log('prompt:save:update', {
+      const logRecords = {
         id: updatedTemplate.id,
         label: updatedTemplate.label,
         description: updatedTemplate.description,
         isShared: updatedTemplate.isShared,
         lastModified: updatedTemplate.lastModified,
         lastModifiedBy: updatedTemplate.lastModifiedBy,
-      });
+      };
+      log('prompt:save:update', logRecords);
+      analytics({
+        widget: {
+          name: 'Prompt Template',
+          type: 'NA',
+        },
+        element: 'Existing Prompt',
+        elementId: 'prompt:save:update',
+        type: 'button',
+        action: 'click',
+      }, logRecords);
       setCustomPromptTemplates(newCustomPromptTemplates);
       setLastUsedPromptTemplateId(updatedTemplate.id);
       setSelectedTemplate(updatedTemplate);

@@ -23,7 +23,7 @@ import { intlMessages } from './ImageViewer.l10n.js';
 import { EXPRESS_LOAD_TIMEOUT } from './Constants.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
-import { log } from '../helpers/MetricsHelper.js';
+import { log, analytics } from '../helpers/MetricsHelper.js';
 import { copyImageToClipboard, copyImageToClipboardLegacy } from '../helpers/ImageHelper.js';
 import { ImageViewer } from './ImageViewer.js';
 
@@ -73,9 +73,31 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
 
   const handleCopyImage = useCallback((base64Image) => {
     if (isFavorite) {
-      log('express:favorite:copyimage', { variant: variant.id });
+      const logRecords = { variant: variant.id };
+      log('express:favorite:copyimage', logRecords);
+      analytics({
+        widget: {
+          name: 'Favorite Variation',
+          type: 'NA',
+        },
+        element: 'Copy Image',
+        elementId: 'express:favorite:copyimage',
+        type: 'button',
+        action: 'click',
+      }, logRecords);
     } else {
-      log('express:copyimage', { variant: variant.id });
+      const logRecords = { variant: variant.id };
+      log('express:copyimage', logRecords);
+      analytics({
+        widget: {
+          name: 'Prompt Template',
+          type: 'NA',
+        },
+        element: 'Copy Image',
+        elementId: 'express:copyimage',
+        type: 'button',
+        action: 'click',
+      }, logRecords);
     }
 
     if (navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
@@ -88,9 +110,31 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
 
   const handleEditGenerateImage = useCallback(async (index, variantId) => {
     if (isFavorite) {
-      log('express:favorite:editimage', { variant: variantId });
+      const logRecords = { variant: variantId };
+      log('express:favorite:editimage', logRecords);
+      analytics({
+        widget: {
+          name: 'Favorite Variation',
+          type: 'NA',
+        },
+        element: 'Edit Image',
+        elementId: 'express:favorite:editimage',
+        type: 'button',
+        action: 'click',
+      }, logRecords);
     } else {
-      log('express:editimage', { variant: variantId });
+      const logRecords = { variant: variantId };
+      log('express:editimage', logRecords);
+      analytics({
+        widget: {
+          name: 'Prompt Template',
+          type: 'NA',
+        },
+        element: 'Edit Image',
+        elementId: 'express:editimage',
+        type: 'button',
+        action: 'click',
+      }, logRecords);
     }
     const onPublish = (intent, publishParams) => {
       replaceImageFromVariant(variantId, index, publishParams.asset[0].data);
@@ -134,9 +178,31 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
 
   const handleImageViewerOpen = useCallback((index) => {
     if (isFavorite) {
-      log('express:favorite:viewimage', { variant: variant.id });
+      const logRecords = { variant: variant.id };
+      log('express:favorite:viewimage', logRecords);
+      analytics({
+        widget: {
+          name: 'Favorite Variation',
+          type: 'NA',
+        },
+        element: 'View Image',
+        elementId: 'express:favorite:viewimage',
+        type: 'button',
+        action: 'click',
+      }, logRecords);
     } else {
-      log('express:viewimage', { variant: variant.id });
+      const logRecords = { variant: variant.id };
+      log('express:viewimage', logRecords);
+      analytics({
+        widget: {
+          name: 'Prompt Template',
+          type: 'NA',
+        },
+        element: 'View Image',
+        elementId: 'express:viewimage',
+        type: 'button',
+        action: 'click',
+      }, logRecords);
     }
     setImageViewerIndex(index);
     setIsImageViewerOpen(true);
@@ -144,9 +210,31 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
 
   const handleDownloadImage = useCallback((base64Image) => {
     if (isFavorite) {
-      log('express:favorite:downloadimage', { variant: variant.id });
+      const logRecords = { variant: variant.id };
+      log('express:favorite:downloadimage', logRecords);
+      analytics({
+        widget: {
+          name: 'Favorite Variation',
+          type: 'NA',
+        },
+        element: 'Download Image',
+        elementId: 'express:favorite:downloadimage',
+        type: 'button',
+        action: 'click',
+      }, logRecords);
     } else {
-      log('express:downloadimage', { variant: variant.id });
+      const logRecords = { variant: variant.id };
+      log('express:downloadimage', logRecords);
+      analytics({
+        widget: {
+          name: 'Prompt Template',
+          type: 'NA',
+        },
+        element: 'Download Image',
+        elementId: 'express:downloadimage',
+        type: 'button',
+        action: 'click',
+      }, logRecords);
     }
     const link = document.createElement('a');
     link.href = base64Image;
@@ -182,18 +270,62 @@ export function VariantImagesView({ variant, isFavorite, ...props }) {
             cancelLabel={formatMessage(intlMessages.imageViewer.cancelButtonLabel)}
             onPrimaryAction={() => {
               if (isFavorite) {
-                log('express:favorite:deleteimage', { variant: variant.id });
+                const logRecords = { variant: variant.id };
+                log('express:favorite:deleteimage', logRecords);
+                analytics({
+                  widget: {
+                    name: 'Favorite Variation',
+                    type: 'NA',
+                  },
+                  element: 'Delete Image',
+                  elementId: 'express:favorite:deleteimage',
+                  type: 'button',
+                  action: 'click',
+                }, logRecords);
               } else {
-                log('express:deleteimage', { variant: variant.id });
+                const logRecords = { variant: variant.id };
+                log('express:deleteimage', logRecords);
+                analytics({
+                  widget: {
+                    name: 'Prompt Template',
+                    type: 'NA',
+                  },
+                  element: 'Delete Image',
+                  elementId: 'express:deleteimage',
+                  type: 'button',
+                  action: 'click',
+                }, logRecords);
               }
               deleteImageFromVariant(variant.id, selectedImageIndex);
               setIsDeleteDialogOpen(false);
             }}
             onCancelAction={() => {
               if (isFavorite) {
-                log('express:favorite:canceldeleteimage', { variant: variant.id });
+                const logRecords = { variant: variant.id };
+                log('express:favorite:canceldeleteimage', logRecords);
+                analytics({
+                  widget: {
+                    name: 'Favorite Variation',
+                    type: 'NA',
+                  },
+                  element: 'Cancel Delete Image',
+                  elementId: 'express:favorite:canceldeleteimage',
+                  type: 'button',
+                  action: 'click',
+                }, logRecords);
               } else {
-                log('express:canceldeleteimage', { variant: variant.id });
+                const logRecords = { variant: variant.id };
+                log('express:canceldeleteimage', logRecords);
+                analytics({
+                  widget: {
+                    name: 'Prompt Template',
+                    type: 'NA',
+                  },
+                  element: 'Cancel Delete Image',
+                  elementId: 'express:canceldeleteimage',
+                  type: 'button',
+                  action: 'click',
+                }, logRecords);
               }
               setIsDeleteDialogOpen(false);
             }}>

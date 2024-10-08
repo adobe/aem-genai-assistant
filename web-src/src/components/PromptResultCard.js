@@ -37,7 +37,7 @@ import { parametersState } from '../state/ParametersState.js';
 import { resultsState } from '../state/ResultsState.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { useVariantImages } from '../state/VariantImagesHook.js';
-import { log } from '../helpers/MetricsHelper.js';
+import { log, analytics } from '../helpers/MetricsHelper.js';
 import { toHTML, toText } from '../helpers/PromptExporter.js';
 import { generateImagePrompt } from '../helpers/ImageHelper.js';
 import { VariantImagesView } from './VariantImagesView.js';
@@ -239,7 +239,18 @@ export function PromptResultCard({ result, ...props }) {
   }, [result, setPrompt, setParameters]);
 
   const deleteVariant = useCallback(async (variantId) => {
-    log('prompt:delete', { variant: variantId });
+    const logRecords = { variant: variantId };
+    log('prompt:delete', logRecords);
+    analytics({
+      widget: {
+        name: 'Prompt Template',
+        type: 'NA',
+      },
+      element: 'Delete Variation',
+      elementId: 'prompt:delete',
+      type: 'button',
+      action: 'click',
+    }, logRecords);
     setResults((results) => results.reduce((acc, r) => {
       const prevVariantsLength = r.variants.length;
       const variants = r.variants.filter((v) => v.id !== variantId);
@@ -258,7 +269,18 @@ export function PromptResultCard({ result, ...props }) {
   }, [setResults]);
 
   const handleGenerateImage = useCallback(async (imagePrompt, variantId) => {
-    log('express:generateimage', { variantId });
+    const logRecords = { variantId };
+    log('express:generateimage', logRecords);
+    analytics({
+      widget: {
+        name: 'Prompt Template',
+        type: 'NA',
+      },
+      element: 'Generate Image',
+      elementId: 'express:generateimage',
+      type: 'button',
+      action: 'click',
+    }, logRecords);
     const onPublish = (intent, publishParams) => {
       console.log('Image generated:', publishParams.asset[0].data);
       addImageToVariant(variantId, publishParams.asset[0].data);
@@ -381,7 +403,18 @@ export function PromptResultCard({ result, ...props }) {
                   isQuiet
                   UNSAFE_className="hover-cursor-pointer"
                   onPress={() => {
-                    log('prompt:copy', { source: 'ResultCard#onPress', variant: selectedVariant.id });
+                    const logRecords = { source: 'ResultCard#onPress', variant: selectedVariant.id };
+                    log('prompt:copy', logRecords);
+                    analytics({
+                      widget: {
+                        name: 'Prompt Template',
+                        type: 'NA',
+                      },
+                      element: 'Copy Variation',
+                      elementId: 'prompt:copy',
+                      type: 'button',
+                      action: 'click',
+                    }, logRecords);
                     navigator.clipboard.writeText(toText(selectedVariant.content));
                     ToastQueue.positive(
                       formatMessage(intlMessages.promptResultCard.copyTextSuccessToast),
@@ -433,7 +466,18 @@ export function PromptResultCard({ result, ...props }) {
                   isDisabled={isFeedback(selectedVariant)}
                   UNSAFE_className="hover-cursor-pointer"
                   onPress={() => {
-                    log('prompt:thumbsup', { source: 'ResultCard#onPress', variant: selectedVariant.id });
+                    const logRecords = { source: 'ResultCard#onPress', variant: selectedVariant.id };
+                    log('prompt:thumbsup', logRecords);
+                    analytics({
+                      widget: {
+                        name: 'Prompt Template',
+                        type: 'NA',
+                      },
+                      element: 'Like Variation',
+                      elementId: 'prompt:thumbsup',
+                      type: 'button',
+                      action: 'click',
+                    }, logRecords);
                     sendFeedback(true, selectedVariant);
                   }}>
                   {isFeedback(selectedVariant) ? <ThumbsUpDisabledIcon /> : <ThumbsUpOutlineIcon />}
@@ -446,7 +490,18 @@ export function PromptResultCard({ result, ...props }) {
                   isDisabled={isFeedback(selectedVariant)}
                   UNSAFE_className="hover-cursor-pointer"
                   onPress={() => {
-                    log('prompt:thumbsdown', { source: 'ResultCard#onPress', variant: selectedVariant.id });
+                    const logRecords = { source: 'ResultCard#onPress', variant: selectedVariant.id };
+                    log('prompt:thumbsdown', logRecords);
+                    analytics({
+                      widget: {
+                        name: 'Prompt Template',
+                        type: 'NA',
+                      },
+                      element: 'Dislike Variation',
+                      elementId: 'prompt:thumbsdown',
+                      type: 'button',
+                      action: 'click',
+                    }, logRecords);
                     sendFeedback(false, selectedVariant);
                   }}>
                   {isFeedback(selectedVariant) ? <ThumbsDownDisabledIcon /> : <ThumbsDownOutlineIcon />}

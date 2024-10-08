@@ -16,7 +16,7 @@ import { PromptSessionSideView } from './PromptSessionSideView.js';
 import { PromptResultListView } from './PromptResultListView.js';
 import PromptEditor from './PromptEditor.js';
 import { promptEditorState } from '../state/PromptEditorState.js';
-import { log } from '../helpers/MetricsHelper.js';
+import { log, analytics } from '../helpers/MetricsHelper.js';
 
 export function PromptSessionPanel() {
   const [isOpenPromptEditor, setIsOpenPromptEditor] = useRecoilState(promptEditorState);
@@ -25,6 +25,16 @@ export function PromptSessionPanel() {
   useEffect(() => {
     if (isOpenPromptEditor) {
       log('prompt:editor:opened');
+      analytics({
+        widget: {
+          name: 'Prompt Template',
+          type: 'NA',
+        },
+        element: 'Edit Prompt',
+        elementId: 'prompt:editor:opened',
+        type: 'button',
+        action: 'click',
+      });
     }
   }, [isOpenPromptEditor]);
 

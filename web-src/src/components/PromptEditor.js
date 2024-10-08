@@ -29,7 +29,7 @@ import { intlMessages } from './PromptSessionSideView.l10n.js';
 import { parametersState } from '../state/ParametersState.js';
 import { promptState } from '../state/PromptState.js';
 import { NO_VALUE_STRING, renderPrompt } from '../helpers/PromptRenderer.js';
-import { log } from '../helpers/MetricsHelper.js';
+import { log, analytics } from '../helpers/MetricsHelper.js';
 
 import PreviewIcon from '../icons/PreviewIcon.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
@@ -70,7 +70,7 @@ const style = {
   container: css`
     width: 100%;
     height: 100%;
-    position: relative; 
+    position: relative;
     overflow: auto;
     border: 1px solid var(--spectrum-gray-500);
     border-radius: 4px;
@@ -149,6 +149,16 @@ function PromptEditor({
   useEffect(() => {
     if (!viewSource) {
       log('prompt:editor:previewed');
+      analytics({
+        widget: {
+          name: 'Prompt Template',
+          type: 'NA',
+        },
+        element: 'Prompt Editor Preview',
+        elementId: 'prompt:editor:previewed',
+        type: 'button',
+        action: 'click',
+      });
     }
   }, [viewSource]);
 

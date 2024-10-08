@@ -39,7 +39,7 @@ import { FavoriteVariantCard } from './FavoriteVariantCard.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import ChevronLeft from '../assets/chevron-left.svg';
 import { formatIdentifier } from '../helpers/FormatHelper.js';
-import { log } from '../helpers/MetricsHelper.js';
+import { log, analytics } from '../helpers/MetricsHelper.js';
 
 const DEFAULT_FILENAME = 'selected_variants.csv';
 
@@ -81,7 +81,18 @@ export function FavoriteVariantListPanel(props) {
   const exportCsv = useCallback(() => {
     const variantsToExport = favorites.filter((variant) => selectedVariants.includes(variant.id));
     if (variantsToExport.length > 0) {
-      log('favorites:export:csv', { numberOfVariants: variantsToExport.length });
+      const logRecords = { numberOfVariants: variantsToExport.length };
+      log('favorites:export:csv', logRecords);
+      analytics({
+        widget: {
+          name: 'Favorite Variations',
+          type: 'NA',
+        },
+        element: 'Export to CSV',
+        elementId: 'favorites:export:csv',
+        type: 'button',
+        action: 'click',
+      }, logRecords);
       exportToCsv(favorites, 'selected_variants.csv');
     }
   }, [favorites, selectedVariants]);

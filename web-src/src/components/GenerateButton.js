@@ -31,7 +31,7 @@ import { promptEditorState } from '../state/PromptEditorState.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
 import { useSaveResults } from '../state/SaveResultsHook.js';
 import { createVariants } from '../helpers/ResultsParser.js';
-import { log } from '../helpers/MetricsHelper.js';
+import { log, analytics } from '../helpers/MetricsHelper.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
 import { RUN_MODE_CF } from '../state/RunMode.js';
 import { FIREFALL_ACTION_TYPES } from '../services/FirefallService.js';
@@ -122,7 +122,18 @@ export function GenerateButton({ isDisabled }) {
       if (runMode !== RUN_MODE_CF) {
         await saveResults();
       }
-      log('prompt:generate:variations:generated', { source: 'GenerateButton#generateResults', variations: variants.length, queryId });
+      const logRecords = { source: 'GenerateButton#generateResults', variations: variants.length, queryId };
+      log('prompt:generate:variations:generated', logRecords);
+      analytics({
+        widget: {
+          name: 'Prompt Template',
+          type: 'NA',
+        },
+        element: 'Generate Variations',
+        elementId: 'prompt:generate:variations:generated',
+        type: 'button',
+        action: 'click',
+      }, logRecords);
     } catch (error) {
       console.error(error);
       throw error;
@@ -130,7 +141,18 @@ export function GenerateButton({ isDisabled }) {
   }, [firefallService, prompt, parameters, temperature]);
 
   const handleGenerate = useCallback(() => {
-    log('prompt:generate', { source: 'GenerateButton#handleGenerate' });
+    const logRecords = { source: 'GenerateButton#handleGenerate' };
+    log('prompt:generate', logRecords);
+    analytics({
+      widget: {
+        name: 'Prompt Template',
+        type: 'NA',
+      },
+      element: 'Generate Variations',
+      elementId: 'prompt:generate',
+      type: 'button',
+      action: 'click',
+    }, logRecords);
     setGenerationInProgress(true);
     setIsOpenPromptEditor(false);
 

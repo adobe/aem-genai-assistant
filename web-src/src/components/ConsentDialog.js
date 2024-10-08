@@ -24,7 +24,7 @@ import { useIntl } from 'react-intl';
 
 import { intlMessages } from './App.l10n.js';
 import { LegalTermsLink } from './LegalTermsLink.js';
-import { log } from '../helpers/MetricsHelper.js';
+import { log, analytics } from '../helpers/MetricsHelper.js';
 import ConsentHero from '../assets/consent-hero.png';
 
 export const CONSENT_KEY = 'genai-assistant-consent';
@@ -45,7 +45,18 @@ export function ConsentDialog({ onConsentChange }) {
   }, [setOpen]);
 
   const handleAgree = () => {
-    log('consent:agree', { source: 'ConsentDialog#handleAgree' });
+    const logRecords = { source: 'ConsentDialog#handleAgree' };
+    log('consent:agree', logRecords);
+    analytics({
+      widget: {
+        name: 'Consent Dialog',
+        type: 'NA',
+      },
+      element: 'Accept Consent',
+      elementId: 'consent:agree',
+      type: 'button',
+      action: 'click',
+    }, logRecords);
     settingsApi.set({
       groupId: EXC_SHELL_GROUP_ID,
       level: SettingsLevel.USERORG,
@@ -57,7 +68,18 @@ export function ConsentDialog({ onConsentChange }) {
   };
 
   const handleCancel = () => {
-    log('consent:cancel', { source: 'ConsentDialog#handleCancel' });
+    const logRecords = { source: 'ConsentDialog#handleCancel' };
+    log('consent:cancel', logRecords);
+    analytics({
+      widget: {
+        name: 'Consent Dialog',
+        type: 'NA',
+      },
+      element: 'Cancel Consent',
+      elementId: 'consent:cancel',
+      type: 'button',
+      action: 'click',
+    }, logRecords);
     setOpen(false);
     onConsentChange(false);
   };

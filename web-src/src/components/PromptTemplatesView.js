@@ -26,7 +26,7 @@ import { PromptTemplateCard } from './PromptTemplateCard.js';
 import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { lastUsedPromptTemplateIdState } from '../state/LastUsedPromptTemplateIdState.js';
-import { log } from '../helpers/MetricsHelper.js';
+import { log, analytics } from '../helpers/MetricsHelper.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 
@@ -60,16 +60,49 @@ export function PromptTemplatesView() {
   const handleSelect = useCallback(({
     id, label, description, template, isBundled,
   }) => {
-    log('prompt:selected', {
+    let logRecords = {
       isBundled,
       description,
       label,
-    });
+    };
+    log('prompt:selected', logRecords);
+    analytics({
+      widget: {
+        name: 'Prompt Template',
+        type: 'NA',
+      },
+      element: 'Select Prompt',
+      elementId: 'prompt:selected',
+      type: 'button',
+      action: 'click',
+    }, logRecords);
     if (id === NEW_PROMPT_TEMPLATE_ID) {
-      log('prompt:new', { source: 'HomePanel#handleSelect' });
+      logRecords = { source: 'HomePanel#handleSelect' };
+      log('prompt:new', logRecords);
+      analytics({
+        widget: {
+          name: 'Prompt Template',
+          type: 'NA',
+        },
+        element: 'New Prompt',
+        elementId: 'prompt:new',
+        type: 'button',
+        action: 'click',
+      }, logRecords);
     } else {
+      logRecords = { source: 'HomePanel#handleSelect' };
       const promptType = isBundled ? 'isadobeselected' : 'iscustomselected';
-      log(`prompt:${promptType}`, { source: 'HomePanel#handleSelect' });
+      log(`prompt:${promptType}`, logRecords);
+      analytics({
+        widget: {
+          name: 'Prompt Template',
+          type: 'NA',
+        },
+        element: 'Existing Prompt',
+        elementId: `prompt:${promptType}`,
+        type: 'button',
+        action: 'click',
+      }, logRecords);
     }
     setCurrentSession(createNewSession(label, description, template));
     setViewType(ViewType.CurrentSession);

@@ -28,7 +28,7 @@ import {
 } from '@adobe/react-spectrum';
 import CreateVariationIcon from '@spectrum-icons/workflow/BoxExport';
 import { useIntl } from 'react-intl';
-import { log } from '../helpers/MetricsHelper.js';
+import { log, analytics } from '../helpers/MetricsHelper.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
 
@@ -58,7 +58,18 @@ export function ContentFragmentExportButton({ variant }) {
     } else {
       setIsExportInProgress(true);
     }
-    log('prompt:export', { variant: variant.id, as: 'contentFragmentVariation' });
+    const logRecords = { variant: variant.id, as: 'contentFragmentVariation' };
+    log('prompt:export', logRecords);
+    analytics({
+      widget: {
+        name: 'Content Fragment Variation',
+        type: 'NA',
+      },
+      element: 'Export Variation',
+      elementId: 'prompt:export',
+      type: 'button',
+      action: 'click',
+    }, logRecords);
     return aemService.createFragmentVariation(contentFragment.fragment.id, variationName, variant.content)
       .then(() => {
         setExportedVariations((prev) => [...prev, variant.id]);

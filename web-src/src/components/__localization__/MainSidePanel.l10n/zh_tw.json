@@ -6,11 +6,11 @@
   "mainSidePanel.expandMenuType": "展開側邊面板",
   "mainSidePanel.favoritesMenuItem": "我的最愛",
   "mainSidePanel.favoritesMenuItemAltText": "我的最愛",
-  "mainSidePanel.formatHelperLast12MonthsLabel": "最近12個月",
-  "mainSidePanel.formatHelperLast30DaysLabel": "最近30天",
-  "mainSidePanel.formatHelperLast6MonthsLabel": "最近6個月",
-  "mainSidePanel.formatHelperLast7DaysLabel": "最近7天",
-  "mainSidePanel.formatHelperLast90DaysLabel": "最近90天",
+  "mainSidePanel.formatHelperLast12MonthsLabel": "過去 12 個月",
+  "mainSidePanel.formatHelperLast30DaysLabel": "過去 30 天",
+  "mainSidePanel.formatHelperLast6MonthsLabel": "過去 6 個月",
+  "mainSidePanel.formatHelperLast7DaysLabel": "過去 7 天",
+  "mainSidePanel.formatHelperLast90DaysLabel": "過去 90 天",
   "mainSidePanel.formatHelperOlderLabel": "較舊",
   "mainSidePanel.formatHelperTodayLabel": "今天",
   "mainSidePanel.formatHelperYesterdayLabel": "昨天",
@@ -21,5 +21,5 @@
   "mainSidePanel.recentsMenuItemAltText": "最近項目",
   "mainSidePanel.title": "產生變化版本",
   "mainSidePanel.userGuidelinesMenuItem": "使用者方針",
-  "mainSidePanel.userGuidelinesMenuItemAltText": "使用者方針"
+  "mainSidePanel.userGuidelinesMenuItemAltText": "使用者原則"
 }

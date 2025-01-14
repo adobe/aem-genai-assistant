@@ -106,5 +106,13 @@
   "app.unexpectedErrorEncountered": {
     "__value__": "Oops! We've encountered an unexpected error. Please try again later.",
     "__desc__": "Default error message for wretch with options calls"
+  },
+  "app.v2AlertBanner": {
+    "__value__": "We have a new improved version of Generate Variations that is in Beta! This works via a bookmarklet with no developer required for access.",
+    "__desc__": "Alert banner for new improved version of Generate Variations"
+  },
+  "app.v2AlertBannerCta": {
+    "__value__": "Access",
+    "__desc__": "CTA for new improved version of Generate Variations"
   }
 }

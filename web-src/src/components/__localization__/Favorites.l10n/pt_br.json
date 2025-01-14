@@ -1,7 +1,7 @@
 {
   "favoritesView.backButtonAltText": "Voltar a todos os prompts",
   "favoritesView.copyButtonTooltip": "Copiar",
-  "favoritesView.copyTextSuccessToast": "Copiado para a área de transferência.",
+  "favoritesView.copyTextSuccessToast": "Texto copiado para a área de transferência.",
   "favoritesView.deselectAllButtonLabel": "Desmarcar tudo",
   "favoritesView.exportToCSVButtonLabel": "Exportar para CSV",
   "favoritesView.exportToCSVButtonTooltip": "Exporte as variantes selecionadas (somente conteúdo de texto) para um arquivo CSV.",

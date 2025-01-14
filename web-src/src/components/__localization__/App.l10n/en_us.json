@@ -25,5 +25,7 @@
   "app.promptTemplatesLibraryPanelLabel": "Prompt Templates",
   "app.rateLimitExceeded": "Generative AI's rate limit exceeded. Please wait one minute and try again.",
   "app.requestTimeout": "Generative AI's request timed out. Please try again by reducing the number of variations.",
-  "app.unexpectedErrorEncountered": "Oops! We've encountered an unexpected error. Please try again later."
+  "app.unexpectedErrorEncountered": "Oops! We've encountered an unexpected error. Please try again later.",
+  "app.v2AlertBanner": "We have a new improved version of Generate Variations that is in Beta! This works via a bookmarklet with no developer required for access.",
+  "app.v2AlertBannerCta": "Access"
 }

@@ -1,0 +1,8 @@
+{
+  "contentFetchFailedToastMessage": "Impossibile recuperare il contenuto dall'URL: {url}",
+  "contentFetchedSuccessfullyToastMessage": "Contenuto recuperato correttamente",
+  "domainKnowledgeUrlContextualHelpTitle": "URL",
+  "domainKnowledgeUrlDescription": "Inserisci un URL per il sistema in cui raccogliere i contenuti per fornire ulteriori informazioni di base o dettagli specifici che guidino la creazione dei contenuti. Max. 1500 caratteri.",
+  "domainKnowledgeUrlLabel": "URL per conoscenza dominio",
+  "fetchButtonLabel": "Fetch"
+}

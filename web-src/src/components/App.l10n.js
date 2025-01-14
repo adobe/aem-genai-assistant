@@ -12,6 +12,16 @@
 
 export const intlMessages = {
   app: {
+    v2AlertBanner: {
+      defaultMessage: 'We have a new improved version of Generate Variations that is in Beta! This works via a bookmarklet with no developer required for access.',
+      id: 'app.v2AlertBanner',
+      description: 'Alert banner for new improved version of Generate Variations',
+    },
+    v2AlertBannerCta: {
+      defaultMessage: 'Access',
+      id: 'app.v2AlertBannerCta',
+      description: 'CTA for new improved version of Generate Variations',
+    },
     name: {
       defaultMessage: 'Generate Variations',
       id: 'app.name',

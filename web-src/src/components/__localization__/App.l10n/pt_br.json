@@ -17,6 +17,8 @@
   "app.invalidAccessToken": "O token de acesso não é válido",
   "app.missingAccessToken": "O token de acesso não foi fornecido",
   "app.name": "Gerar variações",
+  "app.newVersionAlert": "Temos uma nova versão de Gerar variações no beta! Você pode acessar o como um bookmarklet {bookmarkletLink} or enable it in Universal Editor {universalEditorLink}.",
+  "app.newVersionAlertCta": "aqui",
   "app.noAccessDialogContent": "Você não tem acesso a este produto",
   "app.noAccessDialogHeading": "Acesso negado",
   "app.noAccessMessage": "Para usar a opção <strong>Gerar variações</strong>, você deve concordar com as Diretrizes do usuário de IA generativa.{newLine}Atualize esta página para <strong>Concordar</strong>.",
@@ -25,7 +27,5 @@
   "app.promptTemplatesLibraryPanelLabel": "Modelos de prompt",
   "app.rateLimitExceeded": "O limite de taxa da IA generativa foi excedido. Aguarde um minuto e tente novamente.",
   "app.requestTimeout": "A solicitação da IA generativa atingiu o tempo-limite. Tente novamente, reduzindo a quantidade de variações.",
-  "app.unexpectedErrorEncountered": "Encontramos um erro inesperado. Tente novamente mais tarde.",
-  "app.v2AlertBanner": "Temos uma nova versão aprimorada de Gerar variações no Beta! Isso funciona por meio de um bookmarklet sem necessidade de desenvolvedor para acesso.",
-  "app.v2AlertBannerCta": "Acesso"
+  "app.unexpectedErrorEncountered": "Encontramos um erro inesperado. Tente novamente mais tarde."
 }

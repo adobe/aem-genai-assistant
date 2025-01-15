@@ -17,6 +17,8 @@
   "app.invalidAccessToken": "Il token di accesso non è valido",
   "app.missingAccessToken": "Il token di accesso non è stato fornito",
   "app.name": "Genera varianti",
+  "app.newVersionAlert": "È disponibile una nuova versione di Generare varianti in versione beta. È possibile accedere come bookmarklet {bookmarkletLink} or enable it in Universal Editor {universalEditorLink}.",
+  "app.newVersionAlertCta": "qui",
   "app.noAccessDialogContent": "Non hai accesso a questo prodotto",
   "app.noAccessDialogHeading": "Accesso negato",
   "app.noAccessMessage": "Per utilizzare <strong>Genera varianti</strong> è necessario accettare le Linee guida per l’utente delle funzioni di IA generativa.{newLine}Aggiorna questa pagina per <strong>Accettare</strong>.",
@@ -25,7 +27,5 @@
   "app.promptTemplatesLibraryPanelLabel": "Modelli di prompt",
   "app.rateLimitExceeded": "È stato superato il limite di frequenza dell’IA generativa. Attendi un minuto e riprova.",
   "app.requestTimeout": "Timeout della richiesta di IA generativa. Riprova riducendo il numero di varianti.",
-  "app.unexpectedErrorEncountered": "Abbiamo riscontrato un errore imprevisto. Riprova più tardi.",
-  "app.v2AlertBanner": "È disponibile una nuova versione migliorata di Generate Variations in Beta. Funziona tramite un bookmarklet, senza che sia richiesto alcuno sviluppatore per l’accesso.",
-  "app.v2AlertBannerCta": "Accesso"
+  "app.unexpectedErrorEncountered": "Abbiamo riscontrato un errore imprevisto. Riprova più tardi."
 }

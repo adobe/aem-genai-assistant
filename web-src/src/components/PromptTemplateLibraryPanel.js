@@ -10,43 +10,78 @@
  * governing permissions and limitations under the License.
  */
 import {
-  Grid, Heading, ProgressCircle, Text, Button,
+  Grid, Heading, ProgressCircle, Text,
+  Link,
+  Button,
 } from '@adobe/react-spectrum';
 
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { useIntl } from 'react-intl';
 import { css } from '@emotion/css';
+import Close from '@spectrum-icons/workflow/Close';
 import { intlMessages } from './App.l10n.js';
 import { WelcomeBanner } from './WelcomeBanner.js';
 import { PromptTemplatesView } from './PromptTemplatesView.js';
 
 const styles = {
-  v2AlertBanner: css`
+  newVersionAlert: css`
     display: flex;
-    position: relative;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    position: relative;
     color: white;
     background-color: #0569E3;
     margin-bottom: 14px;
-    padding: 8px 8px 8px 16px;
+    padding: 8px 64px 8px 16px;
+    border-radius: 4px;
+    min-height: 48px;
 
-    @media (max-width: 1200px) {
-      flex-direction: column;
-      padding: 14px 16px 8px 16px;
-      align-items: flex-end;
+    &.hidden {
+      display: none;
     }
   `,
-  v2AlertBannerCta: css`
-    margin-left: 8px;
-    cursor: pointer;
+  newVersionAlertCta: css`
+    text-decoration: underline;
+  `,
+  newVersionAlertCloseContainer: css`
+    display: flex;
+    align-items: center;
+    border-inline-start-color: #fff3;
+    border-inline-start-style: solid;
+    border-inline-start-width: 1px;
+    padding-inline-start: 8px;
+    margin-inline-start: 8px;
+    position: absolute;
+    right: 8px;
+    min-height: 32px;
+    height: 80%;
+
+    @media (max-width: 1190px) {
+      align-items: flex-start;
+    }
+  `,
+  newVersionAlertClose: css`
+    margin: 2px;
+    border: none;
+    border-radius: 100%;
+
+    & svg {
+      width: 12px;
+      height: 12px;
+      padding: 4px 5px;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
   `,
 };
 
 export function PromptTemplateLibraryPanel({ props }) {
   const { formatMessage } = useIntl();
+  const [isNewVersionAlertOpen, setIsNewVersionAlertOpen] = useState(true);
 
   return (
     <Grid
@@ -59,11 +94,16 @@ export function PromptTemplateLibraryPanel({ props }) {
       }}>
 
       <div tabIndex={0}>
-        <div className={styles.v2AlertBanner}>
-          <Text>{formatMessage(intlMessages.app.v2AlertBanner)}</Text>
-          <a href='https://experience.adobe.com/solutions/aem-sites-genai-aem-genai-variations-mfe/static-assets/resources/early-access.html' target='_blank' rel='noreferrer'>
-            <Button UNSAFE_className={styles.v2AlertBannerCta} variant={'secondary'} staticColor={'white'}>{formatMessage(intlMessages.app.v2AlertBannerCta)}</Button>
-          </a>
+        <div className={`${styles.newVersionAlert} ${isNewVersionAlertOpen ? '' : 'hidden'}`}>
+          <Text>{formatMessage(intlMessages.app.newVersionAlert, {
+            bookmarkletLink: <Link variant='overBackground' UNSAFE_className={styles.newVersionAlertCta} href='https://experience.adobe.com/solutions/aem-sites-genai-aem-genai-variations-mfe/static-assets/resources/early-access.html' target='_blank' rel='noreferrer'>{formatMessage(intlMessages.app.newVersionAlertCta)}</Link>,
+            universalEditorLink: <Link variant='overBackground' UNSAFE_className={styles.newVersionAlertCta} href='https://experience.adobe.com/#/@sitesinternal/aem/extension-manager/universal-editor' target='_blank' rel='noreferrer'>{formatMessage(intlMessages.app.newVersionAlertCta)}</Link>,
+          })}</Text>
+          <div className={styles.newVersionAlertCloseContainer}>
+            <Button variant='secondary' staticColor='white' UNSAFE_className={styles.newVersionAlertClose} onPress={() => { setIsNewVersionAlertOpen(false); }}>
+              <Close />
+            </Button>
+          </div>
         </div>
         <WelcomeBanner />
 

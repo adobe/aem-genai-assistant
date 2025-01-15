@@ -17,6 +17,8 @@
   "app.invalidAccessToken": "액세스 토큰이 유효하지 않습니다.",
   "app.missingAccessToken": "액세스 토큰이 제공되지 않았습니다.",
   "app.name": "변형 생성",
+  "app.newVersionAlert": "베타에 새로운 버전의 변형 생성이 있습니다! 북마클릿 {bookmarkletLink} or enable it in Universal Editor {universalEditorLink}(으)로 액세스할 수 있습니다.",
+  "app.newVersionAlertCta": "여기",
   "app.noAccessDialogContent": "이 제품에 대한 액세스 권한이 없습니다.",
   "app.noAccessDialogHeading": "액세스 거부됨",
   "app.noAccessMessage": "<strong>변형 생성</strong>을 사용하려면 생성형 AI 사용자 가이드라인에 동의해야 합니다.{newLine}<strong>동의</strong>하려면 이 페이지를 새로 고침하십시오.",
@@ -25,7 +27,5 @@
   "app.promptTemplatesLibraryPanelLabel": "프롬프트 템플릿",
   "app.rateLimitExceeded": "생성형 AI의 속도 제한을 초과했습니다. 1분 정도 기다렸다가 다시 시도해 주십시오.",
   "app.requestTimeout": "생성형 AI의 요청 시간이 초과되었습니다. 변형의 수를 줄이고 다시 시도해 주십시오.",
-  "app.unexpectedErrorEncountered": "죄송합니다! 예기치 않은 오류가 발생했습니다. 나중에 다시 시도해 주십시오.",
-  "app.v2AlertBanner": "Beta에 있는 향상된 변형 생성 버전이 새로 추가되었습니다! 이 기능은 액세스에 개발자가 필요하지 않은 북마클릿을 통해 작동합니다.",
-  "app.v2AlertBannerCta": "액세스"
+  "app.unexpectedErrorEncountered": "죄송합니다! 예기치 않은 오류가 발생했습니다. 나중에 다시 시도해 주십시오."
 }

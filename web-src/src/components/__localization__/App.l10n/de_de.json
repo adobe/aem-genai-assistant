@@ -17,6 +17,8 @@
   "app.invalidAccessToken": "Das Zugriffs-Token ist ungültig",
   "app.missingAccessToken": "Das Zugriffs-Token wurde nicht bereitgestellt",
   "app.name": "Varianten erstellen",
+  "app.newVersionAlert": "Wir haben eine neue Version von Generate Variations in der Beta-Version! Sie können als Lesezeichen auf {bookmarkletLink} or enable it in Universal Editor {universalEditorLink} zugreifen.",
+  "app.newVersionAlertCta": "hier",
   "app.noAccessDialogContent": "Sie haben keinen Zugriff auf dieses Produkt",
   "app.noAccessDialogHeading": "Zugriff verweigert",
   "app.noAccessMessage": "Um <strong>Varianten generieren</strong> zu verwenden, müssen Sie den Benutzerrichtlinien für generative KI zustimmen.{newLine}Aktualisieren Sie diese Seite, um <strong>zuzustimmen</strong>.",
@@ -25,7 +27,5 @@
   "app.promptTemplatesLibraryPanelLabel": "Prompt-Vorlagen",
   "app.rateLimitExceeded": "Ratenbegrenzung der generativen KI überschritten. Bitte warten Sie eine Minute und versuchen Sie es erneut.",
   "app.requestTimeout": "Zeitüberschreitung bei der Anfrage der generativen KI. Versuchen Sie es erneut, indem Sie die Anzahl der Varianten verringern.",
-  "app.unexpectedErrorEncountered": "Leider ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es später erneut.",
-  "app.v2AlertBanner": "Wir haben eine neue verbesserte Version von Generate Variations , die in Beta verfügbar ist! Dies funktioniert über ein Bookmarklet, für dessen Zugriff kein Entwickler erforderlich ist.",
-  "app.v2AlertBannerCta": "Zugriff"
+  "app.unexpectedErrorEncountered": "Leider ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es später erneut."
 }

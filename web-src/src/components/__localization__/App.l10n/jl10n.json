@@ -71,6 +71,14 @@
     "__value__": "Generate Variations",
     "__desc__": "Name of app"
   },
+  "app.newVersionAlert": {
+    "__value__": "We have a new version of Generate Variations in beta! You can access as a bookmarklet {bookmarkletLink} or enable it in Universal Editor {universalEditorLink}.",
+    "__desc__": "Alert banner for new improved version of Generate Variations"
+  },
+  "app.newVersionAlertCta": {
+    "__value__": "here",
+    "__desc__": "CTA for new improved version of Generate Variations"
+  },
   "app.noAccessDialogContent": {
     "__value__": "You have no access to this product",
     "__desc__": "Content for no access dialog"
@@ -106,13 +114,5 @@
   "app.unexpectedErrorEncountered": {
     "__value__": "Oops! We've encountered an unexpected error. Please try again later.",
     "__desc__": "Default error message for wretch with options calls"
-  },
-  "app.v2AlertBanner": {
-    "__value__": "We have a new improved version of Generate Variations that is in Beta! This works via a bookmarklet with no developer required for access.",
-    "__desc__": "Alert banner for new improved version of Generate Variations"
-  },
-  "app.v2AlertBannerCta": {
-    "__value__": "Access",
-    "__desc__": "CTA for new improved version of Generate Variations"
   }
 }

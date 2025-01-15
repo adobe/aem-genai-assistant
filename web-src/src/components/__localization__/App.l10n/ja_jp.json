@@ -17,6 +17,8 @@
   "app.invalidAccessToken": "アクセストークンが無効です",
   "app.missingAccessToken": "アクセストークンが指定されていません",
   "app.name": "バリエーションを生成",
+  "app.newVersionAlert": "ベータ版のバリエーションを生成の新しいバージョンが追加されました。ブックマークレット {bookmarkletLink} or enable it in Universal Editor {universalEditorLink} としてアクセスできます。",
+  "app.newVersionAlertCta": "ここ",
   "app.noAccessDialogContent": "この製品へのアクセス権がありません",
   "app.noAccessDialogHeading": "アクセスが拒否されました",
   "app.noAccessMessage": "<strong>バリエーションを生成</strong>を使用するには、生成 AI のユーザーガイドラインに同意する必要があります。{newLine}<strong>同意する</strong>には、このページを更新してください。",
@@ -25,7 +27,5 @@
   "app.promptTemplatesLibraryPanelLabel": "プロンプトテンプレート",
   "app.rateLimitExceeded": "生成 AI のレート制限を超えました。1 分待ってから、もう一度試してください。",
   "app.requestTimeout": "生成 AI のリクエストがタイムアウトになりました。バリエーションの数を減らして、もう一度試してください。",
-  "app.unexpectedErrorEncountered": "予期しないエラーが発生しました。後でもう一度試してください。",
-  "app.v2AlertBanner": "Betaに、新しく改善されたバリエーションを生成するバージョンが追加されました。アクセスに開発者が必要ないブックマークレットを介して機能します。",
-  "app.v2AlertBannerCta": "アクセス"
+  "app.unexpectedErrorEncountered": "予期しないエラーが発生しました。後でもう一度試してください。"
 }

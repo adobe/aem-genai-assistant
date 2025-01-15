@@ -17,6 +17,8 @@
   "app.invalidAccessToken": "存取權杖無效",
   "app.missingAccessToken": "未提供存取權杖",
   "app.name": "產生變化版本",
+  "app.newVersionAlert": "我們有新版的「在測試版中產生變數」！您可以作為書籤小程式{bookmarkletLink} or enable it in Universal Editor {universalEditorLink}存取。",
+  "app.newVersionAlertCta": "此處",
   "app.noAccessDialogContent": "您無權存取此產品",
   "app.noAccessDialogHeading": "存取遭拒",
   "app.noAccessMessage": "若要使用「<strong>產生變化版本</strong>」，您必須同意「生成式 AI 使用者方針」。{newLine}請重新整理此頁面以<strong>同意</strong>。",
@@ -25,7 +27,5 @@
   "app.promptTemplatesLibraryPanelLabel": "提示範本",
   "app.rateLimitExceeded": "超出生成式 AI 的速率限制。請稍候片刻並再試一次。",
   "app.requestTimeout": "生成式 AI 的請求逾時。請減少變化版本數量並再試一次。",
-  "app.unexpectedErrorEncountered": "糟糕！我們遇到意外錯誤。請稍後再試。",
-  "app.v2AlertBanner": "我們在Beta中有一個新的「產生變數」改良版本！這可透過書籤小程式運作，不需要開發人員存取許可權。",
-  "app.v2AlertBannerCta": "存取"
+  "app.unexpectedErrorEncountered": "糟糕！我們遇到意外錯誤。請稍後再試。"
 }

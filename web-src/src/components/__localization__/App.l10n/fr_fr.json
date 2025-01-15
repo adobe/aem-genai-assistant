@@ -17,6 +17,8 @@
   "app.invalidAccessToken": "Jeton d’accès non valide",
   "app.missingAccessToken": "Le jeton d’accès n’est pas fourni.",
   "app.name": "Générer des variations",
+  "app.newVersionAlert": "Nous avons une nouvelle version de Generate Variations en version bêta ! Vous pouvez accéder à en tant que signet d'applet {bookmarkletLink} or enable it in Universal Editor {universalEditorLink}.",
+  "app.newVersionAlertCta": "ici",
   "app.noAccessDialogContent": "Vous n’avez pas accès à ce produit.",
   "app.noAccessDialogHeading": "Accès refusé",
   "app.noAccessMessage": "Pour utiliser <strong>Générer des variations,</strong> vous devez accepter les instructions d’utilisation de l’IA générative.{newLine}Actualisez cette page pour <strong>accepter</strong>.",
@@ -25,7 +27,5 @@
   "app.promptTemplatesLibraryPanelLabel": "Modèles de prompt",
   "app.rateLimitExceeded": "Limite de taux d’IA générative dépassée. Attendez une minute et réessayez.",
   "app.requestTimeout": "La demande d’IA générative a expiré. Réessayez en réduisant le nombre de variations.",
-  "app.unexpectedErrorEncountered": "Oups, une erreur inattendue s’est produite. Réessayez ultérieurement.",
-  "app.v2AlertBanner": "Nous disposons d’une nouvelle version améliorée de la fonction Générer des variations disponible dans Beta ! Cela fonctionne via un signet d’applet sans développeur requis pour l’accès.",
-  "app.v2AlertBannerCta": "Accès"
+  "app.unexpectedErrorEncountered": "Oups, une erreur inattendue s’est produite. Réessayez ultérieurement."
 }

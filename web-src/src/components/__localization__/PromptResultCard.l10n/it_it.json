@@ -17,7 +17,7 @@
   "promptResultCard.generateImageFailedToast": "Si è verificato un errore. Riprova.",
   "promptResultCard.goodButtonTooltip": "Buona",
   "promptResultCard.poorButtonTooltip": "Scarsa",
-  "promptResultCard.refineContentDescription": "Dopo aver generato il contenuto, puoi perfezionarlo ulteriormente aggiornando il prompt e/o i campi di input. Una volta ottenuto i contenuti desiderati, puoi utilizzarli nella tua esperienza di authoring AEM.",
+  "promptResultCard.refineContentDescription": "Dopo aver generato il contenuto, puoi perfezionarlo ulteriormente aggiornando il prompt e/o i campi di input. Una volta ottenuti i contenuti desiderati, puoi utilizzarli nella tua esperienza di authoring AEM.",
   "promptResultCard.refineContentTitle": "Perfeziona e utilizza il contenuto",
   "promptResultCard.removeButtonTooltip": "Rimuovi",
   "promptResultCard.reuseButtonLabel": "Riutilizza",

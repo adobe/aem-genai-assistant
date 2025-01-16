@@ -7,5 +7,5 @@
   "contentFragmentExportButton.exportDialog.exportButtonProgressAreaLabel": "正在导出…",
   "contentFragmentExportButton.exportDialog.nameFieldLabel": "名称",
   "contentFragmentExportButton.exportDialog.title": "导出到内容片段",
-  "contentFragmentExportButton.variationCreatedToast": "已创建变量。"
+  "contentFragmentExportButton.variationCreatedToast": "已创建变体。"
 }

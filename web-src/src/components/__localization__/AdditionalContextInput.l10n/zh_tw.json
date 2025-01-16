@@ -1,0 +1,8 @@
+{
+  "contentFetchFailedToastMessage": "無法從URL {url}擷取內容",
+  "contentFetchedSuccessfullyToastMessage": "已成功擷取內容",
+  "domainKnowledgeUrlContextualHelpTitle": "URL",
+  "domainKnowledgeUrlDescription": "輸入系統的URL以清除內容，提供更多背景資訊或具體細節來指導內容的建立。最多1500個字元。",
+  "domainKnowledgeUrlLabel": "網域知識的URL",
+  "fetchButtonLabel": "擷取"
+}

@@ -1,0 +1,8 @@
+{
+  "contentFetchFailedToastMessage": "Failed to fetch content from URL: {url}",
+  "contentFetchedSuccessfullyToastMessage": "Content fetched successfully",
+  "domainKnowledgeUrlContextualHelpTitle": "URL",
+  "domainKnowledgeUrlDescription": "Enter a URL for the system to scrape content to provide more background information or specific details to guide the creation of the content. Max 1500 characters.",
+  "domainKnowledgeUrlLabel": "URL for Domain Knowledge",
+  "fetchButtonLabel": "Fetch"
+}

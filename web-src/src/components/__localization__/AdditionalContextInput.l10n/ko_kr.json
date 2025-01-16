@@ -1,0 +1,8 @@
+{
+  "contentFetchFailedToastMessage": "URL에서 콘텐츠를 가져오지 못함: {url}",
+  "contentFetchedSuccessfullyToastMessage": "컨텐츠를 성공적으로 가져왔습니다.",
+  "domainKnowledgeUrlContextualHelpTitle": "URL",
+  "domainKnowledgeUrlDescription": "시스템에서 콘텐츠를 스크랩하여 더 많은 배경 정보나 콘텐츠 생성을 안내하는 특정 세부 정보를 제공하는 URL을 입력합니다. 최대 1500자.",
+  "domainKnowledgeUrlLabel": "도메인 정보에 대한 URL",
+  "fetchButtonLabel": "가져오기"
+}

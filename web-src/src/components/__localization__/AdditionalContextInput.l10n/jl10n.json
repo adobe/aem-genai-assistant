@@ -1,0 +1,26 @@
+{
+  "contentFetchFailedToastMessage": {
+    "__value__": "Failed to fetch content from URL: {url}",
+    "__desc__": "Toast message displayed when content fetch fails"
+  },
+  "contentFetchedSuccessfullyToastMessage": {
+    "__value__": "Content fetched successfully",
+    "__desc__": "Toast message displayed when content is fetched successfully"
+  },
+  "domainKnowledgeUrlContextualHelpTitle": {
+    "__value__": "URL",
+    "__desc__": "Title for Domain Knowledge URL input"
+  },
+  "domainKnowledgeUrlDescription": {
+    "__value__": "Enter a URL for the system to scrape content to provide more background information or specific details to guide the creation of the content. Max 1500 characters.",
+    "__desc__": "Description for Domain Knowledge URL input"
+  },
+  "domainKnowledgeUrlLabel": {
+    "__value__": "URL for Domain Knowledge",
+    "__desc__": "Label for Domain Knowledge URL input"
+  },
+  "fetchButtonLabel": {
+    "__value__": "Fetch",
+    "__desc__": "Label for Fetch button"
+  }
+}

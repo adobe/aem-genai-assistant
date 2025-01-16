@@ -7,5 +7,5 @@
   "contentFragmentExportButton.exportDialog.exportButtonProgressAreaLabel": "匯出中…",
   "contentFragmentExportButton.exportDialog.nameFieldLabel": "名稱",
   "contentFragmentExportButton.exportDialog.title": "匯出至內容片段",
-  "contentFragmentExportButton.variationCreatedToast": "已建立變數。"
+  "contentFragmentExportButton.variationCreatedToast": "變化版本已建立。"
 }

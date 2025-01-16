@@ -1,9 +1,15 @@
 {
   "metadata": {
-    "total": 7,
+    "total": 8,
     "packageName": "app"
   },
   "components": {
+    "AdditionalContextInput.l10n": {
+      "__default__": "web-src/src/components/__localization__/AdditionalContextInput.l10n/en_us.json",
+      "__destination__": "web-src/src/components/__localization__/AdditionalContextInput.l10n",
+      "__source__": "web-src/src/components/__localization__/AdditionalContextInput.l10n/jl10n.json",
+      "__import__": "web-src/src/components/__localization__/AdditionalContextInput.l10n/index.js"
+    },
     "App.l10n": {
       "__default__": "web-src/src/components/__localization__/App.l10n/en_us.json",
       "__destination__": "web-src/src/components/__localization__/App.l10n",

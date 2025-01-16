@@ -3,7 +3,7 @@
   "promptResultCard.contentFragmentExportDialogExportButtonLabel": "Nome da variação",
   "promptResultCard.contentFragmentExportDialogTitle": "Exportar para fragmento de conteúdo",
   "promptResultCard.copyButtonTooltip": "Copiar",
-  "promptResultCard.copyTextSuccessToast": "Copiado para a área de transferência.",
+  "promptResultCard.copyTextSuccessToast": "Texto copiado para a área de transferência.",
   "promptResultCard.createPromptDescription": "Abra “Editar prompt”, escreva seu prompt ou cole seções de outros prompts.",
   "promptResultCard.createPromptTitle": "Criar um prompt",
   "promptResultCard.expressNoAccessContextualInfoContent": "Para obter acesso, envie uma solicitação ao administrador de TI ou faça logon com uma Adobe ID qualificada.",

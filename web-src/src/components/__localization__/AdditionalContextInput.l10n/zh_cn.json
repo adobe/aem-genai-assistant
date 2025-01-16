@@ -1,0 +1,8 @@
+{
+  "contentFetchFailedToastMessage": "无法从URL获取内容： {url}",
+  "contentFetchedSuccessfullyToastMessage": "已成功获取内容",
+  "domainKnowledgeUrlContextualHelpTitle": "URL",
+  "domainKnowledgeUrlDescription": "输入系统用来清除内容的URL，以提供更多背景信息或特定详细信息来指导内容的创建。最多1500个字符。",
+  "domainKnowledgeUrlLabel": "域知识的URL",
+  "fetchButtonLabel": "获取"
+}

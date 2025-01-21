@@ -17,7 +17,7 @@
   "app.invalidAccessToken": "액세스 토큰이 유효하지 않습니다.",
   "app.missingAccessToken": "액세스 토큰이 제공되지 않았습니다.",
   "app.name": "변형 생성",
-  "app.newVersionAlert": "베타에 새로운 버전의 변형 생성이 있습니다! 북마클릿 {bookmarkletLink} or enable it in Universal Editor {universalEditorLink}(으)로 액세스할 수 있습니다.",
+  "app.newVersionAlert": "베리에이션 생성의 새로운 버전이 Beta로 출시되었습니다! 북마클릿({bookmarkletLink})으로 액세스하거나 범용 편집기({universalEditorLink})에서 활성화할 수 있습니다.",
   "app.newVersionAlertCta": "여기",
   "app.noAccessDialogContent": "이 제품에 대한 액세스 권한이 없습니다.",
   "app.noAccessDialogHeading": "액세스 거부됨",

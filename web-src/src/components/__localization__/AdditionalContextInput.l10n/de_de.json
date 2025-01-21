@@ -1,8 +1,8 @@
 {
-  "contentFetchFailedToastMessage": "Inhalt konnte nicht von URL abgerufen werden: {url}",
-  "contentFetchedSuccessfullyToastMessage": "Inhalt erfolgreich abgerufen",
+  "contentFetchFailedToastMessage": "Inhalte konnten nicht von URL abgerufen werden: {url}",
+  "contentFetchedSuccessfullyToastMessage": "Inhalte erfolgreich abgerufen",
   "domainKnowledgeUrlContextualHelpTitle": "URL",
-  "domainKnowledgeUrlDescription": "Geben Sie eine URL ein, unter der das System den Inhalt abschlüsseln soll, um weitere Hintergrundinformationen oder spezifische Details zur Erstellung des Inhalts anzugeben. Max. 1500 Zeichen.",
-  "domainKnowledgeUrlLabel": "URL für Domänenwissen",
+  "domainKnowledgeUrlDescription": "Geben Sie eine URL ein, unter der das System Inhalte auslesen soll, um weitere Hintergrundinformationen oder spezifische Details zur Erstellung der Inhalte bereitzustellen. Max. 1500 Zeichen.",
+  "domainKnowledgeUrlLabel": "URL für Domain-Wissen",
   "fetchButtonLabel": "Abrufen"
 }

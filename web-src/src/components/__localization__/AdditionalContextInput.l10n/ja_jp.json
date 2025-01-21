@@ -1,8 +1,8 @@
 {
-  "contentFetchFailedToastMessage": "URL {url} からコンテンツを取得できませんでした",
-  "contentFetchedSuccessfullyToastMessage": "コンテンツを取得しました",
+  "contentFetchFailedToastMessage": "URL : {url} からコンテンツを取得できませんでした",
+  "contentFetchedSuccessfullyToastMessage": "コンテンツが正常に取得されました",
   "domainKnowledgeUrlContextualHelpTitle": "URL",
-  "domainKnowledgeUrlDescription": "コンテンツをスクレープして、より多くの背景情報やコンテンツ作成のガイドとなる具体的な詳細を提供するためのシステムの URL を入力します。最大 1500 文字。",
+  "domainKnowledgeUrlDescription": "コンテンツをスクレイピングして、コンテンツ作成のガイドとなる、より多くの背景情報や具体的な詳細を提供するシステムの URL を入力します。最大 1500 文字です。",
   "domainKnowledgeUrlLabel": "ドメイン知識の URL",
   "fetchButtonLabel": "取得"
 }

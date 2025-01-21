@@ -1,8 +1,8 @@
 {
-  "contentFetchFailedToastMessage": "Impossible de récupérer le contenu de l'URL : {url}",
-  "contentFetchedSuccessfullyToastMessage": "Contenu récupéré avec succès",
+  "contentFetchFailedToastMessage": "Échec de la récupération de contenu à partir de l’URL : {url}",
+  "contentFetchedSuccessfullyToastMessage": "Contenu récupéré",
   "domainKnowledgeUrlContextualHelpTitle": "URL",
-  "domainKnowledgeUrlDescription": "Entrez une URL pour que le système extraie le contenu afin de fournir des informations plus générales ou des détails spécifiques pour guider la création du contenu. 1 500 caractères maximum.",
+  "domainKnowledgeUrlDescription": "Saisissez une URL pour que le système récupère du contenu afin de fournir des informations plus générales ou des détails spécifiques pour guider la création du contenu. 1 500 caractères maximum.",
   "domainKnowledgeUrlLabel": "URL des connaissances du domaine",
   "fetchButtonLabel": "Récupérer"
 }

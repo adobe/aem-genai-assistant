@@ -17,7 +17,7 @@
   "app.invalidAccessToken": "Das Zugriffs-Token ist ungültig",
   "app.missingAccessToken": "Das Zugriffs-Token wurde nicht bereitgestellt",
   "app.name": "Varianten erstellen",
-  "app.newVersionAlert": "Wir haben eine neue Version von Generate Variations in der Beta-Version! Sie können als Lesezeichen auf {bookmarkletLink} or enable it in Universal Editor {universalEditorLink} zugreifen.",
+  "app.newVersionAlert": "Eine neue Version von „Varianten generieren“ befindet sich in der Beta-Phase. Sie können als Bookmarklet {bookmarkletLink} darauf zugreifen oder sie im universellen Editor {universalEditorLink} aktivieren.",
   "app.newVersionAlertCta": "hier",
   "app.noAccessDialogContent": "Sie haben keinen Zugriff auf dieses Produkt",
   "app.noAccessDialogHeading": "Zugriff verweigert",

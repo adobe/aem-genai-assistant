@@ -17,7 +17,7 @@
   "app.invalidAccessToken": "访问令牌无效",
   "app.missingAccessToken": "未提供访问令牌",
   "app.name": "生成变体",
-  "app.newVersionAlert": "我们有一个新版本的“在Beta版中生成变量”！你可以作为书签{bookmarkletLink} or enable it in Universal Editor {universalEditorLink}访问。",
+  "app.newVersionAlert": "我们有测试版的“生成变体”新版本！您可以将其作为书签{bookmarkletLink}访问，或在通用编辑器{universalEditorLink}中启用它。",
   "app.newVersionAlertCta": "此处",
   "app.noAccessDialogContent": "您无权访问此产品",
   "app.noAccessDialogHeading": "访问被拒绝",

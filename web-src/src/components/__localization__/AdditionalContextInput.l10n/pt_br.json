@@ -1,8 +1,8 @@
 {
-  "contentFetchFailedToastMessage": "Falha ao buscar conteúdo da URL: {url}",
-  "contentFetchedSuccessfullyToastMessage": "Conteúdo buscado com sucesso",
+  "contentFetchFailedToastMessage": "Falha ao obter o conteúdo do URL: {url}",
+  "contentFetchedSuccessfullyToastMessage": "Conteúdo obtido com sucesso",
   "domainKnowledgeUrlContextualHelpTitle": "URL",
-  "domainKnowledgeUrlDescription": "Insira uma URL para o sistema remover conteúdo para fornecer mais informações de plano de fundo ou detalhes específicos para orientar a criação do conteúdo. Máximo de 1500 caracteres.",
-  "domainKnowledgeUrlLabel": "URL para conhecimento de domínio",
-  "fetchButtonLabel": "Buscar"
+  "domainKnowledgeUrlDescription": "Insira um URL para que o sistema raspe conteúdo e forneça mais informações de contexto ou detalhes específicos para orientar a criação do conteúdo. Máximo de 1.500 caracteres.",
+  "domainKnowledgeUrlLabel": "URL para conhecimento do domínio",
+  "fetchButtonLabel": "Obter"
 }

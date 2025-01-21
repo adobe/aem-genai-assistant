@@ -97,7 +97,7 @@ export function PromptTemplateLibraryPanel({ props }) {
         <div className={`${styles.newVersionAlert} ${isNewVersionAlertOpen ? '' : 'hidden'}`}>
           <Text>{formatMessage(intlMessages.app.newVersionAlert, {
             bookmarkletLink: <Link variant='overBackground' UNSAFE_className={styles.newVersionAlertCta} href='https://experience.adobe.com/solutions/aem-sites-genai-aem-genai-variations-mfe/static-assets/resources/early-access.html' target='_blank' rel='noreferrer'>{formatMessage(intlMessages.app.newVersionAlertCta)}</Link>,
-            universalEditorLink: <Link variant='overBackground' UNSAFE_className={styles.newVersionAlertCta} href='https://experience.adobe.com/#/@sitesinternal/aem/extension-manager/universal-editor' target='_blank' rel='noreferrer'>{formatMessage(intlMessages.app.newVersionAlertCta)}</Link>,
+            universalEditorLink: <Link variant='overBackground' UNSAFE_className={styles.newVersionAlertCta} href='https://experience.adobe.com/#/aem/extension-manager/universal-editor' target='_blank' rel='noreferrer'>{formatMessage(intlMessages.app.newVersionAlertCta)}</Link>,
           })}</Text>
           <div className={styles.newVersionAlertCloseContainer}>
             <Button variant='secondary' staticColor='white' UNSAFE_className={styles.newVersionAlertClose} onPress={() => { setIsNewVersionAlertOpen(false); }}>

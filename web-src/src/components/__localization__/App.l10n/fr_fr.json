@@ -17,7 +17,7 @@
   "app.invalidAccessToken": "Jeton d’accès non valide",
   "app.missingAccessToken": "Le jeton d’accès n’est pas fourni.",
   "app.name": "Générer des variations",
-  "app.newVersionAlert": "Une nouvelle version de la fonctionnalité Générer des variations est en version bêta ! Vous pouvez y accéder en tant que signet d’applet {bookmarkletLink} ou l’activer dans l’éditeur universel {universalEditorLink}.",
+  "app.newVersionAlert": "Une nouvelle version de Générer des variations est disponible. Pour en savoir plus, cliquez sur {landingPageLink}.",
   "app.newVersionAlertCta": "ici",
   "app.noAccessDialogContent": "Vous n’avez pas accès à ce produit.",
   "app.noAccessDialogHeading": "Accès refusé",

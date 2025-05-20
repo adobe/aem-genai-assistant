@@ -17,7 +17,7 @@
   "app.invalidAccessToken": "El token de acceso no es válido.",
   "app.missingAccessToken": "No se ha proporcionado el token de acceso",
   "app.name": "Generar variaciones",
-  "app.newVersionAlert": "Tenemos una nueva versión beta de Generar variaciones. Puede acceder como bookmarklet {bookmarkletLink} o habilitarlo en el Editor universal {universalEditorLink}.",
+  "app.newVersionAlert": "Tenemos una nueva versión de Generar variaciones disponible, haga clic en {landingPageLink} para obtener más información.",
   "app.newVersionAlertCta": "aquí",
   "app.noAccessDialogContent": "No tiene acceso a este producto",
   "app.noAccessDialogHeading": "Acceso denegado",

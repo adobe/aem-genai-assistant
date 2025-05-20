@@ -72,7 +72,7 @@
     "__desc__": "Name of app"
   },
   "app.newVersionAlert": {
-    "__value__": "We have a new version of Generate Variations in beta! You can access as a bookmarklet {bookmarkletLink} or enable it in Universal Editor {universalEditorLink}.",
+    "__value__": "We have a new version of Generate Variations available, click {landingPageLink} to learn more!",
     "__desc__": "Alert banner for new improved version of Generate Variations"
   },
   "app.newVersionAlertCta": {

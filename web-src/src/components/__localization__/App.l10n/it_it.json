@@ -17,7 +17,7 @@
   "app.invalidAccessToken": "Il token di accesso non è valido",
   "app.missingAccessToken": "Il token di accesso non è stato fornito",
   "app.name": "Genera varianti",
-  "app.newVersionAlert": "È disponibile la nuova versione beta per generare varianti. Puoi accedere tramite bookmarklet {bookmarkletLink} o abilitarla nell’editor universale {universalEditorLink}.",
+  "app.newVersionAlert": "È disponibile una nuova versione di Genera varianti, fare clic su {landingPageLink} per ulteriori informazioni.",
   "app.newVersionAlertCta": "qui",
   "app.noAccessDialogContent": "Non hai accesso a questo prodotto",
   "app.noAccessDialogHeading": "Accesso negato",

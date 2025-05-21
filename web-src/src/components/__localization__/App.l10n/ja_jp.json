@@ -17,7 +17,7 @@
   "app.invalidAccessToken": "アクセストークンが無効です",
   "app.missingAccessToken": "アクセストークンが指定されていません",
   "app.name": "バリエーションを生成",
-  "app.newVersionAlert": "新しいバージョンのバリエーションを生成がベータ版になりました。ブックマークレット {bookmarkletLink} としてアクセスするか、ユニバーサルエディター {universalEditorLink} で有効にすることができます。",
+  "app.newVersionAlert": "バリエーションの生成の新しいバージョンを利用できます。詳しくは、{landingPageLink} をクリックしてください。",
   "app.newVersionAlertCta": "こちら",
   "app.noAccessDialogContent": "この製品へのアクセス権がありません",
   "app.noAccessDialogHeading": "アクセスが拒否されました",

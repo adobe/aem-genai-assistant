@@ -17,7 +17,7 @@
   "app.invalidAccessToken": "存取權杖無效",
   "app.missingAccessToken": "未提供存取權杖",
   "app.name": "產生變化版本",
-  "app.newVersionAlert": "我們有處於 Beta 階段的「產生變化版本」的新版本！您可以當作小書籤 {bookmarkletLink} 進行存取，或在通用編輯器 {universalEditorLink} 中啟用它。",
+  "app.newVersionAlert": "我們有新版的「產生變數」可用，請按一下{landingPageLink}以瞭解更多資訊！",
   "app.newVersionAlertCta": "這裡",
   "app.noAccessDialogContent": "您無權存取此產品",
   "app.noAccessDialogHeading": "存取遭拒",

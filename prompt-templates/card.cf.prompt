@@ -43,7 +43,8 @@ Requirements: ```
 - Compose the text without using the same adjective more than once.
 - Do not use exclamation marks or points at the end of sentences in the text.
 - Do not use exclamation marks or points in the text.
-- Format the response as an array of valid, iterable RFC8259 compliant JSON. Always list the ""AI Rationale"" attribute last.
+- Format the response a valid iterable RFC8259 compliant JSON. Always list the ""AI Rationale"" attribute last.
+- The output should have {{number_of_variations}} variations.
 ```
 
 {{# -------------------------------------------------------------------------- }}

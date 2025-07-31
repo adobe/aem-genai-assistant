@@ -63,7 +63,7 @@ const styles = {
 export function FavoriteVariantCard({
   variant, isSelected, setSelected, ...props
 }) {
-  const { firefallService, expressSdkService } = useApplicationContext();
+  const { azureOpenAIService, expressSdkService } = useApplicationContext();
   const { isExpressAuthorized } = useShellContext();
   const { formatMessage } = useIntl();
 
@@ -119,7 +119,7 @@ export function FavoriteVariantCard({
 
   const handleGenerateImagePrompt = useCallback(() => {
     setImagePromptProgress(true);
-    generateImagePrompt(firefallService, variant)
+    generateImagePrompt(azureOpenAIService, variant)
       .then((imagePrompt) => {
         handleGenerateImage(imagePrompt);
       })

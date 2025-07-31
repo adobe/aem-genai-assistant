@@ -57,15 +57,15 @@ AIO_runtime_apihost=
 # AIO Logging environment variables
 AIO_LOG_LEVEL=info
 
-## Firefall environment variables
-FIREFALL_API_KEY=aem-sidekick-genai-assistant
-FIREFALL_ENDPOINT=https://firefall.adobe.io # or https://firefall-stage.adobe.io
+## Azure OpenAI environment variables
+AZURE_OPENAI_API_KEY=
+AZURE_OPENAI_ENDPOINT=
 
 ## IMS environment variables
 IMS_ENDPOINT=https://ims-na1.adobelogin.com # or https://ims-na1-stg1.adobelogin.com
 IMS_PRODUCT_CONTEXT=dma_aem_cloud
 IMS_CLIENT_ID=aem-genai-assistant # This is the IMSS client ID for validating service tokens and checking the product context
-IMS_SERVICE_CLIENT_ID=aem-sidekick-genai-assistant # This is the IMSS client ID for generating a service token. This ID is associated with the FIREFALL_API_KEY.
+IMS_SERVICE_CLIENT_ID=aem-sidekick-genai-assistant # This is the IMSS client ID for generating a service token. This ID is associated with the AZURE_OPENAI_API_KEY.
 IMS_SERVICE_CLIENT_SECRET=
 IMS_SERVICE_PERM_AUTH_CODE=
 

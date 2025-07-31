@@ -70,9 +70,9 @@ jest.mock('../web-src/src/components/ShellProvider.js', () => ({
   }),
 }));
 
-jest.mock('../web-src/src/services/FirefallService.js', () => ({
+jest.mock('../web-src/src/services/AzureOpenAIService.js', () => ({
   // eslint-disable-next-line func-names
-  FirefallService: jest.fn().mockImplementation(function () {
+  AzureOpenAIService: jest.fn().mockImplementation(function () {
     this.complete = jest.fn().mockReturnValue('text');
     this.fallback = jest.fn().mockReturnValue({});
   }),

@@ -9,14 +9,17 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-const { asGenericAction } = require('../GenericAction.js');
-const { asAuthNAction } = require('../AuthNAction.js');
-const { asAuthZAction } = require('../AuthZAction.js');
-const { asAzureOpenAIAction } = require('../AzureOpenAIAction.js');
+const { AzureOpenAIClient } = require('./AzureOpenAIClient.js');
 
-async function main(params) {
-  const { queryId, sentiment, azureOpenAIClient } = params;
-  return azureOpenAIClient.feedback(queryId, sentiment);
+function asAzureOpenAIAction(action) {
+  return async (params) => {
+    const azureOpenAIEndpoint = params.AZURE_OPENAI_ENDPOINT;
+    const azureOpenAIApiKey = params.AZURE_OPENAI_API_KEY;
+
+    const azureOpenAIClient = new AzureOpenAIClient(azureOpenAIEndpoint, azureOpenAIApiKey);
+
+    return action({ ...params, azureOpenAIClient });
+  };
 }
 
-exports.main = asGenericAction(asAuthNAction(asAuthZAction(asAzureOpenAIAction(main))));
+module.exports = { asAzureOpenAIAction };

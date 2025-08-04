@@ -13,7 +13,7 @@ import React, {
   Fragment, useContext, useEffect, useState,
 } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { FirefallService } from '../services/FirefallService.js';
+import { AzureOpenAIService } from '../services/AzureOpenAIService.js';
 import { ExpressSdkService } from '../services/ExpressSdkService.js';
 import actions from '../config.json';
 import { useShellContext } from './ShellProvider.js';
@@ -106,7 +106,7 @@ export const ApplicationProvider = ({ children }) => {
 
         runMode,
 
-        firefallService: new FirefallService({
+        azureOpenAIService: new AzureOpenAIService({
           completeEndpoint: actions[COMPLETE_ACTION],
           feedbackEndpoint: actions[FEEDBACK_ACTION],
           imsOrg: user.imsOrg,

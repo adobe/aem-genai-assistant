@@ -13,7 +13,7 @@ const { Core } = require('@adobe/aio-sdk');
 const wretch = require('./Network.js');
 const InternalError = require('./InternalError.js');
 
-const logger = Core.Logger('FirefallAction');
+const logger = Core.Logger('AzureOpenAIAction');
 
 // The error identifiers (enclosed in double curly braces) will be replaced with the actual
 // error messages after being processed for localization on the frontend
@@ -25,17 +25,16 @@ const ERROR_CODES = {
   429: '{{rateLimitExceeded}}',
 };
 
-function toFirefallError(error, defaultMessage) {
+function toAzureOpenAIError(error, defaultMessage) {
   const errorMessage = ERROR_CODES[error.status] ?? defaultMessage;
   return new InternalError(error.status ?? 500, `IS-ERROR: ${errorMessage} (${error.status}).`);
 }
 
-class FirefallClient {
-  constructor(endpoint, apiKey, org, accessToken) {
+class AzureOpenAIClient {
+  constructor(endpoint, apiKey, apiVersion = '2024-10-21') {
     this.endpoint = endpoint;
     this.apiKey = apiKey;
-    this.org = org;
-    this.accessToken = accessToken;
+    this.apiVersion = apiVersion;
   }
 
   async completion(prompt, temperature = 0.0, model = 'gpt-4') {
@@ -46,39 +45,42 @@ class FirefallClient {
     const REQUEST_TIMEOUT = 295;
 
     try {
-      const response = await wretch(`${this.endpoint}/v1/completions`, { requestTimeout: REQUEST_TIMEOUT })
+      const response = await wretch(`${this.endpoint}/openai/deployments/${model}/chat/completions?api-version=${this.apiVersion}`, { requestTimeout: REQUEST_TIMEOUT })
         .headers({
-          'x-gw-ims-org-id': this.org,
-          'x-api-key': this.apiKey,
-          Authorization: `Bearer ${this.accessToken}`,
+          'api-key': this.apiKey,
           'Content-Type': 'application/json',
         })
         .post({
-          dialogue: {
-            question: prompt,
-          },
-          llm_metadata: {
-            llm_type: 'azure_chat_openai',
-            model_name: model,
-            temperature,
-            max_tokens: 800,
-            top_p: 1,
-            frequency_penalty: 0,
-            presence_penalty: 0,
-            n: 1,
-          },
-          store_context: true,
-        })
-        .json();
+          messages: [
+            {
+              role: 'user',
+              content: prompt,
+            },
+          ],
+          temperature,
+          max_tokens: 800,
+          frequency_penalty: 0,
+          presence_penalty: 0,
+        }).json();
 
       const endTime = Date.now();
       const requestTime = ((endTime - startTime) / 1000).toFixed(2);
-      logger.info(`Generate request #${response.query_id} completed in ${requestTime} s`);
+      logger.info(`Generate request completed in ${requestTime} s`);
+      console.log(response);
 
-      return response;
+      const generations = [[{
+        message: {
+          content: response.choices[0].message.content,
+        },
+      }]];
+
+      return {
+        query_id: response.id,
+        generations,
+      };
     } catch (error) {
       logger.error('Failed generating results:', error);
-      throw toFirefallError(error, ERROR_CODES.defaultCompletion);
+      throw toAzureOpenAIError(error, ERROR_CODES.defaultCompletion);
     }
   }
 
@@ -86,31 +88,21 @@ class FirefallClient {
     const startTime = Date.now();
 
     try {
-      const response = await wretch(`${this.endpoint}/v1/feedback`)
-        .headers({
-          Authorization: `Bearer ${this.accessToken}`,
-          'x-api-key': this.apiKey,
-          'x-gw-ims-org-id': this.org,
-          'Content-Type': 'application/json',
-        })
-        .post({
-          query_id: queryId,
-          feedback: {
-            overall: sentiment ? 'thumbs_up' : 'thumbs_down',
-          },
-        })
-        .json();
+      logger.info(`Feedback received for query ${queryId}: ${sentiment ? 'thumbs_up' : 'thumbs_down'} (endpoint: ${this.endpoint})`);
 
       const endTime = Date.now();
       const requestTime = ((endTime - startTime) / 1000).toFixed(2);
       logger.info(`Feedback request completed in ${requestTime} s`);
 
-      return response;
+      // returning a mock response for compatibility with past Firefall structure
+      return {
+        feedback_id: `feedback_${queryId}_${Date.now()}`,
+      };
     } catch (error) {
       logger.error('Failed sending feedback:', error);
-      throw toFirefallError(error, ERROR_CODES.defaultFeedback);
+      throw toAzureOpenAIError(error, ERROR_CODES.defaultFeedback);
     }
   }
 }
 
-module.exports = { FirefallClient };
+module.exports = { AzureOpenAIClient };

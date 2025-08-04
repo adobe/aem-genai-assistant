@@ -12,7 +12,7 @@
 const { JSDOM } = require('jsdom');
 const wretch = require('../Network.js');
 const { asGenericAction } = require('../GenericAction.js');
-const { asFirefallAction } = require('../FirefallAction.js');
+const { asAzureOpenAIAction } = require('../AzureOpenAIAction.js');
 const { asAuthZAction } = require('../AuthZAction.js');
 const { asAuthNAction } = require('../AuthNAction.js');
 const { truncateText } = require('../StringUtils.js');
@@ -21,7 +21,7 @@ const MIN_CHUNK_LENGTH = 10;
 const MAX_CONTENT_LENGTH = 1500;
 
 async function main({
-  url, selector, prompt, firefallClient,
+  url, selector, prompt, azureOpenAIClient,
 }) {
   console.log(`Scraping URL: ${url}`);
   const html = await wretch(url).get().text();
@@ -33,8 +33,8 @@ async function main({
     .join('\n');
   const truncatedText = truncateText(text, MAX_CONTENT_LENGTH);
   console.log(`Scraper output: ${truncatedText}`);
-  const { generations } = await firefallClient.completion(`${prompt}:\n\n${truncatedText}`, 0);
+  const { generations } = await azureOpenAIClient.completion(`${prompt}:\n\n${truncatedText}`, 0);
   return generations[0][0].message.content;
 }
 
-exports.main = asGenericAction(asAuthNAction(asAuthZAction(asFirefallAction(main))));
+exports.main = asGenericAction(asAuthNAction(asAuthZAction(asAzureOpenAIAction(main))));

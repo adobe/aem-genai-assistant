@@ -10,13 +10,13 @@
  * governing permissions and limitations under the License.
  */
 
-const { asFirefallAction } = require('../FirefallAction.js');
+const { asAzureOpenAIAction } = require('../AzureOpenAIAction.js');
 
 function main(params) {
   const {
-    prompt, temperature, model, firefallClient,
+    prompt, temperature, model, azureOpenAIClient,
   } = params;
-  return firefallClient.completion(prompt ?? 'Who are you?', temperature ?? 0.0, model ?? 'gpt-4');
+  return azureOpenAIClient.completion(prompt ?? 'Who are you?', temperature ?? 0.0, model ?? 'gpt-4');
 }
 
-exports.main = asFirefallAction(main);
+exports.main = asAzureOpenAIAction(main);

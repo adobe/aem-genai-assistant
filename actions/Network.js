@@ -17,7 +17,7 @@ const { WretchError } = require('wretch');
 
 const { Core } = require('@adobe/aio-sdk');
 
-const logger = Core.Logger('FirefallAction');
+const logger = Core.Logger('AzureOpenAIAction');
 
 const REQUEST_TIMEOUT = 55; // in seconds
 const SHOULD_RETRY = false;

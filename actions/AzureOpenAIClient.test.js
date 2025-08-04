@@ -9,7 +9,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-import { FirefallClient } from './FirefallClient.js';
+import { AzureOpenAIClient } from './AzureOpenAIClient.js';
 import wretch from './Network.js';
 
 jest.mock('@adobe/aio-sdk', () => ({
@@ -30,8 +30,8 @@ jest.mock('./Network.js', () => {
   return jest.fn().mockImplementation(() => wretchMock);
 });
 
-describe('FirefallClient', () => {
-  const sut = new FirefallClient('endpoint', 'apiKey', 'org', 'accessToken');
+describe('AzureOpenAIClient', () => {
+  const sut = new AzureOpenAIClient('endpoint', 'apiKey', 'org', 'accessToken');
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -45,10 +45,5 @@ describe('FirefallClient', () => {
   test('handles 429 http status in completion method', async () => {
     wretch().json.mockRejectedValue({ status: 429 });
     await expect(sut.completion('prompt')).rejects.toThrow('IS-ERROR: {{rateLimitExceeded}} (429).');
-  });
-
-  test('handless any http status in the feedback method', async () => {
-    wretch().json.mockRejectedValue({ status: 500 });
-    await expect(sut.feedback('queryId', 'sentiment')).rejects.toThrow('{{errorOccurredWhileSendingFeedback}}');
   });
 });

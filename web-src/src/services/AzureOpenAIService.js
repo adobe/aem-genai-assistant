@@ -13,7 +13,7 @@
 import { wretch } from '../helpers/NetworkHelper.js';
 import { replaceRuntimeDomainInUrl } from '../helpers/UrlHelper.js';
 
-export const FIREFALL_ACTION_TYPES = {
+export const AZURE_OPENAI_ACTION_TYPES = {
   TEXT_TO_IMAGE_PROMPT_GENERATION: 'text-to-image',
   VARIATIONS_GENERATION: 'variations',
 };
@@ -48,7 +48,7 @@ const poll = async (fn, pollDelay, initialPollDelay, maxPollingTime = MAX_POLLIN
   throw new Error(`The call did not complete after ${pollingTime} seconds.`);
 };
 
-export class FirefallService {
+export class AzureOpenAIService {
   constructor({
     completeEndpoint,
     feedbackEndpoint,
@@ -65,7 +65,7 @@ export class FirefallService {
   }
 
   async complete(prompt, temperature, actionType) {
-    const pollDelay = (actionType === FIREFALL_ACTION_TYPES.VARIATIONS_GENERATION)
+    const pollDelay = (actionType === AZURE_OPENAI_ACTION_TYPES.VARIATIONS_GENERATION)
       ? VARIATIONS_GENERATION_POLL_DELAY
       : TEXT_TO_IMAGE_PROMPT_GENERATION_POLL_DELAY;
     const initialPollDelay = pollDelay;

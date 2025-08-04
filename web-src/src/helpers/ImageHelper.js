@@ -10,9 +10,9 @@
  * governing permissions and limitations under the License.
  */
 
-import { FIREFALL_ACTION_TYPES } from '../services/FirefallService.js';
+import { AZURE_OPENAI_ACTION_TYPES } from '../services/AzureOpenAIService.js';
 
-export async function generateImagePrompt(firefallService, selectedVariant) {
+export async function generateImagePrompt(azureOpenAIService, selectedVariant) {
   const variantToImagePrompt = `I want to create images using a text-to-image model. For this, I need a concise, one-sentence image prompt created by following these steps:
     - Read and understand the subject or theme from the given JSON context below.
     - Specify key elements such as individuals, actions, and emotions within this context, ensuring they align with the theme.
@@ -29,10 +29,10 @@ export async function generateImagePrompt(firefallService, selectedVariant) {
     Generated Prompt:
     "A happy, confident person enjoying music in an urban park, using high-quality wireless headphones, with the city skyline in the background."
     Here is the JSON context: ${JSON.stringify(selectedVariant.content)}`;
-  const { response } = await firefallService.complete(
+  const { response } = await azureOpenAIService.complete(
     variantToImagePrompt,
     0,
-    FIREFALL_ACTION_TYPES.TEXT_TO_IMAGE_PROMPT_GENERATION,
+    AZURE_OPENAI_ACTION_TYPES.TEXT_TO_IMAGE_PROMPT_GENERATION,
   );
   return response;
 }

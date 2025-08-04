@@ -34,7 +34,7 @@ import { createVariants } from '../helpers/ResultsParser.js';
 import { log, analytics } from '../helpers/MetricsHelper.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
 import { RUN_MODE_CF } from '../state/RunMode.js';
-import { FIREFALL_ACTION_TYPES } from '../services/FirefallService.js';
+import { AZURE_OPENAI_ACTION_TYPES } from '../services/AzureOpenAIService.js';
 import { handleLocalizedResponse, extractL10nId } from '../helpers/FormatHelper.js';
 
 const createWaitMessagesController = (intlFn) => {
@@ -89,7 +89,7 @@ const createWaitMessagesController = (intlFn) => {
 };
 
 export function GenerateButton({ isDisabled }) {
-  const { runMode, firefallService } = useApplicationContext();
+  const { runMode, azureOpenAIService } = useApplicationContext();
   const prompt = useRecoilValue(promptState);
   const parameters = useRecoilValue(parametersState);
   const contentFragment = useRecoilValue(contentFragmentState);
@@ -105,10 +105,10 @@ export function GenerateButton({ isDisabled }) {
   const generateResults = useCallback(async () => {
     try {
       const finalPrompt = renderPrompt(prompt, parameters, contentFragment?.model, contentFragment?.fragment);
-      const { queryId, response } = await firefallService.complete(
+      const { queryId, response } = await azureOpenAIService.complete(
         finalPrompt,
         temperature,
-        FIREFALL_ACTION_TYPES.VARIATIONS_GENERATION,
+        AZURE_OPENAI_ACTION_TYPES.VARIATIONS_GENERATION,
       );
       const variants = createVariants(uuid, response);
       setResults((results) => [...results, {
@@ -138,7 +138,7 @@ export function GenerateButton({ isDisabled }) {
       console.error(error);
       throw error;
     }
-  }, [firefallService, prompt, parameters, temperature]);
+  }, [azureOpenAIService, prompt, parameters, temperature]);
 
   const handleGenerate = useCallback(() => {
     const logRecords = { source: 'GenerateButton#handleGenerate' };

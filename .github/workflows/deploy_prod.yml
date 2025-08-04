@@ -20,8 +20,8 @@ jobs:
           AIO_RUNTIME_AUTH: ${{ secrets.AIO_RUNTIME_AUTH_PROD }}
           AIO_RUNTIME_NAMESPACE: 245265-879aquaant
           AIO_RUNTIME_APIHOST: 'https://adobeioruntime.net'
-          FIREFALL_ENDPOINT: 'https://firefall.adobe.io'
-          FIREFALL_API_KEY: aem-sidekick-genai-assistant
+          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
+          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
           TARGET_API_KEY: 1a6d085515114ef9a6937de9ab7d61fe
           IMS_ENDPOINT: 'https://ims-na1.adobelogin.com'
           IMS_CLIENT_ID: aem-genai-assistant

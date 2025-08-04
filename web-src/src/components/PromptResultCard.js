@@ -167,7 +167,7 @@ export function extractMetadataFields(obj) {
 
 export function PromptResultCard({ result, ...props }) {
   const {
-    runMode, firefallService, expressSdkService,
+    runMode, azureOpenAIService, expressSdkService,
   } = useApplicationContext();
 
   const { isExpressAuthorized, user } = useShellContext();
@@ -204,7 +204,7 @@ export function PromptResultCard({ result, ...props }) {
   }, [setResults]);
 
   const sendFeedback = useCallback((sentiment, variant) => {
-    firefallService.feedback(result.id, sentiment)
+    azureOpenAIService.feedback(result.id, sentiment)
       .then((id) => {
         saveFeedback(variant);
         ToastQueue.positive(formatMessage(intlMessages.promptResultCard.sendFeedbackSuccessToast), { timeout: 1000 });
@@ -222,7 +222,7 @@ export function PromptResultCard({ result, ...props }) {
 
         ToastQueue.negative(errorMessage, { timeout: 1000 });
       });
-  }, [result, firefallService]);
+  }, [result, azureOpenAIService]);
 
   const formattedTimestamp = new Date(result.timestamp).toLocaleString(user.locale, {
     month: 'numeric',
@@ -315,7 +315,7 @@ export function PromptResultCard({ result, ...props }) {
 
   const handleGenerateImagePrompt = useCallback((variantId) => {
     setImagePromptProgress(true);
-    generateImagePrompt(firefallService, selectedVariant)
+    generateImagePrompt(azureOpenAIService, selectedVariant)
       .then((imagePrompt) => {
         handleGenerateImage(imagePrompt, variantId);
       })

@@ -20,6 +20,7 @@ import * as messagesPromptSessionSideView from './__localization__/PromptSession
 import * as messagesFavorites from './__localization__/Favorites.l10n';
 import * as messagesImageViewer from './__localization__/ImageViewer.l10n';
 import * as messagesContentFragmentExportButton from './__localization__/ContentFragmentExportButton.l10n';
+import * as messagesAdditionalContextInput from './__localization__/AdditionalContextInput.l10n';
 import { useShellContext } from './ShellProvider';
 /* eslint-enable import/extensions */
 
@@ -37,6 +38,7 @@ function getAllMessages(locale) {
     ...messagesFavorites[normalizedLocale],
     ...messagesImageViewer[normalizedLocale],
     ...messagesContentFragmentExportButton[normalizedLocale],
+    ...messagesAdditionalContextInput[normalizedLocale],
   };
 }
 

@@ -15,6 +15,7 @@
   "mainSidePanel.formatHelperTodayLabel": "Heute",
   "mainSidePanel.formatHelperYesterdayLabel": "Gestern",
   "mainSidePanel.helpAndFaqsMenuItem": "Hilfe und häufig gestellte Fragen",
+  "mainSidePanel.helpUrl": "https://experienceleague.adobe.com/de/docs/experience-manager-cloud-service/content/ai-in-aem/generate-variations/generate-variations",
   "mainSidePanel.promptTemplatesMenuItem": "Prompt-Vorlagen",
   "mainSidePanel.promptTemplatesMenuItemAltText": "Prompt-Vorlagen",
   "mainSidePanel.recentsMenuItem": "Zuletzt verwendet",

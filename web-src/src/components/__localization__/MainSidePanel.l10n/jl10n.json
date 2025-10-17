@@ -59,6 +59,10 @@
     "__value__": "Yesterday",
     "__desc__": "Label for yesterday"
   },
+  "mainSidePanel.helpAndFaqsAltText": {
+    "__value__": "Help",
+    "__desc__": "Alt text for Help and FAQ"
+  },
   "mainSidePanel.helpAndFaqsMenuItem": {
     "__value__": "Help & FAQ",
     "__desc__": "Menu item for Help  FAQ"

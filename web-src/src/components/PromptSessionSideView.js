@@ -70,7 +70,17 @@ export function PromptSessionSideView({
   const { formatMessage } = useIntl();
   const { user } = useShellContext();
 
+  function getTemplateDate() {
+    try {
+      const date = new Date(currentSession.name.split(' ').slice(-3).join(' '));
+      return Intl.DateTimeFormat(user.locale, { dateStyle: 'short', timeStyle: 'short' }).format(date);
+    } catch (error) {
+      return formatMessage(intlMessages.promptSessionSideView.empty);
+    }
+  }
+
   const TEMPLATE_TITLE = currentSession.name.split(' ').slice(0, -3).join(' ');
+  const TEMPLATE_DATE = getTemplateDate();
 
   return (
     <Grid
@@ -92,16 +102,9 @@ export function PromptSessionSideView({
         ? <Flex UNSAFE_className={styles.promptFlexItems} UNSAFE_style={{ borderBottom: '1px solid rgb(224, 224, 224)' }} direction={'column'} justifyContent={'stretch'} alignItems={'stretch'} gridArea={'info'}>
           <Flex UNSAFE_style={{ borderRadius: '8px', background: '#E0F2FF', padding: '10px' }} gap={'size-100'} alignItems={'center'}>
             <GenAIIcon />
-            <Text UNSAFE_className={styles.promptName}>{`${TEMPLATE_TITLE} ${new Date(currentSession.name).toLocaleString(user.locale, {
-              month: 'numeric',
-              day: 'numeric',
-              year: 'numeric',
-              hour: 'numeric',
-              minute: 'numeric',
-              hour12: true,
-            })}` ?? 'Empty'}</Text>
+            <Text UNSAFE_className={styles.promptName}>{`${TEMPLATE_TITLE} ${TEMPLATE_DATE}`}</Text>
           </Flex>
-          <Text UNSAFE_style={{ padding: '10px' }}>{currentSession.description ?? 'Empty'}</Text>
+          <Text UNSAFE_style={{ padding: '10px' }}>{currentSession.description ?? formatMessage(intlMessages.promptSessionSideView.empty)}</Text>
         </Flex>
         : <div></div>
       }

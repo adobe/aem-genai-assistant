@@ -8,6 +8,7 @@
   "promptSessionSideView.cancelActionLabel": "キャンセル",
   "promptSessionSideView.deleteActionLabel": "削除",
   "promptSessionSideView.editPromptButtonLabel": "プロンプトを編集",
+  "promptSessionSideView.empty": "空",
   "promptSessionSideView.generateButtonContextualHelpContent": "<p>この機能にアクセスするには、{legalTermsLink}および以下の条項に同意することが条件になります。</p><ul><li>この機能に提供するプロンプト、コンテキスト、補足情報、またはその他の入力は、（a）特定のコンテキスト（ブランディング資素材、web サイトのコンテンツ、データ、そのようなデータのスキーマ、テンプレート、またはその他の信頼できるドキュメントなど）に結び付けられている必要があり、（b）いかなる個人情報も含んではなりません（個人情報には、特定の個人に結びつけることができるあらゆるものが含まれます）。</li><li>この機能からの出力が正確であることをレビューし、お客様のユースケースに適していることを確認する必要があります。</li></ul>",
   "promptSessionSideView.generateButtonContextualHelpHeading": "利用条件",
   "promptSessionSideView.generateButtonLabel": "生成",

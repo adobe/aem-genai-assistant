@@ -1,0 +1,20 @@
+{
+  "promptTemplateCard.cards.description": "タイトルと本文を含む、ウェブサイトのカード要素用の、明快でオーディエンス中心のコピーを生成します。",
+  "promptTemplateCard.cards.label": "カード",
+  "promptTemplateCard.cardsCf.description": "タイトルと本文を含む、ウェブサイトのカード要素用の、明快でオーディエンス中心のコピーを生成します。",
+  "promptTemplateCard.cardsCf.label": "カード(コンテンツフラグメント)",
+  "promptTemplateCard.cartAbandonment.description": "魅力と戦略を組み合わせて、保留中の注文についてお客様に促す、熱心なウェブテキストを提供します。",
+  "promptTemplateCard.cartAbandonment.label": "カート放棄",
+  "promptTemplateCard.faqSection.description": "一定数の質問と回答のペアで慎重にキュレーションされた、FAQセクションに命を吹き込みます。",
+  "promptTemplateCard.faqSection.label": "FAQセクション",
+  "promptTemplateCard.headline.description": "ターゲット市場を引き付けるために注意深く作成された、ウェブサイト用の独特な見出しコピーを発見します。",
+  "promptTemplateCard.headline.label": "見出し",
+  "promptTemplateCard.heroBanner.description": "魅力的なタイトル、本文、コールトゥアクションボタンを備えた、ウェブサイト用の魅力的なヒーローバナーをデザインします。",
+  "promptTemplateCard.heroBanner.label": "ヒーローバナー",
+  "promptTemplateCard.newPrompt.description": "新しいプロンプトを開始するには、これを使用してから、将来使用するためにプロンプトテンプレートに追加します。",
+  "promptTemplateCard.newPrompt.label": "新しいプロンプト",
+  "promptTemplateCard.rewrite.description": "書き直す。再利用する。転用する。",
+  "promptTemplateCard.rewrite.label": "書き直す",
+  "promptTemplateCard.tile.description": "簡潔なタイトルと本文を使用して、ターゲットオーディエンスに合わせた、魅力的なウェブサイトタイルコンテンツを作成します。",
+  "promptTemplateCard.tile.label": "タイル"
+}

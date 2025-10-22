@@ -1,0 +1,20 @@
+{
+  "promptTemplateCard.cards.description": "Gere textos claros e centrados no público para os elementos de cartão do seu site - título e corpo incluídos.",
+  "promptTemplateCard.cards.label": "Cartões",
+  "promptTemplateCard.cardsCf.description": "Gere textos claros e centrados no público para os elementos de cartão do seu site - título e corpo incluídos.",
+  "promptTemplateCard.cardsCf.label": "Cartões (Fragmentos de conteúdo)",
+  "promptTemplateCard.cartAbandonment.description": "Com uma mistura de charme e estratégia, este prompt fornece texto da Web diligente para lembrar os clientes sobre seus pedidos pendentes.",
+  "promptTemplateCard.cartAbandonment.label": "Abandono de carrinho",
+  "promptTemplateCard.faqSection.description": "Dê vida a uma seção de perguntas frequentes, cuidadosamente curada com um número fixo de pares de perguntas e respostas.",
+  "promptTemplateCard.faqSection.label": "Seção de perguntas frequentes",
+  "promptTemplateCard.headline.description": "Descubra um texto de título distinto para o seu site, cuidadosamente elaborado para envolver seu mercado-alvo.",
+  "promptTemplateCard.headline.label": "Título",
+  "promptTemplateCard.heroBanner.description": "Projete um banner principal atraente para o seu site, com um título cativante, corpo e botão de chamada para ação.",
+  "promptTemplateCard.heroBanner.label": "Banner principal",
+  "promptTemplateCard.newPrompt.description": "Para iniciar um novo prompt, use este e depois adicione-o aos seus modelos de prompt para uso futuro.",
+  "promptTemplateCard.newPrompt.label": "Novo prompt",
+  "promptTemplateCard.rewrite.description": "Reescrever. Reutilizar. Reaproveitar.",
+  "promptTemplateCard.rewrite.label": "Reescrever",
+  "promptTemplateCard.tile.description": "Crie conteúdo de bloco de site envolvente, adaptado ao seu público-alvo, com um título e corpo concisos.",
+  "promptTemplateCard.tile.label": "Bloco"
+}

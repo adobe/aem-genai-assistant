@@ -13,6 +13,7 @@
   "promptSessionSideView.generateButtonLabel": "產生",
   "promptSessionSideView.inputsLabel": "輸入",
   "promptSessionSideView.legalTermsLinkName": "Adobe Experience Cloud 生成式 AI 使用者方針",
+  "promptSessionSideView.legalTermsLinkNameUrl": "https://www.adobe.com/tw/legal/licenses-terms/adobe-dx-gen-ai-user-guidelines.html",
   "promptSessionSideView.navigationLabel": "提示範本",
   "promptSessionSideView.previewButtonLabel": "預覽",
   "promptSessionSideView.promptEditorContextualInfoContent": "直接編輯提示時，請包含特定相關內容，這包括您的品牌化素材、網站內容、此類資料的資料結構描述、範本和其他可信任的文件。",

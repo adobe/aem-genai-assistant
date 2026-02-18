@@ -55,6 +55,10 @@
     "__value__": "Adobe Experience Cloud Generative AI User Guidelines",
     "__desc__": "Link name for Legal terms"
   },
+  "promptSessionSideView.legalTermsLinkNameUrl": {
+    "__value__": "https://www.adobe.com/legal/licenses-terms/adobe-dx-gen-ai-user-guidelines.html",
+    "__desc__": "Link for Legal terms"
+  },
   "promptSessionSideView.navigationLabel": {
     "__value__": "Prompt Templates",
     "__desc__": "Navigation label for Prompt Session side view"

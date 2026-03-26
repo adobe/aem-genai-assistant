@@ -15,6 +15,7 @@
   "mainSidePanel.formatHelperTodayLabel": "今日",
   "mainSidePanel.formatHelperYesterdayLabel": "昨日",
   "mainSidePanel.helpAndFaqsMenuItem": "ヘルプと FAQ",
+  "mainSidePanel.helpUrl": "https://experienceleague.adobe.com/ja/docs/experience-manager-cloud-service/content/ai-in-aem/generate-variations/generate-variations",
   "mainSidePanel.promptTemplatesMenuItem": "プロンプトテンプレート",
   "mainSidePanel.promptTemplatesMenuItemAltText": "プロンプトテンプレート",
   "mainSidePanel.recentsMenuItem": "最近使用したもの",

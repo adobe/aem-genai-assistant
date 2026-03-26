@@ -16,6 +16,7 @@
   "mainSidePanel.formatHelperYesterdayLabel": "昨天",
   "mainSidePanel.helpAndFaqsAltText": "說明",
   "mainSidePanel.helpAndFaqsMenuItem": "說明和常見問題",
+  "mainSidePanel.helpUrl": "https://experienceleague.adobe.com/zh-hant/docs/experience-manager-cloud-service/content/ai-in-aem/generate-variations/generate-variations",
   "mainSidePanel.promptTemplatesMenuItem": "提示範本",
   "mainSidePanel.promptTemplatesMenuItemAltText": "提示範本",
   "mainSidePanel.recentsMenuItem": "最近項目",

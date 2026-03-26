@@ -132,5 +132,10 @@ export const intlMessages = {
       id: 'mainSidePanel.helpAndFaqsAltText',
       description: 'Alt text for Help and FAQ',
     },
+    helpUrl: {
+      defaultMessage: 'https://www.aem.live/docs/sidekick-generate-variations',
+      id: 'mainSidePanel.helpUrl',
+      description: 'Help and FAQ URL',
+    },
   },
 };

@@ -14,6 +14,7 @@
   "mainSidePanel.formatHelperOlderLabel": "Más antiguo",
   "mainSidePanel.formatHelperTodayLabel": "Hoy",
   "mainSidePanel.formatHelperYesterdayLabel": "Ayer",
+  "mainSidePanel.helpAndFaqsAltText": "Ayuda",
   "mainSidePanel.helpAndFaqsMenuItem": "Ayuda y preguntas frecuentes",
   "mainSidePanel.helpUrl": "https://experienceleague.adobe.com/es/docs/experience-manager-cloud-service/content/ai-in-aem/generate-variations/generate-variations",
   "mainSidePanel.promptTemplatesMenuItem": "Plantillas de indicación",

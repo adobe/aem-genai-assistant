@@ -127,6 +127,11 @@ export const intlMessages = {
       id: 'mainSidePanel.formatHelperOlderLabel',
       description: 'Label for older dates',
     },
+    helpAndFaqsAltText: {
+      defaultMessage: 'Help',
+      id: 'mainSidePanel.helpAndFaqsAltText',
+      description: 'Alt text for Help and FAQ',
+    },
     helpUrl: {
       defaultMessage: 'https://www.aem.live/docs/sidekick-generate-variations',
       id: 'mainSidePanel.helpUrl',

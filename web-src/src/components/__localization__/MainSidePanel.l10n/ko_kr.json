@@ -15,6 +15,7 @@
   "mainSidePanel.formatHelperTodayLabel": "오늘",
   "mainSidePanel.formatHelperYesterdayLabel": "어제",
   "mainSidePanel.helpAndFaqsMenuItem": "도움말 및 FAQ",
+  "mainSidePanel.helpUrl": "https://experienceleague.adobe.com/ko/docs/experience-manager-cloud-service/content/ai-in-aem/generate-variations/generate-variations",
   "mainSidePanel.promptTemplatesMenuItem": "프롬프트 템플릿",
   "mainSidePanel.promptTemplatesMenuItemAltText": "프롬프트 템플릿",
   "mainSidePanel.recentsMenuItem": "최근 항목",

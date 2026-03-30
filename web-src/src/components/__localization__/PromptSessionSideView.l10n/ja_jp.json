@@ -14,6 +14,7 @@
   "promptSessionSideView.generateButtonLabel": "生成",
   "promptSessionSideView.inputsLabel": "入力",
   "promptSessionSideView.legalTermsLinkName": "Adobe Experience Cloud 生成 AI のユーザーガイドライン",
+  "promptSessionSideView.legalTermsLinkNameUrl": "https://www.adobe.com/jp/legal/licenses-terms/adobe-dx-gen-ai-user-guidelines.html",
   "promptSessionSideView.navigationLabel": "プロンプトテンプレート",
   "promptSessionSideView.previewButtonLabel": "プレビュー",
   "promptSessionSideView.promptEditorContextualInfoContent": "プロンプトを直接編集する場合は、特定のコンテキストを含めてください。これには、ブランディング資料、web サイトのコンテンツ、そのようなデータのデータスキーマ、テンプレート、その他の信頼できるドキュメントを含めることができます。",

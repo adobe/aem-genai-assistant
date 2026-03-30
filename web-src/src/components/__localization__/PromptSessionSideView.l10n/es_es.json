@@ -14,6 +14,7 @@
   "promptSessionSideView.generateButtonLabel": "Generar",
   "promptSessionSideView.inputsLabel": "Entradas",
   "promptSessionSideView.legalTermsLinkName": "Directrices para el usuario de la IA generativa de Adobe Experience Cloud",
+  "promptSessionSideView.legalTermsLinkNameUrl": "https://www.adobe.com/es/legal/licenses-terms/adobe-dx-gen-ai-user-guidelines.html",
   "promptSessionSideView.navigationLabel": "Plantillas de indicación",
   "promptSessionSideView.previewButtonLabel": "Previsualizar",
   "promptSessionSideView.promptEditorContextualInfoContent": "Al editar la indicación directamente, incluya un contexto específico, que puede consistir en materiales de promoción de la marca, contenido del sitio web, esquemas de datos para dichos datos, plantillas y otros documentos de confianza.",

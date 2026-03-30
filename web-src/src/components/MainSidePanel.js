@@ -19,8 +19,8 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { useIntl } from 'react-intl';
 
 import { intlMessages as appIntlMessages } from './App.l10n.js';
+import { intlMessages as promptSessionSideViewIntlMessages } from './PromptSessionSideView.l10n.js';
 import { intlMessages } from './MainSidePanel.l10n.js';
-import { USER_GUIDELINES_URL } from './LegalTermsLink.js';
 
 import PromptsIcon from '../assets/prompts.svg';
 import FavoritesIcon from '../assets/favorites.svg';
@@ -244,8 +244,8 @@ export function MainSidePanel(props) {
             {mainSidePanelType === MainSidePanelType.Expanded && <Link href={formatMessage(intlMessages.mainSidePanel.helpUrl)} target="_blank" UNSAFE_className={style.menu}>{formatMessage(intlMessages.mainSidePanel.helpAndFaqsMenuItem)}</Link>}
           </div>
           <div className={style.menuItem}>
-            <ClickableImage src={FileTxt} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)} alt={formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItemAltText)} onClick={() => window.open(USER_GUIDELINES_URL, '_blank')} />
-            {mainSidePanelType === MainSidePanelType.Expanded && <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_className={style.menu}>{formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)}</Link>}
+            <ClickableImage src={FileTxt} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)} alt={formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItemAltText)} onClick={() => window.open(formatMessage(promptSessionSideViewIntlMessages.promptSessionSideView.legalTermsLinkNameUrl), '_blank')} />
+            {mainSidePanelType === MainSidePanelType.Expanded && <Link href={formatMessage(promptSessionSideViewIntlMessages.promptSessionSideView.legalTermsLinkNameUrl)} target="_blank" UNSAFE_className={style.menu}>{formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)}</Link>}
           </div>
         </div>
         {mainSidePanelType === MainSidePanelType.Expanded

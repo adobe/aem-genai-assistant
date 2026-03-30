@@ -14,6 +14,7 @@
   "promptSessionSideView.generateButtonLabel": "Genera",
   "promptSessionSideView.inputsLabel": "Input",
   "promptSessionSideView.legalTermsLinkName": "Linee guida per l’utente dell’IA generativa di Adobe Experience Cloud",
+  "promptSessionSideView.legalTermsLinkNameUrl": "https://www.adobe.com/it/legal/licenses-terms/adobe-dx-gen-ai-user-guidelines.html",
   "promptSessionSideView.navigationLabel": "Modelli di prompt",
   "promptSessionSideView.previewButtonLabel": "Anteprima",
   "promptSessionSideView.promptEditorContextualInfoContent": "Quando modifichi direttamente il prompt, includi un contesto specifico, come materiale di branding, contenuto del sito web, schemi di dati per tali dati, modelli e altri documenti affidabili.",

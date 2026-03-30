@@ -14,6 +14,7 @@
   "promptSessionSideView.generateButtonLabel": "Generate",
   "promptSessionSideView.inputsLabel": "Inputs",
   "promptSessionSideView.legalTermsLinkName": "Adobe Experience Cloud Generative AI User Guidelines",
+  "promptSessionSideView.legalTermsLinkNameUrl": "https://www.adobe.com/legal/licenses-terms/adobe-dx-gen-ai-user-guidelines.html",
   "promptSessionSideView.navigationLabel": "Prompt Templates",
   "promptSessionSideView.previewButtonLabel": "Preview",
   "promptSessionSideView.promptEditorContextualInfoContent": "When editing the prompt directly, include specific context, which can include your branding materials, website content, data schemas for such data, templates, and other trusted documents.",

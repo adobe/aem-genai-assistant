@@ -14,6 +14,7 @@
   "promptSessionSideView.generateButtonLabel": "Generieren",
   "promptSessionSideView.inputsLabel": "Eingaben",
   "promptSessionSideView.legalTermsLinkName": "Benutzerhandbüchern für generative KI in Adobe Experience Cloud",
+  "promptSessionSideView.legalTermsLinkNameUrl": "https://www.adobe.com/de/legal/licenses-terms/adobe-dx-gen-ai-user-guidelines.html",
   "promptSessionSideView.navigationLabel": "Prompt-Vorlagen",
   "promptSessionSideView.previewButtonLabel": "Vorschau",
   "promptSessionSideView.promptEditorContextualInfoContent": "Geben Sie beim direkten Bearbeiten des Prompts spezifischen Kontext an. Dabei kann es sich um Branding-Materialien, Website-Content, Daten, Schemata für solche Daten, Vorlagen und andere vertrauenswürdige Dokumente handeln.",

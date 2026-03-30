@@ -22,6 +22,7 @@ export const PROMPT_TEMPLATE_STORAGE_KEY = 'promptTemplates';
 
 export const newPromptTemplate = {
   id: NEW_PROMPT_TEMPLATE_ID,
+  key: 'newPrompt',
   label: 'New prompt',
   description: 'To start a new prompt use this and then add it to your prompt templates for future use.',
   template: '',
@@ -44,6 +45,7 @@ export function parseBundledPromptTemplates(runMode) {
         label: prompt.label,
         description: prompt.description,
         template: prompt.template || '',
+        key: prompt.key || null,
         isShared: true,
         isBundled: true,
         created: null,
@@ -76,6 +78,7 @@ function settingsToPromptTemplates(settings, isShared, runMode) {
         label: prompt.label,
         description: prompt.description,
         template: prompt.template,
+        key: prompt.key,
         modes: prompt.modes,
         isShared,
         isBundled: false,
@@ -95,6 +98,7 @@ function promptTemplatesToSettings(promptTemplates, isSharedTemplate) {
         id: prompt.id,
         label: prompt.label,
         description: prompt.description,
+        key: prompt.key,
         template: prompt.template,
         modes: prompt.modes,
         created: prompt.created,
@@ -159,6 +163,7 @@ export const promptTemplatesState = selector({
   get: async ({ get }) => {
     const bundledPromptTemplates = get(bundledPromptTemplatesState);
     const customPromptTemplates = await get(customPromptTemplatesState);
+
     return [
       ...bundledPromptTemplates.slice().sort((a, b) => a.label.localeCompare(b.label)),
       ...customPromptTemplates.slice().sort((a, b) => a.label.localeCompare(b.label)),

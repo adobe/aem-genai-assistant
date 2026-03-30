@@ -1,0 +1,74 @@
+{
+  "promptTemplateCard.cards.description": {
+    "__value__": "Generate crisp, audience-centric copy for your website's card elements - title and body included.",
+    "__desc__": "The description for the cards prompt template"
+  },
+  "promptTemplateCard.cards.label": {
+    "__value__": "Cards",
+    "__desc__": "The label for the cards prompt template"
+  },
+  "promptTemplateCard.cardsCf.description": {
+    "__value__": "Generate crisp, audience-centric copy for your website's card elements - title and body included.",
+    "__desc__": "The description for the cards content fragments prompt template"
+  },
+  "promptTemplateCard.cardsCf.label": {
+    "__value__": "Cards (Content Fragments)",
+    "__desc__": "The label for the cards content fragments prompt template"
+  },
+  "promptTemplateCard.cartAbandonment.description": {
+    "__value__": "With a mix of charm and strategy, this prompt delivers diligent web text to prompt customers on their pending orders.",
+    "__desc__": "The description for the cart abandonment prompt template"
+  },
+  "promptTemplateCard.cartAbandonment.label": {
+    "__value__": "Cart abandonment",
+    "__desc__": "The label for the cart abandonment prompt template"
+  },
+  "promptTemplateCard.faqSection.description": {
+    "__value__": "Breathe life into a FAQ section, carefully curated with a fixed number of question-answer pairs.",
+    "__desc__": "The description for the FAQ section prompt template"
+  },
+  "promptTemplateCard.faqSection.label": {
+    "__value__": "FAQ Section",
+    "__desc__": "The label for the FAQ section prompt template"
+  },
+  "promptTemplateCard.headline.description": {
+    "__value__": "Discover a distinctive headline copy for your website, attentively crafted to engage your target market.",
+    "__desc__": "The description for the headline prompt template"
+  },
+  "promptTemplateCard.headline.label": {
+    "__value__": "Headline",
+    "__desc__": "The label for the headline prompt template"
+  },
+  "promptTemplateCard.heroBanner.description": {
+    "__value__": "Design a compelling hero banner for your website, featuring a captivating title, body, and call-to-action button.",
+    "__desc__": "The description for the hero banner prompt template"
+  },
+  "promptTemplateCard.heroBanner.label": {
+    "__value__": "Hero Banner",
+    "__desc__": "The label for the hero banner prompt template"
+  },
+  "promptTemplateCard.newPrompt.description": {
+    "__value__": "To start a new prompt use this and then add it to your prompt templates for future use.",
+    "__desc__": "The description for the new prompt template"
+  },
+  "promptTemplateCard.newPrompt.label": {
+    "__value__": "New prompt",
+    "__desc__": "The label for the new prompt template"
+  },
+  "promptTemplateCard.rewrite.description": {
+    "__value__": "Rewrite. Reuse. Repurpose.",
+    "__desc__": "The description for the rewrite prompt template"
+  },
+  "promptTemplateCard.rewrite.label": {
+    "__value__": "Rewrite",
+    "__desc__": "The label for the rewrite prompt template"
+  },
+  "promptTemplateCard.tile.description": {
+    "__value__": "Craft engaging website Tile content, tailored to your target audience, with a succinct title and body.",
+    "__desc__": "The description for the tile prompt template"
+  },
+  "promptTemplateCard.tile.label": {
+    "__value__": "Tile",
+    "__desc__": "The label for the tile prompt template"
+  }
+}

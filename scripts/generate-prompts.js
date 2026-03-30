@@ -58,7 +58,7 @@ const startProgram = async () => {
     // Add the prompt templates to the target files
     for await (const prompt of promptIndex) {
       const {
-        label, description, file, modes,
+        label, description, file, modes, key
       } = prompt;
       console.log(`\t\t* Adding ${label}`);
 
@@ -71,7 +71,7 @@ const startProgram = async () => {
 
         // Add the prompt to the bundled prompt templates file
         bundledPromptTemplates.push({
-          label, description, template, modes,
+          label, description, template, modes, key
         });
       } catch (err) {
         console.log(`\t\t\t! Error: ${err}`);

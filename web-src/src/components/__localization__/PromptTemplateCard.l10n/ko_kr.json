@@ -1,0 +1,20 @@
+{
+  "promptTemplateCard.cards.description": "제목과 본문이 포함된 웹사이트 카드 요소를 위한 명확하고 청중 중심의 카피를 생성합니다.",
+  "promptTemplateCard.cards.label": "카드",
+  "promptTemplateCard.cardsCf.description": "제목과 본문이 포함된 웹사이트 카드 요소를 위한 명확하고 청중 중심의 카피를 생성합니다.",
+  "promptTemplateCard.cardsCf.label": "카드(콘텐츠 조각)",
+  "promptTemplateCard.cartAbandonment.description": "매력과 전략을 혼합하여 고객에게 보류 중인 주문을 상기시키는 성실한 웹 텍스트를 제공합니다.",
+  "promptTemplateCard.cartAbandonment.label": "장바구니 포기",
+  "promptTemplateCard.faqSection.description": "고정된 수의 질문-답변 쌍으로 신중하게 큐레이션된 FAQ 섹션에 생명을 불어넣습니다.",
+  "promptTemplateCard.faqSection.label": "FAQ 섹션",
+  "promptTemplateCard.headline.description": "타겟 시장을 참여시키기 위해 세심하게 제작된 웹사이트를 위한 독특한 헤드라인 카피를 발견하십시오.",
+  "promptTemplateCard.headline.label": "헤드라인",
+  "promptTemplateCard.heroBanner.description": "매력적인 제목, 본문 및 행동 유도 버튼을 갖춘 웹사이트를 위한 매력적인 히어로 배너를 디자인합니다.",
+  "promptTemplateCard.heroBanner.label": "히어로 배너",
+  "promptTemplateCard.newPrompt.description": "새 프롬프트를 시작하려면 이것을 사용한 다음 향후 사용을 위해 프롬프트 템플릿에 추가하십시오.",
+  "promptTemplateCard.newPrompt.label": "새 프롬프트",
+  "promptTemplateCard.rewrite.description": "다시 쓰기. 재사용. 용도 변경.",
+  "promptTemplateCard.rewrite.label": "다시 쓰기",
+  "promptTemplateCard.tile.description": "간결한 제목과 본문으로 타겟 청중에게 맞춤화된 매력적인 웹사이트 타일 콘텐츠를 만드십시오.",
+  "promptTemplateCard.tile.label": "타일"
+}

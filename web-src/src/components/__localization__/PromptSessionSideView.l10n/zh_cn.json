@@ -8,6 +8,7 @@
   "promptSessionSideView.cancelActionLabel": "取消",
   "promptSessionSideView.deleteActionLabel": "删除",
   "promptSessionSideView.editPromptButtonLabel": "编辑提示",
+  "promptSessionSideView.empty": "空",
   "promptSessionSideView.generateButtonContextualHelpContent": "<p>访问此功能须遵守 Adobe Experience Cloud 生成式 AI 用户指南和以下规定：</p><ul><li>您向此功能提供的任何提示、上下文或补充信息或其他输入 (a) 必须与特定上下文相关，其中可以包括您的品牌材料、网站内容、数据、此类数据的架构、模板或其他受信任的文档，并且 (b) 不得包含任何个人信息（个人信息包括任何可以链接回特定个人的信息）。</li><li>您应该检查此功能的任何输出是否准确，并确保其适合您的用例。</li></ul>",
   "promptSessionSideView.generateButtonContextualHelpHeading": "使用条款",
   "promptSessionSideView.generateButtonLabel": "生成",

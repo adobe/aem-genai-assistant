@@ -217,5 +217,10 @@ export const intlMessages = {
       id: 'promptSessionSideView.variationsGenerationLongWaitTimeToast',
       description: 'This toast message notifies customers that their request is still in progress after more than 2 minutes of waiting.',
     },
+    empty: {
+      defaultMessage: 'Empty',
+      id: 'promptSessionSideView.empty',
+      description: 'Displayed when there is nothing to display.',
+    },
   },
 };

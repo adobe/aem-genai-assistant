@@ -39,8 +39,6 @@ import { contentFragmentState } from '../state/ContentFragmentState.js';
 import { RUN_MODE_CF } from '../state/RunMode.js';
 import { useShellContext } from './ShellProvider.js';
 
-export const HELP_AND_FAQ_URL = 'https://www.aem.live/docs/sidekick-generate-variations';
-
 const style = {
   headerText: css`
     font-size: 18px;
@@ -242,8 +240,8 @@ export function MainSidePanel(props) {
       <Flex direction={'column'} gridArea={'footer'} gap={'16px'}>
         <div className={style.menu}>
           <div className={style.menuItem}>
-            <ClickableImage src={HelpIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.helpAndFaqsMenuItem)} alt={'Help'} onClick={() => window.open(HELP_AND_FAQ_URL, '_blank')} />
-            {mainSidePanelType === MainSidePanelType.Expanded && <Link href={HELP_AND_FAQ_URL} target="_blank" UNSAFE_className={style.menu}>{formatMessage(intlMessages.mainSidePanel.helpAndFaqsMenuItem)}</Link>}
+            <ClickableImage src={HelpIcon} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.helpAndFaqsMenuItem)} alt={'Help'} onClick={() => window.open(formatMessage(intlMessages.mainSidePanel.helpUrl), '_blank')} />
+            {mainSidePanelType === MainSidePanelType.Expanded && <Link href={formatMessage(intlMessages.mainSidePanel.helpUrl)} target="_blank" UNSAFE_className={style.menu}>{formatMessage(intlMessages.mainSidePanel.helpAndFaqsMenuItem)}</Link>}
           </div>
           <div className={style.menuItem}>
             <ClickableImage src={FileTxt} width={'20px'} title={formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItem)} alt={formatMessage(intlMessages.mainSidePanel.userGuidelinesMenuItemAltText)} onClick={() => window.open(formatMessage(promptSessionSideViewIntlMessages.promptSessionSideView.legalTermsLinkNameUrl), '_blank')} />

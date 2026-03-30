@@ -8,6 +8,7 @@
   "promptSessionSideView.cancelActionLabel": "Annuler",
   "promptSessionSideView.deleteActionLabel": "Supprimer",
   "promptSessionSideView.editPromptButtonLabel": "Modifier le prompt",
+  "promptSessionSideView.empty": "Vide",
   "promptSessionSideView.generateButtonContextualHelpContent": "<p>L’accès à cette fonctionnalité est soumis à votre acceptation des {legalTermsLink} et des éléments suivants :</p><ul><li>Les prompts, les informations contextuelles ou supplémentaires, ou les autres contributions que vous fournissez à cette fonctionnalité (a) doivent être liés à un contexte spécifique, qui peut inclure le matériel de branding, le contenu de votre site web, les données, les schémas pour ces données, les modèles ou autres documents approuvés, et (b) ne doivent contenir aucune information personnelle (les informations personnelles incluent tout ce qui peut être associé à une personne spécifique).</li><li>Vous devez vérifier l’exactitude des sorties de cette fonctionnalité et vous assurer qu’elles sont adaptées à votre cas d’utilisation.</li></ul>",
   "promptSessionSideView.generateButtonContextualHelpHeading": "Conditions d’utilisation",
   "promptSessionSideView.generateButtonLabel": "Générer",

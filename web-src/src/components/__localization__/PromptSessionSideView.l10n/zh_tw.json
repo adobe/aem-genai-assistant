@@ -8,6 +8,7 @@
   "promptSessionSideView.cancelActionLabel": "取消",
   "promptSessionSideView.deleteActionLabel": "刪除",
   "promptSessionSideView.editPromptButtonLabel": "編輯提示",
+  "promptSessionSideView.empty": "空白",
   "promptSessionSideView.generateButtonContextualHelpContent": "<p>存取此功能，表示您同意遵守《{legalTermsLink}》及以下條款：</p><ul><li>您提供給此功能的任何提示、背景資訊、補充資訊或其他輸入資料必須：(a) 與特定情境相關，例如您的品牌素材、網站內容、資料、這類資料的架構、範本或其他可信賴文件，且 (b) 不得包含任何個人詳細資訊 (包括可追溯至特定個人的任何資訊)。</li><li>您應自行審核確認此功能產生的任何輸出結果是否正確，並符合您的使用情境。</li></ul>",
   "promptSessionSideView.generateButtonContextualHelpHeading": "使用條款",
   "promptSessionSideView.generateButtonLabel": "產生",

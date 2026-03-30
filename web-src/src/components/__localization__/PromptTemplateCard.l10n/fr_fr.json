@@ -1,0 +1,20 @@
+{
+  "promptTemplateCard.cards.description": "Générez un texte clair et centré sur l'audience pour les éléments de carte de votre site Web - titre et corps inclus.",
+  "promptTemplateCard.cards.label": "Cartes",
+  "promptTemplateCard.cardsCf.description": "Générez un texte clair et centré sur l'audience pour les éléments de carte de votre site Web - titre et corps inclus.",
+  "promptTemplateCard.cardsCf.label": "Cartes (Fragments de contenu)",
+  "promptTemplateCard.cartAbandonment.description": "Avec un mélange de charme et de stratégie, cette invite fournit un texte Web diligent pour rappeler aux clients leurs commandes en attente.",
+  "promptTemplateCard.cartAbandonment.label": "Abandon de panier",
+  "promptTemplateCard.faqSection.description": "Donnez vie à une section FAQ, soigneusement organisée avec un nombre fixe de paires de questions-réponses.",
+  "promptTemplateCard.faqSection.label": "Section FAQ",
+  "promptTemplateCard.headline.description": "Découvrez un texte de titre distinctif pour votre site Web, soigneusement conçu pour engager votre marché cible.",
+  "promptTemplateCard.headline.label": "Titre",
+  "promptTemplateCard.heroBanner.description": "Concevez une bannière héroïque convaincante pour votre site Web, avec un titre captivant, un corps et un bouton d'appel à l'action.",
+  "promptTemplateCard.heroBanner.label": "Bannière héroïque",
+  "promptTemplateCard.newPrompt.description": "Pour commencer une nouvelle invite, utilisez celle-ci et ajoutez-la ensuite à vos modèles d'invite pour une utilisation future.",
+  "promptTemplateCard.newPrompt.label": "Nouvelle invite",
+  "promptTemplateCard.rewrite.description": "Réécrire. Réutiliser. Réaffecter.",
+  "promptTemplateCard.rewrite.label": "Réécrire",
+  "promptTemplateCard.tile.description": "Créez un contenu de tuile de site Web engageant, adapté à votre public cible, avec un titre et un corps concis.",
+  "promptTemplateCard.tile.label": "Tuile"
+}

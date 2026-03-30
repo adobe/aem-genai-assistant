@@ -1,0 +1,20 @@
+{
+  "promptTemplateCard.cards.description": "为您的网站卡片元素生成简洁、以受众为中心的文案 - 包括标题和正文。",
+  "promptTemplateCard.cards.label": "卡片",
+  "promptTemplateCard.cardsCf.description": "为您的网站卡片元素生成简洁、以受众为中心的文案 - 包括标题和正文。",
+  "promptTemplateCard.cardsCf.label": "卡片(内容片段)",
+  "promptTemplateCard.cartAbandonment.description": "将魅力和策略相结合,此提示提供勤勉的网页文本,提醒客户他们待处理的订单。",
+  "promptTemplateCard.cartAbandonment.label": "购物车放弃",
+  "promptTemplateCard.faqSection.description": "为常见问题解答部分注入活力,精心策划固定数量的问答对。",
+  "promptTemplateCard.faqSection.label": "常见问题解答部分",
+  "promptTemplateCard.headline.description": "发现为您的网站精心制作的独特标题文案,以吸引您的目标市场。",
+  "promptTemplateCard.headline.label": "标题",
+  "promptTemplateCard.heroBanner.description": "为您的网站设计引人注目的主横幅,包括引人入胜的标题、正文和号召性用语按钮。",
+  "promptTemplateCard.heroBanner.label": "主横幅",
+  "promptTemplateCard.newPrompt.description": "要开始新的提示,请使用此功能,然后将其添加到您的提示模板中以供将来使用。",
+  "promptTemplateCard.newPrompt.label": "新提示",
+  "promptTemplateCard.rewrite.description": "重写。重用。重新利用。",
+  "promptTemplateCard.rewrite.label": "重写",
+  "promptTemplateCard.tile.description": "创建引人入胜的网站磁贴内容,针对您的目标受众量身定制,具有简洁的标题和正文。",
+  "promptTemplateCard.tile.label": "磁贴"
+}

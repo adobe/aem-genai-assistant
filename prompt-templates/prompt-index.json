@@ -1,6 +1,7 @@
 [
     {
         "label": "Cards",
+        "key": "cards",
         "description": "Generate crisp, audience-centric copy for your website's card elements - title and body included.",
         "file": "card.prompt",
         "modes": [
@@ -9,6 +10,7 @@
     },
     {
         "label": "Cards",
+        "key": "cardsCf",
         "description": "Generate crisp, audience-centric copy for your website's card elements - title and body included.",
         "file": "card.cf.prompt",
         "modes": [
@@ -17,6 +19,7 @@
     },
     {
         "label": "Cart abandonment",
+        "key": "cartAbandonment",
         "description": "With a mix of charm and strategy, this prompt delivers diligent web text to prompt customers on their pending orders.",
         "file": "cart-abandonment.prompt",
         "modes": [
@@ -25,6 +28,7 @@
     },
     {
         "label": "FAQ Section",
+        "key": "faqSection",
         "description": "Breathe life into a FAQ section, carefully curated with a fixed number of question-answer pairs.",
         "file": "faq.prompt",
         "modes": [
@@ -33,6 +37,7 @@
     },
     {
         "label": "Headline",
+        "key": "headline",
         "description": "Discover a distinctive headline copy for your website, attentively crafted to engage your target market.",
         "file": "headline.prompt",
         "modes": [
@@ -41,6 +46,7 @@
     },
     {
         "label": "Hero Banner",
+        "key": "heroBanner",
         "description": "Design a compelling hero banner for your website, featuring a captivating title, body, and call-to-action button.",
         "file": "hero.prompt",
         "modes": [
@@ -49,6 +55,7 @@
     },
     {
         "label": "Rewrite",
+        "key": "rewrite",
         "description": "Rewrite. Reuse. Repurpose.",
         "file": "rewrite.prompt",
         "modes": [
@@ -57,6 +64,7 @@
     },
     {
         "label": "Tile",
+        "key": "tile",
         "description": "Craft engaging website Tile content, tailored to your target audience, with a succinct title and body.",
         "file": "tile.prompt",
         "modes": [

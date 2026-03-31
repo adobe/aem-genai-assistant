@@ -1,0 +1,20 @@
+{
+  "promptTemplateCard.cards.description": "Genere texto nítido y centrado en la audiencia para los elementos de tarjeta de su sitio web, con título y cuerpo incluidos.",
+  "promptTemplateCard.cards.label": "Tarjetas",
+  "promptTemplateCard.cardsCf.description": "Genere texto nítido y centrado en la audiencia para los elementos de tarjeta de su sitio web, con título y cuerpo incluidos.",
+  "promptTemplateCard.cardsCf.label": "Tarjetas (Fragmentos de contenido)",
+  "promptTemplateCard.cartAbandonment.description": "Con una mezcla de encanto y estrategia, este mensaje ofrece texto web diligente para recordar a los clientes sus pedidos pendientes.",
+  "promptTemplateCard.cartAbandonment.label": "Abandono del carrito",
+  "promptTemplateCard.faqSection.description": "Dé vida a una sección de preguntas frecuentes, cuidadosamente seleccionada con un número fijo de pares de preguntas y respuestas.",
+  "promptTemplateCard.faqSection.label": "Sección de preguntas frecuentes",
+  "promptTemplateCard.headline.description": "Descubra un texto de titular distintivo para su sitio web, cuidadosamente elaborado para atraer a su mercado objetivo.",
+  "promptTemplateCard.headline.label": "Titular",
+  "promptTemplateCard.heroBanner.description": "Diseñe un banner principal atractivo para su sitio web, con un título cautivador, cuerpo y botón de llamada a la acción.",
+  "promptTemplateCard.heroBanner.label": "Banner principal",
+  "promptTemplateCard.newPrompt.description": "Para comenzar un nuevo mensaje, use esto y luego agréguelo a sus plantillas de mensajes para uso futuro.",
+  "promptTemplateCard.newPrompt.label": "Nuevo mensaje",
+  "promptTemplateCard.rewrite.description": "Reescribir. Reutilizar. Reutilizar.",
+  "promptTemplateCard.rewrite.label": "Reescribir",
+  "promptTemplateCard.tile.description": "Cree contenido de mosaico de sitio web atractivo, adaptado a su público objetivo, con un título y cuerpo concisos.",
+  "promptTemplateCard.tile.label": "Mosaico"
+}

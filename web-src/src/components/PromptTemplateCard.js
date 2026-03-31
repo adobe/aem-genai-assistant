@@ -21,6 +21,7 @@ import DeleteIcon from '@spectrum-icons/workflow/Delete';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './App.l10n.js';
+import { intlMessages as promptTemplateCardIntlMessages } from './PromptTemplateCard.l10n.js';
 import GenAIIcon from '../icons/GenAIIcon.js';
 import SmallLogo from '../assets/logo_small.svg';
 import { NEW_PROMPT_TEMPLATE_ID } from '../state/PromptTemplatesState.js';
@@ -106,6 +107,11 @@ export function PromptTemplateCard({
     );
   };
 
+  const templateCardIntl = promptTemplateCardIntlMessages[template.key] ?? {};
+  const templateLabel = templateCardIntl.label ? formatMessage(templateCardIntl.label) : template.label;
+  const templateDescription = templateCardIntl.description
+    ? formatMessage(templateCardIntl.description) : template.description;
+
   return (
     <motion.div
       initial={{ opacity: 0.3, scale: 0.95 }}
@@ -128,9 +134,9 @@ export function PromptTemplateCard({
           columns={['min-content', 'auto', 'min-content']}
           rows={['min-content', 'auto', 'min-content']}>
           <GenAIIcon size={'S'} gridArea={'icon'}/>
-          <Text UNSAFE_className={styles.title} gridArea={'title'}>{template.label}</Text>
+          <Text UNSAFE_className={styles.title} gridArea={'title'}>{templateLabel}</Text>
           {(template.isBundled) ? <Image src={SmallLogo} width={'18px'} alt={''} gridArea={'logo'}/> : <Fragment/>}
-          <Text UNSAFE_className={styles.description} gridArea={'description'}>{template.description}</Text>
+          <Text UNSAFE_className={styles.description} gridArea={'description'}>{templateDescription}</Text>
           {(!isSystemTemplate(template) && template.isShared)
             && <SharedTemplateIcon size={'S'} gridArea={'status'} UNSAFE_className={styles.status}/>}
           {renderActions()}

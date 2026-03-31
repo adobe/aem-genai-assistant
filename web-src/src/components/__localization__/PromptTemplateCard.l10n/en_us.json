@@ -1,0 +1,20 @@
+{
+  "promptTemplateCard.cards.description": "Generate crisp, audience-centric copy for your website's card elements - title and body included.",
+  "promptTemplateCard.cards.label": "Cards",
+  "promptTemplateCard.cardsCf.description": "Generate crisp, audience-centric copy for your website's card elements - title and body included.",
+  "promptTemplateCard.cardsCf.label": "Cards (Content Fragments)",
+  "promptTemplateCard.cartAbandonment.description": "With a mix of charm and strategy, this prompt delivers diligent web text to prompt customers on their pending orders.",
+  "promptTemplateCard.cartAbandonment.label": "Cart abandonment",
+  "promptTemplateCard.faqSection.description": "Breathe life into a FAQ section, carefully curated with a fixed number of question-answer pairs.",
+  "promptTemplateCard.faqSection.label": "FAQ Section",
+  "promptTemplateCard.headline.description": "Discover a distinctive headline copy for your website, attentively crafted to engage your target market.",
+  "promptTemplateCard.headline.label": "Headline",
+  "promptTemplateCard.heroBanner.description": "Design a compelling hero banner for your website, featuring a captivating title, body, and call-to-action button.",
+  "promptTemplateCard.heroBanner.label": "Hero Banner",
+  "promptTemplateCard.newPrompt.description": "To start a new prompt use this and then add it to your prompt templates for future use.",
+  "promptTemplateCard.newPrompt.label": "New prompt",
+  "promptTemplateCard.rewrite.description": "Rewrite. Reuse. Repurpose.",
+  "promptTemplateCard.rewrite.label": "Rewrite",
+  "promptTemplateCard.tile.description": "Craft engaging website Tile content, tailored to your target audience, with a succinct title and body.",
+  "promptTemplateCard.tile.label": "Tile"
+}

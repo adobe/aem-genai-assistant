@@ -87,6 +87,11 @@ export const intlMessages = {
       id: 'promptSessionSideView.legalTermsLinkName',
       description: 'Link name for Legal terms',
     },
+    legalTermsLinkNameUrl: {
+      defaultMessage: 'https://www.adobe.com/legal/licenses-terms/adobe-dx-gen-ai-user-guidelines.html',
+      id: 'promptSessionSideView.legalTermsLinkNameUrl',
+      description: 'Link for Legal terms',
+    },
     savePromptInstructionsLabel: {
       defaultMessage: 'Enter a new name to create a new prompt, or select an existing one from the list to update it.',
       id: 'promptSessionSideView.savePromptInstructionsLabel',
@@ -211,6 +216,11 @@ export const intlMessages = {
       defaultMessage: 'Sorry for the delay, your content is almost ready',
       id: 'promptSessionSideView.variationsGenerationLongWaitTimeToast',
       description: 'This toast message notifies customers that their request is still in progress after more than 2 minutes of waiting.',
+    },
+    empty: {
+      defaultMessage: 'Empty',
+      id: 'promptSessionSideView.empty',
+      description: 'Displayed when there is nothing to display.',
     },
   },
 };

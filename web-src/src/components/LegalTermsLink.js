@@ -15,12 +15,10 @@ import { useIntl } from 'react-intl';
 
 import { intlMessages } from './PromptSessionSideView.l10n.js';
 
-export const USER_GUIDELINES_URL = 'https://www.adobe.com/legal/licenses-terms/adobe-dx-gen-ai-user-guidelines.html';
-
 export function LegalTermsLink() {
   const { formatMessage } = useIntl();
 
   return (
-    <Link href={USER_GUIDELINES_URL} target="_blank" UNSAFE_style={{ textDecoration: 'underline', color: 'blue' }}>{formatMessage(intlMessages.promptSessionSideView.legalTermsLinkName)}</Link>
+    <Link href={formatMessage(intlMessages.promptSessionSideView.legalTermsLinkNameUrl)} target="_blank" UNSAFE_style={{ textDecoration: 'underline', color: 'blue' }}>{formatMessage(intlMessages.promptSessionSideView.legalTermsLinkName)}</Link>
   );
 }

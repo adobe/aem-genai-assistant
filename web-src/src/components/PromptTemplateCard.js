@@ -21,7 +21,7 @@ import DeleteIcon from '@spectrum-icons/workflow/Delete';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './App.l10n.js';
-import { intlMessages as promptTemplateCardIntlMessages } from './PromptTemplateCard.l10n.js';
+import { getLocalizedTemplateInfo } from './PromptTemplateCard.l10n.js';
 import GenAIIcon from '../icons/GenAIIcon.js';
 import SmallLogo from '../assets/logo_small.svg';
 import { NEW_PROMPT_TEMPLATE_ID } from '../state/PromptTemplatesState.js';
@@ -107,10 +107,9 @@ export function PromptTemplateCard({
     );
   };
 
-  const templateCardIntl = promptTemplateCardIntlMessages[template.key] ?? {};
-  const templateLabel = templateCardIntl.label ? formatMessage(templateCardIntl.label) : template.label;
-  const templateDescription = templateCardIntl.description
-    ? formatMessage(templateCardIntl.description) : template.description;
+  const { label: templateLabel, description: templateDescription } = getLocalizedTemplateInfo(
+    template.key, template.label, template.description, formatMessage,
+  );
 
   return (
     <motion.div

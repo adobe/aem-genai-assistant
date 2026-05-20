@@ -12,6 +12,7 @@
 
 import { isParentNode, isSystemTemplate } from './PromptTemplateCard.js';
 import { NEW_PROMPT_TEMPLATE_ID } from '../state/PromptTemplatesState.js';
+import { getLocalizedTemplateInfo } from './PromptTemplateCard.l10n.js';
 
 describe('isSystemTemplate', () => {
   test('should return true for bundled templates', () => {
@@ -67,5 +68,30 @@ describe('isParentNode', () => {
     const child = document.getElementById('child');
 
     expect(isParentNode(child, grandparent)).toBe(true);
+  });
+});
+
+describe('getLocalizedTemplateInfo', () => {
+  test('calls formatMessage for a known key and returns localized label and description', () => {
+    const mockFormatMessage = jest.fn((descriptor) => `[${descriptor.id}]`);
+    const result = getLocalizedTemplateInfo('cards', 'Cards', 'Raw description', mockFormatMessage);
+    expect(mockFormatMessage).toHaveBeenCalledWith(expect.objectContaining({ id: 'promptTemplateCard.cards.label' }));
+    expect(mockFormatMessage).toHaveBeenCalledWith(expect.objectContaining({ id: 'promptTemplateCard.cards.description' }));
+    expect(result.label).toBe('[promptTemplateCard.cards.label]');
+    expect(result.description).toBe('[promptTemplateCard.cards.description]');
+  });
+
+  test('falls back to raw label and description for an unknown key', () => {
+    const mockFormatMessage = jest.fn();
+    const result = getLocalizedTemplateInfo(null, 'Custom Label', 'Custom description', mockFormatMessage);
+    expect(mockFormatMessage).not.toHaveBeenCalled();
+    expect(result.label).toBe('Custom Label');
+    expect(result.description).toBe('Custom description');
+  });
+
+  test('covers newPrompt key used by the new-prompt template', () => {
+    const mockFormatMessage = jest.fn((descriptor) => `[${descriptor.id}]`);
+    const result = getLocalizedTemplateInfo('newPrompt', 'New prompt', 'Raw desc', mockFormatMessage);
+    expect(result.label).toBe('[promptTemplateCard.newPrompt.label]');
   });
 });

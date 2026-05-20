@@ -120,3 +120,11 @@ export const intlMessages = {
     },
   },
 };
+
+export function getLocalizedTemplateInfo(key, label, description, formatMessageFn) {
+  const cardIntl = intlMessages[key] ?? {};
+  return {
+    label: cardIntl.label ? formatMessageFn(cardIntl.label) : label,
+    description: cardIntl.description ? formatMessageFn(cardIntl.description) : description,
+  };
+}

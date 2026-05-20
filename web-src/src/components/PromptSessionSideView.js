@@ -18,6 +18,7 @@ import { css } from '@emotion/css';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './PromptSessionSideView.l10n.js';
+import { getLocalizedTemplateInfo } from './PromptTemplateCard.l10n.js';
 import { PromptInputView } from './PromptInputView.js';
 import { GenerateButton } from './GenerateButton.js';
 
@@ -79,7 +80,13 @@ export function PromptSessionSideView({
     }
   }
 
-  const TEMPLATE_TITLE = currentSession.name.split(' ').slice(0, -3).join(' ');
+  const rawTitle = currentSession.name.split(' ').slice(0, -3).join(' ');
+  const { label: localizedTitle, description: localizedDescription } = getLocalizedTemplateInfo(
+    currentSession.templateKey,
+    rawTitle,
+    currentSession.description,
+    formatMessage,
+  );
   const TEMPLATE_DATE = getTemplateDate();
 
   return (
@@ -103,10 +110,10 @@ export function PromptSessionSideView({
           <Flex UNSAFE_style={{ borderRadius: '8px', background: '#E0F2FF', padding: '10px' }} gap={'size-100'} alignItems={'center'}>
             <GenAIIcon />
             <div dir="auto">
-              <Text UNSAFE_className={styles.promptName}>{`${TEMPLATE_TITLE} ${TEMPLATE_DATE}`}</Text>
+              <Text UNSAFE_className={styles.promptName}>{`${localizedTitle} ${TEMPLATE_DATE}`}</Text>
             </div>
           </Flex>
-          <Text UNSAFE_style={{ padding: '10px' }}>{currentSession.description ?? formatMessage(intlMessages.promptSessionSideView.empty)}</Text>
+          <Text UNSAFE_style={{ padding: '10px' }}>{localizedDescription ?? formatMessage(intlMessages.promptSessionSideView.empty)}</Text>
         </Flex>
         : <div></div>
       }

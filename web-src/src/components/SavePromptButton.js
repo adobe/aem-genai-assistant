@@ -210,7 +210,6 @@ export function SavePromptButton(props) {
       year: 'numeric',
       hour: 'numeric',
       minute: 'numeric',
-      hour12: true,
     });
 
     return (

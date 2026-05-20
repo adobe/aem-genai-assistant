@@ -230,7 +230,6 @@ export function PromptResultCard({ result, ...props }) {
     year: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
-    hour12: true,
   });
 
   const reusePrompt = useCallback(() => {

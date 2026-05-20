@@ -10,7 +10,7 @@
  * governing permissions and limitations under the License.
  */
 import {
-  newGroupingLabelGenerator, formatIdentifier, extractL10nId, handleLocalizedResponse,
+  newGroupingLabelGenerator, formatIdentifier, extractL10nId, handleLocalizedResponse, getSessionDate,
 } from './FormatHelper.js';
 
 describe('newGroupingLabelGenerator', () => {
@@ -213,5 +213,42 @@ describe('handleLocalizedResponse', () => {
   it('should return the input message if the error code is undefined', () => {
     const input = undefined;
     expect(handleLocalizedResponse(input, 'An error occurred while generating results')).toEqual(input);
+  });
+});
+
+describe('getSessionDate', () => {
+  const KNOWN_TIMESTAMP = 1726056960000;
+
+  it('returns a Date equal to session.timestamp when timestamp is present', () => {
+    const session = { timestamp: KNOWN_TIMESTAMP, name: 'Template 9/11/2024 12:16 AM' };
+    const date = getSessionDate(session);
+    expect(date).toBeInstanceOf(Date);
+    expect(date.getTime()).toBe(KNOWN_TIMESTAMP);
+  });
+
+  it('does not return "Invalid Date" — result is a valid Date when timestamp is set', () => {
+    const session = { timestamp: KNOWN_TIMESTAMP, name: 'My Template 1/1/1970 12:00 AM' };
+    const date = getSessionDate(session);
+    expect(date).not.toBeNull();
+    expect(isNaN(date.getTime())).toBe(false);
+  });
+
+  it('falls back to name-parse and returns a valid Date when timestamp is absent', () => {
+    const ts = KNOWN_TIMESTAMP;
+    const enUsDateStr = new Date(ts).toLocaleDateString('en-US');
+    const enUsTimeStr = new Date(ts).toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric' });
+    const session = { name: `My Template ${enUsDateStr} ${enUsTimeStr}` };
+    const date = getSessionDate(session);
+    expect(date).toBeInstanceOf(Date);
+    expect(isNaN(date.getTime())).toBe(false);
+  });
+
+  it('returns null when timestamp is absent and name cannot be parsed as a date', () => {
+    const session = { name: 'Unparseable session name' };
+    expect(getSessionDate(session)).toBeNull();
+  });
+
+  it('returns null when both timestamp and name are absent', () => {
+    expect(getSessionDate({})).toBeNull();
   });
 });

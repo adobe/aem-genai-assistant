@@ -117,6 +117,11 @@ export const intlMessages = {
       id: 'promptSessionSideView.savePromptUpdateWarning',
       description: 'Warning message for updating prompt template',
     },
+    userFullName: {
+      defaultMessage: '{firstName} {lastName}',
+      id: 'promptSessionSideView.userFullName',
+      description: 'Full name of a user composed of given name ({firstName}) and family name ({lastName}). Reorder to {lastName} {firstName} for locales where family name comes first (ja-JP, ko-KR, zh-CN, zh-TW).',
+    },
     savePromptSuccessToast: {
       defaultMessage: 'Prompt template saved',
       id: 'promptSessionSideView.savePromptSuccessToast',

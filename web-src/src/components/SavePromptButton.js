@@ -69,7 +69,11 @@ function updateTemplates(templatesToUpsert, templatesToDelete, runMode, formatMe
 
 export function SavePromptButton(props) {
   const { runMode } = useApplicationContext();
-  const { user: { name, locale } } = useShellContext();
+  const {
+    user: {
+      name, firstName, lastName, locale,
+    },
+  } = useShellContext();
 
   const [customPromptTemplates, setCustomPromptTemplates] = useRecoilState(customPromptTemplatesState);
   const [lastUsedPromptTemplateId, setLastUsedPromptTemplateId] = useRecoilState(lastUsedPromptTemplateIdState);
@@ -122,6 +126,8 @@ export function SavePromptButton(props) {
       lastModified: new Date().getTime(),
       createdBy: name,
       lastModifiedBy: name,
+      lastModifiedByFirstName: firstName,
+      lastModifiedByLastName: lastName,
     };
     updateTemplates([newTemplate], [], runMode, formatMessage).then((newCustomPromptTemplates) => {
       const logRecords = {
@@ -149,7 +155,7 @@ export function SavePromptButton(props) {
       setIsSaving(false);
       closeDialog();
     });
-  }, [label, description, isShared, prompt, customPromptTemplates]);
+  }, [label, description, isShared, prompt, customPromptTemplates, firstName, lastName]);
 
   const saveSelectedTemplate = useCallback((closeDialog) => {
     setIsSaving(true);
@@ -160,6 +166,8 @@ export function SavePromptButton(props) {
       isShared,
       lastModified: new Date().getTime(),
       lastModifiedBy: name,
+      lastModifiedByFirstName: firstName,
+      lastModifiedByLastName: lastName,
     };
     updateTemplates([updatedTemplate], [], runMode, formatMessage).then((newCustomPromptTemplates) => {
       const logRecords = {
@@ -187,7 +195,7 @@ export function SavePromptButton(props) {
       setIsSaving(false);
       closeDialog();
     });
-  }, [label, description, isShared, prompt, selectedTemplate, customPromptTemplates]);
+  }, [label, description, isShared, prompt, selectedTemplate, customPromptTemplates, firstName, lastName]);
 
   const renderTemplates = useCallback(() => {
     return customPromptTemplates.slice().sort((a, b) => a.label.localeCompare(b.label)).map((template) => (
@@ -213,6 +221,13 @@ export function SavePromptButton(props) {
       hour12: true,
     });
 
+    const lastModifiedBy = selectedTemplate.lastModifiedByFirstName !== undefined
+      ? formatMessage(intlMessages.promptSessionSideView.userFullName, {
+        firstName: selectedTemplate.lastModifiedByFirstName,
+        lastName: selectedTemplate.lastModifiedByLastName,
+      })
+      : selectedTemplate.lastModifiedBy;
+
     return (
       <motion.div
         initial={{ opacity: 0.1, scaleY: 0.1 }}
@@ -224,13 +239,13 @@ export function SavePromptButton(props) {
             b: (chunks) => <b>{chunks}</b>,
             label,
             lastModified,
-            lastModifiedBy: selectedTemplate.lastModifiedBy,
+            lastModifiedBy,
           })}
         </Text>
       </Well>
       </motion.div>
     );
-  }, [selectedTemplate, label]);
+  }, [selectedTemplate, label, formatMessage]);
 
   const handleDialogOpening = useCallback(() => {
     if (lastUsedPromptTemplateId) {

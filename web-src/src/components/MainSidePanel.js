@@ -207,7 +207,10 @@ export function MainSidePanel(props) {
                 const sessionDate = new Date(session.timestamp || session.name.split(' ').slice(-3).join(' '));
                 const rawLabel = session.name.split(' ').slice(0, -3).join(' ');
                 const { label: sessionLabel } = getLocalizedTemplateInfo(
-                  session.templateKey, rawLabel, null, formatMessage,
+                  session.templateKey,
+                  rawLabel,
+                  null,
+                  formatMessage,
                 );
                 const groupingLabel = groupingLabelGenerator(sessionDate);
                 return (

@@ -108,7 +108,10 @@ export function PromptTemplateCard({
   };
 
   const { label: templateLabel, description: templateDescription } = getLocalizedTemplateInfo(
-    template.key, template.label, template.description, formatMessage,
+    template.key,
+    template.label,
+    template.description,
+    formatMessage,
   );
 
   return (

@@ -32,6 +32,7 @@
   "promptSessionSideView.savePromptUpdateWarning": "<b>{lastModifiedBy}</b>에 의해 <b>{lastModified}</b>에 마지막으로 수정된 <b>{label}</b>을(를) 업데이트하려고 합니다. 변경 사항이 현재 콘텐츠를 덮어쓰게 됩니다.",
   "promptSessionSideView.temperatureDescription": "온도가 높을수록 프롬프트에서 벗어나 더 많은 무작위성과 창의성을 얻을 수 있습니다.",
   "promptSessionSideView.temperatureLabel": "온도",
+  "promptSessionSideView.userFullName": "{lastName} {firstName}",
   "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": "기다려 주셔서 감사합니다. 콘텐츠가 거의 준비되었습니다.",
   "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": "콘텐츠가 거의 완료됨",
   "promptSessionSideView.variationsGeneration15SecondsWaitTimeToast": "콘텐츠 준비 중",

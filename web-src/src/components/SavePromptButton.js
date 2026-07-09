@@ -56,6 +56,16 @@ function debounce(callback, wait) {
   };
 }
 
+export function resolveLastModifiedByName(template, formatMessage) {
+  if (template.lastModifiedByFirstName === undefined) {
+    return template.lastModifiedBy;
+  }
+  return formatMessage(intlMessages.promptSessionSideView.userFullName, {
+    firstName: template.lastModifiedByFirstName,
+    lastName: template.lastModifiedByLastName,
+  });
+}
+
 function updateTemplates(templatesToUpsert, templatesToDelete, runMode, formatMessage) {
   return reconcileCustomPromptTemplates(templatesToUpsert, templatesToDelete, runMode)
     .then((updatedPromptTemplates) => {
@@ -221,12 +231,7 @@ export function SavePromptButton(props) {
       hour12: true,
     });
 
-    const lastModifiedBy = selectedTemplate.lastModifiedByFirstName !== undefined
-      ? formatMessage(intlMessages.promptSessionSideView.userFullName, {
-        firstName: selectedTemplate.lastModifiedByFirstName,
-        lastName: selectedTemplate.lastModifiedByLastName,
-      })
-      : selectedTemplate.lastModifiedBy;
+    const lastModifiedBy = resolveLastModifiedByName(selectedTemplate, formatMessage);
 
     return (
       <motion.div

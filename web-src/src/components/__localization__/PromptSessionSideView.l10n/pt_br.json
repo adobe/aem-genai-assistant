@@ -32,6 +32,7 @@
   "promptSessionSideView.savePromptUpdateWarning": "Você está prestes a atualizar <b>{label}</b>, modificado pela última vez em <b>{lastModified}</b> por <b>{lastModifiedBy}</b>. Todas as alterações feitas substituirão o conteúdo atual.",
   "promptSessionSideView.temperatureDescription": "Uma temperatura mais alta se desvia do prompt e gera mais aleatoriedade e criatividade",
   "promptSessionSideView.temperatureLabel": "Temperatura",
+  "promptSessionSideView.userFullName": "{firstName} {lastName}",
   "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": "Obrigado pela sua paciência, o seu conteúdo está quase pronto",
   "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": "O seu conteúdo está quase pronto",
   "promptSessionSideView.variationsGeneration15SecondsWaitTimeToast": "Preparando o seu conteúdo",

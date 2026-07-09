@@ -51,8 +51,7 @@ const styles = {
     text-overflow: ellipsis;
     word-break: break-word;
     height: 100%;
-    overflow-y: scroll;
-    scrollbar-width: none;
+    overflow-y: auto;
   `,
   status: css`
     filter: invert(40%) sepia(0%) saturate(2%) hue-rotate(102deg) brightness(96%) contrast(86%);
@@ -141,7 +140,7 @@ export function PromptTemplateCard({
           rows={['min-content', 'auto', 'min-content']}>
           <GenAIIcon size={'S'} gridArea={'icon'}/>
           <span title={templateLabel} className={styles.title}><Text gridArea={'title'}>{templateLabel}</Text></span>
-          {(template.isBundled) ? <Image src={SmallLogo} width={'18px'} alt={''} gridArea={'logo'} UNSAFE_style={{marginLeft: 'auto'}}/> : <Fragment/>}
+          {(template.isBundled) ? <Image src={SmallLogo} width={'18px'} alt={''} gridArea={'logo'} UNSAFE_style={{ marginLeft: 'auto' }}/> : <Fragment/>}
           <Text UNSAFE_className={styles.description} gridArea={'description'}>{templateDescription}</Text>
           {(!isSystemTemplate(template) && template.isShared)
             && <SharedTemplateIcon size={'S'} gridArea={'status'} UNSAFE_className={styles.status}/>}

@@ -107,6 +107,14 @@ body {
   cursor: pointer;
 }
 
+.genvar-prompt-form-compliance {
+  display: block !important;
+  width: 100% !important;
+  color: #6e6e6e !important;
+  font-size: 11px !important;
+  line-height: 140% !important;
+}
+
 .variant-image-wrapper {
   position: relative;
 }

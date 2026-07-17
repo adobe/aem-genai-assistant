@@ -110,6 +110,8 @@ body {
 .genvar-prompt-form-compliance {
   display: block !important;
   width: 100% !important;
+  /* #6e6e6e is the muted-caption gray specified by the CAI compliance design (SITES-46697);
+     kept as an explicit hex rather than a token so the notice shade doesn't shift on a token refresh. */
   color: #6e6e6e !important;
   font-size: 11px !important;
   line-height: 140% !important;

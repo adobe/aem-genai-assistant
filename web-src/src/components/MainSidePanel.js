@@ -21,6 +21,7 @@ import { useIntl } from 'react-intl';
 import { intlMessages as appIntlMessages } from './App.l10n.js';
 import { intlMessages as promptSessionSideViewIntlMessages } from './PromptSessionSideView.l10n.js';
 import { intlMessages } from './MainSidePanel.l10n.js';
+import { getLocalizedTemplateInfo } from './PromptTemplateCard.l10n.js';
 
 import PromptsIcon from '../assets/prompts.svg';
 import FavoritesIcon from '../assets/favorites.svg';
@@ -203,7 +204,14 @@ export function MainSidePanel(props) {
             </li>
             {(mainSidePanelType === MainSidePanelType.Expanded && sessions && sessions.length > 0)
               && sessions.toReversed().map((session) => {
-                const sessionDate = new Date(session.name);
+                const sessionDate = new Date(session.timestamp || session.name.split(' ').slice(-3).join(' '));
+                const rawLabel = session.name.split(' ').slice(0, -3).join(' ');
+                const { label: sessionLabel } = getLocalizedTemplateInfo(
+                  session.templateKey,
+                  rawLabel,
+                  null,
+                  formatMessage,
+                );
                 const groupingLabel = groupingLabelGenerator(sessionDate);
                 return (
                       <>
@@ -217,7 +225,7 @@ export function MainSidePanel(props) {
                         <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyles.clickedSubMenuItem : style.subMenuItem}
                             key={session.id}>
                           <Link href="#" UNSAFE_className={style.menuItemLink}
-                                onPress={() => handleRecent(session)}>{`${session.name.split(' ')[0]} ${sessionDate.toLocaleString(user.locale, {
+                                onPress={() => handleRecent(session)}>{`${sessionLabel} ${sessionDate.toLocaleString(user.locale, {
                                   month: 'numeric',
                                   day: 'numeric',
                                   year: 'numeric',

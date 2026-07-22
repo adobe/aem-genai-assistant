@@ -30,12 +30,13 @@ import { log, analytics } from '../helpers/MetricsHelper.js';
 import { formatTimestamp } from '../helpers/FormatHelper.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 
-export function createNewSession(label, description, prompt) {
+export function createNewSession(label, description, prompt, templateKey) {
   const timestamp = Date.now();
   return {
     id: uuid(),
     name: `${label} ${formatTimestamp(timestamp)}`,
     description,
+    templateKey: templateKey ?? null,
     timestamp,
     prompt,
     parameters: {},
@@ -58,7 +59,7 @@ export function PromptTemplatesView() {
   const { formatMessage } = useIntl();
 
   const handleSelect = useCallback(({
-    id, label, description, template, isBundled,
+    id, label, description, template, isBundled, key,
   }) => {
     let logRecords = {
       isBundled,
@@ -104,7 +105,7 @@ export function PromptTemplatesView() {
         action: 'click',
       }, logRecords);
     }
-    setCurrentSession(createNewSession(label, description, template));
+    setCurrentSession(createNewSession(label, description, template, key));
     setViewType(ViewType.CurrentSession);
     setLastUsedPromptTemplateId(id);
   }, [setCurrentSession, setViewType]);

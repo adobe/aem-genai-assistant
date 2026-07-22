@@ -86,6 +86,8 @@ function settingsToPromptTemplates(settings, isShared, runMode) {
         lastModified: prompt.lastModified ?? new Date().getTime(),
         createdBy: prompt.createdBy,
         lastModifiedBy: prompt.lastModifiedBy,
+        lastModifiedByFirstName: prompt.lastModifiedByFirstName,
+        lastModifiedByLastName: prompt.lastModifiedByLastName,
       };
     });
 }
@@ -105,6 +107,8 @@ function promptTemplatesToSettings(promptTemplates, isSharedTemplate) {
         lastModified: prompt.lastModified,
         createdBy: prompt.createdBy,
         lastModifiedBy: prompt.lastModifiedBy,
+        lastModifiedByFirstName: prompt.lastModifiedByFirstName,
+        lastModifiedByLastName: prompt.lastModifiedByLastName,
       };
     });
   return createPromptTemplatesWrapper(settings);

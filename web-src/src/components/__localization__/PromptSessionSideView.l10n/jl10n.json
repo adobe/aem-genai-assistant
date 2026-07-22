@@ -135,6 +135,10 @@
     "__value__": "Temperature",
     "__desc__": "Temperature label for Prompt Session side view"
   },
+  "promptSessionSideView.userFullName": {
+    "__value__": "{firstName} {lastName}",
+    "__desc__": "Full name of a user composed of given name firstName and family name lastName Reorder to lastName firstName for locales where family name comes first jaJP koKR zhCN zhTW"
+  },
   "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": {
     "__value__": "Thanks for your patience, your content is almost ready",
     "__desc__": "This toast message notifies customers that their request is still in progress after  seconds of waiting"

@@ -30,6 +30,7 @@ describe('createNewSession', () => {
       id: '12345-uuid',
       name: 'SessionLabel formatted-1609459200000',
       description: 'This is a test session.',
+      templateKey: null,
       timestamp: 1609459200000,
       prompt: 'Test prompt',
       parameters: {},

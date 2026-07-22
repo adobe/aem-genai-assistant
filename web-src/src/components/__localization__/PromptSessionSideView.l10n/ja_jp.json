@@ -32,6 +32,7 @@
   "promptSessionSideView.savePromptUpdateWarning": "<b>{label}</b> を更新しようとしています。最終変更日は <b>{lastModified}</b> で、<b>{lastModifiedBy}</b> によって変更されました。変更すると、現在のコンテンツが上書きされます。",
   "promptSessionSideView.temperatureDescription": "温度が高いほどプロンプトから逸脱し、よりランダムで創造的になります",
   "promptSessionSideView.temperatureLabel": "温度",
+  "promptSessionSideView.userFullName": "{lastName} {firstName}",
   "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": "ご迷惑をおかけして申し訳ありません。コンテンツの準備はほぼ完了しています",
   "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": "コンテンツの処理はほぼ完了しました",
   "promptSessionSideView.variationsGeneration15SecondsWaitTimeToast": "コンテンツは準備中です",

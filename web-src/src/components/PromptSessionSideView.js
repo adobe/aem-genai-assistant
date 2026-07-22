@@ -18,6 +18,7 @@ import { css } from '@emotion/css';
 import { useIntl } from 'react-intl';
 
 import { intlMessages } from './PromptSessionSideView.l10n.js';
+import { getSessionDate } from '../helpers/FormatHelper.js';
 import { PromptInputView } from './PromptInputView.js';
 import { GenerateButton } from './GenerateButton.js';
 
@@ -76,7 +77,10 @@ export function PromptSessionSideView({
 
   function getTemplateDate() {
     try {
-      const date = new Date(currentSession.name.split(' ').slice(-3).join(' '));
+      const date = getSessionDate(currentSession);
+      if (!date) {
+        return formatMessage(intlMessages.promptSessionSideView.empty);
+      }
       return Intl.DateTimeFormat(user.locale, { dateStyle: 'short', timeStyle: 'short' }).format(date);
     } catch (error) {
       return formatMessage(intlMessages.promptSessionSideView.empty);

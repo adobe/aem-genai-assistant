@@ -9,6 +9,13 @@
  * OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
+export function getSessionDate(session) {
+  const date = session.timestamp
+    ? new Date(session.timestamp)
+    : new Date((session.name ?? '').split(' ').slice(-3).join(' '));
+  return isNaN(date.getTime()) ? null : date;
+}
+
 export function formatTimestamp(timestamp) {
   const date = new Date(timestamp);
   const dateStr = date.toLocaleDateString('en-US');

@@ -60,6 +60,10 @@ const styles = {
   promptFlexItems: css`
     padding: 15px 20px;
   `,
+  compliance: css`
+    grid-area: compliance;
+    padding: 0 20px;
+  `,
 };
 
 export function PromptSessionSideView({
@@ -86,9 +90,9 @@ export function PromptSessionSideView({
     <Grid
       {...props}
       UNSAFE_className={styles.promptPropertiesPanel}
-      areas={['breadcrumbs', 'info', 'form', 'buttons']}
+      areas={['breadcrumbs', 'info', 'form', 'buttons', 'compliance']}
       columns={['auto']}
-      rows={['min-content', 'min-content', '1fr', 'min-content']}
+      rows={['min-content', 'min-content', '1fr', 'min-content', 'min-content']}
       gap={'size-100'}>
 
       <Flex UNSAFE_className={styles.promptFlexItems} UNSAFE_style={{ paddingTop: '0', paddingBottom: '0' }} direction={'row'} justifyContent={'left'} alignItems={'center'} gridArea={'breadcrumbs'}>
@@ -111,7 +115,7 @@ export function PromptSessionSideView({
         : <div></div>
       }
 
-      <Flex direction={'column'} UNSAFE_className={styles.promptFlexItems}>
+      <Flex direction={'column'} UNSAFE_className={styles.promptFlexItems} gridArea={'form'}>
         <Flex direction={'row'} justifyContent={'space-between'} alignItems={'center'}>
           <h3>{formatMessage(intlMessages.promptSessionSideView.inputsLabel)}</h3>
           <ActionButton
@@ -136,6 +140,10 @@ export function PromptSessionSideView({
         </Flex>
         <GenerateButton isDisabled={promptEditorError} />
       </div>
+
+      <Text UNSAFE_className={`genvar-prompt-form-compliance ${styles.compliance}`}>
+        {formatMessage(intlMessages.promptSessionSideView.complianceText)}
+      </Text>
     </Grid>
   );
 }

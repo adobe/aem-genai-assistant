@@ -60,6 +60,8 @@ export const ShellProvider = ({ children, runtime }) => {
       user: {
         id: imsProfile.userId,
         name: imsProfile.name,
+        firstName: imsProfile.first_name,
+        lastName: imsProfile.last_name,
         imsTenant: tenant,
         imsToken,
         imsOrg,

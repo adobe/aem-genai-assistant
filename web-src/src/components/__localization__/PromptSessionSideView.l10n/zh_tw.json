@@ -32,6 +32,7 @@
   "promptSessionSideView.savePromptUpdateWarning": "您即將更新 <b>{label}</b>，上次是由 <b>{lastModifiedBy}</b> 修改於 <b>{lastModified}</b>。所做的任何變更都將覆寫目前的內容。",
   "promptSessionSideView.temperatureDescription": "溫度較高時會偏離提示，出現更多的隨機性和創造力",
   "promptSessionSideView.temperatureLabel": "溫度",
+  "promptSessionSideView.userFullName": "{lastName} {firstName}",
   "promptSessionSideView.variationsGeneration105SecondsWaitTimeToast": "感謝您的耐心等候，您的內容即將就緒",
   "promptSessionSideView.variationsGeneration120SecondsWaitTimeToast": "您的內容即將完成",
   "promptSessionSideView.variationsGeneration15SecondsWaitTimeToast": "正在準備您的內容",

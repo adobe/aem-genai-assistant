@@ -34,7 +34,7 @@ import { sessionState } from '../state/SessionState.js';
 import { ViewType, viewTypeState } from '../state/ViewType.js';
 import { MainSidePanelType, mainSidePanelTypeState } from '../state/MainSidePanelTypeState.js';
 import { ClickableImage } from './ClickableImage.js';
-import { newGroupingLabelGenerator } from '../helpers/FormatHelper.js';
+import { newGroupingLabelGenerator, getSessionDate } from '../helpers/FormatHelper.js';
 import { useApplicationContext } from './ApplicationProvider.js';
 import { contentFragmentState } from '../state/ContentFragmentState.js';
 import { RUN_MODE_CF } from '../state/RunMode.js';
@@ -204,7 +204,8 @@ export function MainSidePanel(props) {
             </li>
             {(mainSidePanelType === MainSidePanelType.Expanded && sessions && sessions.length > 0)
               && sessions.toReversed().map((session) => {
-                const sessionDate = new Date(session.timestamp || session.name.split(' ').slice(-3).join(' '));
+                const sessionDate = getSessionDate(session);
+                const groupingLabel = groupingLabelGenerator(sessionDate ?? new Date(0));
                 const rawLabel = session.name.split(' ').slice(0, -3).join(' ');
                 const { label: sessionLabel } = getLocalizedTemplateInfo(
                   session.templateKey,
@@ -212,7 +213,13 @@ export function MainSidePanel(props) {
                   null,
                   formatMessage,
                 );
-                const groupingLabel = groupingLabelGenerator(sessionDate);
+                const formattedDate = sessionDate
+                  ? sessionDate.toLocaleString(user.locale, {
+                    month: 'numeric', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric',
+                  })
+                  : '';
+                const isClickedSession = currentSession && viewType === ViewType.CurrentSession
+                  && session && session.id === currentSession.id;
                 return (
                       <>
                         {groupingLabel
@@ -221,18 +228,10 @@ export function MainSidePanel(props) {
                               UNSAFE_className={style.subMenuHeader}>
                               {formatMessage(intlMessages.mainSidePanel[groupingLabel])}
                             </Text>}
-                        {/* eslint-disable-next-line max-len */}
-                        <li className={currentSession && viewType === ViewType.CurrentSession && session && session.id === currentSession.id ? derivedStyles.clickedSubMenuItem : style.subMenuItem}
+                        <li className={isClickedSession ? derivedStyles.clickedSubMenuItem : style.subMenuItem}
                             key={session.id}>
                           <Link href="#" UNSAFE_className={style.menuItemLink}
-                                onPress={() => handleRecent(session)}>{`${sessionLabel} ${sessionDate.toLocaleString(user.locale, {
-                                  month: 'numeric',
-                                  day: 'numeric',
-                                  year: 'numeric',
-                                  hour: 'numeric',
-                                  minute: 'numeric',
-                                  hour12: true,
-                                })}`}</Link>
+                                onPress={() => handleRecent(session)}>{`${sessionLabel} ${formattedDate}`.trim()}</Link>
                         </li>
                       </>
                 );

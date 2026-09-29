@@ -6,6 +6,7 @@
   "promptSessionSideView.audienceSelectorSelectFromPlaceholder": "{source} から選択",
   "promptSessionSideView.audienceSelectorSelectSourcePlaceholder": "ソースを選択",
   "promptSessionSideView.cancelActionLabel": "キャンセル",
+  "promptSessionSideView.complianceText": "AI によって生成されたコンテンツ。ストアフロントに公開する前に確認します。",
   "promptSessionSideView.deleteActionLabel": "削除",
   "promptSessionSideView.editPromptButtonLabel": "プロンプトを編集",
   "promptSessionSideView.empty": "空",

@@ -6,6 +6,7 @@
   "promptSessionSideView.audienceSelectorSelectFromPlaceholder": "Sélectionner à partir de {source}",
   "promptSessionSideView.audienceSelectorSelectSourcePlaceholder": "Sélectionner une source",
   "promptSessionSideView.cancelActionLabel": "Annuler",
+  "promptSessionSideView.complianceText": "Contenu généré par l’IA. Vérifiez-le avant de le publier dans votre point de vente digital.",
   "promptSessionSideView.deleteActionLabel": "Supprimer",
   "promptSessionSideView.editPromptButtonLabel": "Modifier le prompt",
   "promptSessionSideView.empty": "Vide",

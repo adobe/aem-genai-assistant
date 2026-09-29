@@ -6,6 +6,7 @@
   "promptSessionSideView.audienceSelectorSelectFromPlaceholder": "Seleccionar de {source}",
   "promptSessionSideView.audienceSelectorSelectSourcePlaceholder": "Seleccione una fuente",
   "promptSessionSideView.cancelActionLabel": "Cancelar",
+  "promptSessionSideView.complianceText": "Contenido generado por AI. Revíselo antes de publicarlo en su escaparate.",
   "promptSessionSideView.deleteActionLabel": "Eliminar",
   "promptSessionSideView.editPromptButtonLabel": "Editar indicación",
   "promptSessionSideView.empty": "Vacío",

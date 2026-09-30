@@ -6,6 +6,7 @@
   "promptSessionSideView.audienceSelectorSelectFromPlaceholder": "Aus {source} auswählen",
   "promptSessionSideView.audienceSelectorSelectSourcePlaceholder": "Quelle auswählen",
   "promptSessionSideView.cancelActionLabel": "Abbrechen",
+  "promptSessionSideView.complianceText": "Von KI generierter Inhalt. Überprüfen Sie ihn vor der Veröffentlichung in Ihrer Storefront.",
   "promptSessionSideView.deleteActionLabel": "Löschen",
   "promptSessionSideView.editPromptButtonLabel": "Prompt bearbeiten",
   "promptSessionSideView.empty": "Leer",
